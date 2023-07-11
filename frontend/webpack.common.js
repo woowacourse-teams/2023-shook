@@ -1,7 +1,13 @@
 module.exports = {
   entry: './src/index.tsx',
   module: {
-    rules: [],
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
