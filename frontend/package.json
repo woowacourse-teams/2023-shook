@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "S-HOOK-frontend",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --config webpack.dev.js --progress",
+    "build": "webpack --config webpack.prod.js --progress"
   },
   "license": "MIT",
   "dependencies": {
