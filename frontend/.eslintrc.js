@@ -33,6 +33,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     'prefer-const': 'warn',
     '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+    'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
     'react/self-closing-comp': [
       'error',
       {
@@ -40,6 +41,7 @@ module.exports = {
         html: true,
       },
     ],
+    'import/no-named-as-default': 'off',
     'import/order': [
       'error',
       {
