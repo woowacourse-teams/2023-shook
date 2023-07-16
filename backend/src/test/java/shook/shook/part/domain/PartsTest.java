@@ -18,7 +18,7 @@ class PartsTest {
     @Test
     void create_fail_duplicatePartExist() {
         //given
-        final Song song = new Song("제목", "이미지URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "가수", 30);
         final Part firstPart = Part.persisted(1L, 5, PartLength.SHORT, song);
         final Part secondPart = Part.persisted(1L, 6, PartLength.SHORT, song);
 
@@ -32,7 +32,7 @@ class PartsTest {
     @Test
     void getBestKillingPart() {
         //given
-        final Song song = new Song("제목", "이미지URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "가수", 30);
         final Part firstPart = Part.persisted(1L, 5, PartLength.SHORT, song);
         final Part secondPart = Part.persisted(2L, 14, PartLength.SHORT, song);
         firstPart.vote(Vote.persisted(1L, firstPart));
@@ -56,7 +56,7 @@ class PartsTest {
         @Test
         void enough() {
             //given
-            final Song song = new Song("제목", "이미지URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
             final Part firstPart = Part.persisted(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.persisted(2L, 6, PartLength.SHORT, song);
             final Part thirdPart = Part.persisted(3L, 7, PartLength.SHORT, song);
@@ -80,11 +80,11 @@ class PartsTest {
                 .isEqualTo(List.of(fourthPart, firstPart, thirdPart));
         }
 
-        @DisplayName("킬링파트들을 인기있는 순으로 3개 반환한다.(3개보다 작을 떄)")
+        @DisplayName("킬링파트들을 인기있는 순으로 3개 반환한다.(3개보다 작을 때)")
         @Test
         void onlyTwo() {
             //given
-            final Song song = new Song("제목", "이미지URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
 
             final Part firstPart = Part.persisted(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.persisted(2L, 6, PartLength.SHORT, song);

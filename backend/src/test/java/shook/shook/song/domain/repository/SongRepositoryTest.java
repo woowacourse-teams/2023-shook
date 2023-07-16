@@ -30,7 +30,7 @@ class SongRepositoryTest {
     @Test
     void save() {
         //given
-        final Song song = new Song("제목", "이미지URL", "가수", 5);
+        final Song song = new Song("제목", "비디오URL", "가수", 5);
 
         //when
         final Song save = songRepository.save(song);
@@ -44,7 +44,7 @@ class SongRepositoryTest {
     @Test
     void findById() {
         //given
-        final Song song = new Song("노래제목", "이미지URL", "가수", 180);
+        final Song song = new Song("노래제목", "비디오URL", "가수", 180);
         songRepository.save(song);
 
         //when
@@ -60,7 +60,7 @@ class SongRepositoryTest {
     @Test
     void findByTitle() {
         //given
-        final Song song = new Song("노래제목", "이미지URL", "가수", 180);
+        final Song song = new Song("노래제목", "비디오URL", "가수", 180);
         songRepository.save(song);
 
         //when
@@ -76,7 +76,7 @@ class SongRepositoryTest {
     @Test
     void createdAt_prePersist() {
         //given
-        final Song song = new Song("제목", "이미지URL", "가수", 5);
+        final Song song = new Song("제목", "비디오URL", "가수", 5);
 
         //when
         final LocalDateTime prev = LocalDateTime.now();

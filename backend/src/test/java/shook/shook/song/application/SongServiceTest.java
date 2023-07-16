@@ -42,7 +42,7 @@ class SongServiceTest {
     @Test
     void register() {
         //given
-        final SongRegisterRequest request = new SongRegisterRequest("노래제목", "이미지URL", "가수", 180);
+        final SongRegisterRequest request = new SongRegisterRequest("노래제목", "비디오URL", "가수", 180);
 
         //when
         songService.register(request);
@@ -54,7 +54,7 @@ class SongServiceTest {
             () -> assertThat(savedSong.getId()).isNotNull(),
             () -> assertThat(savedSong.getCreatedAt()).isNotNull(),
             () -> assertThat(savedSong.getTitle()).isEqualTo("노래제목"),
-            () -> assertThat(savedSong.getVideoUrl()).isEqualTo("이미지URL"),
+            () -> assertThat(savedSong.getVideoUrl()).isEqualTo("비디오URL"),
             () -> assertThat(savedSong.getSinger()).isEqualTo("가수"),
             () -> assertThat(savedSong.getLength()).isEqualTo(180)
         );
@@ -64,7 +64,7 @@ class SongServiceTest {
     @Test
     void findById_exist() {
         //given
-        final Song savedSong = songRepository.save(new Song("노래제목", "이미지URL", "가수", 180));
+        final Song savedSong = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
 
         //when
         saveAndClearEntityManager();
@@ -88,7 +88,7 @@ class SongServiceTest {
     @Test
     void findByTitle_exist() {
         //given
-        final Song savedSong = songRepository.save(new Song("노래제목", "이미지URL", "가수", 180));
+        final Song savedSong = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
 
         //when
         saveAndClearEntityManager();

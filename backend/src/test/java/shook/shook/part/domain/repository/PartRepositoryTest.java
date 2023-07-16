@@ -31,7 +31,7 @@ class PartRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        SAVED_SONG = songRepository.save(new Song("제목", "이미지URL", "가수", 30));
+        SAVED_SONG = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
     }
 
     @DisplayName("Part 을 저장한다.")

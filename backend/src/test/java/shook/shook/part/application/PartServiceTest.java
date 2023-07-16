@@ -45,7 +45,7 @@ class PartServiceTest {
     @BeforeEach
     void setUp() {
         partService = new PartService(songRepository, partRepository, voteRepository);
-        SAVED_SONG = songRepository.save(new Song("노래제목", "이미지URL", "가수", 180));
+        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
     }
 
     void saveAndClearEntityManager() {
@@ -212,7 +212,7 @@ class PartServiceTest {
                 ));
         }
 
-        @DisplayName("킬링파트가 충분하지 않을 때 ( 2개일 떄 )")
+        @DisplayName("킬링파트가 충분하지 않을 때 ( 2개일 때 )")
         @Test
         void exist_notEnough_two() {
             //given
@@ -237,7 +237,7 @@ class PartServiceTest {
                 .isEqualTo(List.of(KillingPartResponse.of(2, 7), KillingPartResponse.of(1, 6)));
         }
 
-        @DisplayName("킬링파트가 충분하지 않을 때 ( 1개일 떄 )")
+        @DisplayName("킬링파트가 충분하지 않을 때 ( 1개일 때 )")
         @Test
         void exist_notEnough_one() {
             //given

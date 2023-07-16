@@ -18,7 +18,7 @@ class PartTest {
 
     @BeforeEach
     void setUp() {
-        song = new Song("제목", "이미지URL", "가수", 30);
+        song = new Song("제목", "비디오URL", "가수", 30);
     }
 
     @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
