@@ -21,6 +21,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:prettier/recommended',
+    'plugin:storybook/recommended',
   ],
   settings: {
     'import/resolver': {

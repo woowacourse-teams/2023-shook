@@ -9,5 +9,23 @@ module.exports = merge(common, {
     open: true,
   },
 
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['react-refresh/babel'],
+            },
+          },
+          'ts-loader',
+        ],
+      },
+    ],
+  },
+
   plugins: [new ReactRefreshWebpackPlugin()],
 });

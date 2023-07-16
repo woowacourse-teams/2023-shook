@@ -9,4 +9,13 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'ts-loader'],
+      },
+    ],
+  },
 });
