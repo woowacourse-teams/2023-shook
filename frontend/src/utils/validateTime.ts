@@ -1,14 +1,13 @@
 export const isValidMinSec = (timeInput: string) => /^(?:[0-5]?[0-9])?$/.test(timeInput);
 
 export const isTimeInSongRange = ({
-  timeInput,
+  timeSelected,
   songEnd,
   interval = 10,
 }: {
-  timeInput: string;
+  timeSelected: number;
   songEnd: number;
   interval?: number;
 }) => {
-  console.log(songEnd >= Number(timeInput) + interval);
-  return songEnd >= Number(timeInput) + interval;
+  return timeSelected <= songEnd - interval;
 };
