@@ -38,7 +38,7 @@ class PartRepositoryTest {
     @Test
     void save() {
         //given
-        final Part part = Part.notPersisted(14, PartLength.SHORT, SAVED_SONG);
+        final Part part = Part.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final Part save = partRepository.save(part);
@@ -52,7 +52,7 @@ class PartRepositoryTest {
     @Test
     void createdAt() {
         //given
-        final Part part = Part.notPersisted(14, PartLength.SHORT, SAVED_SONG);
+        final Part part = Part.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now();
@@ -68,8 +68,8 @@ class PartRepositoryTest {
     @Test
     void findAllBySong() {
         //given
-        final Part firstPArt = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
-        final Part secondPart = Part.notPersisted(5, PartLength.SHORT, SAVED_SONG);
+        final Part firstPArt = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
+        final Part secondPart = Part.forSave(5, PartLength.SHORT, SAVED_SONG);
         partRepository.save(firstPArt);
         partRepository.save(secondPart);
 

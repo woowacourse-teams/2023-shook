@@ -44,11 +44,11 @@ public class Vote {
         this.part = part;
     }
 
-    public static Vote persisted(final Long id, final Part part) {
+    public static Vote saved(final Long id, final Part part) {
         return new Vote(id, part);
     }
 
-    public static Vote notPersisted(final Part part) {
+    public static Vote forSave(final Part part) {
         return new Vote(null, part);
     }
 

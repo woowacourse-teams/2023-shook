@@ -67,7 +67,7 @@ public class Part {
         this.song = song;
     }
 
-    public static Part persisted(
+    public static Part saved(
         final Long id,
         final int startSecond,
         final PartLength length,
@@ -93,7 +93,7 @@ public class Part {
         }
     }
 
-    public static Part notPersisted(
+    public static Part forSave(
         final int startSecond,
         final PartLength length,
         final Song song

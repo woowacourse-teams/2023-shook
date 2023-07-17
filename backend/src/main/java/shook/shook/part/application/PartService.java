@@ -34,7 +34,7 @@ public class PartService {
 
         final Integer startSecond = request.getStartSecond();
         final PartLength partLength = PartLength.findBySecond(request.getLength());
-        final Part part = Part.notPersisted(startSecond, partLength, song);
+        final Part part = Part.forSave(startSecond, partLength, song);
 
         if (song.isUniquePart(part)) {
             addPartAndVote(song, part);
@@ -47,7 +47,7 @@ public class PartService {
         song.addPart(part);
         partRepository.save(part);
 
-        final Vote newVote = Vote.notPersisted(part);
+        final Vote newVote = Vote.forSave(part);
         part.vote(newVote);
         voteRepository.save(newVote);
     }
@@ -56,7 +56,7 @@ public class PartService {
         final Part part = song.getSameLengthPartStartAt(start, length)
             .orElseThrow(PartException.PartNotExistException::new);
 
-        final Vote newVote = Vote.notPersisted(part);
+        final Vote newVote = Vote.forSave(part);
         part.vote(newVote);
         voteRepository.save(newVote);
     }

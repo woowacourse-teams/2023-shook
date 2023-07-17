@@ -16,7 +16,7 @@ class SongTest {
     void addPart_valid() {
         //given
         final Song song = new Song("노래제목", "비디오URL", "가수", 180);
-        final Part part = Part.notPersisted(1, PartLength.STANDARD, song);
+        final Part part = Part.forSave(1, PartLength.STANDARD, song);
 
         //when
         song.addPart(part);
@@ -31,7 +31,7 @@ class SongTest {
         //given
         final Song firstSong = new Song("노래제목", "비디오URL", "가수", 180);
         final Song secondSong = new Song("노래제목", "비디오URL", "가수", 180);
-        final Part partInSecondSong = Part.notPersisted(1, PartLength.STANDARD, secondSong);
+        final Part partInSecondSong = Part.forSave(1, PartLength.STANDARD, secondSong);
 
         //when
         //then

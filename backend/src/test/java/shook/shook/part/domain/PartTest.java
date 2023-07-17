@@ -25,8 +25,8 @@ class PartTest {
     @Test
     void equals_true() {
         //given
-        final Part firstPart = Part.persisted(1L, 4, PartLength.SHORT, song);
-        final Part secondPart = Part.persisted(1L, 14, PartLength.SHORT, song);
+        final Part firstPart = Part.saved(1L, 4, PartLength.SHORT, song);
+        final Part secondPart = Part.saved(1L, 14, PartLength.SHORT, song);
 
         //when
         final boolean equals = firstPart.equals(secondPart);
@@ -43,8 +43,8 @@ class PartTest {
         @Test
         void equals_false_nullId() {
             //given
-            final Part firstPart = Part.persisted(null, 4, PartLength.SHORT, song);
-            final Part secondPart = Part.persisted(1L, 14, PartLength.SHORT, song);
+            final Part firstPart = Part.saved(null, 4, PartLength.SHORT, song);
+            final Part secondPart = Part.saved(1L, 14, PartLength.SHORT, song);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -57,8 +57,8 @@ class PartTest {
         @Test
         void equals_false_bothNullId() {
             //given
-            final Part firstPart = Part.persisted(null, 4, PartLength.SHORT, song);
-            final Part secondPart = Part.persisted(null, 14, PartLength.SHORT, song);
+            final Part firstPart = Part.saved(null, 4, PartLength.SHORT, song);
+            final Part secondPart = Part.saved(null, 14, PartLength.SHORT, song);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -78,7 +78,7 @@ class PartTest {
             //given
             //when
             //then
-            assertDoesNotThrow(() -> Part.notPersisted(14, PartLength.SHORT, song));
+            assertDoesNotThrow(() -> Part.forSave(14, PartLength.SHORT, song));
         }
 
         @DisplayName("파트의 시작초가 0보다 작으면 예외를 던진다.")
@@ -87,7 +87,7 @@ class PartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> Part.notPersisted(-1, PartLength.SHORT, song))
+            assertThatThrownBy(() -> Part.forSave(-1, PartLength.SHORT, song))
                 .isInstanceOf(PartException.StartLessThanZeroException.class);
         }
 
@@ -97,7 +97,7 @@ class PartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> Part.notPersisted(30, PartLength.SHORT, song))
+            assertThatThrownBy(() -> Part.forSave(30, PartLength.SHORT, song))
                 .isInstanceOf(PartException.StartOverSongLengthException.class);
         }
 
@@ -107,7 +107,7 @@ class PartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> Part.notPersisted(29, PartLength.SHORT, song))
+            assertThatThrownBy(() -> Part.forSave(29, PartLength.SHORT, song))
                 .isInstanceOf(PartException.EndOverSongLengthException.class);
         }
     }
@@ -120,8 +120,8 @@ class PartTest {
         @Test
         void vote_success_one() {
             //given
-            final Part part = Part.persisted(1L, 14, PartLength.SHORT, song);
-            final Vote vote = Vote.persisted(1L, part);
+            final Part part = Part.saved(1L, 14, PartLength.SHORT, song);
+            final Vote vote = Vote.saved(1L, part);
 
             //when
             part.vote(vote);
@@ -134,9 +134,9 @@ class PartTest {
         @Test
         void vote_success_many() {
             //given
-            final Part part = Part.notPersisted(14, PartLength.SHORT, song);
-            final Vote firstVote = Vote.notPersisted(part);
-            final Vote secondVote = Vote.notPersisted(part);
+            final Part part = Part.forSave(14, PartLength.SHORT, song);
+            final Vote firstVote = Vote.forSave(part);
+            final Vote secondVote = Vote.forSave(part);
 
             //when
             part.vote(firstVote);
@@ -150,9 +150,9 @@ class PartTest {
         @Test
         void vote_fail_voteForOtherPart() {
             //given
-            final Part firstPart = Part.persisted(1L, 14, PartLength.SHORT, song);
-            final Part secondPart = Part.persisted(2L, 10, PartLength.SHORT, song);
-            final Vote voteForSecondPart = Vote.notPersisted(secondPart);
+            final Part firstPart = Part.saved(1L, 14, PartLength.SHORT, song);
+            final Part secondPart = Part.saved(2L, 10, PartLength.SHORT, song);
+            final Vote voteForSecondPart = Vote.forSave(secondPart);
 
             //when
             //then
@@ -169,9 +169,9 @@ class PartTest {
         @Test
         void getVoteCount_twoVoteDifferentId() {
             //given
-            final Part part = Part.notPersisted(14, PartLength.SHORT, song);
-            final Vote firstVote = Vote.persisted(1L, part);
-            final Vote secondVote = Vote.persisted(2L, part);
+            final Part part = Part.forSave(14, PartLength.SHORT, song);
+            final Vote firstVote = Vote.saved(1L, part);
+            final Vote secondVote = Vote.saved(2L, part);
             part.vote(firstVote);
             part.vote(secondVote);
 
@@ -186,9 +186,9 @@ class PartTest {
         @Test
         void getVoteCount_towVoteSameId() {
             //given
-            final Part part = Part.notPersisted(14, PartLength.SHORT, song);
-            final Vote firstVote = Vote.persisted(1L, part);
-            final Vote secondVote = Vote.persisted(1L, part);
+            final Part part = Part.forSave(14, PartLength.SHORT, song);
+            final Vote firstVote = Vote.saved(1L, part);
+            final Vote secondVote = Vote.saved(1L, part);
             part.vote(firstVote);
             part.vote(secondVote);
 

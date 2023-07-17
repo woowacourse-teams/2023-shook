@@ -87,10 +87,10 @@ class PartServiceTest {
         @Test
         void registered() {
             //given
-            final Part part = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
+            final Part part = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, part);
 
-            final Vote vote = Vote.notPersisted(part);
+            final Vote vote = Vote.forSave(part);
             votePart(part, vote);
 
             final PartRegisterRequest request = new PartRegisterRequest(1, 5, SAVED_SONG.getId());
@@ -126,14 +126,14 @@ class PartServiceTest {
         @Test
         void exist() {
             //given
-            final Part firstPart = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
-            final Part secondPart = Part.notPersisted(2, PartLength.SHORT, SAVED_SONG);
+            final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final Part secondPart = Part.forSave(2, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, firstPart);
             addPart(SAVED_SONG, secondPart);
 
-            final Vote firstVote = Vote.notPersisted(firstPart);
-            final Vote secondVote = Vote.notPersisted(secondPart);
-            final Vote thirdVote = Vote.notPersisted(secondPart);
+            final Vote firstVote = Vote.forSave(firstPart);
+            final Vote secondVote = Vote.forSave(secondPart);
+            final Vote thirdVote = Vote.forSave(secondPart);
             votePart(firstPart, firstVote);
             votePart(secondPart, secondVote);
             votePart(secondPart, thirdVote);
@@ -177,21 +177,21 @@ class PartServiceTest {
         @Test
         void existEnough() {
             //given
-            final Part firstPart = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
-            final Part secondPart = Part.notPersisted(2, PartLength.SHORT, SAVED_SONG);
-            final Part thirdPart = Part.notPersisted(3, PartLength.SHORT, SAVED_SONG);
-            final Part fourthPart = Part.notPersisted(4, PartLength.SHORT, SAVED_SONG);
+            final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final Part secondPart = Part.forSave(2, PartLength.SHORT, SAVED_SONG);
+            final Part thirdPart = Part.forSave(3, PartLength.SHORT, SAVED_SONG);
+            final Part fourthPart = Part.forSave(4, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, firstPart);
             addPart(SAVED_SONG, secondPart);
             addPart(SAVED_SONG, thirdPart);
             addPart(SAVED_SONG, fourthPart);
 
-            final Vote firstVote = Vote.notPersisted(firstPart);
-            final Vote secondVote = Vote.notPersisted(secondPart);
-            final Vote thirdVote = Vote.notPersisted(secondPart);
-            final Vote fourthVote = Vote.notPersisted(secondPart);
-            final Vote fifthVote = Vote.notPersisted(thirdPart);
-            final Vote sixthVote = Vote.notPersisted(thirdPart);
+            final Vote firstVote = Vote.forSave(firstPart);
+            final Vote secondVote = Vote.forSave(secondPart);
+            final Vote thirdVote = Vote.forSave(secondPart);
+            final Vote fourthVote = Vote.forSave(secondPart);
+            final Vote fifthVote = Vote.forSave(thirdPart);
+            final Vote sixthVote = Vote.forSave(thirdPart);
             votePart(firstPart, firstVote);
             votePart(secondPart, secondVote);
             votePart(secondPart, thirdVote);
@@ -216,14 +216,14 @@ class PartServiceTest {
         @Test
         void exist_notEnough_two() {
             //given
-            final Part firstPart = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
-            final Part secondPart = Part.notPersisted(2, PartLength.SHORT, SAVED_SONG);
+            final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final Part secondPart = Part.forSave(2, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, firstPart);
             addPart(SAVED_SONG, secondPart);
 
-            final Vote firstVote = Vote.notPersisted(firstPart);
-            final Vote secondVote = Vote.notPersisted(secondPart);
-            final Vote thirdVote = Vote.notPersisted(secondPart);
+            final Vote firstVote = Vote.forSave(firstPart);
+            final Vote secondVote = Vote.forSave(secondPart);
+            final Vote thirdVote = Vote.forSave(secondPart);
             votePart(firstPart, firstVote);
             votePart(secondPart, secondVote);
             votePart(secondPart, thirdVote);
@@ -241,10 +241,10 @@ class PartServiceTest {
         @Test
         void exist_notEnough_one() {
             //given
-            final Part firstPart = Part.notPersisted(1, PartLength.SHORT, SAVED_SONG);
+            final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, firstPart);
 
-            final Vote vote = Vote.notPersisted(firstPart);
+            final Vote vote = Vote.forSave(firstPart);
             votePart(firstPart, vote);
 
             //when
