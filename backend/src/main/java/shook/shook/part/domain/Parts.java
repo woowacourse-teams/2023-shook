@@ -8,8 +8,8 @@ import shook.shook.part.exception.PartsException;
 
 public class Parts {
 
+    private static final int KILLINGPART_COUNT = 3;
     private final List<Part> parts;
-    private boolean sorted = false;
 
     public Parts(final List<Part> parts) {
         validateDistinct(parts);
@@ -26,28 +26,25 @@ public class Parts {
     }
 
     public Optional<Part> getTopKillingPart() {
-        sort();
-
         if (parts.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(parts.get(0));
+
+        return Optional.of(sortedByVoteCountDescending().get(0));
     }
 
-    private void sort() {
-        if (sorted) {
-            return;
-        }
-        parts.sort(Comparator.comparing(Part::getVoteCount).reversed());
-        sorted = true;
+    private List<Part> sortedByVoteCountDescending() {
+        return parts.stream()
+            .sorted(Comparator.comparing(Part::getVoteCount).reversed())
+            .toList();
     }
 
     public List<Part> getKillingParts() {
-        sort();
+        final List<Part> sortedParts = sortedByVoteCountDescending();
 
-        if (parts.size() <= 3) {
-            return new ArrayList<>(parts);
+        if (sortedParts.size() <= KILLINGPART_COUNT) {
+            return sortedParts;
         }
-        return parts.subList(0, 3);
+        return sortedParts.subList(0, KILLINGPART_COUNT);
     }
 }
