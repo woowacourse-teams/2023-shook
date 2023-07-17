@@ -2,29 +2,19 @@ package shook.shook.song.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
+import shook.shook.support.UsingJpaTest;
 
-@DataJpaTest
-class SongRepositoryTest {
-
-    @Autowired
-    EntityManager entityManager;
+class SongRepositoryTest extends UsingJpaTest {
 
     @Autowired
     private SongRepository songRepository;
-
-    void saveAndClearEntityManager() {
-        entityManager.flush();
-        entityManager.clear();
-    }
 
     @DisplayName("Song 을 저장한다.")
     @Test

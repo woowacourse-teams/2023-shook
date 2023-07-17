@@ -2,26 +2,21 @@ package shook.shook.part.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
+import shook.shook.support.UsingJpaTest;
 
-@DataJpaTest
-class PartRepositoryTest {
+class PartRepositoryTest extends UsingJpaTest {
 
     private static Song SAVED_SONG;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private PartRepository partRepository;
@@ -61,7 +56,7 @@ class PartRepositoryTest {
 
         //then
         assertThat(part).isSameAs(saved);
-        assertThat(part.getCreatedAt()).isAfter(prev).isBefore(after);
+        assertThat(part.getCreatedAt()).isBetween(prev, after);
     }
 
     @DisplayName("노래에 해당하는 모든 파트를 조회한다.")
@@ -74,8 +69,7 @@ class PartRepositoryTest {
         partRepository.save(secondPart);
 
         //when
-        entityManager.flush();
-        entityManager.clear();
+        saveAndClearEntityManager();
         final List<Part> allBySong = partRepository.findAllBySong(SAVED_SONG);
 
         //then

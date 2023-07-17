@@ -27,7 +27,7 @@ class PartsTest {
         //given
         final Song song = new Song("제목", "비디오URL", "가수", 30);
         final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
-        final Part secondPart = Part.saved(1L, 6, PartLength.SHORT, song);
+        final Part secondPart = Part.forSave(5, PartLength.SHORT, song);
 
         final Parts parts = new Parts();
         parts.addPart(firstPart);
@@ -40,7 +40,7 @@ class PartsTest {
 
     @DisplayName("가장 인기있는 킬링파트 하나를 반환한다.")
     @Test
-    void getBestKillingPart() {
+    void getTopKillingPart() {
         //given
         final Song song = new Song("제목", "비디오URL", "가수", 30);
         final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
@@ -53,11 +53,11 @@ class PartsTest {
         parts.addPart(firstPart, secondPart);
 
         //when
-        final Optional<Part> bestKillingPart = parts.getTopKillingPart();
+        final Optional<Part> topKillingPart = parts.getTopKillingPart();
 
         //then
-        assertThat(bestKillingPart).isPresent();
-        assertThat(bestKillingPart.get()).usingRecursiveComparison().isEqualTo(firstPart);
+        assertThat(topKillingPart).isPresent();
+        assertThat(topKillingPart.get()).usingRecursiveComparison().isEqualTo(firstPart);
     }
 
     @DisplayName("킬링파트들을 인기있는 순으로 3개 반환한다.")
@@ -130,6 +130,5 @@ class PartsTest {
             //then
             assertThat(killingParts).isEmpty();
         }
-
     }
 }

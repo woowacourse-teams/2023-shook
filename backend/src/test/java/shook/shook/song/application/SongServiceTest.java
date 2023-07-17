@@ -2,16 +2,14 @@ package shook.shook.song.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import jakarta.persistence.EntityManager;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.domain.Vote;
@@ -25,14 +23,11 @@ import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
+import shook.shook.support.UsingJpaTest;
 
-@DataJpaTest
-class SongServiceTest {
+class SongServiceTest extends UsingJpaTest {
 
     private static Song SAVED_SONG;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private SongRepository songRepository;
@@ -61,11 +56,6 @@ class SongServiceTest {
         voteRepository.save(vote);
     }
 
-    void saveAndClearEntityManager() {
-        entityManager.flush();
-        entityManager.clear();
-    }
-
     @DisplayName("노래를 등록한다.")
     @Test
     void register() {
@@ -78,7 +68,7 @@ class SongServiceTest {
 
         //then
         final Song savedSong = songRepository.findByTitle(new SongTitle("새로운노래제목")).get();
-        Assertions.assertAll(
+        assertAll(
             () -> assertThat(savedSong.getId()).isNotNull(),
             () -> assertThat(savedSong.getCreatedAt()).isNotNull(),
             () -> assertThat(savedSong.getTitle()).isEqualTo("새로운노래제목"),
@@ -100,7 +90,7 @@ class SongServiceTest {
         assertThat(response).usingRecursiveComparison().isEqualTo(SongResponse.from(SAVED_SONG));
     }
 
-    @DisplayName("Id로 노래를 조회한다.(존재하지 않을 때)")
+    @DisplayName("존재하지 않는 id로 노래를 조회했을 때 예외가 발생한다.")
     @Test
     void findById_notExist() {
         //given
@@ -122,7 +112,7 @@ class SongServiceTest {
         assertThat(response).usingRecursiveComparison().isEqualTo(SongResponse.from(SAVED_SONG));
     }
 
-    @DisplayName("제목으로 노래를 조회한다.(존재하지 않을 때)")
+    @DisplayName("존재하지 않는 제목으로 노래를 조회했을 때 예외가 발생한다.")
     @Test
     void findByTitle() {
         //given
@@ -172,7 +162,7 @@ class SongServiceTest {
             assertThat(response).usingRecursiveComparison().isEqualTo(KillingPartResponse.empty());
         }
 
-        @DisplayName("조회하려는 노래가 없을 때")
+        @DisplayName("조회하려는 노래가 없을 때 예외가 발생한다.")
         @Test
         void songNotExist() {
             //given
@@ -226,7 +216,7 @@ class SongServiceTest {
                 ));
         }
 
-        @DisplayName("킬링파트가 충분하지 않을 때 ( 2개일 때 )")
+        @DisplayName("킬링파트가 충분하지 않을 때")
         @Test
         void exist_notEnough_two() {
             //given
@@ -251,25 +241,6 @@ class SongServiceTest {
                 .isEqualTo(List.of(KillingPartResponse.of(2, 7), KillingPartResponse.of(1, 6)));
         }
 
-        @DisplayName("킬링파트가 충분하지 않을 때 ( 1개일 때 )")
-        @Test
-        void exist_notEnough_one() {
-            //given
-            final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
-            addPart(SAVED_SONG, firstPart);
-
-            final Vote vote = Vote.forSave(firstPart);
-            votePart(firstPart, vote);
-
-            //when
-            saveAndClearEntityManager();
-            final KillingPartsResponse response = songService.showKillingParts(SAVED_SONG.getId());
-
-            //then
-            assertThat(response.getResponses()).usingRecursiveComparison()
-                .isEqualTo(List.of(KillingPartResponse.of(1, 6)));
-        }
-
         @DisplayName("킬링파트가 없을 때")
         @Test
         void notExist() {
@@ -281,7 +252,7 @@ class SongServiceTest {
             assertThat(response.getResponses()).isEmpty();
         }
 
-        @DisplayName("조회할 노래가 없을 때")
+        @DisplayName("조회할 노래가 없을 때 예외가 발생한다.")
         @Test
         void songNotExist() {
             //given

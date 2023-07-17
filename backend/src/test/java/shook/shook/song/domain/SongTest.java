@@ -25,7 +25,7 @@ class SongTest {
         assertThat(song.getParts()).hasSize(1);
     }
 
-    @DisplayName("노래에 파트를 등록한다.( 다른 노래의 파트일 때 )")
+    @DisplayName("다른 노래의 파트를 등록할 때 예외를 발생한다.")
     @Test
     void addPart_invalid() {
         //given

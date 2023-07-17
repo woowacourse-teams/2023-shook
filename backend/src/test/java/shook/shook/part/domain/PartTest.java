@@ -33,7 +33,7 @@ class PartTest {
     @Nested
     class Equals {
 
-        @DisplayName("비교하는 객체 중 하나만 없는 경우")
+        @DisplayName("비교하는 객체 중 하나만 없을 때")
         @Test
         void equals_false_nullId() {
             //given
@@ -47,7 +47,7 @@ class PartTest {
             assertThat(equals).isFalse();
         }
 
-        @DisplayName("비교하는 객체 둘다 없는 경우")
+        @DisplayName("비교하는 객체 둘다 없을 때")
         @Test
         void equals_false_bothNullId() {
             //given
@@ -75,7 +75,7 @@ class PartTest {
             assertDoesNotThrow(() -> Part.forSave(14, PartLength.SHORT, song));
         }
 
-        @DisplayName("파트의 시작초가 0보다 작으면 예외를 던진다.")
+        @DisplayName("파트의 시작초가 0보다 작으면 예외가 발생한다.")
         @Test
         void create_fail_startUnderZero() {
             //given
@@ -85,7 +85,7 @@ class PartTest {
                 .isInstanceOf(PartException.StartLessThanZeroException.class);
         }
 
-        @DisplayName("파트의 시작초가 길이보다 크거나 같으면 예외를 던진다.")
+        @DisplayName("파트의 시작초가 길이보다 크거나 같으면 예외가 발생한다.")
         @Test
         void create_fail_startOverSongLength() {
             //given
@@ -95,7 +95,7 @@ class PartTest {
                 .isInstanceOf(PartException.StartOverSongLengthException.class);
         }
 
-        @DisplayName("파트의 끝이 길이보다 크면 예외를 던진다.")
+        @DisplayName("파트의 끝이 길이보다 크면 예외가 발생한다.")
         @Test
         void create_fail_endOverSongLength() {
             //given
@@ -106,7 +106,7 @@ class PartTest {
         }
     }
 
-    @DisplayName("파트에 한번 투표한다.")
+    @DisplayName("파트에 투표한다.")
     @Nested
     class VoteToPart {
 
@@ -140,7 +140,7 @@ class PartTest {
             assertThat(part.getVotes()).containsOnly(firstVote, secondVote);
         }
 
-        @DisplayName("다른 파트의 투표로 투표하면 예외를 던진다.")
+        @DisplayName("다른 파트의 투표로 투표하면 예외가 발생한다.")
         @Test
         void vote_fail_voteForOtherPart() {
             //given
@@ -159,7 +159,7 @@ class PartTest {
     @DisplayName("총 득표수를 반환한다.")
     class GetVoteCount {
 
-        @DisplayName("Id 가 다른 두 개의 투표를 통해 투표했을 때")
+        @DisplayName("Id 가 다른 두 개의 투표를 통해 투표했을 때 득표수가 2번 증가한다.")
         @Test
         void getVoteCount_twoVoteDifferentId() {
             //given
