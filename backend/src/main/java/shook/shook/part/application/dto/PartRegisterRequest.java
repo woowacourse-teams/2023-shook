@@ -1,11 +1,12 @@
 package shook.shook.part.application.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -13,13 +14,14 @@ import org.hibernate.validator.constraints.Range;
 public class PartRegisterRequest {
 
     @NotNull
-    @Range(min = 0)
+    @PositiveOrZero
     private Integer startSecond;
 
     @NotNull
-    @Range(min = 0)
+    @Positive
     private Integer length;
 
     @NotNull
+    @Positive
     private Long songId;
 }
