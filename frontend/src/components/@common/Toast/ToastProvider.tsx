@@ -1,6 +1,6 @@
 import { createContext, useRef, useState } from 'react';
-import { styled } from 'styled-components';
 import Toast from './Toast';
+import ToastList from './ToastList';
 import type { PropsWithChildren } from 'react';
 
 interface ToastContextProps {
@@ -37,7 +37,11 @@ const ToastProvider = ({ children }: PropsWithChildren) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {isToastShow && <Toast message={message} />}
+      {isToastShow && (
+        <ToastList>
+          <Toast message={message} />
+        </ToastList>
+      )}
     </ToastContext.Provider>
   );
 };
