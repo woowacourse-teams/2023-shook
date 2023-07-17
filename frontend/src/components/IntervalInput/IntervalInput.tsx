@@ -39,6 +39,8 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           name="minute"
           value={intervalStart.minute}
           onChange={onChangeIntervalStart}
+          placeholder="0"
+          autoComplete="off"
         />
         <span>:</span>
         <label htmlFor="start-sec" />
@@ -47,6 +49,8 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           name="second"
           value={intervalStart.second}
           onChange={onChangeIntervalStart}
+          placeholder="0"
+          autoComplete="off"
         />
       </div>
       <p>{errorMessage}</p>
