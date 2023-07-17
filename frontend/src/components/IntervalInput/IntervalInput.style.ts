@@ -22,11 +22,11 @@ export const ErrorMessage = styled.p`
   color: #f5222d;
 `;
 
-export const Separator = styled.span<{ inactive?: boolean }>`
+export const Separator = styled.span<{ $inactive?: boolean }>`
   box-sizing: border-box;
   margin: 0 5px;
   padding-bottom: 8px;
-  color: ${({ inactive }) => inactive && '#a7a7a7'};
+  color: ${({ $inactive }) => $inactive && '#a7a7a7'};
 `;
 
 export const inputBase = css`
@@ -48,14 +48,18 @@ export const inputBase = css`
   width: 10px;
 `;
 
-export const InputStart = styled.input<{ active: boolean }>`
+export const InputStart = styled.input<{ $active: boolean }>`
   ${inputBase}
-  color: ${({ active }) => (active ? '#DE2F5F' : 'white')};
-  border-bottom: 1px solid ${({ active }) => (active ? '#DE2F5F' : 'white')};
+  color: ${({ $active }) => ($active ? '#DE2F5F' : 'white')};
+  border-bottom: 1px solid ${({ $active }) => ($active ? '#DE2F5F' : 'white')};
 `;
 
 export const InputEnd = styled.input`
   ${inputBase}
   color: #a7a7a7;
   border-bottom: 1px solid #a7a7a7;
+`;
+
+export const Label = styled.label`
+  display: none;
 `;

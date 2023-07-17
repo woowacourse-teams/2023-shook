@@ -24,9 +24,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   return (
     <IntervalContainer>
       <InputFlex>
-        <label htmlFor="start-min" />
         <InputStart
-          id="start-min"
           name="minute"
           value={intervalStart.minute}
           onChange={onChangeIntervalStart}
@@ -34,12 +32,10 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
-          active={activeInput === 'minute'}
+          $active={activeInput === 'minute'}
         />
         <Separator>:</Separator>
-        <label htmlFor="start-sec" />
         <InputStart
-          id="start-sec"
           name="second"
           value={intervalStart.second}
           onChange={onChangeIntervalStart}
@@ -47,13 +43,12 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
-          active={activeInput === 'second'}
+          $active={activeInput === 'second'}
         />
         <Separator> ~ </Separator>
-        <InputEnd value={endMinute} disabled />
-        <Separator inactive>:</Separator>
-        <label htmlFor="start-sec" />
-        <InputEnd value={endSecond} disabled />
+        <InputEnd id="end-min" value={endMinute} disabled />
+        <Separator $inactive>:</Separator>
+        <InputEnd id="end-sec" value={endSecond} disabled />
       </InputFlex>
       <ErrorMessage role="alert">{errorMessage}</ErrorMessage>
     </IntervalContainer>
