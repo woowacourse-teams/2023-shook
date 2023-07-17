@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { css, styled } from 'styled-components';
 import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
 import type { ChangeEventHandler } from 'react';
-
 interface IntervalInputProps {
   songEnd: number;
 }
@@ -15,6 +15,10 @@ interface TimeMinSec {
 const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [endMinute, endSecond] = secondsToMinSec(
+    minSecToSeconds(intervalStart.minute, intervalStart.second) + 10
+  );
 
   const onChangeIntervalStart: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { name, value },
@@ -41,10 +45,10 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   };
 
   return (
-    <div>
-      <div>
+    <IntervalContainer>
+      <InputFlex>
         <label htmlFor="start-min" />
-        <input
+        <InputStart
           id="start-min"
           name="minute"
           value={intervalStart.minute}
@@ -52,10 +56,11 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           onBlur={onBlurIntervalStart}
           placeholder="0"
           autoComplete="off"
+          active
         />
-        <span>:</span>
+        <Separator>:</Separator>
         <label htmlFor="start-sec" />
-        <input
+        <InputStart
           id="start-sec"
           name="second"
           value={intervalStart.second}
@@ -63,11 +68,76 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           onBlur={onBlurIntervalStart}
           placeholder="0"
           autoComplete="off"
+          active
         />
-      </div>
-      <p role="alert">{errorMessage}</p>
-    </div>
+        <Separator> ~ </Separator>
+        <InputEnd value={endMinute} disabled />
+        <Separator>:</Separator>
+        <label htmlFor="start-sec" />
+        <InputEnd value={endSecond} disabled />
+      </InputFlex>
+      <ErrorMessage role="alert">{errorMessage}</ErrorMessage>
+    </IntervalContainer>
   );
 };
 
 export default IntervalInput;
+
+const IntervalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  padding: 0 24px;
+  border: 1px solid red;
+
+  font-size: 16px;
+
+  color: white;
+`;
+
+const InputFlex = styled.div`
+  display: flex;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 14px;
+  color: #f5222d;
+`;
+
+const Separator = styled.span`
+  box-sizing: border-box;
+  margin: 0 5px;
+  padding-bottom: 8px;
+`;
+
+const inputBase = css`
+  flex: 1;
+  margin: 0 5px;
+
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+
+  margin: 0;
+  padding: 0;
+
+  background-color: transparent;
+  text-align: center;
+
+  border-bottom: 1px solid white;
+
+  width: 10px;
+`;
+
+const InputStart = styled.input<{ active: boolean }>`
+  ${inputBase}
+  color: white;
+  border-bottom: 1px solid ${({ active }) => (active ? '#DE2F5F' : 'white')};
+`;
+
+const InputEnd = styled.input`
+  ${inputBase}
+  color: #a7a7a7;
+  border-bottom: 1px solid #a7a7a7;
+`;
