@@ -17,7 +17,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
     endMinute,
     endSecond,
     onChangeIntervalStart,
-    onClickIntervalStart,
+    onFocusIntervalStart,
     onBlurIntervalStart,
   } = useIntervalInput(songEnd);
 
@@ -31,7 +31,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           value={intervalStart.minute}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
-          onClick={onClickIntervalStart}
+          onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
           active={activeInput === 'minute'}
@@ -44,7 +44,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           value={intervalStart.second}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
-          onClick={onClickIntervalStart}
+          onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
           active={activeInput === 'second'}

@@ -3,7 +3,7 @@ import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
 import { isInputName } from '../IntervalInput.type';
 import type { IntervalInputType, TimeMinSec } from '../IntervalInput.type';
-import type { ChangeEventHandler, MouseEventHandler } from 'react';
+import type { ChangeEventHandler, FocusEventHandler } from 'react';
 
 const useIntervalInput = (songEnd: number) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
@@ -29,7 +29,7 @@ const useIntervalInput = (songEnd: number) => {
     });
   };
 
-  const onClickIntervalStart: MouseEventHandler<HTMLInputElement> = ({
+  const onFocusIntervalStart: FocusEventHandler<HTMLInputElement> = ({
     currentTarget: { name },
   }) => {
     if (isInputName(name)) {
@@ -55,7 +55,7 @@ const useIntervalInput = (songEnd: number) => {
     endMinute,
     endSecond,
     onChangeIntervalStart,
-    onClickIntervalStart,
+    onFocusIntervalStart,
     onBlurIntervalStart,
   };
 };
