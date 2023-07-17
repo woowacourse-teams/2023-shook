@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-java@v2 # 자바를 설치하는 명렁어
         with:
           java-version: '17'
+          distribution: 'zulu'
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
