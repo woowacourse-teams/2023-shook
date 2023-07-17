@@ -2,9 +2,8 @@ package shook.shook.part.application;
 
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.application.dto.KillingPartResponse;
 import shook.shook.part.application.dto.KillingPartsResponse;
@@ -19,8 +18,8 @@ import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException.SongNotExistException;
 
-@AllArgsConstructor
-@Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class PartService {
 
