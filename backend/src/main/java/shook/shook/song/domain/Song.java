@@ -70,7 +70,7 @@ public class Song {
     }
 
     private void validatePart(final Part part) {
-        if (!part.isBelongTo(this)) {
+        if (part.isBelongToOtherSong(this)) {
             throw new PartException.PartForOtherSongException();
         }
     }

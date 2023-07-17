@@ -117,8 +117,8 @@ public class Part {
         return this.startSecond == other.startSecond && this.length.equals(other.length);
     }
 
-    public boolean isBelongTo(final Song song) {
-        return song.equals(this.song);
+    public boolean isBelongToOtherSong(final Song song) {
+        return !song.equals(this.song);
     }
 
     public Set<Vote> getVotes() {
