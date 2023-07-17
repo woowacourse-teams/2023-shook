@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
 import type { ChangeEventHandler } from 'react';
 
@@ -19,7 +20,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
     currentTarget: { name, value },
   }) => {
     if (!isValidMinSec(value)) {
-      setErrorMessage('0 ~ 59 의 숫자만 입력 가능해요');
+      setErrorMessage('초/분은 0 ~ 59 숫자만 입력 가능해요');
       return;
     }
 
@@ -28,6 +29,15 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
       ...intervalStart,
       [name]: Number(value),
     });
+  };
+
+  const onBlurIntervalStart = () => {
+    const timeSelected = minSecToSeconds(intervalStart.minute, intervalStart.second);
+
+    if (!isTimeInSongRange({ songEnd, timeSelected })) {
+      const [songMin, songSec] = secondsToMinSec(songEnd - 10);
+      setErrorMessage(`구간 시작을 ${songMin}분 ${songSec}초보다 전으로 설정해주세요`);
+    }
   };
 
   return (
@@ -39,6 +49,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           name="minute"
           value={intervalStart.minute}
           onChange={onChangeIntervalStart}
+          onBlur={onBlurIntervalStart}
           placeholder="0"
           autoComplete="off"
         />
@@ -49,11 +60,12 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           name="second"
           value={intervalStart.second}
           onChange={onChangeIntervalStart}
+          onBlur={onBlurIntervalStart}
           placeholder="0"
           autoComplete="off"
         />
       </div>
-      <p>{errorMessage}</p>
+      <p role="alert">{errorMessage}</p>
     </div>
   );
 };
