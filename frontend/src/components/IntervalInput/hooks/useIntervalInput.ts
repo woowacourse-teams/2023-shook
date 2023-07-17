@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
+import { complyToMinSec, minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
 import ERROR_MESSAGE from '../constants/errorMessage';
 import { isInputName } from '../IntervalInput.type';
@@ -10,8 +10,12 @@ const useIntervalInput = (songEnd: number) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
-  const [endMinute, endSecond] = secondsToMinSec(
-    minSecToSeconds(intervalStart.minute, intervalStart.second) + 10
+  const { minute: startMinute, second: startSecond } = intervalStart;
+
+  const [endMinute, endSecond] = complyToMinSec(
+    startMinute,
+    startSecond,
+    (origin: number) => origin + 10
   );
 
   const onChangeIntervalStart: ChangeEventHandler<HTMLInputElement> = ({
@@ -38,7 +42,7 @@ const useIntervalInput = (songEnd: number) => {
   };
 
   const onBlurIntervalStart = () => {
-    const timeSelected = minSecToSeconds(intervalStart.minute, intervalStart.second);
+    const timeSelected = minSecToSeconds(startMinute, startSecond);
 
     if (!isTimeInSongRange({ songEnd, timeSelected })) {
       const [songMin, songSec] = secondsToMinSec(songEnd - 10);
