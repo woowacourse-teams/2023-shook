@@ -1,1 +1,4 @@
-export type KillingPartInterval = 5 | 10 | 15;
+import type { KILLING_PART_INTERVAL } from './constants';
+
+export type KillingPartInterval =
+  (typeof KILLING_PART_INTERVAL)[keyof typeof KILLING_PART_INTERVAL];
