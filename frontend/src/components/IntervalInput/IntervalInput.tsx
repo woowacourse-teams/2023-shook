@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { css, styled } from 'styled-components';
 import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
-import type { ChangeEventHandler } from 'react';
+import type { ChangeEventHandler, MouseEventHandler } from 'react';
 interface IntervalInputProps {
   songEnd: number;
 }
@@ -12,9 +12,15 @@ interface TimeMinSec {
   second: number;
 }
 
+type IntervalInputType = null | 'minute' | 'second';
+const isInputName = (name: unknown): name is IntervalInputType => {
+  return name === 'minute' || name === 'second' || name === null;
+};
+
 const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
+  const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
 
   const [endMinute, endSecond] = secondsToMinSec(
     minSecToSeconds(intervalStart.minute, intervalStart.second) + 10
@@ -35,6 +41,14 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
     });
   };
 
+  const onClickIntervalStart: MouseEventHandler<HTMLInputElement> = ({
+    currentTarget: { name },
+  }) => {
+    if (isInputName(name)) {
+      setActiveInput(name);
+    }
+  };
+
   const onBlurIntervalStart = () => {
     const timeSelected = minSecToSeconds(intervalStart.minute, intervalStart.second);
 
@@ -42,6 +56,8 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
       const [songMin, songSec] = secondsToMinSec(songEnd - 10);
       setErrorMessage(`구간 시작을 ${songMin}분 ${songSec}초보다 전으로 설정해주세요`);
     }
+
+    setActiveInput(null);
   };
 
   return (
@@ -54,9 +70,10 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           value={intervalStart.minute}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
+          onClick={onClickIntervalStart}
           placeholder="0"
           autoComplete="off"
-          active
+          active={activeInput === 'minute'}
         />
         <Separator>:</Separator>
         <label htmlFor="start-sec" />
@@ -66,13 +83,14 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           value={intervalStart.second}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
+          onClick={onClickIntervalStart}
           placeholder="0"
           autoComplete="off"
-          active
+          active={activeInput === 'second'}
         />
         <Separator> ~ </Separator>
         <InputEnd value={endMinute} disabled />
-        <Separator>:</Separator>
+        <Separator inactive>:</Separator>
         <label htmlFor="start-sec" />
         <InputEnd value={endSecond} disabled />
       </InputFlex>
@@ -105,10 +123,11 @@ const ErrorMessage = styled.p`
   color: #f5222d;
 `;
 
-const Separator = styled.span`
+const Separator = styled.span<{ inactive?: boolean }>`
   box-sizing: border-box;
   margin: 0 5px;
   padding-bottom: 8px;
+  color: ${({ inactive }) => inactive && '#a7a7a7'};
 `;
 
 const inputBase = css`
@@ -126,7 +145,7 @@ const inputBase = css`
   text-align: center;
 
   border-bottom: 1px solid white;
-
+  outline: none;
   width: 10px;
 `;
 
