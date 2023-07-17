@@ -9,20 +9,9 @@ import {
   IntervalContainer,
   Separator,
 } from './IntervalInput.style';
+import { isInputName } from './IntervalInput.type';
+import type { IntervalInputProps, IntervalInputType, TimeMinSec } from './IntervalInput.type';
 import type { ChangeEventHandler, MouseEventHandler } from 'react';
-interface IntervalInputProps {
-  songEnd: number;
-}
-
-interface TimeMinSec {
-  minute: number;
-  second: number;
-}
-
-type IntervalInputType = null | 'minute' | 'second';
-const isInputName = (name: unknown): name is IntervalInputType => {
-  return name === 'minute' || name === 'second' || name === null;
-};
 
 const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
