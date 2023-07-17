@@ -22,7 +22,7 @@ public class Parts {
     private static final int KILLING_PART_COUNT = 3;
 
     @OneToMany(mappedBy = "song")
-    private Set<Part> parts = new HashSet<>();
+    private final Set<Part> parts = new HashSet<>();
 
     public void addPart(final Part part) {
         validatePart(part);
