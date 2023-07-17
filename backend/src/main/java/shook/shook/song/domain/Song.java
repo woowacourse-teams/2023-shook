@@ -20,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.part.domain.Part;
-import shook.shook.part.domain.PartLength;
 import shook.shook.part.domain.Parts;
 import shook.shook.part.exception.PartException;
 
@@ -92,9 +91,9 @@ public class Song {
         return currentParts.getKillingParts();
     }
 
-    public Optional<Part> getSameLengthPartStartAt(final int start, final PartLength length) {
+    public Optional<Part> getSameLengthPartStartAt(final Part other) {
         return parts.stream()
-            .filter((part) -> part.getStartSecond() == start && part.getLength().equals(length))
+            .filter(other::hasEqualStartAndLength)
             .findFirst();
     }
 
