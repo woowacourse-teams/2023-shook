@@ -108,8 +108,11 @@ public class Part {
     }
 
     private void validateVote(final Vote vote) {
-        if (vote.isBelongToOtherPart((this))) {
+        if (vote.isBelongToOtherPart(this)) {
             throw new VoteException.VoteForOtherPartException();
+        }
+        if (votes.contains(vote)) {
+            throw new VoteException.DuplicateVoteExistException();
         }
     }
 

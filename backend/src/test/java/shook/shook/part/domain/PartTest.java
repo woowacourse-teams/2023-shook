@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,12 +13,7 @@ import shook.shook.song.domain.Song;
 
 class PartTest {
 
-    private Song song;
-
-    @BeforeEach
-    void setUp() {
-        song = new Song("제목", "비디오URL", "가수", 30);
-    }
+    private final Song song = new Song("제목", "비디오URL", "가수", 30);
 
     @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
     @Test
@@ -182,7 +176,7 @@ class PartTest {
             assertThat(voteCount).isEqualTo(2);
         }
 
-        @DisplayName("Id 가 같은 두 개의 투표를 통해 투표했을 때")
+        @DisplayName("Id 가 같은 두 개의 투표를 통해 투표했을 때 예외가 발생한다.")
         @Test
         void getVoteCount_towVoteSameId() {
             //given
@@ -190,13 +184,11 @@ class PartTest {
             final Vote firstVote = Vote.saved(1L, part);
             final Vote secondVote = Vote.saved(1L, part);
             part.vote(firstVote);
-            part.vote(secondVote);
 
             //when
-            final int voteCount = part.getVoteCount();
-
             //then
-            assertThat(voteCount).isEqualTo(1);
+            assertThatThrownBy(() -> part.vote(secondVote))
+                .isInstanceOf(VoteException.DuplicateVoteExistException.class);
         }
     }
 }

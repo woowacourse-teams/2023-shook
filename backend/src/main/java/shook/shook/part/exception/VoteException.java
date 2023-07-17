@@ -8,4 +8,11 @@ public class VoteException extends RuntimeException {
             super();
         }
     }
+
+    public static class DuplicateVoteExistException extends VoteException {
+
+        public DuplicateVoteExistException() {
+            super();
+        }
+    }
 }
