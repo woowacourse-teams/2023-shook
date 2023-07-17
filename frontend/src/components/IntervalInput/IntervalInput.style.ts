@@ -6,7 +6,6 @@ export const IntervalContainer = styled.div`
 
   justify-content: space-between;
   padding: 0 24px;
-  border: 1px solid red;
 
   font-size: 16px;
 
@@ -18,7 +17,8 @@ export const InputFlex = styled.div`
 `;
 
 export const ErrorMessage = styled.p`
-  font-size: 14px;
+  font-size: 12px;
+  margin: 8px 0;
   color: #f5222d;
 `;
 
@@ -50,7 +50,7 @@ export const inputBase = css`
 
 export const InputStart = styled.input<{ active: boolean }>`
   ${inputBase}
-  color: white;
+  color: ${({ active }) => (active ? '#DE2F5F' : 'white')};
   border-bottom: 1px solid ${({ active }) => (active ? '#DE2F5F' : 'white')};
 `;
 
