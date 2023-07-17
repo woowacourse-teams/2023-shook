@@ -1,7 +1,6 @@
 package shook.shook.part.application;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import shook.shook.part.domain.repository.VoteRepository;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
-import shook.shook.song.exception.SongException.SongNotExistException;
+import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,7 +29,7 @@ public class PartService {
     @Transactional
     public void register(final PartRegisterRequest request) {
         final Song song = songRepository.findById(request.getSongId())
-            .orElseThrow(SongNotExistException::new);
+            .orElseThrow(SongException.SongNotExistException::new);
 
         final Integer startSecond = request.getStartSecond();
         final PartLength partLength = PartLength.findBySecond(request.getLength());
@@ -63,17 +62,16 @@ public class PartService {
 
     public KillingPartResponse showTopKillingPart(final Long songId) {
         final Song song = songRepository.findById(songId)
-            .orElseThrow(SongNotExistException::new);
+            .orElseThrow(SongException.SongNotExistException::new);
 
-        final Optional<Part> topKillingPart = song.getTopKillingPart();
-
-        return topKillingPart.map(KillingPartResponse::from)
+        return song.getTopKillingPart()
+            .map(KillingPartResponse::from)
             .orElseGet(KillingPartResponse::empty);
     }
 
     public KillingPartsResponse showKillingParts(final Long songId) {
         final Song song = songRepository.findById(songId)
-            .orElseThrow(SongNotExistException::new);
+            .orElseThrow(SongException.SongNotExistException::new);
 
         final List<Part> killingParts = song.getKillingParts();
 

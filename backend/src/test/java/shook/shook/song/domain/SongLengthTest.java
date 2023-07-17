@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.song.exception.SongException.SongLengthLessThanOneException;
+import shook.shook.song.exception.SongException;
 
 class SongLengthTest {
 
@@ -28,6 +28,6 @@ class SongLengthTest {
         //when
         //then
         assertThatThrownBy(() -> new SongLength(length))
-            .isInstanceOf(SongLengthLessThanOneException.class);
+            .isInstanceOf(SongException.SongLengthLessThanOneException.class);
     }
 }
