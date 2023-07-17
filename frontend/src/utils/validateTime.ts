@@ -9,5 +9,6 @@ export const isTimeInSongRange = ({
   songEnd: number;
   interval?: number;
 }) => {
+  console.log(songEnd >= Number(timeInput) + interval);
   return songEnd >= Number(timeInput) + interval;
 };

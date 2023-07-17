@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isTimeInSongRange, isValidMinSec } from '@/utils/validateTime';
 import type { ChangeEventHandler } from 'react';
 
 interface IntervalInputProps {
@@ -17,10 +18,16 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   const onChangeIntervalStart: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { name, value },
   }) => {
-    setIntervalStart((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (!isValidMinSec(value)) {
+      setErrorMessage('0 ~ 59 의 숫자만 입력 가능해요');
+      return;
+    }
+
+    setErrorMessage('');
+    setIntervalStart({
+      ...intervalStart,
+      [name]: Number(value),
+    });
   };
 
   return (
