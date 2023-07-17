@@ -1,11 +1,8 @@
 package shook.shook.part.application;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shook.shook.part.application.dto.KillingPartResponse;
-import shook.shook.part.application.dto.KillingPartsResponse;
 import shook.shook.part.application.dto.PartRegisterRequest;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
@@ -60,21 +57,4 @@ public class PartService {
         voteRepository.save(newVote);
     }
 
-    public KillingPartResponse showTopKillingPart(final Long songId) {
-        final Song song = songRepository.findById(songId)
-            .orElseThrow(SongException.SongNotExistException::new);
-
-        return song.getTopKillingPart()
-            .map(KillingPartResponse::from)
-            .orElseGet(KillingPartResponse::empty);
-    }
-
-    public KillingPartsResponse showKillingParts(final Long songId) {
-        final Song song = songRepository.findById(songId)
-            .orElseThrow(SongException.SongNotExistException::new);
-
-        final List<Part> killingParts = song.getKillingParts();
-
-        return KillingPartsResponse.of(killingParts);
-    }
 }

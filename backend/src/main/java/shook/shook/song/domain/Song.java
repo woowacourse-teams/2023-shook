@@ -6,21 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.part.domain.Part;
-import shook.shook.part.domain.Parts;
 import shook.shook.part.exception.PartException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,8 +40,8 @@ public class Song {
     @Embedded
     private SongLength length;
 
-    @OneToMany(mappedBy = "song")
-    private final Set<Part> parts = new HashSet<>();
+    @Embedded
+    private Parts parts = new Parts();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -64,9 +59,13 @@ public class Song {
         this.length = new SongLength(length);
     }
 
+    public Optional<Part> getSameLengthPartStartAt(final Part other) {
+        return parts.getSameLengthPartStartAt(other);
+    }
+
     public void addPart(final Part part) {
         validatePart(part);
-        this.parts.add(part);
+        parts.addPart(part);
     }
 
     private void validatePart(final Part part) {
@@ -76,25 +75,15 @@ public class Song {
     }
 
     public boolean isUniquePart(final Part newPart) {
-        return parts.stream().noneMatch((part) -> part.hasEqualStartAndLength(newPart));
+        return parts.isUniquePart(newPart);
     }
 
     public Optional<Part> getTopKillingPart() {
-        final Parts currentParts = new Parts(new ArrayList<>(parts));
-
-        return currentParts.getTopKillingPart();
+        return parts.getTopKillingPart();
     }
 
     public List<Part> getKillingParts() {
-        final Parts currentParts = new Parts(new ArrayList<>(parts));
-
-        return currentParts.getKillingParts();
-    }
-
-    public Optional<Part> getSameLengthPartStartAt(final Part other) {
-        return parts.stream()
-            .filter(other::hasEqualStartAndLength)
-            .findFirst();
+        return parts.getKillingParts();
     }
 
     public String getTitle() {
@@ -113,8 +102,8 @@ public class Song {
         return length.getValue();
     }
 
-    public Set<Part> getParts() {
-        return new HashSet<>(parts);
+    public List<Part> getParts() {
+        return parts.getParts();
     }
 
     @Override

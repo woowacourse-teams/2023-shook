@@ -1,4 +1,4 @@
-package shook.shook.part.application.dto;
+package shook.shook.song.application.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

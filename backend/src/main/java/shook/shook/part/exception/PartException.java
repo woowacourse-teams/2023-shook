@@ -43,4 +43,11 @@ public class PartException extends RuntimeException {
             super();
         }
     }
+
+    public static class DuplicateStartAndLengthException extends PartException {
+
+        public DuplicateStartAndLengthException() {
+            super();
+        }
+    }
 }

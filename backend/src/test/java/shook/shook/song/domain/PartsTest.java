@@ -1,18 +1,25 @@
-package shook.shook.part.domain;
+package shook.shook.song.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import shook.shook.part.exception.PartsException;
-import shook.shook.song.domain.Song;
+import shook.shook.part.domain.Part;
+import shook.shook.part.domain.PartLength;
+import shook.shook.part.domain.Vote;
+import shook.shook.part.exception.PartException;
 
 class PartsTest {
+
+    void votePart(final Part part, final List<Vote> votes) {
+        for (final Vote vote : votes) {
+            part.vote(vote);
+        }
+    }
 
     @DisplayName("생성할 때 중복된 파트가 존재시 예외를 던진다.")
     @Test
@@ -22,10 +29,13 @@ class PartsTest {
         final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
         final Part secondPart = Part.saved(1L, 6, PartLength.SHORT, song);
 
+        final Parts parts = new Parts();
+        parts.addPart(firstPart);
+
         //when
         //then
-        assertThatThrownBy(() -> new Parts(List.of(firstPart, secondPart)))
-            .isInstanceOf(PartsException.DuplicatePartExistException.class);
+        assertThatThrownBy(() -> parts.addPart(secondPart))
+            .isInstanceOf(PartException.DuplicateStartAndLengthException.class);
     }
 
     @DisplayName("가장 인기있는 킬링파트 하나를 반환한다.")
@@ -38,7 +48,9 @@ class PartsTest {
         firstPart.vote(Vote.saved(1L, firstPart));
         firstPart.vote(Vote.saved(2L, firstPart));
         secondPart.vote(Vote.saved(3L, secondPart));
-        final Parts parts = new Parts(List.of(firstPart, secondPart));
+
+        final Parts parts = new Parts();
+        parts.addPart(firstPart, secondPart);
 
         //when
         final Optional<Part> bestKillingPart = parts.getTopKillingPart();
@@ -70,7 +82,9 @@ class PartsTest {
                 List.of(Vote.saved(4L, firstPart), Vote.saved(5L, firstPart)));
             votePart(thirdPart, List.of(Vote.saved(6L, thirdPart)));
 
-            final Parts parts = new Parts(List.of(firstPart, secondPart, thirdPart, fourthPart));
+            final Parts parts = new Parts();
+
+            parts.addPart(firstPart, secondPart, thirdPart, fourthPart);
 
             //when
             final List<Part> killingParts = parts.getKillingParts();
@@ -92,7 +106,9 @@ class PartsTest {
                 List.of(Vote.saved(4L, firstPart), Vote.saved(5L, firstPart)));
             votePart(secondPart, List.of(Vote.saved(6L, secondPart)));
 
-            final Parts parts = new Parts(List.of(firstPart, secondPart));
+            final Parts parts = new Parts();
+
+            parts.addPart(firstPart, secondPart);
 
             //when
             final List<Part> killingParts = parts.getKillingParts();
@@ -106,7 +122,7 @@ class PartsTest {
         @Test
         void notExist() {
             //given
-            final Parts parts = new Parts(Collections.emptyList());
+            final Parts parts = new Parts();
 
             //when
             final List<Part> killingParts = parts.getKillingParts();
@@ -114,11 +130,6 @@ class PartsTest {
             //then
             assertThat(killingParts).isEmpty();
         }
-    }
 
-    void votePart(final Part part, final List<Vote> votes) {
-        for (final Vote vote : votes) {
-            part.vote(vote);
-        }
     }
 }
