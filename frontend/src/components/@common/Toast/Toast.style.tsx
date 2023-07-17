@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { fadeInBottomToUp } from '@/components/@common/Toast/keyframes/fadeInBottomToUp';
 
 export const Container = styled.div`
   position: relative;
@@ -10,6 +11,9 @@ export const Container = styled.div`
   padding: 14px;
   border-radius: 60px;
   background: #323232;
+  animation-name: ${fadeInBottomToUp};
+  animation-duration: 1s;
+  animation-timing-function: ease;
 `;
 
 export const StatusIcon = styled.img`
