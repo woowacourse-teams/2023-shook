@@ -1,8 +1,7 @@
-package shook.shook.vote.domain;
+package shook.shook.part.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -10,21 +9,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import shook.shook.part.domain.Part;
 
-@Entity
-@Table(name = "vote")
-@EntityListeners(AuditingEntityListener.class)
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Table(name = "vote")
+@Entity
 public class Vote {
 
     @Id
@@ -32,15 +28,32 @@ public class Vote {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "part_id", foreignKey = @ForeignKey(name = "none"))
+    @JoinColumn(name = "part_id", foreignKey = @ForeignKey(name = "none"), updatable = false)
     private Part part;
 
-    @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Vote(final Part part) {
+    @PrePersist
+    void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
+
+    private Vote(final Long id, final Part part) {
+        this.id = id;
         this.part = part;
+    }
+
+    public static Vote saved(final Long id, final Part part) {
+        return new Vote(id, part);
+    }
+
+    public static Vote forSave(final Part part) {
+        return new Vote(null, part);
+    }
+
+    public boolean isBelongToOtherPart(final Part part) {
+        return !part.equals(this.part);
     }
 
     @Override
