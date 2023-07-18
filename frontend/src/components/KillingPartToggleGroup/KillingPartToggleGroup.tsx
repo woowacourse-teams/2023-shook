@@ -23,7 +23,7 @@ const KillingPartToggleGroup = () => {
         active={interval === KILLING_PART_INTERVAL.FIVE}
         onClick={setKillingPartInterval}
       >
-        5초
+        {KILLING_PART_INTERVAL.FIVE}초
       </ToggleGroupItem>
       <Spacing direction="horizontal" size={15} />
       <ToggleGroupItem
@@ -34,7 +34,7 @@ const KillingPartToggleGroup = () => {
         active={interval === KILLING_PART_INTERVAL.TEN}
         onClick={setKillingPartInterval}
       >
-        10초
+        {KILLING_PART_INTERVAL.TEN}초
       </ToggleGroupItem>
       <Spacing direction="horizontal" size={15} />
       <ToggleGroupItem
@@ -45,7 +45,7 @@ const KillingPartToggleGroup = () => {
         active={interval === KILLING_PART_INTERVAL.FIFTEEN}
         onClick={setKillingPartInterval}
       >
-        15초
+        {KILLING_PART_INTERVAL.FIFTEEN}초
       </ToggleGroupItem>
     </ToggleGroup>
   );
