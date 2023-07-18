@@ -11,9 +11,7 @@ export const Container = styled.div`
   padding: 14px;
   border-radius: 60px;
   background: #323232;
-  animation-name: ${fadeInBottomToUp};
-  animation-duration: 1s;
-  animation-timing-function: ease;
+  animation: ${fadeInBottomToUp} 1s ease;
 `;
 
 export const StatusIcon = styled.img`
