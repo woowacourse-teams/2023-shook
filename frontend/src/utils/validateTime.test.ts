@@ -45,14 +45,14 @@ describe('isValidMinSec: 초/분 양식이 맞는지 확인하는 함수', () =>
 describe('isTimeInSongRange: 입력한 초/분 정보가 노래 길이 안에 존재하는 지 확인', () => {
   const songEnd = 192; //3분 12초
   test('140초 + 10초는 192초보다 작으니 true를 반환한다.', () => {
-    expect(isTimeInSongRange({ timeSelected: 140, songEnd })).toBe(true); //(input, interval, song)
+    expect(isTimeInSongRange({ timeSelected: 140, songEnd })).toBe(true);
   });
 
   test('187초 + 5초는 192초보다 같으니 true를 반환한다.', () => {
-    expect(isTimeInSongRange({ timeSelected: 187, songEnd, interval: 5 })).toBe(true); //(input, interval, song)
+    expect(isTimeInSongRange({ timeSelected: 187, songEnd, interval: 5 })).toBe(true);
   });
 
   test('185초 + 10초는 192초보다 크니 false를 반환한다.', () => {
-    expect(isTimeInSongRange({ timeSelected: 185, songEnd })).toBe(false); //(input, interval, song)
+    expect(isTimeInSongRange({ timeSelected: 185, songEnd })).toBe(false);
   });
 });
