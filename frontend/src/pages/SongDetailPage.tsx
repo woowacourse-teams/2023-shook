@@ -11,7 +11,7 @@ import {
 } from './SongDetailPage.style';
 
 const SongDetailPage = () => {
-  const { isOpen, openModal, closeModal } = useModal({ defaultOpen: false });
+  const { isOpen, openModal, closeModal } = useModal();
 
   const submitKillingPart = () => {
     openModal();
