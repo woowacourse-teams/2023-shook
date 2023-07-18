@@ -40,12 +40,12 @@ public class PartService {
     }
 
     private void addPartAndVote(final Song song, final Part part) {
-        song.addPart(part);
         partRepository.save(part);
+        song.addPart(part);
 
         final Vote newVote = Vote.forSave(part);
-        part.vote(newVote);
         voteRepository.save(newVote);
+        part.vote(newVote);
     }
 
     private void voteToExistPart(final Song song, final Part part) {
@@ -53,8 +53,8 @@ public class PartService {
             .orElseThrow(PartException.PartNotExistException::new);
 
         final Vote newVote = Vote.forSave(existPart);
-        existPart.vote(newVote);
         voteRepository.save(newVote);
+        existPart.vote(newVote);
     }
 
 }

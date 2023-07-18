@@ -47,13 +47,13 @@ class SongServiceTest extends UsingJpaTest {
     }
 
     void addPart(final Song song, final Part part) {
-        song.addPart(part);
         partRepository.save(part);
+        song.addPart(part);
     }
 
     void votePart(final Part part, final Vote vote) {
-        part.vote(vote);
         voteRepository.save(vote);
+        part.vote(vote);
     }
 
     @DisplayName("노래를 등록한다.")
