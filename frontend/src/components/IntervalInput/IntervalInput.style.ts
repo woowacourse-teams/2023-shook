@@ -19,20 +19,20 @@ export const Flex = styled.div`
 export const ErrorMessage = styled.p`
   font-size: 12px;
   margin: 8px 0;
-  color: #f5222d;
+  color: white;
 `;
 
 export const Separator = styled.span<{ $inactive?: boolean }>`
   flex: none;
   text-align: center;
-  margin: 0 10px;
-  padding-bottom: 5px;
+  margin: 0 8px;
+  padding-bottom: 8px;
   color: ${({ $inactive }) => $inactive && '#a7a7a7'};
 `;
 
 export const inputBase = css`
   flex: 1;
-  margin: 0 5px;
+  margin: 0 8px;
 
   border: none;
   -webkit-box-shadow: none;
@@ -46,7 +46,7 @@ export const inputBase = css`
 
   border-bottom: 1px solid white;
   outline: none;
-  width: 10px;
+  width: 16px;
 `;
 
 export const InputStart = styled.input<{ $active: boolean }>`
