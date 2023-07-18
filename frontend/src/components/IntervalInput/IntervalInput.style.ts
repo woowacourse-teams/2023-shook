@@ -12,7 +12,7 @@ export const IntervalContainer = styled.div`
   color: white;
 `;
 
-export const InputFlex = styled.div`
+export const Flex = styled.div`
   display: flex;
 `;
 
@@ -23,7 +23,8 @@ export const ErrorMessage = styled.p`
 `;
 
 export const Separator = styled.span<{ $inactive?: boolean }>`
-  box-sizing: border-box;
+  width: 100px;
+  padding: 20px;
   margin: 0 5px;
   padding-bottom: 8px;
   color: ${({ $inactive }) => $inactive && '#a7a7a7'};

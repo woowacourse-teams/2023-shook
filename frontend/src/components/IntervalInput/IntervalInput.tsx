@@ -2,7 +2,7 @@ import useIntervalInput from './hooks/useIntervalInput';
 import {
   ErrorMessage,
   InputEnd,
-  InputFlex,
+  Flex,
   InputStart,
   IntervalContainer,
   Separator,
@@ -23,7 +23,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
 
   return (
     <IntervalContainer>
-      <InputFlex>
+      <Flex>
         <InputStart
           name="minute"
           value={intervalStart.minute}
@@ -49,7 +49,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
         <InputEnd id="end-min" value={endMinute} disabled />
         <Separator $inactive>:</Separator>
         <InputEnd id="end-sec" value={endSecond} disabled />
-      </InputFlex>
+      </Flex>
       <ErrorMessage role="alert">{errorMessage}</ErrorMessage>
     </IntervalContainer>
   );
