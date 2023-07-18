@@ -12,26 +12,26 @@ export const ToastContext = createContext<null | ToastContextProps>(null);
 const ToastProvider = ({ children }: PropsWithChildren) => {
   const [isToastShow, setIsToastShow] = useState(false);
   const [message, setMessage] = useState('');
-  const toastTimer = useRef<NodeJS.Timeout>();
+  const toastTimer = useRef<number | null>(null);
 
   const showToast = useCallback((message: string) => {
-    setIsToastShow(true);
+    if (toastTimer.current !== null) return;
+
     setMessage(message);
+    setIsToastShow(true);
 
-    if (toastTimer.current) {
-      clearTimeout(toastTimer.current);
-    }
-
-    const timer = setTimeout(() => {
-      hideToast();
-    }, 2000);
-
+    const timer = window.setTimeout(hideToast, 2000);
     toastTimer.current = timer;
   }, []);
 
   const hideToast = useCallback(() => {
+    if (toastTimer.current === null) return;
+
     setIsToastShow(false);
     setMessage('');
+
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = null;
   }, []);
 
   return (
