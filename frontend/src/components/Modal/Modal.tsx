@@ -11,8 +11,8 @@ interface ModalProps extends HTMLAttributes<HTMLDivElement> {
 
 const Modal = ({ isOpen, closeModal, children }: PropsWithChildren<ModalProps>) => {
   const closeByEsc = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+    ({ key }: KeyboardEvent) => {
+      if (key === 'Escape') {
         closeModal();
       }
     },
@@ -22,12 +22,12 @@ const Modal = ({ isOpen, closeModal, children }: PropsWithChildren<ModalProps>) 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', closeByEsc);
+      document.addEventListener('keydown', closeByEsc);
     }
 
     return () => {
       document.body.style.overflow = 'auto';
-      window.removeEventListener('keydown', closeByEsc);
+      document.removeEventListener('keydown', closeByEsc);
     };
   }, [isOpen, closeByEsc]);
 
@@ -35,8 +35,8 @@ const Modal = ({ isOpen, closeModal, children }: PropsWithChildren<ModalProps>) 
     <Wrapper>
       {isOpen && (
         <>
-          <Backdrop onClick={closeModal} />
-          <Container>{children}</Container>
+          <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
+          <Container role="dialog">{children}</Container>
         </>
       )}
     </Wrapper>,
