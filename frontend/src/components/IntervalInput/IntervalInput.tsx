@@ -9,10 +9,10 @@ import {
 } from './IntervalInput.style';
 
 export interface IntervalInputProps {
-  songEnd: number;
+  videoLength: number;
 }
 
-const IntervalInput = ({ songEnd }: IntervalInputProps) => {
+const IntervalInput = ({ videoLength }: IntervalInputProps) => {
   const {
     intervalStart,
     errorMessage,
@@ -22,7 +22,7 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
     onChangeIntervalStart,
     onFocusIntervalStart,
     onBlurIntervalStart,
-  } = useIntervalInput(songEnd);
+  } = useIntervalInput(videoLength);
 
   return (
     <IntervalContainer>

@@ -6,7 +6,7 @@ import { isInputName } from '../IntervalInput.type';
 import type { IntervalInputType, TimeMinSec } from '../IntervalInput.type';
 import type { ChangeEventHandler, FocusEventHandler } from 'react';
 
-const useIntervalInput = (songEnd: number) => {
+const useIntervalInput = (videoLength: number) => {
   const [intervalStart, setIntervalStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
@@ -44,8 +44,8 @@ const useIntervalInput = (songEnd: number) => {
   const onBlurIntervalStart = () => {
     const timeSelected = minSecToSeconds([startMinute, startSecond]);
 
-    if (timeSelected > songEnd - 10) {
-      const [songMin, songSec] = secondsToMinSec(songEnd - 10);
+    if (timeSelected > videoLength - 10) {
+      const [songMin, songSec] = secondsToMinSec(videoLength - 10);
       setErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
       return;
     }

@@ -12,6 +12,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
-    songEnd: 195,
+    videoLength: 195,
   },
 } satisfies Story;

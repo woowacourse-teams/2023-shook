@@ -3,17 +3,17 @@ import userEvent from '@testing-library/user-event';
 import IntervalInput from './IntervalInput';
 
 describe('<IntervalInput /> 컴포넌트 테스트', () => {
-  const songEnd = 210; // 3분 30초
+  const videoLength = 210; // 3분 30초
 
   test('4개의 input이 모두 그려진다.', () => {
-    render(<IntervalInput songEnd={songEnd} />);
+    render(<IntervalInput videoLength={videoLength} />);
     const inputs = screen.getAllByRole('textbox');
 
     expect(inputs).toHaveLength(4);
   });
 
   test('start 2분 10초면, end는 2분 20초다. ', () => {
-    render(<IntervalInput songEnd={songEnd} />);
+    render(<IntervalInput videoLength={videoLength} />);
     const [startMin, startSec, endMin, endSec] = screen.getAllByRole<HTMLInputElement>('textbox');
 
     fireEvent.change(startMin, { target: { value: '2' } });
@@ -24,7 +24,7 @@ describe('<IntervalInput /> 컴포넌트 테스트', () => {
   });
 
   test('start 1분 55초면, end는 2분 5초다. ', () => {
-    render(<IntervalInput songEnd={songEnd} />);
+    render(<IntervalInput videoLength={videoLength} />);
     const [startMin, startSec, endMin, endSec] = screen.getAllByRole<HTMLInputElement>('textbox');
 
     fireEvent.change(startMin, { target: { value: '1' } });
@@ -35,7 +35,7 @@ describe('<IntervalInput /> 컴포넌트 테스트', () => {
   });
 
   test('start(3:25)가 노래길이에서 구간길이를 뺀 것(3:20)보다 길면 에러메세지를 띄운다.', async () => {
-    render(<IntervalInput songEnd={songEnd} />);
+    render(<IntervalInput videoLength={videoLength} />);
     const [startMin, startSec] = screen.getAllByRole<HTMLInputElement>('textbox').slice(0, 2);
 
     await userEvent.type(startMin, '3');
