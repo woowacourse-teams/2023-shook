@@ -49,6 +49,7 @@ const useIntervalInput = (songEnd: number) => {
       setErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
     }
 
+    setErrorMessage('');
     setActiveInput(null);
   };
 
