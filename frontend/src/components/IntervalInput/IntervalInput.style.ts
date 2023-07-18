@@ -9,7 +9,7 @@ export const IntervalContainer = styled.div`
 
   font-size: 16px;
 
-  color: white;
+  color: #ffffff;
 `;
 
 export const Flex = styled.div`
@@ -19,7 +19,7 @@ export const Flex = styled.div`
 export const ErrorMessage = styled.p`
   font-size: 12px;
   margin: 8px 0;
-  color: white;
+  color: #f5222d;
 `;
 
 export const Separator = styled.span<{ $inactive?: boolean }>`
@@ -51,8 +51,8 @@ export const inputBase = css`
 
 export const InputStart = styled.input<{ $active: boolean }>`
   ${inputBase}
-  color: ${({ $active }) => ($active ? '#DE2F5F' : 'white')};
-  border-bottom: 1px solid ${({ $active }) => ($active ? '#DE2F5F' : 'white')};
+  color: ${({ $active }) => ($active ? '#de2f5f' : '#ffffff')};
+  border-bottom: 1px solid ${({ $active }) => ($active ? '#de2f5f' : '#ffffff')};
 `;
 
 export const InputEnd = styled.input`
