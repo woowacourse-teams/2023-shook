@@ -4,6 +4,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   component: Toast,
   title: 'Toast',
+  args: {
+    message: `I'm toast`,
+  },
   argTypes: {
     message: {
       control: 'text',
