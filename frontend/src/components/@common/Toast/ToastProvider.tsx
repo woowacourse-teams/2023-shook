@@ -7,7 +7,7 @@ interface ToastContextProps {
   showToast: (message: string) => void;
 }
 
-export const ToastContext = createContext<null | ToastContextProps>(null);
+export const ToastContext = createContext<ToastContextProps | null>(null);
 
 const ToastProvider = ({ children }: PropsWithChildren) => {
   const [isToastShow, setIsToastShow] = useState(false);
