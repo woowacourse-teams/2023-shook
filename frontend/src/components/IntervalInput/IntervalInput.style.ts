@@ -23,10 +23,10 @@ export const ErrorMessage = styled.p`
 `;
 
 export const Separator = styled.span<{ $inactive?: boolean }>`
-  width: 100px;
-  padding: 20px;
-  margin: 0 5px;
-  padding-bottom: 8px;
+  flex: none;
+  text-align: center;
+  margin: 0 10px;
+  padding-bottom: 5px;
   color: ${({ $inactive }) => $inactive && '#a7a7a7'};
 `;
 
