@@ -47,6 +47,7 @@ const useIntervalInput = (songEnd: number) => {
     if (timeSelected > songEnd - 10) {
       const [songMin, songSec] = secondsToMinSec(songEnd - 10);
       setErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
+      return;
     }
 
     setErrorMessage('');
