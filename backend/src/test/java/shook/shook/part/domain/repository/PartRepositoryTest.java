@@ -3,6 +3,7 @@ package shook.shook.part.domain.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,9 +51,9 @@ class PartRepositoryTest extends UsingJpaTest {
         final Part part = Part.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
-        final LocalDateTime prev = LocalDateTime.now();
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         final Part saved = partRepository.save(part);
-        final LocalDateTime after = LocalDateTime.now();
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         //then
         assertThat(part).isSameAs(saved);
