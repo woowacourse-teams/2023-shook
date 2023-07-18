@@ -20,16 +20,22 @@ const LayoutContainer = styled.main`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: 60px 0;
-  padding: 0 16.66%;
+  padding: 60px 16.66%;
+  background-color: pink;
 
-  @media (max-width: 1280px) {
-    padding: 0 8.33%;
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
+    padding: 44px 16.66%;
   }
 
-  @media (max-width: 768px) {
-    padding: 0 4.16%;
-    margin-top: 20px;
-    margin-bottom: 0;
+  @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
+    padding: 36px 8.33%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    padding: 36px 4.16%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding: 28px 16px;
   }
 `;
