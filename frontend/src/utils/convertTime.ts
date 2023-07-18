@@ -6,6 +6,10 @@ export const secondsToMinSec = (seconds: number): [minute: number, second: numbe
   return [Math.floor(seconds / 60), seconds % 60];
 };
 
-export const calculateMinSec = (minute: number, second: number, fn: (origin: number) => number) => {
-  return secondsToMinSec(fn(minSecToSeconds([minute, second])));
+export const calculateMinSec = (
+  minute: number,
+  second: number,
+  calculateFn: (originalSecond: number) => number
+) => {
+  return secondsToMinSec(calculateFn(minSecToSeconds([minute, second])));
 };
