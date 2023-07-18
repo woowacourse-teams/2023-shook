@@ -76,6 +76,6 @@ class SongRepositoryTest extends UsingJpaTest {
 
         //then
         assertThat(song).isSameAs(saved);
-        assertThat(song.getCreatedAt()).isAfter(prev).isBefore(after);
+        assertThat(song.getCreatedAt()).isBetween(prev, after);
     }
 }
