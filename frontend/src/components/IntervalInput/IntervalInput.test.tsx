@@ -22,9 +22,9 @@ describe('<IntervalInput /> 컴포넌트 테스트', () => {
     expect(endSec.value).toBe('20');
   });
 
-  test('start(4:10)가 노래(3:30)보다 길면 에러메세지를 띄운다.', async () => {
+  test('start(4:10)가 노래(3:30)보다 길면 에러메세지를 띄운다.', () => {
     render(<IntervalInput songEnd={songEnd} />);
-    const [startMin, startSec, ,] = screen.getAllByRole<HTMLInputElement>('textbox');
+    const [startMin, startSec] = screen.getAllByRole<HTMLInputElement>('textbox').slice(0, 2);
 
     fireEvent.change(startMin, { target: { value: '4' } });
     fireEvent.change(startSec, { target: { value: '10' } });
