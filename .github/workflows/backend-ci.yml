@@ -4,9 +4,9 @@ name: Backend CI
 # 해당 workflow가 언제 실행될 것인지에 대한 트리거를 지정
 on:
   workflow_dispatch:
-
+  
   pull_request:
-    branches: [ main, develop ]  # main branch로 pull request될 때 실행됩니다.
+    branches: [ main, develop ]  # main, develop branch로 pull request될 때 실행됩니다.
     types: [opened, synchronize, reopened]
     
 defaults:
