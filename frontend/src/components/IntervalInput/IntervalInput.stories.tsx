@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: IntervalInput,
-  title: 'Header',
+  title: 'IntervalInput',
 } satisfies Meta<typeof IntervalInput>;
 
 export default meta;
