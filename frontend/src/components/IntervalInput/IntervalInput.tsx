@@ -46,9 +46,9 @@ const IntervalInput = ({ songEnd }: IntervalInputProps) => {
           $active={activeInput === 'second'}
         />
         <Separator> ~ </Separator>
-        <InputEnd id="end-min" value={endMinute} disabled />
+        <InputEnd value={endMinute} disabled />
         <Separator $inactive>:</Separator>
-        <InputEnd id="end-sec" value={endSecond} disabled />
+        <InputEnd value={endSecond} disabled />
       </Flex>
       <ErrorMessage role="alert">{errorMessage}</ErrorMessage>
     </IntervalContainer>
