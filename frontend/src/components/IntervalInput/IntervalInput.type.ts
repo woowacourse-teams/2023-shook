@@ -1,7 +1,3 @@
-export interface IntervalInputProps {
-  songEnd: number;
-}
-
 export interface TimeMinSec {
   minute: number;
   second: number;

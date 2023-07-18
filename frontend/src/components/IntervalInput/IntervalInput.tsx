@@ -7,7 +7,10 @@ import {
   IntervalContainer,
   Separator,
 } from './IntervalInput.style';
-import type { IntervalInputProps } from './IntervalInput.type';
+
+export interface IntervalInputProps {
+  songEnd: number;
+}
 
 const IntervalInput = ({ songEnd }: IntervalInputProps) => {
   const {
