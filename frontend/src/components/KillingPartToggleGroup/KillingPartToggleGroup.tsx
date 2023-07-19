@@ -24,7 +24,7 @@ const KillingPartToggleGroup = ({
       >
         {KILLING_PART_INTERVAL.FIVE}초
       </ToggleGroupItem>
-      <Spacing direction="horizontal" size={15} />
+      <Spacing direction="horizontal" size={20} />
       <ToggleGroupItem
         role="radio"
         type="button"
@@ -35,7 +35,7 @@ const KillingPartToggleGroup = ({
       >
         {KILLING_PART_INTERVAL.TEN}초
       </ToggleGroupItem>
-      <Spacing direction="horizontal" size={15} />
+      <Spacing direction="horizontal" size={20} />
       <ToggleGroupItem
         role="radio"
         type="button"
