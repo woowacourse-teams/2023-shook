@@ -17,8 +17,16 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Register = styled(Button)`
-  background-color: #de2e5f;
+export const Register = styled(Button)<{ disabled: boolean }>`
+  background-color: ${({ disabled, theme: { color } }) => {
+    return disabled ? color.disabledBackground : color.primary;
+  }};
+
+  color: ${({ disabled, theme: { color } }) => {
+    return disabled ? color.disabled : color.white;
+  }};
+
+  width: 100%;
 `;
 
 export const Confirm = styled(Button)`
