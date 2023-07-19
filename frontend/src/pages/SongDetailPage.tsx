@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { styled } from 'styled-components';
+import useToastContext from '@/components/@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '@/components/IntervalInput';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
 import KillingPartToggleGroup from '@/components/KillingPartToggleGroup/KillingPartToggleGroup';
@@ -16,6 +18,7 @@ import {
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 
 // mock_data
+// const songId = 1;
 const videoLength = 200;
 // const videoUrl = 'https://www.youtube.com/embed/ArmDp-zijuc';
 const title = 'Super Shy';
@@ -26,6 +29,7 @@ const SongDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [partStart, setPartStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const { interval, setKillingPartInterval } = useKillingPartInterval();
+  const { showToast } = useToastContext();
 
   const isActiveSubmission = errorMessage.length === 0;
 
@@ -40,14 +44,30 @@ const SongDetailPage = () => {
     });
   };
 
+  const copyUrlClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText('https://www.youtube.com/embed/ArmDp-zijuc');
+    } catch {
+      const el = document.createElement('textarea');
+      el.value = 'https://www.youtube.com/embed/ArmDp-zijuc!';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+
+    closeModal();
+    showToast('클립보드에 영상링크가 복사되었습니다.');
+  };
+
   const submitKillingPart = () => {
     openModal();
   };
 
   return (
     <div>
-      <p>{singer}</p>
-      <p>{title}</p>
+      <SongTitle>{title}</SongTitle>
+      <Singer>{singer}</Singer>
       <KillingPartToggleGroup interval={interval} setKillingPartInterval={setKillingPartInterval} />
       <IntervalInput
         videoLength={videoLength}
@@ -69,7 +89,9 @@ const SongDetailPage = () => {
             확인
           </Confirm>
           <Spacing direction="horizontal" size={12} />
-          <Share type="button">공유하기</Share>
+          <Share type="button" onClick={copyUrlClipboard}>
+            공유하기
+          </Share>
         </Flex>
       </Modal>
     </div>
@@ -77,3 +99,15 @@ const SongDetailPage = () => {
 };
 
 export default SongDetailPage;
+
+const SongTitle = styled.p`
+  font-size: 18px;
+  font-weight: 800;
+  color: ${({ theme: { color } }) => color.white};
+`;
+
+const Singer = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme: { color } }) => color.subText};
+`;
