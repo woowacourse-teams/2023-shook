@@ -24,7 +24,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 80%;
   min-width: 300px;
 
   margin: 0 auto;
