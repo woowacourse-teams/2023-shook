@@ -19,7 +19,7 @@ const KillingPartToggleGroup = ({
         type="button"
         aria-checked={interval === KILLING_PART_INTERVAL.FIVE}
         data-interval={KILLING_PART_INTERVAL.FIVE}
-        active={interval === KILLING_PART_INTERVAL.FIVE}
+        $active={interval === KILLING_PART_INTERVAL.FIVE}
         onClick={setKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.FIVE}초
@@ -30,7 +30,7 @@ const KillingPartToggleGroup = ({
         type="button"
         aria-checked={interval === KILLING_PART_INTERVAL.TEN}
         data-interval={KILLING_PART_INTERVAL.TEN}
-        active={interval === KILLING_PART_INTERVAL.TEN}
+        $active={interval === KILLING_PART_INTERVAL.TEN}
         onClick={setKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.TEN}초
@@ -41,7 +41,7 @@ const KillingPartToggleGroup = ({
         type="button"
         aria-checked={interval === KILLING_PART_INTERVAL.FIFTEEN}
         data-interval={KILLING_PART_INTERVAL.FIFTEEN}
-        active={interval === KILLING_PART_INTERVAL.FIFTEEN}
+        $active={interval === KILLING_PART_INTERVAL.FIFTEEN}
         onClick={setKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.FIFTEEN}초

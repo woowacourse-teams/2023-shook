@@ -7,7 +7,7 @@ export const ToggleGroup = styled.div`
   width: 100%;
 `;
 
-export const ToggleGroupItem = styled.button<{ active: boolean }>`
+export const ToggleGroupItem = styled.button<{ $active: boolean }>`
   margin: 0;
   padding: 0;
   border: none;
@@ -16,14 +16,14 @@ export const ToggleGroupItem = styled.button<{ active: boolean }>`
   width: 100px;
   height: 30px;
 
-  color: ${(props) => (props.active ? '#000000' : '#FFFFFF')};
-  background-color: ${(props) => (props.active ? '#FFFFFF' : '#434343')};
+  color: ${({ $active }) => ($active ? '#000000' : '#FFFFFF')};
+  background-color: ${({ $active }) => ($active ? '#FFFFFF' : '#434343')};
 
   cursor: pointer;
 `;
 
 export const Spacing = styled.div<{ direction: 'vertical' | 'horizontal'; size: number }>`
   flex: none;
-  width: ${(props) => (props.direction === 'horizontal' ? `${props.size}px` : undefined)};
-  height: ${(props) => (props.direction === 'vertical' ? `${props.size}px` : undefined)};
+  width: ${({ direction, size }) => (direction === 'horizontal' ? `${size}px` : undefined)};
+  height: ${({ direction, size }) => (direction === 'vertical' ? `${size}px` : undefined)};
 `;
