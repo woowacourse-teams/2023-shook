@@ -22,9 +22,10 @@ public class PartController {
     @PostMapping
     public ResponseEntity<PartRegisterResponse> registerPart(
         @PathVariable(name = "song_id") final Long songId,
-        @RequestBody PartRegisterRequest request
+        @RequestBody final PartRegisterRequest request
     ) {
         final PartRegisterResponse register = partService.register(songId, request);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(register);
     }
 }
