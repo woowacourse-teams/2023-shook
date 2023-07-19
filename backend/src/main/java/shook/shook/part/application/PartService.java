@@ -41,12 +41,10 @@ public class PartService {
     }
 
     private PartRegisterResponse addPartAndVote(final Song song, final Part part) {
-        partRepository.save(part);
         song.addPart(part);
+        partRepository.save(part);
 
-        final Vote newVote = Vote.forSave(part);
-        voteRepository.save(newVote);
-        part.vote(newVote);
+        voteToPart(part);
 
         return PartRegisterResponse.of(song, part);
     }
@@ -55,9 +53,14 @@ public class PartService {
         final Part existPart = song.getSameLengthPartStartAt(part)
             .orElseThrow(PartException.PartNotExistException::new);
 
-        final Vote newVote = Vote.forSave(existPart);
-        voteRepository.save(newVote);
-        existPart.vote(newVote);
+        voteToPart(existPart);
+
         return PartRegisterResponse.of(song, existPart);
+    }
+
+    private void voteToPart(final Part part) {
+        final Vote newVote = Vote.forSave(part);
+        part.vote(newVote);
+        voteRepository.save(newVote);
     }
 }

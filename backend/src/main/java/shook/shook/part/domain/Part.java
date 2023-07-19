@@ -16,9 +16,9 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +33,7 @@ import shook.shook.song.domain.Song;
 public class Part {
 
     private static final int MINIMUM_START = 0;
+    private static final String EMBED_LINK_PATH_PARAMETER_FORMAT = "?start=%d&end=%d";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +52,7 @@ public class Part {
     private Song song;
 
     @OneToMany(mappedBy = "part")
-    private final Set<Vote> votes = new HashSet<>();
+    private final List<Vote> votes = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -125,16 +126,17 @@ public class Part {
         return !song.equals(this.song);
     }
 
+    //TODO: 반환하는 형태가 변할 가능성 있어 리팩토링 대상
     public String getStartAndEndUrlPathParameter() {
-        return String.format("?start=%d&end=%d", startSecond, getEndSecond());
+        return String.format(EMBED_LINK_PATH_PARAMETER_FORMAT, startSecond, getEndSecond());
     }
 
     public int getEndSecond() {
         return length.getEndSecond(startSecond);
     }
 
-    public Set<Vote> getVotes() {
-        return new HashSet<>(votes);
+    public List<Vote> getVotes() {
+        return new ArrayList<>(votes);
     }
 
     public int getVoteCount() {
