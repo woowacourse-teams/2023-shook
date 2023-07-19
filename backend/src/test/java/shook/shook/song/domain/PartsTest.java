@@ -131,4 +131,55 @@ class PartsTest {
             assertThat(killingParts).isEmpty();
         }
     }
+
+    @DisplayName("파트의 순위를 반환한다.")
+    @Nested
+    class GetRank {
+
+        @DisplayName("파트가 존재할 때")
+        @Test
+        void exist() {
+            //given
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
+            final Part secondPart = Part.saved(2L, 6, PartLength.SHORT, song);
+            final Part thirdPart = Part.saved(3L, 7, PartLength.SHORT, song);
+            final Part fourthPart = Part.saved(4L, 8, PartLength.SHORT, song);
+            votePart(fourthPart, List.of(
+                Vote.saved(1L, fourthPart),
+                Vote.saved(2L, fourthPart),
+                Vote.saved(3L, fourthPart)
+            ));
+            votePart(firstPart, List.of(
+                Vote.saved(4L, firstPart),
+                Vote.saved(5L, firstPart))
+            );
+            votePart(thirdPart, List.of(Vote.saved(6L, thirdPart)));
+
+            final Parts parts = new Parts();
+
+            parts.addPart(firstPart, secondPart, thirdPart, fourthPart);
+
+            //when
+            final int firstPartRank = parts.getRank(firstPart);
+            final int secondPartRank = parts.getRank(secondPart);
+
+            //then
+            assertThat(firstPartRank).isEqualTo(2);
+            assertThat(secondPartRank).isEqualTo(4);
+        }
+
+        @DisplayName("파트가 존재하지 않으면 예외가 발생한다.")
+        @Test
+        void notExist() {
+            //given
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
+
+            //when
+            //then
+            assertThatThrownBy(() -> song.getRank(part))
+                .isInstanceOf(PartException.PartNotExistException.class);
+        }
+    }
 }

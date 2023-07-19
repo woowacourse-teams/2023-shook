@@ -45,7 +45,7 @@ public class SongService {
             .orElseThrow(SongException.SongNotExistException::new);
 
         return song.getTopKillingPart()
-            .map(KillingPartResponse::from)
+            .map((killingPart) -> KillingPartResponse.of(song, killingPart))
             .orElseGet(KillingPartResponse::empty);
     }
 
@@ -55,6 +55,6 @@ public class SongService {
 
         final List<Part> killingParts = song.getKillingParts();
 
-        return KillingPartsResponse.of(killingParts);
+        return KillingPartsResponse.of(song, killingParts);
     }
 }

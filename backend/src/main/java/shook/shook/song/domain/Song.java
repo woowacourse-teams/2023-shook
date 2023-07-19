@@ -87,6 +87,14 @@ public class Song {
         return parts.getKillingParts();
     }
 
+    public int getRank(final Part part) {
+        return parts.getRank(part);
+    }
+
+    public String getPartVideoUrl(final Part part) {
+        return videoUrl.getValue() + part.getStartAndEndUrlPathParameter();
+    }
+
     public String getTitle() {
         return title.getValue();
     }
