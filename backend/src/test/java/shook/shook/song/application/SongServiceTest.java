@@ -96,7 +96,7 @@ class SongServiceTest extends UsingJpaTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> songService.findById(1L))
+        assertThatThrownBy(() -> songService.findById(0L))
             .isInstanceOf(SongException.SongNotExistException.class);
     }
 
