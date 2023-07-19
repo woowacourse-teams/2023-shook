@@ -1,4 +1,5 @@
 import { createContext, useCallback, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Toast from './Toast';
 import ToastList from './ToastList';
 import type { PropsWithChildren } from 'react';
@@ -37,11 +38,13 @@ const ToastProvider = ({ children }: PropsWithChildren) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {isToastShow && (
-        <ToastList>
-          <Toast message={message} />
-        </ToastList>
-      )}
+      {isToastShow &&
+        createPortal(
+          <ToastList>
+            <Toast message={message} />
+          </ToastList>,
+          document.body
+        )}
     </ToastContext.Provider>
   );
 };
