@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { styled } from 'styled-components';
 import useToastContext from '@/components/@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '@/components/IntervalInput';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
@@ -13,6 +12,8 @@ import {
   ModalTitle,
   Register,
   Share,
+  Singer,
+  SongTitle,
   Spacing,
 } from './SongDetailPage.style';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
@@ -99,15 +100,3 @@ const SongDetailPage = () => {
 };
 
 export default SongDetailPage;
-
-const SongTitle = styled.p`
-  font-size: 18px;
-  font-weight: 800;
-  color: ${({ theme: { color } }) => color.white};
-`;
-
-const Singer = styled.p`
-  font-size: 14px;
-  font-weight: 600;
-  color: ${({ theme: { color } }) => color.subText};
-`;

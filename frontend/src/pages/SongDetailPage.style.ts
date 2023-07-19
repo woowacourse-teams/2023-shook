@@ -51,3 +51,15 @@ export const Spacing = styled.div<{ direction: 'horizontal' | 'vertical'; size: 
   width: ${(props) => (props.direction === 'horizontal' ? `${props.size}px` : undefined)};
   height: ${(props) => (props.direction === 'vertical' ? `${props.size}px` : undefined)};
 `;
+
+export const SongTitle = styled.p`
+  font-size: 18px;
+  font-weight: 800;
+  color: ${({ theme: { color } }) => color.white};
+`;
+
+export const Singer = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme: { color } }) => color.subText};
+`;

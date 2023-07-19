@@ -14,6 +14,7 @@ const theme = {
     black200: '#262626',
     disabledBackground: '#5d5d5d',
     disabled: '#2d2c2c',
+    subText: '#a7a7a7',
   },
 
   breakPoints: {

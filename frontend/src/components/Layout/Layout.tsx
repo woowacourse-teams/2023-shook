@@ -17,11 +17,12 @@ export default Layout;
 
 const LayoutContainer = styled.main`
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   width: 100%;
   padding: 60px 16.66%;
-  background-color: pink;
+  height: calc(100vh - 40px);
+  background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
     padding: 44px 16.66%;
