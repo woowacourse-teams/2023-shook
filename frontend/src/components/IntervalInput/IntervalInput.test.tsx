@@ -35,11 +35,13 @@ describe('<IntervalInput /> 컴포넌트 테스트', () => {
   });
 
   test('start(3:25)가 노래길이에서 구간길이를 뺀 것(3:20)보다 길면 에러메세지를 띄운다.', async () => {
+    const user = userEvent.setup();
+
     render(<IntervalInput videoLength={videoLength} />);
     const [startMin, startSec] = screen.getAllByRole<HTMLInputElement>('textbox').slice(0, 2);
 
-    await userEvent.type(startMin, '3');
-    await userEvent.type(startSec, '25');
+    await user.type(startMin, '3');
+    await user.type(startSec, '25');
     fireEvent.blur(startSec);
 
     const errorMessage = screen.getByRole('alert');
