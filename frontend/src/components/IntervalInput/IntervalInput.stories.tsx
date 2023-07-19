@@ -14,4 +14,11 @@ export const Default = {
   args: {
     videoLength: 195,
   },
+  render: ({ videoLength }) => {
+    return (
+      <div style={{ backgroundColor: 'black' }}>
+        <IntervalInput videoLength={videoLength} />
+      </div>
+    );
+  },
 } satisfies Story;
