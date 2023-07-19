@@ -1,4 +1,7 @@
-import useIntervalInput from './hooks/useIntervalInput';
+import { useState } from 'react';
+import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
+import { isValidMinSec } from '@/utils/validateTime';
+import ERROR_MESSAGE from './constants/errorMessage';
 import {
   ErrorMessage,
   InputEnd,
@@ -7,29 +10,77 @@ import {
   IntervalContainer,
   Separator,
 } from './IntervalInput.style';
+import { isInputName } from './IntervalInput.type';
+import type { IntervalInputType, TimeMinSec } from './IntervalInput.type';
+import type { KillingPartInterval } from '../KillingPartToggleGroup';
 
 export interface IntervalInputProps {
   videoLength: number;
+  partStart: TimeMinSec;
+  errorMessage: string;
+  interval: KillingPartInterval;
+  onChangeErrorMessage: (message: string) => void;
+  onChangePartStart: (name: string, value: number) => void;
 }
 
-const IntervalInput = ({ videoLength }: IntervalInputProps) => {
-  const {
-    intervalStart,
-    errorMessage,
-    activeInput,
-    endMinute,
-    endSecond,
-    onChangeIntervalStart,
-    onFocusIntervalStart,
-    onBlurIntervalStart,
-  } = useIntervalInput(videoLength);
+const IntervalInput = ({
+  videoLength,
+  partStart,
+  errorMessage,
+  interval,
+  onChangePartStart,
+  onChangeErrorMessage,
+}: IntervalInputProps) => {
+  const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
+  const { minute: startMinute, second: startSecond } = partStart;
+
+  const [endMinute, endSecond] = calculateMinSec(
+    startMinute,
+    startSecond,
+    (origin: number) => origin + interval
+  );
+
+  const onChangeIntervalStart: React.ChangeEventHandler<HTMLInputElement> = ({
+    currentTarget: { name, value },
+  }) => {
+    if (!isValidMinSec(value)) {
+      onChangeErrorMessage(ERROR_MESSAGE.MIN_SEC);
+
+      return;
+    }
+
+    onChangeErrorMessage('');
+    onChangePartStart(name, Number(value));
+  };
+
+  const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({
+    currentTarget: { name },
+  }) => {
+    if (isInputName(name)) {
+      setActiveInput(name);
+    }
+  };
+
+  const onBlurIntervalStart = () => {
+    const timeSelected = minSecToSeconds([startMinute, startSecond]);
+
+    if (timeSelected > videoLength - interval) {
+      const [songMin, songSec] = secondsToMinSec(videoLength - interval);
+
+      onChangeErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
+      return;
+    }
+
+    onChangeErrorMessage('');
+    setActiveInput(null);
+  };
 
   return (
     <IntervalContainer>
       <Flex>
         <InputStart
           name="minute"
-          value={intervalStart.minute}
+          value={startMinute}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
           onFocus={onFocusIntervalStart}
@@ -40,7 +91,7 @@ const IntervalInput = ({ videoLength }: IntervalInputProps) => {
         <Separator>:</Separator>
         <InputStart
           name="second"
-          value={intervalStart.second}
+          value={startSecond}
           onChange={onChangeIntervalStart}
           onBlur={onBlurIntervalStart}
           onFocus={onFocusIntervalStart}
