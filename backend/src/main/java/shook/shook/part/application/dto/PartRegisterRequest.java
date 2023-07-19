@@ -20,8 +20,4 @@ public class PartRegisterRequest {
     @NotNull
     @Positive
     private Integer length;
-
-    @NotNull
-    @Positive
-    private Long songId;
 }

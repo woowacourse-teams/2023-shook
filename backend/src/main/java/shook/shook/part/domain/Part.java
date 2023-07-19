@@ -125,6 +125,14 @@ public class Part {
         return !song.equals(this.song);
     }
 
+    public String getStartAndEndUrlPathParameter() {
+        return String.format("?start=%d&end=%d", startSecond, getEndSecond());
+    }
+
+    public int getEndSecond() {
+        return length.getEndSecond(startSecond);
+    }
+
     public Set<Vote> getVotes() {
         return new HashSet<>(votes);
     }

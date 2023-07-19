@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.application.dto.PartRegisterRequest;
+import shook.shook.part.application.dto.PartRegisterResponse;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.domain.Vote;
@@ -24,8 +25,8 @@ public class PartService {
     private final VoteRepository voteRepository;
 
     @Transactional
-    public void register(final PartRegisterRequest request) {
-        final Song song = songRepository.findById(request.getSongId())
+    public PartRegisterResponse register(final Long songId, final PartRegisterRequest request) {
+        final Song song = songRepository.findById(songId)
             .orElseThrow(SongException.SongNotExistException::new);
 
         final int startSecond = request.getStartSecond();
@@ -33,28 +34,30 @@ public class PartService {
         final Part part = Part.forSave(startSecond, partLength, song);
 
         if (song.isUniquePart(part)) {
-            addPartAndVote(song, part);
-            return;
+            return addPartAndVote(song, part);
         }
-        voteToExistPart(song, part);
+
+        return voteToExistPart(song, part);
     }
 
-    private void addPartAndVote(final Song song, final Part part) {
+    private PartRegisterResponse addPartAndVote(final Song song, final Part part) {
         partRepository.save(part);
         song.addPart(part);
 
         final Vote newVote = Vote.forSave(part);
         voteRepository.save(newVote);
         part.vote(newVote);
+
+        return PartRegisterResponse.of(song, part);
     }
 
-    private void voteToExistPart(final Song song, final Part part) {
+    private PartRegisterResponse voteToExistPart(final Song song, final Part part) {
         final Part existPart = song.getSameLengthPartStartAt(part)
             .orElseThrow(PartException.PartNotExistException::new);
 
         final Vote newVote = Vote.forSave(existPart);
         voteRepository.save(newVote);
         existPart.vote(newVote);
+        return PartRegisterResponse.of(song, existPart);
     }
-
 }

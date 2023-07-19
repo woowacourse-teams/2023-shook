@@ -74,6 +74,14 @@ public class Parts {
             .findFirst();
     }
 
+    public int getRank(final Part part) {
+        if (!parts.contains(part)) {
+            throw new PartException.PartNotExistException();
+        }
+
+        return sortedByVoteCountDescending().indexOf(part) + 1;
+    }
+
     public List<Part> getParts() {
         return new ArrayList<>(parts);
     }
