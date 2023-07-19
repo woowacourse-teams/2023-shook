@@ -1,18 +1,17 @@
-import { useState } from 'react';
 import { KILLING_PART_INTERVAL } from './constants';
 import { ToggleGroupItem, Spacing, ToggleGroup } from './KillingPartToggleGroup.style';
 import type { KillingPartInterval } from './KillingPartToggleGroup.type';
 import type { MouseEventHandler } from 'react';
 
-const KillingPartToggleGroup = () => {
-  const [interval, setInterval] = useState<KillingPartInterval>(KILLING_PART_INTERVAL.TEN);
+interface KillingPartToggleGroupProps {
+  interval: KillingPartInterval;
+  setKillingPartInterval: MouseEventHandler<HTMLButtonElement>;
+}
 
-  const setKillingPartInterval: MouseEventHandler<HTMLButtonElement> = ({ currentTarget }) => {
-    const newInterval = Number(currentTarget.getAttribute('data-interval')!) as KillingPartInterval;
-
-    setInterval(newInterval);
-  };
-
+const KillingPartToggleGroup = ({
+  interval,
+  setKillingPartInterval,
+}: KillingPartToggleGroupProps) => {
   return (
     <ToggleGroup>
       <ToggleGroupItem
