@@ -1,6 +1,6 @@
 package shook.shook.song.application.dto;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import shook.shook.song.domain.Song;
@@ -9,21 +9,23 @@ import shook.shook.song.domain.Song;
 @Getter
 public class SongResponse {
 
-    private Long id;
-    private String title;
-    private String videoUrl;
-    private String singer;
-    private int length;
-    private LocalDateTime createdAt;
+    private final Long id;
+    private final String title;
+    private final String singer;
+    private final int videoLength;
+    private final String videoUrl;
+    private final List<KillingPartResponse> killingParts;
 
     public static SongResponse from(final Song song) {
         return new SongResponse(
             song.getId(),
             song.getTitle(),
-            song.getVideoUrl(),
             song.getSinger(),
             song.getLength(),
-            song.getCreatedAt()
+            song.getVideoUrl(),
+            song.getKillingParts().stream()
+                .map((killingPart) -> KillingPartResponse.of(song, killingPart))
+                .toList()
         );
     }
 }

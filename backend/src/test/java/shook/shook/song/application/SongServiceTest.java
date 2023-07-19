@@ -210,9 +210,9 @@ class SongServiceTest extends UsingJpaTest {
             //then
             assertThat(response.getResponses()).usingRecursiveComparison()
                 .isEqualTo(List.of(
-                    KillingPartResponse.of(2, 7),
-                    KillingPartResponse.of(3, 8),
-                    KillingPartResponse.of(1, 6)
+                    KillingPartResponse.of(SAVED_SONG, secondPart),
+                    KillingPartResponse.of(SAVED_SONG, thirdPart),
+                    KillingPartResponse.of(SAVED_SONG, firstPart)
                 ));
         }
 
@@ -238,7 +238,10 @@ class SongServiceTest extends UsingJpaTest {
 
             //then
             assertThat(response.getResponses()).usingRecursiveComparison()
-                .isEqualTo(List.of(KillingPartResponse.of(2, 7), KillingPartResponse.of(1, 6)));
+                .isEqualTo(List.of(
+                    KillingPartResponse.of(SAVED_SONG, secondPart),
+                    KillingPartResponse.of(SAVED_SONG, firstPart)
+                ));
         }
 
         @DisplayName("킬링파트가 없을 때")

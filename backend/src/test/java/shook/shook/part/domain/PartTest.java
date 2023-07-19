@@ -191,4 +191,21 @@ class PartTest {
                 .isInstanceOf(VoteException.DuplicateVoteExistException.class);
         }
     }
+
+    @DisplayName("파트의 시작과 끝을 담은 URL Path parameter를 반환한다.")
+    @Test
+    void exist() {
+        //given
+        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
+
+        //when
+        final String startAndEndUrlPathParameter = part.getStartAndEndUrlPathParameter();
+
+        //then
+        final int startSecond = part.getStartSecond();
+        final int endSecond = part.getEndSecond();
+        final String playDuration = String.format("?start=%d&end=%d", startSecond, endSecond);
+        assertThat(startAndEndUrlPathParameter).isEqualTo(playDuration);
+    }
 }
