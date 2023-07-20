@@ -17,11 +17,12 @@ export default Layout;
 
 const LayoutContainer = styled.main`
   display: flex;
-  align-items: start;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
   width: 100%;
   padding: 60px 16.66%;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 56px);
   background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
@@ -37,6 +38,6 @@ const LayoutContainer = styled.main`
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    padding: 28px 16px;
+    padding: 8px 16px;
   }
 `;
