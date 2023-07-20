@@ -2,7 +2,7 @@ export interface ErrorResponse {
   message: string;
 }
 
-const BASE_URL = `http://13.125.182.30`;
+const BASE_URL = `http://43.202.41.118`;
 
 const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<T> => {
   const options: RequestInit = {
