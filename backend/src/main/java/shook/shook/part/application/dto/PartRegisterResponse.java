@@ -10,7 +10,7 @@ import shook.shook.song.domain.Song;
 public class PartRegisterResponse {
 
     private final int rank;
-    private final String partUrl;
+    private final String partVideoUrl;
 
     public static PartRegisterResponse of(final Song song, final Part part) {
         return new PartRegisterResponse(

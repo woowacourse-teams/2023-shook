@@ -61,7 +61,7 @@ class PartControllerTest {
 
         //then
         assertThat(response.getRank()).isOne();
-        assertThat(response.getPartUrl()).isEqualTo("비디오URL?start=1&end=11");
+        assertThat(response.getPartVideoUrl()).isEqualTo("비디오URL?start=1&end=11");
     }
 
     @DisplayName("기존 파트 재등록시 201 상태코드, 파트의 순위와 파트의 URL을 담은 응답을 반환한다.")
@@ -88,7 +88,7 @@ class PartControllerTest {
 
         //then
         assertThat(response.getRank()).isOne();
-        assertThat(response.getPartUrl()).isEqualTo("비디오URL?start=1&end=6");
+        assertThat(response.getPartVideoUrl()).isEqualTo("비디오URL?start=1&end=6");
     }
 
     @DisplayName("2표가 있는 파트가 있을 때 새로운 파트를 등록시 201 상태코드, 2위, 파트의 URL을 담은 응답을 반환한다.")
@@ -117,6 +117,6 @@ class PartControllerTest {
 
         //then
         assertThat(response.getRank()).isEqualTo(2);
-        assertThat(response.getPartUrl()).isEqualTo("비디오URL?start=2&end=12");
+        assertThat(response.getPartVideoUrl()).isEqualTo("비디오URL?start=2&end=12");
     }
 }
