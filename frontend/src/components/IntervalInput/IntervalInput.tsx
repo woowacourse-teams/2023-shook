@@ -86,6 +86,7 @@ const IntervalInput = ({
           onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
+          inputMode="numeric"
           $active={activeInput === 'minute'}
         />
         <Separator>:</Separator>
@@ -97,6 +98,7 @@ const IntervalInput = ({
           onFocus={onFocusIntervalStart}
           placeholder="0"
           autoComplete="off"
+          inputMode="numeric"
           $active={activeInput === 'second'}
         />
         <Separator> ~ </Separator>
