@@ -4,12 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.application.dto.PartRegisterRequest;
+import shook.shook.part.application.dto.PartRegisterResponse;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.domain.Vote;
@@ -43,13 +45,13 @@ class PartServiceTest extends UsingJpaTest {
     }
 
     void addPart(final Song song, final Part part) {
-        song.addPart(part);
         partRepository.save(part);
+        song.addPart(part);
     }
 
     void votePart(final Part part, final Vote vote) {
-        part.vote(vote);
         voteRepository.save(vote);
+        part.vote(vote);
     }
 
     @DisplayName("노래의 파트를 등록한다.")
@@ -60,10 +62,10 @@ class PartServiceTest extends UsingJpaTest {
         @Test
         void notRegistered() {
             //given
-            final PartRegisterRequest request = new PartRegisterRequest(1, 10, SAVED_SONG.getId());
+            final PartRegisterRequest request = new PartRegisterRequest(1, 10);
 
             //when
-            partService.register(request);
+            partService.register(SAVED_SONG.getId(), request);
             saveAndClearEntityManager();
 
             //then
@@ -82,10 +84,10 @@ class PartServiceTest extends UsingJpaTest {
             final Vote vote = Vote.forSave(part);
             votePart(part, vote);
 
-            final PartRegisterRequest request = new PartRegisterRequest(1, 5, SAVED_SONG.getId());
+            final PartRegisterRequest request = new PartRegisterRequest(1, 5);
 
             //when
-            partService.register(request);
+            partService.register(SAVED_SONG.getId(), request);
             saveAndClearEntityManager();
 
             //then
@@ -98,12 +100,30 @@ class PartServiceTest extends UsingJpaTest {
         @Test
         void songNotExist() {
             //given
-            final PartRegisterRequest request = new PartRegisterRequest(1, 10, NOT_EXIST_SONG_ID);
+            final PartRegisterRequest request = new PartRegisterRequest(1, 10);
+            final long notExistSongId = 0L;
 
             //when
             //then
-            assertThatThrownBy(() -> partService.register(request))
+            assertThatThrownBy(() -> partService.register(notExistSongId, request))
                 .isInstanceOf(SongException.SongNotExistException.class);
+        }
+
+        @DisplayName("등록 가능한 파트일 때 새로운 파트를 등록하고 파트의 순위와 URL 을 담은 Response를 반환한다.")
+        @Test
+        void response() {
+            //given
+            final PartRegisterRequest request = new PartRegisterRequest(1, 10);
+
+            //when
+            final PartRegisterResponse response = partService.register(SAVED_SONG.getId(), request);
+            saveAndClearEntityManager();
+
+            //then
+            Assertions.assertAll(
+                () -> assertThat(response.getPartUrl()).isEqualTo("비디오URL?start=1&end=11"),
+                () -> assertThat(response.getRank()).isOne()
+            );
         }
     }
 }

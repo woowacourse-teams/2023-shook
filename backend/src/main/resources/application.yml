@@ -1,0 +1,3 @@
+spring:
+  config:
+    import: classpath:shook-security/application.yml

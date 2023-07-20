@@ -47,13 +47,13 @@ class SongServiceTest extends UsingJpaTest {
     }
 
     void addPart(final Song song, final Part part) {
-        song.addPart(part);
         partRepository.save(part);
+        song.addPart(part);
     }
 
     void votePart(final Part part, final Vote vote) {
-        part.vote(vote);
         voteRepository.save(vote);
+        part.vote(vote);
     }
 
     @DisplayName("노래를 등록한다.")
@@ -96,7 +96,7 @@ class SongServiceTest extends UsingJpaTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> songService.findById(1L))
+        assertThatThrownBy(() -> songService.findById(0L))
             .isInstanceOf(SongException.SongNotExistException.class);
     }
 
@@ -210,9 +210,9 @@ class SongServiceTest extends UsingJpaTest {
             //then
             assertThat(response.getResponses()).usingRecursiveComparison()
                 .isEqualTo(List.of(
-                    KillingPartResponse.of(2, 7),
-                    KillingPartResponse.of(3, 8),
-                    KillingPartResponse.of(1, 6)
+                    KillingPartResponse.of(SAVED_SONG, secondPart),
+                    KillingPartResponse.of(SAVED_SONG, thirdPart),
+                    KillingPartResponse.of(SAVED_SONG, firstPart)
                 ));
         }
 
@@ -238,7 +238,10 @@ class SongServiceTest extends UsingJpaTest {
 
             //then
             assertThat(response.getResponses()).usingRecursiveComparison()
-                .isEqualTo(List.of(KillingPartResponse.of(2, 7), KillingPartResponse.of(1, 6)));
+                .isEqualTo(List.of(
+                    KillingPartResponse.of(SAVED_SONG, secondPart),
+                    KillingPartResponse.of(SAVED_SONG, firstPart)
+                ));
         }
 
         @DisplayName("킬링파트가 없을 때")

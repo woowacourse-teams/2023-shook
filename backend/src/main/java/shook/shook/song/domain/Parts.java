@@ -4,10 +4,8 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,7 @@ public class Parts {
     private static final int KILLING_PART_COUNT = 3;
 
     @OneToMany(mappedBy = "song")
-    private final Set<Part> parts = new HashSet<>();
+    private final List<Part> parts = new ArrayList<>();
 
     public void addPart(final Part part) {
         validatePart(part);
@@ -72,6 +70,14 @@ public class Parts {
         return parts.stream()
             .filter(other::hasEqualStartAndLength)
             .findFirst();
+    }
+
+    public int getRank(final Part part) {
+        if (!parts.contains(part)) {
+            throw new PartException.PartNotExistException();
+        }
+
+        return sortedByVoteCountDescending().indexOf(part) + 1;
     }
 
     public List<Part> getParts() {
