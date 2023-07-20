@@ -8,7 +8,7 @@ const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<
   const options: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-type': 'application/json',
     },
   };
 
