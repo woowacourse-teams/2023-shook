@@ -9,5 +9,6 @@ export interface KillingPartPostRequest {
 
 export interface KillingPartPostResponse {
   rank: number;
+  voteCount: number;
   partVideoUrl: PartVideoUrl;
 }
