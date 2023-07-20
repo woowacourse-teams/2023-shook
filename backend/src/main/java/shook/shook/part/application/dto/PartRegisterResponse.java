@@ -10,11 +10,13 @@ import shook.shook.song.domain.Song;
 public class PartRegisterResponse {
 
     private final int rank;
+    private final int voteCount;
     private final String partVideoUrl;
 
     public static PartRegisterResponse of(final Song song, final Part part) {
         return new PartRegisterResponse(
             song.getRank(part),
+            part.getVoteCount(),
             song.getPartVideoUrl(part)
         );
     }
