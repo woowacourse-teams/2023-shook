@@ -7,7 +7,7 @@ export const SliderWrapper = styled.div`
 `;
 
 export const Slider = styled.input<{ interval: number }>`
-  width: 360px;
+  width: 100%;
   height: 40px;
 
   -webkit-appearance: none;

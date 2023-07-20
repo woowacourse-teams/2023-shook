@@ -50,18 +50,32 @@ export const Flex = styled.div`
 
 export const Spacing = styled.div<{ direction: 'horizontal' | 'vertical'; size: number }>`
   flex: none;
-  width: ${(props) => (props.direction === 'horizontal' ? `${props.size}px` : undefined)};
-  height: ${(props) => (props.direction === 'vertical' ? `${props.size}px` : undefined)};
+  width: ${({ direction, size }) => (direction === 'horizontal' ? `${size}px` : undefined)};
+  height: ${({ direction, size }) => (direction === 'vertical' ? `${size}px` : undefined)};
 `;
 
 export const SongTitle = styled.p`
+  text-align: start;
   font-size: 18px;
   font-weight: 800;
   color: ${({ theme: { color } }) => color.white};
 `;
 
 export const Singer = styled.p`
+  text-align: start;
   font-size: 14px;
   font-weight: 600;
   color: ${({ theme: { color } }) => color.subText};
+`;
+
+export const Container = styled.section`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-items: start;
+`;
+
+export const RegisterTitle = styled.p`
+  color: ${({ theme: { color } }) => color.white};
+  margin-top: 16px;
 `;

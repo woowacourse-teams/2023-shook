@@ -19,8 +19,8 @@ const Youtube = ({ videoId, start, onReady }: YoutubeProps) => {
       setPlayer(
         new YT.Player('yt-player', {
           videoId,
-          width: '400',
-          height: '300',
+          width: '100%',
+          height: '200',
           playerVars: { start, autoplay: 1 },
           events: {
             onReady: onPlayerReady,

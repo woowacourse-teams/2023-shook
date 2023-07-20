@@ -10,10 +10,12 @@ import Youtube from '@/components/Youtube/Youtube';
 import { minSecToSeconds } from '@/utils/convertTime';
 import {
   Confirm,
+  Container,
   Flex,
   ModalContent,
   ModalTitle,
   Register,
+  RegisterTitle,
   Share,
   Singer,
   SongTitle,
@@ -114,11 +116,13 @@ const SongDetailPage = () => {
   const { title, singer, videoLength } = videoInfo;
 
   return (
-    <div>
+    <Container>
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
       <Youtube videoId="ArmDp-zijuc" start={0} onReady={({ target }) => setPlayer(target)} />
-      <div style={{ color: 'white' }}>당신의 킬링파트에 투표하세요🎧</div>
+      <RegisterTitle style={{ color: 'white', marginTop: '16px' }}>
+        당신의 킬링파트에 투표하세요🎧
+      </RegisterTitle>
       <Spacing direction="vertical" size={20} />
       <KillingPartToggleGroup interval={interval} setKillingPartInterval={setKillingPartInterval} />
       <Spacing direction="vertical" size={20} />
@@ -162,7 +166,7 @@ const SongDetailPage = () => {
           </Share>
         </Flex>
       </Modal>
-    </div>
+    </Container>
   );
 };
 
