@@ -17,4 +17,5 @@ type KillingPart = {
   start: 5;
   end: 15;
   partVideoUrl: PartVideoUrl;
+  voteCount: number;
 };
