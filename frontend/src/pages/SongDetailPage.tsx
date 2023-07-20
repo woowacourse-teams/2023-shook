@@ -28,6 +28,25 @@ const response = {
   videoUrl: 'https://www.youtube.com/ArmDp-zijuc',
 };
 
+// TODO: 분리
+const getResultMessage = (rank: number) => {
+  switch (rank) {
+    case 1: {
+      return '축하합니다. 사람들이 가장 좋아하는 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
+    }
+    case 2: {
+      return '두 번째로 인기 많은 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
+    }
+    case 3: {
+      return '세 번째로 인기 많은 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
+    }
+
+    default: {
+      return '자신의 파트가 투표되었어요!🎉\n등록한 파트를 친구들에게 공유해보세요!';
+    }
+  }
+};
+
 const SongDetailPage = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [player, setPlayer] = useState<YT.Player | undefined>();
@@ -35,6 +54,7 @@ const SongDetailPage = () => {
   const [partStart, setPartStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const { interval, setKillingPartInterval } = useKillingPartInterval();
   const { showToast } = useToastContext();
+  const [modalContent, setModalContent] = useState('임시입니다.');
 
   const isActiveSubmission = errorMessage.length === 0;
 
@@ -72,6 +92,9 @@ const SongDetailPage = () => {
 
   const submitKillingPart = () => {
     player?.pauseVideo();
+    // response => rank
+    const rank = 1;
+    setModalContent(getResultMessage(rank));
     openModal();
   };
 
@@ -126,7 +149,7 @@ const SongDetailPage = () => {
         <ModalTitle>킬링파트에 투표했습니다.</ModalTitle>
         <Spacing direction="vertical" size={12} />
         <ModalContent>
-          <div>투표한 킬링파트가 현재 1등입니다!</div>
+          <div>{modalContent}</div>
         </ModalContent>
         <Spacing direction="vertical" size={16} />
         <Flex>
