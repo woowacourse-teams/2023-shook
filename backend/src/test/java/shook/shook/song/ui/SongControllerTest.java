@@ -50,7 +50,7 @@ class SongControllerTest {
             () -> assertThat(response.getTitle()).isEqualTo("제목"),
             () -> assertThat(response.getSinger()).isEqualTo("가수"),
             () -> assertThat(response.getVideoLength()).isEqualTo(20),
-            () -> assertThat(response.getVideoUrl()).isEqualTo("비디오URL"),
+            () -> assertThat(response.getSongVideoUrl()).isEqualTo("비디오URL"),
             () -> assertThat(response.getKillingParts()).isEmpty()
         );
     }

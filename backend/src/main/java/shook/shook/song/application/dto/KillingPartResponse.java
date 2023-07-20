@@ -14,7 +14,7 @@ public class KillingPartResponse {
     private final Integer rank;
     private final Integer start;
     private final Integer end;
-    private final String videoUrl;
+    private final String partVideoUrl;
 
     public static KillingPartResponse of(final Song song, final Part part) {
         final int startSecond = part.getStartSecond();
