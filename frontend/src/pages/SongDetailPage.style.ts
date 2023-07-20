@@ -5,6 +5,8 @@ export const ModalTitle = styled.h3``;
 export const ModalContent = styled.p`
   font-size: 16px;
   color: #b5b3bc;
+  white-space: pre-line;
+  padding: 16px 0;
 `;
 
 export const Button = styled.button`
