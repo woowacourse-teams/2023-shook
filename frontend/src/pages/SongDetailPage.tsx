@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import useToastContext from '@/components/@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '@/components/IntervalInput';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
@@ -7,6 +8,8 @@ import useModal from '@/components/Modal/hooks/useModal';
 import Modal from '@/components/Modal/Modal';
 import { VideoSlider } from '@/components/VideoSlider';
 import Youtube from '@/components/Youtube/Youtube';
+import { usePostKillingPart } from '@/hooks/killingPart';
+import { useGetSongDetail } from '@/hooks/song';
 import { minSecToSeconds } from '@/utils/convertTime';
 import {
   Confirm,
@@ -22,16 +25,10 @@ import {
   Spacing,
 } from './SongDetailPage.style';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
-
-const response = {
-  title: 'Super Shy',
-  singer: 'NewJeans',
-  videoLength: 201,
-  videoUrl: 'https://www.youtube.com/ArmDp-zijuc',
-};
+import type { PartVideoUrl } from '@/types/killingPart';
 
 // TODO: 분리
-const getResultMessage = (rank: number) => {
+const getResultMessage = (rank: number | undefined) => {
   switch (rank) {
     case 1: {
       return '축하합니다. 사람들이 가장 좋아하는 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
@@ -50,13 +47,32 @@ const getResultMessage = (rank: number) => {
 };
 
 const SongDetailPage = () => {
-  const { isOpen, openModal, closeModal } = useModal();
+  const { id: newId } = useParams();
+
   const [player, setPlayer] = useState<YT.Player | undefined>();
   const [errorMessage, setErrorMessage] = useState('');
   const [partStart, setPartStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
+
+  const { isOpen, openModal, closeModal } = useModal();
   const { interval, setKillingPartInterval } = useKillingPartInterval();
+  const { songDetail } = useGetSongDetail(Number(newId));
+  const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { showToast } = useToastContext();
-  const [modalContent, setModalContent] = useState('임시입니다.');
+
+  useEffect(() => {
+    if (player?.getPlayerState() === 2) player.playVideo();
+
+    const timer = window.setInterval(() => {
+      const startSecond = minSecToSeconds([partStart.minute, partStart.second]);
+
+      player?.seekTo(startSecond, true);
+    }, interval * 1000);
+
+    return () => window.clearInterval(timer);
+  }, [player, partStart, interval]);
+
+  if (!newId) return;
+  if (!songDetail) return;
 
   const isActiveSubmission = errorMessage.length === 0;
 
@@ -71,17 +87,27 @@ const SongDetailPage = () => {
     });
   };
 
-  const copyUrlClipboard = async () => {
-    const start = minSecToSeconds([partStart.minute, partStart.second]);
-    const end = start + interval;
+  const { id, title, singer, videoLength, songVideoUrl } = songDetail;
+  const videoId = songVideoUrl.replace('https://youtu.be/', '');
+
+  const submitKillingPart = async () => {
+    player?.pauseVideo();
+
+    const startSecond = minSecToSeconds([partStart.minute, partStart.second]);
+
+    await createKillingPart(id, { startSecond, length: interval });
+
+    openModal();
+  };
+
+  const copyUrlClipboard = async (partVideoUrl: PartVideoUrl | undefined) => {
+    if (!partVideoUrl) return;
 
     try {
-      await navigator.clipboard.writeText(
-        `https://www.youtube.com/embed/ArmDp-zijuc?start=${start}&end=${end}`
-      );
+      await navigator.clipboard.writeText(partVideoUrl);
     } catch {
       const el = document.createElement('textarea');
-      el.value = `https://www.youtube.com/embed/ArmDp-zijuc?start=${start}&end=${end}`;
+      el.value = partVideoUrl;
 
       document.body.appendChild(el);
       el.select();
@@ -92,40 +118,22 @@ const SongDetailPage = () => {
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
-  const submitKillingPart = () => {
-    player?.pauseVideo();
-    // response => rank
-    const rank = 1;
-    setModalContent(getResultMessage(rank));
-    openModal();
-  };
-
-  const [videoInfo, setVideoInfo] = useState<{
-    title: string;
-    singer: string;
-    videoLength: number;
-  }>({ title: '', singer: '', videoLength: 0 });
-
-  useEffect(() => {
-    const { title, singer, videoLength } = response;
-    // const embedUrl = videoUrl.replace('https://www.youtube.com', 'https://www.youtube.com/embed');
-
-    setVideoInfo({ title, singer, videoLength });
-  }, []);
-
-  const { title, singer, videoLength } = videoInfo;
-
   return (
     <Container>
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Youtube videoId="ArmDp-zijuc" start={0} onReady={({ target }) => setPlayer(target)} />
-      <RegisterTitle style={{ color: 'white', marginTop: '16px' }}>
-        당신의 킬링파트에 투표하세요🎧
-      </RegisterTitle>
+      <Youtube videoId={videoId} start={0} onReady={({ target }) => setPlayer(target)} />
+
+      <Spacing direction="vertical" size={16} />
+
+      <RegisterTitle>당신의 킬링파트에 투표하세요🎧</RegisterTitle>
+
       <Spacing direction="vertical" size={20} />
+
       <KillingPartToggleGroup interval={interval} setKillingPartInterval={setKillingPartInterval} />
+
       <Spacing direction="vertical" size={20} />
+
       <VideoSlider
         time={minSecToSeconds([partStart.minute, partStart.second])}
         interval={interval}
@@ -133,7 +141,9 @@ const SongDetailPage = () => {
         setPartStart={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
         player={player}
       />
+
       <Spacing direction="vertical" size={20} />
+
       <IntervalInput
         videoLength={videoLength}
         errorMessage={errorMessage}
@@ -153,7 +163,9 @@ const SongDetailPage = () => {
         <ModalTitle>킬링파트에 투표했습니다.</ModalTitle>
         <Spacing direction="vertical" size={12} />
         <ModalContent>
-          <div>{modalContent}</div>
+          <div>{getResultMessage(killingPartPostResponse?.rank)}</div>
+          <Spacing direction="vertical" size={4} />
+          <div>현재까지 총 {killingPartPostResponse?.voteCount}표를 받았습니다.</div>
         </ModalContent>
         <Spacing direction="vertical" size={16} />
         <Flex>
@@ -161,7 +173,10 @@ const SongDetailPage = () => {
             확인
           </Confirm>
           <Spacing direction="horizontal" size={12} />
-          <Share type="button" onClick={copyUrlClipboard}>
+          <Share
+            type="button"
+            onClick={() => copyUrlClipboard(killingPartPostResponse?.partVideoUrl)}
+          >
             공유하기
           </Share>
         </Flex>
