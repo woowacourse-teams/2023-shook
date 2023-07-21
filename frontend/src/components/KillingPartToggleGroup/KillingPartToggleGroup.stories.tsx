@@ -1,3 +1,4 @@
+import useKillingPartInterval from './hooks/useKillingPartInterval';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -9,6 +10,14 @@ export default meta;
 
 type Story = StoryObj<typeof KillingPartToggleGroup>;
 
+const Example = () => {
+  const { interval, setKillingPartInterval } = useKillingPartInterval();
+
+  return (
+    <KillingPartToggleGroup interval={interval} setKillingPartInterval={setKillingPartInterval} />
+  );
+};
+
 export const Default: Story = {
-  render: () => <KillingPartToggleGroup />,
+  render: () => <Example />,
 };

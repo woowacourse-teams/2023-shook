@@ -8,7 +8,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: '/:id',
         element: <SongDetailPage />,
       },
     ],

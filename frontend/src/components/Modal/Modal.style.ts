@@ -24,7 +24,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  max-width: 300px;
+  min-width: 300px;
 
   margin: 0 auto;
   padding: 24px;

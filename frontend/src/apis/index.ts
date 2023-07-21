@@ -2,6 +2,7 @@ export interface ErrorResponse {
   message: string;
 }
 
+// FIXME: 서버 주소 숨기기 (dotenv)
 const BASE_URL = `http://43.202.41.118`;
 
 const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<T> => {
