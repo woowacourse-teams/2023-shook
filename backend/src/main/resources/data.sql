@@ -1,7 +1,7 @@
 TRUNCATE TABLE song;
 
 INSERT INTO song (title, singer, length, video_url, created_at)
-VALUES ('Super Shy', 'NewJeans', 155, 'https://youtu.be/NgEaOJ7lRWY', now());
+VALUES ('Super Shy', 'NewJeans', 200, 'https://youtu.be/ArmDp-zijuc', now());
 INSERT INTO song (title, singer, length, video_url, created_at)
 VALUES ('Seven (feat. Latto) - Clean Ver.', '정국', 186, 'https://youtu.be/UUSbUBYqU_8',
         now());
