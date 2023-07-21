@@ -12,17 +12,20 @@ public class KillingPartResponse {
 
     private final boolean exist;
     private final Integer rank;
+    private final Integer voteCount;
     private final Integer start;
     private final Integer end;
-    private final String videoUrl;
+    private final String partVideoUrl;
 
     public static KillingPartResponse of(final Song song, final Part part) {
-        final int startSecond = part.getStartSecond();
         final int rank = song.getRank(part);
+        final int voteCount = part.getVoteCount();
+        final int startSecond = part.getStartSecond();
         final String partVideoUrl = song.getPartVideoUrl(part);
         return new KillingPartResponse(
             true,
             rank,
+            voteCount,
             startSecond,
             part.getEndSecond(),
             partVideoUrl
@@ -30,6 +33,6 @@ public class KillingPartResponse {
     }
 
     public static KillingPartResponse empty() {
-        return new KillingPartResponse(false, null, null, null, null);
+        return new KillingPartResponse(false, null, null, null, null, null);
     }
 }

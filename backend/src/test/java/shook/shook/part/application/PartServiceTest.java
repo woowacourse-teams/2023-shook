@@ -121,7 +121,7 @@ class PartServiceTest extends UsingJpaTest {
 
             //then
             Assertions.assertAll(
-                () -> assertThat(response.getPartUrl()).isEqualTo("비디오URL?start=1&end=11"),
+                () -> assertThat(response.getPartVideoUrl()).isEqualTo("비디오URL?start=1&end=11"),
                 () -> assertThat(response.getRank()).isOne()
             );
         }

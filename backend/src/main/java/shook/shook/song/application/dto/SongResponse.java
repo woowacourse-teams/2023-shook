@@ -13,7 +13,7 @@ public class SongResponse {
     private final String title;
     private final String singer;
     private final int videoLength;
-    private final String videoUrl;
+    private final String songVideoUrl;
     private final List<KillingPartResponse> killingParts;
 
     public static SongResponse from(final Song song) {
