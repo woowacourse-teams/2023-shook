@@ -6,7 +6,9 @@
     "start": "webpack serve --config webpack.dev.js --progress",
     "build": "webpack --config webpack.prod.js --progress",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint src",
+    "test": "jest"
   },
   "license": "MIT",
   "dependencies": {
