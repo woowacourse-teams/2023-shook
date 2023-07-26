@@ -21,7 +21,7 @@ const LayoutContainer = styled.main`
   align-items: center;
   width: 100%;
   padding: 60px 16.66%;
-  height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
+  min-height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
   background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
@@ -33,7 +33,7 @@ const LayoutContainer = styled.main`
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    height: calc(100vh - ${({ theme }) => theme.headerHeight.mobile});
+    min-height: calc(100vh - ${({ theme }) => theme.headerHeight.mobile});
     padding: 16px 16px;
   }
 `;
