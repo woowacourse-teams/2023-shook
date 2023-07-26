@@ -2,8 +2,8 @@ name: Frontend CI
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
+    types: [opened, synchronize, reopened]
     paths:
       - 'frontend/**'
 
