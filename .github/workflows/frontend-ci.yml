@@ -8,7 +8,7 @@ on:
       - 'frontend/**'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     env:
       working-directory: ./frontend
@@ -50,3 +50,12 @@ jobs:
         working-directory: ${{ env.working-directory }}
         if: always()
 
+      - name: Notify slack on CI fail
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: 프론트엔드 테스트 실패 알림
+          fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure()
