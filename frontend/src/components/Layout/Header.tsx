@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import logo from '@/assets/shook-logo.svg';
+import logo from '@/assets/icon/shook-logo.svg';
 
 const Header = () => {
   return (
@@ -14,26 +14,31 @@ export default Header;
 const Container = styled.header`
   display: flex;
   align-items: center;
-
   width: 100%;
-  height: 40px;
+  height: ${({ theme }) => theme.headerHeight.desktop};
   background-color: black;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
-    padding: 44px 16.66%;
-  }
+  padding: 0 16.66%;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
-    padding: 36px 8.33%;
+    padding: 0 8.33%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 36px 4.16%;
+    padding: 0 4.16%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    padding: 28px 16px;
+    height: ${({ theme }) => theme.headerHeight.mobile};
+    padding: 0 16px;
   }
 `;
 
-const Logo = styled.img``;
+const Logo = styled.img`
+  width: 180px;
+  height: 56px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 140px;
+    height: 40px;
+  }
+`;

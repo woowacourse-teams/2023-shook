@@ -19,15 +19,10 @@ const LayoutContainer = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
   width: 100%;
   padding: 60px 16.66%;
-  height: calc(100vh - 56px);
+  height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
   background-color: ${({ theme: { color } }) => color.black};
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
-    padding: 44px 16.66%;
-  }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
     padding: 36px 8.33%;
@@ -38,6 +33,7 @@ const LayoutContainer = styled.main`
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    padding: 8px 16px;
+    height: calc(100vh - ${({ theme }) => theme.headerHeight.mobile});
+    padding: 16px 16px;
   }
 `;
