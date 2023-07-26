@@ -38,7 +38,6 @@
     "@types/react-dom": "^18.2.6",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
-    "@types/youtube": "^0.0.47",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "babel-loader": "^9.1.3",
