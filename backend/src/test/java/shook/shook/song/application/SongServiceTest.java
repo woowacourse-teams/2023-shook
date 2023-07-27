@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,6 +19,7 @@ import shook.shook.part.domain.repository.PartRepository;
 import shook.shook.part.domain.repository.VoteRepository;
 import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.KillingPartsResponse;
+import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.domain.Song;
@@ -120,6 +123,38 @@ class SongServiceTest extends UsingJpaTest {
         //then
         assertThatThrownBy(() -> songService.findByTitle("없는제목"))
             .isInstanceOf(SongException.SongNotExistException.class);
+    }
+
+    @DisplayName("정확히 일치하는 가수 이름의 모든 노래를 조회한다.")
+    @Test
+    void findAllBySinger_exist() {
+        //given
+        final Song saved2 = songRepository.save(new Song("아무노래", "비디오URL", "가수", 180));
+        songRepository.save(new Song("다른노래", "비디오URL", "가 수", 180));
+
+        //when
+        saveAndClearEntityManager();
+        final List<SearchedSongResponse> searchedSongResponses = songService.findAllBySinger("가수");
+
+        //then
+        final List<SearchedSongResponse> expectedSearchResponses = Stream.of(SAVED_SONG, saved2)
+            .map(SearchedSongResponse::from)
+            .toList();
+
+        assertThat(searchedSongResponses).usingRecursiveComparison()
+            .isEqualTo(expectedSearchResponses);
+    }
+
+    @DisplayName("정확히 일치하는 가수 이름 조회 시, 일치 결과가 없다면 빈 내용이 반환된다.")
+    @Test
+    void findAllBySinger_noExist() {
+        //given
+        //when
+        final List<SearchedSongResponse> searchedSongResponses = songService.findAllBySinger("가수2");
+
+        //then
+        assertThat(searchedSongResponses).usingRecursiveComparison()
+            .isEqualTo(Collections.emptyList());
     }
 
     @DisplayName("노래의 가장 인기있는 킬링파트를 보여준다.")

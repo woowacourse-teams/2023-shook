@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import shook.shook.song.domain.Singer;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.support.UsingJpaTest;
@@ -77,5 +79,23 @@ class SongRepositoryTest extends UsingJpaTest {
         //then
         assertThat(song).isSameAs(saved);
         assertThat(song.getCreatedAt()).isBetween(prev, after);
+    }
+
+    @DisplayName("정확히 일치하는 가수를 가진 모든 Song 목록을 조회한다.")
+    @Test
+    void findAllBySinger() {
+        //given
+        final Song song1 = new Song("노래제목", "비디오URL", "가수", 180);
+        final Song song2 = new Song("노래제목2", "비디오URL", "가수", 100);
+        songRepository.save(song1);
+        songRepository.save(song2);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllBySinger(new Singer("가수"));
+
+        //then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(song1, song2));
     }
 }
