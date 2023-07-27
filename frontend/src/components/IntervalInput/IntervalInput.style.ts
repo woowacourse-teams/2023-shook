@@ -44,7 +44,7 @@ export const inputBase = css`
 
 export const InputStart = styled.input<{ $active: boolean }>`
   ${inputBase}
-  color: ${({ $active, theme: { color } }) => ($active ? color.primary : color.white)};
+  color: ${({ theme: { color } }) => color.white};
   border-bottom: 1px solid
     ${({ $active, theme: { color } }) => ($active ? color.primary : color.white)};
 `;
