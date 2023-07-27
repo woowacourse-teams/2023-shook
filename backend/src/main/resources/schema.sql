@@ -23,4 +23,13 @@ create table if not exists vote
     part_id    bigint,
     created_at timestamp(6) not null,
     primary key (id)
+);
+
+create table if not exists part_comment
+(
+    id         bigint auto_increment,
+    part_id    bigint       not null,
+    content    varchar(200) not null,
+    created_at timestamp(6) not null,
+    primary key (id)
 )

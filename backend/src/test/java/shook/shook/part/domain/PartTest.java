@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shook.shook.part.exception.PartCommentException;
 import shook.shook.part.exception.PartException;
 import shook.shook.part.exception.VoteException;
 import shook.shook.song.domain.Song;
@@ -207,5 +208,39 @@ class PartTest {
         final int endSecond = part.getEndSecond();
         final String playDuration = String.format("?start=%d&end=%d", startSecond, endSecond);
         assertThat(startAndEndUrlPathParameter).isEqualTo(playDuration);
+    }
+
+    @DisplayName("파트에 댓글을 추가한다.")
+    @Nested
+    class AddComment {
+
+        @DisplayName("성공적으로 추가한 경우")
+        @Test
+        void success() {
+            //given
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
+
+            //when
+            part.addComment(PartComment.saved(1L, part, "댓글 내용"));
+
+            //then
+            assertThat(part.getComments()).hasSize(1);
+        }
+
+        @DisplayName("다른 파트의 댓글을 추가한 경우")
+        @Test
+        void belongToOtherPart() {
+            //given
+            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
+            final Part secondPart = Part.saved(2L, 5, PartLength.SHORT, song);
+
+            //when
+            //then
+            assertThatThrownBy(
+                () -> firstPart.addComment(PartComment.saved(2L, secondPart, "댓글 내용")))
+                .isInstanceOf(PartCommentException.CommentForOtherPartException.class);
+        }
     }
 }
