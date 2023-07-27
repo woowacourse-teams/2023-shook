@@ -38,23 +38,25 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+        working-directory: ${{ env.working-directory }}
 
       - name: ESLint
+        if: always()
         run: npm run lint
         working-directory: ${{ env.working-directory }}
-        if: always()
 
       - name: Test
+        if: always()
         run: npm test
         working-directory: ${{ env.working-directory }}
-        if: always()
 
       - name: Build
+        if: always()
         run: npm run build
         working-directory: ${{ env.working-directory }}
-        if: always()
 
       - name: Notify slack on CI fail
+        if: failure()
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
@@ -62,4 +64,3 @@ jobs:
           fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: failure()
