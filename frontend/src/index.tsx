@@ -7,7 +7,17 @@ import ToastProvider from './components/@common/Toast/ToastProvider';
 import router from './router';
 import theme from './styles/theme';
 
-const main = () => {
+async function main() {
+  if (process.env.NODE_ENV === 'development') {
+    const { worker } = await import('./mocks/browser');
+
+    await worker.start({
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+      },
+    });
+  }
+
   const root = createRoot(document.getElementById('root') as HTMLElement);
 
   root.render(
@@ -20,28 +30,6 @@ const main = () => {
       </ThemeProvider>
     </React.StrictMode>
   );
-};
-
-const mswWork = async () => {
-  import('./mocks/browser')
-    .then(({ worker }) => {
-      worker.start({
-        serviceWorker: {
-          url: `/mockServiceWorker.js`,
-        },
-      });
-    })
-    .then(() => {
-      main();
-    });
-
-  main();
-};
-
-if (process.env.MODE === 'development') {
-  mswWork();
 }
 
-if (process.env.MODE === 'production') {
-  main();
-}
+main();
