@@ -29,6 +29,9 @@ module.exports = {
       node: {},
     },
     'import/parsers': { '@typescript-eslint/parser': ['.ts', '.tsx'] },
+    react: {
+      version: 'detect',
+    },
   },
   rules: {
     'prettier/prettier': 'warn',
