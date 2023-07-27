@@ -10,7 +10,6 @@ import shook.shook.song.application.dto.KillingPartsResponse;
 import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
-import shook.shook.song.domain.Singer;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.SongRepository;
@@ -43,7 +42,7 @@ public class SongService {
     }
 
     public List<SearchedSongResponse> findAllBySinger(final String singer) {
-        final List<Song> songs = songRepository.findAllBySinger(new Singer(singer));
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer.strip());
 
         return songs.stream()
             .map(SearchedSongResponse::from)
@@ -51,7 +50,7 @@ public class SongService {
     }
 
     public List<SearchedSongResponse> findAllByTitle(final String title) {
-        final List<Song> songs = songRepository.findAllByTitle(new SongTitle(title));
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title.strip());
 
         return songs.stream()
             .map(SearchedSongResponse::from)

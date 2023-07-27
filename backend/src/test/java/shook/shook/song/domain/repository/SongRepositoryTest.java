@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.song.domain.Singer;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.support.UsingJpaTest;
@@ -81,39 +82,41 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(song.getCreatedAt()).isBetween(prev, after);
     }
 
-    @DisplayName("정확히 일치하는 가수를 가진 모든 Song 목록을 조회한다.")
-    @Test
-    void findAllBySinger() {
+    @DisplayName("대소문자 상관없이 정확히 일치하는 가수를 가진 모든 Song 목록을 조회한다.")
+    @ParameterizedTest(name = "가수의  이름이 {0} 일 때")
+    @ValueSource(strings = {"redvelvet", "Redvelvet"})
+    void findAllBySinger(final String singer) {
         //given
-        final Song song1 = new Song("노래제목", "비디오URL", "가수", 180);
-        final Song song2 = new Song("노래제목2", "비디오URL", "가수", 100);
+        final Song song1 = new Song("노래제목", "비디오URL", "RedVelvet", 180);
+        final Song song2 = new Song("노래제목2", "비디오URL", "RedVelvet", 100);
         songRepository.save(song1);
         songRepository.save(song2);
 
         //when
         saveAndClearEntityManager();
-        final List<Song> songs = songRepository.findAllBySinger(new Singer("가수"));
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer);
 
         //then
         assertThat(songs).usingRecursiveComparison()
             .isEqualTo(List.of(song1, song2));
     }
 
-    @DisplayName("정확히 일치하는 제목을 가진 모든 Song 목록을 조회한다.")
-    @Test
-    void findAllByTitle() {
+    @DisplayName("대소문자 상관없이 정확히 일치하는 제목을 가진 모든 Song 목록을 조회한다.")
+    @ParameterizedTest(name = "제목이 {0} 일 때")
+    @ValueSource(strings = {"hi", "HI"})
+    void findAllByTitle(final String title) {
         //given
-        final Song song1 = new Song("노래제목", "비디오URL", "가수", 180);
-        final Song song2 = new Song("노래제목2", "비디오URL", "가수", 100);
+        final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "가수", 100);
         songRepository.save(song1);
         songRepository.save(song2);
 
         //when
         saveAndClearEntityManager();
-        final List<Song> songs = songRepository.findAllByTitle(new SongTitle("노래제목"));
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title);
 
         //then
         assertThat(songs).usingRecursiveComparison()
-            .isEqualTo(List.of(song1));
+            .isEqualTo(List.of(song1, song2));
     }
 }

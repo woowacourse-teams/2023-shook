@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
@@ -125,19 +127,20 @@ class SongServiceTest extends UsingJpaTest {
             .isInstanceOf(SongException.SongNotExistException.class);
     }
 
-    @DisplayName("정확히 일치하는 가수 이름의 모든 노래를 조회한다.")
-    @Test
-    void findAllBySinger_exist() {
+    @DisplayName("앞뒤 공백제거, 대소문자 상관없이 정확히 일치하는 가수 이름의 모든 노래를 조회한다.")
+    @ParameterizedTest(name = "가수의  이름이 {0} 일 때")
+    @ValueSource(strings = {"   redvelvet ", "	Redvelvet\n"})
+    void findAllBySinger_exist(final String singer) {
         //given
-        final Song saved2 = songRepository.save(new Song("아무노래", "비디오URL", "가수", 180));
-        songRepository.save(new Song("다른노래", "비디오URL", "가 수", 180));
+        final Song saved2 = songRepository.save(new Song("아무노래", "비디오URL", "RedVelvet", 180));
+        songRepository.save(new Song("다른노래", "비디오URL", "Red Velvet", 180));
 
         //when
         saveAndClearEntityManager();
-        final List<SearchedSongResponse> responses = songService.findAllBySinger("가수");
+        final List<SearchedSongResponse> responses = songService.findAllBySinger(singer);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(SAVED_SONG, saved2)
+        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2)
             .map(SearchedSongResponse::from)
             .toList();
 
@@ -157,18 +160,19 @@ class SongServiceTest extends UsingJpaTest {
             .isEqualTo(Collections.emptyList());
     }
 
-    @DisplayName("정확히 일치하는 제목의 모든 노래를 조회한다.")
-    @Test
-    void findAllByTitle_exist() {
+    @DisplayName("앞뒤 공백제거, 대소문자 상관없이 정확히 일치하는 제목의 모든 노래를 조회한다.")
+    @ParameterizedTest(name = "제목이 {0} 일 때")
+    @ValueSource(strings = {"   Hi  ", "	HI\n"})
+    void findAllByTitle_exist(final String title) {
         //given
-        final Song saved2 = songRepository.save(new Song("노래제목", "비디오URL", "다른가수", 180));
-        songRepository.save(new Song("다른노래", "비디오URL", "가수", 180));
+        final Song saved2 = songRepository.save(new Song("Hi", "비디오URL", "다른가수", 180));
+        final Song saved3 = songRepository.save(new Song("hI", "비디오URL", "가수", 180));
 
         //when
-        final List<SearchedSongResponse> responses = songService.findAllByTitle("노래제목");
+        final List<SearchedSongResponse> responses = songService.findAllByTitle(title);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(SAVED_SONG, saved2)
+        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2, saved3)
             .map(SearchedSongResponse::from)
             .toList();
 
