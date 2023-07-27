@@ -50,6 +50,14 @@ public class SongService {
             .toList();
     }
 
+    public List<SearchedSongResponse> findAllByTitle(final String title) {
+        final List<Song> songs = songRepository.findAllByTitle(new SongTitle(title));
+
+        return songs.stream()
+            .map(SearchedSongResponse::from)
+            .toList();
+    }
+
     public KillingPartResponse showTopKillingPart(final Long songId) {
         final Song song = songRepository.findById(songId)
             .orElseThrow(SongException.SongNotExistException::new);

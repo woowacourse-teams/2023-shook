@@ -24,4 +24,12 @@ public class SongSearchController {
 
         return ResponseEntity.ok(responses);
     }
+
+    @GetMapping(params = {"title"})
+    public ResponseEntity<List<SearchedSongResponse>> searchSongsByTitle(
+        @RequestParam String title) {
+        final List<SearchedSongResponse> responses = songService.findAllByTitle(title);
+
+        return ResponseEntity.ok(responses);
+    }
 }

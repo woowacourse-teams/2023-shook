@@ -134,15 +134,15 @@ class SongServiceTest extends UsingJpaTest {
 
         //when
         saveAndClearEntityManager();
-        final List<SearchedSongResponse> searchedSongResponses = songService.findAllBySinger("가수");
+        final List<SearchedSongResponse> responses = songService.findAllBySinger("가수");
 
         //then
-        final List<SearchedSongResponse> expectedSearchResponses = Stream.of(SAVED_SONG, saved2)
+        final List<SearchedSongResponse> expectedResponses = Stream.of(SAVED_SONG, saved2)
             .map(SearchedSongResponse::from)
             .toList();
 
-        assertThat(searchedSongResponses).usingRecursiveComparison()
-            .isEqualTo(expectedSearchResponses);
+        assertThat(responses).usingRecursiveComparison()
+            .isEqualTo(expectedResponses);
     }
 
     @DisplayName("정확히 일치하는 가수 이름 조회 시, 일치 결과가 없다면 빈 내용이 반환된다.")
@@ -150,10 +150,41 @@ class SongServiceTest extends UsingJpaTest {
     void findAllBySinger_noExist() {
         //given
         //when
-        final List<SearchedSongResponse> searchedSongResponses = songService.findAllBySinger("가수2");
+        final List<SearchedSongResponse> responses = songService.findAllBySinger("가수2");
 
         //then
-        assertThat(searchedSongResponses).usingRecursiveComparison()
+        assertThat(responses).usingRecursiveComparison()
+            .isEqualTo(Collections.emptyList());
+    }
+
+    @DisplayName("정확히 일치하는 제목의 모든 노래를 조회한다.")
+    @Test
+    void findAllByTitle_exist() {
+        //given
+        final Song saved2 = songRepository.save(new Song("노래제목", "비디오URL", "다른가수", 180));
+        songRepository.save(new Song("다른노래", "비디오URL", "가수", 180));
+
+        //when
+        final List<SearchedSongResponse> responses = songService.findAllByTitle("노래제목");
+
+        //then
+        final List<SearchedSongResponse> expectedResponses = Stream.of(SAVED_SONG, saved2)
+            .map(SearchedSongResponse::from)
+            .toList();
+
+        assertThat(responses).usingRecursiveComparison()
+            .isEqualTo(expectedResponses);
+    }
+
+    @DisplayName("정확히 일치하는 제목 조회 시, 일치 결과가 없다면 빈 배열이 반환된다.")
+    @Test
+    void findAllByTitle_noExist() {
+        //given
+        //when
+        final List<SearchedSongResponse> responses = songService.findAllByTitle("다른노래");
+
+        //then
+        assertThat(responses).usingRecursiveComparison()
             .isEqualTo(Collections.emptyList());
     }
 

@@ -14,4 +14,6 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     Optional<Song> findByTitle(final SongTitle title);
 
     List<Song> findAllBySinger(final Singer singer);
+
+    List<Song> findAllByTitle(final SongTitle title);
 }
