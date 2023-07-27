@@ -13,9 +13,7 @@ export const Button = styled.button`
   height: 36px;
   border: none;
   border-radius: 10px;
-
   color: #ffffff;
-
   cursor: pointer;
 `;
 
@@ -54,28 +52,56 @@ export const Spacing = styled.div<{ direction: 'horizontal' | 'vertical'; size: 
   height: ${({ direction, size }) => (direction === 'vertical' ? `${size}px` : undefined)};
 `;
 
-export const SongTitle = styled.p`
-  text-align: start;
-  font-size: 18px;
-  font-weight: 800;
-  color: ${({ theme: { color } }) => color.white};
-`;
-
-export const Singer = styled.p`
-  text-align: start;
-  font-size: 14px;
-  font-weight: 600;
-  color: ${({ theme: { color } }) => color.subText};
-`;
-
 export const Container = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  justify-items: start;
+`;
+
+export const SongInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const Jacket = styled.img`
+  width: 60px;
+  height: 60px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+export const Info = styled.div``;
+
+export const SongTitle = styled.p`
+  font-size: 24px;
+  font-weight: 700;
+  color: ${({ theme: { color } }) => color.white};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 20px;
+  }
+`;
+
+export const Singer = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: ${({ theme: { color } }) => color.subText};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 16px;
+  }
 `;
 
 export const RegisterTitle = styled.p`
+  font-size: 22px;
+  font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
-  margin-top: 16px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 18px;
+  }
 `;
