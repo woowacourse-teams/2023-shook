@@ -27,5 +27,5 @@ module.exports = merge(common, {
     ],
   },
 
-  plugins: [new ReactRefreshWebpackPlugin()],
+  plugins: [new ReactRefreshWebpackPlugin({ overlay: false })],
 });
