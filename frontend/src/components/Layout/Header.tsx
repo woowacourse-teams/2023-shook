@@ -16,7 +16,7 @@ const Container = styled.header`
   align-items: center;
   width: 100%;
   height: ${({ theme }) => theme.headerHeight.desktop};
-  background-color: black;
+  background-color: ${({ theme: { color } }) => color.black};
   padding: 0 16.66%;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {

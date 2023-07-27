@@ -39,7 +39,7 @@ export const Slider = styled.input<{ interval: number }>`
     top: -4px;
     width: ${({ interval }) => interval * 6}px;
     height: 16px;
-    background-color: #de2f5f;
+    background-color: ${({ theme: { color } }) => color.primary};
     border: none;
     border-radius: 20px;
   }

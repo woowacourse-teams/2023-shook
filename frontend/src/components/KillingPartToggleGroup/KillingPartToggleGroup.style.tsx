@@ -16,7 +16,8 @@ export const ToggleGroupItem = styled.button<{ $active: boolean }>`
   border-radius: 10px;
   min-width: 50px;
   height: 30px;
-  color: ${({ $active }) => ($active ? '#000000' : '#FFFFFF')};
-  background-color: ${({ $active }) => ($active ? '#FFFFFF' : '#434343')};
+  font-weight: ${({ $active }) => ($active ? '700' : '500')};
+  color: ${({ $active, theme: { color } }) => ($active ? color.black : color.white)};
+  background-color: ${({ $active, theme: { color } }) => ($active ? color.white : color.secondary)};
   cursor: pointer;
 `;

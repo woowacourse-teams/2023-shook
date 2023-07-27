@@ -13,7 +13,7 @@ export const Button = styled.button`
   height: 36px;
   border: none;
   border-radius: 10px;
-  color: #ffffff;
+  color: ${({ theme: { color } }) => color.white};
   cursor: pointer;
 `;
 
@@ -31,14 +31,12 @@ export const Register = styled(Button)<{ disabled: boolean }>`
 
 export const Confirm = styled(Button)`
   flex: 1;
-
-  background-color: #2d2c35;
+  background-color: ${({ theme: { color } }) => color.secondary};
 `;
 
 export const Share = styled(Button)`
   flex: 1;
-
-  background-color: #de2e5f;
+  background-color: ${({ theme: { color } }) => color.primary};
 `;
 
 export const Flex = styled.div`
