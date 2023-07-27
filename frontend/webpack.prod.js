@@ -1,10 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
-const webpack = require('webpack');
-const dotenv = require('dotenv');
-
-dotenv.config({ path: '.env/.env.production' });
 
 module.exports = merge(common, {
   mode: 'production',
@@ -22,9 +18,4 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env),
-    }),
-  ],
 });
