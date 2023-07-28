@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import { useEffect, useState } from 'react';
+import { styled } from 'styled-components';
 import { loadIFrameApi } from '@/components/Youtube/api/loadIframeApi';
 
 interface YoutubeProps {
@@ -20,7 +21,7 @@ const Youtube = ({ videoId, start, onReady }: YoutubeProps) => {
         new YT.Player('yt-player', {
           videoId,
           width: '100%',
-          height: '200',
+          height: '100%',
           playerVars: { start, autoplay: 1 },
           events: {
             onReady: onPlayerReady,
@@ -69,7 +70,16 @@ const Youtube = ({ videoId, start, onReady }: YoutubeProps) => {
     return () => player?.destroy();
   }, [videoId]);
 
-  return <div id="yt-player" />;
+  return (
+    <YoutubeWrapper>
+      <div id="yt-player" />
+    </YoutubeWrapper>
+  );
 };
 
 export default Youtube;
+
+export const YoutubeWrapper = styled.div`
+  width: 100%;
+  aspect-ratio: auto 16 / 9;
+`;

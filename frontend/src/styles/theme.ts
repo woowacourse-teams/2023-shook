@@ -25,6 +25,11 @@ const theme = {
     xl: '1280px',
     xxl: '1440px',
   },
+
+  headerHeight: {
+    mobile: '60px',
+    desktop: '80px',
+  },
 } as const;
 
 export default theme;

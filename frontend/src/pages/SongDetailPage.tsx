@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import dummyJacket from '@/assets/image/album-jacket.png';
 import useToastContext from '@/components/@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '@/components/IntervalInput';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
@@ -21,8 +22,11 @@ import {
   RegisterTitle,
   Share,
   Singer,
+  Jacket,
   SongTitle,
   Spacing,
+  SongInfoContainer,
+  Info,
 } from './SongDetailPage.style';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 import type { PartVideoUrl } from '@/types/killingPart';
@@ -120,30 +124,20 @@ const SongDetailPage = () => {
 
   return (
     <Container>
-      <SongTitle>{title}</SongTitle>
-      <Singer>{singer}</Singer>
+      <SongInfoContainer>
+        <Jacket src={dummyJacket} alt={`${title} 앨범 자켓`} />
+        <Info>
+          <SongTitle>{title}</SongTitle>
+          <Singer>{singer}</Singer>
+        </Info>
+      </SongInfoContainer>
+      <Spacing direction="vertical" size={20} />
       <Youtube videoId={videoId} start={0} onReady={({ target }) => setPlayer(target)} />
-
-      <Spacing direction="vertical" size={16} />
-
+      <Spacing direction="vertical" size={20} />
       <RegisterTitle>당신의 킬링파트에 투표하세요🎧</RegisterTitle>
-
       <Spacing direction="vertical" size={20} />
-
       <KillingPartToggleGroup interval={interval} setKillingPartInterval={setKillingPartInterval} />
-
-      <Spacing direction="vertical" size={20} />
-
-      <VideoSlider
-        time={minSecToSeconds([partStart.minute, partStart.second])}
-        interval={interval}
-        videoLength={videoLength}
-        setPartStart={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
-        player={player}
-      />
-
-      <Spacing direction="vertical" size={20} />
-
+      <Spacing direction="vertical" size={40} />
       <IntervalInput
         videoLength={videoLength}
         errorMessage={errorMessage}
@@ -152,13 +146,18 @@ const SongDetailPage = () => {
         onChangeErrorMessage={onChangeErrorMessage}
         onChangePartStart={onChangePartStart}
       />
-
+      <VideoSlider
+        time={minSecToSeconds([partStart.minute, partStart.second])}
+        interval={interval}
+        videoLength={videoLength}
+        setPartStart={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
+        player={player}
+      />
+      <Spacing direction="vertical" size={20} />
       <Spacing direction="vertical" size={40} />
-
       <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
         등록
       </Register>
-
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>킬링파트에 투표했습니다.</ModalTitle>
         <Spacing direction="vertical" size={12} />
