@@ -1,5 +1,5 @@
 import { KILLING_PART_INTERVAL } from './constants';
-import { ToggleGroupItem, Spacing, ToggleGroup } from './KillingPartToggleGroup.style';
+import { ToggleGroupItem, ToggleGroup } from './KillingPartToggleGroup.style';
 import type { KillingPartInterval } from './KillingPartToggleGroup.type';
 import type { MouseEventHandler } from 'react';
 
@@ -24,7 +24,6 @@ const KillingPartToggleGroup = ({
       >
         {KILLING_PART_INTERVAL.FIVE}초
       </ToggleGroupItem>
-      <Spacing direction="horizontal" size={20} />
       <ToggleGroupItem
         role="radio"
         type="button"
@@ -35,7 +34,6 @@ const KillingPartToggleGroup = ({
       >
         {KILLING_PART_INTERVAL.TEN}초
       </ToggleGroupItem>
-      <Spacing direction="horizontal" size={20} />
       <ToggleGroupItem
         role="radio"
         type="button"
