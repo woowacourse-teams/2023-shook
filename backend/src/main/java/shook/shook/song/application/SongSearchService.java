@@ -1,6 +1,5 @@
 package shook.shook.song.application;
 
-import io.micrometer.common.util.StringUtils;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
+import shook.shook.util.StringChecker;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,7 +18,7 @@ public class SongSearchService {
     private final SongRepository songRepository;
 
     public List<SearchedSongResponse> findAllBySinger(final String singer) {
-        if (StringUtils.isBlank(singer)) {
+        if (StringChecker.isNullOrBlank(singer)) {
             return toSearchResponse(Collections.emptyList());
         }
 
@@ -34,7 +34,7 @@ public class SongSearchService {
     }
 
     public List<SearchedSongResponse> findAllByTitle(final String title) {
-        if (StringUtils.isBlank(title)) {
+        if (StringChecker.isNullOrBlank(title)) {
             return toSearchResponse(Collections.emptyList());
         }
 
@@ -43,11 +43,14 @@ public class SongSearchService {
         return toSearchResponse(songs);
     }
 
-    public List<SearchedSongResponse> findAllBySingerAndTitle(final String singer, final String title) {
-        if (StringUtils.isBlank(singer)) {
+    public List<SearchedSongResponse> findAllBySingerAndTitle(
+        final String singer,
+        final String title
+    ) {
+        if (StringChecker.isNullOrBlank(singer)) {
             return findAllByTitle(title);
         }
-        if (StringUtils.isBlank(title)) {
+        if (StringChecker.isNullOrBlank(title)) {
             return findAllBySinger(singer);
         }
 
