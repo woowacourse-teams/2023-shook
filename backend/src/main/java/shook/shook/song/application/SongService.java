@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.domain.Part;
 import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.KillingPartsResponse;
-import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.domain.Song;
@@ -39,22 +38,6 @@ public class SongService {
             .orElseThrow(SongException.SongNotExistException::new);
 
         return SongResponse.from(song);
-    }
-
-    public List<SearchedSongResponse> findAllBySinger(final String singer) {
-        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer.strip());
-
-        return songs.stream()
-            .map(SearchedSongResponse::from)
-            .toList();
-    }
-
-    public List<SearchedSongResponse> findAllByTitle(final String title) {
-        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title.strip());
-
-        return songs.stream()
-            .map(SearchedSongResponse::from)
-            .toList();
     }
 
     public KillingPartResponse showTopKillingPart(final Long songId) {

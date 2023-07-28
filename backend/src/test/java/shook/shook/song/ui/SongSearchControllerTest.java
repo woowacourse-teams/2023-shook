@@ -3,6 +3,7 @@ package shook.shook.song.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,15 +36,14 @@ class SongSearchControllerTest {
     @Test
     void searchSongBySinger() {
         //given
-        final Song saved1 = songRepository.save(new Song("Super Shy", "비디오URL", "뉴진스", 20));
-        final Song saved2 = songRepository.save(new Song("ETA", "비디오URL", "뉴진스", 20));
-        songRepository.save(new Song("Ditto", "비디오URL", "뉴진스(New Jeans)", 20));
-        songRepository.save(new Song("Feel My Rhythm", "비디오URL", "레드벨벳", 20));
+        final Song saved1 = songRepository.save(
+            new Song("Feel My Rhythm", "비디오URL", "RedVelvet", 20));
+        songRepository.save(new Song("Birthday", "비디오URL", "레드벨벳", 20));
 
         //when
         final List<SearchedSongResponse> responses = RestAssured.given().log().all()
             .when().log().all()
-            .param("singer", "뉴진스")
+            .param("singer", "redvelvet")
             .get("/songs")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
@@ -53,7 +53,7 @@ class SongSearchControllerTest {
             .getList(".", SearchedSongResponse.class);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved1, saved2)
+        final List<SearchedSongResponse> expectedResponses = Stream.of(saved1)
             .map(SearchedSongResponse::from)
             .toList();
 
@@ -89,5 +89,54 @@ class SongSearchControllerTest {
 
         assertThat(responses).usingRecursiveComparison()
             .isEqualTo(expectedResponses);
+    }
+
+    @DisplayName("통합 검색으로 노래를 검색 시, 정확히 일치하는 가수와 제목의 노래 목록을 응답으로 반환한다.")
+    @Test
+    void searchSongByIntegrationSearch() {
+        //given
+        songRepository.save(new Song("Super Shy", "비디오URL", "르세라핌", 20));
+        final Song saved2 = songRepository.save(new Song("Super Shy", "비디오URL", "뉴진스", 20));
+        songRepository.save(new Song("ETA", "비디오URL", "뉴진스", 20));
+
+        //when
+        final List<SearchedSongResponse> responses = RestAssured.given().log().all()
+            .when().log().all()
+            .params("singer", "뉴진스", "title", "Super Shy")
+            .get("/songs")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .body()
+            .jsonPath()
+            .getList(".", SearchedSongResponse.class);
+
+        //then
+        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2)
+            .map(SearchedSongResponse::from)
+            .toList();
+
+        assertThat(responses).usingRecursiveComparison()
+            .isEqualTo(expectedResponses);
+    }
+
+    @DisplayName("통합 검색으로 노래를 검색 시, 제목과 가수가 모두 비어있다면 빈 결과가 반환된다.")
+    @Test
+    void searchSongByIntegrationSearch_allEmptyInput() {
+        //given
+        //when
+        final List<SearchedSongResponse> responses = RestAssured.given().log().all()
+            .when().log().all()
+            .get("/songs")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .body()
+            .jsonPath()
+            .getList(".", SearchedSongResponse.class);
+
+        //then
+        assertThat(responses).usingRecursiveComparison()
+            .isEqualTo(Collections.emptyList());
     }
 }

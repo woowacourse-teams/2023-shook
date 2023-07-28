@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import shook.shook.song.application.SongService;
+import shook.shook.song.application.SongSearchService;
 import shook.shook.song.application.dto.SearchedSongResponse;
 
 @RequiredArgsConstructor
@@ -15,20 +15,15 @@ import shook.shook.song.application.dto.SearchedSongResponse;
 @RestController
 public class SongSearchController {
 
-    private final SongService songService;
+    private final SongSearchService songSearchService;
 
-    @GetMapping(params = {"singer"})
-    public ResponseEntity<List<SearchedSongResponse>> searchSongsBySinger(
-        @RequestParam String singer) {
-        final List<SearchedSongResponse> responses = songService.findAllBySinger(singer);
-
-        return ResponseEntity.ok(responses);
-    }
-
-    @GetMapping(params = {"title"})
-    public ResponseEntity<List<SearchedSongResponse>> searchSongsByTitle(
-        @RequestParam String title) {
-        final List<SearchedSongResponse> responses = songService.findAllByTitle(title);
+    @GetMapping
+    public ResponseEntity<List<SearchedSongResponse>> searchSongsByTitleAndSinger(
+        @RequestParam(required = false, name = "singer") String singer,
+        @RequestParam(required = false, name = "title") String title
+    ) {
+        final List<SearchedSongResponse> responses =
+            songSearchService.findAllBySingerAndTitle(singer, title);
 
         return ResponseEntity.ok(responses);
     }

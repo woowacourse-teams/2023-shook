@@ -4,15 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartLength;
@@ -21,7 +17,6 @@ import shook.shook.part.domain.repository.PartRepository;
 import shook.shook.part.domain.repository.VoteRepository;
 import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.KillingPartsResponse;
-import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.domain.Song;
@@ -125,71 +120,6 @@ class SongServiceTest extends UsingJpaTest {
         //then
         assertThatThrownBy(() -> songService.findByTitle("없는제목"))
             .isInstanceOf(SongException.SongNotExistException.class);
-    }
-
-    @DisplayName("앞뒤 공백제거, 대소문자 상관없이 정확히 일치하는 가수 이름의 모든 노래를 조회한다.")
-    @ParameterizedTest(name = "가수의  이름이 {0} 일 때")
-    @ValueSource(strings = {"   redvelvet ", "	Redvelvet\n"})
-    void findAllBySinger_exist(final String singer) {
-        //given
-        final Song saved2 = songRepository.save(new Song("아무노래", "비디오URL", "RedVelvet", 180));
-        songRepository.save(new Song("다른노래", "비디오URL", "Red Velvet", 180));
-
-        //when
-        saveAndClearEntityManager();
-        final List<SearchedSongResponse> responses = songService.findAllBySinger(singer);
-
-        //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2)
-            .map(SearchedSongResponse::from)
-            .toList();
-
-        assertThat(responses).usingRecursiveComparison()
-            .isEqualTo(expectedResponses);
-    }
-
-    @DisplayName("정확히 일치하는 가수 이름 조회 시, 일치 결과가 없다면 빈 내용이 반환된다.")
-    @Test
-    void findAllBySinger_noExist() {
-        //given
-        //when
-        final List<SearchedSongResponse> responses = songService.findAllBySinger("가수2");
-
-        //then
-        assertThat(responses).usingRecursiveComparison()
-            .isEqualTo(Collections.emptyList());
-    }
-
-    @DisplayName("앞뒤 공백제거, 대소문자 상관없이 정확히 일치하는 제목의 모든 노래를 조회한다.")
-    @ParameterizedTest(name = "제목이 {0} 일 때")
-    @ValueSource(strings = {"   Hi  ", "	HI\n"})
-    void findAllByTitle_exist(final String title) {
-        //given
-        final Song saved2 = songRepository.save(new Song("Hi", "비디오URL", "다른가수", 180));
-        final Song saved3 = songRepository.save(new Song("hI", "비디오URL", "가수", 180));
-
-        //when
-        final List<SearchedSongResponse> responses = songService.findAllByTitle(title);
-
-        //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2, saved3)
-            .map(SearchedSongResponse::from)
-            .toList();
-
-        assertThat(responses).usingRecursiveComparison()
-            .isEqualTo(expectedResponses);
-    }
-
-    @DisplayName("정확히 일치하는 제목 조회 시, 일치 결과가 없다면 빈 배열이 반환된다.")
-    @Test
-    void findAllByTitle_noExist() {
-        //given
-        //when
-        final List<SearchedSongResponse> responses = songService.findAllByTitle("다른노래");
-
-        //then
-        assertThat(responses).usingRecursiveComparison()
-            .isEqualTo(Collections.emptyList());
     }
 
     @DisplayName("노래의 가장 인기있는 킬링파트를 보여준다.")

@@ -119,4 +119,24 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(songs).usingRecursiveComparison()
             .isEqualTo(List.of(song1, song2));
     }
+
+    @DisplayName("대소문자 상관없이 가수와 제목이 모두 일치하는 모든 Song 목록을 조회한다.")
+    @Test
+    void findAllByTitleAndSingerIgnoringCase() {
+        //given
+        final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "가수", 100);
+        final Song song3 = new Song("hI", "비디오URL", "다른가수", 100);
+        songRepository.save(song1);
+        songRepository.save(song2);
+        songRepository.save(song3);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleAndSingerIgnoringCase("hi", "가수");
+
+        //then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(song1, song2));
+    }
 }
