@@ -16,6 +16,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     assetModuleFilename: 'assets/[hash][ext]',
+    publicPath: '/',
   },
   module: {
     rules: [
