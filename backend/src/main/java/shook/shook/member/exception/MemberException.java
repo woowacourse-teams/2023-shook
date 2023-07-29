@@ -37,4 +37,11 @@ public class MemberException extends RuntimeException {
             super();
         }
     }
+
+    public static class AlreadyExistMemberException extends MemberException {
+
+        public AlreadyExistMemberException() {
+            super();
+        }
+    }
 }

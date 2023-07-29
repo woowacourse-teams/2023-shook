@@ -19,18 +19,18 @@ public class NickName {
     private static final int NICK_NAME_MAXIMUM_LENGTH = 100;
 
     @Column(name = "nick_name", length = NICK_NAME_MAXIMUM_LENGTH, nullable = false)
-    private String nickName;
+    private String value;
 
-    public NickName(final String nickName) {
-        validateNickName(nickName);
-        this.nickName = nickName;
+    public NickName(final String value) {
+        validateNickName(value);
+        this.value = value;
     }
 
-    private void validateNickName(final String nickName) {
-        if (StringChecker.isNullOrBlank(nickName)) {
+    private void validateNickName(final String value) {
+        if (StringChecker.isNullOrBlank(value)) {
             throw new MemberException.NullOrEmptyNickNameException();
         }
-        if (nickName.length() > NICK_NAME_MAXIMUM_LENGTH) {
+        if (value.length() > NICK_NAME_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongNickNameException();
         }
     }

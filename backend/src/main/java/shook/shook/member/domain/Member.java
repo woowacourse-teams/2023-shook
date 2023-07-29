@@ -1,6 +1,6 @@
 package shook.shook.member.domain;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,18 +20,24 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100, updatable = false)
-    private String email;
+    @Embedded
+    private Email email;
 
-    //TODO: 닉네임은 중복이 되면 안될지 -> uinque key를 거는 것 여부판단하기
-    @Column(nullable = false, length = 100)
-    private String nickName;
+    @Embedded
+    private NickName nickName;
 
 
     public Member(final String email, final String nickName) {
         this.id = null;
-        this.email = email;
-        this.nickName = nickName;
+        this.email = new Email(email);
+        this.nickName = new NickName(nickName);
     }
 
+    public String getEmail() {
+        return email.getValue();
+    }
+
+    public String getNickName() {
+        return nickName.getValue();
+    }
 }

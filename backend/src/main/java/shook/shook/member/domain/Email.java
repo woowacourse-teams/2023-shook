@@ -22,21 +22,21 @@ public class Email {
         "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$");
 
     @Column(name = "email", length = 100, nullable = false)
-    private String email;
+    private String value;
 
-    public Email(final String email) {
-        validateEmail(email);
-        this.email = email;
+    public Email(final String value) {
+        validateEmail(value);
+        this.value = value;
     }
 
-    private void validateEmail(final String email) {
-        if (StringChecker.isNullOrBlank(email)) {
+    private void validateEmail(final String value) {
+        if (StringChecker.isNullOrBlank(value)) {
             throw new MemberException.NullOrEmptyEmailException();
         }
-        if (email.length() > EMAIL_MAXIMUM_LENGTH) {
+        if (value.length() > EMAIL_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongEmailException();
         }
-        Matcher matcher = EMAIL_FORM.matcher(email);
+        Matcher matcher = EMAIL_FORM.matcher(value);
         if (!matcher.matches()) {
             throw new MemberException.InValidEmailFormException();
         }
