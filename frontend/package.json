@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "S-HOOK-frontend",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --config webpack.dev.js --progress",
-    "build": "NODE_ENV=production webpack --config webpack.prod.js --progress",
+    "start": "webpack serve --config webpack.dev.js --progress",
+    "build": "webpack --config webpack.prod.js --progress",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint src",
