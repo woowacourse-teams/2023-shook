@@ -91,8 +91,8 @@ const SongDetailPage = () => {
     });
   };
 
-  const { id, title, singer, videoLength, songVideoUrl } = songDetail;
-  const videoId = songVideoUrl.replace('https://youtu.be/', '');
+  const { id, title, singer, videoLength, videoUrl } = songDetail;
+  const videoId = videoUrl.replace('https://youtu.be/', '');
 
   const submitKillingPart = async () => {
     player?.pauseVideo();

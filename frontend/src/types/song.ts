@@ -7,7 +7,7 @@ export interface SongDetail {
   title: string;
   singer: string;
   videoLength: number;
-  songVideoUrl: VideoUrl;
+  videoUrl: VideoUrl;
   killingParts: KillingPart[];
 }
 
