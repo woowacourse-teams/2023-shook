@@ -17,32 +17,6 @@ public class SongSearchService {
 
     private final SongRepository songRepository;
 
-    public List<SearchedSongResponse> findAllBySinger(final String singer) {
-        if (StringChecker.isNullOrBlank(singer)) {
-            return toSearchResponse(Collections.emptyList());
-        }
-
-        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer.strip());
-
-        return toSearchResponse(songs);
-    }
-
-    private List<SearchedSongResponse> toSearchResponse(final List<Song> songs) {
-        return songs.stream()
-            .map(SearchedSongResponse::from)
-            .toList();
-    }
-
-    public List<SearchedSongResponse> findAllByTitle(final String title) {
-        if (StringChecker.isNullOrBlank(title)) {
-            return toSearchResponse(Collections.emptyList());
-        }
-
-        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title.strip());
-
-        return toSearchResponse(songs);
-    }
-
     public List<SearchedSongResponse> findAllBySingerAndTitle(
         final String singer,
         final String title
@@ -55,6 +29,32 @@ public class SongSearchService {
         }
 
         final List<Song> songs = songRepository.findAllByTitleAndSingerIgnoringCase(title, singer);
+
+        return toSearchResponse(songs);
+    }
+
+    private List<SearchedSongResponse> findAllByTitle(final String title) {
+        if (StringChecker.isNullOrBlank(title)) {
+            return toSearchResponse(Collections.emptyList());
+        }
+
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title.strip());
+
+        return toSearchResponse(songs);
+    }
+
+    private List<SearchedSongResponse> toSearchResponse(final List<Song> songs) {
+        return songs.stream()
+            .map(SearchedSongResponse::from)
+            .toList();
+    }
+
+    private List<SearchedSongResponse> findAllBySinger(final String singer) {
+        if (StringChecker.isNullOrBlank(singer)) {
+            return toSearchResponse(Collections.emptyList());
+        }
+
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer.strip());
 
         return toSearchResponse(songs);
     }
