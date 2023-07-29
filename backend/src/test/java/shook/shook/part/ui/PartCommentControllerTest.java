@@ -3,7 +3,6 @@ package shook.shook.part.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
-import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,8 +76,10 @@ class PartCommentControllerTest {
             .get("/songs/" + song.getId() + "/parts/" + part.getId() + "/comments")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().body().as(new TypeRef<>() {
-            });
+            .extract()
+            .body()
+            .jsonPath()
+            .getList(".", PartCommentResponse.class);
 
         //then
         assertThat(response).hasSize(1);
