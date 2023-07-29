@@ -35,8 +35,6 @@ public class PartCommentService {
         final Part part = partRepository.findById(partId)
             .orElseThrow(PartException.PartNotExistException::new);
 
-        return part.getCommentsInRecentOrder().stream()
-            .map(PartCommentResponse::from)
-            .toList();
+        return PartCommentResponse.getList(part.getCommentsInRecentOrder());
     }
 }
