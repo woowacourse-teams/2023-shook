@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.application.dto.PartCommentRegisterRequest;
-import shook.shook.part.application.dto.PartCommentsResponse;
+import shook.shook.part.application.dto.PartCommentResponse;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartComment;
 import shook.shook.part.domain.PartLength;
@@ -35,8 +35,8 @@ class PartCommentServiceTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
-        Song SAVED_SONG = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
-        SAVED_PART = partRepository.save(Part.forSave(3, PartLength.SHORT, SAVED_SONG));
+        final Song savedSong = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        SAVED_PART = partRepository.save(Part.forSave(3, PartLength.SHORT, savedSong));
         partCommentService = new PartCommentService(partRepository, partCommentRepository);
     }
 
@@ -65,11 +65,10 @@ class PartCommentServiceTest extends UsingJpaTest {
 
         //when
         saveAndClearEntityManager();
-        final PartCommentsResponse partReplies = partCommentService.findPartReplies(
+        final List<PartCommentResponse> partReplies = partCommentService.findPartReplies(
             SAVED_PART.getId());
 
         //then
-        assertThat(partReplies.getPartReplies()).usingRecursiveComparison()
-            .isEqualTo(List.of(early, late));
+        assertThat(partReplies).usingRecursiveComparison().isEqualTo(List.of(late, early));
     }
 }

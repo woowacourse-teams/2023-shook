@@ -3,7 +3,9 @@ package shook.shook.part.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.part.application.dto.PartCommentRegisterRequest;
-import shook.shook.part.application.dto.PartCommentsResponse;
+import shook.shook.part.application.dto.PartCommentResponse;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartComment;
 import shook.shook.part.domain.PartLength;
@@ -56,7 +58,7 @@ class PartCommentControllerTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when().log().all()
-            .post("/songs/" + song.getId() + "/parts/" + part.getId() + "/comment")
+            .post("/songs/" + song.getId() + "/parts/" + part.getId() + "/comments")
             .then().log().all()
             .statusCode(HttpStatus.CREATED.value());
     }
@@ -70,15 +72,16 @@ class PartCommentControllerTest {
         partCommentRepository.save(PartComment.forSave(part, "댓글 내용"));
 
         //when
-        final PartCommentsResponse response = RestAssured.given().log().all()
+        final List<PartCommentResponse> response = RestAssured.given().log().all()
             .when().log().all()
-            .get("/songs/" + song.getId() + "/parts/" + part.getId() + "/comment")
+            .get("/songs/" + song.getId() + "/parts/" + part.getId() + "/comments")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().body().as(PartCommentsResponse.class);
+            .extract().body().as(new TypeRef<>() {
+            });
 
         //then
-        assertThat(response.getPartReplies()).hasSize(1);
-        assertThat(response.getPartReplies().get(0).getContent()).isEqualTo("댓글 내용");
+        assertThat(response).hasSize(1);
+        assertThat(response.get(0).getContent()).isEqualTo("댓글 내용");
     }
 }

@@ -35,7 +35,7 @@ public class PartComments {
 
     public List<PartComment> getCommentsInRecentOrder() {
         return comments.stream()
-            .sorted(Comparator.comparing((PartComment::getCreatedAt)))
+            .sorted(Comparator.comparing(PartComment::getCreatedAt).reversed())
             .toList();
     }
 }

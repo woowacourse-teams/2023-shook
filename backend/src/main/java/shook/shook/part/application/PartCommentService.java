@@ -1,14 +1,16 @@
 package shook.shook.part.application;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.application.dto.PartCommentRegisterRequest;
-import shook.shook.part.application.dto.PartCommentsResponse;
+import shook.shook.part.application.dto.PartCommentResponse;
 import shook.shook.part.domain.Part;
 import shook.shook.part.domain.PartComment;
 import shook.shook.part.domain.repository.PartCommentRepository;
 import shook.shook.part.domain.repository.PartRepository;
+import shook.shook.part.exception.PartException;
 import shook.shook.part.exception.PartException.PartNotExistException;
 
 @RequiredArgsConstructor
@@ -29,10 +31,12 @@ public class PartCommentService {
         partCommentRepository.save(partComment);
     }
 
-    public PartCommentsResponse findPartReplies(final Long partId) {
+    public List<PartCommentResponse> findPartReplies(final Long partId) {
         final Part part = partRepository.findById(partId)
-            .orElseThrow(PartNotExistException::new);
+            .orElseThrow(PartException.PartNotExistException::new);
 
-        return PartCommentsResponse.of(part.getCommentsInRecentOrder());
+        return part.getCommentsInRecentOrder().stream()
+            .map(PartCommentResponse::from)
+            .toList();
     }
 }

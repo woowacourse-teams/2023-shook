@@ -1,5 +1,6 @@
 package shook.shook.part.ui;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.part.application.PartCommentService;
 import shook.shook.part.application.dto.PartCommentRegisterRequest;
-import shook.shook.part.application.dto.PartCommentsResponse;
+import shook.shook.part.application.dto.PartCommentResponse;
 
 @RequiredArgsConstructor
-@RequestMapping("/songs/{song_id}/parts/{part_id}/comment")
+@RequestMapping("/songs/{song_id}/parts/{part_id}/comments")
 @RestController
 public class PartCommentController {
 
@@ -31,11 +32,9 @@ public class PartCommentController {
     }
 
     @GetMapping
-    public ResponseEntity<PartCommentsResponse> findPartReplies(
+    public ResponseEntity<List<PartCommentResponse>> findPartReplies(
         @PathVariable(name = "part_id") final Long partId
     ) {
-        final PartCommentsResponse partReplies = partCommentService.findPartReplies(partId);
-
-        return ResponseEntity.ok().body(partReplies);
+        return ResponseEntity.ok().body(partCommentService.findPartReplies(partId));
     }
 }

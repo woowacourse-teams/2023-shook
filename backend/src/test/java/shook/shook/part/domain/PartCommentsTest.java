@@ -61,6 +61,6 @@ class PartCommentsTest {
         final List<PartComment> repliesInRecentOrder = comments.getCommentsInRecentOrder();
 
         //then
-        assertThat(repliesInRecentOrder).usingRecursiveComparison().isEqualTo(List.of(early, late));
+        assertThat(repliesInRecentOrder).usingRecursiveComparison().isEqualTo(List.of(late, early));
     }
 }
