@@ -15,7 +15,7 @@ import { minSecToSeconds } from '@/utils/convertTime';
 import {
   Confirm,
   Container,
-  Flex,
+  ButtonContainer,
   ModalContent,
   ModalTitle,
   Register,
@@ -31,25 +31,6 @@ import {
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 import type { PartVideoUrl } from '@/types/killingPart';
 
-// TODO: 분리
-const getResultMessage = (rank: number | undefined) => {
-  switch (rank) {
-    case 1: {
-      return '축하합니다. 사람들이 가장 좋아하는 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
-    }
-    case 2: {
-      return '두 번째로 인기 많은 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
-    }
-    case 3: {
-      return '세 번째로 인기 많은 킬링파트입니다!🎉\n친구들에게 킬링파트를 공유해보세요!';
-    }
-
-    default: {
-      return '자신의 파트가 투표되었어요!🎉\n등록한 파트를 친구들에게 공유해보세요!';
-    }
-  }
-};
-
 const SongDetailPage = () => {
   const { id: newId } = useParams();
 
@@ -59,8 +40,8 @@ const SongDetailPage = () => {
 
   const { isOpen, openModal, closeModal } = useModal();
   const { interval, setKillingPartInterval } = useKillingPartInterval();
-  const { songDetail } = useGetSongDetail(Number(newId));
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
+  const { songDetail } = useGetSongDetail(Number(newId));
   const { showToast } = useToastContext();
 
   useEffect(() => {
@@ -78,6 +59,9 @@ const SongDetailPage = () => {
   if (!newId) return;
   if (!songDetail) return;
 
+  const { id, title, singer, videoLength, songVideoUrl } = songDetail;
+  const videoId = songVideoUrl.replace('https://youtu.be/', '');
+
   const isActiveSubmission = errorMessage.length === 0;
 
   const onChangeErrorMessage = (message: string) => {
@@ -90,9 +74,6 @@ const SongDetailPage = () => {
       [name]: Number(value),
     });
   };
-
-  const { id, title, singer, videoLength, songVideoUrl } = songDetail;
-  const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
   const submitKillingPart = async () => {
     player?.pauseVideo();
@@ -153,21 +134,15 @@ const SongDetailPage = () => {
         setPartStart={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
         player={player}
       />
-      <Spacing direction="vertical" size={20} />
       <Spacing direction="vertical" size={40} />
       <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
         등록
       </Register>
       <Modal isOpen={isOpen} closeModal={closeModal}>
-        <ModalTitle>킬링파트에 투표했습니다.</ModalTitle>
-        <Spacing direction="vertical" size={12} />
-        <ModalContent>
-          <div>{getResultMessage(killingPartPostResponse?.rank)}</div>
-          <Spacing direction="vertical" size={4} />
-          <div>현재까지 총 {killingPartPostResponse?.voteCount}표를 받았습니다.</div>
-        </ModalContent>
+        <ModalTitle>킬링파트 투표를 완료했습니다.</ModalTitle>
+        <ModalContent>컨텐츠는 아직 없습니다.</ModalContent>
         <Spacing direction="vertical" size={16} />
-        <Flex>
+        <ButtonContainer>
           <Confirm type="button" onClick={closeModal}>
             확인
           </Confirm>
@@ -178,7 +153,7 @@ const SongDetailPage = () => {
           >
             공유하기
           </Share>
-        </Flex>
+        </ButtonContainer>
       </Modal>
     </Container>
   );

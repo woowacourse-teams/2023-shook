@@ -39,7 +39,7 @@ export const Share = styled(Button)`
   background-color: ${({ theme: { color } }) => color.primary};
 `;
 
-export const Flex = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   width: 100%;
 `;
