@@ -69,10 +69,7 @@ const SongDetailPage = () => {
   };
 
   const onChangePartStart = (name: string, value: number) => {
-    setPartStart({
-      ...partStart,
-      [name]: Number(value),
-    });
+    setPartStart({ ...partStart, [name]: value });
   };
 
   const submitKillingPart = async () => {
