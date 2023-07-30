@@ -11,11 +11,11 @@ export interface SongDetail {
   killingParts: KillingPart[];
 }
 
-type KillingPart = {
+export interface KillingPart {
   exist: true;
   rank: number;
   start: number;
   end: number;
   partVideoUrl: PartVideoUrl;
   voteCount: number;
-};
+}
