@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.domain.Part;
+import shook.shook.song.application.dto.HighVotedSongResponse;
 import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.KillingPartsResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
+import shook.shook.song.domain.SongTotalVoteCountDto;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
 
@@ -19,6 +21,7 @@ import shook.shook.song.exception.SongException;
 @Service
 public class SongService {
 
+    private static final int HIGH_VOTED_SONG_SIZE = 40;
     private final SongRepository songRepository;
 
     @Transactional
@@ -56,5 +59,24 @@ public class SongService {
         final List<Part> killingParts = song.getKillingParts();
 
         return KillingPartsResponse.of(song, killingParts);
+    }
+
+    public List<HighVotedSongResponse> findHighVotedSongs() {
+        final List<SongTotalVoteCountDto> songTotalVoteCountDto = songRepository.findSongWithTotalVoteCount();
+
+        final List<Song> highVotedSongs = songTotalVoteCountDto.stream()
+            .sorted((o1, o2) -> {
+                if (o1.getTotalVoteCount().equals(o2.getTotalVoteCount())) {
+                    return o2.getSong().getCreatedAt().compareTo(o1.getSong().getCreatedAt());
+                }
+                return o2.getTotalVoteCount().compareTo(o1.getTotalVoteCount());
+            })
+            .map(SongTotalVoteCountDto::getSong)
+            .toList();
+
+        if (highVotedSongs.size() <= HIGH_VOTED_SONG_SIZE) {
+            return HighVotedSongResponse.getList(highVotedSongs);
+        }
+        return HighVotedSongResponse.getList(highVotedSongs.subList(0, HIGH_VOTED_SONG_SIZE));
     }
 }

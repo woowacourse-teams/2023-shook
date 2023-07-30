@@ -4,12 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
+import shook.shook.song.domain.SongTotalVoteCountDto;
 import shook.shook.support.UsingJpaTest;
 
 class SongRepositoryTest extends UsingJpaTest {
@@ -77,5 +80,30 @@ class SongRepositoryTest extends UsingJpaTest {
         //then
         assertThat(song).isSameAs(saved);
         assertThat(song.getCreatedAt()).isBetween(prev, after);
+    }
+
+    @DisplayName("모든 노래와 노래의 총 득표수를 가진 객체 리스트를 반환한다.")
+    @Test
+    void findSongAndTotalVoteCount() {
+        //given
+        //when
+        final List<SongTotalVoteCountDto> songWithTotalVoteCount = songRepository.findSongWithTotalVoteCount();
+
+        //then
+        final List<Song> songs = songWithTotalVoteCount.stream()
+            .map(SongTotalVoteCountDto::getSong)
+            .toList();
+        final List<Long> totalVotes = songWithTotalVoteCount.stream()
+            .map(SongTotalVoteCountDto::getTotalVoteCount)
+            .toList();
+
+        final List<Song> expectedSongs = songRepository.findAll();
+        final List<Long> expectedTotalVotes = IntStream.range(0, 40)
+            .mapToObj((index) -> 0L)
+            .toList();
+
+        assertThat(songs).usingRecursiveComparison().isEqualTo(expectedSongs);
+        assertThat(totalVotes).usingRecursiveComparison().isEqualTo(expectedTotalVotes);
+
     }
 }
