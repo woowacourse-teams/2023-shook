@@ -4,26 +4,32 @@ import type { TimeMinSec } from '../IntervalInput/IntervalInput.type';
 import type { ChangeEventHandler } from 'react';
 
 interface VideoSlider {
-  time: number;
+  partStartTime: number;
   videoLength: number;
   interval: number;
-  setPartStart: (timeMinSec: TimeMinSec) => void;
+  setPartStartTime: (timeMinSec: TimeMinSec) => void;
   player: YT.Player | undefined;
 }
 
-const VideoSlider = ({ time, videoLength, interval, setPartStart, player }: VideoSlider) => {
+const VideoSlider = ({
+  partStartTime,
+  videoLength,
+  interval,
+  setPartStartTime,
+  player,
+}: VideoSlider) => {
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { valueAsNumber },
   }) => {
     const [minute, second] = secondsToMinSec(valueAsNumber);
 
-    setPartStart({ minute, second });
+    setPartStartTime({ minute, second });
     player?.pauseVideo();
-    player?.seekTo(time, false);
+    player?.seekTo(partStartTime, false);
   };
 
   const seekToTime = () => {
-    player?.seekTo(time, true);
+    player?.seekTo(partStartTime, true);
     player?.playVideo();
   };
 
@@ -31,7 +37,7 @@ const VideoSlider = ({ time, videoLength, interval, setPartStart, player }: Vide
     <SliderWrapper>
       <Slider
         type="range"
-        value={time}
+        value={partStartTime}
         onChange={changeTime}
         onTouchEnd={seekToTime}
         onMouseUp={seekToTime}
