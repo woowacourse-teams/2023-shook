@@ -16,23 +16,23 @@ import type { KillingPartInterval } from '../KillingPartToggleGroup';
 
 export interface IntervalInputProps {
   videoLength: number;
-  partStart: TimeMinSec;
+  partStartTime: TimeMinSec;
   errorMessage: string;
   interval: KillingPartInterval;
   onChangeErrorMessage: (message: string) => void;
-  onChangePartStart: (name: string, value: number) => void;
+  onChangePartStartTime: (name: string, value: number) => void;
 }
 
 const IntervalInput = ({
   videoLength,
-  partStart,
+  partStartTime,
   errorMessage,
   interval,
-  onChangePartStart,
+  onChangePartStartTime,
   onChangeErrorMessage,
 }: IntervalInputProps) => {
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
-  const { minute: startMinute, second: startSecond } = partStart;
+  const { minute: startMinute, second: startSecond } = partStartTime;
 
   const [endMinute, endSecond] = calculateMinSec(
     startMinute,
@@ -50,7 +50,7 @@ const IntervalInput = ({
     }
 
     onChangeErrorMessage('');
-    onChangePartStart(name, Number(value));
+    onChangePartStartTime(name, Number(value));
   };
 
   const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({

@@ -15,13 +15,13 @@ type Story = StoryObj<typeof IntervalInput>;
 
 const TestIntervalInput = () => {
   const videoLength = 210;
-  const [partStart, setPartStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
+  const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
   const { interval } = useKillingPartInterval();
 
   const onChangePartStart = (name: string, value: number) => {
-    setPartStart({
-      ...partStart,
+    setPartStartTime({
+      ...partStartTime,
       [name]: Number(value),
     });
   };
@@ -33,10 +33,10 @@ const TestIntervalInput = () => {
   return (
     <IntervalInput
       videoLength={videoLength}
-      partStart={partStart}
+      partStartTime={partStartTime}
       interval={interval}
       errorMessage={errorMessage}
-      onChangePartStart={onChangePartStart}
+      onChangePartStartTime={onChangePartStart}
       onChangeErrorMessage={onChangeErrorMessage}
     />
   );

@@ -122,16 +122,16 @@ const SongDetailPage = () => {
       <IntervalInput
         videoLength={videoLength}
         errorMessage={errorMessage}
-        partStart={partStart}
+        partStartTime={partStart}
         interval={interval}
         onChangeErrorMessage={onChangeErrorMessage}
-        onChangePartStart={onChangePartStart}
+        onChangePartStartTime={onChangePartStart}
       />
       <VideoSlider
-        time={minSecToSeconds([partStart.minute, partStart.second])}
+        partStartTime={minSecToSeconds([partStart.minute, partStart.second])}
         interval={interval}
         videoLength={videoLength}
-        setPartStart={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
+        setPartStartTime={(timeMinSec: TimeMinSec) => setPartStart(timeMinSec)}
         player={player}
       />
       <Spacing direction="vertical" size={40} />
