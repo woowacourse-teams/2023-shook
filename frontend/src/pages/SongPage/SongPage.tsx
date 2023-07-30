@@ -1,32 +1,71 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { styled } from 'styled-components';
 import dummyJacket from '@/assets/image/album-jacket.png';
-import { Flex, Spacing } from '@/components/@common';
+import { Spacing } from '@/components/@common';
 import ToggleGroup from '@/components/@common/ToggleGroup/ToggleGroup';
 import ToggleSwitch from '@/components/@common/ToggleSwitch/ToggleSwitch';
 import { KillingPartInfo } from '@/components/KillingPartInfo';
 import Youtube from '@/components/Youtube/Youtube';
 import { useGetSongDetail } from '@/hooks/song';
+import {
+  Info,
+  Jacket,
+  Wrapper,
+  Singer,
+  PrimarySpan,
+  SongInfoContainer,
+  SongTitle,
+  SubTitle,
+  SwitchLabel,
+  SwitchWrapper,
+  ToggleWrapper,
+} from './SongPage.style';
 
 const SongPage = () => {
   const { id } = useParams();
   const [player, setPlayer] = useState<YT.Player | undefined>();
   const [isRepeat, setIsRepeat] = useState(true);
-  const [killingRank, setKillingRank] = useState('1');
+  const [killingRank, setKillingRank] = useState('');
   const { songDetail } = useGetSongDetail(Number(id));
+  const timer = useRef<number>(-1);
+
+  useEffect(() => {
+    if (!songDetail) return;
+    const part = songDetail.killingParts?.[Number(killingRank) - 1];
+
+    if (!part) {
+      player?.seekTo(0, true);
+      player?.playVideo();
+      return;
+    } else {
+      player?.seekTo(part.start, true);
+    }
+
+    player?.playVideo();
+
+    if (isRepeat) {
+      timer.current = window.setInterval(
+        () => {
+          player?.seekTo(part.start, true);
+        },
+        (part.end - part.start) * 1000
+      );
+    }
+
+    return () => {
+      window.clearInterval(timer.current);
+    };
+  }, [isRepeat, killingRank, player, songDetail]);
 
   if (!songDetail) return;
-  const { killingParts, singer, title, videoLength, videoUrl } = songDetail;
+  const { killingParts, singer, title, videoUrl } = songDetail;
 
-  // TODO: videoId 구하는 util함수 분리
   const videoId = videoUrl.replace('https://youtu.be/', '');
 
   const setPlayerAfterReady = ({ target }: YT.PlayerEvent) => {
     setPlayer(target);
   };
 
-  // TODO: 재생관련 로직
   const onChangeValue = (value: string) => {
     setKillingRank(value);
   };
@@ -36,7 +75,7 @@ const SongPage = () => {
   };
 
   return (
-    <Container>
+    <Wrapper>
       <SongInfoContainer>
         <Jacket src={dummyJacket} alt={`${title} 앨범 자켓`} />
         <Info>
@@ -66,73 +105,8 @@ const SongPage = () => {
       </SwitchWrapper>
       <Spacing direction="vertical" size={10} />
       <KillingPartInfo killingPart={killingParts[Number(killingRank) - 1]} />
-    </Container>
+    </Wrapper>
   );
 };
 
 export default SongPage;
-
-const Container = styled(Flex)`
-  flex-direction: column;
-`;
-export const SongInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-export const Jacket = styled.img`
-  width: 60px;
-  height: 60px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
-export const Info = styled.div``;
-
-export const SongTitle = styled.p`
-  font-size: 24px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 20px;
-  }
-`;
-
-export const Singer = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.subText};
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 16px;
-  }
-`;
-export const SubTitle = styled.h2`
-  font-size: 18px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-`;
-
-export const PrimarySpan = styled.span`
-  color: ${({ theme: { color } }) => color.primary};
-`;
-
-export const ToggleWrapper = styled.div`
-  padding: 8px;
-`;
-export const SwitchWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  margin: 0 8px;
-  column-gap: 8px;
-`;
-
-export const SwitchLabel = styled.label`
-  color: ${({ theme: { color } }) => color.white};
-  font-size: 14px;
-`;
