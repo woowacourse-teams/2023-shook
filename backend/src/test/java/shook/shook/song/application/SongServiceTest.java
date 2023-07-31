@@ -45,7 +45,7 @@ class SongServiceTest extends UsingJpaTest {
     @BeforeEach
     void setUp() {
         songService = new SongService(songRepository);
-        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
+        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "이미지URL", "가수", 180));
     }
 
     void addPart(final Song song, final Part part) {
@@ -62,7 +62,8 @@ class SongServiceTest extends UsingJpaTest {
     @Test
     void register() {
         //given
-        final SongRegisterRequest request = new SongRegisterRequest("새로운노래제목", "비디오URL", "가수", 180);
+        final SongRegisterRequest request = new SongRegisterRequest("새로운노래제목", "비디오URL", "이미지URL",
+            "가수", 180);
 
         //when
         songService.register(request);

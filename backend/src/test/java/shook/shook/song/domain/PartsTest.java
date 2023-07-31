@@ -25,7 +25,7 @@ class PartsTest {
     @Test
     void create_fail_duplicatePartExist() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
         final Part secondPart = Part.forSave(5, PartLength.SHORT, song);
 
@@ -42,7 +42,7 @@ class PartsTest {
     @Test
     void getTopKillingPart() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
         final Part secondPart = Part.saved(2L, 14, PartLength.SHORT, song);
         firstPart.vote(Vote.saved(1L, firstPart));
@@ -68,7 +68,7 @@ class PartsTest {
         @Test
         void enough() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
             final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.saved(2L, 6, PartLength.SHORT, song);
             final Part thirdPart = Part.saved(3L, 7, PartLength.SHORT, song);
@@ -98,7 +98,7 @@ class PartsTest {
         @Test
         void onlyTwo() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
 
             final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.saved(2L, 6, PartLength.SHORT, song);
@@ -140,7 +140,7 @@ class PartsTest {
         @Test
         void exist() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
             final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.saved(2L, 6, PartLength.SHORT, song);
             final Part thirdPart = Part.saved(3L, 7, PartLength.SHORT, song);
@@ -173,7 +173,7 @@ class PartsTest {
         @Test
         void notExist() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
             final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
 
             //when

@@ -41,7 +41,7 @@ class PartServiceTest extends UsingJpaTest {
     @BeforeEach
     void setUp() {
         partService = new PartService(songRepository, partRepository, voteRepository);
-        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
+        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "이미지URL", "가수", 180));
     }
 
     void addPart(final Song song, final Part part) {
