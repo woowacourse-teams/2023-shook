@@ -23,7 +23,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 import shook.shook.song.exception.ExternalApiException;
-import shook.shook.song.exception.UnregisteredSongException.EmptyResultException;
+import shook.shook.song.exception.ExternalApiException.EmptyResultException;
 
 @ExtendWith(MockitoExtension.class)
 class ManiaDBSearchServiceTest {

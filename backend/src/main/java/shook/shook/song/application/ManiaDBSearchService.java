@@ -13,7 +13,6 @@ import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 import shook.shook.song.application.dto.maniadb.ManiaDBAPISearchResponse;
 import shook.shook.song.application.dto.maniadb.UnregisteredSongResponses;
 import shook.shook.song.exception.ExternalApiException;
-import shook.shook.song.exception.UnregisteredSongException.EmptyResultException;
 
 @RequiredArgsConstructor
 @Service
@@ -46,7 +45,7 @@ public class ManiaDBSearchService {
         final ManiaDBAPISearchResponse result = getResultFromManiaDB(searchUrl);
 
         if (Objects.isNull(result)) {
-            throw new EmptyResultException();
+            throw new ExternalApiException.EmptyResultException();
         }
 
         return result.getSongs();
