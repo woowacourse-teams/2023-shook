@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class ManiaDBApiControllerTest {
+class UnregisteredSongSearchControllerTest {
 
     @LocalServerPort
     public int port;

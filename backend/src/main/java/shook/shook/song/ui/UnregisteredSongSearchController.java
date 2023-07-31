@@ -13,7 +13,7 @@ import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 @RequiredArgsConstructor
 @RequestMapping("/songs/unregistered/search")
 @RestController
-public class ManiaDBApiController {
+public class UnregisteredSongSearchController {
 
     private final ManiaDBSearchService maniaDBSearchService;
 
