@@ -11,7 +11,7 @@ public class SearchedSongResponse {
     private String title;
     private String singer;
     private String albumImage;
-    private Integer length;
+    private int length;
 
     public static SearchedSongResponse from(final Song song) {
         return new SearchedSongResponse(

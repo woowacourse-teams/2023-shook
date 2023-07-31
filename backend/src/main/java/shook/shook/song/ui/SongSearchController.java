@@ -19,8 +19,8 @@ public class SongSearchController {
 
     @GetMapping
     public ResponseEntity<List<SearchedSongResponse>> searchSongsByTitleAndSinger(
-        @RequestParam(required = false, name = "singer") String singer,
-        @RequestParam(required = false, name = "title") String title
+        @RequestParam(required = false) final String singer,
+        @RequestParam(required = false) final String title
     ) {
         final List<SearchedSongResponse> responses =
             songSearchService.findAllBySingerAndTitle(singer, title);

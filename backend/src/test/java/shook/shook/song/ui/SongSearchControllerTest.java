@@ -3,9 +3,7 @@ package shook.shook.song.ui;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,11 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.jdbc.Sql;
 import shook.shook.song.application.dto.SearchedSongResponse;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Sql("classpath:/drop-create-song.sql")
 class SongSearchControllerTest {
 
     @LocalServerPort
@@ -36,7 +36,7 @@ class SongSearchControllerTest {
     @Test
     void searchSongBySinger() {
         //given
-        final Song saved1 = songRepository.save(
+        final Song song = songRepository.save(
             new Song("Feel My Rhythm", "비디오URL", "RedVelvet", 20));
         songRepository.save(new Song("Birthday", "비디오URL", "레드벨벳", 20));
 
@@ -53,9 +53,9 @@ class SongSearchControllerTest {
             .getList(".", SearchedSongResponse.class);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved1)
-            .map(SearchedSongResponse::from)
-            .toList();
+        final List<SearchedSongResponse> expectedResponses = List.of(
+            SearchedSongResponse.from(song)
+        );
 
         assertThat(responses).usingRecursiveComparison()
             .isEqualTo(expectedResponses);
@@ -65,8 +65,8 @@ class SongSearchControllerTest {
     @Test
     void searchSongByTitle() {
         //given
-        final Song saved1 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "먼데이키즈", 20));
-        final Song saved2 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "임재범", 20));
+        final Song song1 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "먼데이키즈", 20));
+        final Song song2 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "임재범", 20));
         songRepository.save(new Song("이밤이 지나면", "비디오URL", "뉴진스(New Jeans)", 20));
         songRepository.save(new Song("그 밤이 지나면", "비디오URL", "레드벨벳", 20));
 
@@ -83,9 +83,10 @@ class SongSearchControllerTest {
             .getList(".", SearchedSongResponse.class);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved1, saved2)
-            .map(SearchedSongResponse::from)
-            .toList();
+        final List<SearchedSongResponse> expectedResponses = List.of(
+            SearchedSongResponse.from(song1),
+            SearchedSongResponse.from(song2)
+        );
 
         assertThat(responses).usingRecursiveComparison()
             .isEqualTo(expectedResponses);
@@ -96,7 +97,7 @@ class SongSearchControllerTest {
     void searchSongByIntegrationSearch() {
         //given
         songRepository.save(new Song("Super Shy", "비디오URL", "르세라핌", 20));
-        final Song saved2 = songRepository.save(new Song("Super Shy", "비디오URL", "뉴진스", 20));
+        final Song song = songRepository.save(new Song("Super Shy", "비디오URL", "뉴진스", 20));
         songRepository.save(new Song("ETA", "비디오URL", "뉴진스", 20));
 
         //when
@@ -112,9 +113,9 @@ class SongSearchControllerTest {
             .getList(".", SearchedSongResponse.class);
 
         //then
-        final List<SearchedSongResponse> expectedResponses = Stream.of(saved2)
-            .map(SearchedSongResponse::from)
-            .toList();
+        final List<SearchedSongResponse> expectedResponses = List.of(
+            SearchedSongResponse.from(song)
+        );
 
         assertThat(responses).usingRecursiveComparison()
             .isEqualTo(expectedResponses);
@@ -136,7 +137,6 @@ class SongSearchControllerTest {
             .getList(".", SearchedSongResponse.class);
 
         //then
-        assertThat(responses).usingRecursiveComparison()
-            .isEqualTo(Collections.emptyList());
+        assertThat(responses).isEmpty();
     }
 }

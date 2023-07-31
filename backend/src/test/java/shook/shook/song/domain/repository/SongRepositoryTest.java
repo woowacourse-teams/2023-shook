@@ -82,10 +82,10 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(song.getCreatedAt()).isBetween(prev, after);
     }
 
-    @DisplayName("대소문자 상관없이 정확히 일치하는 가수를 가진 모든 Song 목록을 조회한다.")
+    @DisplayName("일치하는 가수를 가진 모든 Song 목록을 조회한다. (가수는 대소문자를 무시한다.)")
     @ParameterizedTest(name = "가수의  이름이 {0} 일 때")
     @ValueSource(strings = {"redvelvet", "Redvelvet"})
-    void findAllBySinger(final String singer) {
+    void findAllBySingerIgnoringCase_exist(final String singer) {
         //given
         final Song song1 = new Song("노래제목", "비디오URL", "RedVelvet", 180);
         final Song song2 = new Song("노래제목2", "비디오URL", "RedVelvet", 100);
@@ -101,10 +101,25 @@ class SongRepositoryTest extends UsingJpaTest {
             .isEqualTo(List.of(song1, song2));
     }
 
-    @DisplayName("대소문자 상관없이 정확히 일치하는 제목을 가진 모든 Song 목록을 조회한다.")
+    @DisplayName("일치하는 가수가 없다면 빈 Song 목록이 조회된다")
+    @Test
+    void findAllBySingerIgnoringCase_noExist() {
+        //given
+        final Song song = new Song("노래제목", "비디오URL", "RedVelvet", 180);
+        songRepository.save(song);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase("뉴진스");
+
+        //then
+        assertThat(songs).isEmpty();
+    }
+
+    @DisplayName("일치하는 제목을 가진 모든 Song 목록을 조회한다. (제목은 대소문자를 무시한다.)")
     @ParameterizedTest(name = "제목이 {0} 일 때")
     @ValueSource(strings = {"hi", "HI"})
-    void findAllByTitle(final String title) {
+    void findAllByTitleIgnoringCase_exist(final String title) {
         //given
         final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
         final Song song2 = new Song("hI", "비디오URL", "가수", 100);
@@ -120,9 +135,24 @@ class SongRepositoryTest extends UsingJpaTest {
             .isEqualTo(List.of(song1, song2));
     }
 
-    @DisplayName("대소문자 상관없이 가수와 제목이 모두 일치하는 모든 Song 목록을 조회한다.")
+    @DisplayName("일치하는 제목이 없다면 빈 Song 목록이 조회된다")
     @Test
-    void findAllByTitleAndSingerIgnoringCase() {
+    void findAllByTitleIgnoringCase_noExist() {
+        //given
+        final Song song = new Song("노래제목", "비디오URL", "RedVelvet", 180);
+        songRepository.save(song);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase("다른제목");
+
+        //then
+        assertThat(songs).isEmpty();
+    }
+
+    @DisplayName("제목과 가수가 모두 일치하는 모든 Song 목록을 조회한다. (가수와 제목은 대소문자를 무시한다.)")
+    @Test
+    void findAllByTitleAndSingerIgnoringCase_exist() {
         //given
         final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
         final Song song2 = new Song("hI", "비디오URL", "가수", 100);
@@ -138,5 +168,22 @@ class SongRepositoryTest extends UsingJpaTest {
         //then
         assertThat(songs).usingRecursiveComparison()
             .isEqualTo(List.of(song1, song2));
+    }
+
+    @DisplayName("제목과 가수가 모두 일치하는 Song 이 없다면 빈 Song 목록이 조회된다")
+    @Test
+    void findAllByTitleAndSingerIgnoringCase_noExist() {
+        //given
+        final Song song1 = new Song("노래제목", "비디오URL", "뉴진스", 180);
+        final Song song2 = new Song("다른제목", "비디오URL", "RedVelvet", 180);
+        songRepository.save(song1);
+        songRepository.save(song2);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleAndSingerIgnoringCase("다른제목", "뉴진스");
+
+        //then
+        assertThat(songs).isEmpty();
     }
 }

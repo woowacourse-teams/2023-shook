@@ -14,11 +14,11 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     Optional<Song> findByTitle(final SongTitle title);
 
-    @Query("SELECT s FROM Song s WHERE LOWER(s.singer.name) = LOWER(?1)")
-    List<Song> findAllBySingerIgnoringCase(final String singer);
+    @Query("SELECT s FROM Song s WHERE LOWER(s.singer.name) = LOWER(:singer)")
+    List<Song> findAllBySingerIgnoringCase(@Param("singer") final String singer);
 
-    @Query("SELECT s FROM Song s WHERE LOWER(s.title.value) = LOWER(?1)")
-    List<Song> findAllByTitleIgnoringCase(final String title);
+    @Query("SELECT s FROM Song s WHERE LOWER(s.title.value) = LOWER(:title)")
+    List<Song> findAllByTitleIgnoringCase(@Param("title") final String title);
 
     @Query("SELECT s FROM Song s WHERE LOWER(s.title.value) = LOWER(:title) AND LOWER(s.singer.name) = LOWER(:singer)")
     List<Song> findAllByTitleAndSingerIgnoringCase(
