@@ -24,7 +24,7 @@ public class PartCommentController {
     @PostMapping
     public ResponseEntity<Void> registerPartComment(
         @PathVariable(name = "part_id") final Long partId,
-        @RequestBody PartCommentRegisterRequest request
+        @RequestBody final PartCommentRegisterRequest request
     ) {
         partCommentService.register(partId, request);
 
