@@ -12,8 +12,8 @@ import shook.shook.song.application.dto.SongRegisterRequest;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
-import shook.shook.song.domain.SongTotalVoteCountDto;
 import shook.shook.song.domain.repository.SongRepository;
+import shook.shook.song.domain.repository.dto.SongTotalVoteCountDto;
 import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
@@ -22,6 +22,7 @@ import shook.shook.song.exception.SongException;
 public class SongService {
 
     private static final int HIGH_VOTED_SONG_SIZE = 40;
+
     private final SongRepository songRepository;
 
     @Transactional
@@ -62,21 +63,28 @@ public class SongService {
     }
 
     public List<HighVotedSongResponse> findHighVotedSongs() {
-        final List<SongTotalVoteCountDto> songTotalVoteCountDto = songRepository.findSongWithTotalVoteCount();
+        final List<SongTotalVoteCountDto> songTotalVoteCountDtos = songRepository.findSongWithTotalVoteCount();
 
-        final List<Song> highVotedSongs = songTotalVoteCountDto.stream()
-            .sorted((o1, o2) -> {
-                if (o1.getTotalVoteCount().equals(o2.getTotalVoteCount())) {
-                    return o2.getSong().getCreatedAt().compareTo(o1.getSong().getCreatedAt());
-                }
-                return o2.getTotalVoteCount().compareTo(o1.getTotalVoteCount());
-            })
-            .map(SongTotalVoteCountDto::getSong)
-            .toList();
+        final List<Song> highVotedSongs = getSortedHighVotedSongs(songTotalVoteCountDtos);
 
         if (highVotedSongs.size() <= HIGH_VOTED_SONG_SIZE) {
             return HighVotedSongResponse.getList(highVotedSongs);
         }
         return HighVotedSongResponse.getList(highVotedSongs.subList(0, HIGH_VOTED_SONG_SIZE));
+    }
+
+    private List<Song> getSortedHighVotedSongs(
+        final List<SongTotalVoteCountDto> songTotalVoteCountDtos
+    ) {
+        return songTotalVoteCountDtos.stream()
+            .sorted((firstSong, secondSong) -> {
+                if (firstSong.getTotalVoteCount().equals(secondSong.getTotalVoteCount())) {
+                    return secondSong.getSong().getCreatedAt()
+                        .compareTo(firstSong.getSong().getCreatedAt());
+                }
+                return secondSong.getTotalVoteCount().compareTo(firstSong.getTotalVoteCount());
+            })
+            .map(SongTotalVoteCountDto::getSong)
+            .toList();
     }
 }

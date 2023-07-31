@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
-import shook.shook.song.domain.SongTotalVoteCountDto;
+import shook.shook.song.domain.repository.dto.SongTotalVoteCountDto;
 import shook.shook.support.UsingJpaTest;
 
 class SongRepositoryTest extends UsingJpaTest {
@@ -47,7 +47,8 @@ class SongRepositoryTest extends UsingJpaTest {
 
         //then
         assertThat(findSong).isPresent();
-        assertThat(findSong.get()).usingRecursiveComparison().isEqualTo(song);
+        assertThat(findSong.get()).usingRecursiveComparison()
+            .isEqualTo(song);
     }
 
     @DisplayName("제목으로 Song 을 조회한다.")
@@ -63,7 +64,8 @@ class SongRepositoryTest extends UsingJpaTest {
 
         //then
         assertThat(findSong).isPresent();
-        assertThat(findSong.get()).usingRecursiveComparison().isEqualTo(song);
+        assertThat(findSong.get()).usingRecursiveComparison()
+            .isEqualTo(song);
     }
 
     @DisplayName("Song 을 저장할 때의 시간 정보로 createAt이 자동 생성된다.")
@@ -102,8 +104,10 @@ class SongRepositoryTest extends UsingJpaTest {
             .mapToObj((index) -> 0L)
             .toList();
 
-        assertThat(songs).usingRecursiveComparison().isEqualTo(expectedSongs);
-        assertThat(totalVotes).usingRecursiveComparison().isEqualTo(expectedTotalVotes);
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(expectedSongs);
+        assertThat(totalVotes).usingRecursiveComparison()
+            .isEqualTo(expectedTotalVotes);
 
     }
 }

@@ -24,7 +24,6 @@ import shook.shook.support.UsingJpaTest;
 
 class PartServiceTest extends UsingJpaTest {
 
-    private static final long NOT_EXIST_SONG_ID = 0L;
     private static Song SAVED_SONG;
 
     @Autowired

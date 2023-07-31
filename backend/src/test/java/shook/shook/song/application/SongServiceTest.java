@@ -269,7 +269,7 @@ class SongServiceTest extends UsingJpaTest {
         }
     }
 
-    @DisplayName("총 득표수가 높은 순서로 노래 목록을 반환한다. ( 최대 40개를 반환, 같은 득표시 최신등록 순으로 정렬 )")
+    @DisplayName("총 득표수가 높은 순서로 노래 목록을 반환한다. ( 최대 40개를 반환, 같은 득표시 최신등록 순으로 정렬, 노래 40개 존재 )")
     @Test
     void findHighVotedSongs() {
         //given

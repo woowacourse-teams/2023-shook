@@ -1,11 +1,12 @@
 package shook.shook.song.application.dto;
 
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import shook.shook.song.domain.Song;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class HighVotedSongResponse {
 

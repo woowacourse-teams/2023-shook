@@ -10,8 +10,8 @@ import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.HighVotedSongResponse;
 
 @RequiredArgsConstructor
-@RestController
 @RequestMapping("/songs/high-voted")
+@RestController
 public class HighVotedSongController {
 
     private final SongService songService;
