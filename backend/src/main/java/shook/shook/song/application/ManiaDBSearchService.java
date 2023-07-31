@@ -13,6 +13,8 @@ import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 import shook.shook.song.application.dto.maniadb.ManiaDBAPISearchResponse;
 import shook.shook.song.application.dto.maniadb.UnregisteredSongResponses;
 import shook.shook.song.exception.ExternalApiException;
+import shook.shook.song.exception.UnregisteredSongException;
+import shook.shook.util.StringChecker;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +26,8 @@ public class ManiaDBSearchService {
     private final WebClient webClient;
 
     public List<UnregisteredSongSearchResponse> searchSongs(final String searchWord) {
+        validateSearchWord(searchWord);
+
         final String parsedSearchWord = replaceSpecialMark(searchWord);
         final UnregisteredSongResponses searchResult = getSearchResult(parsedSearchWord);
 
@@ -34,6 +38,12 @@ public class ManiaDBSearchService {
         return searchResult.getSongs().stream()
             .map(UnregisteredSongSearchResponse::from)
             .toList();
+    }
+
+    private void validateSearchWord(final String searchWord) {
+        if (StringChecker.isNullOrBlank(searchWord)) {
+            throw new UnregisteredSongException.NullOrBlankSearchWordException();
+        }
     }
 
     private String replaceSpecialMark(final String rawSearchWord) {

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 import shook.shook.song.exception.ExternalApiException;
 import shook.shook.song.exception.ExternalApiException.EmptyResultException;
+import shook.shook.song.exception.UnregisteredSongException;
 
 @ExtendWith(MockitoExtension.class)
 class ManiaDBSearchServiceTest {
@@ -266,6 +269,17 @@ class ManiaDBSearchServiceTest {
             () -> assertThat(responses.get(0)).usingRecursiveComparison()
                 .isEqualTo(expectedResponse)
         );
+    }
+
+    @DisplayName("검색 단어가 null 이거나 빈 문자열인 경우, 예외가 발생한다.")
+    @NullAndEmptySource
+    @ParameterizedTest(name = "검색 단어가 \"{0}\" 인 경우")
+    void nullOrBlankSearchWord(final String searchWord) {
+        // given
+        // when
+        // then
+        assertThatThrownBy(() -> maniaDBSearchService.searchSongs(searchWord))
+            .isInstanceOf(UnregisteredSongException.NullOrBlankSearchWordException.class);
     }
 
     @DisplayName("특수문자가 포함된 검색 단어가 입력된 경우, 특수문자를 제거하고 검색한다.")
