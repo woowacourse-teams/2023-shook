@@ -11,6 +11,7 @@ public class UnregisteredSongSearchResponse {
 
     private static final String EMPTY_SINGER = "";
     private static final String SINGER_DELIMITER = ", ";
+
     private String title;
     private String singer;
     private String albumImageUrl;

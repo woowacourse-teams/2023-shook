@@ -23,6 +23,7 @@ public class ManiaDBSearchService {
     private static final String MANIA_DB_API_URI = "/%s/?sr=song&display=%d&key=example&v=0.5";
     private static final int SEARCH_SIZE = 100;
     private static final String SPECIAL_MARK_REGEX = "[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9,. ]";
+
     private final WebClient webClient;
 
     public List<UnregisteredSongSearchResponse> searchSongs(final String searchWord) {
