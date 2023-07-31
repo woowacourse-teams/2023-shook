@@ -8,18 +8,4 @@ public class UnregisteredSongException extends RuntimeException {
             super();
         }
     }
-
-    public static class ManiaDBServerException extends UnregisteredSongException {
-
-        public ManiaDBServerException() {
-            super();
-        }
-    }
-
-    public static class ManiaDBClientException extends UnregisteredSongException {
-
-        public ManiaDBClientException() {
-            super();
-        }
-    }
 }

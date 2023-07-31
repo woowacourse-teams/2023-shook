@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
 import shook.shook.song.application.dto.maniadb.ManiaDBAPISearchResponse;
 import shook.shook.song.application.dto.maniadb.UnregisteredSongResponses;
-import shook.shook.song.exception.UnregisteredSongException;
+import shook.shook.song.exception.ExternalApiException;
 import shook.shook.song.exception.UnregisteredSongException.EmptyResultException;
 
 @RequiredArgsConstructor
@@ -59,10 +59,10 @@ public class ManiaDBSearchService {
             .acceptCharset(StandardCharsets.UTF_8)
             .retrieve()
             .onStatus(HttpStatusCode::is4xxClientError, (clientResponse) -> {
-                throw new UnregisteredSongException.ManiaDBClientException();
+                throw new ExternalApiException.ManiaDBClientException();
             })
             .onStatus(HttpStatusCode::is5xxServerError, (clientResponse) -> {
-                throw new UnregisteredSongException.ManiaDBServerException();
+                throw new ExternalApiException.ManiaDBServerException();
             })
             .bodyToMono(ManiaDBAPISearchResponse.class)
             .block();

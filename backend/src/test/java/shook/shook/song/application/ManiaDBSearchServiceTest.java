@@ -22,7 +22,7 @@ import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
-import shook.shook.song.exception.UnregisteredSongException;
+import shook.shook.song.exception.ExternalApiException;
 import shook.shook.song.exception.UnregisteredSongException.EmptyResultException;
 
 @ExtendWith(MockitoExtension.class)
@@ -375,7 +375,7 @@ class ManiaDBSearchServiceTest {
         // when
         // then
         assertThatThrownBy(() -> maniaDBSearchService.searchSongs(SEARCH_WORD))
-            .isInstanceOf(UnregisteredSongException.ManiaDBClientException.class);
+            .isInstanceOf(ExternalApiException.ManiaDBClientException.class);
     }
 
     @DisplayName("ManiaDB API 서버에서 예외가 발생한 경우, 예외가 발생한다.")
@@ -391,6 +391,6 @@ class ManiaDBSearchServiceTest {
         // when
         // then
         assertThatThrownBy(() -> maniaDBSearchService.searchSongs(SEARCH_WORD))
-            .isInstanceOf(UnregisteredSongException.ManiaDBServerException.class);
+            .isInstanceOf(ExternalApiException.ManiaDBServerException.class);
     }
 }
