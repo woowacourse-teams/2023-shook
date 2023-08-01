@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 import { useCallback, useEffect } from 'react';
 import { styled } from 'styled-components';
+import { useVideoPlayerContext } from '@/components/Youtube';
 import { loadIFrameApi } from '@/components/Youtube/api/loadIframeApi';
-import useVideoPlayerContext from '@/context/useVideoPlayerContext';
 
 interface YoutubeProps {
   videoId: string;

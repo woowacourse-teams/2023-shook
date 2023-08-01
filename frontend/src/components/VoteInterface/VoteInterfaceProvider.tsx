@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
-import useVideoPlayerContext from '@/context/useVideoPlayerContext';
+import { useVideoPlayerContext } from '@/components/Youtube';
 import { minSecToSeconds } from '@/utils/convertTime';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 import type { KillingPartInterval } from '@/components/KillingPartToggleGroup';
