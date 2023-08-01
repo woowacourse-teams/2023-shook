@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { VoteInterfaceProvider } from '@/components/VoteInterface';
 import renderWithTheme from '@/utils/renderWithTheme';
+import { VideoPlayerProvider } from '../Youtube';
 import IntervalInput from './IntervalInput';
 
 const TestIntervalInput = () => {
@@ -14,13 +15,15 @@ const TestIntervalInput = () => {
   };
 
   return (
-    <VoteInterfaceProvider>
-      <IntervalInput
-        videoLength={videoLength}
-        errorMessage={errorMessage}
-        onChangeErrorMessage={onChangeErrorMessage}
-      />
-    </VoteInterfaceProvider>
+    <VideoPlayerProvider>
+      <VoteInterfaceProvider>
+        <IntervalInput
+          videoLength={videoLength}
+          errorMessage={errorMessage}
+          onChangeErrorMessage={onChangeErrorMessage}
+        />
+      </VoteInterfaceProvider>
+    </VideoPlayerProvider>
   );
 };
 

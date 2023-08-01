@@ -1,4 +1,5 @@
 import { VoteInterfaceProvider } from '@/components/VoteInterface';
+import { VideoPlayerProvider } from '../Youtube';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -7,9 +8,11 @@ const meta: Meta<typeof KillingPartToggleGroup> = {
   title: 'KillingPartToggleGroup',
   decorators: [
     (Story) => (
-      <VoteInterfaceProvider>
-        <Story />
-      </VoteInterfaceProvider>
+      <VideoPlayerProvider>
+        <VoteInterfaceProvider>
+          <Story />
+        </VoteInterfaceProvider>
+      </VideoPlayerProvider>
     ),
   ],
 };

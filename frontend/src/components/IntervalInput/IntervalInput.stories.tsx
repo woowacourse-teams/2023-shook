@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VoteInterfaceProvider } from '@/components/VoteInterface';
+import { VideoPlayerProvider } from '../Youtube';
 import IntervalInput from './IntervalInput';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -8,9 +9,11 @@ const meta = {
   title: 'IntervalInput',
   decorators: [
     (Story) => (
-      <VoteInterfaceProvider>
-        <Story />
-      </VoteInterfaceProvider>
+      <VideoPlayerProvider>
+        <VoteInterfaceProvider>
+          <Story />
+        </VoteInterfaceProvider>
+      </VideoPlayerProvider>
     ),
   ],
 } satisfies Meta<typeof IntervalInput>;
