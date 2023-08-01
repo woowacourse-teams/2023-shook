@@ -21,4 +21,4 @@ jobs:
         run: echo "${{ github.event.inputs.branch }}"
       - name: Deploy
         shell: bash
-        run: sudo bash /home/ubuntu/deploy.sh ${{ github.event.inputs.branch }}
+        run: bash /home/ubuntu/deploy.sh ${{ github.event.inputs.branch }}
