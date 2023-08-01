@@ -4,6 +4,7 @@ import { Flex } from '../SongDetailPage.style';
 export const Wrapper = styled(Flex)`
   flex-direction: column;
 `;
+
 export const SongInfoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -41,6 +42,7 @@ export const Singer = styled.p`
     font-size: 16px;
   }
 `;
+
 export const SubTitle = styled.h2`
   font-size: 18px;
   font-weight: 700;
@@ -54,6 +56,7 @@ export const PrimarySpan = styled.span`
 export const ToggleWrapper = styled.div`
   padding: 8px;
 `;
+
 export const SwitchWrapper = styled.div`
   display: flex;
   justify-content: end;
