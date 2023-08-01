@@ -93,8 +93,11 @@ const SongPage = () => {
       <ToggleWrapper>
         <ToggleGroup onChangeValue={onChangeValue}>
           <ToggleGroup.button value="1">{'1st'}</ToggleGroup.button>
+          <Spacing direction="horizontal" size={10} />
           <ToggleGroup.button value="2">{'2nd'}</ToggleGroup.button>
+          <Spacing direction="horizontal" size={10} />
           <ToggleGroup.button value="3">{'3rd'}</ToggleGroup.button>
+          <Spacing direction="horizontal" size={10} />
           <ToggleGroup.button value="4">{'전체'}</ToggleGroup.button>
         </ToggleGroup>
       </ToggleWrapper>
