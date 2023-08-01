@@ -2,7 +2,6 @@ import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
 import { getPlayingTimeText } from '@/utils/convertTime';
-import useCopyClipBoard from '@/utils/copyClipBoard';
 import copyClipboard from '@/utils/copyClipBoard';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import {

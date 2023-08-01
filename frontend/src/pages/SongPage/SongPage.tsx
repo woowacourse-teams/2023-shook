@@ -58,9 +58,9 @@ const SongPage = () => {
   }, [isRepeat, killingRank, player, songDetail]);
 
   if (!songDetail) return;
-  const { killingParts, singer, title, videoUrl } = songDetail;
+  const { killingParts, singer, title, songVideoUrl } = songDetail;
 
-  const videoId = videoUrl.replace('https://youtu.be/', '');
+  const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
   const setPlayerAfterReady = ({ target }: YT.PlayerEvent) => {
     setPlayer(target);
