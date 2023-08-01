@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isValidMinSec } from '@/utils/validateTime';
 import ERROR_MESSAGE from './constants/errorMessage';
@@ -11,26 +12,17 @@ import {
   Separator,
 } from './IntervalInput.style';
 import { isInputName } from './IntervalInput.type';
-import type { IntervalInputType, TimeMinSec } from './IntervalInput.type';
-import type { KillingPartInterval } from '../KillingPartToggleGroup';
+import type { IntervalInputType } from './IntervalInput.type';
 
 export interface IntervalInputProps {
   videoLength: number;
-  partStartTime: TimeMinSec;
   errorMessage: string;
-  interval: KillingPartInterval;
   onChangeErrorMessage: (message: string) => void;
-  onChangePartStartTime: (name: string, value: number) => void;
 }
 
-const IntervalInput = ({
-  videoLength,
-  partStartTime,
-  errorMessage,
-  interval,
-  onChangePartStartTime,
-  onChangeErrorMessage,
-}: IntervalInputProps) => {
+const IntervalInput = ({ videoLength, errorMessage, onChangeErrorMessage }: IntervalInputProps) => {
+  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
   const { minute: startMinute, second: startSecond } = partStartTime;
 
@@ -41,7 +33,7 @@ const IntervalInput = ({
   );
 
   const onChangeIntervalStart: React.ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { name, value },
+    currentTarget: { name: timeUnit, value },
   }) => {
     if (!isValidMinSec(value)) {
       onChangeErrorMessage(ERROR_MESSAGE.MIN_SEC);
@@ -50,7 +42,7 @@ const IntervalInput = ({
     }
 
     onChangeErrorMessage('');
-    onChangePartStartTime(name, Number(value));
+    updatePartStartTime(timeUnit, Number(value));
   };
 
   const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({

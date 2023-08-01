@@ -1,35 +1,31 @@
-import { secondsToMinSec } from '@/utils/convertTime';
+import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
+import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { Slider, SliderWrapper } from './VideoSlider.style';
-import type { TimeMinSec } from '../IntervalInput/IntervalInput.type';
 import type { ChangeEventHandler } from 'react';
 
 interface VideoSlider {
-  partStartTime: number;
   videoLength: number;
-  interval: number;
-  setPartStartTime: (timeMinSec: TimeMinSec) => void;
   player: YT.Player | undefined;
 }
 
-const VideoSlider = ({
-  partStartTime,
-  videoLength,
-  interval,
-  setPartStartTime,
-  player,
-}: VideoSlider) => {
-  const changeTime: ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { valueAsNumber },
-  }) => {
-    const [minute, second] = secondsToMinSec(valueAsNumber);
+const VideoSlider = ({ videoLength, player }: VideoSlider) => {
+  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+  const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
-    setPartStartTime({ minute, second });
+  const changeTime: ChangeEventHandler<HTMLInputElement> = ({
+    currentTarget: { valueAsNumber: currentSelectedTime },
+  }) => {
+    const [minute, second] = secondsToMinSec(currentSelectedTime);
+
+    // TODO: 시간 단위 통일
+    updatePartStartTime('minute', minute);
+    updatePartStartTime('second', second);
     player?.pauseVideo();
-    player?.seekTo(partStartTime, false);
+    player?.seekTo(currentSelectedTime, false);
   };
 
   const seekToTime = () => {
-    player?.seekTo(partStartTime, true);
+    player?.seekTo(partStartTimeInSeconds, true);
     player?.playVideo();
   };
 
@@ -37,7 +33,7 @@ const VideoSlider = ({
     <SliderWrapper>
       <Slider
         type="range"
-        value={partStartTime}
+        value={partStartTimeInSeconds}
         onChange={changeTime}
         onTouchEnd={seekToTime}
         onMouseUp={seekToTime}

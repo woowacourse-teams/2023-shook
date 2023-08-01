@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import dummyJacket from '@/assets/image/album-jacket.png';
 import VoteInterface from '@/components/VoteInterface/VoteInterface';
 import Youtube from '@/components/Youtube/Youtube';
+import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
 import { useGetSongDetail } from '@/hooks/song';
 import {
   Container,
@@ -46,7 +47,9 @@ const SongDetailPage = () => {
         </Info>
       </SongInfoContainer>
       <Youtube videoId={videoId} start={0} videoPlayer={videoPlayer} updatePlayer={updatePlayer} />
-      <VoteInterface videoLength={videoLength} videoPlayer={videoPlayer} />
+      <VoteInterfaceProvider>
+        <VoteInterface videoLength={videoLength} videoPlayer={videoPlayer} />
+      </VoteInterfaceProvider>
     </Container>
   );
 };
