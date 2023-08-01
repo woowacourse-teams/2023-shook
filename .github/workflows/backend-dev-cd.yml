@@ -1,4 +1,4 @@
-name: Backend Deploy (CD)
+name: Backend Develop Deploy (CD)
 
 on:
   workflow_dispatch:
