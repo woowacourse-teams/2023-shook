@@ -1,4 +1,4 @@
-import { Grid, Info, Rank, Singer, SongTitle } from './SongRankCard.style';
+import { Grid, Rank, Singer, SongTitle } from './SongRankCard.style';
 import Thumbnail from './Thumbnail';
 
 interface CardProps {
@@ -15,7 +15,10 @@ const SongRankCard = ({ rank, thumbnail, title, singer }: CardProps) => {
       <Thumbnail src={thumbnail} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Info>25,908 votes</Info>
+      {/*
+        TODO: 백엔드 구현 되어야 함
+        <Info>25,908 votes</Info>
+       */}
     </Grid>
   );
 };
