@@ -21,12 +21,11 @@ import type { PartVideoUrl } from '@/types/killingPart';
 
 interface VoteInterfaceProps {
   videoLength: number;
-  videoPlayer: YT.Player | undefined;
 }
 
-const VoteInterface = ({ videoLength, videoPlayer }: VoteInterfaceProps) => {
+const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
   const { showToast } = useToastContext();
-  const { interval, partStartTime } = useVoteInterfaceContext();
+  const { interval, partStartTime, videoPlayer } = useVoteInterfaceContext();
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -75,7 +74,7 @@ const VoteInterface = ({ videoLength, videoPlayer }: VoteInterfaceProps) => {
         errorMessage={errorMessage}
         onChangeErrorMessage={updateErrorMessage}
       />
-      <VideoSlider videoLength={videoLength} player={videoPlayer} />
+      <VideoSlider videoLength={videoLength} />
       <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
         등록
       </Register>
