@@ -21,6 +21,7 @@ const SongDetailPage = () => {
   if (!songDetail) return;
   const { id, title, singer, videoLength, songVideoUrl } = songDetail;
   // TODO: videoId 자체가 응답값으로 오도록 API 협의
+  // TODO: Jacket img src API 추가 협의
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
   return (
