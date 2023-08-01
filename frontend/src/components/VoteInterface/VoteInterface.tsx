@@ -12,6 +12,7 @@ import Modal from '../Modal/Modal';
 import { VideoSlider } from '../VideoSlider';
 import {
   Confirm,
+  Container,
   ModalContent,
   ModalTitle,
   Register,
@@ -70,7 +71,7 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
   };
 
   return (
-    <>
+    <Container>
       <RegisterTitle>당신의 킬링파트에 투표하세요🎧</RegisterTitle>
       <KillingPartToggleGroup />
       <IntervalInput
@@ -98,7 +99,7 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
           </Share>
         </ButtonContainer>
       </Modal>
-    </>
+    </Container>
   );
 };
 

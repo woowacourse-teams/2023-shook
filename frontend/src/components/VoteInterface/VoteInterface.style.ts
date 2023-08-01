@@ -1,5 +1,11 @@
 import { styled } from 'styled-components';
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
 export const RegisterTitle = styled.p`
   font-size: 22px;
   font-weight: 700;
