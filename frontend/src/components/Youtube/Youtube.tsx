@@ -2,15 +2,16 @@
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { loadIFrameApi } from '@/components/Youtube/api/loadIframeApi';
+import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 
 interface YoutubeProps {
   videoId: string;
   start: number;
-  videoPlayer: YT.Player | undefined;
-  updatePlayer: ({ target }: YT.PlayerEvent) => void;
 }
 
-const Youtube = ({ videoId, start, videoPlayer, updatePlayer }: YoutubeProps) => {
+const Youtube = ({ videoId, start }: YoutubeProps) => {
+  const { videoPlayer, updatePlayer } = useVoteInterfaceContext();
+
   const createYoutubePlayer = async () => {
     try {
       const YT = await loadIFrameApi();

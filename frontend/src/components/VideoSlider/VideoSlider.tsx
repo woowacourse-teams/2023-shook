@@ -5,11 +5,10 @@ import type { ChangeEventHandler } from 'react';
 
 interface VideoSlider {
   videoLength: number;
-  player: YT.Player | undefined;
 }
 
-const VideoSlider = ({ videoLength, player }: VideoSlider) => {
-  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+const VideoSlider = ({ videoLength }: VideoSlider) => {
+  const { interval, partStartTime, videoPlayer, updatePartStartTime } = useVoteInterfaceContext();
   const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
@@ -20,13 +19,13 @@ const VideoSlider = ({ videoLength, player }: VideoSlider) => {
     // TODO: 시간 단위 통일
     updatePartStartTime('minute', minute);
     updatePartStartTime('second', second);
-    player?.pauseVideo();
-    player?.seekTo(currentSelectedTime, false);
+    videoPlayer?.pauseVideo();
+    videoPlayer?.seekTo(currentSelectedTime, false);
   };
 
   const seekToTime = () => {
-    player?.seekTo(partStartTimeInSeconds, true);
-    player?.playVideo();
+    videoPlayer?.seekTo(partStartTimeInSeconds, true);
+    videoPlayer?.playVideo();
   };
 
   return (

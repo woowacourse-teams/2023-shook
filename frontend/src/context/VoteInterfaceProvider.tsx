@@ -1,5 +1,6 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
+import { minSecToSeconds } from '@/utils/convertTime';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 import type { KillingPartInterval } from '@/components/KillingPartToggleGroup';
 import type { PropsWithChildren } from 'react';
@@ -7,23 +8,45 @@ import type { PropsWithChildren } from 'react';
 interface VoteInterfaceContextProps {
   partStartTime: TimeMinSec;
   interval: KillingPartInterval;
+  videoPlayer: YT.Player | null;
   updatePartStartTime: (timeUnit: string, value: number) => void;
   setKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
+  updatePlayer: ({ target }: YT.PlayerEvent) => void;
 }
 
 export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | null>(null);
 
 export const VoteInterfaceProvider = ({ children }: PropsWithChildren) => {
-  const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const { interval, setKillingPartInterval } = useKillingPartInterval();
+  const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
+  const [videoPlayer, setVideoPlayer] = useState<YT.Player | null>(null);
+
+  const updatePlayer = ({ target: player }: YT.PlayerEvent) => setVideoPlayer(player);
 
   const updatePartStartTime = (timeUnit: string, value: number) => {
     setPartStartTime((prev) => ({ ...prev, [timeUnit]: value }));
   };
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
+
+      videoPlayer?.seekTo(startSecond, true);
+    }, interval * 1000);
+
+    return () => window.clearInterval(timer);
+  }, [videoPlayer, partStartTime, interval]);
+
   return (
     <VoteInterfaceContext.Provider
-      value={{ partStartTime, interval, updatePartStartTime, setKillingPartInterval }}
+      value={{
+        partStartTime,
+        interval,
+        videoPlayer,
+        updatePartStartTime,
+        setKillingPartInterval,
+        updatePlayer,
+      }}
     >
       {children}
     </VoteInterfaceContext.Provider>
