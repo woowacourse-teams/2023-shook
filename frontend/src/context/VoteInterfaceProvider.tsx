@@ -1,6 +1,7 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
 import { minSecToSeconds } from '@/utils/convertTime';
+import useVideoPlayerContext from './useVideoPlayerContext';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
 import type { KillingPartInterval } from '@/components/KillingPartToggleGroup';
 import type { PropsWithChildren } from 'react';
@@ -8,10 +9,8 @@ import type { PropsWithChildren } from 'react';
 interface VoteInterfaceContextProps {
   partStartTime: TimeMinSec;
   interval: KillingPartInterval;
-  videoPlayer: YT.Player | null;
   updatePartStartTime: (timeUnit: string, value: number) => void;
   setKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
-  updatePlayer: (player: YT.Player) => void;
 }
 
 export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | null>(null);
@@ -19,9 +18,7 @@ export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | nu
 export const VoteInterfaceProvider = ({ children }: PropsWithChildren) => {
   const { interval, setKillingPartInterval } = useKillingPartInterval();
   const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
-  const [videoPlayer, setVideoPlayer] = useState<YT.Player | null>(null);
-
-  const updatePlayer = useCallback((player: YT.Player) => setVideoPlayer(player), []);
+  const { videoPlayer } = useVideoPlayerContext();
 
   const updatePartStartTime = (timeUnit: string, value: number) => {
     setPartStartTime((prev) => ({ ...prev, [timeUnit]: value }));
@@ -42,10 +39,8 @@ export const VoteInterfaceProvider = ({ children }: PropsWithChildren) => {
       value={{
         partStartTime,
         interval,
-        videoPlayer,
         updatePartStartTime,
         setKillingPartInterval,
-        updatePlayer,
       }}
     >
       {children}

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import dummyJacket from '@/assets/image/album-jacket.png';
 import VoteInterface from '@/components/VoteInterface/VoteInterface';
 import Youtube from '@/components/Youtube/Youtube';
+import { VideoPlayerProvider } from '@/context/VideoPlayerProvider';
 import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
 import { useGetSongDetail } from '@/hooks/song';
 import {
@@ -30,10 +31,12 @@ const SongDetailPage = () => {
           <Singer>{singer}</Singer>
         </Info>
       </SongInfoContainer>
-      <VoteInterfaceProvider>
-        <Youtube videoId={videoId} />
-        <VoteInterface videoLength={videoLength} />
-      </VoteInterfaceProvider>
+      <VideoPlayerProvider>
+        <VoteInterfaceProvider>
+          <Youtube videoId={videoId} />
+          <VoteInterface videoLength={videoLength} />
+        </VoteInterfaceProvider>
+      </VideoPlayerProvider>
     </Container>
   );
 };

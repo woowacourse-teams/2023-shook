@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useVideoPlayerContext from '@/context/useVideoPlayerContext';
 import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 import { usePostKillingPart } from '@/hooks/killingPart';
 import { ButtonContainer } from '@/pages/SongDetailPage.style';
@@ -25,7 +26,8 @@ interface VoteInterfaceProps {
 
 const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
   const { showToast } = useToastContext();
-  const { interval, partStartTime, videoPlayer } = useVoteInterfaceContext();
+  const { interval, partStartTime } = useVoteInterfaceContext();
+  const { videoPlayer } = useVideoPlayerContext();
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 

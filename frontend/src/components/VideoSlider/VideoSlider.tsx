@@ -1,3 +1,4 @@
+import useVideoPlayerContext from '@/context/useVideoPlayerContext';
 import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { Slider, SliderWrapper } from './VideoSlider.style';
@@ -8,7 +9,8 @@ interface VideoSlider {
 }
 
 const VideoSlider = ({ videoLength }: VideoSlider) => {
-  const { interval, partStartTime, videoPlayer, updatePartStartTime } = useVoteInterfaceContext();
+  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+  const { videoPlayer } = useVideoPlayerContext();
   const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({

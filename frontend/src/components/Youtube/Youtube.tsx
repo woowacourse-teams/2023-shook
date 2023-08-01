@@ -2,7 +2,7 @@
 import { useCallback, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { loadIFrameApi } from '@/components/Youtube/api/loadIframeApi';
-import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
+import useVideoPlayerContext from '@/context/useVideoPlayerContext';
 
 interface YoutubeProps {
   videoId: string;
@@ -10,7 +10,7 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, updatePlayer } = useVoteInterfaceContext();
+  const { videoPlayer, updatePlayer } = useVideoPlayerContext();
 
   const createYoutubePlayer = useCallback(async () => {
     try {
