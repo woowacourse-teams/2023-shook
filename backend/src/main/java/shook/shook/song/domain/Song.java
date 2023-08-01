@@ -55,8 +55,13 @@ public class Song {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public Song(final String title, final String videoUrl, final String imageUrl,
-        final String singer, final int length) {
+    public Song(
+        final String title,
+        final String videoUrl,
+        final String imageUrl,
+        final String singer,
+        final int length
+    ) {
         this.id = null;
         this.title = new SongTitle(title);
         this.videoUrl = new SongVideoUrl(videoUrl);

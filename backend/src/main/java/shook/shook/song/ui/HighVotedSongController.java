@@ -17,7 +17,7 @@ public class HighVotedSongController {
     private final SongService songService;
 
     @GetMapping
-    public ResponseEntity<List<HighVotedSongResponse>> showHighVotedSong() {
+    public ResponseEntity<List<HighVotedSongResponse>> showHighVotedSongs() {
         final List<HighVotedSongResponse> response = songService.findHighVotedSongs();
 
         return ResponseEntity.ok().body(response);
