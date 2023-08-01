@@ -11,7 +11,12 @@ const ToggleSwitch = ({ on, off, defaultToggle = false }: ToggleSwitchProps) => 
   const [toggle, setToggle] = useState(defaultToggle);
 
   const onToggle = () => {
-    toggle ? off() : on();
+    if (toggle) {
+      off();
+    } else {
+      on();
+    }
+
     setToggle(!toggle);
   };
 
