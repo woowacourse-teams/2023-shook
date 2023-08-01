@@ -1,6 +1,6 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, useContext } from 'react';
+import { ToggleContext } from './hooks/useToggleContext';
 import { Container, Item } from './ToggleGroup.style';
-import type React from 'react';
 import type { PropsWithChildren } from 'react';
 
 interface ToggleGroupProps extends PropsWithChildren {
@@ -11,14 +11,6 @@ interface ToggleGroupProps extends PropsWithChildren {
 interface ToggleButtonProps extends PropsWithChildren {
   value: string;
 }
-
-interface ToggleContextValue {
-  selected: string | undefined;
-  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
-  onChangeValue: (value: string) => void;
-}
-
-const ToggleContext = createContext<ToggleContextValue | null>(null);
 
 const ToggleGroup = ({ defaultValue, onChangeValue, children }: ToggleGroupProps) => {
   const [selected, setSelected] = useState(defaultValue);
