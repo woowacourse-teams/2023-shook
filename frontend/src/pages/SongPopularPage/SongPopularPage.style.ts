@@ -4,8 +4,12 @@ import { styled } from 'styled-components';
 export const StyledLink = styled(Link)`
   width: 100%;
 
-  & :hover {
+  &:hover,
+  &:focus {
     background-color: ${({ theme }) => theme.color.secondary};
+  }
+  &:active {
+    background-color: ${({ theme }) => theme.color.primary};
   }
 `;
 
