@@ -9,6 +9,8 @@ export const Grid = styled.p`
     'rank thumbnail singer' 30px
     'rank thumbnail info' 20px
     / 20px 80px 200px;
+
+  color: ${({ theme: { color } }) => color.white};
 `;
 
 export const Rank = styled.div`
