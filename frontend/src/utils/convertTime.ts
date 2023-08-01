@@ -13,3 +13,20 @@ export const calculateMinSec = (
 ) => {
   return secondsToMinSec(calculateFn(minSecToSeconds([minute, second])));
 };
+
+export const getPlayingTimeText = (startTime: number, endTime: number) => {
+  const [startMin, startSec, endMin, endSec] = [
+    ...secondsToMinSec(startTime),
+    ...secondsToMinSec(endTime),
+  ].map((timeSec) => {
+    const timeString = timeSec.toString();
+
+    if (timeString.length === 1) {
+      return `0${timeString}`;
+    } else {
+      return timeString;
+    }
+  });
+
+  return `${startMin}:${startSec} ~ ${endMin}:${endSec}`;
+};

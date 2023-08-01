@@ -2,7 +2,7 @@ import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
 import useCopyClipBoard from '@/hooks/useCopyClipBoard';
-import { secondsToMinSec } from '@/utils/convertTime';
+import { getPlayingTimeText } from '@/utils/convertTime';
 import {
   Container,
   Img,
@@ -30,20 +30,14 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
     copyClipboard(partVideoUrl, '클립보드에 영상링크가 복사되었습니다.');
   };
 
-  const getPlayingTime = (startSec: number, endSec: number) => {
-    const timeList = [secondsToMinSec(startSec), secondsToMinSec(endSec)].flat().map((timeSec) => {
-      const timeString = timeSec.toString();
-      return timeString.length === 1 ? `0${timeString}` : timeString;
-    });
-    return `${timeList[0]}:${timeList[1]} ~ ${timeList[2]}:${timeList[3]}`;
-  };
+  const playingTimeText = getPlayingTimeText(start, end);
 
   return (
     <Wrapper>
       <Container>
         <TimeWrapper>
           <Img src={shook} alt="logo" />
-          <p>{getPlayingTime(start, end)}</p>
+          <p>{playingTimeText}</p>
         </TimeWrapper>
 
         <RestWrapper>
