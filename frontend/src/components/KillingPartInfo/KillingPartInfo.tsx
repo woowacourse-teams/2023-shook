@@ -36,18 +36,18 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
     <Wrapper>
       <Container>
         <TimeWrapper>
-          <Img src={shook} alt="logo" />
+          <Img src={shook} alt="" />
           <p>{playingTimeText}</p>
         </TimeWrapper>
 
         <RestWrapper>
           <VoteBox>
-            <Img src={people} alt="vote" />
+            <Img src={people} alt="" />
             <VoteCount>{voteCount}votes</VoteCount>
           </VoteBox>
 
           <ShareBox onClick={shareUrl}>
-            <Img src={link} alt="?" />
+            <Img src={link} alt="영상 링크 공유하기" />
           </ShareBox>
         </RestWrapper>
       </Container>
