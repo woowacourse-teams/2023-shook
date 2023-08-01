@@ -22,9 +22,10 @@ import type { PartVideoUrl } from '@/types/killingPart';
 
 interface VoteInterfaceProps {
   videoLength: number;
+  songId: number;
 }
 
-const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
+const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
   const { showToast } = useToastContext();
   const { interval, partStartTime } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
@@ -44,7 +45,7 @@ const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
 
     const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
-    await createKillingPart(1, { startSecond, length: interval });
+    await createKillingPart(songId, { startSecond, length: interval });
 
     openModal();
   };
