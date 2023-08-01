@@ -46,7 +46,7 @@ class PartControllerTest {
     @Test
     void registerPart_unique() {
         //given
-        final Song song = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        final Song song = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         final PartRegisterRequest request = new PartRegisterRequest(1, 10);
 
         //when
@@ -68,7 +68,7 @@ class PartControllerTest {
     @Test
     void registerPart_exist() {
         //given
-        final Song song = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        final Song song = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         final Part part = partRepository.save(Part.forSave(1, PartLength.SHORT, song));
         final Vote vote = voteRepository.save(Vote.forSave(part));
         song.addPart(part);
@@ -95,7 +95,7 @@ class PartControllerTest {
     @Test
     void registerPart() {
         //given
-        final Song song = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        final Song song = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         final Part firstPart = partRepository.save(Part.forSave(1, PartLength.SHORT, song));
         song.addPart(firstPart);
         final Vote firstVote = voteRepository.save(Vote.forSave(firstPart));

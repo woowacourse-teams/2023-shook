@@ -21,6 +21,9 @@ public class SongRegisterRequest {
     private String videoUrl;
 
     @NotBlank
+    private String imageUrl;
+
+    @NotBlank
     private String singer;
 
     @NotNull
@@ -28,6 +31,6 @@ public class SongRegisterRequest {
     private Integer length;
 
     public Song getSong() {
-        return new Song(title, videoUrl, singer, length);
+        return new Song(title, videoUrl, imageUrl, singer, length);
     }
 }

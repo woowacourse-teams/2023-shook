@@ -14,7 +14,7 @@ import shook.shook.song.domain.Song;
 
 class PartTest {
 
-    private final Song song = new Song("제목", "비디오URL", "가수", 30);
+    private final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
 
     @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
     @Test
@@ -197,7 +197,7 @@ class PartTest {
     @Test
     void exist() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
 
         //when
