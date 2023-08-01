@@ -31,7 +31,7 @@ const SongDetailPage = () => {
         </Info>
       </SongInfoContainer>
       <VoteInterfaceProvider>
-        <Youtube videoId={videoId} start={0} />
+        <Youtube videoId={videoId} />
         <VoteInterface videoLength={videoLength} />
       </VoteInterfaceProvider>
     </Container>

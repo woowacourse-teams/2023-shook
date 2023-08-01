@@ -1,39 +1,40 @@
 /* eslint-disable react/display-name */
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { loadIFrameApi } from '@/components/Youtube/api/loadIframeApi';
 import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 
 interface YoutubeProps {
   videoId: string;
-  start: number;
+  start?: number;
 }
 
-const Youtube = ({ videoId, start }: YoutubeProps) => {
+const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
   const { videoPlayer, updatePlayer } = useVoteInterfaceContext();
 
-  const createYoutubePlayer = async () => {
+  const createYoutubePlayer = useCallback(async () => {
     try {
       const YT = await loadIFrameApi();
 
-      new YT.Player('yt-player', {
-        videoId,
-        width: '100%',
-        height: '100%',
-        playerVars: { start, autoplay: 1 },
-        events: { onReady: updatePlayer },
-      });
+      updatePlayer(
+        new YT.Player('yt-player', {
+          videoId,
+          width: '100%',
+          height: '100%',
+          playerVars: { start, autoplay: 1 },
+        })
+      );
     } catch (error) {
       console.error(error);
       console.error('Youtube Player를 생성하지 못하였습니다.');
     }
-  };
+  }, []);
 
   useEffect(() => {
     createYoutubePlayer();
 
     return () => videoPlayer?.destroy();
-  }, [videoId]);
+  }, []);
 
   return (
     <YoutubeWrapper>

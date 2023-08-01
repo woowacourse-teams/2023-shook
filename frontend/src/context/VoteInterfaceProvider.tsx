@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import useKillingPartInterval from '@/components/KillingPartToggleGroup/hooks/useKillingPartInterval';
 import { minSecToSeconds } from '@/utils/convertTime';
 import type { TimeMinSec } from '@/components/IntervalInput/IntervalInput.type';
@@ -11,7 +11,7 @@ interface VoteInterfaceContextProps {
   videoPlayer: YT.Player | null;
   updatePartStartTime: (timeUnit: string, value: number) => void;
   setKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
-  updatePlayer: ({ target }: YT.PlayerEvent) => void;
+  updatePlayer: (player: YT.Player) => void;
 }
 
 export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | null>(null);
@@ -21,7 +21,7 @@ export const VoteInterfaceProvider = ({ children }: PropsWithChildren) => {
   const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [videoPlayer, setVideoPlayer] = useState<YT.Player | null>(null);
 
-  const updatePlayer = ({ target: player }: YT.PlayerEvent) => setVideoPlayer(player);
+  const updatePlayer = useCallback((player: YT.Player) => setVideoPlayer(player), []);
 
   const updatePartStartTime = (timeUnit: string, value: number) => {
     setPartStartTime((prev) => ({ ...prev, [timeUnit]: value }));
