@@ -17,7 +17,7 @@ import {
 import type { KillingPart } from '@/types/song';
 
 interface KillingPartInfoProps {
-  killingPart: KillingPart | null;
+  killingPart: KillingPart | undefined;
 }
 
 const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {

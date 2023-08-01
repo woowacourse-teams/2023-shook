@@ -25,13 +25,14 @@ const SongPage = () => {
   const { id } = useParams();
   const [player, setPlayer] = useState<YT.Player | undefined>();
   const [isRepeat, setIsRepeat] = useState(true);
-  const [killingRank, setKillingRank] = useState('');
+  const [killingRank, setKillingRank] = useState<number | null>(null);
   const { songDetail } = useGetSongDetail(Number(id));
   const timer = useRef<number>(-1);
 
   useEffect(() => {
     if (!songDetail) return;
-    const part = songDetail.killingParts?.[Number(killingRank) - 1];
+
+    const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
 
     if (!part) {
       player?.seekTo(0, true);
@@ -59,6 +60,7 @@ const SongPage = () => {
 
   if (!songDetail) return;
   const { killingParts, singer, title, songVideoUrl } = songDetail;
+  const killingPart = killingParts?.find((part) => part.rank === killingRank);
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
@@ -66,8 +68,8 @@ const SongPage = () => {
     setPlayer(target);
   };
 
-  const changeKillingRank = (value: string) => {
-    setKillingRank(value);
+  const changeKillingRank = (rank: number) => {
+    setKillingRank(rank);
   };
 
   const toggleRepetition = () => {
@@ -91,14 +93,14 @@ const SongPage = () => {
       </SubTitle>
       <Spacing direction="vertical" size={10} />
       <ToggleWrapper>
-        <ToggleGroup onChangeValue={changeKillingRank}>
-          <ToggleGroup.button value="1">1st</ToggleGroup.button>
+        <ToggleGroup onChangeButton={changeKillingRank}>
+          <ToggleGroup.button index={1}>1st</ToggleGroup.button>
           <Spacing direction="horizontal" size={10} />
-          <ToggleGroup.button value="2">2nd</ToggleGroup.button>
+          <ToggleGroup.button index={2}>2nd</ToggleGroup.button>
           <Spacing direction="horizontal" size={10} />
-          <ToggleGroup.button value="3">3rd</ToggleGroup.button>
+          <ToggleGroup.button index={3}>3rd</ToggleGroup.button>
           <Spacing direction="horizontal" size={10} />
-          <ToggleGroup.button value="4">전체</ToggleGroup.button>
+          <ToggleGroup.button index={4}>전체</ToggleGroup.button>
         </ToggleGroup>
       </ToggleWrapper>
       <Spacing direction="vertical" size={10} />
@@ -107,7 +109,7 @@ const SongPage = () => {
         <ToggleSwitch on={toggleRepetition} off={toggleRepetition} defaultToggle={isRepeat} />
       </SwitchWrapper>
       <Spacing direction="vertical" size={10} />
-      <KillingPartInfo killingPart={killingParts[Number(killingRank) - 1]} />
+      <KillingPartInfo killingPart={killingPart} />
     </Wrapper>
   );
 };

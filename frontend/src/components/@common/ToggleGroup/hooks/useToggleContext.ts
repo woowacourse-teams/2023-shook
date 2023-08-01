@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
 
 interface ToggleContextValue {
-  selected: string | undefined;
-  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>;
-  onChangeValue: (value: string) => void;
+  selected: number | undefined;
+  setSelected: React.Dispatch<React.SetStateAction<number | undefined>>;
+  onChangeButton: (index: number) => void;
 }
 
 export const ToggleContext = createContext<ToggleContextValue | null>(null);
