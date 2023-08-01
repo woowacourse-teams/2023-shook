@@ -1,4 +1,4 @@
-import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
+import { VoteInterfaceProvider } from '@/components/VoteInterface';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 import type { Meta, StoryObj } from '@storybook/react';
 

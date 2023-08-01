@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import useVoteInterfaceContext from '@/components/VoteInterface/hooks/useVoteInterfaceContext';
 import useVideoPlayerContext from '@/context/useVideoPlayerContext';
-import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 import { usePostKillingPart } from '@/hooks/killingPart';
 import { ButtonContainer } from '@/pages/SongDetailPage.style';
 import { minSecToSeconds } from '@/utils/convertTime';

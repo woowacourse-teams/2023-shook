@@ -1,5 +1,5 @@
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
 import useVideoPlayerContext from '@/context/useVideoPlayerContext';
-import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
 import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { Slider, SliderWrapper } from './VideoSlider.style';
 import type { ChangeEventHandler } from 'react';

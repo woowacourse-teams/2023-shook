@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
 import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isValidMinSec } from '@/utils/validateTime';
 import ERROR_MESSAGE from './constants/errorMessage';

@@ -1,4 +1,4 @@
-import useVoteInterfaceContext from '@/context/useVoteInterfaceContext';
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
 import { KILLING_PART_INTERVAL } from './constants';
 import { ToggleGroupItem, ToggleGroup } from './KillingPartToggleGroup.style';
 

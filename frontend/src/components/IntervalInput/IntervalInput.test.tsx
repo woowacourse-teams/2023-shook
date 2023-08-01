@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
+import { VoteInterfaceProvider } from '@/components/VoteInterface';
 import renderWithTheme from '@/utils/renderWithTheme';
 import IntervalInput from './IntervalInput';
 

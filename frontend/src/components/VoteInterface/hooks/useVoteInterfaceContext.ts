@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { VoteInterfaceContext } from './VoteInterfaceProvider';
+import { VoteInterfaceContext } from '../VoteInterfaceProvider';
 
 const useVoteInterfaceContext = () => {
   const voteInterfaceValues = useContext(VoteInterfaceContext);

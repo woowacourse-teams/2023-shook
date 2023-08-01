@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
+import { VoteInterfaceProvider } from '@/components/VoteInterface';
 import IntervalInput from './IntervalInput';
 import type { Meta, StoryObj } from '@storybook/react';
 

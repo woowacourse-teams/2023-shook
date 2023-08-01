@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import dummyJacket from '@/assets/image/album-jacket.png';
-import VoteInterface from '@/components/VoteInterface/VoteInterface';
+import { VoteInterface } from '@/components/VoteInterface';
+import { VoteInterfaceProvider } from '@/components/VoteInterface/VoteInterfaceProvider';
 import Youtube from '@/components/Youtube/Youtube';
 import { VideoPlayerProvider } from '@/context/VideoPlayerProvider';
-import { VoteInterfaceProvider } from '@/context/VoteInterfaceProvider';
 import { useGetSongDetail } from '@/hooks/song';
 import {
   Container,
