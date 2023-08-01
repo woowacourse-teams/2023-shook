@@ -3,17 +3,16 @@ import Thumbnail from './Thumbnail';
 
 interface CardProps {
   rank: number;
-  src: string;
-  alt: string;
+  thumbnail: string;
   title: string;
   singer: string;
 }
 
-const SongRankCard = ({ rank, src, alt, title, singer }: CardProps) => {
+const SongRankCard = ({ rank, thumbnail, title, singer }: CardProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
-      <Thumbnail src={src} alt={alt} />
+      <Thumbnail src={thumbnail} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
       <Info>25,908 votes</Info>
