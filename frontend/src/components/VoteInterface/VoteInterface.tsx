@@ -31,8 +31,8 @@ const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
+  // TODO: 에러메시지 길이로 등록가능 상태 판단하는 로직 개선 및 상태 IntervalInput 컴포넌트로 이동
   const [errorMessage, setErrorMessage] = useState('');
-
   const isActiveSubmission = errorMessage.length === 0;
 
   const updateErrorMessage = (message: string) => {
@@ -49,6 +49,7 @@ const VoteInterface = ({ videoLength }: VoteInterfaceProps) => {
     openModal();
   };
 
+  // TODO: 우코 분리 로직과 충돌해결 및 병합 및 옵셔널 처리
   const copyUrlClipboard = async (partVideoUrl: PartVideoUrl | undefined) => {
     if (!partVideoUrl) return;
 
