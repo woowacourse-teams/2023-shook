@@ -11,12 +11,7 @@ const Thumbnail = ({ ...props }: ThumbnailProps) => {
 
   return (
     <Wrapper>
-      <img
-        {...props}
-        style={{ borderRadius: '8px' }}
-        loading="lazy"
-        onError={insertDefaultJacket}
-      />
+      <img {...props} loading="lazy" onError={insertDefaultJacket} />
     </Wrapper>
   );
 };
