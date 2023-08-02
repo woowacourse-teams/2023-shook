@@ -19,7 +19,7 @@ export const Title = styled.h2`
   color: white;
 
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 700;
 `;
 
 export const PopularSongList = styled.section`
