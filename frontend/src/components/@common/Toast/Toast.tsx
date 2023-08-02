@@ -8,8 +8,8 @@ interface ToastProps {
 const Toast = ({ message }: ToastProps) => {
   return (
     <Container>
-      <StatusIcon src={successIcon} alt="사용자 작업 성공" />
-      <Message>{message}</Message>
+      <StatusIcon src={successIcon} alt="사용자 작업 성공" aria-hidden />
+      <Message role="alert">{message}</Message>
     </Container>
   );
 };
