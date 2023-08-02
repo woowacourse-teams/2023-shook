@@ -34,12 +34,15 @@ export const Register = styled.button<{ disabled: boolean }>`
 
 export const ModalTitle = styled.h3``;
 
-export const ModalContent = styled.p`
+export const ModalContent = styled.div`
   font-size: 16px;
   color: #b5b3bc;
   white-space: pre-line;
   padding: 16px 0;
+  text-align: center;
 `;
+
+export const Message = styled.div``;
 
 export const Button = styled.button`
   height: 36px;

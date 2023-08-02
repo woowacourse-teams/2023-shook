@@ -3,7 +3,7 @@ import useVoteInterfaceContext from '@/components/VoteInterface/hooks/useVoteInt
 import { useVideoPlayerContext } from '@/components/Youtube';
 import { usePostKillingPart } from '@/hooks/killingPart';
 import { ButtonContainer } from '@/pages/SongDetailPage.style';
-import { minSecToSeconds } from '@/utils/convertTime';
+import { getPlayingTimeText, minSecToSeconds } from '@/utils/convertTime';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '../IntervalInput';
 import KillingPartToggleGroup from '../KillingPartToggleGroup';
@@ -13,6 +13,7 @@ import { VideoSlider } from '../VideoSlider';
 import {
   Confirm,
   Container,
+  Message,
   ModalContent,
   ModalTitle,
   Register,
@@ -36,6 +37,9 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
   // TODO: 에러메시지 길이로 등록가능 상태 판단하는 로직 개선 및 상태 IntervalInput 컴포넌트로 이동
   const [errorMessage, setErrorMessage] = useState('');
   const isActiveSubmission = errorMessage.length === 0;
+
+  const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
+  const voteTimeText = getPlayingTimeText(startSecond, startSecond + interval);
 
   const updateErrorMessage = (message: string) => {
     setErrorMessage(message);
@@ -81,12 +85,15 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
       />
       <VideoSlider videoLength={videoLength} />
       <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
-        등록
+        투표
       </Register>
 
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>킬링파트 투표를 완료했습니다.</ModalTitle>
-        <ModalContent>컨텐츠는 아직 없습니다.</ModalContent>
+        <ModalContent>
+          <Message>{voteTimeText}</Message>
+          <Message>파트를 공유해 보세요😀</Message>
+        </ModalContent>
         <ButtonContainer>
           <Confirm type="button" onClick={closeModal}>
             확인
