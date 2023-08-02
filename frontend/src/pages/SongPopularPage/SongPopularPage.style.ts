@@ -19,7 +19,7 @@ export const Title = styled.h2`
   font-weight: 700;
 `;
 
-export const PopularSongList = styled.section`
+export const PopularSongList = styled.ol`
   width: 100%;
 
   display: flex;

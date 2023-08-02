@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const Grid = styled.p`
+export const Grid = styled.li`
   display: grid;
   column-gap: 12px;
   padding: 6px 0;
