@@ -8,9 +8,6 @@ export const StyledLink = styled(Link)`
   &:focus {
     background-color: ${({ theme }) => theme.color.secondary};
   }
-  &:active {
-    background-color: ${({ theme }) => theme.color.primary};
-  }
 `;
 
 export const Title = styled.h2`
