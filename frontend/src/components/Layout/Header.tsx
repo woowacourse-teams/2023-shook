@@ -1,10 +1,13 @@
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import logo from '@/assets/icon/shook-logo.svg';
 
 const Header = () => {
   return (
     <Container>
-      <Logo src={logo} alt="logo" />
+      <Link to="/" aria-label="홈으로 가기">
+        <Logo src={logo} alt="logo" aria-hidden="true" />
+      </Link>
     </Container>
   );
 };

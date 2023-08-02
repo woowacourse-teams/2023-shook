@@ -1,6 +1,7 @@
 package shook.shook.part.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.part.exception.PartCommentException;
 import shook.shook.part.exception.PartException;
 import shook.shook.part.exception.VoteException;
 import shook.shook.song.domain.Song;
@@ -53,6 +55,9 @@ public class Part {
 
     @OneToMany(mappedBy = "part")
     private final List<Vote> votes = new ArrayList<>();
+
+    @Embedded
+    private final PartComments comments = new PartComments();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -118,6 +123,13 @@ public class Part {
         }
     }
 
+    public void addComment(final PartComment comment) {
+        if (comment.isBelongToOtherPart(this)) {
+            throw new PartCommentException.CommentForOtherPartException();
+        }
+        comments.addComment(comment);
+    }
+
     public boolean hasEqualStartAndLength(final Part other) {
         return this.startSecond == other.startSecond && this.length.equals(other.length);
     }
@@ -141,6 +153,14 @@ public class Part {
 
     public int getVoteCount() {
         return votes.size();
+    }
+
+    public List<PartComment> getComments() {
+        return comments.getComments();
+    }
+
+    public List<PartComment> getCommentsInRecentOrder() {
+        return comments.getCommentsInRecentOrder();
     }
 
     @Override

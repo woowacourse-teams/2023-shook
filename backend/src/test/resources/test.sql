@@ -1,3 +1,35 @@
+drop table part;
+drop table song;
+drop table vote;
+
+create table part
+(
+    id           bigint auto_increment,
+    start_second integer      not null,
+    length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    song_id      bigint,
+    created_at   timestamp(6) not null,
+    primary key (id)
+);
+create table song
+(
+    id         bigint auto_increment,
+    title      varchar(100) not null,
+    singer     varchar(50)  not null,
+    length     integer      not null,
+    video_url  text         not null,
+    image_url  text         not null,
+    created_at timestamp(6) not null,
+    primary key (id)
+);
+create table vote
+(
+    id         bigint auto_increment,
+    part_id    bigint,
+    created_at timestamp(6) not null,
+    primary key (id)
+);
+
 TRUNCATE TABLE song;
 
 INSERT INTO song (title, singer, length, video_url, image_url, created_at)
