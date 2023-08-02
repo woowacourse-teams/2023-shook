@@ -1,4 +1,4 @@
-import { Grid, Rank, Singer, SongTitle } from './SongRankCard.style';
+import { Grid, Rank, Singer, SongTitle } from './PopularSongItem.style';
 import Thumbnail from './Thumbnail';
 
 interface CardProps {
@@ -8,7 +8,7 @@ interface CardProps {
   singer: string;
 }
 
-const SongRankCard = ({ rank, thumbnail, title, singer }: CardProps) => {
+const PopularSongItem = ({ rank, thumbnail, title, singer }: CardProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
@@ -23,4 +23,4 @@ const SongRankCard = ({ rank, thumbnail, title, singer }: CardProps) => {
   );
 };
 
-export default SongRankCard;
+export default PopularSongItem;

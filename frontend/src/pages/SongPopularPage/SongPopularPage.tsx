@@ -1,5 +1,5 @@
 import fetcher from '@/apis';
-import SongRankCard from '@/components/SongRankCard/';
+import PopularSongItem from '@/components/PopularSongItem';
 import useFetch from '@/hooks/@common/useFetch';
 import { Spacing } from '../SongDetailPage.style';
 import { PopularSongList, StyledLink, Title } from './SongPopularPage.style';
@@ -29,7 +29,7 @@ const SongPopularPage = () => {
             to={`/song/${id}`}
             aria-label={`킬링파트 인기순 ${i + 1}등 ${singer} ${title}`}
           >
-            <SongRankCard rank={i + 1} thumbnail={thumbnail} title={title} singer={singer} />
+            <PopularSongItem rank={i + 1} thumbnail={thumbnail} title={title} singer={singer} />
           </StyledLink>
         ))}
       </PopularSongList>
