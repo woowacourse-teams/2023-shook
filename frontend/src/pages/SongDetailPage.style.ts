@@ -3,13 +3,8 @@ import { styled } from 'styled-components';
 export const ButtonContainer = styled.div`
   display: flex;
   width: 100%;
+  gap: 16px;
 `;
-
-// export const Spacing = styled.div<{ direction: 'horizontal' | 'vertical'; size: number }>`
-//   flex: none;
-//   width: ${({ direction, size }) => (direction === 'horizontal' ? `${size}px` : undefined)};
-//   height: ${({ direction, size }) => (direction === 'vertical' ? `${size}px` : undefined)};
-// `;
 
 export const Container = styled.section`
   display: flex;
