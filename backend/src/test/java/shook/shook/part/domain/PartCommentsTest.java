@@ -15,7 +15,7 @@ class PartCommentsTest {
     @Test
     void addComment_success() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
 
         final PartComments comments = new PartComments();
@@ -31,7 +31,7 @@ class PartCommentsTest {
     @Test
     void addComment_exist() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
         final PartComments partComments = new PartComments();
 
@@ -47,7 +47,7 @@ class PartCommentsTest {
     @Test
     void getRepliesInRecentOrder() {
         //given
-        final Song song = new Song("제목", "비디오URL", "가수", 30);
+        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
         final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
         final PartComments comments = new PartComments();
 

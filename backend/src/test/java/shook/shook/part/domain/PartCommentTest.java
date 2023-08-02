@@ -9,7 +9,7 @@ import shook.shook.song.domain.Song;
 
 class PartCommentTest {
 
-    private final Song song = new Song("제목", "비디오URL", "가수", 30);
+    private final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
     private final Part firstPart = Part.saved(1L, 4, PartLength.SHORT, song);
     private final Part secondPart = Part.saved(2L, 4, PartLength.SHORT, song);
 

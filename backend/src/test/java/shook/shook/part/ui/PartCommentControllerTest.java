@@ -43,11 +43,11 @@ class PartCommentControllerTest {
     @Autowired
     private PartCommentRepository partCommentRepository;
 
-    @DisplayName("파트에 댓글 등록시 상태코드 CREATED 를 반환한다.")
+    @DisplayName("파트에 댓글 등록시 상태코드 201를 반환한다.")
     @Test
     void registerPartReply() {
         //given
-        final Song song = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        final Song song = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         final Part part = partRepository.save(Part.forSave(1, PartLength.SHORT, song));
         final PartCommentRegisterRequest request = new PartCommentRegisterRequest("댓글 내용");
 
@@ -62,11 +62,11 @@ class PartCommentControllerTest {
             .statusCode(HttpStatus.CREATED.value());
     }
 
-    @DisplayName("파트의 모든 댓글을 조회하여 상태코드 OK와 함께 응답한다.")
+    @DisplayName("파트의 모든 댓글을 조회하여 상태코드 200과 함께 응답한다.")
     @Test
     void findPartReplies() {
         //given
-        final Song song = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        final Song song = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         final Part part = partRepository.save(Part.forSave(1, PartLength.SHORT, song));
         partCommentRepository.save(PartComment.forSave(part, "댓글 내용"));
 

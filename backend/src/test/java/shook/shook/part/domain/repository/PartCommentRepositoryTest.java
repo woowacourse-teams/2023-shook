@@ -30,7 +30,7 @@ class PartCommentRepositoryTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
-        Song SAVED_SONG = songRepository.save(new Song("제목", "비디오URL", "가수", 30));
+        Song SAVED_SONG = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 30));
         SAVED_PART = partRepository.save(Part.forSave(3, PartLength.SHORT, SAVED_SONG));
     }
 

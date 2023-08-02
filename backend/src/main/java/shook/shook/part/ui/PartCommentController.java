@@ -35,6 +35,6 @@ public class PartCommentController {
     public ResponseEntity<List<PartCommentResponse>> findPartReplies(
         @PathVariable(name = "part_id") final Long partId
     ) {
-        return ResponseEntity.ok().body(partCommentService.findPartReplies(partId));
+        return ResponseEntity.ok(partCommentService.findPartReplies(partId));
     }
 }

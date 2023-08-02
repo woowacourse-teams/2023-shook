@@ -218,7 +218,7 @@ class PartTest {
         @Test
         void success() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
             final Part part = Part.saved(1L, 5, PartLength.SHORT, song);
 
             //when
@@ -232,7 +232,7 @@ class PartTest {
         @Test
         void belongToOtherPart() {
             //given
-            final Song song = new Song("제목", "비디오URL", "가수", 30);
+            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
             final Part firstPart = Part.saved(1L, 5, PartLength.SHORT, song);
             final Part secondPart = Part.saved(2L, 5, PartLength.SHORT, song);
 

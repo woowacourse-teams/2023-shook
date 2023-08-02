@@ -11,7 +11,6 @@ import shook.shook.part.domain.PartComment;
 import shook.shook.part.domain.repository.PartCommentRepository;
 import shook.shook.part.domain.repository.PartRepository;
 import shook.shook.part.exception.PartException;
-import shook.shook.part.exception.PartException.PartNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,7 +23,7 @@ public class PartCommentService {
     @Transactional
     public void register(final Long partId, final PartCommentRegisterRequest request) {
         final Part part = partRepository.findById(partId)
-            .orElseThrow(PartNotExistException::new);
+            .orElseThrow(PartException.PartNotExistException::new);
         final PartComment partComment = PartComment.forSave(part, request.getContent());
 
         part.addComment(partComment);
