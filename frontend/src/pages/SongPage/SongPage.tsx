@@ -79,7 +79,7 @@ const SongPage = () => {
   return (
     <Wrapper>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
-      <SongInfoContainer>
+      <SongInfoContainer tabIndex={0} aria-label={`가수 ${singer}의 노래 ${title}`}>
         <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
           <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
