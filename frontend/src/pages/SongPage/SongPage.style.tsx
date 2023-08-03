@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Flex } from '../SongDetailPage.style';
+import { Flex } from '@/components/@common';
 
 export const Wrapper = styled(Flex)`
   flex-direction: column;

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
+import { VideoPlayerProvider } from './components/Youtube';
 import SongDetailPage from './pages/SongDetailPage';
 import { SongPage } from './pages/SongPage';
 
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/song/:id',
-        element: <SongPage />,
+        element: (
+          <VideoPlayerProvider>
+            <SongPage />
+          </VideoPlayerProvider>
+        ),
       },
     ],
   },
