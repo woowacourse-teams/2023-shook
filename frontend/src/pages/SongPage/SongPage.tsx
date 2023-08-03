@@ -81,11 +81,11 @@ const SongPage = () => {
   return (
     <Wrapper>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
-      <SongInfoContainer>
-        <Jacket src={dummyJacket} tabIndex={0} alt={`${title} 앨범`} />
-        <Info tabIndex={0} aria-label={`가수 ${singer}의 노래 ${title}`}>
-          <SongTitle>{title}</SongTitle>
-          <Singer>{singer}</Singer>
+      <SongInfoContainer tabIndex={0} aria-label={`가수 ${singer}의 노래 ${title}`}>
+        <Jacket src={dummyJacket} alt={`${title} 앨범`} />
+        <Info>
+          <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
+          <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
         </Info>
       </SongInfoContainer>
       <Spacing direction="vertical" size={20} />
