@@ -1,7 +1,7 @@
 import fetcher from '@/apis';
+import { Spacing } from '@/components/@common';
 import PopularSongItem from '@/components/PopularSongItem';
 import useFetch from '@/hooks/@common/useFetch';
-import { Spacing } from '../SongDetailPage.style';
 import { PopularSongList, StyledLink, Title } from './SongPopularPage.style';
 
 interface PopularSong {
