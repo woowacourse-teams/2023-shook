@@ -13,7 +13,7 @@ public class HighVotedSongResponse {
     private final Long id;
     private final String title;
     private final String singer;
-    private final String imageUrl;
+    private final String albumCoverUrl;
     private final Long totalVoteCount;
 
     public static HighVotedSongResponse from(final SongTotalVoteCountDto songTotalVoteCountDto) {
