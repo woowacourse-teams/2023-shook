@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import fetcher from '@/apis';
 import shookshook from '@/assets/icon/shookshook.svg';
@@ -22,9 +22,10 @@ interface CommentListProps {
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const [newComment, setNewComment] = useState('');
 
-  const { data: comments } = useFetch<Comment[]>(() =>
+  const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
   );
+
   const { mutateData } = useMutation(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment })
   );
@@ -36,13 +37,19 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
     currentTarget: { value },
   }) => setNewComment(value);
 
-  const submitNewComment: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const submitNewComment: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
-    mutateData();
+    await mutateData();
+
     showToast('댓글이 등록되었습니다.');
     resetNewComment();
+    getComment();
   };
+
+  useEffect(() => {
+    getComment();
+  }, [partId]);
 
   if (!comments) {
     return null;
