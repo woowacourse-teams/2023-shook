@@ -11,7 +11,7 @@ const Thumbnail = ({ ...props }: ThumbnailProps) => {
 
   return (
     <Wrapper>
-      <img {...props} loading="lazy" onError={insertDefaultJacket} />
+      <img {...props} alt="노래 앨범" aria-hidden loading="lazy" onError={insertDefaultJacket} />
     </Wrapper>
   );
 };

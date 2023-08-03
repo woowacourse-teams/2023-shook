@@ -5,6 +5,7 @@ import shookshook from '@/assets/icon/shookshook.svg';
 import useFetch from '@/hooks/@common/useFetch';
 import { useMutation } from '@/hooks/@common/useMutation';
 import { Spacing } from '../@common';
+import SRHeading from '../@common/SRHeading';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import Comment from './Comment';
 
@@ -56,9 +57,10 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
   }
 
   return (
-    <div>
+    <>
       <Spacing direction="vertical" size={24} />
-      <h3>댓글 {comments.length}개</h3>
+      <SRHeading as="h3">댓글 목록</SRHeading>
+      <p>댓글 {comments.length}개</p>
       <Spacing direction="vertical" size={24} />
       <form onSubmit={submitNewComment}>
         <Flex>
@@ -88,7 +90,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           <Comment key={id} content={content} createdAt={createdAt} />
         ))}
       </Comments>
-    </div>
+    </>
   );
 };
 
