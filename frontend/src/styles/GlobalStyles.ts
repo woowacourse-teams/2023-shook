@@ -1,6 +1,15 @@
 import { createGlobalStyle } from 'styled-components';
+import PretendardRegular from '@/assets/fonts/Pretendard-Regular.subset.woff2';
 
 const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: "Pretendard";
+    src: local('Pretendard') url(${PretendardRegular}) format('woff2');
+
+    font-weight: 400;
+    font-style: normal;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -44,6 +53,10 @@ const GlobalStyles = createGlobalStyle`
 
   ol, ul { 
     list-style: none;
+  }
+
+  body {
+    font-family: 'Pretendard';
   }
 `;
 

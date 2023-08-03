@@ -1,9 +1,14 @@
 import { rest } from 'msw';
+import popularSongs from '../fixtures/popularSongs.json';
 import songs from '../fixtures/songs.json';
 
 const { BASE_URL } = process.env;
 
 export const songsHandlers = [
+  rest.get(`${BASE_URL}/songs/high-voted`, (req, res, ctx) => {
+    return res(ctx.json(popularSongs));
+  }),
+
   rest.get(`${BASE_URL}/songs/:songId/parts/:partId/comments`, (req, res, ctx) => {
     const comments = [
       { id: 1, content: '1번 댓글입니다.', createdAt: '2023-08-01T16:02:13.422Z' },

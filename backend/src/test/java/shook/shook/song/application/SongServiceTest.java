@@ -293,7 +293,7 @@ class SongServiceTest extends UsingJpaTest {
         final List<HighVotedSongResponse> highVotedSongs = songService.findHighVotedSongs();
 
         //then
-        final List<HighVotedSongResponse> expectedResponses = songs.stream()
+        final List<Song> expectedSongs = songs.stream()
             .sorted((first, second) -> {
                 final int firstTotalVote = first.getParts().stream()
                     .mapToInt(Part::getVoteCount)
@@ -303,10 +303,10 @@ class SongServiceTest extends UsingJpaTest {
                     .sum();
                 return secondTotalVote - firstTotalVote;
             })
-            .map(HighVotedSongResponse::from)
             .toList();
 
         assertThat(highVotedSongs).usingRecursiveComparison()
-            .isEqualTo(expectedResponses.subList(0, 40));
+            .ignoringFields("totalVoteCount")
+            .isEqualTo(expectedSongs.subList(0, 40));
     }
 }

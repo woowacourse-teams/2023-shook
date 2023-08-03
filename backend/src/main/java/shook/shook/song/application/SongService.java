@@ -63,20 +63,17 @@ public class SongService {
     }
 
     public List<HighVotedSongResponse> findHighVotedSongs() {
-        final List<SongTotalVoteCountDto> songTotalVoteCountDtos = songRepository.findSongWithTotalVoteCount();
+        final List<SongTotalVoteCountDto> highVotedSongAndTotalVotes = getSortedHighVotedSongs();
 
-        final List<Song> highVotedSongs = getSortedHighVotedSongs(songTotalVoteCountDtos);
-
-        if (highVotedSongs.size() <= HIGH_VOTED_SONG_SIZE) {
-            return HighVotedSongResponse.getList(highVotedSongs);
+        if (highVotedSongAndTotalVotes.size() <= HIGH_VOTED_SONG_SIZE) {
+            return HighVotedSongResponse.getList(highVotedSongAndTotalVotes);
         }
-        return HighVotedSongResponse.getList(highVotedSongs.subList(0, HIGH_VOTED_SONG_SIZE));
+        return HighVotedSongResponse.getList(
+            highVotedSongAndTotalVotes.subList(0, HIGH_VOTED_SONG_SIZE));
     }
 
-    private List<Song> getSortedHighVotedSongs(
-        final List<SongTotalVoteCountDto> songTotalVoteCountDtos
-    ) {
-        return songTotalVoteCountDtos.stream()
+    private List<SongTotalVoteCountDto> getSortedHighVotedSongs() {
+        return songRepository.findSongWithTotalVoteCount().stream()
             .sorted((firstSong, secondSong) -> {
                 if (firstSong.getTotalVoteCount().equals(secondSong.getTotalVoteCount())) {
                     return secondSong.getSong().getCreatedAt()
@@ -84,7 +81,6 @@ public class SongService {
                 }
                 return secondSong.getTotalVoteCount().compareTo(firstSong.getTotalVoteCount());
             })
-            .map(SongTotalVoteCountDto::getSong)
             .toList();
     }
 }

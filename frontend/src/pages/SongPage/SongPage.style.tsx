@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Flex } from '../SongDetailPage.style';
+import { Flex } from '@/components/@common';
 
 export const Wrapper = styled(Flex)`
   flex-direction: column;
@@ -9,16 +9,6 @@ export const SongInfoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`;
-
-export const Jacket = styled.img`
-  width: 60px;
-  height: 60px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 50px;
-    height: 50px;
-  }
 `;
 
 export const Info = styled.div``;

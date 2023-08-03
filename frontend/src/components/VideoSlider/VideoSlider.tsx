@@ -1,37 +1,40 @@
-import { secondsToMinSec } from '@/utils/convertTime';
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
+import { useVideoPlayerContext } from '@/components/Youtube';
+import { minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { Slider, SliderWrapper } from './VideoSlider.style';
-import type { TimeMinSec } from '../IntervalInput/IntervalInput.type';
 import type { ChangeEventHandler } from 'react';
 
 interface VideoSlider {
-  time: number;
   videoLength: number;
-  interval: number;
-  setPartStart: (timeMinSec: TimeMinSec) => void;
-  player: YT.Player | undefined;
 }
 
-const VideoSlider = ({ time, videoLength, interval, setPartStart, player }: VideoSlider) => {
-  const changeTime: ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { valueAsNumber },
-  }) => {
-    const [minute, second] = secondsToMinSec(valueAsNumber);
+const VideoSlider = ({ videoLength }: VideoSlider) => {
+  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+  const { videoPlayer } = useVideoPlayerContext();
+  const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
-    setPartStart({ minute, second });
-    player?.pauseVideo();
-    player?.seekTo(time, false);
+  const changeTime: ChangeEventHandler<HTMLInputElement> = ({
+    currentTarget: { valueAsNumber: currentSelectedTime },
+  }) => {
+    const [minute, second] = secondsToMinSec(currentSelectedTime);
+
+    // TODO: 시간 단위 통일
+    updatePartStartTime('minute', minute);
+    updatePartStartTime('second', second);
+    videoPlayer?.pauseVideo();
+    videoPlayer?.seekTo(currentSelectedTime, false);
   };
 
   const seekToTime = () => {
-    player?.seekTo(time, true);
-    player?.playVideo();
+    videoPlayer?.seekTo(partStartTimeInSeconds, true);
+    videoPlayer?.playVideo();
   };
 
   return (
     <SliderWrapper>
       <Slider
         type="range"
-        value={time}
+        value={partStartTimeInSeconds}
         onChange={changeTime}
         onTouchEnd={seekToTime}
         onMouseUp={seekToTime}

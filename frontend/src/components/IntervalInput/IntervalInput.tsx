@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
 import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/utils/convertTime';
 import { isValidMinSec } from '@/utils/validateTime';
 import ERROR_MESSAGE from './constants/errorMessage';
@@ -11,28 +12,19 @@ import {
   Separator,
 } from './IntervalInput.style';
 import { isInputName } from './IntervalInput.type';
-import type { IntervalInputType, TimeMinSec } from './IntervalInput.type';
-import type { KillingPartInterval } from '../KillingPartToggleGroup';
+import type { IntervalInputType } from './IntervalInput.type';
 
 export interface IntervalInputProps {
   videoLength: number;
-  partStart: TimeMinSec;
   errorMessage: string;
-  interval: KillingPartInterval;
   onChangeErrorMessage: (message: string) => void;
-  onChangePartStart: (name: string, value: number) => void;
 }
 
-const IntervalInput = ({
-  videoLength,
-  partStart,
-  errorMessage,
-  interval,
-  onChangePartStart,
-  onChangeErrorMessage,
-}: IntervalInputProps) => {
+const IntervalInput = ({ videoLength, errorMessage, onChangeErrorMessage }: IntervalInputProps) => {
+  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
-  const { minute: startMinute, second: startSecond } = partStart;
+  const { minute: startMinute, second: startSecond } = partStartTime;
 
   const [endMinute, endSecond] = calculateMinSec(
     startMinute,
@@ -41,7 +33,7 @@ const IntervalInput = ({
   );
 
   const onChangeIntervalStart: React.ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { name, value },
+    currentTarget: { name: timeUnit, value },
   }) => {
     if (!isValidMinSec(value)) {
       onChangeErrorMessage(ERROR_MESSAGE.MIN_SEC);
@@ -50,7 +42,7 @@ const IntervalInput = ({
     }
 
     onChangeErrorMessage('');
-    onChangePartStart(name, Number(value));
+    updatePartStartTime(timeUnit, Number(value));
   };
 
   const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({
