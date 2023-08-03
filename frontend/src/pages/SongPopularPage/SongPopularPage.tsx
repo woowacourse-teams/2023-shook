@@ -1,3 +1,4 @@
+import { styled } from 'styled-components';
 import fetcher from '@/apis';
 import { Spacing } from '@/components/@common';
 import SRHeading from '@/components/@common/SRHeading';
@@ -25,19 +26,20 @@ const SongPopularPage = () => {
       <Spacing direction="vertical" size={24} />
       <PopularSongList>
         {popularSongs.map(({ id, albumCoverUrl, title, singer, totalVoteCount }, i) => (
-          <StyledLink
-            key={id}
-            to={`/song/${id}`}
-            aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
-          >
-            <PopularSongItem
-              rank={i + 1}
-              albumCoverUrl={albumCoverUrl}
-              title={title}
-              singer={singer}
-              totalVoteCount={totalVoteCount}
-            />
-          </StyledLink>
+          <Li key={id}>
+            <StyledLink
+              to={`/song/${id}`}
+              aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
+            >
+              <PopularSongItem
+                rank={i + 1}
+                albumCoverUrl={albumCoverUrl}
+                title={title}
+                singer={singer}
+                totalVoteCount={totalVoteCount}
+              />
+            </StyledLink>
+          </Li>
         ))}
       </PopularSongList>
     </>
@@ -45,3 +47,7 @@ const SongPopularPage = () => {
 };
 
 export default SongPopularPage;
+
+const Li = styled.li`
+  width: 100%;
+`;

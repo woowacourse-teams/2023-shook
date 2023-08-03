@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const Grid = styled.li`
+export const Grid = styled.div`
   display: grid;
   column-gap: 8px;
   padding: 6px 0;
@@ -8,7 +8,7 @@ export const Grid = styled.li`
     'rank thumbnail title' 26px
     'rank thumbnail singer' 26px
     'rank thumbnail info' 18px
-    / 14px 70px auto;
+    / 14px 70px;
 
   color: ${({ theme: { color } }) => color.white};
 `;
