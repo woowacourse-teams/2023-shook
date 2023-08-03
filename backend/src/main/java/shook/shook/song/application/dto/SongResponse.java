@@ -14,6 +14,7 @@ public class SongResponse {
     private final String singer;
     private final int videoLength;
     private final String songVideoUrl;
+    private final String albumCoverUrl;
     private final List<KillingPartResponse> killingParts;
 
     public static SongResponse from(final Song song) {
@@ -23,6 +24,7 @@ public class SongResponse {
             song.getSinger(),
             song.getLength(),
             song.getVideoUrl(),
+            song.getImageUrl(),
             song.getKillingParts().stream()
                 .map((killingPart) -> KillingPartResponse.of(song, killingPart))
                 .toList()
