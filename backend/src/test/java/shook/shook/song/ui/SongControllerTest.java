@@ -34,7 +34,7 @@ class SongControllerTest {
     @Test
     void showSongById() {
         //given
-        final Song saved = songRepository.save(new Song("제목", "비디오URL", "가수", 20));
+        final Song saved = songRepository.save(new Song("제목", "비디오URL", "이미지URL", "가수", 20));
 
         //when
         final SongResponse response = RestAssured.given().log().all()

@@ -4,16 +4,66 @@
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "\uc815\uad6d",
     "length": 186,
-    "video_url": "https://youtu.be/UUSbUBYqU_8",
-    "created_at": "2023-07-26 16:10:11.000000"
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "killingParts": [
+      {
+        "exist": true,
+        "rank": 1,
+        "voteCount": 10,
+        "start": 5,
+        "end": 15,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15"
+      },
+      {
+        "exist": true,
+        "rank": 2,
+        "voteCount": 2,
+        "start": 20,
+        "end": 30,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30"
+      },
+      {
+        "exist": true,
+        "rank": 3,
+        "voteCount": 1,
+        "start": 120,
+        "end": 130,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130"
+      }
+    ]
   },
   {
     "id": 2,
     "title": "Super Shy",
     "singer": "NewJeans",
     "length": 200,
-    "video_url": "https://youtu.be/ArmDp-zijuc",
-    "created_at": "2023-07-26 16:10:11.000000"
+    "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+    "killingParts": [
+      {
+        "exist": true,
+        "rank": 1,
+        "voteCount": 10,
+        "start": 130,
+        "end": 140,
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140"
+      },
+      {
+        "exist": true,
+        "rank": 2,
+        "voteCount": 2,
+        "start": 52,
+        "end": 62,
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62"
+      },
+      {
+        "exist": true,
+        "rank": 3,
+        "voteCount": 1,
+        "start": 123,
+        "end": 133,
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133"
+      }
+    ]
   },
 
   {
@@ -21,303 +71,32 @@
     "title": "\ud038\uce74 (Queencard)",
     "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
     "length": 162,
-    "video_url": "https://youtu.be/VOcb6ZHxSjc",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 4,
-    "title": "\ud5e4\uc5b4\uc9c0\uc790 \ub9d0\ud574\uc694",
-    "singer": "\ubc15\uc7ac\uc815",
-    "length": 244,
-    "video_url": "https://youtu.be/SrQzxD8UFdM",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 5,
-    "title": "I AM",
-    "singer": "IVE (\uc544\uc774\ube0c)",
-    "length": 208,
-    "video_url": "https://youtu.be/cU0JrSAyy7o",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 6,
-    "title": "\uc774\ube0c, \ud504\uc2dc\ucf00 \uadf8\ub9ac\uace0 \ud478\ub978 \uc218\uc5fc\uc758 \uc544\ub0b4",
-    "singer": "LE SSERAFIM (\ub974\uc138\ub77c\ud54c)",
-    "length": 186,
-    "video_url": "https://youtu.be/Ii8L0qEvfC8",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 7,
-    "title": "Spicy",
-    "singer": "aespa",
-    "length": 198,
-    "video_url": "https://youtu.be/1kfmWl3o8TE",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 8,
-    "title": "Steal The Show (From \u201c\uc5d8\ub9ac\uba58\ud0c8\u201d)",
-    "singer": "Lauv",
-    "length": 194,
-    "video_url": "https://www.youtube.com/watch?v=kUMds6XKtfY",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 9,
-    "title": "\uc0ac\ub791\uc740 \ub298 \ub3c4\ub9dd\uac00",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 273,
-    "video_url": "https://youtu.be/pBEAzM2TRmE",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 10,
-    "title": "ISTJ",
-    "singer": "NCT DREAM",
-    "length": 186,
-    "video_url": "https://youtu.be/es60T3k-tyM",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 11,
-    "title": "\ubaa8\ub798 \uc54c\uac31\uc774",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 221,
-    "video_url": "https://youtu.be/3_wOZrzmQ1o",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 12,
-    "title": "UNFORGIVEN (feat. Nile Rodgers)",
-    "singer": "LE SSERAFIM (\ub974\uc138\ub77c\ud54c)",
-    "length": 181,
-    "video_url": "https://www.youtube.com/watch?v=fzSDGXyGTjg",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 13,
-    "title": "Kitsch",
-    "singer": "IVE (\uc544\uc774\ube0c)",
-    "length": 195,
-    "video_url": "https://www.youtube.com/watch?v=r572qh2__-U",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 14,
-    "title": "\uc6b0\ub9ac\ub4e4\uc758 \ube14\ub8e8\uc2a4",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 207,
-    "video_url": "https://youtu.be/epz-aL5RaLQ",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 15,
-    "title": "Candy",
-    "singer": "NCT DREAM",
-    "length": 220,
-    "video_url": "https://youtu.be/QuaVFoBLQeg",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 16,
-    "title": "Hype boy",
-    "singer": "NewJeans",
-    "length": 180,
-    "video_url": "https://youtu.be/T--6HBX2K4g",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 17,
-    "title": "\ub2e4\uc2dc \ub9cc\ub0a0 \uc218 \uc788\uc744\uae4c",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 275,
-    "video_url": "https://youtu.be/VPDRLgfqfSs",
-    "created_at": "2023-07-26 16:10:11.000000"
-  },
-  {
-    "id": 18,
-    "title": "Broken Melodies",
-    "singer": "NCT DREAM",
-    "length": 227,
-    "video_url": "https://youtu.be/EPsh2192sTU",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 19,
-    "title": "Still With You",
-    "singer": "\uc815\uad6d",
-    "length": 239,
-    "video_url": "https://youtu.be/BksBNbTIoPE",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 20,
-    "title": "\ubb34\uc9c0\uac1c",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 198,
-    "video_url": "https://youtu.be/o8e0Qd2H1qc",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 21,
-    "title": "Ditto",
-    "singer": "NewJeans",
-    "length": 187,
-    "video_url": "https://youtu.be/haCpjUXIhrI",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 22,
-    "title": "London Boy",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 289,
-    "video_url": "https://youtu.be/ZRDuScdwEbE",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 23,
-    "title": "\uc774\uc81c \ub098\ub9cc \ubbff\uc5b4\uc694",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 274,
-    "video_url": "https://youtu.be/y1KXYmMuZZA",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 24,
-    "title": "\uc544\ubc84\uc9c0",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 240,
-    "video_url": "https://youtu.be/dbaiMJOnaB4",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 25,
-    "title": "Polaroid",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 209,
-    "video_url": "https://youtu.be/PVDxs6GUXSI",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 26,
-    "title": "Dynamite",
-    "singer": "\ubc29\ud0c4\uc18c\ub144\ub2e8",
-    "length": 198,
-    "video_url": "https://youtu.be/KhZ5DCd7m6s",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 27,
-    "title": "\uc190\uc624\uacf5",
-    "singer": "\uc138\ube10\ud2f4 (SEVENTEEN)",
-    "length": 200,
-    "video_url": "https://youtu.be/tFPbzfU5XL4",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 28,
-    "title": "\uc778\uc0dd\ucc2c\uac00",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 235,
-    "video_url": "https://youtu.be/cXHduPVrcDQ",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 29,
-    "title": "A bientot",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 258,
-    "video_url": "https://youtu.be/sZDDLUB8wQE",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 30,
-    "title": "\uc190\uc774 \ucc38 \uacf1\ub358 \uadf8\ub300",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 197,
-    "video_url": "https://youtu.be/OpZIaI-J0uk",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 31,
-    "title": "\uc0ac\ub791\ud574 \uc9c4\uc9dc",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 241,
-    "video_url": "https://youtu.be/qkledxNCNfY",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 32,
-    "title": "\uaf43",
-    "singer": "\uc9c0\uc218",
-    "length": 174,
-    "video_url": "https://youtu.be/6zM48_rBFbY",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 33,
-    "title": "\uc5f0\uc560\ud3b8\uc9c0",
-    "singer": "\uc784\uc601\uc6c5",
-    "length": 217,
-    "video_url": "https://youtu.be/gSQFZvUuQ3s",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 34,
-    "title": "New jeans",
-    "singer": "New jeans",
-    "length": 109,
-    "video_url": "https://youtu.be/G8GEpK7YDl4",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 35,
-    "title": "OMG",
-    "singer": "New jeans",
-    "length": 215,
-    "video_url": "https://www.youtube.com/watch?v=jT0Lh-N3TSg",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 36,
-    "title": "Butter",
-    "singer": "\ubc29\ud0c4\uc18c\ub144\ub2e8",
-    "length": 165,
-    "video_url": "https://youtu.be/Uz0PppyT7Cc",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 37,
-    "title": "\ud30c\ub791 (Blue Wave)",
-    "singer": "NCT DREAM",
-    "length": 191,
-    "video_url": "https://youtu.be/ZkLK4hUqqas",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 38,
-    "title": "Take Two",
-    "singer": "\ubc29\ud0c4\uc18c\ub144\ub2e8",
-    "length": 230,
-    "video_url": "https://youtu.be/3UE-vpej_VI",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 39,
-    "title": "Like We Just Met",
-    "singer": "NCT DREAM",
-    "length": 210,
-    "video_url": "https://youtu.be/eA9pwL-8wJw",
-    "created_at": "2023-07-26 16:10:12.000000"
-  },
-  {
-    "id": 40,
-    "title": "Yogurt Shake",
-    "singer": "NCT DREAM",
-    "length": 218,
-    "video_url": "https://youtu.be/IUs7tOzHVJw",
-    "created_at": "2023-07-26 16:10:12.000000"
+    "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+    "killingParts": [
+      {
+        "exist": true,
+        "rank": 1,
+        "voteCount": 10,
+        "start": 0,
+        "end": 10,
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10"
+      },
+      {
+        "exist": true,
+        "rank": 2,
+        "voteCount": 2,
+        "start": 40,
+        "end": 50,
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50"
+      },
+      {
+        "exist": true,
+        "rank": 3,
+        "voteCount": 1,
+        "start": 24,
+        "end": 34,
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34"
+      }
+    ]
   }
 ]
