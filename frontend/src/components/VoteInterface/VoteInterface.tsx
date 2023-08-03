@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useVoteInterfaceContext from '@/components/VoteInterface/hooks/useVoteInterfaceContext';
 import { useVideoPlayerContext } from '@/components/Youtube';
 import { usePostKillingPart } from '@/hooks/killingPart';
 import { ButtonContainer } from '@/pages/SongDetailPage.style';
+import { UnderLine } from '@/pages/SongPage/SongPage';
+import { PrimarySpan, SubTitle } from '@/pages/SongPage/SongPage.style';
 import { getPlayingTimeText, minSecToSeconds } from '@/utils/convertTime';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '../IntervalInput';
@@ -76,7 +79,15 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
 
   return (
     <Container>
-      <RegisterTitle>당신의 킬링파트에 투표하세요🎧</RegisterTitle>
+      <SubTitle>
+        <Link to={`/song/${songId}`}>
+          <PrimarySpan>킬링파트</PrimarySpan> 듣기
+        </Link>
+        <UnderLine>
+          <PrimarySpan>킬링파트</PrimarySpan> 투표
+        </UnderLine>
+      </SubTitle>
+      <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
       <KillingPartToggleGroup />
       <IntervalInput
         videoLength={videoLength}

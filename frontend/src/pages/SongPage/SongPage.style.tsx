@@ -34,6 +34,9 @@ export const Singer = styled.p`
 `;
 
 export const SubTitle = styled.h2`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
