@@ -25,7 +25,7 @@ public class KillingPartResponse {
         final String partVideoUrl = song.getPartVideoUrl(part);
         return new KillingPartResponse(
             true,
-            song.getId(),
+            part.getId(),
             rank,
             voteCount,
             startSecond,
