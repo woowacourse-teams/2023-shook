@@ -5,15 +5,15 @@ interface CardProps {
   rank: number;
   title: string;
   singer: string;
-  imageUrl: string;
+  albumCoverUrl: string;
   totalVoteCount: number;
 }
 
-const PopularSongItem = ({ rank, imageUrl, title, singer, totalVoteCount }: CardProps) => {
+const PopularSongItem = ({ rank, albumCoverUrl, title, singer, totalVoteCount }: CardProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
-      <Thumbnail src={imageUrl} alt={`${title}-${singer}`} />
+      <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
       <Info>{new Intl.NumberFormat('ko-KR').format(totalVoteCount)} votes</Info>

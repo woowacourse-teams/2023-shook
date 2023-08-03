@@ -8,7 +8,7 @@ interface PopularSong {
   id: number;
   title: string;
   singer: string;
-  imageUrl: string;
+  albumCoverUrl: string;
   totalVoteCount: number;
 }
 
@@ -22,7 +22,7 @@ const SongPopularPage = () => {
       <Title>킬링파트 등록 인기순</Title>
       <Spacing direction="vertical" size={24} />
       <PopularSongList>
-        {popularSongs.map(({ id, imageUrl, title, singer, totalVoteCount }, i) => (
+        {popularSongs.map(({ id, albumCoverUrl, title, singer, totalVoteCount }, i) => (
           <StyledLink
             key={id}
             to={`/song/${id}`}
@@ -30,7 +30,7 @@ const SongPopularPage = () => {
           >
             <PopularSongItem
               rank={i + 1}
-              imageUrl={imageUrl}
+              albumCoverUrl={albumCoverUrl}
               title={title}
               singer={singer}
               totalVoteCount={totalVoteCount}

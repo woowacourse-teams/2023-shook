@@ -10,14 +10,14 @@ export default meta;
 
 type Story = StoryObj<typeof PopularSongItem>;
 
-const { title, singer, imageUrl, totalVoteCount } = popularSongs[0];
+const { title, singer, albumCoverUrl, totalVoteCount } = popularSongs[0];
 
 export const Default: Story = {
   args: {
     rank: 1,
     title,
     singer,
-    imageUrl,
+    albumCoverUrl,
     totalVoteCount,
   },
 };
