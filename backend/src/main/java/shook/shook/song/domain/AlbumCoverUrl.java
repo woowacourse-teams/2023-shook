@@ -13,14 +13,14 @@ import shook.shook.util.StringChecker;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-public class SongImageUrl {
+public class AlbumCoverUrl {
 
     private static final int MAXIMUM_LENGTH = 65_536;
 
-    @Column(name = "image_url", columnDefinition = "text", nullable = false)
+    @Column(name = "album_cover_url", columnDefinition = "text", nullable = false)
     private String value;
 
-    public SongImageUrl(final String value) {
+    public AlbumCoverUrl(final String value) {
         validate(value);
         this.value = value;
     }
