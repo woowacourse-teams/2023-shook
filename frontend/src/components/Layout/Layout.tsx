@@ -23,6 +23,7 @@ const LayoutContainer = styled.main`
   padding: 60px 16.66%;
   min-height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
   background-color: ${({ theme: { color } }) => color.black};
+  color: ${({ theme: { color } }) => color.white};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
     padding: 36px 8.33%;
