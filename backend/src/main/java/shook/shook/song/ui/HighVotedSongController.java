@@ -20,6 +20,6 @@ public class HighVotedSongController {
     public ResponseEntity<List<HighVotedSongResponse>> showHighVotedSongs() {
         final List<HighVotedSongResponse> response = songService.findHighVotedSongs();
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 }

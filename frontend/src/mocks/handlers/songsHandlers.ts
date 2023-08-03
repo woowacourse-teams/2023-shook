@@ -21,15 +21,6 @@ export const songsHandlers = [
       );
     }
 
-    return res(
-      ctx.json({
-        id: song.id,
-        title: song.title,
-        singer: song.singer,
-        videoLength: song.length,
-        songVideoUrl: song.video_url,
-        killingParts: [],
-      })
-    );
+    return res(ctx.status(200), ctx.json(song));
   }),
 ];
