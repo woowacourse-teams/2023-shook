@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import shook.shook.song.exception.SongException;
 
-class SongImageUrlTest {
+class AlbumCoverUrlTest {
 
     @DisplayName("노래의 이미지 URL 을 뜻하는 객체를 생성한다.")
     @Test
@@ -18,7 +18,7 @@ class SongImageUrlTest {
         //given
         //when
         //then
-        Assertions.assertDoesNotThrow(() -> new SongImageUrl("이미지 URL"));
+        Assertions.assertDoesNotThrow(() -> new AlbumCoverUrl("이미지 URL"));
     }
 
     @DisplayName("노래 이미지 URL 이 유효하지 않으면 예외를 던진다.")
@@ -29,7 +29,7 @@ class SongImageUrlTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new SongImageUrl(imageUrl))
+        assertThatThrownBy(() -> new AlbumCoverUrl(imageUrl))
             .isInstanceOf(SongException.NullOrEmptyImageUrlException.class);
     }
 
@@ -41,7 +41,7 @@ class SongImageUrlTest {
 
         //when
         //then
-        assertThatThrownBy(() -> new SongImageUrl(imageUrl))
+        assertThatThrownBy(() -> new AlbumCoverUrl(imageUrl))
             .isInstanceOf(SongException.TooLongImageUrlException.class);
     }
 }

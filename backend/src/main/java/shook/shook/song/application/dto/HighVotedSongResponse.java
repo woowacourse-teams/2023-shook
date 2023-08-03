@@ -13,7 +13,7 @@ public class HighVotedSongResponse {
     private final Long id;
     private final String title;
     private final String singer;
-    private final String imageUrl;
+    private final String albumCoverUrl;
     private final Long totalVoteCount;
 
     public static HighVotedSongResponse from(final SongTotalVoteCountDto songTotalVoteCountDto) {
@@ -21,7 +21,7 @@ public class HighVotedSongResponse {
             songTotalVoteCountDto.getSong().getId(),
             songTotalVoteCountDto.getSong().getTitle(),
             songTotalVoteCountDto.getSong().getSinger(),
-            songTotalVoteCountDto.getSong().getImageUrl(),
+            songTotalVoteCountDto.getSong().getAlbumCoverUrl(),
             songTotalVoteCountDto.getTotalVoteCount()
         );
     }
