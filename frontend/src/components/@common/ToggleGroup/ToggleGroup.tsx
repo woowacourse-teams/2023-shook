@@ -1,15 +1,16 @@
 import { useState, useContext } from 'react';
 import { ToggleContext } from './hooks/useToggleContext';
 import { Container, Item } from './ToggleGroup.style';
-import type { PropsWithChildren } from 'react';
+import type { HtmlHTMLAttributes, PropsWithChildren } from 'react';
 
 interface ToggleGroupProps extends PropsWithChildren {
   defaultIndex?: number;
   onChangeButton: (index: number) => void;
 }
 
-interface ToggleButtonProps extends PropsWithChildren {
+interface ToggleButtonProps extends HtmlHTMLAttributes<HTMLButtonElement> {
   index: number;
+  children: string;
 }
 
 const ToggleGroup = ({ defaultIndex, onChangeButton, children }: ToggleGroupProps) => {
@@ -22,7 +23,7 @@ const ToggleGroup = ({ defaultIndex, onChangeButton, children }: ToggleGroupProp
   );
 };
 
-const ToggleButton = ({ index, children }: ToggleButtonProps) => {
+const ToggleButton = ({ index, children, ...props }: ToggleButtonProps) => {
   const toggleContext = useContext(ToggleContext);
 
   if (!toggleContext) {
@@ -39,12 +40,12 @@ const ToggleButton = ({ index, children }: ToggleButtonProps) => {
   };
 
   return (
-    <Item $active={isActive} onClick={handleClickButton}>
+    <Item role="radio" $active={isActive} onClick={handleClickButton} {...props}>
       {children}
     </Item>
   );
 };
 
-ToggleGroup.button = ToggleButton;
+ToggleGroup.Button = ToggleButton;
 
 export default ToggleGroup;
