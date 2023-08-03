@@ -4,6 +4,7 @@ import dummyJacket from '@/assets/image/album-jacket.png';
 import { Spacing } from '@/components/@common';
 import { ToggleGroup } from '@/components/@common/ToggleGroup';
 import { ToggleSwitch } from '@/components/@common/ToggleSwitch';
+import CommentList from '@/components/CommentList/CommentList';
 import { KillingPartInfo } from '@/components/KillingPartInfo';
 import Youtube from '@/components/Youtube/Youtube';
 import { useGetSongDetail } from '@/hooks/song';
@@ -22,7 +23,7 @@ import {
 } from './SongPage.style';
 
 const SongPage = () => {
-  const { id } = useParams();
+  const { id = '' } = useParams();
   const [player, setPlayer] = useState<YT.Player | undefined>();
   const [isRepeat, setIsRepeat] = useState(true);
   const [killingRank, setKillingRank] = useState<number | null>(null);
@@ -60,7 +61,7 @@ const SongPage = () => {
 
   if (!songDetail) return;
   const { killingParts, singer, title, songVideoUrl } = songDetail;
-  const killingPart = killingParts?.find((part) => part.rank === killingRank);
+  const killingPart = killingParts.find((part) => part.rank === killingRank)!;
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
@@ -110,6 +111,8 @@ const SongPage = () => {
       </SwitchWrapper>
       <Spacing direction="vertical" size={10} />
       <KillingPartInfo killingPart={killingPart} />
+      <Spacing direction="vertical" size={10} />
+      {killingPart && <CommentList songId={id} partId={killingPart.id} />}
     </Wrapper>
   );
 };
