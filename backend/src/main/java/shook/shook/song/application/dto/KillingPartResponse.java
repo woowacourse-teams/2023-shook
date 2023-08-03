@@ -11,6 +11,7 @@ import shook.shook.song.domain.Song;
 public class KillingPartResponse {
 
     private final boolean exist;
+    private final Long id;
     private final Integer rank;
     private final Integer voteCount;
     private final Integer start;
@@ -24,6 +25,7 @@ public class KillingPartResponse {
         final String partVideoUrl = song.getPartVideoUrl(part);
         return new KillingPartResponse(
             true,
+            song.getId(),
             rank,
             voteCount,
             startSecond,
@@ -33,6 +35,6 @@ public class KillingPartResponse {
     }
 
     public static KillingPartResponse empty() {
-        return new KillingPartResponse(false, null, null, null, null, null);
+        return new KillingPartResponse(false, null, null, null, null, null, null);
     }
 }

@@ -36,7 +36,7 @@ public class Song {
     private SongVideoUrl videoUrl;
 
     @Embedded
-    private SongImageUrl imageUrl;
+    private AlbumCoverUrl albumCoverUrl;
 
     @Embedded
     private Singer singer;
@@ -65,7 +65,7 @@ public class Song {
         this.id = null;
         this.title = new SongTitle(title);
         this.videoUrl = new SongVideoUrl(videoUrl);
-        this.imageUrl = new SongImageUrl(imageUrl);
+        this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
     }
@@ -113,8 +113,8 @@ public class Song {
         return videoUrl.getValue();
     }
 
-    public String getImageUrl() {
-        return imageUrl.getValue();
+    public String getAlbumCoverUrl() {
+        return albumCoverUrl.getValue();
     }
 
     public String getSinger() {

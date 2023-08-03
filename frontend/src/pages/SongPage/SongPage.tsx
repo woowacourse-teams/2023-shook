@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import dummyJacket from '@/assets/image/album-jacket.png';
 import { Spacing } from '@/components/@common';
 import SRAlert from '@/components/@common/SRAlert';
 import SRHeading from '@/components/@common/SRHeading';
 import { ToggleGroup } from '@/components/@common/ToggleGroup';
 import { ToggleSwitch } from '@/components/@common/ToggleSwitch';
 import { KillingPartInfo } from '@/components/KillingPartInfo';
+import Thumbnail from '@/components/PopularSongItem/Thumbnail';
+import { useVideoPlayerContext } from '@/components/Youtube';
 import Youtube from '@/components/Youtube/Youtube';
 import { useGetSongDetail } from '@/hooks/song';
 import {
   Info,
-  Jacket,
   Wrapper,
   Singer,
   PrimarySpan,
@@ -25,31 +25,33 @@ import {
 
 const SongPage = () => {
   const { id } = useParams();
-  const [player, setPlayer] = useState<YT.Player | undefined>();
+
   const [isRepeat, setIsRepeat] = useState(true);
   const [killingRank, setKillingRank] = useState<number | null>(null);
   const { songDetail } = useGetSongDetail(Number(id));
   const timer = useRef<number>(-1);
+  const { videoPlayer } = useVideoPlayerContext();
 
   useEffect(() => {
+    if (!videoPlayer?.seekTo) return;
     if (!songDetail) return;
 
     const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
 
     if (!part) {
-      player?.seekTo(0, true);
-      player?.playVideo();
+      videoPlayer?.seekTo(0, true);
+      videoPlayer?.playVideo();
       return;
     } else {
-      player?.seekTo(part.start, true);
+      videoPlayer?.seekTo(part.start, true);
     }
 
-    player?.playVideo();
+    videoPlayer?.playVideo();
 
     if (isRepeat) {
       timer.current = window.setInterval(
         () => {
-          player?.seekTo(part.start, true);
+          videoPlayer?.seekTo(part.start, true);
         },
         (part.end - part.start) * 1000
       );
@@ -58,17 +60,13 @@ const SongPage = () => {
     return () => {
       window.clearInterval(timer.current);
     };
-  }, [isRepeat, killingRank, player, songDetail]);
+  }, [isRepeat, killingRank, videoPlayer, songDetail]);
 
   if (!songDetail) return;
-  const { killingParts, singer, title, songVideoUrl } = songDetail;
+  const { killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
   const killingPart = killingParts?.find((part) => part.rank === killingRank);
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
-
-  const setPlayerAfterReady = ({ target }: YT.PlayerEvent) => {
-    setPlayer(target);
-  };
 
   const changeKillingRank = (rank: number) => {
     setKillingRank(rank);
@@ -81,15 +79,15 @@ const SongPage = () => {
   return (
     <Wrapper>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
-      <SongInfoContainer tabIndex={0} aria-label={`가수 ${singer}의 노래 ${title}`}>
-        <Jacket src={dummyJacket} alt={`${title} 앨범`} />
+      <SongInfoContainer>
+        <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
           <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
           <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
         </Info>
       </SongInfoContainer>
       <Spacing direction="vertical" size={20} />
-      <Youtube videoId={videoId} start={0} onReady={setPlayerAfterReady} />
+      <Youtube videoId={videoId} />
       <Spacing direction="vertical" size={20} />
       <SubTitle>
         <PrimarySpan>킬링파트</PrimarySpan> 듣기
