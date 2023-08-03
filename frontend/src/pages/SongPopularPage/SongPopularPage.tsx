@@ -12,9 +12,7 @@ interface PopularSong {
 }
 
 const SongPopularPage = () => {
-  const { data: popularSongs } = useFetch<PopularSong[]>(() =>
-    fetcher('/songs/recommended', 'GET')
-  );
+  const { data: popularSongs } = useFetch<PopularSong[]>(() => fetcher('/songs/high-voted', 'GET'));
 
   if (!popularSongs) return null;
 
