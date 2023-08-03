@@ -5,13 +5,11 @@ declare global {
   }
 }
 
-const PROTOCOL = window.location.protocol === 'http:' ? 'http:' : 'https:';
-
-function load(src: string, cb: (err: Error) => void) {
+function load(cb: (err: Error) => void) {
   const firstScript = document.getElementsByTagName('script')[0];
   const script = document.createElement('script');
 
-  script.src = src;
+  script.src = 'https://www.youtube.com/iframe_api';
   script.async = true;
   script.onerror = function () {
     this.onload = null;
@@ -33,7 +31,7 @@ function loadIFrameApi(): Promise<typeof YT> {
       return;
     }
 
-    load(`${PROTOCOL}//www.youtube.com/iframe_api`, (error) => {
+    load((error) => {
       if (error) reject(error);
     });
 

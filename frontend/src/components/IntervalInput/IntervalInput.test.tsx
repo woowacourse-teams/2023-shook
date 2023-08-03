@@ -1,37 +1,29 @@
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
+import { VoteInterfaceProvider } from '@/components/VoteInterface';
 import renderWithTheme from '@/utils/renderWithTheme';
-import useKillingPartInterval from '../KillingPartToggleGroup/hooks/useKillingPartInterval';
+import { VideoPlayerProvider } from '../Youtube';
 import IntervalInput from './IntervalInput';
-import type { TimeMinSec } from './IntervalInput.type';
 
 const TestIntervalInput = () => {
   const videoLength = 210;
-  const [partStart, setPartStart] = useState<TimeMinSec>({ minute: 0, second: 0 });
   const [errorMessage, setErrorMessage] = useState('');
-  const { interval } = useKillingPartInterval();
-
-  const onChangePartStart = (name: string, value: number) => {
-    setPartStart({
-      ...partStart,
-      [name]: Number(value),
-    });
-  };
 
   const onChangeErrorMessage = (message: string) => {
     setErrorMessage(message);
   };
 
   return (
-    <IntervalInput
-      videoLength={videoLength}
-      partStart={partStart}
-      interval={interval}
-      errorMessage={errorMessage}
-      onChangePartStart={onChangePartStart}
-      onChangeErrorMessage={onChangeErrorMessage}
-    />
+    <VideoPlayerProvider>
+      <VoteInterfaceProvider>
+        <IntervalInput
+          videoLength={videoLength}
+          errorMessage={errorMessage}
+          onChangeErrorMessage={onChangeErrorMessage}
+        />
+      </VoteInterfaceProvider>
+    </VideoPlayerProvider>
   );
 };
 

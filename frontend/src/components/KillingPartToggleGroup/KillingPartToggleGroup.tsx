@@ -1,17 +1,10 @@
+import { useVoteInterfaceContext } from '@/components/VoteInterface';
 import { KILLING_PART_INTERVAL } from './constants';
 import { ToggleGroupItem, ToggleGroup } from './KillingPartToggleGroup.style';
-import type { KillingPartInterval } from './KillingPartToggleGroup.type';
-import type { MouseEventHandler } from 'react';
 
-interface KillingPartToggleGroupProps {
-  interval: KillingPartInterval;
-  setKillingPartInterval: MouseEventHandler<HTMLButtonElement>;
-}
+const KillingPartToggleGroup = () => {
+  const { interval, setKillingPartInterval } = useVoteInterfaceContext();
 
-const KillingPartToggleGroup = ({
-  interval,
-  setKillingPartInterval,
-}: KillingPartToggleGroupProps) => {
   return (
     <ToggleGroup>
       <ToggleGroupItem
