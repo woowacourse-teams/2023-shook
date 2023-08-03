@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Spacing } from '@/components/@common';
+import SRAlert from '@/components/@common/SRAlert';
 import { ToggleGroup } from '@/components/@common/ToggleGroup';
 import { ToggleSwitch } from '@/components/@common/ToggleSwitch';
 import CommentList from '@/components/CommentList/CommentList';
@@ -82,8 +83,8 @@ const SongPage = () => {
       <SongInfoContainer>
         <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
-          <SongTitle>{title}</SongTitle>
-          <Singer>{singer}</Singer>
+          <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
+          <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
         </Info>
       </SongInfoContainer>
       <Spacing direction="vertical" size={20} />
@@ -101,23 +102,37 @@ const SongPage = () => {
       <RegisterTitle>인기 많은 킬링파트를 들어보세요 🎧</RegisterTitle>
       <Spacing direction="vertical" size={16} />
       <ToggleGroup onChangeButton={changeKillingRank}>
-        <ToggleGroup.button index={1}>1st</ToggleGroup.button>
+        <ToggleGroup.Button tabIndex={0} index={1} aria-label="1등 킬링파트 노래 듣기">
+          1st
+        </ToggleGroup.Button>
         <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.button index={2}>2nd</ToggleGroup.button>
+        <ToggleGroup.Button tabIndex={0} index={2} aria-label="2등 킬링파트 노래 듣기">
+          2nd
+        </ToggleGroup.Button>
         <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.button index={3}>3rd</ToggleGroup.button>
+        <ToggleGroup.Button index={3} aria-label="3등 킬링파트 노래 듣기">
+          3rd
+        </ToggleGroup.Button>
         <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.button index={4}>전체</ToggleGroup.button>
+        <ToggleGroup.Button index={4} aria-label="노래 전체 듣기">
+          전체
+        </ToggleGroup.Button>
       </ToggleGroup>
       <Spacing direction="vertical" size={10} />
       <SwitchWrapper>
-        <SwitchLabel>반복재생</SwitchLabel>
-        <ToggleSwitch on={toggleRepetition} off={toggleRepetition} defaultToggle={isRepeat} />
+        <SwitchLabel htmlFor="repetition">반복재생</SwitchLabel>
+        <ToggleSwitch
+          id="repetition"
+          on={toggleRepetition}
+          off={toggleRepetition}
+          defaultToggle={isRepeat}
+        />
       </SwitchWrapper>
       <Spacing direction="vertical" size={10} />
       <KillingPartInfo killingPart={killingPart} />
       <Spacing direction="vertical" size={10} />
       {killingPart && <CommentList songId={id} partId={killingParts[killingRank! - 1].id} />}
+      <SRAlert>{`${killingRank === 4 ? '전체' : `${killingRank}등 킬링파트`} 재생`}</SRAlert>
     </Wrapper>
   );
 };

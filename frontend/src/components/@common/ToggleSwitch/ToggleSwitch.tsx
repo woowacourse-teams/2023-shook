@@ -5,9 +5,10 @@ interface ToggleSwitchProps {
   off: () => void;
   on: () => void;
   defaultToggle?: boolean;
+  id: string;
 }
 
-const ToggleSwitch = ({ on, off, defaultToggle = false }: ToggleSwitchProps) => {
+const ToggleSwitch = ({ on, off, defaultToggle = false, id }: ToggleSwitchProps) => {
   const [toggle, setToggle] = useState(defaultToggle);
 
   const onToggle = () => {
@@ -22,7 +23,7 @@ const ToggleSwitch = ({ on, off, defaultToggle = false }: ToggleSwitchProps) => 
 
   return (
     <SwitchWrapper>
-      <SwitchInput type="checkbox" defaultChecked={toggle} onChange={onToggle} />
+      <SwitchInput type="checkbox" defaultChecked={toggle} onChange={onToggle} id={id} />
       <SwitchSlider />
     </SwitchWrapper>
   );
