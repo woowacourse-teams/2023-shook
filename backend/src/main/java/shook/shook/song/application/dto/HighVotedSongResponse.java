@@ -21,7 +21,7 @@ public class HighVotedSongResponse {
             songTotalVoteCountDto.getSong().getId(),
             songTotalVoteCountDto.getSong().getTitle(),
             songTotalVoteCountDto.getSong().getSinger(),
-            songTotalVoteCountDto.getSong().getImageUrl(),
+            songTotalVoteCountDto.getSong().getAlbumCoverUrl(),
             songTotalVoteCountDto.getTotalVoteCount()
         );
     }

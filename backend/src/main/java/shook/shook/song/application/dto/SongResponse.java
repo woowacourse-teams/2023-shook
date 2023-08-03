@@ -24,7 +24,7 @@ public class SongResponse {
             song.getSinger(),
             song.getLength(),
             song.getVideoUrl(),
-            song.getImageUrl(),
+            song.getAlbumCoverUrl(),
             song.getKillingParts().stream()
                 .map((killingPart) -> KillingPartResponse.of(song, killingPart))
                 .toList()
