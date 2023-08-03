@@ -13,6 +13,7 @@ type Story = StoryObj<typeof ToggleSwitch>;
 export const Default = {
   render: () => (
     <ToggleSwitch
+      id="1"
       on={() => {
         alert('on');
       }}

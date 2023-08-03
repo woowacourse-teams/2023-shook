@@ -1,7 +1,7 @@
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
-import { getPlayingTimeText } from '@/utils/convertTime';
+import { getPlayingTimeText, secondsToMinSec } from '@/utils/convertTime';
 import copyClipboard from '@/utils/copyClipBoard';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import {
@@ -33,17 +33,24 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
   };
 
   const playingTimeText = getPlayingTimeText(start, end);
+  const [startMin, startSec] = secondsToMinSec(start);
+  const [endMin, endSec] = secondsToMinSec(end);
 
   return (
     <Wrapper>
       <Container>
         <TimeWrapper>
           <Img src={shook} alt="" />
-          <p>{playingTimeText}</p>
+          <p
+            tabIndex={0}
+            aria-label={`킬링파트 구간 ${startMin}분 ${startSec}초부터 ${endMin}분 ${endSec}초`}
+          >
+            {playingTimeText}
+          </p>
         </TimeWrapper>
 
         <RestWrapper>
-          <VoteBox>
+          <VoteBox tabIndex={0} aria-label={`${voteCount}명 투표했음`}>
             <Img src={people} alt="" />
             <VoteCount>{voteCount}votes</VoteCount>
           </VoteBox>

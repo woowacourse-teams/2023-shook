@@ -5,7 +5,7 @@ import logo from '@/assets/icon/shook-logo.svg';
 const Header = () => {
   return (
     <Container>
-      <Link to="/" aria-label="홈으로 가기">
+      <Link to="/" aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
     </Container>
