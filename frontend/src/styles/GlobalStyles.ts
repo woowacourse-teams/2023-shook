@@ -41,6 +41,10 @@ const GlobalStyles = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
+
+  ol, ul { 
+    list-style: none;
+  }
 `;
 
 export default GlobalStyles;
