@@ -2,13 +2,13 @@ import { styled } from 'styled-components';
 
 export const Grid = styled.li`
   display: grid;
-  column-gap: 12px;
+  column-gap: 8px;
   padding: 6px 0;
   grid-template:
-    'rank thumbnail title' 30px
-    'rank thumbnail singer' 30px
-    'rank thumbnail info' 20px
-    / 20px 80px 200px;
+    'rank thumbnail title' 26px
+    'rank thumbnail singer' 26px
+    'rank thumbnail info' 18px
+    / 14px 70px auto;
 
   color: ${({ theme: { color } }) => color.white};
 `;
