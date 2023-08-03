@@ -1,24 +1,22 @@
-import { Grid, Rank, Singer, SongTitle } from './PopularSongItem.style';
+import { Grid, Info, Rank, Singer, SongTitle } from './PopularSongItem.style';
 import Thumbnail from './Thumbnail';
 
 interface CardProps {
   rank: number;
-  thumbnail: string;
   title: string;
   singer: string;
+  imageUrl: string;
+  totalVoteCount: number;
 }
 
-const PopularSongItem = ({ rank, thumbnail, title, singer }: CardProps) => {
+const PopularSongItem = ({ rank, imageUrl, title, singer, totalVoteCount }: CardProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
-      <Thumbnail src={thumbnail} alt={`${title}-${singer}`} />
+      <Thumbnail src={imageUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      {/*
-        TODO: 백엔드 구현 되어야 함
-        <Info>25,908 votes</Info>
-       */}
+      <Info>{new Intl.NumberFormat('ko-KR').format(totalVoteCount)} votes</Info>
     </Grid>
   );
 };

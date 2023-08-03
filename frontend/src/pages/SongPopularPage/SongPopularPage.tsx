@@ -6,9 +6,10 @@ import { PopularSongList, StyledLink, Title } from './SongPopularPage.style';
 
 interface PopularSong {
   id: number;
-  thumbnail: string;
   title: string;
   singer: string;
+  imageUrl: string;
+  totalVoteCount: number;
 }
 
 const SongPopularPage = () => {
@@ -21,13 +22,19 @@ const SongPopularPage = () => {
       <Title>킬링파트 등록 인기순</Title>
       <Spacing direction="vertical" size={24} />
       <PopularSongList>
-        {popularSongs.map(({ id, thumbnail, title, singer }, i) => (
+        {popularSongs.map(({ id, imageUrl, title, singer, totalVoteCount }, i) => (
           <StyledLink
             key={id}
             to={`/song/${id}`}
             aria-label={`킬링파트 인기순 ${i + 1}등 ${singer} ${title}`}
           >
-            <PopularSongItem rank={i + 1} thumbnail={thumbnail} title={title} singer={singer} />
+            <PopularSongItem
+              rank={i + 1}
+              imageUrl={imageUrl}
+              title={title}
+              singer={singer}
+              totalVoteCount={totalVoteCount}
+            />
           </StyledLink>
         ))}
       </PopularSongList>
