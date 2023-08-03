@@ -12,6 +12,7 @@ export interface SongDetail {
 }
 
 export interface KillingPart {
+  id: number;
   exist: true;
   rank: number;
   start: number;
