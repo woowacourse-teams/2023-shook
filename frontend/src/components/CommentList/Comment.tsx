@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import anonymous from '@/assets/icon/anonymous.svg';
+import shookshook from '@/assets/icon/shookshook.svg';
 import { Spacing } from '../@common';
 
 interface CommentProps {
@@ -21,7 +21,7 @@ const Comment = ({ content, createdAt }: CommentProps) => {
     <Wrapper>
       <Flex>
         <Profile>
-          <img src={anonymous} />
+          <img src={shookshook} alt="익명 프로필" />
         </Profile>
         <Spacing direction="horizontal" size={14} />
         <Box tabIndex={0} role="comment">
