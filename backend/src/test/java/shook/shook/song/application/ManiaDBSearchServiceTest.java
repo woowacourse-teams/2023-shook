@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -309,6 +310,17 @@ class ManiaDBSearchServiceTest {
             () -> assertThat(responses.get(0)).usingRecursiveComparison()
                 .isEqualTo(expectedResponse)
         );
+    }
+
+    @DisplayName("검색할 단어로 빈 값이 입력된 경우, 예외가 발생한다.")
+    @ValueSource(strings = {" ", "\t", "\n", ""})
+    @ParameterizedTest(name = "검색 단어가 \"{0}\" 인 경우")
+    void searchWithBlankWord(final String blankSearchWord) {
+        // given
+        // when
+        // then
+        assertThatThrownBy(() -> maniaDBSearchService.searchSongs(blankSearchWord))
+            .isInstanceOf(UnregisteredSongException.NullOrBlankSearchWordException.class);
     }
 
     @DisplayName("XML 응답에 노래가 존재하지 않으면 빈 리스트를 리턴한다.")
