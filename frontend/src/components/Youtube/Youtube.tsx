@@ -21,7 +21,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
           videoId,
           width: '100%',
           height: '100%',
-          playerVars: { start, autoplay: 1 },
+          playerVars: { start },
         })
       );
     } catch (error) {
