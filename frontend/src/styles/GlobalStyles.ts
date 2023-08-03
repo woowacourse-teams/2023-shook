@@ -51,6 +51,10 @@ const GlobalStyles = createGlobalStyle`
     border-spacing: 0;
   }
 
+  ol, ul { 
+    list-style: none;
+  }
+
   body {
     font-family: 'Pretendard';
   }

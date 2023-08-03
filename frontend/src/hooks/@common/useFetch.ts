@@ -18,7 +18,7 @@ const useFetch = <T>(fetcher: () => Promise<T>) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetcher]);
 
   useEffect(() => {
     fetchData();

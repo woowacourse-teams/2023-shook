@@ -4,6 +4,7 @@ import { VoteInterface, VoteInterfaceProvider } from '@/components/VoteInterface
 import { VideoPlayerProvider, Youtube } from '@/components/Youtube';
 import { useGetSongDetail } from '@/hooks/song';
 import { Container, Singer, SongTitle, SongInfoContainer, Info } from './SongDetailPage.style';
+import { BigTitle } from './SongPage/SongPage';
 
 const SongDetailPage = () => {
   const { id: songIdParam } = useParams();
@@ -17,6 +18,7 @@ const SongDetailPage = () => {
 
   return (
     <Container>
+      <BigTitle>킬링파트 투표 🔖</BigTitle>
       <SongInfoContainer>
         <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
