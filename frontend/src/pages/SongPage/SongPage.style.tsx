@@ -11,16 +11,6 @@ export const SongInfoContainer = styled.div`
   gap: 12px;
 `;
 
-export const Jacket = styled.img`
-  width: 60px;
-  height: 60px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
 export const Info = styled.div``;
 
 export const SongTitle = styled.p`

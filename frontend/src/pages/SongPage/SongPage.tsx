@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import dummyJacket from '@/assets/image/album-jacket.png';
 import { Spacing } from '@/components/@common';
 import { ToggleGroup } from '@/components/@common/ToggleGroup';
 import { ToggleSwitch } from '@/components/@common/ToggleSwitch';
 import { KillingPartInfo } from '@/components/KillingPartInfo';
+import Thumbnail from '@/components/PopularSongItem/Thumbnail';
 import { useVideoPlayerContext } from '@/components/Youtube';
 import Youtube from '@/components/Youtube/Youtube';
 import { useGetSongDetail } from '@/hooks/song';
 import {
   Info,
-  Jacket,
   Wrapper,
   Singer,
   PrimarySpan,
@@ -62,7 +61,7 @@ const SongPage = () => {
   }, [isRepeat, killingRank, videoPlayer, songDetail]);
 
   if (!songDetail) return;
-  const { killingParts, singer, title, songVideoUrl } = songDetail;
+  const { killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
   const killingPart = killingParts?.find((part) => part.rank === killingRank);
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
@@ -78,7 +77,7 @@ const SongPage = () => {
   return (
     <Wrapper>
       <SongInfoContainer>
-        <Jacket src={dummyJacket} alt={`${title} 앨범 자켓`} />
+        <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
           <SongTitle>{title}</SongTitle>
           <Singer>{singer}</Singer>
