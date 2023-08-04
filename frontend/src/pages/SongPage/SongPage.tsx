@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Spacing } from '@/components/@common';
 import SRAlert from '@/components/@common/SRAlert';
+import SRHeading from '@/components/@common/SRHeading';
 import { ToggleGroup } from '@/components/@common/ToggleGroup';
 import { ToggleSwitch } from '@/components/@common/ToggleSwitch';
 import CommentList from '@/components/CommentList/CommentList';
@@ -78,10 +79,11 @@ const SongPage = () => {
 
   return (
     <Wrapper>
-      <BigTitle>킬링파트 듣기 🎧</BigTitle>
+      <SRHeading>킬링파트 듣기 페이지</SRHeading>
+      <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기 🎧</BigTitle>
       <Spacing direction="vertical" size={20} />
       <SongInfoContainer>
-        <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
+        <Thumbnail src={albumCoverUrl} />
         <Info>
           <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
           <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
@@ -91,7 +93,7 @@ const SongPage = () => {
       <Youtube videoId={videoId} />
       <Spacing direction="vertical" size={20} />
       <SubTitle>
-        <UnderLine>
+        <UnderLine aria-hidden>
           <PrimarySpan>킬링파트</PrimarySpan> 듣기
         </UnderLine>
         <Link to={`/${id}`}>
@@ -99,7 +101,9 @@ const SongPage = () => {
         </Link>
       </SubTitle>
       <Spacing direction="vertical" size={16} />
-      <RegisterTitle>인기 많은 킬링파트를 들어보세요 🎧</RegisterTitle>
+      <RegisterTitle aria-label="인기 많은 킬링파트를 들어보세요">
+        인기 많은 킬링파트를 들어보세요 🎧
+      </RegisterTitle>
       <Spacing direction="vertical" size={16} />
       <ToggleGroup onChangeButton={changeKillingRank}>
         <ToggleGroup.Button tabIndex={0} index={1} aria-label="1등 킬링파트 노래 듣기">

@@ -40,7 +40,13 @@ const ToggleButton = ({ index, children, ...props }: ToggleButtonProps) => {
   };
 
   return (
-    <Item role="radio" $active={isActive} onClick={handleClickButton} {...props}>
+    <Item
+      role="radio"
+      aria-checked={isActive}
+      $active={isActive}
+      onClick={handleClickButton}
+      {...props}
+    >
       {children}
     </Item>
   );

@@ -16,7 +16,9 @@ const PopularSongItem = ({ rank, albumCoverUrl, title, singer, totalVoteCount }:
       <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Info>{new Intl.NumberFormat('ko-KR').format(totalVoteCount)} votes</Info>
+      <Info aria-label={`${totalVoteCount} 투표됨`}>
+        {new Intl.NumberFormat('ko-KR').format(totalVoteCount)} votes
+      </Info>
     </Grid>
   );
 };

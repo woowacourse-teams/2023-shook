@@ -1,20 +1,6 @@
 import styled from 'styled-components';
 
-interface SRHeadingProps {
-  children: string;
-}
-
-const SRHeading = ({ children: pageName }: SRHeadingProps) => {
-  return (
-    <Heading tabIndex={1} aria-label={pageName}>
-      {pageName}
-    </Heading>
-  );
-};
-
-export default SRHeading;
-
-const Heading = styled.h1`
+const SRHeading = styled.h1`
   position: absolute;
   left: -9999px;
   top: -9999px;
@@ -22,3 +8,5 @@ const Heading = styled.h1`
   height: 1px;
   overflow: hidden;
 `;
+
+export default SRHeading;
