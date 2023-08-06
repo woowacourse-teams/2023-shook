@@ -1,12 +1,28 @@
 import { rest } from 'msw';
 import popularSongs from '../fixtures/popularSongs.json';
 import songs from '../fixtures/songs.json';
+import type { KillingPartPostRequest } from '@/types/killingPart';
 
 const { BASE_URL } = process.env;
 
 export const songsHandlers = [
   rest.get(`${BASE_URL}/songs/high-voted`, (req, res, ctx) => {
     return res(ctx.json(popularSongs));
+  }),
+
+  rest.get(`${BASE_URL}/songs/:songId`, (req, res, ctx) => {
+    const { songId } = req.params;
+
+    const song = songs.find((song) => song.id == Number(songId));
+
+    if (!song) {
+      return res(
+        ctx.status(404),
+        ctx.json({ message: `id:${songId}에 해당되는 노래가 없습니다.` })
+      );
+    }
+
+    return res(ctx.status(200), ctx.json(song));
   }),
 
   rest.get(`${BASE_URL}/songs/:songId/parts/:partId/comments`, (req, res, ctx) => {
@@ -30,11 +46,6 @@ export const songsHandlers = [
   }),
 
   rest.post(`${BASE_URL}/songs/:songId/parts/:partId/comments`, async (req, res, ctx) => {
-    const { songId, partId } = req.params;
-    const content = await req.json();
-
-    console.log(songId, partId, JSON.parse(content));
-
     return res(ctx.status(201));
   }),
 
