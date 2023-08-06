@@ -7,6 +7,7 @@ import { ButtonContainer } from '@/pages/SongDetailPage.style';
 import { UnderLine } from '@/pages/SongPage/SongPage';
 import { PrimarySpan, SubTitle } from '@/pages/SongPage/SongPage.style';
 import { getPlayingTimeText, minSecToSeconds } from '@/utils/convertTime';
+import copyClipboard from '@/utils/copyClipBoard';
 import useToastContext from '../@common/Toast/hooks/useToastContext';
 import { IntervalInput } from '../IntervalInput';
 import KillingPartToggleGroup from '../KillingPartToggleGroup';
@@ -23,7 +24,6 @@ import {
   RegisterTitle,
   Share,
 } from './VoteInterface.style';
-import type { PartVideoUrl } from '@/types/killingPart';
 
 interface VoteInterfaceProps {
   videoLength: number;
@@ -58,22 +58,11 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
     openModal();
   };
 
-  // TODO: 우코 분리 로직과 충돌해결 및 병합 및 옵셔널 처리
-  const copyUrlClipboard = async (partVideoUrl: PartVideoUrl | undefined) => {
-    if (!partVideoUrl) return;
+  const copyPartVideoUrl = async () => {
+    if (!killingPartPostResponse?.partVideoUrl) return;
 
-    try {
-      await navigator.clipboard.writeText(partVideoUrl);
-    } catch {
-      const el = document.createElement('textarea');
-      el.value = partVideoUrl;
-
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-    }
-
+    await copyClipboard(killingPartPostResponse?.partVideoUrl);
+    closeModal();
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
@@ -109,10 +98,7 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
           <Confirm type="button" onClick={closeModal}>
             확인
           </Confirm>
-          <Share
-            type="button"
-            onClick={() => copyUrlClipboard(killingPartPostResponse?.partVideoUrl)}
-          >
+          <Share type="button" onClick={copyPartVideoUrl}>
             공유하기
           </Share>
         </ButtonContainer>
