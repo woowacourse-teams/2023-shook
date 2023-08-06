@@ -38,18 +38,16 @@ export const songsHandlers = [
     return res(ctx.status(201));
   }),
 
-  rest.get(`${BASE_URL}/songs/:songId`, (req, res, ctx) => {
-    const { songId } = req.params;
+  rest.post(`${BASE_URL}/songs/:songId/parts`, async (req, res, ctx) => {
+    const { length, startSecond } = await req.json<KillingPartPostRequest>();
+    const endSecond = startSecond + length;
 
-    const song = songs.find((song) => song.id == Number(songId));
+    const response = {
+      rank: 1,
+      voteCount: 1,
+      partVideoUrl: `https://www.youtube.com/embed/UUSbUBYqU_8?start=${startSecond}&end=${endSecond}`,
+    };
 
-    if (!song) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `id:${songId}에 해당되는 노래가 없습니다.` })
-      );
-    }
-
-    return res(ctx.status(200), ctx.json(song));
+    return res(ctx.status(200), ctx.json(response));
   }),
 ];
