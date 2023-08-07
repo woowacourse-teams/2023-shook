@@ -25,7 +25,7 @@ public class OAuthService {
         final ResponseEntity<GoogleAccessTokenResponse> accessTokenResponse =
             googleInfoProvider.getAccessToken(accessCode);
         final ResponseEntity<GoogleMemberInfoResponse> memberInfo = googleInfoProvider
-            .getMemberInfo(Objects.requireNonNull(accessTokenResponse.getBody()).getAccess_token());
+            .getMemberInfo(Objects.requireNonNull(accessTokenResponse.getBody()).getAccessToken());
 
         final String userEmail = Objects.requireNonNull(memberInfo.getBody()).getEmail();
         final Optional<Member> registeredMember = memberService.findByEmail(new Email(userEmail));

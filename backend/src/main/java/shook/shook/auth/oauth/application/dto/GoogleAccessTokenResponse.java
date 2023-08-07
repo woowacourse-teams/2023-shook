@@ -1,5 +1,6 @@
 package shook.shook.auth.oauth.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GoogleAccessTokenResponse {
 
-    private String access_token;
+    @JsonProperty("access_token")
+    private String accessToken;
 }

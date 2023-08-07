@@ -49,7 +49,7 @@ class OAuthServiceTest {
             .thenReturn(accessTokenResponse);
 
         final ResponseEntity<GoogleMemberInfoResponse> memberInfoResponse = ResponseEntity.ok(
-            new GoogleMemberInfoResponse("shook@wooteco.com", "true"));
+            new GoogleMemberInfoResponse("shook@wooteco.com", true));
         when(googleInfoProvider.getMemberInfo(any(String.class)))
             .thenReturn(memberInfoResponse);
 
@@ -72,7 +72,7 @@ class OAuthServiceTest {
             .thenReturn(accessTokenResponse);
 
         final ResponseEntity<GoogleMemberInfoResponse> memberInfoResponse = ResponseEntity.ok(
-            new GoogleMemberInfoResponse("shook@wooteco.com", "true"));
+            new GoogleMemberInfoResponse("shook@wooteco.com", true));
         when(googleInfoProvider.getMemberInfo(any(String.class)))
             .thenReturn(memberInfoResponse);
 

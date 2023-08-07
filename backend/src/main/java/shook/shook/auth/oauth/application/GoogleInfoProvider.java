@@ -39,9 +39,7 @@ public class GoogleInfoProvider {
             final ResponseEntity<GoogleMemberInfoResponse> responseEntity = restTemplate.getForEntity(
                 GOOGLE_MEMBER_INFO_URL + accessToken,
                 GoogleMemberInfoResponse.class);
-
-            if (Objects.requireNonNull(responseEntity.getBody()).getVerified_email()
-                .equals("false")) {
+            if (!Objects.requireNonNull(responseEntity.getBody()).isVerifiedEmail()) {
                 throw new OAuthException.InvalidEmailException();
             }
 
