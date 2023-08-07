@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
+import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import useVideoPlayerContext from '@/features/youtube/contexts/useVideoPlayerContext';
 import { minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
-import useVoteInterfaceContext from '../../songs/hooks/useVoteInterfaceContext';
 import type { ChangeEventHandler } from 'react';
 
 interface VideoSlider {

@@ -3,9 +3,9 @@ import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
 import Flex from '@/shared/components/Flex';
+import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { getPlayingTimeText, secondsToMinSec } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
-import useToastContext from '../../../shared/components/Toast/hooks/useToastContext';
 import type { KillingPart } from '@/types/song';
 
 interface KillingPartInfoProps {
