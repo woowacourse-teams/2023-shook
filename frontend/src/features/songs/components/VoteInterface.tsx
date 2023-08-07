@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/contexts/useVideoPlayerContext';
 import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -11,7 +12,6 @@ import useToastContext from '../../../shared/components/Toast/hooks/useToastCont
 import { usePostKillingPart } from '../hooks/usePostKillingPart';
 import IntervalInput from './IntervalInput';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
-import VideoSlider from './VideoSlider';
 
 interface VoteInterfaceProps {
   videoLength: number;
