@@ -26,7 +26,6 @@ class TokenProviderTest {
             ACCESS_TOKEN_VALID_TIME,
             REFRESH_TOKEN_VALID_TIME,
             SECRET_CODE);
-        tokenProvider.generateSecretKey();
 
         //when
         final String accessToken = tokenProvider.createAccessToken(1L);
@@ -46,7 +45,6 @@ class TokenProviderTest {
             ACCESS_TOKEN_VALID_TIME,
             REFRESH_TOKEN_VALID_TIME,
             SECRET_CODE);
-        tokenProvider.generateSecretKey();
 
         // when
         final String refreshToken = tokenProvider.createRefreshToken(1L);
@@ -66,7 +64,7 @@ class TokenProviderTest {
             ACCESS_TOKEN_VALID_TIME,
             REFRESH_TOKEN_VALID_TIME,
             SECRET_CODE);
-        tokenProvider.generateSecretKey();
+
         final String inValidToken = "asdfsev.asefsbd.23dfvs";
 
         //when
@@ -80,7 +78,6 @@ class TokenProviderTest {
     @ParameterizedTest
     void check_token_validTime(final TokenProvider tokenProvider, final boolean expect) {
         //given
-        tokenProvider.generateSecretKey();
         final String token = tokenProvider.createAccessToken(1L);
 
         //when
