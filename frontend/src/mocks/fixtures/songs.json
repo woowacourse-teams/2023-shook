@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "\uc815\uad6d",
-    "length": 186,
+    "videoLength": 186,
     "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
@@ -37,7 +37,7 @@
     "id": 2,
     "title": "Super Shy",
     "singer": "NewJeans",
-    "length": 200,
+    "videoLength": 200,
     "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
@@ -72,7 +72,7 @@
     "id": 3,
     "title": "\ud038\uce74 (Queencard)",
     "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
-    "length": 162,
+    "videoLength": 162,
     "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
