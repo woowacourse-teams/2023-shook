@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.jsonwebtoken.Claims;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,16 +18,19 @@ class TokenProviderTest {
     private static final long ACCESS_TOKEN_VALID_TIME = 12000L;
     private static final long REFRESH_TOKEN_VALID_TIME = 6048000L;
     private static final String SECRET_CODE = "2345asdfasdfsadfsdf243dfdsfsfs";
+    private TokenProvider tokenProvider;
+
+    @BeforeEach
+    public void setUp() {
+        tokenProvider = new TokenProvider(ACCESS_TOKEN_VALID_TIME,
+            REFRESH_TOKEN_VALID_TIME,
+            SECRET_CODE);
+    }
 
     @DisplayName("올바른 access token을 생성한다.")
     @Test
     void createAccessToken() {
         //given
-        final TokenProvider tokenProvider = new TokenProvider(
-            ACCESS_TOKEN_VALID_TIME,
-            REFRESH_TOKEN_VALID_TIME,
-            SECRET_CODE);
-
         //when
         final String accessToken = tokenProvider.createAccessToken(1L);
         final Claims result = tokenProvider.parseClaims(accessToken);
@@ -41,11 +45,6 @@ class TokenProviderTest {
     @Test
     void createRefreshToken() {
         //given
-        final TokenProvider tokenProvider = new TokenProvider(
-            ACCESS_TOKEN_VALID_TIME,
-            REFRESH_TOKEN_VALID_TIME,
-            SECRET_CODE);
-
         // when
         final String refreshToken = tokenProvider.createRefreshToken(1L);
         final Claims result = tokenProvider.parseClaims(refreshToken);
@@ -60,17 +59,12 @@ class TokenProviderTest {
     @Test
     void parsing_fail() {
         // given
-        final TokenProvider tokenProvider = new TokenProvider(
-            ACCESS_TOKEN_VALID_TIME,
-            REFRESH_TOKEN_VALID_TIME,
-            SECRET_CODE);
-
         final String inValidToken = "asdfsev.asefsbd.23dfvs";
 
         //when
         //then
         assertThatThrownBy(() -> tokenProvider.parseClaims(inValidToken))
-            .isInstanceOf(TokenException.InValidTokenException.class);
+            .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
     @DisplayName("token의 만료기간이 남아있으면 true를 그렇지 않으면 false를 반환한다.")

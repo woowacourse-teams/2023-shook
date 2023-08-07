@@ -13,24 +13,24 @@ import shook.shook.util.StringChecker;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-public class NickName {
+public class Nickname {
 
     private static final int NICK_NAME_MAXIMUM_LENGTH = 100;
 
-    @Column(name = "nick_name", length = NICK_NAME_MAXIMUM_LENGTH, nullable = false)
+    @Column(name = "nickname", length = NICK_NAME_MAXIMUM_LENGTH, nullable = false)
     private String value;
 
-    public NickName(final String value) {
-        validateNickName(value);
+    public Nickname(final String value) {
+        validateNickname(value);
         this.value = value;
     }
 
-    private void validateNickName(final String value) {
+    private void validateNickname(final String value) {
         if (StringChecker.isNullOrBlank(value)) {
-            throw new MemberException.NullOrEmptyNickNameException();
+            throw new MemberException.NullOrEmptyNicknameException();
         }
         if (value.length() > NICK_NAME_MAXIMUM_LENGTH) {
-            throw new MemberException.TooLongNickNameException();
+            throw new MemberException.TooLongNicknameException();
         }
     }
 }

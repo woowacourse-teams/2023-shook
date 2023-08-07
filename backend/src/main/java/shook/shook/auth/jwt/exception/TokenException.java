@@ -2,9 +2,9 @@ package shook.shook.auth.jwt.exception;
 
 public class TokenException extends RuntimeException {
 
-    public static class InValidTokenException extends TokenException {
+    public static class NotIssuedTokenException extends TokenException {
 
-        public InValidTokenException() {
+        public NotIssuedTokenException() {
             super();
         }
     }

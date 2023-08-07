@@ -24,20 +24,19 @@ public class Member {
     private Email email;
 
     @Embedded
-    private NickName nickName;
+    private Nickname nickname;
 
-
-    public Member(final String email, final String nickName) {
+    public Member(final String email, final String nickname) {
         this.id = null;
         this.email = new Email(email);
-        this.nickName = new NickName(nickName);
+        this.nickname = new Nickname(nickname);
     }
 
     public String getEmail() {
         return email.getValue();
     }
 
-    public String getNickName() {
-        return nickName.getValue();
+    public String getNickname() {
+        return nickname.getValue();
     }
 }

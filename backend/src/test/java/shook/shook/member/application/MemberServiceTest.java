@@ -34,7 +34,7 @@ class MemberServiceTest extends UsingJpaTest {
     @Test
     void register() {
         //given
-        MemberRegisterRequest memberRegisterRequest =
+        final MemberRegisterRequest memberRegisterRequest =
             new MemberRegisterRequest("shook@wooteco.com", "shook");
 
         //when
@@ -42,20 +42,20 @@ class MemberServiceTest extends UsingJpaTest {
 
         //then
         assertThat(result.getEmail()).isEqualTo(memberRegisterRequest.getEmail());
-        assertThat(result.getNickName()).isEqualTo(memberRegisterRequest.getNickName());
+        assertThat(result.getNickname()).isEqualTo(memberRegisterRequest.getNickName());
     }
 
     @DisplayName("중복된 이메일로 회원을 등록되는 경우 예외를 던진다.")
     @Test
     void register_fail_alreadyExistMember() {
         // given
-        MemberRegisterRequest memberRegisterRequest =
+        final MemberRegisterRequest memberRegisterRequest =
             new MemberRegisterRequest("woowa@wooteco.com", "shook");
 
         // when
         // then
         assertThatThrownBy(() -> memberService.register(memberRegisterRequest))
-            .isInstanceOf(MemberException.AlreadyExistMemberException.class);
+            .isInstanceOf(MemberException.ExistMemberException.class);
     }
 
     @DisplayName("회원을 이메일로 조회한다.")
@@ -63,11 +63,12 @@ class MemberServiceTest extends UsingJpaTest {
     void findByEmail() {
         //given
         //when
-        final Optional<Member> result = memberService.findByEmail(new Email(savedMember.getEmail()));
+        final Optional<Member> result = memberService.findByEmail(
+            new Email(savedMember.getEmail()));
 
         //then
         assertThat(result.get().getId()).isEqualTo(savedMember.getId());
         assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(result.get().getNickName()).isEqualTo(savedMember.getNickName());
+        assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
     }
 }

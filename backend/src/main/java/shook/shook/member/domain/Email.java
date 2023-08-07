@@ -36,7 +36,7 @@ public class Email {
         if (value.length() > EMAIL_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongEmailException();
         }
-        Matcher matcher = EMAIL_FORM.matcher(value);
+        final Matcher matcher = EMAIL_FORM.matcher(value);
         if (!matcher.matches()) {
             throw new MemberException.InValidEmailFormException();
         }

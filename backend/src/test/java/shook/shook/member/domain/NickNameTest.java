@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import shook.shook.member.exception.MemberException;
 
-class NickNameTest {
+class NicknameTest {
 
     @DisplayName("올바른 닉네임을 생성한다.")
     @Test
@@ -18,7 +18,7 @@ class NickNameTest {
         //given
         //when
         //then
-        Assertions.assertDoesNotThrow(() -> new NickName("shook"));
+        Assertions.assertDoesNotThrow(() -> new Nickname("shook"));
     }
 
     @DisplayName("닉네임이 유효하지 않으면 예외를 던진다.")
@@ -29,11 +29,11 @@ class NickNameTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new NickName(nickName))
-            .isInstanceOf(MemberException.NullOrEmptyNickNameException.class);
+        assertThatThrownBy(() -> new Nickname(nickName))
+            .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
     }
 
-    @DisplayName("닉네ㅜ의 길이가 100자를 넘을 경우 예외를 던진다.")
+    @DisplayName("닉네임의 길이가 100자를 넘을 경우 예외를 던진다.")
     @Test
     void create_fail_lengthOver100() {
         //given
@@ -41,7 +41,7 @@ class NickNameTest {
 
         //when
         //then
-        assertThatThrownBy(() -> new NickName(nickName))
-            .isInstanceOf(MemberException.TooLongNickNameException.class);
+        assertThatThrownBy(() -> new Nickname(nickName))
+            .isInstanceOf(MemberException.TooLongNicknameException.class);
     }
 }

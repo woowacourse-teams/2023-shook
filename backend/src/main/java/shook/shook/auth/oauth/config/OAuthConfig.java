@@ -13,5 +13,4 @@ public class OAuthConfig {
         final RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
         return restTemplateBuilder.build();
     }
-
 }

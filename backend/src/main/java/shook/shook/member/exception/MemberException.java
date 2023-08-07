@@ -21,26 +21,25 @@ public class MemberException extends RuntimeException {
         public InValidEmailFormException() {
             super();
         }
-
     }
 
-    public static class NullOrEmptyNickNameException extends MemberException {
+    public static class NullOrEmptyNicknameException extends MemberException {
 
-        public NullOrEmptyNickNameException() {
+        public NullOrEmptyNicknameException() {
             super();
         }
     }
 
-    public static class TooLongNickNameException extends MemberException {
+    public static class TooLongNicknameException extends MemberException {
 
-        public TooLongNickNameException() {
+        public TooLongNicknameException() {
             super();
         }
     }
 
-    public static class AlreadyExistMemberException extends MemberException {
+    public static class ExistMemberException extends MemberException {
 
-        public AlreadyExistMemberException() {
+        public ExistMemberException() {
             super();
         }
     }

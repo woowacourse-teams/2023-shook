@@ -10,10 +10,10 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import shook.shook.auth.jwt.exception.TokenException;
 
-@Service
+@Component
 public class TokenProvider {
 
     private final long accessTokenValidTime;
@@ -31,7 +31,7 @@ public class TokenProvider {
     }
 
     private Key generateSecretKey(final String secretCode) {
-        String encodedSecretCode = Base64.getEncoder().encodeToString(secretCode.getBytes());
+        final String encodedSecretCode = Base64.getEncoder().encodeToString(secretCode.getBytes());
         return Keys.hmacShaKeyFor(encodedSecretCode.getBytes());
     }
 
@@ -44,7 +44,7 @@ public class TokenProvider {
     }
 
     private String createToken(final long memberId, final long validTime) {
-        Claims claims = Jwts.claims().setSubject("user");
+        final Claims claims = Jwts.claims().setSubject("user");
         claims.put("memberId", memberId);
         Date now = new Date();
         return Jwts.builder()
@@ -77,7 +77,7 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (JwtException e) {
-            throw new TokenException.InValidTokenException();
+            throw new TokenException.NotIssuedTokenException();
         }
     }
 }

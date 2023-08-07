@@ -23,7 +23,7 @@ class OauthControllerTest {
     @MockBean
     private OAuthService oAuthService;
 
-    @DisplayName("회원이 로그인을 하면 요청결과 200을 반환다.")
+    @DisplayName("회원이 로그인을 하면 요청결과 200을 반환한다.")
     @Test
     void login_success() throws Exception {
         //given
@@ -40,7 +40,7 @@ class OauthControllerTest {
             .andExpect(status().isOk());
     }
 
-    @DisplayName("회원이 아닌 사용자가 로그인을 하면 요청결과 401을 반환다.")
+    @DisplayName("회원이 아닌 사용자가 로그인을 하면 요청결과 401을 반환한다.")
     @Test
     void login_fail() throws Exception {
         //given

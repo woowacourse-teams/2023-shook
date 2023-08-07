@@ -30,9 +30,8 @@ public class OAuthService {
 
         if (registeredMember.isPresent()) {
             final Long memberId = registeredMember.get().getId();
-            final String accessToken = OAuthService.this.tokenProvider.createAccessToken(memberId);
-            final String refreshToken = OAuthService.this.tokenProvider.createRefreshToken(
-                memberId);
+            final String accessToken = tokenProvider.createAccessToken(memberId);
+            final String refreshToken = tokenProvider.createRefreshToken(memberId);
             return new OAuthResponse(userEmail, accessToken, refreshToken);
         }
         return new OAuthResponse(userEmail, null, null);

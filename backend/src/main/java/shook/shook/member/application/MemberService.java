@@ -19,11 +19,11 @@ public class MemberService {
 
     @Transactional
     public Member register(final MemberRegisterRequest memberRegisterRequest) {
-        final Optional<Member> member = findByEmail(new Email(memberRegisterRequest.getEmail()));
+        findByEmail(new Email(memberRegisterRequest.getEmail()))
+            .ifPresent(member -> {
+                throw new MemberException.ExistMemberException();
+            });
 
-        if (member.isPresent()) {
-            throw new MemberException.AlreadyExistMemberException();
-        }
         final Member newMember = memberRegisterRequest.toMember();
         return memberRepository.save(newMember);
     }

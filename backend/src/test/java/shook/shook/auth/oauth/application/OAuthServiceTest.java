@@ -4,13 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import shook.shook.auth.jwt.application.TokenProvider;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
 import shook.shook.auth.oauth.application.dto.OAuthResponse;
@@ -20,21 +18,14 @@ import shook.shook.member.application.dto.MemberRegisterRequest;
 @SpringBootTest
 class OAuthServiceTest {
 
-    @Mock
+    @MockBean
     private GoogleInfoProvider googleInfoProvider;
 
     @Autowired
     private MemberService memberService;
 
     @Autowired
-    private TokenProvider tokenProvider;
-
     private OAuthService oAuthService;
-
-    @BeforeEach
-    void setUp() {
-        oAuthService = new OAuthService(memberService, googleInfoProvider, tokenProvider);
-    }
 
     @DisplayName("회원인 경우 email, accessToken과 refreshToken을 반환한다.")
     @Test
