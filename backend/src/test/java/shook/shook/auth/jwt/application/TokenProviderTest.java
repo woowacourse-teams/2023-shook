@@ -32,7 +32,7 @@ class TokenProviderTest {
         final Claims result = tokenProvider.parseClaims(accessToken);
 
         //then
-        assertThat(result.get("userId")).isEqualTo(1);
+        assertThat(result.get("memberId")).isEqualTo(1);
         assertThat(result.getExpiration().getTime() - result.getIssuedAt().getTime())
             .isEqualTo(ACCESS_TOKEN_VALID_TIME);
     }
@@ -51,7 +51,7 @@ class TokenProviderTest {
         final Claims result = tokenProvider.parseClaims(refreshToken);
 
         // then
-        assertThat(result.get("userId")).isEqualTo(1);
+        assertThat(result.get("memberId")).isEqualTo(1);
         assertThat(result.getExpiration().getTime() - result.getIssuedAt().getTime())
             .isEqualTo(REFRESH_TOKEN_VALID_TIME);
     }
