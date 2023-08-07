@@ -3,9 +3,9 @@ package shook.shook.auth.oauth.application;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,6 @@ class GoogleInfoProviderTest {
     @Autowired
     private MockRestServiceServer mockServer;
 
-    @Autowired
-    private ObjectMapper mapper;
-
     @DisplayName("올바르지 않은 authorizedCode를 통해 요청을 보내면 예외를 던진다.")
     @Test
     void fail_request_accessToken() {
@@ -54,7 +51,7 @@ class GoogleInfoProviderTest {
     void fail_request_memberInfo_InvalidAccessToken() {
         //given
         mockServer
-            .expect(requestTo(MEMBER_INFO_URL + "code"))
+            .expect(requestTo(MEMBER_INFO_URL))
             .andRespond(withBadRequest());
 
         //when
@@ -68,19 +65,46 @@ class GoogleInfoProviderTest {
     void fail_request_InvalidEmail() {
         //given
         final String response = """
-            { email: shook@wooteco.com \n
-            email_valid: false
+            {
+            "email": "shook@wooteco.com",
+            "verified_email": "false"
             }
             """;
-
         mockServer
-            .expect(requestTo(MEMBER_INFO_URL + "code"))
+            .expect(requestTo(MEMBER_INFO_URL))
             .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
 
         //when
         //then
         assertThatThrownBy(() -> googleInfoProvider.getMemberInfo("code"))
-            .isInstanceOf(OAuthException.InvalidAccessTokenException.class);
+            .isInstanceOf(OAuthException.InvalidEmailException.class);
+    }
+
+    @DisplayName("accessToken을 요청할 때 구글 서버에러가 발생하면 예외를 던진다.")
+    @Test
+    void fail_access_token_request_google_server_error() {
+        //given
+        mockServer
+            .expect(requestTo(ACCESS_TOKEN_URL))
+            .andRespond(withServerError());
+
+        //when
+        //then
+        assertThatThrownBy(() -> googleInfoProvider.getAccessToken("code"))
+            .isInstanceOf(OAuthException.GoogleServerException.class);
+    }
+
+    @DisplayName("memberInfo를 요청할 때 구글 서버에러가 발생하면 예외를 던진다.")
+    @Test
+    void fail_memberInfo_request_google_server_error() {
+        //given
+        mockServer
+            .expect(requestTo(MEMBER_INFO_URL))
+            .andRespond(withServerError());
+
+        //when
+        //then
+        assertThatThrownBy(() -> googleInfoProvider.getMemberInfo("code"))
+            .isInstanceOf(OAuthException.GoogleServerException.class);
     }
 }
-

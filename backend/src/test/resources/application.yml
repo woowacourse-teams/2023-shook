@@ -5,7 +5,7 @@ spring:
 oauth2:
   google:
     access-token-url: http://localhost:8080/token
-    member-info-url: http://localhost:8080/userinfo/?access_token=
+    member-info-url: http://localhost:8080/userinfo
     client-id: client
     client-secret: secret
     redirect-uri: redirect

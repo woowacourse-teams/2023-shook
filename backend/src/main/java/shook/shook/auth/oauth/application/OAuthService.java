@@ -1,9 +1,7 @@
 package shook.shook.auth.oauth.application;
 
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.jwt.application.TokenProvider;
 import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
@@ -22,12 +20,12 @@ public class OAuthService {
     private final TokenProvider tokenProvider;
 
     public OAuthResponse login(final String accessCode) {
-        final ResponseEntity<GoogleAccessTokenResponse> accessTokenResponse =
+        final GoogleAccessTokenResponse accessTokenResponse =
             googleInfoProvider.getAccessToken(accessCode);
-        final ResponseEntity<GoogleMemberInfoResponse> memberInfo = googleInfoProvider
-            .getMemberInfo(Objects.requireNonNull(accessTokenResponse.getBody()).getAccessToken());
+        final GoogleMemberInfoResponse memberInfo = googleInfoProvider
+            .getMemberInfo(accessTokenResponse.getAccessToken());
 
-        final String userEmail = Objects.requireNonNull(memberInfo.getBody()).getEmail();
+        final String userEmail = memberInfo.getEmail();
         final Optional<Member> registeredMember = memberService.findByEmail(new Email(userEmail));
 
         if (registeredMember.isPresent()) {

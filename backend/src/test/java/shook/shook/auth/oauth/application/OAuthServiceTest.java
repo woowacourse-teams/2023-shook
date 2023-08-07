@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import shook.shook.auth.jwt.application.TokenProvider;
 import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
@@ -43,13 +42,13 @@ class OAuthServiceTest {
         //given
         memberService.register(new MemberRegisterRequest("shook@wooteco.com", "shook"));
 
-        final ResponseEntity<GoogleAccessTokenResponse> accessTokenResponse = ResponseEntity.ok(
-            new GoogleAccessTokenResponse("accessToken"));
+        final GoogleAccessTokenResponse accessTokenResponse =
+            new GoogleAccessTokenResponse("accessToken");
         when(googleInfoProvider.getAccessToken(any(String.class)))
             .thenReturn(accessTokenResponse);
 
-        final ResponseEntity<GoogleMemberInfoResponse> memberInfoResponse = ResponseEntity.ok(
-            new GoogleMemberInfoResponse("shook@wooteco.com", true));
+        final GoogleMemberInfoResponse memberInfoResponse =
+            new GoogleMemberInfoResponse("shook@wooteco.com", true);
         when(googleInfoProvider.getMemberInfo(any(String.class)))
             .thenReturn(memberInfoResponse);
 
@@ -66,13 +65,13 @@ class OAuthServiceTest {
     @Test
     void fail_login() {
         //given
-        final ResponseEntity<GoogleAccessTokenResponse> accessTokenResponse = ResponseEntity.ok(
-            new GoogleAccessTokenResponse("accessToken"));
+        final GoogleAccessTokenResponse accessTokenResponse =
+            new GoogleAccessTokenResponse("accessToken");
         when(googleInfoProvider.getAccessToken(any(String.class)))
             .thenReturn(accessTokenResponse);
 
-        final ResponseEntity<GoogleMemberInfoResponse> memberInfoResponse = ResponseEntity.ok(
-            new GoogleMemberInfoResponse("shook@wooteco.com", true));
+        final GoogleMemberInfoResponse memberInfoResponse =
+            new GoogleMemberInfoResponse("shook@wooteco.com", true);
         when(googleInfoProvider.getMemberInfo(any(String.class)))
             .thenReturn(memberInfoResponse);
 

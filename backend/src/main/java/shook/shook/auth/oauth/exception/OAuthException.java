@@ -22,4 +22,11 @@ public class OAuthException extends RuntimeException {
             super();
         }
     }
+
+    public static class GoogleServerException extends OAuthException {
+
+        public GoogleServerException() {
+            super();
+        }
+    }
 }
