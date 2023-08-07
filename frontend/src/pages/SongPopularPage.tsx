@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import PopularSongItem from '@/features/songs/components/PopularSongItem';
-import fetcher from '@/remotes';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
+import fetcher from '@/shared/remotes';
 
 interface PopularSong {
   id: number;

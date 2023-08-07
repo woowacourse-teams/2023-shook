@@ -1,4 +1,4 @@
-import fetcher from '.';
+import fetcher from '@/shared/remotes';
 import type { KillingPartPostRequest, KillingPartPostResponse } from '@/types/killingPart';
 
 export const postKillingPart = async (

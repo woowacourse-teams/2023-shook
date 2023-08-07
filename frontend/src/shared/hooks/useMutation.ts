@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { ErrorResponse } from '@/remotes';
+import type { ErrorResponse } from '@/shared/remotes';
 
 // eslint-disable-next-line
 export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Promise<T>) => {

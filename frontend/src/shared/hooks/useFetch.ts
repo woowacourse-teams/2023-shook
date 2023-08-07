@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { ErrorResponse } from '@/remotes';
+import type { ErrorResponse } from '@/shared/remotes';
 
 const useFetch = <T>(fetcher: () => Promise<T>) => {
   const [data, setData] = useState<T | null>(null);

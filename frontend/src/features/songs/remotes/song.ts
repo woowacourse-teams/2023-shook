@@ -1,4 +1,4 @@
-import fetcher from '.';
+import fetcher from '@/shared/remotes';
 import type { SongDetail } from '@/types/song';
 
 export const getSongDetail = async (songId: number): Promise<SongDetail> => {

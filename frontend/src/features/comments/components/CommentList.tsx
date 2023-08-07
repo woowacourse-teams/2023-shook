@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
-import fetcher from '@/remotes';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import useFetch from '@/shared/hooks/useFetch';
 import { useMutation } from '@/shared/hooks/useMutation';
+import fetcher from '@/shared/remotes';
 import Comment from './Comment';
 
 interface Comment {
