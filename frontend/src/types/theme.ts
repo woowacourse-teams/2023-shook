@@ -1,4 +1,4 @@
 // eslint-disable-next-line
-import theme from '@/styles/theme';
+import theme from '@/shared/styles/theme';
 
 export type ThemeType = typeof theme;
