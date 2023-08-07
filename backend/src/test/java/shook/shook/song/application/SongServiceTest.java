@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import shook.shook.part.domain.PartLength;
 import shook.shook.part.domain.Vote;
 import shook.shook.part.domain.repository.PartRepository;
 import shook.shook.part.domain.repository.VoteRepository;
+import shook.shook.song.application.dto.HighVotedSongResponse;
 import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.KillingPartsResponse;
 import shook.shook.song.application.dto.SongRegisterRequest;
@@ -43,24 +45,25 @@ class SongServiceTest extends UsingJpaTest {
     @BeforeEach
     void setUp() {
         songService = new SongService(songRepository);
-        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
+        SAVED_SONG = songRepository.save(new Song("노래제목", "비디오URL", "이미지URL", "가수", 180));
     }
 
     void addPart(final Song song, final Part part) {
-        partRepository.save(part);
         song.addPart(part);
+        partRepository.save(part);
     }
 
     void votePart(final Part part, final Vote vote) {
-        voteRepository.save(vote);
         part.vote(vote);
+        voteRepository.save(vote);
     }
 
     @DisplayName("노래를 등록한다.")
     @Test
     void register() {
         //given
-        final SongRegisterRequest request = new SongRegisterRequest("새로운노래제목", "비디오URL", "가수", 180);
+        final SongRegisterRequest request = new SongRegisterRequest("새로운노래제목", "비디오URL", "이미지URL",
+            "가수", 180);
 
         //when
         songService.register(request);
@@ -264,5 +267,46 @@ class SongServiceTest extends UsingJpaTest {
             assertThatThrownBy(() -> songService.showKillingParts(0L))
                 .isInstanceOf(SongException.SongNotExistException.class);
         }
+    }
+
+    @DisplayName("총 득표수가 높은 순서로 노래 목록을 반환한다. ( 최대 40개를 반환, 같은 득표시 최신등록 순으로 정렬, 노래 40개 존재 )")
+    @Test
+    void findHighVotedSongs() {
+        //given
+        final List<Song> songs = songRepository.findAll();
+        songs.sort(Comparator.comparing(Song::getCreatedAt).reversed());
+
+        final Song latestSong = songs.get(0);
+        final Song secondLatestSong = songs.get(1);
+
+        final Part firstPartForFirstSong = Part.forSave(1, PartLength.SHORT, latestSong);
+        final Part firstPartForSecondSong = Part.forSave(1, PartLength.SHORT, secondLatestSong);
+
+        addPart(latestSong, firstPartForFirstSong);
+        addPart(secondLatestSong, firstPartForSecondSong);
+
+        votePart(firstPartForFirstSong, Vote.forSave(firstPartForFirstSong));
+        votePart(firstPartForSecondSong, Vote.forSave(firstPartForSecondSong));
+        votePart(firstPartForSecondSong, Vote.forSave(firstPartForSecondSong));
+
+        //when
+        final List<HighVotedSongResponse> highVotedSongs = songService.findHighVotedSongs();
+
+        //then
+        final List<Song> expectedSongs = songs.stream()
+            .sorted((first, second) -> {
+                final int firstTotalVote = first.getParts().stream()
+                    .mapToInt(Part::getVoteCount)
+                    .sum();
+                final int secondTotalVote = second.getParts().stream()
+                    .mapToInt(Part::getVoteCount)
+                    .sum();
+                return secondTotalVote - firstTotalVote;
+            })
+            .toList();
+
+        assertThat(highVotedSongs).usingRecursiveComparison()
+            .ignoringFields("totalVoteCount")
+            .isEqualTo(expectedSongs.subList(0, 40));
     }
 }

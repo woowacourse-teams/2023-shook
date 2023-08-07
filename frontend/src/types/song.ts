@@ -8,14 +8,16 @@ export interface SongDetail {
   singer: string;
   videoLength: number;
   songVideoUrl: VideoUrl;
+  albumCoverUrl: string;
   killingParts: KillingPart[];
 }
 
-type KillingPart = {
+export interface KillingPart {
+  id: number;
   exist: true;
-  rank: 1;
-  start: 5;
-  end: 15;
+  rank: number;
+  start: number;
+  end: number;
   partVideoUrl: PartVideoUrl;
   voteCount: number;
-};
+}

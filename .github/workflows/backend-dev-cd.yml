@@ -1,0 +1,24 @@
+name: Backend Develop Deploy (CD)
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch Name'
+        required: true
+
+jobs:
+  build:
+    name: Backend Deploy
+    runs-on: shook-runner
+
+    steps:
+      - name: Log pwd
+        shell: bash
+        run: pwd
+      - name: Log Branch Name
+        shell: bash
+        run: echo "${{ github.event.inputs.branch }}"
+      - name: Deploy
+        shell: bash
+        run: bash /home/ubuntu/deploy.sh ${{ github.event.inputs.branch }}

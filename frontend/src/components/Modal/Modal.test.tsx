@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import renderWithTheme from '@/utils/renderWithTheme';
 import useModal from './hooks/useModal';
 import Modal from './Modal';
 
@@ -27,7 +28,7 @@ describe('Modal 컴포넌트 테스트', () => {
   };
 
   test('openModal로 모달을 열 수 있다.', async () => {
-    render(<RegistrationModal />);
+    renderWithTheme(<RegistrationModal />);
 
     expect(screen.queryByText(/킬링파트에 투표했습니다./)).not.toBeInTheDocument();
 
@@ -37,7 +38,7 @@ describe('Modal 컴포넌트 테스트', () => {
   });
 
   test('closeModal로 모달을 닫을 수 있다.', async () => {
-    render(<RegistrationModal />);
+    renderWithTheme(<RegistrationModal />);
 
     expect(screen.queryByText(/킬링파트에 투표했습니다./)).not.toBeInTheDocument();
 
@@ -51,7 +52,7 @@ describe('Modal 컴포넌트 테스트', () => {
   });
 
   test('백드랍을 클릭하면 모달이 닫힌다.', async () => {
-    render(<RegistrationModal />);
+    renderWithTheme(<RegistrationModal />);
 
     expect(screen.queryByText(/킬링파트에 투표했습니다./)).not.toBeInTheDocument();
 
@@ -66,7 +67,7 @@ describe('Modal 컴포넌트 테스트', () => {
   });
 
   test('esc를 누르면 모달이 닫힌다.', async () => {
-    render(<RegistrationModal />);
+    renderWithTheme(<RegistrationModal />);
 
     expect(screen.queryByText(/킬링파트에 투표했습니다./)).not.toBeInTheDocument();
 

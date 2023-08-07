@@ -5,11 +5,16 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     assetModuleFilename: 'assets/[hash][ext]',
+    publicPath: '/',
   },
   module: {
     rules: [
       {
         test: /\.(png|svg|jpe?g)$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
     ],

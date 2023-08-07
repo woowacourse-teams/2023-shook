@@ -9,18 +9,28 @@ create table if not exists part
 );
 create table if not exists song
 (
-    id         bigint auto_increment,
-    title      varchar(100) not null,
-    singer     varchar(50)  not null,
-    length     integer      not null,
-    video_url  text         not null,
-    created_at timestamp(6) not null,
+    id              bigint auto_increment,
+    title           varchar(100) not null,
+    singer          varchar(50)  not null,
+    length          integer      not null,
+    video_url       text         not null,
+    album_cover_url text         not null,
+    created_at      timestamp(6) not null,
     primary key (id)
 );
 create table if not exists vote
 (
     id         bigint auto_increment,
     part_id    bigint,
+    created_at timestamp(6) not null,
+    primary key (id)
+);
+
+create table if not exists part_comment
+(
+    id         bigint auto_increment,
+    part_id    bigint       not null,
+    content    varchar(200) not null,
     created_at timestamp(6) not null,
     primary key (id)
 )

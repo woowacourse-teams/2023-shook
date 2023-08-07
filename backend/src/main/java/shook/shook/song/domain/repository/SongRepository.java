@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
+import shook.shook.song.domain.repository.dto.SongTotalVoteCountDto;
 
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
@@ -25,4 +26,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         @Param("title") final String title,
         @Param("singer") final String singer
     );
+  
+    @Query("SELECT s AS song, COUNT(v) AS totalVoteCount FROM Song s LEFT JOIN s.parts.parts p LEFT JOIN p.votes v GROUP BY s.id")
+    List<SongTotalVoteCountDto> findSongWithTotalVoteCount();
 }

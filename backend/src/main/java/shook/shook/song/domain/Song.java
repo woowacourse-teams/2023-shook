@@ -36,6 +36,9 @@ public class Song {
     private SongVideoUrl videoUrl;
 
     @Embedded
+    private AlbumCoverUrl albumCoverUrl;
+
+    @Embedded
     private Singer singer;
 
     @Embedded
@@ -52,10 +55,17 @@ public class Song {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public Song(final String title, final String videoUrl, final String singer, final int length) {
+    public Song(
+        final String title,
+        final String videoUrl,
+        final String imageUrl,
+        final String singer,
+        final int length
+    ) {
         this.id = null;
         this.title = new SongTitle(title);
         this.videoUrl = new SongVideoUrl(videoUrl);
+        this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
     }
@@ -101,6 +111,10 @@ public class Song {
 
     public String getVideoUrl() {
         return videoUrl.getValue();
+    }
+
+    public String getAlbumCoverUrl() {
+        return albumCoverUrl.getValue();
     }
 
     public String getSinger() {
