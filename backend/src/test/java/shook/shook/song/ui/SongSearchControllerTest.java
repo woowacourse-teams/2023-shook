@@ -37,8 +37,8 @@ class SongSearchControllerTest {
     void searchSongBySinger() {
         //given
         final Song song = songRepository.save(
-            new Song("Feel My Rhythm", "비디오URL", "RedVelvet", 20));
-        songRepository.save(new Song("Birthday", "비디오URL", "레드벨벳", 20));
+            new Song("Feel My Rhythm", "비디오URL", "image", "RedVelvet", 20));
+        songRepository.save(new Song("Birthday", "비디오URL", "image", "레드벨벳", 20));
 
         //when
         final List<SearchedSongResponse> responses = RestAssured.given().log().all()
@@ -65,10 +65,11 @@ class SongSearchControllerTest {
     @Test
     void searchSongByTitle() {
         //given
-        final Song song1 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "먼데이키즈", 20));
-        final Song song2 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "임재범", 20));
-        songRepository.save(new Song("이밤이 지나면", "비디오URL", "뉴진스(New Jeans)", 20));
-        songRepository.save(new Song("그 밤이 지나면", "비디오URL", "레드벨벳", 20));
+        final Song song1 = songRepository.save(
+            new Song("이 밤이 지나면", "비디오URL", "image", "먼데이키즈", 20));
+        final Song song2 = songRepository.save(new Song("이 밤이 지나면", "비디오URL", "image", "임재범", 20));
+        songRepository.save(new Song("이밤이 지나면", "비디오URL", "image", "뉴진스(New Jeans)", 20));
+        songRepository.save(new Song("그 밤이 지나면", "비디오URL", "image", "레드벨벳", 20));
 
         // when
         final List<SearchedSongResponse> responses = RestAssured.given().log().all()
@@ -96,9 +97,9 @@ class SongSearchControllerTest {
     @Test
     void searchSongByIntegrationSearch() {
         //given
-        songRepository.save(new Song("Super Shy", "비디오URL", "르세라핌", 20));
-        final Song song = songRepository.save(new Song("Super Shy", "비디오URL", "뉴진스", 20));
-        songRepository.save(new Song("ETA", "비디오URL", "뉴진스", 20));
+        songRepository.save(new Song("Super Shy", "비디오URL", "image", "르세라핌", 20));
+        final Song song = songRepository.save(new Song("Super Shy", "비디오URL", "image", "뉴진스", 20));
+        songRepository.save(new Song("ETA", "비디오URL", "image", "뉴진스", 20));
 
         //when
         final List<SearchedSongResponse> responses = RestAssured.given().log().all()

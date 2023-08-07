@@ -37,8 +37,9 @@ class SongSearchServiceTest extends UsingJpaTest {
         @ValueSource(strings = {"   redvelvet ", "	Redvelvet\n"})
         void findAllBySinger_exist(final String singer) {
             //given
-            final Song song = songRepository.save(new Song("아무노래", "비디오URL", "RedVelvet", 180));
-            songRepository.save(new Song("다른노래", "비디오URL", "Red Velvet", 180));
+            final Song song = songRepository.save(
+                new Song("아무노래", "비디오URL", "image", "RedVelvet", 180));
+            songRepository.save(new Song("다른노래", "비디오URL", "image", "Red Velvet", 180));
 
             //when
             saveAndClearEntityManager();
@@ -76,8 +77,8 @@ class SongSearchServiceTest extends UsingJpaTest {
         @ValueSource(strings = {"   Hi  ", "	HI\n"})
         void findAllByTitle_exist(final String title) {
             //given
-            final Song song1 = songRepository.save(new Song("Hi", "비디오URL", "다른가수", 180));
-            final Song song2 = songRepository.save(new Song("hI", "비디오URL", "가수", 180));
+            final Song song1 = songRepository.save(new Song("Hi", "비디오URL", "image", "다른가수", 180));
+            final Song song2 = songRepository.save(new Song("hI", "비디오URL", "image", "가수", 180));
 
             //when
             final List<SearchedSongResponse> responses = songSearchService.findAllBySingerAndTitle(
@@ -115,8 +116,8 @@ class SongSearchServiceTest extends UsingJpaTest {
         @CsvSource(value = {"   Hi : singer ", "HI:SinGer"}, delimiter = ':')
         void findAllBySingerAndTitle_exist(String title, String singer) {
             //given
-            final Song song = songRepository.save(new Song("hi", "비디오URL", "singer", 180));
-            songRepository.save(new Song("hi2", "비디오URL", "singer", 180));
+            final Song song = songRepository.save(new Song("hi", "비디오URL", "image", "singer", 180));
+            songRepository.save(new Song("hi2", "비디오URL", "image", "singer", 180));
 
             //when
             final List<SearchedSongResponse> responses = songSearchService.findAllBySingerAndTitle(
@@ -135,8 +136,8 @@ class SongSearchServiceTest extends UsingJpaTest {
         @Test
         void findAllBySingerAndTitle_onlyTitleMatch() {
             //given
-            songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
-            songRepository.save(new Song("제목2", "비디오URL", "가수", 180));
+            songRepository.save(new Song("노래제목", "비디오URL", "image", "가수", 180));
+            songRepository.save(new Song("제목2", "비디오URL", "image", "가수", 180));
 
             //when
             final List<SearchedSongResponse> responses = songSearchService.findAllBySingerAndTitle(
@@ -150,8 +151,8 @@ class SongSearchServiceTest extends UsingJpaTest {
         @Test
         void findAllBySingerAndTitle_onlySingerMatch() {
             //given
-            songRepository.save(new Song("노래제목", "비디오URL", "가수", 180));
-            songRepository.save(new Song("제목2", "비디오URL", "가수", 180));
+            songRepository.save(new Song("노래제목", "비디오URL", "image", "가수", 180));
+            songRepository.save(new Song("제목2", "비디오URL", "image", "가수", 180));
 
             //when
             final List<SearchedSongResponse> responses = songSearchService.findAllBySingerAndTitle(

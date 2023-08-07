@@ -91,8 +91,8 @@ class SongRepositoryTest extends UsingJpaTest {
     @ValueSource(strings = {"redvelvet", "Redvelvet"})
     void findAllBySingerIgnoringCase_exist(final String singer) {
         //given
-        final Song song1 = new Song("노래제목", "비디오URL", "RedVelvet", 180);
-        final Song song2 = new Song("노래제목2", "비디오URL", "RedVelvet", 100);
+        final Song song1 = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
+        final Song song2 = new Song("노래제목2", "비디오URL", "image", "RedVelvet", 100);
         songRepository.save(song1);
         songRepository.save(song2);
 
@@ -109,7 +109,7 @@ class SongRepositoryTest extends UsingJpaTest {
     @Test
     void findAllBySingerIgnoringCase_noExist() {
         //given
-        final Song song = new Song("노래제목", "비디오URL", "RedVelvet", 180);
+        final Song song = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
         songRepository.save(song);
 
         //when
@@ -125,8 +125,8 @@ class SongRepositoryTest extends UsingJpaTest {
     @ValueSource(strings = {"hi", "HI"})
     void findAllByTitleIgnoringCase_exist(final String title) {
         //given
-        final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
-        final Song song2 = new Song("hI", "비디오URL", "가수", 100);
+        final Song song1 = new Song("Hi", "비디오URL", "image", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "image", "가수", 100);
         songRepository.save(song1);
         songRepository.save(song2);
 
@@ -143,7 +143,7 @@ class SongRepositoryTest extends UsingJpaTest {
     @Test
     void findAllByTitleIgnoringCase_noExist() {
         //given
-        final Song song = new Song("노래제목", "비디오URL", "RedVelvet", 180);
+        final Song song = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
         songRepository.save(song);
 
         //when
@@ -158,9 +158,9 @@ class SongRepositoryTest extends UsingJpaTest {
     @Test
     void findAllByTitleAndSingerIgnoringCase_exist() {
         //given
-        final Song song1 = new Song("Hi", "비디오URL", "가수", 180);
-        final Song song2 = new Song("hI", "비디오URL", "가수", 100);
-        final Song song3 = new Song("hI", "비디오URL", "다른가수", 100);
+        final Song song1 = new Song("Hi", "비디오URL", "image", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "image", "가수", 100);
+        final Song song3 = new Song("hI", "비디오URL", "image", "다른가수", 100);
         songRepository.save(song1);
         songRepository.save(song2);
         songRepository.save(song3);
@@ -178,8 +178,8 @@ class SongRepositoryTest extends UsingJpaTest {
     @Test
     void findAllByTitleAndSingerIgnoringCase_noExist() {
         //given
-        final Song song1 = new Song("노래제목", "비디오URL", "뉴진스", 180);
-        final Song song2 = new Song("다른제목", "비디오URL", "RedVelvet", 180);
+        final Song song1 = new Song("노래제목", "비디오URL", "image", "뉴진스", 180);
+        final Song song2 = new Song("다른제목", "비디오URL", "image", "RedVelvet", 180);
         songRepository.save(song1);
         songRepository.save(song2);
 
