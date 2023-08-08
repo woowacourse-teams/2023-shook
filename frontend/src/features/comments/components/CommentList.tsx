@@ -44,8 +44,6 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
 
     await mutateData();
 
-    alert(newComment);
-
     showToast('댓글이 등록되었습니다.');
     resetNewComment();
     getComment();
