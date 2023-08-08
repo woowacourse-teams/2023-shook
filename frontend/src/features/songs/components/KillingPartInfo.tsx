@@ -6,7 +6,7 @@ import Flex from '@/shared/components/Flex';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { getPlayingTimeText, secondsToMinSec } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
-import type { KillingPart } from '@/types/song';
+import type { KillingPart } from '@/shared/types/song';
 
 interface KillingPartInfoProps {
   killingPart: KillingPart | undefined;

@@ -1,6 +1,6 @@
 import useFetch from '@/shared/hooks/useFetch';
 import { getSongDetail } from '../remotes/song';
-import type { SongDetail } from '@/types/song';
+import type { SongDetail } from '@/shared/types/song';
 
 export const useGetSongDetail = (songId: number) => {
   const {

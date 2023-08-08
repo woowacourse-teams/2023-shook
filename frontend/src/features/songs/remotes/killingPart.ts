@@ -1,5 +1,5 @@
 import fetcher from '@/shared/remotes';
-import type { KillingPartPostRequest, KillingPartPostResponse } from '@/types/killingPart';
+import type { KillingPartPostRequest, KillingPartPostResponse } from '@/shared/types/killingPart';
 
 export const postKillingPart = async (
   songId: number,
