@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import logo from '@/assets/icon/shook-logo.svg';
+import ROUTE_PATH from '@/shared/constants/path';
 
 const Header = () => {
   return (
     <Container>
-      <Link to="/" aria-label="shook 홈으로 가기">
+      <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
     </Container>

@@ -14,7 +14,7 @@ interface PopularSong {
   totalVoteCount: number;
 }
 
-const SongPopularPage = () => {
+const MainPage = () => {
   const { data: popularSongs } = useFetch<PopularSong[]>(() => fetcher('/songs/high-voted', 'GET'));
 
   if (!popularSongs) return null;
@@ -46,7 +46,7 @@ const SongPopularPage = () => {
   );
 };
 
-export default SongPopularPage;
+export default MainPage;
 
 const Li = styled.li`
   width: 100%;
