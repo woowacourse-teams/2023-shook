@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import { VideoPlayerProvider } from './components/Youtube';
+import { VideoPlayerProvider } from './features/youtube/components/VideoPlayerProvider';
 import SongDetailPage from './pages/SongDetailPage';
-import { SongPage } from './pages/SongPage';
-import SongPopularPage from './pages/SongPopularPage/';
+import SongPage from './pages/SongPage';
+import SongPopularPage from './pages/SongPopularPage';
+import Layout from './shared/components/Layout/Layout';
 
 const router = createBrowserRouter([
   {

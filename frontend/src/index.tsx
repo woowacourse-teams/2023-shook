@@ -2,10 +2,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import GlobalStyles from '@/styles/GlobalStyles';
-import ToastProvider from './components/@common/Toast/ToastProvider';
+import GlobalStyles from '@/shared/styles/GlobalStyles';
 import router from './router';
-import theme from './styles/theme';
+import ToastProvider from './shared/components/Toast/ToastProvider';
+import theme from './shared/styles/theme';
 
 async function main() {
   if (process.env.NODE_ENV === 'development') {

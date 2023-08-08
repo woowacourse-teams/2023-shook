@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import popularSongs from '../fixtures/popularSongs.json';
 import songs from '../fixtures/songs.json';
-import type { KillingPartPostRequest } from '@/types/killingPart';
+import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
 

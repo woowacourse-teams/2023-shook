@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
-import Thumbnail from '@/components/PopularSongItem/Thumbnail';
-import { VoteInterface, VoteInterfaceProvider } from '@/components/VoteInterface';
-import { VideoPlayerProvider, Youtube } from '@/components/Youtube';
-import { useGetSongDetail } from '@/hooks/song';
-import { Container, Singer, SongTitle, SongInfoContainer, Info } from './SongDetailPage.style';
-import { BigTitle } from './SongPage/SongPage';
+import { styled } from 'styled-components';
+import Thumbnail from '@/features/songs/components/Thumbnail';
+import VoteInterface from '@/features/songs/components/VoteInterface';
+import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
+import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
+import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
+import Youtube from '@/features/youtube/components/Youtube';
 
 const SongDetailPage = () => {
   const { id: songIdParam } = useParams();
@@ -37,3 +38,43 @@ const SongDetailPage = () => {
 };
 
 export default SongDetailPage;
+
+const Container = styled.section`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const SongInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const Info = styled.div``;
+
+const SongTitle = styled.p`
+  font-size: 24px;
+  font-weight: 700;
+  color: ${({ theme: { color } }) => color.white};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 20px;
+  }
+`;
+
+const Singer = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: ${({ theme: { color } }) => color.subText};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 16px;
+  }
+`;
+
+const BigTitle = styled.h2`
+  font-size: 28px;
+  font-weight: 700;
+`;
