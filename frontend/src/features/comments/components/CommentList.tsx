@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { css, styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import Spacing from '@/shared/components/Spacing';
@@ -22,6 +22,7 @@ interface CommentListProps {
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const [newComment, setNewComment] = useState('');
+  const commentInputRef = useRef<HTMLInputElement>(null);
 
   const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
@@ -36,12 +37,14 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
 
   const changeNewComment: React.ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
-  }) => setNewComment(value);
+  }) => setNewComment(value.trim());
 
   const submitNewComment: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     await mutateData();
+
+    alert(newComment);
 
     showToast('댓글이 등록되었습니다.');
     resetNewComment();
@@ -69,7 +72,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           </Profile>
           <Input
             type="text"
-            value={newComment}
+            ref={commentInputRef}
             onChange={changeNewComment}
             placeholder="댓글 추가..."
             maxLength={200}
