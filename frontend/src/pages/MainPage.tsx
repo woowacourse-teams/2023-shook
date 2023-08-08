@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import PopularSongItem from '@/features/songs/components/PopularSongItem';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
+import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 
@@ -28,7 +29,7 @@ const MainPage = () => {
         {popularSongs.map(({ id, albumCoverUrl, title, singer, totalVoteCount }, i) => (
           <Li key={id}>
             <StyledLink
-              to={`/song/${id}`}
+              to={`${ROUTE_PATH.SONG_DETAIL}/${id}`}
               aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
             >
               <PopularSongItem
