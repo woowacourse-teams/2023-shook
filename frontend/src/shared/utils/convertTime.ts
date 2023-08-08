@@ -30,3 +30,25 @@ export const getPlayingTimeText = (startTime: number, endTime: number) => {
 
   return `${startMin}:${startSec} ~ ${endMin}:${endSec}`;
 };
+
+export const addLeadingZeroForTimeFormat = (content: string | number) => {
+  if (!isValidateTimeFormatLength(content)) throw new Error('인자의 길이는 2 이하여야 합니다.');
+
+  if (typeof content === 'number') {
+    return content.toString().padStart(2, '0');
+  }
+
+  return content.padStart(2, '0');
+};
+
+export const getTimeFormatText = <T extends string | number>(...contents: T[]) => {
+  return contents.map(addLeadingZeroForTimeFormat).join(':');
+};
+
+const isValidateTimeFormatLength = (value: string | number) => {
+  if (typeof value === 'number') {
+    return value.toString().length <= 2;
+  }
+
+  return value.length <= 2;
+};
