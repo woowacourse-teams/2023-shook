@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import useKillingPartInterval from '@/features/songs/hooks/useKillingPartInterval';
-import useVideoPlayerContext from '@/features/youtube/contexts/useVideoPlayerContext';
+import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import { minSecToSeconds } from '@/shared/utils/convertTime';
 import type { KillingPartInterval } from '../types/KillingPartToggleGroup.type';
 import type { TimeMinSec } from '@/features/songs/types/IntervalInput.type';

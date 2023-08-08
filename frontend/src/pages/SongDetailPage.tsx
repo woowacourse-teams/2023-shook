@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import VoteInterface from '@/features/songs/components/VoteInterface';
 import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
-import { useGetSongDetail } from '@/features/songs/hooks/useGetSongDetail';
+import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
 

@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
-import useVideoPlayerContext from '@/features/youtube/contexts/useVideoPlayerContext';
+import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
-import { usePostKillingPart } from '../hooks/usePostKillingPart';
+import { usePostKillingPart } from '../remotes/usePostKillingPart';
 import IntervalInput from './IntervalInput';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 
