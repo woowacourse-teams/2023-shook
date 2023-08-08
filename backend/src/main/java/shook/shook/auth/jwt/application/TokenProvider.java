@@ -2,8 +2,8 @@ package shook.shook.auth.jwt.application;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -55,20 +55,6 @@ public class TokenProvider {
             .compact();
     }
 
-    public boolean validateTokenExpiration(final String token) {
-        try {
-            final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-            final Date now = new Date();
-            return claims.getExpiration().after(now);
-        } catch (ExpiredJwtException e) {
-            return false;
-        }
-    }
-
     public Claims parseClaims(final String token) {
         try {
             return Jwts.parserBuilder()
@@ -76,8 +62,10 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        } catch (JwtException e) {
+        } catch (MalformedJwtException e) {
             throw new TokenException.NotIssuedTokenException();
+        } catch (ExpiredJwtException e) {
+            throw new TokenException.ExpiredTokenException();
         }
     }
 }

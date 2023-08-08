@@ -8,4 +8,11 @@ public class TokenException extends RuntimeException {
             super();
         }
     }
+
+    public static class ExpiredTokenException extends TokenException {
+
+        public ExpiredTokenException() {
+            super();
+        }
+    }
 }

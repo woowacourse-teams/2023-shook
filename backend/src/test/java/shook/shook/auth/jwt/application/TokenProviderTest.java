@@ -4,13 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.jsonwebtoken.Claims;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import shook.shook.auth.jwt.exception.TokenException;
 
 class TokenProviderTest {
@@ -55,9 +51,9 @@ class TokenProviderTest {
             .isEqualTo(REFRESH_TOKEN_VALID_TIME);
     }
 
-    @DisplayName("올바르지 않는 token을 parsing하면 에러를 발생한다.")
+    @DisplayName("잘못 만들어진 token을 parsing하면 에러를 발생한다.")
     @Test
-    void parsing_fail() {
+    void parsing_fail_malformed_token() {
         // given
         final String inValidToken = "asdfsev.asefsbd.23dfvs";
 
@@ -67,26 +63,16 @@ class TokenProviderTest {
             .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
-    @DisplayName("token의 만료기간이 남아있으면 true를 그렇지 않으면 false를 반환한다.")
-    @MethodSource("tokenProviderAndOverExpiration")
-    @ParameterizedTest
-    void check_token_validTime(final TokenProvider tokenProvider, final boolean expect) {
-        //given
-        final String token = tokenProvider.createAccessToken(1L);
+    @DisplayName("기한이 만료된 token을 parsing하면 에러를 발생한다.")
+    @Test
+    void parsing_fail_expired_token() {
+        // given
+        tokenProvider = new TokenProvider(0, 0, SECRET_CODE);
+        final String expiredToken = tokenProvider.createAccessToken(1L);
 
         //when
-        final boolean result = tokenProvider.validateTokenExpiration(token);
-
         //then
-        assertThat(result).isEqualTo(expect);
-    }
-
-    private static Stream<Arguments> tokenProviderAndOverExpiration() {
-        return Stream.of(
-            Arguments.of(
-                new TokenProvider(ACCESS_TOKEN_VALID_TIME, REFRESH_TOKEN_VALID_TIME, SECRET_CODE),
-                true),
-            Arguments.of(new TokenProvider(0, 0, SECRET_CODE), false)
-        );
+        assertThatThrownBy(() -> tokenProvider.parseClaims(expiredToken))
+            .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }
