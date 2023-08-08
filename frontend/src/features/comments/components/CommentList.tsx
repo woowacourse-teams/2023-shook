@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import Spacing from '@/shared/components/Spacing';
@@ -22,7 +22,6 @@ interface CommentListProps {
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const [newComment, setNewComment] = useState('');
-  const commentInputRef = useRef<HTMLInputElement>(null);
 
   const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
@@ -70,7 +69,6 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           </Profile>
           <Input
             type="text"
-            ref={commentInputRef}
             onChange={changeNewComment}
             placeholder="댓글 추가..."
             maxLength={200}
