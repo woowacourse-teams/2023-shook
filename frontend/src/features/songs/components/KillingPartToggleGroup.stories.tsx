@@ -9,7 +9,7 @@ const meta: Meta<typeof KillingPartToggleGroup> = {
   decorators: [
     (Story) => (
       <VideoPlayerProvider>
-        <VoteInterfaceProvider>
+        <VoteInterfaceProvider videoLength={180} songId={1}>
           <Story />
         </VoteInterfaceProvider>
       </VideoPlayerProvider>
