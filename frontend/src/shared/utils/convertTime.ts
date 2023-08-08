@@ -41,11 +41,11 @@ export const addLeadingZeroForTimeFormat = (content: string | number) => {
   return content.padStart(2, '0');
 };
 
-export const getTimeFormatText = <T extends string | number>(...contents: T[]) => {
+export const getTimeFormatText = (...contents: (string | number)[]) => {
   return contents.map(addLeadingZeroForTimeFormat).join(':');
 };
 
-const isValidateTimeFormatLength = (value: string | number) => {
+export const isValidateTimeFormatLength = (value: string | number) => {
   if (typeof value === 'number') {
     return value.toString().length <= 2;
   }
