@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
@@ -56,14 +55,6 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
 
   return (
     <Container>
-      <SubTitle>
-        <Link to={`/song/${songId}`}>
-          <PrimarySpan>킬링파트</PrimarySpan> 듣기
-        </Link>
-        <UnderLine>
-          <PrimarySpan>킬링파트</PrimarySpan> 투표
-        </UnderLine>
-      </SubTitle>
       <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
       <KillingPartToggleGroup />
       <IntervalInput
@@ -157,23 +148,6 @@ const Confirm = styled(Button)`
 const Share = styled(Button)`
   flex: 1;
   background-color: ${({ theme: { color } }) => color.primary};
-`;
-
-const UnderLine = styled.div`
-  border-bottom: 2px solid white;
-`;
-
-const SubTitle = styled.h2`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 18px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-`;
-
-const PrimarySpan = styled.span`
-  color: ${({ theme: { color } }) => color.primary};
 `;
 
 const ButtonContainer = styled.div`
