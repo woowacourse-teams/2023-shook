@@ -4,6 +4,7 @@ import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
+import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -41,8 +42,11 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
+      <Spacing direction="vertical" size={16} />
       <KillingPartToggleGroup />
+      <Spacing direction="vertical" size={24} />
       <VideoSlider />
+      <Spacing direction="vertical" size={16} />
       <Register type="button" onClick={submitKillingPart}>
         투표
       </Register>
@@ -71,7 +75,6 @@ export default VoteInterface;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
 `;
 
 const RegisterTitle = styled.p`
