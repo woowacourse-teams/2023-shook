@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
+import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
-import IntervalInput from './IntervalInput';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 
 const VoteInterface = () => {
@@ -19,16 +18,8 @@ const VoteInterface = () => {
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
-  // TODO: 에러메시지 길이로 등록가능 상태 판단하는 로직 개선 및 상태 IntervalInput 컴포넌트로 이동
-  const [errorMessage, setErrorMessage] = useState('');
-  const isActiveSubmission = errorMessage.length === 0;
-
   const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
   const voteTimeText = getPlayingTimeText(startSecond, startSecond + interval);
-
-  const updateErrorMessage = (message: string) => {
-    setErrorMessage(message);
-  };
 
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
@@ -51,10 +42,12 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
+      <Spacing direction="vertical" size={16} />
       <KillingPartToggleGroup />
-      <IntervalInput errorMessage={errorMessage} onChangeErrorMessage={updateErrorMessage} />
+      <Spacing direction="vertical" size={24} />
       <VideoSlider />
-      <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
+      <Spacing direction="vertical" size={16} />
+      <Register type="button" onClick={submitKillingPart}>
         투표
       </Register>
 
@@ -82,7 +75,6 @@ export default VoteInterface;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
 `;
 
 const RegisterTitle = styled.p`
@@ -95,19 +87,13 @@ const RegisterTitle = styled.p`
   }
 `;
 
-const Register = styled.button<{ disabled: boolean }>`
+const Register = styled.button`
   width: 100%;
   height: 36px;
   border: none;
   border-radius: 10px;
-  background-color: ${({ disabled, theme: { color } }) => {
-    return disabled ? color.disabledBackground : color.primary;
-  }};
-
-  color: ${({ disabled, theme: { color } }) => {
-    return disabled ? color.disabled : color.white;
-  }};
-
+  background-color: ${({ theme: { color } }) => color.primary};
+  color: ${({ theme: { color } }) => color.white};
   cursor: pointer;
 `;
 
