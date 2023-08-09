@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import shook.shook.song.application.dto.SearchedSongFromManiaDBApiResponse;
+import shook.shook.song.application.dto.UnregisteredSongResponse;
 import shook.shook.song.application.dto.maniadb.ManiaDBAPISearchResponse;
-import shook.shook.song.application.dto.maniadb.UnregisteredSongResponses;
+import shook.shook.song.application.dto.maniadb.SearchedSongFromManiaDBApiResponses;
 import shook.shook.song.exception.ExternalApiException;
 import shook.shook.song.exception.UnregisteredSongException;
 import shook.shook.util.StringChecker;
@@ -26,18 +26,18 @@ public class ManiaDBSearchService {
 
     private final WebClient webClient;
 
-    public List<SearchedSongFromManiaDBApiResponse> searchSongs(final String searchWord) {
+    public List<UnregisteredSongResponse> searchSongs(final String searchWord) {
         validateSearchWord(searchWord);
 
         final String parsedSearchWord = replaceSpecialMark(searchWord);
-        final UnregisteredSongResponses searchResult = getSearchResult(parsedSearchWord);
+        final SearchedSongFromManiaDBApiResponses searchResult = getSearchResult(parsedSearchWord);
 
         if (Objects.isNull(searchResult.getSongs())) {
             return Collections.emptyList();
         }
 
         return searchResult.getSongs().stream()
-            .map(SearchedSongFromManiaDBApiResponse::from)
+            .map(UnregisteredSongResponse::from)
             .toList();
     }
 
@@ -51,7 +51,7 @@ public class ManiaDBSearchService {
         return rawSearchWord.replaceAll(SPECIAL_MARK_REGEX, "");
     }
 
-    private UnregisteredSongResponses getSearchResult(final String searchWord) {
+    private SearchedSongFromManiaDBApiResponses getSearchResult(final String searchWord) {
         final String searchUrl = String.format(MANIA_DB_API_URI, searchWord, SEARCH_SIZE);
         final ManiaDBAPISearchResponse result = getResultFromManiaDB(searchUrl);
 

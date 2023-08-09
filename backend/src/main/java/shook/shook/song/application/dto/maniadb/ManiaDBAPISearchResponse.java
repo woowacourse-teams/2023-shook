@@ -9,5 +9,5 @@ import lombok.Getter;
 public class ManiaDBAPISearchResponse {
 
     @XmlElement(name = "channel")
-    private UnregisteredSongResponses songs;
+    private SearchedSongFromManiaDBApiResponses songs;
 }

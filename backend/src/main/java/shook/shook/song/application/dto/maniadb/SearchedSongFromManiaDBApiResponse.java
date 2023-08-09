@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @XmlRootElement(name = "item")
-public class UnregisteredSongResponse {
+public class SearchedSongFromManiaDBApiResponse {
 
     @XmlElement(name = "title")
     private String title;

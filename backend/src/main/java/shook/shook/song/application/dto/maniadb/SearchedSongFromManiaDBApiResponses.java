@@ -7,8 +7,8 @@ import lombok.Getter;
 
 @Getter
 @XmlRootElement(name = "channel")
-public class UnregisteredSongResponses {
+public class SearchedSongFromManiaDBApiResponses {
 
     @XmlElement(name = "item")
-    private List<UnregisteredSongResponse> songs;
+    private List<SearchedSongFromManiaDBApiResponse> songs;
 }
