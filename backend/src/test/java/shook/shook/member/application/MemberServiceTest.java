@@ -42,7 +42,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         //then
         assertThat(result.getEmail()).isEqualTo(memberRegisterRequest.getEmail());
-        assertThat(result.getNickname()).isEqualTo(memberRegisterRequest.getNickName());
+        assertThat(result.getNickname()).isEqualTo(memberRegisterRequest.getNickname());
     }
 
     @DisplayName("중복된 이메일로 회원을 등록되는 경우 예외를 던진다.")

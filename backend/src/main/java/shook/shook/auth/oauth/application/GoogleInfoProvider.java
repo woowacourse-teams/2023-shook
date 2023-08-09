@@ -32,10 +32,10 @@ public class GoogleInfoProvider {
     @Value("${oauth2.google.client-id}")
     private String GOOGLE_CLIENT_ID;
 
-    @Value(value = "${oauth2.google.client-secret}")
+    @Value("${oauth2.google.client-secret}")
     private String GOOGLE_CLIENT_SECRET;
 
-    @Value(value = "${oauth2.google.redirect-uri}")
+    @Value("${oauth2.google.redirect-uri}")
     private String LOGIN_REDIRECT_URL;
 
     private final RestTemplate restTemplate;

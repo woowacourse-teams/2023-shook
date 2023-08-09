@@ -16,10 +16,10 @@ public class MemberRegisterRequest {
     private String email;
 
     @NotBlank
-    private String nickName;
+    private String nickname;
 
     public Member toMember() {
-        return new Member(email, nickName);
+        return new Member(email, nickname);
     }
 
 }
