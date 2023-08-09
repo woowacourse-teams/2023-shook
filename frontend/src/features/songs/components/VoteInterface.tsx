@@ -12,14 +12,9 @@ import { usePostKillingPart } from '../remotes/usePostKillingPart';
 import IntervalInput from './IntervalInput';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
 
-interface VoteInterfaceProps {
-  videoLength: number;
-  songId: number;
-}
-
-const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
+const VoteInterface = () => {
   const { showToast } = useToastContext();
-  const { interval, partStartTime } = useVoteInterfaceContext();
+  const { interval, partStartTime, songId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
@@ -57,12 +52,8 @@ const VoteInterface = ({ videoLength, songId }: VoteInterfaceProps) => {
     <Container>
       <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
       <KillingPartToggleGroup />
-      <IntervalInput
-        videoLength={videoLength}
-        errorMessage={errorMessage}
-        onChangeErrorMessage={updateErrorMessage}
-      />
-      <VideoSlider videoLength={videoLength} />
+      <IntervalInput errorMessage={errorMessage} onChangeErrorMessage={updateErrorMessage} />
+      <VideoSlider />
       <Register disabled={!isActiveSubmission} type="button" onClick={submitKillingPart}>
         투표
       </Register>

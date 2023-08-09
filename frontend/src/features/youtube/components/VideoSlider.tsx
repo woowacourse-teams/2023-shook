@@ -4,12 +4,8 @@ import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContex
 import { minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
 import type { ChangeEventHandler } from 'react';
 
-interface VideoSlider {
-  videoLength: number;
-}
-
-const VideoSlider = ({ videoLength }: VideoSlider) => {
-  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+const VideoSlider = () => {
+  const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
   const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
 
