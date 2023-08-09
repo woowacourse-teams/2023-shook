@@ -28,7 +28,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
   );
 
   const { mutateData } = useMutation(() =>
-    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment })
+    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
   );
   const { showToast } = useToastContext();
 
@@ -79,7 +79,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           <Cancel type="button" onClick={resetNewComment} aria-label="댓글 작성 취소">
             취소
           </Cancel>
-          <Submit aria-label="댓글 작성 완료" disabled={newComment === ''}>
+          <Submit aria-label="댓글 작성 완료" disabled={newComment.trim() === ''}>
             댓글
           </Submit>
         </FlexEnd>
