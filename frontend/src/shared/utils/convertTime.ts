@@ -31,9 +31,7 @@ export const getPlayingTimeText = (startTime: number, endTime: number) => {
   return `${startMin}:${startSec} ~ ${endMin}:${endSec}`;
 };
 
-export const addLeadingZeroForTimeFormat = (content: string | number) => {
-  if (!isValidateTimeFormatLength(content)) throw new Error('인자의 길이는 2 이하여야 합니다.');
-
+export const covertTwoDigitTimeFormat = (content: string | number) => {
   if (typeof content === 'number') {
     return content.toString().padStart(2, '0');
   }
@@ -41,11 +39,11 @@ export const addLeadingZeroForTimeFormat = (content: string | number) => {
   return content.padStart(2, '0');
 };
 
-export const getTimeFormatText = (...contents: (string | number)[]) => {
-  return contents.map(addLeadingZeroForTimeFormat).join(':');
+export const getTwoDigitTimeFormatText = (...contents: (string | number)[]) => {
+  return contents.map(covertTwoDigitTimeFormat).join(':');
 };
 
-export const isValidateTimeFormatLength = (value: string | number) => {
+export const isValidTimeFormatLength = (value: string | number) => {
   if (typeof value === 'number') {
     return value.toString().length <= 2;
   }
