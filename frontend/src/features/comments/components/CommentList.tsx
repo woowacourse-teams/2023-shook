@@ -28,7 +28,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
   );
 
   const { mutateData } = useMutation(() =>
-    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment })
+    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
   );
   const { showToast } = useToastContext();
 
@@ -36,7 +36,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
 
   const changeNewComment: React.ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
-  }) => setNewComment(value.trim());
+  }) => setNewComment(value);
 
   const submitNewComment: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -69,6 +69,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           </Profile>
           <Input
             type="text"
+            value={newComment}
             onChange={changeNewComment}
             placeholder="댓글 추가..."
             maxLength={200}
@@ -78,7 +79,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           <Cancel type="button" onClick={resetNewComment} aria-label="댓글 작성 취소">
             취소
           </Cancel>
-          <Submit aria-label="댓글 작성 완료" disabled={newComment === ''}>
+          <Submit aria-label="댓글 작성 완료" disabled={newComment.trim() === ''}>
             댓글
           </Submit>
         </FlexEnd>
