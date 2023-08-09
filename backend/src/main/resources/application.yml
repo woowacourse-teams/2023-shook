@@ -1,12 +1,18 @@
 spring:
   profiles:
-    group:
-      prod: oauth, jwt
+    active: local
+
   config:
     import: classpath:shook-security/application.yml
 
+
 ---
+
 spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:shook
