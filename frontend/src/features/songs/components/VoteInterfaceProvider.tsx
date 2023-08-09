@@ -61,10 +61,6 @@ export const VoteInterfaceProvider = ({
     return () => window.clearInterval(timer);
   }, [videoPlayer, partStartTime, interval]);
 
-  useEffect(() => {
-    console.log(partStartTime);
-  }, [partStartTime]);
-
   return (
     <VoteInterfaceContext.Provider
       value={{
