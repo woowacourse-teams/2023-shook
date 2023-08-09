@@ -10,7 +10,6 @@ public class OAuthConfig {
 
     @Bean
     public RestTemplate getRestTemplate() {
-        final RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-        return restTemplateBuilder.build();
+        return new RestTemplateBuilder().build();
     }
 }

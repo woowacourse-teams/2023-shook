@@ -15,9 +15,9 @@ import shook.shook.util.StringChecker;
 @Embeddable
 public class Nickname {
 
-    private static final int NICK_NAME_MAXIMUM_LENGTH = 100;
+    private static final int NICKNAME_MAXIMUM_LENGTH = 100;
 
-    @Column(name = "nickname", length = NICK_NAME_MAXIMUM_LENGTH, nullable = false)
+    @Column(name = "nickname", length = NICKNAME_MAXIMUM_LENGTH, nullable = false)
     private String value;
 
     public Nickname(final String value) {
@@ -29,7 +29,7 @@ public class Nickname {
         if (StringChecker.isNullOrBlank(value)) {
             throw new MemberException.NullOrEmptyNicknameException();
         }
-        if (value.length() > NICK_NAME_MAXIMUM_LENGTH) {
+        if (value.length() > NICKNAME_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongNicknameException();
         }
     }

@@ -67,7 +67,10 @@ public class GoogleInfoProvider {
     public GoogleAccessTokenResponse getAccessToken(final String authorizationCode) {
         try {
             final GoogleAccessTokenRequest googleAccessTokenRequest = new GoogleAccessTokenRequest(
-                authorizationCode, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, LOGIN_REDIRECT_URL,
+                authorizationCode,
+                GOOGLE_CLIENT_ID,
+                GOOGLE_CLIENT_SECRET,
+                LOGIN_REDIRECT_URL,
                 GRANT_TYPE);
             final HttpEntity<GoogleAccessTokenRequest> request = new HttpEntity<>(
                 googleAccessTokenRequest);

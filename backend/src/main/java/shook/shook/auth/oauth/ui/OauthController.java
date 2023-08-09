@@ -14,7 +14,7 @@ public class OauthController {
 
     private final OAuthService oAuthService;
 
-    @GetMapping("login/google")
+    @GetMapping("/login/google")
     public ResponseEntity<LoginResponse> googleLogin(
         @RequestParam("code") final String accessCode) {
         final LoginResponse response = oAuthService.login(accessCode);

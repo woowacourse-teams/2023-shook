@@ -28,7 +28,7 @@ public class OAuthService {
         final Member member = memberService.findByEmail(new Email(userEmail))
             .orElseGet(() -> memberService.register(userEmail));
 
-        final Long memberId = member.getId();
+        final long memberId = member.getId();
         final String accessToken = tokenProvider.createAccessToken(memberId);
         final String refreshToken = tokenProvider.createRefreshToken(memberId);
         return new LoginResponse(accessToken, refreshToken);
