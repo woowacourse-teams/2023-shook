@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.member.application.dto.MemberRegisterRequest;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -34,27 +33,25 @@ class MemberServiceTest extends UsingJpaTest {
     @Test
     void register() {
         //given
-        final MemberRegisterRequest memberRegisterRequest =
-            new MemberRegisterRequest("shook@wooteco.com", "shook");
+        final String email = "shook@wooteco.com";
 
         //when
-        final Member result = memberService.register(memberRegisterRequest);
+        final Member result = memberService.register(email);
 
         //then
-        assertThat(result.getEmail()).isEqualTo(memberRegisterRequest.getEmail());
-        assertThat(result.getNickname()).isEqualTo(memberRegisterRequest.getNickname());
+        assertThat(result.getEmail()).isEqualTo(email);
+        assertThat(result.getNickname()).isEqualTo(email);
     }
 
     @DisplayName("중복된 이메일로 회원을 등록되는 경우 예외를 던진다.")
     @Test
     void register_fail_alreadyExistMember() {
         // given
-        final MemberRegisterRequest memberRegisterRequest =
-            new MemberRegisterRequest("woowa@wooteco.com", "shook");
+        final String email = "woowa@wooteco.com";
 
         // when
         // then
-        assertThatThrownBy(() -> memberService.register(memberRegisterRequest))
+        assertThatThrownBy(() -> memberService.register(email))
             .isInstanceOf(MemberException.ExistMemberException.class);
     }
 

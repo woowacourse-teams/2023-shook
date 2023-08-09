@@ -4,7 +4,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shook.shook.member.application.dto.MemberRegisterRequest;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -18,13 +17,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member register(final MemberRegisterRequest memberRegisterRequest) {
-        findByEmail(new Email(memberRegisterRequest.getEmail()))
+    public Member register(final String email) {
+        findByEmail(new Email(email))
             .ifPresent(member -> {
                 throw new MemberException.ExistMemberException();
             });
-
-        final Member newMember = memberRegisterRequest.toMember();
+        final Member newMember = new Member(email, email);
         return memberRepository.save(newMember);
     }
 

@@ -25,11 +25,11 @@ class NicknameTest {
     @NullSource
     @ParameterizedTest(name = "닉네임이 \"{0}\" 일 때")
     @ValueSource(strings = {"", " "})
-    void create_fail_lessThanOne(final String nickName) {
+    void create_fail_lessThanOne(final String nickname) {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new Nickname(nickName))
+        assertThatThrownBy(() -> new Nickname(nickname))
             .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
     }
 
@@ -37,11 +37,11 @@ class NicknameTest {
     @Test
     void create_fail_lengthOver100() {
         //given
-        final String nickName = ".".repeat(101);
+        final String nickname = ".".repeat(101);
 
         //when
         //then
-        assertThatThrownBy(() -> new Nickname(nickName))
+        assertThatThrownBy(() -> new Nickname(nickname))
             .isInstanceOf(MemberException.TooLongNicknameException.class);
     }
 }

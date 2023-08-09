@@ -11,9 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.oauth.application.dto.OAuthResponse;
+import shook.shook.auth.oauth.application.dto.LoginResponse;
 import shook.shook.member.application.MemberService;
-import shook.shook.member.application.dto.MemberRegisterRequest;
 
 @SpringBootTest
 class OAuthServiceTest {
@@ -31,7 +30,7 @@ class OAuthServiceTest {
     @Test
     void success_login() {
         //given
-        memberService.register(new MemberRegisterRequest("shook@wooteco.com", "shook"));
+        memberService.register("shook@wooteco.com");
 
         final GoogleAccessTokenResponse accessTokenResponse =
             new GoogleAccessTokenResponse("accessToken");
@@ -44,34 +43,10 @@ class OAuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final OAuthResponse result = oAuthService.login("accessCode");
+        final LoginResponse result = oAuthService.login("accessCode");
 
         //then
-        assertThat(result.getEmail()).isEqualTo("shook@wooteco.com");
         assertThat(result.getAccessToken()).isNotNull();
         assertThat(result.getRefreshToken()).isNotNull();
-    }
-
-    @DisplayName("회원이 아닌 경우 accessToken과 refreshToken은 null을 반환한다.")
-    @Test
-    void fail_login() {
-        //given
-        final GoogleAccessTokenResponse accessTokenResponse =
-            new GoogleAccessTokenResponse("accessToken");
-        when(googleInfoProvider.getAccessToken(any(String.class)))
-            .thenReturn(accessTokenResponse);
-
-        final GoogleMemberInfoResponse memberInfoResponse =
-            new GoogleMemberInfoResponse("shook@wooteco.com", true);
-        when(googleInfoProvider.getMemberInfo(any(String.class)))
-            .thenReturn(memberInfoResponse);
-
-        //when
-        final OAuthResponse result = oAuthService.login("accessCode");
-
-        //then
-        assertThat(result.getEmail()).isEqualTo("shook@wooteco.com");
-        assertThat(result.getAccessToken()).isNull();
-        assertThat(result.getRefreshToken()).isNull();
     }
 }

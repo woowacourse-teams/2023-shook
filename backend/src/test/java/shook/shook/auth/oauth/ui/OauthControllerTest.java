@@ -12,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import shook.shook.auth.oauth.application.OAuthService;
-import shook.shook.auth.oauth.application.dto.OAuthResponse;
+import shook.shook.auth.oauth.application.dto.LoginResponse;
 
 @WebMvcTest(OauthController.class)
 class OauthControllerTest {
@@ -27,8 +27,7 @@ class OauthControllerTest {
     @Test
     void login_success() throws Exception {
         //given
-        final OAuthResponse response = new OAuthResponse(
-            "shook@wooteco.com",
+        final LoginResponse response = new LoginResponse(
             "asdfafdv2",
             "asdfsg5");
 
@@ -38,22 +37,5 @@ class OauthControllerTest {
         //then
         mockMvc.perform(get("/login/google").param("code", "accessCode"))
             .andExpect(status().isOk());
-    }
-
-    @DisplayName("회원이 아닌 사용자가 로그인을 하면 요청결과 401을 반환한다.")
-    @Test
-    void login_fail() throws Exception {
-        //given
-        final OAuthResponse response = new OAuthResponse(
-            "shook@wooteco.com",
-            null,
-            null);
-
-        when(oAuthService.login(any(String.class))).thenReturn(response);
-
-        //when
-        //then
-        mockMvc.perform(get("/login/google").param("code", "accessCode"))
-            .andExpect(status().isUnauthorized());
     }
 }
