@@ -30,9 +30,9 @@ export const Container = styled.label`
   padding: 0 12px;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
-  height: 40px;
+  height: 60px;
   background-color: ${({ theme: { color } }) => color.secondary};
   border-radius: 4px;
   color: ${({ theme: { color } }) => color.white};
@@ -40,9 +40,9 @@ export const Container = styled.label`
 `;
 
 export const Rank = styled.div`
-  width: 30px;
+  width: 36px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
 `;
@@ -57,9 +57,10 @@ export const Part = styled.span`
 `;
 
 export const PartLength = styled.span`
-  width: 20px;
+  width: 26px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     display: none;
@@ -73,12 +74,33 @@ export const LikeCount = styled.span`
   font-size: 12px;
 `;
 
-export const LikeButton = styled.button``;
+export const LikeButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+`;
 
-export const ButtonIcon = styled.img``;
+export const ShareButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+`;
+
+export const ButtonTitle = styled.span`
+  font-size: 8px;
+`;
+
+export const ButtonIcon = styled.img`
+  width: 22px;
+  height: 22px;
+`;
 
 export const FLexContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 `;
