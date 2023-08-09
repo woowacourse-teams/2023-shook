@@ -44,6 +44,20 @@ public class SongException extends RuntimeException {
         }
     }
 
+    public static class NullOrEmptyImageUrlException extends SongException {
+
+        public NullOrEmptyImageUrlException() {
+            super();
+        }
+    }
+
+    public static class TooLongImageUrlException extends SongException {
+
+        public TooLongImageUrlException() {
+            super();
+        }
+    }
+
     public static class NullOrEmptySingerNameException extends SongException {
 
         public NullOrEmptySingerNameException() {

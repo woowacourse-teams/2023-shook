@@ -1,0 +1,61 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
+      node-version: '18.16.1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+        working-directory: ${{ env.working-directory }}
+
+      - name: ESLint
+        if: always()
+        run: npm run lint
+        working-directory: ${{ env.working-directory }}
+
+      - name: Test
+        if: always()
+        run: npm test
+        working-directory: ${{ env.working-directory }}
+
+      - name: Build
+        if: always()
+        run: npm run build
+        working-directory: ${{ env.working-directory }}
+
+      - name: Notify slack on CI fail
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: 프론트엔드 테스트 실패 알림
+          fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
