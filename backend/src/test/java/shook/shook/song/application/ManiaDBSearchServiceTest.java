@@ -24,7 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
-import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
+import shook.shook.song.application.dto.SearchedSongFromManiaDBApiResponse;
 import shook.shook.song.exception.ExternalApiException;
 import shook.shook.song.exception.ExternalApiException.EmptyResultException;
 import shook.shook.song.exception.UnregisteredSongException;
@@ -254,14 +254,14 @@ class ManiaDBSearchServiceTest {
             .setBody(SEARCH_RESULT)
         );
 
-        final UnregisteredSongSearchResponse expectedResponse = new UnregisteredSongSearchResponse(
+        final SearchedSongFromManiaDBApiResponse expectedResponse = new SearchedSongFromManiaDBApiResponse(
             "흔들리는 꽃들 속에서 네 샴푸향이 느껴진거야",
             "장범준",
             "http://i.maniadb.com/images/album/777/777829_1_f.jpg"
         );
 
         // when
-        final List<UnregisteredSongSearchResponse> responses =
+        final List<SearchedSongFromManiaDBApiResponse> responses =
             maniaDBSearchService.searchSongs(SEARCH_WORD);
 
         // then
@@ -294,14 +294,14 @@ class ManiaDBSearchServiceTest {
             .setBody(SEARCH_RESULT)
         );
 
-        final UnregisteredSongSearchResponse expectedResponse = new UnregisteredSongSearchResponse(
+        final SearchedSongFromManiaDBApiResponse expectedResponse = new SearchedSongFromManiaDBApiResponse(
             "흔들리는 꽃들 속에서 네 샴푸향이 느껴진거야",
             "장범준",
             "http://i.maniadb.com/images/album/777/777829_1_f.jpg"
         );
 
         // when
-        final List<UnregisteredSongSearchResponse> responses =
+        final List<SearchedSongFromManiaDBApiResponse> responses =
             maniaDBSearchService.searchSongs(SPECIAL_MARK_SEARCH_WORD);
 
         // then
@@ -335,7 +335,7 @@ class ManiaDBSearchServiceTest {
         );
 
         // when
-        final List<UnregisteredSongSearchResponse> responses =
+        final List<SearchedSongFromManiaDBApiResponse> responses =
             maniaDBSearchService.searchSongs(EMPTY_RESULT_SEARCH_WORD);
 
         // then
@@ -353,14 +353,14 @@ class ManiaDBSearchServiceTest {
             .setBody(EMPTY_SINGER_SEARCH_RESULT)
         );
 
-        final UnregisteredSongSearchResponse expectedResponse = new UnregisteredSongSearchResponse(
+        final SearchedSongFromManiaDBApiResponse expectedResponse = new SearchedSongFromManiaDBApiResponse(
             "흔들리는 꽃들 속에서 네 샴푸향이 느껴진거야",
             "",
             "http://i.maniadb.com/images/album/777/777829_1_f.jpg"
         );
 
         // when
-        final List<UnregisteredSongSearchResponse> responses =
+        final List<SearchedSongFromManiaDBApiResponse> responses =
             maniaDBSearchService.searchSongs(SEARCH_WORD);
 
         // then

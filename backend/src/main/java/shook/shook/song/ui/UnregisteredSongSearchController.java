@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.song.application.ManiaDBSearchService;
-import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
+import shook.shook.song.application.dto.SearchedSongFromManiaDBApiResponse;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs/unregistered/search")
@@ -18,10 +18,10 @@ public class UnregisteredSongSearchController {
     private final ManiaDBSearchService maniaDBSearchService;
 
     @GetMapping
-    public ResponseEntity<List<UnregisteredSongSearchResponse>> searchUnregisteredSong(
+    public ResponseEntity<List<SearchedSongFromManiaDBApiResponse>> searchUnregisteredSong(
         final @RequestParam("keyword") String searchWord
     ) {
-        final List<UnregisteredSongSearchResponse> songs = maniaDBSearchService.searchSongs(
+        final List<SearchedSongFromManiaDBApiResponse> songs = maniaDBSearchService.searchSongs(
             searchWord);
 
         return ResponseEntity.ok(songs);

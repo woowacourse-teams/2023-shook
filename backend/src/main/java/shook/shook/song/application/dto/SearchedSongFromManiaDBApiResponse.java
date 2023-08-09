@@ -7,7 +7,7 @@ import shook.shook.song.application.dto.maniadb.SongArtistResponse;
 
 @AllArgsConstructor
 @Getter
-public class UnregisteredSongSearchResponse {
+public class SearchedSongFromManiaDBApiResponse {
 
     private static final String EMPTY_SINGER = "";
     private static final String SINGER_DELIMITER = ", ";
@@ -16,11 +16,11 @@ public class UnregisteredSongSearchResponse {
     private String singer;
     private String albumImageUrl;
 
-    public static UnregisteredSongSearchResponse from(
+    public static SearchedSongFromManiaDBApiResponse from(
         final shook.shook.song.application.dto.maniadb.UnregisteredSongResponse unregisteredSongResponse) {
         if (unregisteredSongResponse.getTrackArtists() == null
             || unregisteredSongResponse.getTrackArtists().getArtists() == null) {
-            return new UnregisteredSongSearchResponse(
+            return new SearchedSongFromManiaDBApiResponse(
                 unregisteredSongResponse.getTitle().trim(),
                 EMPTY_SINGER,
                 unregisteredSongResponse.getAlbum().getImage().trim()
@@ -29,7 +29,7 @@ public class UnregisteredSongSearchResponse {
 
         final String singers = collectToString(unregisteredSongResponse);
 
-        return new UnregisteredSongSearchResponse(
+        return new SearchedSongFromManiaDBApiResponse(
             unregisteredSongResponse.getTitle().trim(),
             singers,
             unregisteredSongResponse.getAlbum().getImage().trim()

@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
+import shook.shook.song.application.dto.SearchedSongFromManiaDBApiResponse;
 import shook.shook.song.application.dto.maniadb.ManiaDBAPISearchResponse;
 import shook.shook.song.application.dto.maniadb.UnregisteredSongResponses;
 import shook.shook.song.exception.ExternalApiException;
@@ -26,7 +26,7 @@ public class ManiaDBSearchService {
 
     private final WebClient webClient;
 
-    public List<UnregisteredSongSearchResponse> searchSongs(final String searchWord) {
+    public List<SearchedSongFromManiaDBApiResponse> searchSongs(final String searchWord) {
         validateSearchWord(searchWord);
 
         final String parsedSearchWord = replaceSpecialMark(searchWord);
@@ -37,7 +37,7 @@ public class ManiaDBSearchService {
         }
 
         return searchResult.getSongs().stream()
-            .map(UnregisteredSongSearchResponse::from)
+            .map(SearchedSongFromManiaDBApiResponse::from)
             .toList();
     }
 

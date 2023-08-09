@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import shook.shook.song.application.dto.UnregisteredSongSearchResponse;
+import shook.shook.song.application.dto.SearchedSongFromManiaDBApiResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UnregisteredSongSearchControllerTest {
@@ -31,21 +31,21 @@ class UnregisteredSongSearchControllerTest {
     void registerPart_unique() {
         //given
         final String keyword = "흔들리는꽃들속에서네샴푸향이느껴진거야";
-        final UnregisteredSongSearchResponse expectedFirstResponse = new UnregisteredSongSearchResponse(
+        final SearchedSongFromManiaDBApiResponse expectedFirstResponse = new SearchedSongFromManiaDBApiResponse(
             "흔들리는 꽃들 속에서 네 샴푸향이 느껴진거야",
             "피아노 가이",
             "http://i.maniadb.com/images/album/908/908953_1_f.jpg"
         );
 
         //when
-        final UnregisteredSongSearchResponse[] songResponses = RestAssured.given().log().all()
+        final SearchedSongFromManiaDBApiResponse[] songResponses = RestAssured.given().log().all()
             .when().log().all()
             .get("/songs/unregistered/search?keyword=" + keyword)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().body().as(UnregisteredSongSearchResponse[].class);
+            .extract().body().as(SearchedSongFromManiaDBApiResponse[].class);
 
-        final List<UnregisteredSongSearchResponse> responses = Arrays.stream(
+        final List<SearchedSongFromManiaDBApiResponse> responses = Arrays.stream(
             songResponses).toList();
 
         //then
