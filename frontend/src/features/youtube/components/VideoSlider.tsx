@@ -1,7 +1,11 @@
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import { getTimeFormatText, minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
+import {
+  getTwoDigitTimeFormatText,
+  minSecToSeconds,
+  secondsToMinSec,
+} from '@/shared/utils/convertTime';
 import type { ChangeEventHandler } from 'react';
 
 const VideoSlider = () => {
@@ -14,8 +18,8 @@ const VideoSlider = () => {
   const partEndTimeInSeconds = partStartTimeInSeconds + interval;
   const [partEndMinute, partEndSecond] = secondsToMinSec(partEndTimeInSeconds);
 
-  const partStartTimeText = getTimeFormatText(partStartMinute, partStartSecond);
-  const partEndTimeText = getTimeFormatText(partEndMinute, partEndSecond);
+  const partStartTimeText = getTwoDigitTimeFormatText(partStartMinute, partStartSecond);
+  const partEndTimeText = getTwoDigitTimeFormatText(partEndMinute, partEndSecond);
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { valueAsNumber: currentSelectedTime },
