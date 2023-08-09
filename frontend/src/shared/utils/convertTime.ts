@@ -39,7 +39,7 @@ export const covertTwoDigitTimeFormat = (content: string | number) => {
   return content.padStart(2, '0');
 };
 
-export const getTwoDigitTimeFormatText = (...contents: (string | number)[]) => {
+export const covertTwoDigitTimeFormatText = (...contents: (string | number)[]) => {
   return contents.map(covertTwoDigitTimeFormat).join(':');
 };
 
