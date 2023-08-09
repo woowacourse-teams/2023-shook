@@ -1,6 +1,6 @@
 import {
   covertTwoDigitTimeFormat,
-  getTwoDigitTimeFormatText,
+  covertTwoDigitTimeFormatText,
   isValidTimeFormatLength,
   minSecToSeconds,
   secondsToMinSec,
@@ -79,7 +79,7 @@ describe('addLeadingZeroForTimeFormat 함수 검증 테스트', () => {
 
 describe('getTimeFormatText 함수 검증 테스트', () => {
   test('길이 2 이하의 string or number type 인자에 길이가 2가 되도록 앞에서부터 0을 붙이고, 각 요소 사이에 : 구분자를 붙여 시간 포멧 텍스트로 return한다.', () => {
-    const result = getTwoDigitTimeFormatText('1', 22);
+    const result = covertTwoDigitTimeFormatText('1', 22);
     const expected = '01:22';
 
     expect(result).toBe(expected);
