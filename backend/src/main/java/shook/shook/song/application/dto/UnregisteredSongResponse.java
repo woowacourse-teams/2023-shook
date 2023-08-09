@@ -19,8 +19,7 @@ public class UnregisteredSongResponse {
 
     public static UnregisteredSongResponse from(
         final SearchedSongFromManiaDBApiResponse searchedSongFromManiaDBApiResponse) {
-        if (searchedSongFromManiaDBApiResponse.getTrackArtists() == null
-            || searchedSongFromManiaDBApiResponse.getTrackArtists().getArtists() == null) {
+        if (isEmptyArtists(searchedSongFromManiaDBApiResponse)) {
             return new UnregisteredSongResponse(
                 searchedSongFromManiaDBApiResponse.getTitle().trim(),
                 EMPTY_SINGER,
@@ -35,6 +34,12 @@ public class UnregisteredSongResponse {
             singers,
             searchedSongFromManiaDBApiResponse.getAlbum().getImage().trim()
         );
+    }
+
+    private static boolean isEmptyArtists(
+        final SearchedSongFromManiaDBApiResponse searchedSongFromManiaDBApiResponse) {
+        return searchedSongFromManiaDBApiResponse.getTrackArtists() == null
+            || searchedSongFromManiaDBApiResponse.getTrackArtists().getArtists() == null;
     }
 
     private static String collectToString(
