@@ -35,7 +35,7 @@ const KillingPartTrack = ({
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
-    showToast('클립보드에 영상 링크가 복사되었습니다.');
+    showToast('영상 링크가 복사되었습니다.');
   };
 
   // TODO 비디오 프로바이더로 분리
