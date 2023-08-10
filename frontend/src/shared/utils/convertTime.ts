@@ -1,9 +1,14 @@
-export const minSecToSeconds = ([minute, second]: [minute: number, second: number]) => {
+import type { TimeMinSec } from '@/features/songs/types/IntervalInput.type';
+
+export const minSecToSeconds = ({ minute, second }: TimeMinSec) => {
   return minute * 60 + second;
 };
 
-export const secondsToMinSec = (seconds: number): [minute: number, second: number] => {
-  return [Math.floor(seconds / 60), seconds % 60];
+export const secondsToMinSec = (seconds: number): TimeMinSec => {
+  return {
+    minute: Math.floor(seconds / 60),
+    second: seconds % 60,
+  };
 };
 
 export const calculateMinSec = (
@@ -11,7 +16,7 @@ export const calculateMinSec = (
   second: number,
   calculateFn: (originalSecond: number) => number
 ) => {
-  return secondsToMinSec(calculateFn(minSecToSeconds([minute, second])));
+  return secondsToMinSec(calculateFn(minSecToSeconds({ minute, second })));
 };
 
 export const getPlayingTimeText = (startTime: number, endTime: number) => {
