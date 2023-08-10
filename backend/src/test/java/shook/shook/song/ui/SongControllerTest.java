@@ -22,13 +22,13 @@ class SongControllerTest {
     @LocalServerPort
     public int port;
 
+    @Autowired
+    private SongRepository songRepository;
+
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
     }
-
-    @Autowired
-    private SongRepository songRepository;
 
     @DisplayName("노래 정보를 조회시 제목, 가수, 길이, URL, 킬링파트를 담은 응답을 반환한다.")
     @Test
