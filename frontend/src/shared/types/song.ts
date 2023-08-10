@@ -20,6 +20,5 @@ export interface KillingPart {
   end: number;
   partVideoUrl: PartVideoUrl;
   voteCount: number;
-  partLength: number;
   likeCount: number;
 }
