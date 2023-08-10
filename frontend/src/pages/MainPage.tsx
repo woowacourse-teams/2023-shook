@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import CollectionCarousel from '@/features/songs/components/CollectionCarousel';
 import PopularSongItem from '@/features/songs/components/PopularSongItem';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
