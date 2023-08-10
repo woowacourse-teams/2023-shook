@@ -21,8 +21,8 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
   const [currentItem, setCurrentItem] = useState(0);
   const itemLength = getChildrenLength(children);
 
-  const handleScroll: React.UIEventHandler<HTMLDivElement> = (e) => {
-    const { scrollLeft, offsetWidth } = e.target as HTMLDivElement;
+  const handleScroll: React.UIEventHandler<HTMLUListElement> = (e) => {
+    const { scrollLeft, offsetWidth } = e.target as HTMLUListElement;
     const index = Math.round(scrollLeft / offsetWidth);
 
     setCurrentItem(index);
@@ -32,7 +32,7 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
     <>
       <Wrapper>
         <CarouselWrapper onScroll={handleScroll}>{children}</CarouselWrapper>
-        <IndicatorWrapper>
+        <IndicatorWrapper aria-hidden>
           {Array.from({ length: itemLength }, (_, idx) => (
             <Dot key={idx} isActive={idx === currentItem} />
           ))}
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const CarouselWrapper = styled.div`
+const CarouselWrapper = styled.ul`
   display: flex;
   will-change: transform;
   column-gap: 16px;
