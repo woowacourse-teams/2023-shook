@@ -1,13 +1,12 @@
 import { createContext, useEffect, useState } from 'react';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import { minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
-import type { TimeMinSec } from '../types/IntervalInput.type';
 import type { KillingPartInterval } from '../types/KillingPartToggleGroup.type';
 import type { PropsWithChildren } from 'react';
 
 interface VoteInterfaceContextProps extends VoteInterfaceProviderProps {
-  partStartTime: TimeMinSec;
+  partStartTime: number;
   interval: KillingPartInterval;
+  // NOTE: Why both setState and eventHandler have same naming convention?
   updatePartStartTime: (timeUnit: string, value: number) => void;
   updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -25,36 +24,42 @@ export const VoteInterfaceProvider = ({
   songId,
 }: PropsWithChildren<VoteInterfaceProviderProps>) => {
   const [interval, setInterval] = useState<KillingPartInterval>(10);
-  const [partStartTime, setPartStartTime] = useState<TimeMinSec>({ minute: 0, second: 0 });
+  const [partStartTime, setPartStartTime] = useState(0);
   const { videoPlayer } = useVideoPlayerContext();
 
   const updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
     const newInterval = Number(e.currentTarget.dataset['interval']) as KillingPartInterval;
+    const partEndTime = partStartTime + newInterval;
 
-    const partEndTimeInSeconds = partStartTimeInSeconds + newInterval;
-
-    if (partEndTimeInSeconds > videoLength) {
-      const overflowedSeconds = partEndTimeInSeconds - videoLength;
-      const [fixedStartMinute, fixedStartSecond] = secondsToMinSec(
-        partStartTimeInSeconds - overflowedSeconds
-      );
-
-      setPartStartTime({ minute: fixedStartMinute, second: fixedStartSecond });
+    if (partEndTime > videoLength) {
+      const overflowedSeconds = partEndTime - videoLength;
+      setPartStartTime(partStartTime - overflowedSeconds);
     }
 
     setInterval(newInterval);
   };
 
   const updatePartStartTime = (timeUnit: string, value: number) => {
-    setPartStartTime((prev) => ({ ...prev, [timeUnit]: value }));
+    if (timeUnit === 'minute') {
+      setPartStartTime((prev) => {
+        const minute = 60 * value;
+        const second = prev % 60;
+        return minute + second;
+      });
+    }
+
+    if (timeUnit === 'second') {
+      setPartStartTime((prev) => {
+        const minute = 60 * Math.floor(prev / 60);
+        const second = value;
+        return minute + second;
+      });
+    }
   };
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
-
-      videoPlayer?.seekTo(startSecond, true);
+      videoPlayer?.seekTo(partStartTime, true);
     }, interval * 1000);
 
     return () => window.clearInterval(timer);
