@@ -6,7 +6,7 @@ import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
+import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
@@ -18,15 +18,12 @@ const VoteInterface = () => {
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
-  const voteTimeText = getPlayingTimeText(startSecond, startSecond + interval);
+  const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
 
-    const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
-
-    await createKillingPart(songId, { startSecond, length: interval });
+    await createKillingPart(songId, { startSecond: partStartTime, length: interval });
 
     openModal();
   };
