@@ -19,21 +19,17 @@ export const calculateMinSec = (
   return secondsToMinSec(calculateFn(minSecToSeconds({ minute, second })));
 };
 
-export const getPlayingTimeText = (startTime: number, endTime: number) => {
-  const [startMin, startSec, endMin, endSec] = [
-    ...secondsToMinSec(startTime),
-    ...secondsToMinSec(endTime),
-  ].map((timeSec) => {
-    const timeString = timeSec.toString();
+export const toMinSecText = (seconds: number) => {
+  const { minute, second } = secondsToMinSec(seconds);
 
-    if (timeString.length === 1) {
-      return `0${timeString}`;
-    } else {
-      return timeString;
-    }
-  });
+  const minText = minute.toString().padStart(2, '0');
+  const secText = second.toString().padStart(2, '0');
 
-  return `${startMin}:${startSec} ~ ${endMin}:${endSec}`;
+  return `${minText}:${secText}`;
+};
+
+export const toPlayingTimeText = (startTime: number, endTime: number) => {
+  return `${toMinSecText(startTime)} ~ ${toMinSecText(endTime)}`;
 };
 
 export const covertTwoDigitTimeFormat = (content: string | number) => {
