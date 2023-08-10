@@ -1,18 +1,17 @@
-package shook.shook.auth.oauth.application;
+package shook.shook.auth.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shook.shook.auth.jwt.application.TokenProvider;
-import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
-import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.oauth.application.dto.LoginResponse;
+import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
+import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
+import shook.shook.auth.application.dto.LoginResponse;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 
 @RequiredArgsConstructor
 @Service
-public class OAuthService {
+public class AuthService {
 
     private final MemberService memberService;
     private final GoogleInfoProvider googleInfoProvider;

@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.application.dto;
+package shook.shook.auth.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

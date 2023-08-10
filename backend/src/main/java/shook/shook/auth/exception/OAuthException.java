@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.exception;
+package shook.shook.auth.exception;
 
 public class OAuthException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package shook.shook.auth.jwt.exception;
+package shook.shook.auth.exception;
 
 public class TokenException extends RuntimeException {
 

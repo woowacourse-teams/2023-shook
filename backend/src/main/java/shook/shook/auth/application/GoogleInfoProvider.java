@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.application;
+package shook.shook.auth.application;
 
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-import shook.shook.auth.oauth.application.dto.GoogleAccessTokenRequest;
-import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
-import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.oauth.exception.OAuthException;
+import shook.shook.auth.application.dto.GoogleAccessTokenRequest;
+import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
+import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
+import shook.shook.auth.exception.OAuthException;
 
 @RequiredArgsConstructor
 @Component

@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.application;
+package shook.shook.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebCl
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
-import shook.shook.auth.oauth.exception.OAuthException;
+import shook.shook.auth.exception.OAuthException;
 
 @AutoConfigureWebClient(registerRestTemplate = true)
 @RestClientTest(value = {GoogleInfoProvider.class})

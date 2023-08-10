@@ -1,6 +1,6 @@
 package shook.shook.auth.exception;
 
-public class AuthorizationException extends RuntimeException{
+public class AuthorizationException extends RuntimeException {
 
     public static class TokenNotFoundException extends AuthorizationException {
 

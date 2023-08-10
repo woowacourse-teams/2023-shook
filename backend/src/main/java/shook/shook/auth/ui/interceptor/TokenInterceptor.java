@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import shook.shook.auth.jwt.application.TokenProvider;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.ui.AuthContext;
 
 @Component

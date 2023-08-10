@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.application;
+package shook.shook.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import shook.shook.auth.oauth.application.dto.GoogleAccessTokenResponse;
-import shook.shook.auth.oauth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.oauth.application.dto.LoginResponse;
+import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
+import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
+import shook.shook.auth.application.dto.LoginResponse;
 import shook.shook.member.application.MemberService;
 
 @SpringBootTest
-class OAuthServiceTest {
+class AuthServiceTest {
 
     @MockBean
     private GoogleInfoProvider googleInfoProvider;
@@ -24,7 +24,7 @@ class OAuthServiceTest {
     private MemberService memberService;
 
     @Autowired
-    private OAuthService oAuthService;
+    private AuthService authService;
 
     @DisplayName("회원인 경우 email, accessToken과 refreshToken을 반환한다.")
     @Test
@@ -43,7 +43,7 @@ class OAuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final LoginResponse result = oAuthService.login("accessCode");
+        final LoginResponse result = authService.login("accessCode");
 
         //then
         assertThat(result.getAccessToken()).isNotNull();

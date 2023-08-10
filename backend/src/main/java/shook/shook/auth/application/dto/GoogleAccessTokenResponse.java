@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.application.dto;
+package shook.shook.auth.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package shook.shook.auth.jwt.application;
+package shook.shook.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,7 +7,7 @@ import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.auth.jwt.exception.TokenException;
+import shook.shook.auth.exception.TokenException;
 
 class TokenProviderTest {
 

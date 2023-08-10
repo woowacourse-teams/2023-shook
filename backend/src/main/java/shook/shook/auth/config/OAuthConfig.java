@@ -1,4 +1,4 @@
-package shook.shook.auth.oauth.config;
+package shook.shook.auth.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

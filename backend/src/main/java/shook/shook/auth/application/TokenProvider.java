@@ -1,4 +1,4 @@
-package shook.shook.auth.jwt.application;
+package shook.shook.auth.application;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -11,7 +11,7 @@ import java.util.Base64;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import shook.shook.auth.jwt.exception.TokenException;
+import shook.shook.auth.exception.TokenException;
 
 @Component
 public class TokenProvider {
