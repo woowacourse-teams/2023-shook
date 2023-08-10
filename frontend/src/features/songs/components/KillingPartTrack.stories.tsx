@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
+import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart } from '@/shared/types/song';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -6,6 +8,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   component: KillingPartTrack,
   title: 'KillingPartTrack',
+  decorators: [
+    (Story) => {
+      return (
+        <ToastProvider>
+          <VideoPlayerProvider>
+            <Story />
+          </VideoPlayerProvider>
+        </ToastProvider>
+      );
+    },
+  ],
 } satisfies Meta<typeof KillingPartTrack>;
 
 export default meta;
