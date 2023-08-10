@@ -4,7 +4,7 @@ import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
 import Flex from '@/shared/components/Flex';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import { getPlayingTimeText, secondsToMinSec } from '@/shared/utils/convertTime';
+import { toPlayingTimeText, secondsToMinSec } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import type { KillingPart } from '@/shared/types/song';
 
@@ -24,9 +24,9 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
-  const playingTimeText = getPlayingTimeText(start, end);
-  const [startMin, startSec] = secondsToMinSec(start);
-  const [endMin, endSec] = secondsToMinSec(end);
+  const playingTimeText = toPlayingTimeText(start, end);
+  const { minute: startMin, second: startSec } = secondsToMinSec(start);
+  const { minute: endMin, second: endSec } = secondsToMinSec(end);
 
   return (
     <Wrapper>
