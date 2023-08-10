@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import KILLING_PART_RANK from '../constants/killingPartRank';
 import KillingPartTrack from './KillingPartTrack';
+import type { KillingPartRank } from '../types/KillingPartRank.type';
 import type { SongDetail } from '@/shared/types/song';
 
 interface KillingPartTrackListProps {
@@ -8,10 +10,12 @@ interface KillingPartTrackListProps {
 }
 
 const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState(-1);
+  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPartRank>(
+    KILLING_PART_RANK.DEFAULT
+  );
 
   const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    const newTrack = Number(currentTarget.value);
+    const newTrack = Number(currentTarget.value) as KillingPartRank;
 
     setNowPlayingTrack(newTrack);
   };
