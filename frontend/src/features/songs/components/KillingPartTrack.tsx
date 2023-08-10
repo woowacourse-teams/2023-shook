@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
@@ -67,7 +67,7 @@ const KillingPartTrack = ({
         <ButtonIcon src={playIcon} alt="" />
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
-      <FLexContainer>
+      <ButtonContainer>
         <LikeButton aria-label={`${rank}등 킬링파트 좋아요 하기`}>
           <ButtonIcon src={emptyHeartIcon} alt="" />
           <ButtonTitle>{`${likeCount} Likes`}</ButtonTitle>
@@ -79,7 +79,7 @@ const KillingPartTrack = ({
           <ButtonIcon src={shareIcon} alt="" />
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
-      </FLexContainer>
+      </ButtonContainer>
       {isPlaying && <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />}
     </Container>
   );
@@ -87,13 +87,12 @@ const KillingPartTrack = ({
 
 export default KillingPartTrack;
 
-export const Container = styled.label`
+const Container = styled.label`
   position: relative;
   display: flex;
   padding: 0 12px;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
   width: 100%;
   height: 60px;
   background-color: ${({ theme: { color } }) => color.secondary};
@@ -106,73 +105,50 @@ export const Container = styled.label`
   }
 `;
 
-export const Rank = styled.div`
+const Rank = styled.span`
   width: 36px;
   text-align: center;
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
 `;
 
-export const PlayButton = styled.input`
+const PlayButton = styled.input`
   display: none;
-
-  &:checked {
-    background: no-repeat url(${emptyPlayIcon}) center;
-  }
 `;
 
-export const PlayingTime = styled.span`
+const PlayingTime = styled.span`
   width: 120px;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
 `;
 
-export const PartLength = styled.span`
-  width: 26px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    display: none;
-  }
-`;
-
-export const LikeCount = styled.span`
-  width: 50px;
-  color: #d8d8d8;
-  text-align: right;
-  font-size: 12px;
-`;
-
-export const LikeButton = styled.button`
+const ButtonWithIcon = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
   gap: 2px;
+  width: 40px;
 `;
 
-export const ShareButton = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2px;
+const LikeButton = styled.button`
+  ${ButtonWithIcon}
 `;
 
-export const ButtonTitle = styled.span`
+const ShareButton = styled.button`
+  ${ButtonWithIcon}
+`;
+
+const ButtonTitle = styled.span`
   font-size: 8px;
 `;
 
-export const ButtonIcon = styled.img`
+const ButtonIcon = styled.img`
   width: 22px;
   height: 22px;
 `;
 
-export const ProgressBar = styled.progress`
+const ProgressBar = styled.progress`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -189,7 +165,12 @@ export const ProgressBar = styled.progress`
   }
 `;
 
-export const FLexContainer = styled.div`
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FLexContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
