@@ -33,20 +33,26 @@ import shook.shook.song.exception.voting_song.RegisterException;
 public class VotingSongPart {
 
     private static final int MINIMUM_START = 0;
-    @OneToMany(mappedBy = "votingSongPart")
-    private final List<Register> registers = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, updatable = false)
     private int startSecond;
+
     @Column(nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private PartLength length;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voting_song_id", foreignKey = @ForeignKey(name = "none"), updatable = false)
+    @JoinColumn(name = "voting_song_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     @Getter(AccessLevel.NONE)
     private VotingSong votingSong;
+
+    @OneToMany(mappedBy = "votingSongPart")
+    private final List<Register> registers = new ArrayList<>();
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

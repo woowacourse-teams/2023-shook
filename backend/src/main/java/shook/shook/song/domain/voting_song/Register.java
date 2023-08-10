@@ -29,7 +29,7 @@ public class Register { // TODO: 2023/08/10 Vote 로 이름 변경
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "voting_song_part_id", foreignKey = @ForeignKey(name = "none"), updatable = false)
+    @JoinColumn(name = "voting_song_part_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     private VotingSongPart votingSongPart;
 
     @Column(nullable = false, updatable = false)

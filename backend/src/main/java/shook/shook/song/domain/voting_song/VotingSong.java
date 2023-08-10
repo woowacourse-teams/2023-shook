@@ -28,21 +28,28 @@ import shook.shook.song.exception.voting_song.VotingSongPartException;
 @Entity
 public class VotingSong {
 
-    @Embedded
-    private final VotingSongParts votingSongParts = new VotingSongParts();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Embedded
     private SongTitle title;
+
     @Embedded
     private SongVideoUrl videoUrl;
+
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
+
     @Embedded
     private Singer singer;
+
     @Embedded
     private SongLength length;
+
+    @Embedded
+    private final VotingSongParts votingSongParts = new VotingSongParts();
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
