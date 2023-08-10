@@ -18,14 +18,14 @@ interface CarouselProps {
 }
 
 const CollectionCarousel = ({ children }: CarouselProps) => {
-  const [currentItem, setCurrentItem] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const itemLength = getChildrenLength(children);
 
-  const handleScroll: React.UIEventHandler<HTMLUListElement> = (e) => {
-    const { scrollLeft, offsetWidth } = e.target as HTMLUListElement;
+  const handleScroll: React.UIEventHandler<HTMLUListElement> = (event) => {
+    const { scrollLeft, offsetWidth } = event.target as HTMLUListElement;
     const index = Math.round(scrollLeft / offsetWidth);
 
-    setCurrentItem(index);
+    setCurrentIndex(index);
   };
 
   return (
@@ -34,7 +34,7 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
         <CarouselWrapper onScroll={handleScroll}>{children}</CarouselWrapper>
         <IndicatorWrapper aria-hidden>
           {Array.from({ length: itemLength }, (_, idx) => (
-            <Dot key={idx} isActive={idx === currentItem} />
+            <Dot key={idx} isActive={idx === currentIndex} />
           ))}
         </IndicatorWrapper>
       </Wrapper>
@@ -94,7 +94,6 @@ const Dot = styled.div<{ isActive: boolean }>`
 
 const Item = styled.li`
   flex: 0 0 auto;
-  z-index: -1;
   width: 100%;
   list-style-type: none;
 
