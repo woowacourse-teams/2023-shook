@@ -47,6 +47,9 @@ public class Song {
     @Embedded
     private Parts parts = new Parts();
 
+    @Embedded
+    private KillingParts killingParts = new KillingParts();
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -68,6 +71,22 @@ public class Song {
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
+    }
+
+    public Song(
+        final String title,
+        final String videoUrl,
+        final String albumCoverUrl,
+        final String singer,
+        final int length,
+        final KillingParts killingParts
+    ) {
+        this.title = new SongTitle(title);
+        this.videoUrl = new SongVideoUrl(videoUrl);
+        this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
+        this.singer = new Singer(singer);
+        this.length = new SongLength(length);
+        this.killingParts = killingParts;
     }
 
     public Optional<Part> getSameLengthPartStartAt(final Part other) {
