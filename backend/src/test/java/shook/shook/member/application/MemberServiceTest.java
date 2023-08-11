@@ -68,4 +68,17 @@ class MemberServiceTest extends UsingJpaTest {
         assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
     }
+
+    @DisplayName("회원을 id로 조회한다.")
+    @Test
+    void findById() {
+        //given
+        //when
+        final Optional<Member> result = memberService.findById(savedMember.getId());
+
+        //then
+        assertThat(result.get().getId()).isEqualTo(savedMember.getId());
+        assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
+    }
 }

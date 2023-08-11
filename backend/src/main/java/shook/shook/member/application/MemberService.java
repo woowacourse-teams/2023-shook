@@ -29,4 +29,8 @@ public class MemberService {
     public Optional<Member> findByEmail(final Email email) {
         return memberRepository.findByEmail(email);
     }
+
+    public Optional<Member> findById(final Long id) {
+        return memberRepository.findById(id);
+    }
 }

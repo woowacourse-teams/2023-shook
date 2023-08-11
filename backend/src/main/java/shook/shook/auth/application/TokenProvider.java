@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        } catch (MalformedJwtException e) {
+        } catch (MalformedJwtException | SignatureException e) {
             throw new TokenException.NotIssuedTokenException();
         } catch (ExpiredJwtException e) {
             throw new TokenException.ExpiredTokenException();

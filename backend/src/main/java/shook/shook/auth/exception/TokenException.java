@@ -15,4 +15,11 @@ public class TokenException extends RuntimeException {
             super();
         }
     }
+
+    public static class TokenNotFoundException extends TokenException {
+
+        public TokenNotFoundException() {
+            super();
+        }
+    }
 }
