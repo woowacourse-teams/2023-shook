@@ -40,7 +40,33 @@ create table if not exists part_comment
     created_at timestamp(6) not null,
     primary key (id)
 );
-
+create table if not exists voting_song_part
+(
+    id             bigint auto_increment,
+    start_second   integer      not null,
+    length         varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    voting_song_id bigint       not null,
+    created_at     timestamp(6) not null,
+    primary key (id)
+);
+create table if not exists voting_song
+(
+    id              bigint auto_increment,
+    title           varchar(100) not null,
+    singer          varchar(50)  not null,
+    length          integer      not null,
+    video_url       text         not null,
+    album_cover_url text         not null,
+    created_at      timestamp(6) not null,
+    primary key (id)
+);
+create table if not exists register
+(
+    id                  bigint auto_increment,
+    voting_song_part_id bigint       not null,
+    created_at          timestamp(6) not null,
+    primary key (id)
+);
 create table if not exists killing_part
 (
     id           bigint auto_increment,
