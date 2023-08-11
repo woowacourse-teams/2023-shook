@@ -46,7 +46,7 @@ public class KillingPart {
     private PartLength length;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "song_id", foreignKey = @ForeignKey(name = "none"), updatable = false)
+    @JoinColumn(name = "song_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     @Getter(AccessLevel.NONE)
     private Song song;
 
