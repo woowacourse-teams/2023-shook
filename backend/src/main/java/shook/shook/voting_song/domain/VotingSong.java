@@ -1,4 +1,4 @@
-package shook.shook.song.domain;
+package shook.shook.voting_song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -12,16 +12,21 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
-import lombok.AccessLevel;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.domain.AlbumCoverUrl;
+import shook.shook.song.domain.Singer;
+import shook.shook.song.domain.SongLength;
+import shook.shook.song.domain.SongTitle;
+import shook.shook.song.domain.SongVideoUrl;
+import shook.shook.voting_song.exception.VotingSongPartException;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
-@Table(name = "song")
+@Table(name = "voting_song")
 @Entity
-public class Song {
+public class VotingSong {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,49 +48,48 @@ public class Song {
     private SongLength length;
 
     @Embedded
-    private KillingParts killingParts = new KillingParts();
+    private final VotingSongParts votingSongParts = new VotingSongParts();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @PrePersist
-    private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
-    }
-
-    public Song(
+    public VotingSong(
         final String title,
         final String videoUrl,
-        final String imageUrl,
+        final String albumCoverUrl,
         final String singer,
         final int length
     ) {
         this.id = null;
         this.title = new SongTitle(title);
         this.videoUrl = new SongVideoUrl(videoUrl);
-        this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
-        this.singer = new Singer(singer);
-        this.length = new SongLength(length);
-    }
-
-    public Song(
-        final String title,
-        final String videoUrl,
-        final String albumCoverUrl,
-        final String singer,
-        final int length,
-        final KillingParts killingParts
-    ) {
-        this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
         this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
-        this.killingParts = killingParts;
     }
 
-    public String getPartVideoUrl(final KillingPart part) {
-        return videoUrl.getValue() + part.getStartAndEndUrlPathParameter();
+    @PrePersist
+    private void prePersist() {
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+    }
+
+    public Optional<VotingSongPart> getSameLengthPartStartAt(final VotingSongPart other) {
+        return votingSongParts.getSameLengthPartStartAt(other);
+    }
+
+    public void addPart(final VotingSongPart votingSongPart) {
+        validatePart(votingSongPart);
+        votingSongParts.addPart(votingSongPart);
+    }
+
+    private void validatePart(final VotingSongPart votingSongPart) {
+        if (votingSongPart.isBelongToOtherSong(this)) {
+            throw new VotingSongPartException.PartForOtherSongException();
+        }
+    }
+
+    public boolean isUniquePart(final VotingSongPart newVotingSongPart) {
+        return votingSongParts.isUniquePart(newVotingSongPart);
     }
 
     public String getTitle() {
@@ -108,8 +112,8 @@ public class Song {
         return length.getValue();
     }
 
-    public List<KillingPart> getKillingParts() {
-        return killingParts.getKillingParts();
+    public List<VotingSongPart> getParts() {
+        return votingSongParts.getVotingSongParts();
     }
 
     @Override
@@ -120,11 +124,11 @@ public class Song {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Song song = (Song) o;
-        if (Objects.isNull(song.id) || Objects.isNull(this.id)) {
+        final VotingSong votingSong = (VotingSong) o;
+        if (Objects.isNull(votingSong.id) || Objects.isNull(this.id)) {
             return false;
         }
-        return Objects.equals(id, song.id);
+        return Objects.equals(id, votingSong.id);
     }
 
     @Override
