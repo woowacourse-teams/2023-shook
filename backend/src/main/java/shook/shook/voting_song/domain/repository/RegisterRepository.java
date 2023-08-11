@@ -1,8 +1,8 @@
-package shook.shook.song.domain.repository;
+package shook.shook.voting_song.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import shook.shook.song.domain.voting_song.Register;
+import shook.shook.voting_song.domain.Register;
 
 @Repository
 public interface RegisterRepository extends JpaRepository<Register, Long> {

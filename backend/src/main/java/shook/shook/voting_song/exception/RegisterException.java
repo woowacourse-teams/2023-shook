@@ -1,4 +1,4 @@
-package shook.shook.song.exception.voting_song;
+package shook.shook.voting_song.exception;
 
 public class RegisterException extends RuntimeException { // TODO: 2023/08/10 VoteException 으로 변경
 

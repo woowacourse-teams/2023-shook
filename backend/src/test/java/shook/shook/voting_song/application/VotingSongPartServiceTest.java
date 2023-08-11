@@ -1,4 +1,4 @@
-package shook.shook.song.application;
+package shook.shook.voting_song.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -10,15 +10,15 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
-import shook.shook.song.application.dto.voting_song.VotingSongPartRegisterRequest;
-import shook.shook.song.domain.repository.RegisterRepository;
-import shook.shook.song.domain.repository.VotingSongPartRepository;
-import shook.shook.song.domain.repository.VotingSongRepository;
-import shook.shook.song.domain.voting_song.Register;
-import shook.shook.song.domain.voting_song.VotingSong;
-import shook.shook.song.domain.voting_song.VotingSongPart;
-import shook.shook.song.exception.voting_song.VotingSongException;
 import shook.shook.support.UsingJpaTest;
+import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
+import shook.shook.voting_song.domain.Register;
+import shook.shook.voting_song.domain.VotingSong;
+import shook.shook.voting_song.domain.VotingSongPart;
+import shook.shook.voting_song.domain.repository.RegisterRepository;
+import shook.shook.voting_song.domain.repository.VotingSongPartRepository;
+import shook.shook.voting_song.domain.repository.VotingSongRepository;
+import shook.shook.voting_song.exception.VotingSongException;
 
 class VotingSongPartServiceTest extends UsingJpaTest {
 

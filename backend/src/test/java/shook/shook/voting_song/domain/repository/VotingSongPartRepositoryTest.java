@@ -1,4 +1,4 @@
-package shook.shook.song.domain.repository;
+package shook.shook.voting_song.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,9 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
-import shook.shook.song.domain.voting_song.VotingSong;
-import shook.shook.song.domain.voting_song.VotingSongPart;
 import shook.shook.support.UsingJpaTest;
+import shook.shook.voting_song.domain.VotingSong;
+import shook.shook.voting_song.domain.VotingSongPart;
 
 class VotingSongPartRepositoryTest extends UsingJpaTest {
 

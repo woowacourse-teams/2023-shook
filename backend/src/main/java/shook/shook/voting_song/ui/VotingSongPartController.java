@@ -1,4 +1,4 @@
-package shook.shook.song.ui;
+package shook.shook.voting_song.ui;
 
 
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import shook.shook.song.application.VotingSongPartService;
-import shook.shook.song.application.dto.voting_song.VotingSongPartRegisterRequest;
+import shook.shook.voting_song.application.VotingSongPartService;
+import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs/{voting_song_id}/parts")

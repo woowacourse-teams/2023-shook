@@ -1,4 +1,4 @@
-package shook.shook.song.application;
+package shook.shook.voting_song.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -7,11 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.song.application.dto.voting_song.VotingSongRegisterRequest;
 import shook.shook.song.domain.SongTitle;
-import shook.shook.song.domain.repository.VotingSongRepository;
-import shook.shook.song.domain.voting_song.VotingSong;
 import shook.shook.support.UsingJpaTest;
+import shook.shook.voting_song.application.dto.VotingSongRegisterRequest;
+import shook.shook.voting_song.domain.VotingSong;
+import shook.shook.voting_song.domain.repository.VotingSongRepository;
 
 class VotingSongServiceTest extends UsingJpaTest {
 

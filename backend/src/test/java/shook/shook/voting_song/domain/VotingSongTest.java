@@ -1,4 +1,4 @@
-package shook.shook.song.domain.voting_song;
+package shook.shook.voting_song.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.part.domain.PartLength;
-import shook.shook.song.exception.voting_song.VotingSongPartException;
+import shook.shook.voting_song.exception.VotingSongPartException;
 
 class VotingSongTest {
 

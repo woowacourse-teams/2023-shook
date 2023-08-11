@@ -1,4 +1,4 @@
-package shook.shook.song.domain.voting_song;
+package shook.shook.voting_song.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;

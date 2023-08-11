@@ -1,4 +1,4 @@
-package shook.shook.song.application.dto.voting_song;
+package shook.shook.voting_song.application.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

@@ -1,4 +1,4 @@
-package shook.shook.song.domain.voting_song;
+package shook.shook.voting_song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -20,7 +20,7 @@ import shook.shook.song.domain.Singer;
 import shook.shook.song.domain.SongLength;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.SongVideoUrl;
-import shook.shook.song.exception.voting_song.VotingSongPartException;
+import shook.shook.voting_song.exception.VotingSongPartException;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter

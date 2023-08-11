@@ -1,4 +1,4 @@
-package shook.shook.song.domain.voting_song;
+package shook.shook.voting_song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
-import shook.shook.song.exception.voting_song.RegisterException;
+import shook.shook.voting_song.exception.RegisterException;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
