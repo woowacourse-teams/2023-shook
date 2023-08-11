@@ -12,12 +12,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.part.domain.Part;
-import shook.shook.part.exception.PartException;
+import shook.shook.song.domain.killingpart.KillingPart;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -45,7 +43,7 @@ public class Song {
     private SongLength length;
 
     @Embedded
-    private Parts parts = new Parts();
+    private KillingParts killingParts = new KillingParts();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -70,38 +68,23 @@ public class Song {
         this.length = new SongLength(length);
     }
 
-    public Optional<Part> getSameLengthPartStartAt(final Part other) {
-        return parts.getSameLengthPartStartAt(other);
+    public Song(
+        final String title,
+        final String videoUrl,
+        final String albumCoverUrl,
+        final String singer,
+        final int length,
+        final KillingParts killingParts
+    ) {
+        this.title = new SongTitle(title);
+        this.videoUrl = new SongVideoUrl(videoUrl);
+        this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
+        this.singer = new Singer(singer);
+        this.length = new SongLength(length);
+        this.killingParts = killingParts;
     }
 
-    public void addPart(final Part part) {
-        validatePart(part);
-        parts.addPart(part);
-    }
-
-    private void validatePart(final Part part) {
-        if (part.isBelongToOtherSong(this)) {
-            throw new PartException.PartForOtherSongException();
-        }
-    }
-
-    public boolean isUniquePart(final Part newPart) {
-        return parts.isUniquePart(newPart);
-    }
-
-    public Optional<Part> getTopKillingPart() {
-        return parts.getTopKillingPart();
-    }
-
-    public List<Part> getKillingParts() {
-        return parts.getKillingParts();
-    }
-
-    public int getRank(final Part part) {
-        return parts.getRank(part);
-    }
-
-    public String getPartVideoUrl(final Part part) {
+    public String getPartVideoUrl(final KillingPart part) {
         return videoUrl.getValue() + part.getStartAndEndUrlPathParameter();
     }
 
@@ -125,8 +108,8 @@ public class Song {
         return length.getValue();
     }
 
-    public List<Part> getParts() {
-        return parts.getParts();
+    public List<KillingPart> getKillingParts() {
+        return killingParts.getKillingParts();
     }
 
     @Override

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { css, styled } from 'styled-components';
-import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
+import { secondsToMinSec } from '@/shared/utils/convertTime';
 import { isValidMinSec } from '@/shared/utils/validateTime';
 import ERROR_MESSAGE from '../constants/errorMessage';
 import useVoteInterfaceContext from '../hooks/useVoteInterfaceContext';
@@ -16,16 +16,13 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
   const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
 
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
-  const { minute: startMinute, second: startSecond } = partStartTime;
 
-  const [endMinute, endSecond] = calculateMinSec(
-    startMinute,
-    startSecond,
-    (origin: number) => origin + interval
-  );
+  const partEndTime = partStartTime + interval;
+  const { minute: startMinute, second: startSecond } = secondsToMinSec(partStartTime);
+  const { minute: endMinute, second: endSecond } = secondsToMinSec(partEndTime);
 
   const onChangeIntervalStart: React.ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { name: timeUnit, value },
+    currentTarget: { name: timeUnit, value, valueAsNumber },
   }) => {
     if (!isValidMinSec(value)) {
       onChangeErrorMessage(ERROR_MESSAGE.MIN_SEC);
@@ -34,7 +31,7 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
     }
 
     onChangeErrorMessage('');
-    updatePartStartTime(timeUnit, Number(value));
+    updatePartStartTime(timeUnit, valueAsNumber);
   };
 
   const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({
@@ -46,10 +43,8 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
   };
 
   const onBlurIntervalStart = () => {
-    const timeSelected = minSecToSeconds([startMinute, startSecond]);
-
-    if (timeSelected > videoLength - interval) {
-      const [songMin, songSec] = secondsToMinSec(videoLength - interval);
+    if (partStartTime + interval > videoLength) {
+      const { minute: songMin, second: songSec } = secondsToMinSec(videoLength - interval);
 
       onChangeErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
       return;

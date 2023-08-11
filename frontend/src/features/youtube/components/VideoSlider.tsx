@@ -1,40 +1,31 @@
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import {
-  covertTwoDigitTimeFormatText,
-  minSecToSeconds,
-  secondsToMinSec,
-} from '@/shared/utils/convertTime';
+import { secondsToMinSec, toMinSecText } from '@/shared/utils/convertTime';
 import type { ChangeEventHandler } from 'react';
 
 const VideoSlider = () => {
   const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
 
-  const { minute: partStartMinute, second: partStartSecond } = partStartTime;
-  const partStartTimeInSeconds = minSecToSeconds([partStartMinute, partStartSecond]);
-
-  const partEndTimeInSeconds = partStartTimeInSeconds + interval;
-  const [partEndMinute, partEndSecond] = secondsToMinSec(partEndTimeInSeconds);
-
-  const partStartTimeText = covertTwoDigitTimeFormatText(partStartMinute, partStartSecond);
-  const partEndTimeText = covertTwoDigitTimeFormatText(partEndMinute, partEndSecond);
+  const partEndTime = partStartTime + interval;
+  const partStartTimeText = toMinSecText(partStartTime);
+  const partEndTimeText = toMinSecText(partEndTime);
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { valueAsNumber: currentSelectedTime },
   }) => {
-    const [minute, second] = secondsToMinSec(currentSelectedTime);
+    const { minute, second } = secondsToMinSec(currentSelectedTime);
 
     // TODO: 시간 단위 통일
     updatePartStartTime('minute', minute);
     updatePartStartTime('second', second);
-    videoPlayer?.pauseVideo();
+
     videoPlayer?.seekTo(currentSelectedTime, false);
   };
 
   const seekToTime = () => {
-    videoPlayer?.seekTo(partStartTimeInSeconds, true);
+    videoPlayer?.seekTo(partStartTime, true);
     videoPlayer?.playVideo();
   };
 
@@ -44,7 +35,7 @@ const VideoSlider = () => {
         <PartStartTime>{partStartTimeText}</PartStartTime>
         <Slider
           type="range"
-          value={partStartTimeInSeconds}
+          value={partStartTime}
           onChange={changeTime}
           onTouchEnd={seekToTime}
           onMouseUp={seekToTime}
