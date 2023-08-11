@@ -1,24 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import type { ReactElement } from 'react';
 import type React from 'react';
 
-const getChildrenLength = (children: React.ReactNode) => {
-  let itemLength = 1;
-
-  if (Array.isArray(children)) {
-    itemLength = children.length;
-  }
-
-  return itemLength;
-};
-
 interface CarouselProps {
-  children: React.ReactNode;
+  children: ReactElement[];
 }
 
 const CollectionCarousel = ({ children }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemLength = getChildrenLength(children);
 
   const handleScroll: React.UIEventHandler<HTMLUListElement> = (event) => {
     const { scrollLeft, offsetWidth } = event.target as HTMLUListElement;
@@ -32,7 +22,7 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
       <Wrapper>
         <CarouselWrapper onScroll={handleScroll}>{children}</CarouselWrapper>
         <IndicatorWrapper aria-hidden>
-          {Array.from({ length: itemLength }, (_, idx) => (
+          {Array.from({ length: children.length }, (_, idx) => (
             <Dot key={idx} isActive={idx === currentIndex} />
           ))}
         </IndicatorWrapper>

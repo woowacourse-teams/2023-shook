@@ -28,7 +28,7 @@ const data = {
 export const Default: Story = {
   render: () => (
     <CollectionCarousel>
-      {Array.from({ length: 6 }, (_, idx) => {
+      {Array.from({ length: 1 }, (_, idx) => {
         return (
           <Content key={idx}>
             <Jacket src={data.albumJacket} />
