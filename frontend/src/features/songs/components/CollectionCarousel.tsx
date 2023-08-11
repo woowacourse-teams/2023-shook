@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import type { PropsWithChildren } from 'react';
 import type React from 'react';
 
 const getChildrenLength = (children: React.ReactNode) => {
@@ -41,12 +40,6 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
     </>
   );
 };
-
-const CarouselItem = ({ children }: PropsWithChildren) => {
-  return <Item>{children}</Item>;
-};
-
-CollectionCarousel.item = CarouselItem;
 
 export default CollectionCarousel;
 
