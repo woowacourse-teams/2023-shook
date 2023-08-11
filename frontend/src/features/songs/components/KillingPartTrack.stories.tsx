@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
+import KILLING_PART_RANK from '../constants/killingPartRank';
 import KillingPartTrack from './KillingPartTrack';
+import type { KillingPartRank } from '../types/KillingPartRank.type';
 import type { KillingPart } from '@/shared/types/song';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -36,13 +38,9 @@ const killingPart: KillingPart = {
 };
 
 const KillingPartTrackWithHook = () => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState(-1);
-
-  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    const newTrack = Number(currentTarget.value);
-
-    setNowPlayingTrack(newTrack);
-  };
+  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPartRank>(
+    KILLING_PART_RANK.DEFAULT
+  );
 
   const isPlaying = killingPart.rank === nowPlayingTrack;
 
@@ -50,7 +48,7 @@ const KillingPartTrackWithHook = () => {
     <KillingPartTrack
       killingPart={killingPart}
       isPlaying={isPlaying}
-      changePlayingTrack={changePlayingTrack}
+      setNowPlayingTrack={setNowPlayingTrack}
     />
   );
 };
