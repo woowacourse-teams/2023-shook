@@ -13,13 +13,13 @@ import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
-  nowPlayingTrack: number;
+  isPlaying: boolean;
   changePlayingTrack: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const KillingPartTrack = ({
   killingPart: { rank, start, end, likeCount, partVideoUrl },
-  nowPlayingTrack,
+  isPlaying,
   changePlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
@@ -27,7 +27,6 @@ const KillingPartTrack = ({
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = getPlayingTimeText(start, end);
-  const isPlaying = nowPlayingTrack === rank;
   const partLength = end - start;
 
   const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;
@@ -53,7 +52,12 @@ const KillingPartTrack = ({
   // };
 
   return (
-    <Container htmlFor={`play-${rank}`} tabIndex={0} aria-label={`${rank}등 킬링파트 재생하기`}>
+    <Container
+      $isPlaying={isPlaying}
+      htmlFor={`play-${rank}`}
+      tabIndex={0}
+      aria-label={`${rank}등 킬링파트 재생하기`}
+    >
       <FLexContainer>
         <Rank>{ordinalRank}</Rank>
         <PlayButton
@@ -87,7 +91,7 @@ const KillingPartTrack = ({
 
 export default KillingPartTrack;
 
-const Container = styled.label`
+const Container = styled.label<{ $isPlaying: boolean }>`
   position: relative;
   display: flex;
   padding: 0 12px;
@@ -95,14 +99,12 @@ const Container = styled.label`
   justify-content: space-between;
   width: 100%;
   height: 60px;
-  background-color: ${({ theme: { color } }) => color.secondary};
+  background-color: ${({ theme: { color }, $isPlaying }) => {
+    return $isPlaying ? color.disabledBackground : color.secondary;
+  }};
   border-radius: 4px;
   color: ${({ theme: { color } }) => color.white};
   cursor: pointer;
-
-  &:has(input:checked) {
-    background-color: ${({ theme: { color } }) => color.disabledBackground};
-  }
 `;
 
 const Rank = styled.span`

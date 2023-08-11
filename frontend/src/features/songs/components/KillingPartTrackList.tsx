@@ -26,7 +26,7 @@ const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
         <KillingPartTrack
           key={killingPart.id}
           killingPart={killingPart}
-          nowPlayingTrack={nowPlayingTrack}
+          isPlaying={killingPart.rank === nowPlayingTrack}
           changePlayingTrack={changePlayingTrack}
         />
       ))}
