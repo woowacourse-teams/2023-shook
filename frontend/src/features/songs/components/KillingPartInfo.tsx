@@ -59,23 +59,24 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
 export default KillingPartInfo;
 
 const VoteCount = styled.p`
-  color: ${({ theme: { color } }) => color.subText};
   font-size: 14px;
+  color: ${({ theme: { color } }) => color.subText};
   letter-spacing: 1px;
 `;
 
 const RestWrapper = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 8px;
+  align-items: center;
 `;
 
 const TimeWrapper = styled.div`
   display: flex;
   justify-content: center;
+
   font-weight: 700;
-  letter-spacing: 1px;
   color: ${({ theme: { color } }) => color.primary};
+  letter-spacing: 1px;
 `;
 
 const Wrapper = styled(Flex)`
@@ -85,11 +86,13 @@ const Wrapper = styled(Flex)`
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.color.secondary};
+  justify-content: space-between;
+
   margin: 0 8px;
   padding: 16px;
+
+  border: 1px solid ${({ theme }) => theme.color.secondary};
   border-radius: 8px;
 `;
 
@@ -99,14 +102,17 @@ const VoteBox = styled.div`
 `;
 
 const ShareBox = styled.button`
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 30px;
   height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
+
   background-color: ${({ theme }) => theme.color.white};
-  cursor: pointer;
+  border-radius: 50%;
 `;
 
 const Img = styled.img`

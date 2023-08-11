@@ -63,15 +63,19 @@ const Container = styled.div`
 `;
 
 const Item = styled.button<{ $active: boolean }>`
+  cursor: pointer;
+
   flex: 1;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 10px;
+
   min-width: 50px;
   height: 30px;
+  margin: 0;
+  padding: 0;
+
   font-weight: ${({ $active }) => ($active ? '700' : '500')};
   color: ${({ $active, theme: { color } }) => ($active ? color.black : color.white)};
+
   background-color: ${({ $active, theme: { color } }) => ($active ? color.white : color.secondary)};
-  cursor: pointer;
+  border: none;
+  border-radius: 10px;
 `;

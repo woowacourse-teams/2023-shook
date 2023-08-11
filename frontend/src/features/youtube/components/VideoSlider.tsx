@@ -54,15 +54,17 @@ export default VideoSlider;
 
 const SliderWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `;
 
 export const SliderBox = styled.div`
   position: relative;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
   width: 90%;
 `;
 
@@ -70,6 +72,7 @@ export const PartStartTime = styled.span`
   position: absolute;
   top: -14px;
   left: -14px;
+
   font-size: 14px;
   font-weight: 700;
 `;
@@ -78,18 +81,32 @@ export const PartEndTime = styled.span`
   position: absolute;
   top: -14px;
   right: -14px;
+
   font-size: 14px;
   font-weight: 700;
 `;
 
 const Slider = styled.input<{ interval: number }>`
+  cursor: pointer;
+
   width: 100%;
   height: 40px;
 
   -webkit-appearance: none;
   background: transparent;
 
-  cursor: pointer;
+  &::-webkit-slider-thumb {
+    position: relative;
+    top: -4px;
+
+    width: ${({ interval }) => interval * 6}px;
+    height: 16px;
+
+    -webkit-appearance: none;
+    background-color: ${({ theme: { color } }) => color.primary};
+    border: none;
+    border-radius: 20px;
+  }
 
   &:active {
     cursor: grabbing;
@@ -104,19 +121,9 @@ const Slider = styled.input<{ interval: number }>`
   &::-webkit-slider-runnable-track {
     width: 100%;
     height: 8px;
+
     background-color: gray;
     border: none;
     border-radius: 5px;
-  }
-
-  &::-webkit-slider-thumb {
-    position: relative;
-    -webkit-appearance: none;
-    top: -4px;
-    width: ${({ interval }) => interval * 6}px;
-    height: 16px;
-    background-color: ${({ theme: { color } }) => color.primary};
-    border: none;
-    border-radius: 20px;
   }
 `;

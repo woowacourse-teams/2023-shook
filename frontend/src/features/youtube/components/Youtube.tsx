@@ -46,8 +46,8 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
 export default Youtube;
 
 export const YoutubeWrapper = styled.div`
-  width: 100%;
   aspect-ratio: auto 16 / 9;
+  width: 100%;
 `;
 
 export const YoutubeIframe = styled.div``;
