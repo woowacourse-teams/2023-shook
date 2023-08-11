@@ -13,7 +13,8 @@
         "voteCount": 10,
         "start": 5,
         "end": 15,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15"
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+        "likeCount": "111"
       },
       {
         "exist": true,
@@ -21,7 +22,8 @@
         "voteCount": 2,
         "start": 20,
         "end": 30,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30"
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+        "likeCount": "56"
       },
       {
         "exist": true,
@@ -29,7 +31,8 @@
         "voteCount": 1,
         "start": 120,
         "end": 130,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130"
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+        "likeCount": "88"
       }
     ]
   },
@@ -47,7 +50,8 @@
         "voteCount": 10,
         "start": 130,
         "end": 140,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140"
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+        "likeCount": "111"
       },
       {
         "exist": true,
@@ -55,7 +59,8 @@
         "voteCount": 2,
         "start": 52,
         "end": 62,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62"
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+        "likeCount": "111"
       },
       {
         "exist": true,
@@ -63,7 +68,8 @@
         "voteCount": 1,
         "start": 123,
         "end": 133,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133"
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+        "likeCount": "111"
       }
     ]
   },
@@ -82,7 +88,8 @@
         "voteCount": 10,
         "start": 0,
         "end": 10,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10"
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+        "likeCount": "111"
       },
       {
         "exist": true,
@@ -90,7 +97,8 @@
         "voteCount": 2,
         "start": 40,
         "end": 50,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50"
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+        "likeCount": "111"
       },
       {
         "exist": true,
@@ -98,7 +106,8 @@
         "voteCount": 1,
         "start": 24,
         "end": 34,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34"
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+        "likeCount": "111"
       }
     ]
   }
