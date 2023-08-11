@@ -64,9 +64,9 @@ class PartRepositoryTest extends UsingJpaTest {
     @Test
     void findAllBySong() {
         //given
-        final Part firstPArt = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
+        final Part firstPart = Part.forSave(1, PartLength.SHORT, SAVED_SONG);
         final Part secondPart = Part.forSave(5, PartLength.SHORT, SAVED_SONG);
-        partRepository.save(firstPArt);
+        partRepository.save(firstPart);
         partRepository.save(secondPart);
 
         //when
@@ -74,6 +74,6 @@ class PartRepositoryTest extends UsingJpaTest {
         final List<Part> allBySong = partRepository.findAllBySong(SAVED_SONG);
 
         //then
-        assertThat(allBySong).containsAll(List.of(firstPArt, secondPart));
+        assertThat(allBySong).containsAll(List.of(firstPart, secondPart));
     }
 }
