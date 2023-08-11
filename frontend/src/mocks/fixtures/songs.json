@@ -8,6 +8,7 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
+        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
@@ -17,6 +18,7 @@
         "likeCount": "111"
       },
       {
+        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
@@ -26,6 +28,7 @@
         "likeCount": "56"
       },
       {
+        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
@@ -45,6 +48,7 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
+        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
@@ -54,6 +58,7 @@
         "likeCount": "111"
       },
       {
+        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
@@ -63,6 +68,7 @@
         "likeCount": "111"
       },
       {
+        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
@@ -83,6 +89,7 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
+        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
@@ -92,6 +99,7 @@
         "likeCount": "111"
       },
       {
+        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
@@ -101,6 +109,7 @@
         "likeCount": "111"
       },
       {
+        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
