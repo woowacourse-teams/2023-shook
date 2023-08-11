@@ -3,7 +3,7 @@ import { KILLING_PART_INTERVAL } from '../constants/killingPartInterval';
 import useVoteInterfaceContext from '../hooks/useVoteInterfaceContext';
 
 const KillingPartToggleGroup = () => {
-  const { interval, setKillingPartInterval } = useVoteInterfaceContext();
+  const { interval, updateKillingPartInterval } = useVoteInterfaceContext();
 
   return (
     <ToggleGroup>
@@ -13,7 +13,7 @@ const KillingPartToggleGroup = () => {
         aria-checked={interval === KILLING_PART_INTERVAL.FIVE}
         data-interval={KILLING_PART_INTERVAL.FIVE}
         $active={interval === KILLING_PART_INTERVAL.FIVE}
-        onClick={setKillingPartInterval}
+        onClick={updateKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.FIVE}초
       </ToggleGroupItem>
@@ -23,7 +23,7 @@ const KillingPartToggleGroup = () => {
         aria-checked={interval === KILLING_PART_INTERVAL.TEN}
         data-interval={KILLING_PART_INTERVAL.TEN}
         $active={interval === KILLING_PART_INTERVAL.TEN}
-        onClick={setKillingPartInterval}
+        onClick={updateKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.TEN}초
       </ToggleGroupItem>
@@ -33,7 +33,7 @@ const KillingPartToggleGroup = () => {
         aria-checked={interval === KILLING_PART_INTERVAL.FIFTEEN}
         data-interval={KILLING_PART_INTERVAL.FIFTEEN}
         $active={interval === KILLING_PART_INTERVAL.FIFTEEN}
-        onClick={setKillingPartInterval}
+        onClick={updateKillingPartInterval}
       >
         {KILLING_PART_INTERVAL.FIFTEEN}초
       </ToggleGroupItem>

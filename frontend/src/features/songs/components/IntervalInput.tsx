@@ -8,13 +8,12 @@ import { isInputName } from '../types/IntervalInput.type';
 import type { IntervalInputType } from '../types/IntervalInput.type';
 
 export interface IntervalInputProps {
-  videoLength: number;
   errorMessage: string;
   onChangeErrorMessage: (message: string) => void;
 }
 
-const IntervalInput = ({ videoLength, errorMessage, onChangeErrorMessage }: IntervalInputProps) => {
-  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProps) => {
+  const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
 
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
   const { minute: startMinute, second: startSecond } = partStartTime;

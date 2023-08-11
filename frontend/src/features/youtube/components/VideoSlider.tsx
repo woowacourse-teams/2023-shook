@@ -1,17 +1,25 @@
 import { styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import { minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
+import {
+  covertTwoDigitTimeFormatText,
+  minSecToSeconds,
+  secondsToMinSec,
+} from '@/shared/utils/convertTime';
 import type { ChangeEventHandler } from 'react';
 
-interface VideoSlider {
-  videoLength: number;
-}
-
-const VideoSlider = ({ videoLength }: VideoSlider) => {
-  const { interval, partStartTime, updatePartStartTime } = useVoteInterfaceContext();
+const VideoSlider = () => {
+  const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-  const partStartTimeInSeconds = minSecToSeconds([partStartTime.minute, partStartTime.second]);
+
+  const { minute: partStartMinute, second: partStartSecond } = partStartTime;
+  const partStartTimeInSeconds = minSecToSeconds([partStartMinute, partStartSecond]);
+
+  const partEndTimeInSeconds = partStartTimeInSeconds + interval;
+  const [partEndMinute, partEndSecond] = secondsToMinSec(partEndTimeInSeconds);
+
+  const partStartTimeText = covertTwoDigitTimeFormatText(partStartMinute, partStartSecond);
+  const partEndTimeText = covertTwoDigitTimeFormatText(partEndMinute, partEndSecond);
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { valueAsNumber: currentSelectedTime },
@@ -32,17 +40,21 @@ const VideoSlider = ({ videoLength }: VideoSlider) => {
 
   return (
     <SliderWrapper>
-      <Slider
-        type="range"
-        value={partStartTimeInSeconds}
-        onChange={changeTime}
-        onTouchEnd={seekToTime}
-        onMouseUp={seekToTime}
-        min={0}
-        max={videoLength - interval}
-        step={1}
-        interval={interval}
-      />
+      <SliderBox>
+        <PartStartTime>{partStartTimeText}</PartStartTime>
+        <Slider
+          type="range"
+          value={partStartTimeInSeconds}
+          onChange={changeTime}
+          onTouchEnd={seekToTime}
+          onMouseUp={seekToTime}
+          min={0}
+          max={videoLength - interval}
+          step={1}
+          interval={interval}
+        />
+        <PartEndTime>{partEndTimeText}</PartEndTime>
+      </SliderBox>
     </SliderWrapper>
   );
 };
@@ -53,6 +65,30 @@ const SliderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const SliderBox = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+`;
+
+export const PartStartTime = styled.span`
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  font-size: 14px;
+  font-weight: 700;
+`;
+
+export const PartEndTime = styled.span`
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  font-size: 14px;
+  font-weight: 700;
 `;
 
 const Slider = styled.input<{ interval: number }>`

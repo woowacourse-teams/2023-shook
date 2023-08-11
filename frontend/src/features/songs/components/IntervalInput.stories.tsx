@@ -10,7 +10,7 @@ const meta = {
   decorators: [
     (Story) => (
       <VideoPlayerProvider>
-        <VoteInterfaceProvider>
+        <VoteInterfaceProvider videoLength={180} songId={1}>
           <Story />
         </VoteInterfaceProvider>
       </VideoPlayerProvider>
@@ -23,20 +23,13 @@ export default meta;
 type Story = StoryObj<typeof IntervalInput>;
 
 const TestIntervalInput = () => {
-  const videoLength = 210;
   const [errorMessage, setErrorMessage] = useState('');
 
   const onChangeErrorMessage = (message: string) => {
     setErrorMessage(message);
   };
 
-  return (
-    <IntervalInput
-      videoLength={videoLength}
-      errorMessage={errorMessage}
-      onChangeErrorMessage={onChangeErrorMessage}
-    />
-  );
+  return <IntervalInput errorMessage={errorMessage} onChangeErrorMessage={onChangeErrorMessage} />;
 };
 
 export const Default = {

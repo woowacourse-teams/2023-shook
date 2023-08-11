@@ -30,3 +30,23 @@ export const getPlayingTimeText = (startTime: number, endTime: number) => {
 
   return `${startMin}:${startSec} ~ ${endMin}:${endSec}`;
 };
+
+export const covertTwoDigitTimeFormat = (content: string | number) => {
+  if (typeof content === 'number') {
+    return content.toString().padStart(2, '0');
+  }
+
+  return content.padStart(2, '0');
+};
+
+export const covertTwoDigitTimeFormatText = (...contents: (string | number)[]) => {
+  return contents.map(covertTwoDigitTimeFormat).join(':');
+};
+
+export const isValidTimeFormatLength = (value: string | number) => {
+  if (typeof value === 'number') {
+    return value.toString().length <= 2;
+  }
+
+  return value.length <= 2;
+};
