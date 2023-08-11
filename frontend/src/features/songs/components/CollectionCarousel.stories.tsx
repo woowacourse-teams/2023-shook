@@ -30,14 +30,12 @@ export const Default: Story = {
     <CollectionCarousel>
       {Array.from({ length: 6 }, (_, idx) => {
         return (
-          <CollectionCarousel.item key={idx}>
-            <Content>
-              <Jacket src={data.albumJacket} />
-              <Singer>{data.title}</Singer>
-              <Title>{data.singer}</Title>
-              <Collections>{'2,412명이 참여중'}</Collections>
-            </Content>
-          </CollectionCarousel.item>
+          <Content key={idx}>
+            <Jacket src={data.albumJacket} />
+            <Singer>{data.title}</Singer>
+            <Title>{data.singer}</Title>
+            <Collections>{'2,412명이 참여중'}</Collections>
+          </Content>
         );
       })}
     </CollectionCarousel>
@@ -67,7 +65,7 @@ const Container = styled.div`
   height: 800px;
 `;
 
-const Content = styled.div`
+const Content = styled.li`
   margin: auto;
   display: grid;
   grid-template-rows: repeat(3, 30px);
@@ -79,13 +77,3 @@ const Content = styled.div`
 
   text-align: left;
 `;
-
-{
-  /* <Title>현재 수집중인 노래</Title>
-      <Spacing direction="vertical" size={24} />
-      <CollectionCarousel>
-        {Array.from({ length: 10 }, (_, idx) => {
-          return <CollectionCarousel.item key={idx}>{idx}</CollectionCarousel.item>;
-        })}
-      </CollectionCarousel> */
-}
