@@ -15,46 +15,45 @@ import SRHeading from '@/shared/components/SRHeading';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
 
 const SongDetailPage = () => {
-  const { id = '' } = useParams();
+  const { id: songId = '' } = useParams();
+  const { songDetail } = useGetSongDetail(Number(songId));
+
   const [isRepeat, setIsRepeat] = useState(true);
   const [killingRank, setKillingRank] = useState<number | null>(null);
-  const { songDetail } = useGetSongDetail(Number(id));
-  const timer = useRef<number>(-1);
-  const { videoPlayer } = useVideoPlayerContext();
 
-  useEffect(() => {
-    if (!videoPlayer.current?.seekTo) return;
-    if (!songDetail) return;
+  // useEffect(() => {
+  //   if (!videoPlayer.current?.seekTo) return;
+  //   if (!songDetail) return;
 
-    const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
+  //   const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
 
-    if (!part) {
-      videoPlayer.current?.seekTo(0, true);
-      videoPlayer.current?.playVideo();
-      return;
-    } else {
-      videoPlayer.current?.seekTo(part.start, true);
-    }
+  //   if (!part) {
+  //     videoPlayer.current?.seekTo(0, true);
+  //     videoPlayer.current?.playVideo();
+  //     return;
+  //   } else {
+  //     videoPlayer.current?.seekTo(part.start, true);
+  //   }
 
-    videoPlayer.current?.playVideo();
+  //   videoPlayer.current?.playVideo();
 
-    if (isRepeat) {
-      timer.current = window.setInterval(
-        () => {
-          videoPlayer.current?.seekTo(part.start, true);
-        },
-        (part.end - part.start) * 1000
-      );
-    }
+  //   if (isRepeat) {
+  //     timer.current = window.setInterval(
+  //       () => {
+  //         videoPlayer.current?.seekTo(part.start, true);
+  //       },
+  //       (part.end - part.start) * 1000
+  //     );
+  //   }
 
-    return () => {
-      window.clearInterval(timer.current);
-    };
-  }, [isRepeat, killingRank, videoPlayer.current, songDetail]);
+  //   return () => {
+  //     window.clearInterval(timer.current);
+  //   };
+  // }, [isRepeat, killingRank, videoPlayer.current, songDetail]);
 
   if (!songDetail) return;
   const { killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
-  const killingPart = killingParts?.find((part) => part.rank === killingRank);
+  const killingPart = killingParts.find((part) => part.rank === killingRank);
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
@@ -95,10 +94,7 @@ const SongDetailPage = () => {
       <Spacing direction="vertical" size={16} />
       <KillingPartTrackList killingParts={killingParts} />
       <Spacing direction="vertical" size={10} />
-      <Spacing direction="vertical" size={10} />
-      <KillingPartInfo killingPart={killingPart} />
-      <Spacing direction="vertical" size={10} />
-      {killingPart && <CommentList songId={id} partId={killingParts[killingRank! - 1].id} />}
+      {killingPart && <CommentList songId={songId} partId={killingParts[killingRank! - 1].id} />}
       <SRAlert>{`${killingRank === 4 ? '전체' : `${killingRank}등 킬링파트`} 재생`}</SRAlert>
     </Wrapper>
   );
