@@ -58,10 +58,6 @@ const SongDetailPage = () => {
 
   const videoId = songVideoUrl.replace('https://youtu.be/', '');
 
-  const changeKillingRank = (rank: number) => {
-    setKillingRank(rank);
-  };
-
   const toggleRepetition = () => {
     setIsRepeat(!isRepeat);
   };
@@ -69,10 +65,10 @@ const SongDetailPage = () => {
   return (
     <Wrapper>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
-      <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기 🎧</BigTitle>
+      <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기</BigTitle>
       <Spacing direction="vertical" size={20} />
       <SongInfoContainer>
-        <Thumbnail src={albumCoverUrl} />
+        <Thumbnail src={albumCoverUrl} size="md" />
         <Info>
           <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
           <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
@@ -81,21 +77,24 @@ const SongDetailPage = () => {
       <Spacing direction="vertical" size={20} />
       <Youtube videoId={videoId} />
       <Spacing direction="vertical" size={16} />
-      <RegisterTitle aria-label="인기 많은 킬링파트를 들어보세요">
-        인기 많은 킬링파트를 들어보세요 🎧
-      </RegisterTitle>
+      <FlexContainer>
+        <TitleWrapper aria-label="Top 3 킬링파트 듣기">
+          <ItalicTitle aria-hidden="true">Top 3</ItalicTitle>
+          <NormalTitle aria-hidden="true"> Killing part</NormalTitle>
+        </TitleWrapper>
+        <SwitchWrapper>
+          <SwitchLabel htmlFor="repetition">구간 반복</SwitchLabel>
+          <ToggleSwitch
+            id="repetition"
+            on={toggleRepetition}
+            off={toggleRepetition}
+            defaultToggle={isRepeat}
+          />
+        </SwitchWrapper>
+      </FlexContainer>
       <Spacing direction="vertical" size={16} />
       <KillingPartTrackList killingParts={killingParts} />
       <Spacing direction="vertical" size={10} />
-      <SwitchWrapper>
-        <SwitchLabel htmlFor="repetition">반복재생</SwitchLabel>
-        <ToggleSwitch
-          id="repetition"
-          on={toggleRepetition}
-          off={toggleRepetition}
-          defaultToggle={isRepeat}
-        />
-      </SwitchWrapper>
       <Spacing direction="vertical" size={10} />
       <KillingPartInfo killingPart={killingPart} />
       <Spacing direction="vertical" size={10} />
@@ -117,15 +116,22 @@ const Wrapper = styled(Flex)`
 `;
 
 const SongInfoContainer = styled.div`
+  overflow: hidden;
   display: flex;
   gap: 12px;
   align-items: center;
+
+  width: 100%;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Info = styled.div``;
 
-const SongTitle = styled.p`
-  font-size: 24px;
+const SongTitle = styled.div`
+  height: 30px;
+  font-size: 20px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
@@ -134,7 +140,7 @@ const SongTitle = styled.p`
   }
 `;
 
-const Singer = styled.p`
+const Singer = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.subText};
@@ -147,16 +153,14 @@ const Singer = styled.p`
 const SwitchWrapper = styled.div`
   display: flex;
   column-gap: 8px;
-  justify-content: end;
-  margin: 0 8px;
 `;
 
 const SwitchLabel = styled.label`
-  font-size: 14px;
+  font-size: 12px;
   color: ${({ theme: { color } }) => color.white};
 `;
 
-const RegisterTitle = styled.p`
+const TitleWrapper = styled.div`
   font-size: 22px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
@@ -164,4 +168,19 @@ const RegisterTitle = styled.p`
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 18px;
   }
+`;
+
+const ItalicTitle = styled.span`
+  font-style: italic;
+  color: ${({ theme: { color } }) => color.primary};
+`;
+
+const NormalTitle = styled.span`
+  color: ${({ theme: { color } }) => color.white};
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
