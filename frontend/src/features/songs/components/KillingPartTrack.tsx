@@ -136,7 +136,7 @@ const ButtonWithIcon = css`
   gap: 2px;
   align-items: center;
 
-  width: 40px;
+  width: 44px;
 `;
 
 const LikeButton = styled.button`
