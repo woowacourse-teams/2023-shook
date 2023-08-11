@@ -14,12 +14,6 @@ const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
     KILLING_PART_RANK.DEFAULT
   );
 
-  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    const newTrack = Number(currentTarget.value) as KillingPartRank;
-
-    setNowPlayingTrack(newTrack);
-  };
-
   return (
     <TrackList>
       {killingParts.map((killingPart) => (
@@ -27,7 +21,7 @@ const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
           key={killingPart.id}
           killingPart={killingPart}
           isPlaying={killingPart.rank === nowPlayingTrack}
-          changePlayingTrack={changePlayingTrack}
+          setNowPlayingTrack={setNowPlayingTrack}
         />
       ))}
     </TrackList>

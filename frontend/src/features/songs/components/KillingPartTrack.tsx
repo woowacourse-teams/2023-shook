@@ -8,19 +8,20 @@ import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
+import type { KillingPartRank } from '../types/KillingPartRank.type';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
   isPlaying: boolean;
-  changePlayingTrack: React.ChangeEventHandler<HTMLInputElement>;
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPartRank>>;
 }
 
 const KillingPartTrack = ({
   killingPart: { rank, start, end, likeCount, partVideoUrl },
   isPlaying,
-  changePlayingTrack,
+  setNowPlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { videoPlayer } = useVideoPlayerContext();
@@ -37,17 +38,26 @@ const KillingPartTrack = ({
     showToast('영상 링크가 복사되었습니다.');
   };
 
-  // TODO 비디오 프로바이더로 분리
-  // const playKillingPart = () => {
-  //   videoPlayer?.seekTo(start, false);
-  //   videoPlayer?.playVideo();
-  // };
+  const playKillingPart = () => {
+    if (videoPlayer.current?.getPlayerState() === 2) {
+      videoPlayer.current?.playVideo();
+    }
+
+    videoPlayer.current?.seekTo(start, true);
+  };
+
+  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+    const newTrack = Number(currentTarget.value) as KillingPartRank;
+
+    setNowPlayingTrack(newTrack);
+    playKillingPart();
+  };
 
   // const stopPlaying = () => {
-  //   const isPlaying = videoPlayer?.getPlayerState() === 1;
+  //   const isPlaying = videoPlayer.current?.getPlayerState() === 1;
 
   //   if (isPlaying) {
-  //     videoPlayer.pauseVideo();
+  //     videoPlayer.current?.pauseVideo();
   //   }
   // };
 
