@@ -19,9 +19,8 @@ const Thumbnail = ({ ...props }: ThumbnailProps) => {
 export default Thumbnail;
 
 const Wrapper = styled.div`
+  overflow: hidden;
   width: 70px;
   height: 70px;
-
   border-radius: 8px;
-  overflow: hidden;
 `;

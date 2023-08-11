@@ -46,21 +46,26 @@ export default KillingPartToggleGroup;
 const ToggleGroup = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  width: 100%;
   gap: 20px;
+  justify-content: center;
+
+  width: 100%;
 `;
 
 const ToggleGroupItem = styled.button<{ $active: boolean }>`
+  cursor: pointer;
+
   flex: 1;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 10px;
+
   min-width: 50px;
   height: 30px;
+  margin: 0;
+  padding: 0;
+
   font-weight: ${({ $active }) => ($active ? '700' : '500')};
   color: ${({ $active, theme: { color } }) => ($active ? color.black : color.white)};
+
   background-color: ${({ $active, theme: { color } }) => ($active ? color.white : color.secondary)};
-  cursor: pointer;
+  border: none;
+  border-radius: 10px;
 `;

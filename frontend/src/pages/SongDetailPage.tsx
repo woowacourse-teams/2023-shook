@@ -134,8 +134,8 @@ const Wrapper = styled(Flex)`
 
 const SongInfoContainer = styled.div`
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
 `;
 
 const Info = styled.div``;
@@ -162,14 +162,14 @@ const Singer = styled.p`
 
 const SwitchWrapper = styled.div`
   display: flex;
+  column-gap: 8px;
   justify-content: end;
   margin: 0 8px;
-  column-gap: 8px;
 `;
 
 const SwitchLabel = styled.label`
-  color: ${({ theme: { color } }) => color.white};
   font-size: 14px;
+  color: ${({ theme: { color } }) => color.white};
 `;
 
 const RegisterTitle = styled.p`

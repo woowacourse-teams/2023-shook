@@ -43,18 +43,18 @@ const Wrapper = styled.li`
 
 const Flex = styled.div`
   display: flex;
-  width: 100%;
   align-items: flex-start;
+  width: 100%;
 `;
 
 const Profile = styled.div`
+  overflow: hidden;
+
   width: 40px;
   height: 40px;
 
-  border-radius: 100%;
   background-color: white;
-
-  overflow: hidden;
+  border-radius: 100%;
 `;
 
 const Box = styled.div`
@@ -72,10 +72,11 @@ const RelativeTime = styled.span`
 `;
 
 const Content = styled.div`
+  overflow: hidden;
+  display: -webkit-box;
+
   font-size: 14px;
 
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  overflow: hidden;
 `;
