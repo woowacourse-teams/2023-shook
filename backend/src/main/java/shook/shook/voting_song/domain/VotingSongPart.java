@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
-import shook.shook.voting_song.exception.RegisterException;
+import shook.shook.voting_song.exception.VoteException;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
@@ -51,7 +51,7 @@ public class VotingSongPart {
     private VotingSong votingSong;
 
     @OneToMany(mappedBy = "votingSongPart")
-    private final List<Register> registers = new ArrayList<>();
+    private final List<Vote> votes = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -108,17 +108,17 @@ public class VotingSongPart {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public void vote(final Register register) {
-        validateVote(register);
-        this.registers.add(register);
+    public void vote(final Vote vote) {
+        validateVote(vote);
+        this.votes.add(vote);
     }
 
-    private void validateVote(final Register register) {
-        if (register.isBelongToOtherPart(this)) {
-            throw new RegisterException.VoteForOtherPartException();
+    private void validateVote(final Vote vote) {
+        if (vote.isBelongToOtherPart(this)) {
+            throw new VoteException.VoteForOtherPartException();
         }
-        if (registers.contains(register)) {
-            throw new RegisterException.DuplicateVoteExistException();
+        if (votes.contains(vote)) {
+            throw new VoteException.DuplicateVoteExistException();
         }
     }
 
@@ -134,12 +134,12 @@ public class VotingSongPart {
         return length.getEndSecond(startSecond);
     }
 
-    public List<Register> getRegisters() {
-        return new ArrayList<>(registers);
+    public List<Vote> getVotes() {
+        return new ArrayList<>(votes);
     }
 
     public int getVoteCount() {
-        return registers.size();
+        return votes.size();
     }
 
 

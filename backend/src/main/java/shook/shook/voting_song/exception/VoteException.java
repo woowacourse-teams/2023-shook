@@ -1,4 +1,4 @@
-package shook.shook.part.exception;
+package shook.shook.voting_song.exception;
 
 public class VoteException extends RuntimeException {
 

@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
-import shook.shook.voting_song.domain.Register;
+import shook.shook.voting_song.domain.Vote;
 import shook.shook.voting_song.domain.VotingSong;
 import shook.shook.voting_song.domain.VotingSongPart;
-import shook.shook.voting_song.domain.repository.RegisterRepository;
+import shook.shook.voting_song.domain.repository.VoteRepository;
 import shook.shook.voting_song.domain.repository.VotingSongPartRepository;
 import shook.shook.voting_song.domain.repository.VotingSongRepository;
 import shook.shook.voting_song.exception.VotingSongException;
@@ -31,7 +31,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
     private VotingSongPartRepository votingSongPartRepository;
 
     @Autowired
-    private RegisterRepository registerRepository;
+    private VoteRepository voteRepository;
 
     private VotingSongPartService votingSongPartService;
 
@@ -40,7 +40,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         votingSongPartService = new VotingSongPartService(
             votingSongRepository,
             votingSongPartRepository,
-            registerRepository
+            voteRepository
         );
         SAVED_SONG =
             votingSongRepository.save(new VotingSong("노래제목", "비디오URL", "이미지URL", "가수", 180));
@@ -51,14 +51,14 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         votingSong.addPart(votingSongPart);
     }
 
-    void votePart(final VotingSongPart votingSongPart, final Register register) {
-        registerRepository.save(register);
-        votingSongPart.vote(register);
+    void votePart(final VotingSongPart votingSongPart, final Vote vote) {
+        voteRepository.save(vote);
+        votingSongPart.vote(vote);
     }
 
     @DisplayName("파트 수집 중인 노래의 파트를 등록한다.")
     @Nested
-    class RegisterPart {
+    class VotePart {
 
         @DisplayName("등록 가능한 파트일 때 새로운 파트가 등록된다.")
         @Test
@@ -85,8 +85,8 @@ class VotingSongPartServiceTest extends UsingJpaTest {
                 VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, votingSongPart);
 
-            final Register register = Register.forSave(votingSongPart);
-            votePart(votingSongPart, register);
+            final Vote vote = Vote.forSave(votingSongPart);
+            votePart(votingSongPart, vote);
 
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 5);
 

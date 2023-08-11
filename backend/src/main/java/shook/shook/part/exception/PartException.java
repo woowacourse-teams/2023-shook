@@ -30,20 +30,6 @@ public class PartException extends RuntimeException {
         }
     }
 
-    public static class PartNotExistException extends PartException {
-
-        public PartNotExistException() {
-            super();
-        }
-    }
-
-    public static class PartForOtherSongException extends PartException {
-
-        public PartForOtherSongException() {
-            super();
-        }
-    }
-
     public static class DuplicateStartAndLengthException extends PartException {
 
         public DuplicateStartAndLengthException() {
