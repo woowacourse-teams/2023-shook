@@ -1,7 +1,6 @@
-package shook.shook.part.domain;
+package shook.shook.voting_song.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
@@ -21,50 +20,41 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "part_comment")
+@Table(name = "vote")
 @Entity
-public class PartComment {
+public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    private PartCommentContent content;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "part_id", foreignKey = @ForeignKey(name = "none"), nullable = false, updatable = false)
-    @Getter(AccessLevel.NONE)
-    private Part part;
+    @JoinColumn(name = "voting_song_part_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    private VotingSongPart votingSongPart;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    private Vote(final Long id, final VotingSongPart votingSongPart) {
+        this.id = id;
+        this.votingSongPart = votingSongPart;
+    }
+
+    public static Vote saved(final Long id, final VotingSongPart votingSongPart) {
+        return new Vote(id, votingSongPart);
+    }
+
+    public static Vote forSave(final VotingSongPart votingSongPart) {
+        return new Vote(null, votingSongPart);
+    }
+
     @PrePersist
-    private void prePersist() {
+    void prePersist() {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    private PartComment(final Long id, final Part part, final String content) {
-        this.id = id;
-        this.part = part;
-        this.content = new PartCommentContent(content);
-    }
-
-    public static PartComment saved(final Long id, final Part part, final String content) {
-        return new PartComment(id, part, content);
-    }
-
-    public static PartComment forSave(final Part part, final String content) {
-        return new PartComment(null, part, content);
-    }
-
-    public boolean isBelongToOtherPart(final Part part) {
-        return !this.part.equals(part);
-    }
-
-    public String getContent() {
-        return content.getValue();
+    public boolean isBelongToOtherPart(final VotingSongPart votingSongPart) {
+        return !votingSongPart.equals(this.votingSongPart);
     }
 
     @Override
@@ -75,11 +65,11 @@ public class PartComment {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final PartComment partComment = (PartComment) o;
-        if (Objects.isNull(partComment.id) || Objects.isNull(this.id)) {
+        final Vote vote = (Vote) o;
+        if (Objects.isNull(vote.id) || Objects.isNull(this.id)) {
             return false;
         }
-        return Objects.equals(id, partComment.id);
+        return Objects.equals(id, vote.id);
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
-import shook.shook.voting_song.exception.RegisterException;
+import shook.shook.voting_song.exception.VoteException;
 
 class VotingSongPartTest {
 
@@ -113,20 +113,20 @@ class VotingSongPartTest {
 
     @DisplayName("파트에 투표한다.")
     @Nested
-    class RegisterToPart {
+    class VoteToPart {
 
         @DisplayName("한 번 투표한다.")
         @Test
         void vote_success_one() {
             //given
             final VotingSongPart part = VotingSongPart.saved(1L, 14, PartLength.SHORT, votingSong);
-            final Register register = Register.saved(1L, part);
+            final Vote vote = Vote.saved(1L, part);
 
             //when
-            part.vote(register);
+            part.vote(vote);
 
             //then
-            assertThat(part.getRegisters()).containsOnly(register);
+            assertThat(part.getVotes()).containsOnly(vote);
         }
 
         @DisplayName("여러 번 투표한다.")
@@ -134,15 +134,15 @@ class VotingSongPartTest {
         void vote_success_many() {
             //given
             final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
-            final Register firstRegister = Register.forSave(part);
-            final Register secondRegister = Register.forSave(part);
+            final Vote firstVote = Vote.forSave(part);
+            final Vote secondVote = Vote.forSave(part);
 
             //when
-            part.vote(firstRegister);
-            part.vote(secondRegister);
+            part.vote(firstVote);
+            part.vote(secondVote);
 
             //then
-            assertThat(part.getRegisters()).containsOnly(firstRegister, secondRegister);
+            assertThat(part.getVotes()).containsOnly(firstVote, secondVote);
         }
 
         @DisplayName("다른 파트의 투표로 투표하면 예외가 발생한다.")
@@ -153,28 +153,28 @@ class VotingSongPartTest {
                 votingSong);
             final VotingSongPart secondPart = VotingSongPart.saved(2L, 10, PartLength.SHORT,
                 votingSong);
-            final Register registerForSecondPart = Register.forSave(secondPart);
+            final Vote voteForSecondPart = Vote.forSave(secondPart);
 
             //when
             //then
-            assertThatThrownBy(() -> firstPart.vote(registerForSecondPart))
-                .isInstanceOf(RegisterException.VoteForOtherPartException.class);
+            assertThatThrownBy(() -> firstPart.vote(voteForSecondPart))
+                .isInstanceOf(VoteException.VoteForOtherPartException.class);
         }
     }
 
     @Nested
     @DisplayName("총 득표수를 반환한다.")
-    class GetRegisterCount {
+    class GetVoteCount {
 
         @DisplayName("Id 가 다른 두 개의 투표를 통해 투표했을 때 득표수가 2번 증가한다.")
         @Test
         void getVoteCount_twoVoteDifferentId() {
             //given
             final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
-            final Register firstRegister = Register.saved(1L, part);
-            final Register secondRegister = Register.saved(2L, part);
-            part.vote(firstRegister);
-            part.vote(secondRegister);
+            final Vote firstVote = Vote.saved(1L, part);
+            final Vote secondVote = Vote.saved(2L, part);
+            part.vote(firstVote);
+            part.vote(secondVote);
 
             //when
             final int voteCount = part.getVoteCount();
@@ -188,14 +188,14 @@ class VotingSongPartTest {
         void getVoteCount_towVoteSameId() {
             //given
             final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
-            final Register firstRegister = Register.saved(1L, part);
-            final Register secondRegister = Register.saved(1L, part);
-            part.vote(firstRegister);
+            final Vote firstVote = Vote.saved(1L, part);
+            final Vote secondVote = Vote.saved(1L, part);
+            part.vote(firstVote);
 
             //when
             //then
-            assertThatThrownBy(() -> part.vote(secondRegister))
-                .isInstanceOf(RegisterException.DuplicateVoteExistException.class);
+            assertThatThrownBy(() -> part.vote(secondVote))
+                .isInstanceOf(VoteException.DuplicateVoteExistException.class);
         }
     }
 }

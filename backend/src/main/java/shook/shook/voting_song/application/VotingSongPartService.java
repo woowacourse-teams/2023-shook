@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.part.domain.PartLength;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
-import shook.shook.voting_song.domain.Register;
+import shook.shook.voting_song.domain.Vote;
 import shook.shook.voting_song.domain.VotingSong;
 import shook.shook.voting_song.domain.VotingSongPart;
-import shook.shook.voting_song.domain.repository.RegisterRepository;
+import shook.shook.voting_song.domain.repository.VoteRepository;
 import shook.shook.voting_song.domain.repository.VotingSongPartRepository;
 import shook.shook.voting_song.domain.repository.VotingSongRepository;
 import shook.shook.voting_song.exception.VotingSongException.VotingSongNotExistException;
@@ -21,7 +21,7 @@ public class VotingSongPartService {
 
     private final VotingSongRepository votingSongRepository;
     private final VotingSongPartRepository votingSongPartRepository;
-    private final RegisterRepository registerRepository;
+    private final VoteRepository voteRepository;
 
     @Transactional
     public void register(
@@ -65,8 +65,8 @@ public class VotingSongPartService {
     }
 
     private void voteToPart(final VotingSongPart votingSongPart) {
-        final Register newVote = Register.forSave(votingSongPart);
+        final Vote newVote = Vote.forSave(votingSongPart);
         votingSongPart.vote(newVote);
-        registerRepository.save(newVote);
+        voteRepository.save(newVote);
     }
 }
