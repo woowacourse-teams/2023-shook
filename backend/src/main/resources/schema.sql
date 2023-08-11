@@ -45,7 +45,7 @@ create table voting_song_part
     id             bigint auto_increment,
     start_second   integer      not null,
     length         varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
-    voting_song_id bigint,
+    voting_song_id bigint       not null,
     created_at     timestamp(6) not null,
     primary key (id)
 );
@@ -63,7 +63,7 @@ create table voting_song
 create table register
 (
     id                  bigint auto_increment,
-    voting_song_part_id bigint,
+    voting_song_part_id bigint       not null,
     created_at          timestamp(6) not null,
     primary key (id)
 );
