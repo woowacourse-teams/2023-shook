@@ -40,3 +40,22 @@ create table if not exists part_comment
     created_at timestamp(6) not null,
     primary key (id)
 );
+
+create table if not exists killing_part
+(
+    id           bigint auto_increment,
+    start_second integer      not null,
+    length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    song_id      bigint       not null,
+    created_at   timestamp(6) not null,
+    primary key (id)
+);
+
+create table killing_part_comment
+(
+    id              bigint auto_increment,
+    killing_part_id bigint       not null,
+    content         varchar(200) not null,
+    created_at      timestamp(6) not null,
+    primary key (id)
+);
