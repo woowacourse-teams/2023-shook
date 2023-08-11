@@ -44,6 +44,7 @@ export const VoteInterfaceProvider = ({
       setPartStartTime((prev) => {
         const minute = 60 * value;
         const second = prev % 60;
+
         return minute + second;
       });
     }
@@ -52,6 +53,7 @@ export const VoteInterfaceProvider = ({
       setPartStartTime((prev) => {
         const minute = 60 * Math.floor(prev / 60);
         const second = value;
+
         return minute + second;
       });
     }
