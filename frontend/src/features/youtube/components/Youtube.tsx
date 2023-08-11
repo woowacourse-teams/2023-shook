@@ -10,20 +10,18 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, updatePlayer } = useVideoPlayerContext();
+  const { videoPlayer } = useVideoPlayerContext();
 
   const createYoutubePlayer = useCallback(async () => {
     try {
       const YT = await loadIFrameApi();
 
-      updatePlayer(
-        new YT.Player('yt-player', {
-          videoId,
-          width: '100%',
-          height: '100%',
-          playerVars: { start },
-        })
-      );
+      videoPlayer.current = new YT.Player('yt-player', {
+        videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: { start },
+      });
     } catch (error) {
       console.error(error);
       console.error('Youtube Player를 생성하지 못하였습니다.');
@@ -33,7 +31,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
   useEffect(() => {
     createYoutubePlayer();
 
-    return () => videoPlayer?.destroy();
+    return () => videoPlayer.current?.destroy();
   }, []);
 
   return (

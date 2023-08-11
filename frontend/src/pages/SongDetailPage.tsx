@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import KillingPartInfo from '@/features/songs/components/KillingPartInfo';
+import KillingPartTrackList from '@/features/songs/components/KillingPartTrackList';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
 import Youtube from '@/features/youtube/components/Youtube';
@@ -11,7 +12,6 @@ import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRAlert from '@/shared/components/SRAlert';
 import SRHeading from '@/shared/components/SRHeading';
-import ToggleGroup from '@/shared/components/ToggleGroup/ToggleGroup';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
 
 const SongDetailPage = () => {
@@ -23,25 +23,25 @@ const SongDetailPage = () => {
   const { videoPlayer } = useVideoPlayerContext();
 
   useEffect(() => {
-    if (!videoPlayer?.seekTo) return;
+    if (!videoPlayer.current?.seekTo) return;
     if (!songDetail) return;
 
     const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
 
     if (!part) {
-      videoPlayer?.seekTo(0, true);
-      videoPlayer?.playVideo();
+      videoPlayer.current?.seekTo(0, true);
+      videoPlayer.current?.playVideo();
       return;
     } else {
-      videoPlayer?.seekTo(part.start, true);
+      videoPlayer.current?.seekTo(part.start, true);
     }
 
-    videoPlayer?.playVideo();
+    videoPlayer.current?.playVideo();
 
     if (isRepeat) {
       timer.current = window.setInterval(
         () => {
-          videoPlayer?.seekTo(part.start, true);
+          videoPlayer.current?.seekTo(part.start, true);
         },
         (part.end - part.start) * 1000
       );
@@ -50,7 +50,7 @@ const SongDetailPage = () => {
     return () => {
       window.clearInterval(timer.current);
     };
-  }, [isRepeat, killingRank, videoPlayer, songDetail]);
+  }, [isRepeat, killingRank, videoPlayer.current, songDetail]);
 
   if (!songDetail) return;
   const { killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
@@ -85,23 +85,7 @@ const SongDetailPage = () => {
         인기 많은 킬링파트를 들어보세요 🎧
       </RegisterTitle>
       <Spacing direction="vertical" size={16} />
-      <ToggleGroup onChangeButton={changeKillingRank}>
-        <ToggleGroup.Button tabIndex={0} index={1} aria-label="1등 킬링파트 노래 듣기">
-          1st
-        </ToggleGroup.Button>
-        <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.Button tabIndex={0} index={2} aria-label="2등 킬링파트 노래 듣기">
-          2nd
-        </ToggleGroup.Button>
-        <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.Button index={3} aria-label="3등 킬링파트 노래 듣기">
-          3rd
-        </ToggleGroup.Button>
-        <Spacing direction="horizontal" size={10} />
-        <ToggleGroup.Button index={4} aria-label="노래 전체 듣기">
-          전체
-        </ToggleGroup.Button>
-      </ToggleGroup>
+      <KillingPartTrackList killingParts={killingParts} />
       <Spacing direction="vertical" size={10} />
       <SwitchWrapper>
         <SwitchLabel htmlFor="repetition">반복재생</SwitchLabel>

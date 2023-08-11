@@ -30,7 +30,7 @@ const KillingPartTrack = ({
   const partLength = end - start;
 
   const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;
-  const currentPlayTime = videoPlayer?.getCurrentTime();
+  const currentPlayTime = videoPlayer.current?.getCurrentTime();
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
@@ -92,26 +92,31 @@ const KillingPartTrack = ({
 export default KillingPartTrack;
 
 const Container = styled.label<{ $isPlaying: boolean }>`
+  cursor: pointer;
+
   position: relative;
+
   display: flex;
-  padding: 0 12px;
   align-items: center;
   justify-content: space-between;
+
   width: 100%;
   height: 60px;
+  padding: 0 12px;
+
+  color: ${({ theme: { color } }) => color.white};
+
   background-color: ${({ theme: { color }, $isPlaying }) => {
     return $isPlaying ? color.disabledBackground : color.secondary;
   }};
   border-radius: 4px;
-  color: ${({ theme: { color } }) => color.white};
-  cursor: pointer;
 `;
 
 const Rank = styled.span`
   width: 36px;
-  text-align: center;
   font-size: 16px;
   font-weight: 700;
+  text-align: center;
 `;
 
 const PlayButton = styled.input`
@@ -120,16 +125,17 @@ const PlayButton = styled.input`
 
 const PlayingTime = styled.span`
   width: 120px;
-  text-align: center;
   font-size: 16px;
   font-weight: 700;
+  text-align: center;
 `;
 
 const ButtonWithIcon = css`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2px;
+  align-items: center;
+
   width: 40px;
 `;
 
@@ -154,8 +160,10 @@ const ProgressBar = styled.progress`
   position: absolute;
   bottom: 0;
   left: 0;
+
   width: 100%;
   height: 2px;
+
   appearance: none;
 
   &::-webkit-progress-bar {
@@ -174,6 +182,6 @@ const ButtonContainer = styled.div`
 
 const FLexContainer = styled.div`
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
 `;
