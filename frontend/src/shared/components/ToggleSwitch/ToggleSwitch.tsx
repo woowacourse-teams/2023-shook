@@ -31,7 +31,7 @@ const ToggleSwitch = ({ on, off, defaultToggle = false, id }: ToggleSwitchProps)
 
 export default ToggleSwitch;
 
-export const SwitchWrapper = styled.div`
+export const SwitchWrapper = styled.label`
   position: relative;
   display: inline-block;
   width: 40px;
