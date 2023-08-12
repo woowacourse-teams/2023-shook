@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrackList from './KillingPartTrackList';
@@ -56,6 +57,18 @@ const killingPart3: KillingPart = {
   likeCount: 12,
 };
 
+const KillingPartTrackListWithHooks = () => {
+  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
+
+  return (
+    <KillingPartTrackList
+      killingParts={[killingPart, killingPart2, killingPart3]}
+      nowPlayingTrack={nowPlayingTrack}
+      setNowPlayingTrack={setNowPlayingTrack}
+    />
+  );
+};
+
 export const Default: Story = {
-  render: () => <KillingPartTrackList killingParts={[killingPart, killingPart2, killingPart3]} />,
+  render: () => <KillingPartTrackListWithHooks />,
 };
