@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.LoginResponse;
+import shook.shook.auth.application.dto.TokenInfo;
 import shook.shook.auth.application.dto.TokenReissueResponse;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.member.application.MemberService;
@@ -69,7 +69,7 @@ class AuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final LoginResponse result = authService.login("accessCode");
+        final TokenInfo result = authService.login("accessCode");
 
         //then
         assertThat(result.getAccessToken()).isNotNull();

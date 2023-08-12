@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.LoginResponse;
+import shook.shook.auth.application.dto.TokenInfo;
 import shook.shook.auth.application.dto.TokenReissueResponse;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Email;
@@ -20,7 +20,7 @@ public class AuthService {
     private final GoogleInfoProvider googleInfoProvider;
     private final TokenProvider tokenProvider;
 
-    public LoginResponse login(final String accessCode) {
+    public TokenInfo login(final String accessCode) {
         final GoogleAccessTokenResponse accessTokenResponse =
             googleInfoProvider.getAccessToken(accessCode);
         final GoogleMemberInfoResponse memberInfo = googleInfoProvider
@@ -33,7 +33,7 @@ public class AuthService {
         final long memberId = member.getId();
         final String accessToken = tokenProvider.createAccessToken(memberId);
         final String refreshToken = tokenProvider.createRefreshToken(memberId);
-        return new LoginResponse(accessToken, refreshToken);
+        return new TokenInfo(accessToken, refreshToken);
     }
 
     public TokenReissueResponse reissueToken(final String refreshToken) {

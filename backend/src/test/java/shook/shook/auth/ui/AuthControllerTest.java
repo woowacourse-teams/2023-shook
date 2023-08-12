@@ -5,22 +5,30 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.AuthService;
-import shook.shook.auth.application.dto.LoginResponse;
+import shook.shook.auth.application.TokenProvider;
+import shook.shook.auth.application.dto.TokenInfo;
+import shook.shook.auth.ui.dto.LoginResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class AuthControllerTest {
 
     @LocalServerPort
     public int port;
+
+    @Value("${cookie.valid-time}")
+    private int cookieAge;
 
     @MockBean
     private AuthService authService;
@@ -34,19 +42,27 @@ class AuthControllerTest {
     @Test
     void login_success() {
         //given
-        final LoginResponse response = new LoginResponse(
+        final TokenInfo tokenInfo = new TokenInfo(
             "asdfafdv2",
             "asdfsg5");
 
-        when(authService.login(any(String.class))).thenReturn(response);
+        when(authService.login(any(String.class))).thenReturn(tokenInfo);
 
         //when
-        //then
-        final LoginResponse actualResponse = RestAssured.given().log().all()
+        final ExtractableResponse<Response> response = RestAssured.given().log().all()
             .when().log().all().get("/login/google?code=accessCode")
-            .then().statusCode(HttpStatus.OK.value())
-            .extract().body().as(LoginResponse.class);
+            .then().log().all().statusCode(HttpStatus.OK.value())
+            .extract();
 
-        assertThat(actualResponse).usingRecursiveComparison().isEqualTo(response);
+        //then
+        final LoginResponse expectResponseBody = new LoginResponse(tokenInfo.getAccessToken());
+        final LoginResponse responseBody = response.body().as(LoginResponse.class);
+        final String cookie = response.header("Set-Cookie");
+
+        assertThat(responseBody.getAccessToken()).isEqualTo(expectResponseBody.getAccessToken());
+        assertThat(cookie.contains("refreshToken=asdfsg5")).isTrue();
+        assertThat(cookie.contains("Max-Age="+cookieAge)).isTrue();
+        assertThat(cookie.contains("Path=/token")).isTrue();
+        assertThat(cookie.contains("HttpOnly")).isTrue();
     }
 }
