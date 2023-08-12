@@ -79,10 +79,8 @@ export const Container = styled.div`
   flex-direction: column;
 
   width: 100%;
-  max-width: 800px;
   height: 60svh;
   max-height: 60svh;
-  padding: 16px;
 
   color: ${({ theme: { color } }) => color.white};
 
