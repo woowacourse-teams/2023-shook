@@ -38,12 +38,12 @@ const killingPart: KillingPart = {
 const KillingPartTrackWithHook = () => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
 
-  const isPlaying = killingPart.rank === nowPlayingTrack;
+  const isNowPlayingTrack = killingPart.rank === nowPlayingTrack;
 
   return (
     <KillingPartTrack
       killingPart={killingPart}
-      isPlaying={isPlaying}
+      isNowPlayingTrack={isNowPlayingTrack}
       setNowPlayingTrack={setNowPlayingTrack}
     />
   );
