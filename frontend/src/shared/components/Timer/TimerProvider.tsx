@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 interface TimerContextProps {
   countTime: number;
   startTimer: () => void;
-  togglePauseAndResume: () => void;
+  toggleTimerPauseAndResume: () => void;
   toggleAutoRestart: () => void;
 }
 
@@ -53,15 +53,15 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
     updateIntervalRef();
   }, [isStart, resetTimer, updateIntervalRef]);
 
-  const togglePauseAndResume = () => {
-    if (countTime !== 0) {
-      if (isPause) {
-        updateIntervalRef();
-        setIsPause(false);
-      } else {
-        clearIntervalRef();
-        setIsPause(true);
-      }
+  const toggleTimerPauseAndResume = () => {
+    if (countTime === 0) return;
+
+    if (isPause) {
+      updateIntervalRef();
+      setIsPause(false);
+    } else {
+      clearIntervalRef();
+      setIsPause(true);
     }
   };
 
@@ -69,6 +69,7 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
 
   useEffect(() => {
     if (countTime <= initialTime) return;
+
     clearIntervalRef();
     setIsStart(false);
 
@@ -84,7 +85,7 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
 
   return (
     <TimerContext.Provider
-      value={{ countTime, startTimer, toggleAutoRestart, togglePauseAndResume }}
+      value={{ countTime, startTimer, toggleAutoRestart, toggleTimerPauseAndResume }}
     >
       {children}
     </TimerContext.Provider>
