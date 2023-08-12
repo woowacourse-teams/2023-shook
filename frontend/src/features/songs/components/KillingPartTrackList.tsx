@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
@@ -15,14 +16,20 @@ const KillingPartTrackList = ({
 }: KillingPartTrackListProps) => {
   return (
     <TrackList>
-      {killingParts.map((killingPart) => (
-        <KillingPartTrack
-          key={killingPart.id}
-          killingPart={killingPart}
-          isPlaying={killingPart.rank === nowPlayingTrack}
-          setNowPlayingTrack={setNowPlayingTrack}
-        />
-      ))}
+      {killingParts.map((killingPart) => {
+        const { id, start, end } = killingPart;
+        const isNowPlayingTrack = id === nowPlayingTrack;
+
+        return (
+          <TimerProvider time={end - start} key={id}>
+            <KillingPartTrack
+              killingPart={killingPart}
+              isNowPlayingTrack={isNowPlayingTrack}
+              setNowPlayingTrack={setNowPlayingTrack}
+            />
+          </TimerProvider>
+        );
+      })}
     </TrackList>
   );
 };

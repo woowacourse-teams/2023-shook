@@ -13,23 +13,23 @@ import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
-  isPlaying: boolean;
+  isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
   killingPart: { id: partId, rank, start, end, likeCount, partVideoUrl },
-  isPlaying,
+  isNowPlayingTrack,
   setNowPlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
-  const { currentPlayTime, play } = useVideoPlayerContext();
+  const { videoPlayer, play, togglePlayerPauseAndResume } = useVideoPlayerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
 
-  const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;
+  const playIcon = isNowPlayingTrack ? fillPlayIcon : emptyPlayIcon;
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
@@ -41,9 +41,15 @@ const KillingPartTrack = ({
     play(start);
   };
 
+  const togglePauseAndResume = () => {
+    if (!isNowPlayingTrack) return;
+
+    togglePlayerPauseAndResume();
+  };
+
   return (
     <Container
-      $isPlaying={isPlaying}
+      $isNowPlayingTrack={isNowPlayingTrack}
       htmlFor={`play-${rank}`}
       tabIndex={0}
       aria-label={`${rank}등 킬링파트 재생하기`}
@@ -55,7 +61,8 @@ const KillingPartTrack = ({
           name="track"
           type="radio"
           onChange={changePlayingTrack}
-          checked={isPlaying}
+          onClick={togglePauseAndResume}
+          checked={isNowPlayingTrack}
         />
         <ButtonIcon src={playIcon} alt="" />
         <PlayingTime>{playingTime}</PlayingTime>
@@ -73,14 +80,14 @@ const KillingPartTrack = ({
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
       </ButtonContainer>
-      {isPlaying && <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />}
+      {isNowPlayingTrack && <ProgressBar value={1} max={partLength} aria-hidden="true" />}
     </Container>
   );
 };
 
 export default KillingPartTrack;
 
-const Container = styled.label<{ $isPlaying: boolean }>`
+const Container = styled.label<{ $isNowPlayingTrack: boolean }>`
   cursor: pointer;
 
   position: relative;
@@ -95,8 +102,8 @@ const Container = styled.label<{ $isPlaying: boolean }>`
 
   color: ${({ theme: { color } }) => color.white};
 
-  background-color: ${({ theme: { color }, $isPlaying }) => {
-    return $isPlaying ? color.disabledBackground : color.secondary;
+  background-color: ${({ theme: { color }, $isNowPlayingTrack }) => {
+    return $isNowPlayingTrack ? color.disabledBackground : color.secondary;
   }};
   border-radius: 4px;
 `;
