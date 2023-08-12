@@ -3,23 +3,27 @@ package shook.shook.song.domain.killingpart;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
+import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
+import shook.shook.song.exception.killingpart.KillingPartException;
 
 class KillingPartTest {
 
-    private final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
+    private static final Song EMPTY_SONG = null;
 
-    @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
+    @DisplayName("Id가 같은 킬링파트는 동등성 비교에 참을 반환한다.")
     @Test
     void equals_true() {
         //given
-        final KillingPart firstPart = KillingPart.saved(1L, 4, PartLength.SHORT, song);
-        final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, song);
+        final KillingPart firstPart = KillingPart.saved(1L, 4, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, EMPTY_SONG);
 
         //when
         final boolean equals = firstPart.equals(secondPart);
@@ -36,8 +40,8 @@ class KillingPartTest {
         @Test
         void equals_false_nullId() {
             //given
-            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, song);
-            final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, song);
+            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, EMPTY_SONG);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -50,8 +54,9 @@ class KillingPartTest {
         @Test
         void equals_false_bothNullId() {
             //given
-            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, song);
-            final KillingPart secondPart = KillingPart.saved(null, 14, PartLength.SHORT, song);
+            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(null, 14, PartLength.SHORT,
+                EMPTY_SONG);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -61,12 +66,11 @@ class KillingPartTest {
         }
     }
 
-    @DisplayName("파트의 시작과 끝을 담은 URL Path parameter를 반환한다.")
+    @DisplayName("킬링파트의 시작과 끝을 담은 URL Path parameter를 반환한다.")
     @Test
-    void exist() {
+    void getStartAndEndUrlPathParameterOfKillingPart() {
         //given
-        final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
-        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, song);
+        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
 
         //when
         final String startAndEndUrlPathParameter = killingPart.getStartAndEndUrlPathParameter();
@@ -78,37 +82,69 @@ class KillingPartTest {
         assertThat(startAndEndUrlPathParameter).isEqualTo(playDuration);
     }
 
-    @DisplayName("파트에 댓글을 추가한다.")
+    @DisplayName("킬링파트에 댓글을 추가한다.")
     @Nested
     class AddComment {
 
-        @DisplayName("성공적으로 추가한 경우")
+        @DisplayName("성공적으로 추가된다.")
         @Test
         void success() {
             //given
-            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
-            final KillingPart part = KillingPart.saved(1L, 5, PartLength.SHORT, song);
+            final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
 
             //when
-            part.addComment(KillingPartComment.saved(1L, part, "댓글 내용"));
+            killingPart.addComment(KillingPartComment.saved(1L, killingPart, "댓글 내용"));
 
             //then
-            assertThat(part.getComments()).hasSize(1);
+            assertThat(killingPart.getComments()).hasSize(1);
         }
 
-        @DisplayName("다른 파트의 댓글을 추가한 경우")
+        @DisplayName("다른 킬링파트의 댓글을 추가한 경우 예외가 발생한다.")
         @Test
         void belongToOtherPart() {
             //given
-            final Song song = new Song("제목", "비디오URL", "이미지URL", "가수", 30);
-            final KillingPart firstPart = KillingPart.saved(1L, 5, PartLength.SHORT, song);
-            final KillingPart secondPart = KillingPart.saved(2L, 5, PartLength.SHORT, song);
+            final KillingPart firstPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(2L, 5, PartLength.SHORT, EMPTY_SONG);
 
             //when
             //then
             assertThatThrownBy(
                 () -> firstPart.addComment(KillingPartComment.saved(2L, secondPart, "댓글 내용")))
                 .isInstanceOf(KillingPartCommentException.CommentForOtherPartException.class);
+        }
+    }
+
+    @DisplayName("킬링파트에 노래를 설정한다.")
+    @Nested
+    class SetSong {
+
+        @DisplayName("설정할 노래가 비어있다면 예외가 발생한다.")
+        @Test
+        void setSong_emptySong_fail() {
+            // given
+            final KillingPart killingPart = KillingPart.forSave(0, PartLength.STANDARD);
+
+            // when, then
+            assertThatThrownBy(() -> killingPart.setSong(EMPTY_SONG))
+                .isInstanceOf(SongException.SongNotExistException.class);
+        }
+
+        @DisplayName("킬링파트에 설정하려는 노래가 이미 3개의 킬링파트를 가지고 있다면 예외가 발생한다.")
+        @Test
+        void setSong_alreadyRegisteredToSong_fail() {
+            // given
+            final KillingPart dummyKillingPart1 = KillingPart.forSave(0, PartLength.STANDARD);
+            final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
+            final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
+            final Song song = new Song("title", "videoUrl", "imageUrl", "singer", 10,
+                new KillingParts(List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
+            );
+
+            final KillingPart killingPart = KillingPart.forSave(0, PartLength.STANDARD);
+
+            // when, then
+            assertThatThrownBy(() -> killingPart.setSong(song))
+                .isInstanceOf(KillingPartException.SongMaxKillingPartExceededException.class);
         }
     }
 }

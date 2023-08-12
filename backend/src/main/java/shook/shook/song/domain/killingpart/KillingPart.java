@@ -23,7 +23,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
+import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
+import shook.shook.song.exception.killingpart.KillingPartException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -73,6 +75,10 @@ public class KillingPart {
         this.song = song;
     }
 
+    private KillingPart(final int startSecond, final PartLength length) {
+        this(null, startSecond, length, null);
+    }
+
     public static KillingPart saved(
         final Long id,
         final int startSecond,
@@ -82,16 +88,13 @@ public class KillingPart {
         return new KillingPart(id, startSecond, length, song);
     }
 
-    public static KillingPart forSave(
-        final int startSecond,
-        final PartLength length,
-        final Song song
+    public static KillingPart forSave(final int startSecond, final PartLength length
     ) {
-        return new KillingPart(null, startSecond, length, song);
+        return new KillingPart(startSecond, length);
     }
 
     public void addComment(final KillingPartComment comment) {
-        if (comment.isBelongToOtherPart(this)) {
+        if (comment.isBelongToOtherKillingPart(this)) {
             throw new KillingPartCommentException.CommentForOtherPartException();
         }
         comments.addComment(comment);
@@ -111,6 +114,19 @@ public class KillingPart {
 
     public List<KillingPartComment> getCommentsInRecentOrder() {
         return comments.getCommentsInRecentOrder();
+    }
+
+    public void setSong(final Song song) {
+        if (Objects.nonNull(this.song)) {
+            throw new KillingPartException.SongNotUpdatableException();
+        }
+        if (Objects.isNull(song)) {
+            throw new SongException.SongNotExistException();
+        }
+        if (song.hasFullKillingParts()) {
+            throw new KillingPartException.SongMaxKillingPartExceededException();
+        }
+        this.song = song;
     }
 
     @Override

@@ -63,8 +63,8 @@ public class KillingPartComment {
         return new KillingPartComment(null, part, content);
     }
 
-    public boolean isBelongToOtherPart(final KillingPart part) {
-        return !this.killingPart.equals(part);
+    public boolean isBelongToOtherKillingPart(final KillingPart killingPart) {
+        return !this.killingPart.equals(killingPart);
     }
 
     public String getContent() {
@@ -79,11 +79,11 @@ public class KillingPartComment {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final KillingPartComment partComment = (KillingPartComment) o;
-        if (Objects.isNull(partComment.id) || Objects.isNull(this.id)) {
+        final KillingPartComment killingPartComment = (KillingPartComment) o;
+        if (Objects.isNull(killingPartComment.id) || Objects.isNull(this.id)) {
             return false;
         }
-        return Objects.equals(id, partComment.id);
+        return Objects.equals(id, killingPartComment.id);
     }
 
     @Override

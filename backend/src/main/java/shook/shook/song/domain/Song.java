@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.exception.killingpart.KillingPartsException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -53,19 +54,24 @@ public class Song {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    public Song(
+    private Song(
+        final Long id,
         final String title,
         final String videoUrl,
         final String imageUrl,
         final String singer,
-        final int length
+        final int length,
+        final KillingParts killingParts
     ) {
-        this.id = null;
+        validate(killingParts);
+        this.id = id;
         this.title = new SongTitle(title);
         this.videoUrl = new SongVideoUrl(videoUrl);
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
+        killingParts.setSong(this);
+        this.killingParts = killingParts;
     }
 
     public Song(
@@ -76,12 +82,17 @@ public class Song {
         final int length,
         final KillingParts killingParts
     ) {
-        this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
-        this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
-        this.singer = new Singer(singer);
-        this.length = new SongLength(length);
-        this.killingParts = killingParts;
+        this(null, title, videoUrl, albumCoverUrl, singer, length, killingParts);
+    }
+
+    private void validate(final KillingParts killingParts) {
+        if (Objects.isNull(killingParts)) {
+            throw new KillingPartsException.EmptyKillingPartException();
+        }
+    }
+
+    public boolean hasFullKillingParts() {
+        return killingParts.isFull();
     }
 
     public String getPartVideoUrl(final KillingPart part) {
