@@ -16,11 +16,12 @@ interface Comment {
 }
 
 interface CommentListProps {
-  songId: string;
+  songId: number;
   partId: number;
 }
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
+  const { showToast } = useToastContext();
   const [newComment, setNewComment] = useState('');
 
   const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
@@ -30,7 +31,6 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
   const { mutateData } = useMutation(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
   );
-  const { showToast } = useToastContext();
 
   const resetNewComment = () => setNewComment('');
 
@@ -52,15 +52,11 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
     getComment();
   }, [partId]);
 
-  if (!comments) {
-    return null;
-  }
-
   return (
     <>
       <Spacing direction="vertical" size={24} />
       <SRHeading as="h3">댓글 목록</SRHeading>
-      <p>댓글 {comments.length}개</p>
+      <p>댓글 {comments?.length ?? 0}개</p>
       <Spacing direction="vertical" size={24} />
       <form onSubmit={submitNewComment}>
         <Flex>
@@ -86,7 +82,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
       </form>
       <Spacing direction="vertical" size={20} />
       <Comments>
-        {comments.map(({ id, content, createdAt }) => (
+        {comments?.map(({ id, content, createdAt }) => (
           <Comment key={id} content={content} createdAt={createdAt} />
         ))}
       </Comments>
