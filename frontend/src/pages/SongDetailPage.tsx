@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
-import { KillingPartInterfaceProvider } from '@/features/songs/components/KillingPartInterfaceProvider';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
@@ -65,9 +64,7 @@ const SongDetailPage = () => {
       <VideoPlayerProvider>
         <Youtube videoId={videoId} />
         <Spacing direction="vertical" size={16} />
-        <KillingPartInterfaceProvider songId={songId}>
-          <KillingPartInterface killingParts={killingParts} />
-        </KillingPartInterfaceProvider>
+        <KillingPartInterface killingParts={killingParts} songId={songId} />
       </VideoPlayerProvider>
     </Wrapper>
   );
