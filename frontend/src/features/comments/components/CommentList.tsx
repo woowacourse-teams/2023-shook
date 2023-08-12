@@ -184,20 +184,23 @@ const Submit = styled.button`
 `;
 
 const Comments = styled.ol`
-  gap: 10px;
   overflow-y: auto;
+  gap: 10px;
+
   max-height: calc (100vh - 100px);
   margin-bottom: 100px;
   padding: 0 16px;
 `;
 
 const CommentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
   background-color: ${({ theme }) => theme.color.secondary};
   border-radius: 4px;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const CommentTitle = styled.p`
@@ -206,13 +209,14 @@ const CommentTitle = styled.p`
 
 const CommentForm = styled.form`
   position: fixed;
-
-  bottom: 0;
   z-index: 1;
-  border-top: 1px solid ${({ theme }) => theme.color.white};
-  padding: 16px;
+  bottom: 0;
+
   width: 100%;
+  padding: 16px;
+
   background-color: ${({ theme }) => theme.color.black};
+  border-top: 1px solid ${({ theme }) => theme.color.white};
 `;
 
 const CommentsTitle = styled.p`
@@ -220,8 +224,8 @@ const CommentsTitle = styled.p`
 `;
 
 const CloseImg = styled.img`
+  position: fixed;
+  right: 16px;
   width: 24px;
   height: 24px;
-  right: 16px;
-  position: fixed;
 `;

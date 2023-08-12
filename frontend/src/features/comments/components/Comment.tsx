@@ -38,7 +38,6 @@ export default Comment;
 
 const Wrapper = styled.li`
   width: 100%;
-
   list-style: none;
 `;
 
@@ -75,6 +74,7 @@ const RelativeTime = styled.span`
 const Content = styled.div`
   overflow: hidden;
   display: -webkit-box;
+
   margin-right: 16px;
 
   font-size: 14px;
