@@ -5,6 +5,7 @@ interface VideoPlayerContextProps {
   videoPlayer: React.MutableRefObject<YT.Player | undefined>;
   play: (start: number) => void;
   pause: () => void;
+  currentPlayTime: number;
 }
 
 export const VideoPlayerContext = createContext<VideoPlayerContextProps | null>(null);
@@ -28,8 +29,10 @@ export const VideoPlayerProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const currentPlayTime = videoPlayer.current?.getCurrentTime() ?? 0;
+
   return (
-    <VideoPlayerContext.Provider value={{ videoPlayer, play, pause }}>
+    <VideoPlayerContext.Provider value={{ videoPlayer, play, pause, currentPlayTime }}>
       {children}
     </VideoPlayerContext.Provider>
   );

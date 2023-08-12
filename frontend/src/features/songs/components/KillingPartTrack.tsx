@@ -23,21 +23,20 @@ const KillingPartTrack = ({
   setNowPlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
-  const { videoPlayer, play } = useVideoPlayerContext();
+  const { currentPlayTime, play } = useVideoPlayerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
 
   const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;
-  const currentPlayTime = videoPlayer.current?.getCurrentTime();
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
     showToast('영상 링크가 복사되었습니다.');
   };
 
-  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = () => {
+  const changePlayingTrack = () => {
     setNowPlayingTrack(partId);
     play(start);
   };
