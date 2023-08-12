@@ -1,19 +1,18 @@
-import { useState } from 'react';
 import { styled } from 'styled-components';
-import KILLING_PART_RANK from '../constants/killingPartRank';
 import KillingPartTrack from './KillingPartTrack';
-import type { KillingPartRank } from '../types/KillingPartRank.type';
-import type { SongDetail } from '@/shared/types/song';
+import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartTrackListProps {
   killingParts: SongDetail['killingParts'];
+  nowPlayingTrack: KillingPart['id'];
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
-const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPartRank>(
-    KILLING_PART_RANK.DEFAULT
-  );
-
+const KillingPartTrackList = ({
+  killingParts,
+  nowPlayingTrack,
+  setNowPlayingTrack,
+}: KillingPartTrackListProps) => {
   return (
     <TrackList>
       {killingParts.map((killingPart) => (

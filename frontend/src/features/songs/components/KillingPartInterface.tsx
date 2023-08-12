@@ -3,16 +3,19 @@ import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import Spacing from '@/shared/components/Spacing';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
-import useKillingPartInterfaceContext from '../hooks/KillingPartInterfaceContext';
 import KillingPartTrackList from './KillingPartTrackList';
-import type { SongDetail } from '@/shared/types/song';
+import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartInterfaceProps {
   killingParts: SongDetail['killingParts'];
+  songId: number;
 }
 
-const KillingPartInterface = ({ killingParts }: KillingPartInterfaceProps) => {
-  const { nowPlayingTrack, songId } = useKillingPartInterfaceContext();
+const DEFAULT_PART_ID = -1;
+
+const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProps) => {
+  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
+
   const [isRepeat, setIsRepeat] = useState(false);
 
   const toggleRepetition = () => {
@@ -39,7 +42,11 @@ const KillingPartInterface = ({ killingParts }: KillingPartInterfaceProps) => {
         </SwitchWrapper>
       </FlexContainer>
       <Spacing direction="vertical" size={16} />
-      <KillingPartTrackList killingParts={killingParts} />
+      <KillingPartTrackList
+        killingParts={killingParts}
+        nowPlayingTrack={nowPlayingTrack}
+        setNowPlayingTrack={setNowPlayingTrack}
+      />
       {killingPart && <CommentList songId={songId} partId={killingPart?.id} />}
     </>
   );

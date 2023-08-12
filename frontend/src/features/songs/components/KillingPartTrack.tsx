@@ -8,18 +8,17 @@ import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
-import type { KillingPartRank } from '../types/KillingPartRank.type';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
   isPlaying: boolean;
-  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPartRank>>;
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
-  killingPart: { rank, start, end, likeCount, partVideoUrl },
+  killingPart: { id: partId, rank, start, end, likeCount, partVideoUrl },
   isPlaying,
   setNowPlayingTrack,
 }: KillingPartTrackProps) => {
@@ -38,10 +37,8 @@ const KillingPartTrack = ({
     showToast('영상 링크가 복사되었습니다.');
   };
 
-  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    const newTrack = Number(currentTarget.value) as KillingPartRank;
-
-    setNowPlayingTrack(newTrack);
+  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = () => {
+    setNowPlayingTrack(partId);
     play(start);
   };
 
@@ -58,7 +55,6 @@ const KillingPartTrack = ({
           id={`play-${rank}`}
           name="track"
           type="radio"
-          value={rank}
           onChange={changePlayingTrack}
           checked={isPlaying}
         />
