@@ -1,6 +1,7 @@
 package shook.shook.voting_song.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
@@ -14,8 +15,10 @@ import shook.shook.song.domain.SongTitle;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.application.dto.VotingSongRegisterRequest;
 import shook.shook.voting_song.application.dto.VotingSongResponse;
+import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
 import shook.shook.voting_song.domain.VotingSong;
 import shook.shook.voting_song.domain.repository.VotingSongRepository;
+import shook.shook.voting_song.exception.VotingSongException;
 
 class VotingSongServiceTest extends UsingJpaTest {
 
@@ -95,6 +98,72 @@ class VotingSongServiceTest extends UsingJpaTest {
 
             // then
             assertThat(votingSongs).isEmpty();
+        }
+    }
+
+    @DisplayName("파트 수집 중인 노래 id를 조회할 때 이전, 이후 파트를 함께 조회한다.")
+    @Nested
+    class findByPartForSwipe {
+
+        @DisplayName("정상적으로 조회가 수행된다.")
+        @Test
+        void success() {
+            // given
+            final VotingSong firstSong = votingSongRepository.save(
+                new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong secondSong = votingSongRepository.save(
+                new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong standardSong = votingSongRepository.save(
+                new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong fourthSong = votingSongRepository.save(
+                new VotingSong("제목4", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong fifthSong = votingSongRepository.save(
+                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong sixthSong = votingSongRepository.save(
+                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+            );
+
+            // when
+            final VotingSongSwipeResponse swipeResponse =
+                votingSongService.findByIdForSwipe(standardSong.getId());
+
+            // then
+            final VotingSongResponse expectedCurrent = VotingSongResponse.from(standardSong);
+
+            final List<VotingSongResponse> expectedBefore = Stream.of(firstSong, secondSong)
+                .map(VotingSongResponse::from)
+                .toList();
+
+            final List<VotingSongResponse> expectedAfter =
+                Stream.of(fourthSong, fifthSong, sixthSong)
+                    .map(VotingSongResponse::from)
+                    .toList();
+
+            assertAll(
+                () -> assertThat(swipeResponse.getBeforeSongs()).usingRecursiveComparison()
+                    .isEqualTo(expectedBefore),
+                () -> assertThat(swipeResponse.getAfterSongs()).usingRecursiveComparison()
+                    .isEqualTo(expectedAfter),
+                () -> assertThat(swipeResponse.getCurrentSong()).usingRecursiveComparison()
+                    .isEqualTo(expectedCurrent)
+            );
+        }
+
+        @DisplayName("조회한 파트 수집 중인 노래가 존재하지 않는 경우 예외가 발생한다.")
+        @Test
+        void notExistVotingSong() {
+            // given
+            final Long notExistId = 1L;
+
+            // when
+            // then
+            assertThatThrownBy(() -> votingSongService.findByIdForSwipe(notExistId))
+                .isInstanceOf(VotingSongException.VotingSongNotExistException.class);
         }
     }
 }
