@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
-import cancleIcon from '@/assets/icon/cancle.svg';
+import { styled, css } from 'styled-components';
+import cancelIcon from '@/assets/icon/cancel.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
 import useModal from '@/shared/components/Modal/hooks/useModal';
@@ -11,7 +11,6 @@ import useFetch from '@/shared/hooks/useFetch';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 import Comment from './Comment';
-import type React from 'react';
 
 interface Comment {
   id: number;
@@ -78,7 +77,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
         <Spacing direction="vertical" size={16} />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <CommentsTitle>댓글 {comments.length}개</CommentsTitle>
-          <CloseImg src={cancleIcon} onClick={closeModal} />
+          <CloseImg src={cancelIcon} onClick={closeModal} />
         </div>
         <Spacing direction="vertical" size={20} />
         <Comments>
@@ -185,10 +184,11 @@ const Submit = styled.button`
 
 const Comments = styled.ol`
   overflow-y: auto;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 
-  max-height: calc (100vh - 100px);
-  margin-bottom: 100px;
+  margin-bottom: 120px;
   padding: 0 16px;
 `;
 
