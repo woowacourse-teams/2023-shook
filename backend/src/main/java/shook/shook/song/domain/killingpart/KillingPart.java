@@ -160,6 +160,10 @@ public class KillingPart {
         return new ArrayList<>(killingPartLikes.getLikes());
     }
 
+    public int getLength() {
+        return length.getValue();
+    }
+
     public int getLikeCount() {
         return likeCount;
     }

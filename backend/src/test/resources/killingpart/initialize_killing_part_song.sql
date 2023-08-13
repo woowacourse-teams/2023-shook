@@ -66,4 +66,8 @@ INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (15, 'LONG', 1, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (20, 'STANDARD', 1, 0, now());
 
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (10, 'SHORT', 2, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (15, 'LONG', 2, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (20, 'STANDARD', 2, 0, now());
+
 INSERT INTO member (email, nickname) VALUES ('email@naver.com', 'nickname');
