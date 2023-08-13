@@ -10,17 +10,21 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer } = useVideoPlayerContext();
+  const { videoPlayer, updatePlayerState } = useVideoPlayerContext();
 
   const createYoutubePlayer = useCallback(async () => {
     try {
       const YT = await loadIFrameApi();
 
-      videoPlayer.current = new YT.Player('yt-player', {
+      new YT.Player('yt-player', {
         videoId,
         width: '100%',
         height: '100%',
         playerVars: { start },
+        events: {
+          onReady: ({ target: player }) => (videoPlayer.current = player),
+          onStateChange: updatePlayerState,
+        },
       });
     } catch (error) {
       console.error(error);
