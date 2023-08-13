@@ -1,9 +1,11 @@
+import { useCallback, useEffect } from 'react';
 import { css, styled } from 'styled-components';
 import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -23,29 +25,57 @@ const KillingPartTrack = ({
   setNowPlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
-  const { videoPlayer, play, togglePlayerPauseAndResume } = useVideoPlayerContext();
+  const { seekTo, pause, playerState } = useVideoPlayerContext();
+  const { countedTime: currentTime, startTimer, resetTimer } = useTimerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
-
-  const playIcon = isNowPlayingTrack ? fillPlayIcon : emptyPlayIcon;
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
     showToast('영상 링크가 복사되었습니다.');
   };
 
-  const changePlayingTrack = () => {
+  const getPlayIcon = useCallback(() => {
+    if (!isNowPlayingTrack || playerState === 2) {
+      return emptyPlayIcon;
+    }
+
+    if (playerState === undefined || playerState === -1 || playerState === 1 || playerState === 3) {
+      return fillPlayIcon;
+    }
+  }, [playerState, isNowPlayingTrack]);
+
+  const playTrack = () => {
+    seekTo(start);
     setNowPlayingTrack(partId);
-    play(start);
   };
 
-  const togglePauseAndResume = () => {
-    if (!isNowPlayingTrack) return;
-
-    togglePlayerPauseAndResume();
+  const stopTrack = () => {
+    pause();
+    setNowPlayingTrack(-1);
   };
+
+  const toggleTrackPlayAndStop = () => {
+    if (isNowPlayingTrack) {
+      stopTrack();
+    } else {
+      playTrack();
+    }
+  };
+
+  useEffect(() => {
+    if (!isNowPlayingTrack || playerState === 2 || playerState === 3) {
+      resetTimer();
+      return;
+    }
+
+    if (playerState === 1) {
+      startTimer();
+      return;
+    }
+  }, [isNowPlayingTrack, playerState, resetTimer, startTimer]);
 
   return (
     <Container
@@ -60,11 +90,11 @@ const KillingPartTrack = ({
           id={`play-${rank}`}
           name="track"
           type="radio"
-          onChange={changePlayingTrack}
-          onClick={togglePauseAndResume}
+          onChange={toggleTrackPlayAndStop}
+          onClick={toggleTrackPlayAndStop}
           checked={isNowPlayingTrack}
         />
-        <ButtonIcon src={playIcon} alt="" />
+        <ButtonIcon src={getPlayIcon()} alt="" />
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
@@ -80,7 +110,7 @@ const KillingPartTrack = ({
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
       </ButtonContainer>
-      {isNowPlayingTrack && <ProgressBar value={1} max={partLength} aria-hidden="true" />}
+      {isNowPlayingTrack && <ProgressBar value={currentTime} max={partLength} aria-hidden="true" />}
     </Container>
   );
 };
@@ -168,6 +198,7 @@ const ProgressBar = styled.progress`
 
   &::-webkit-progress-value {
     background-color: #ff137f;
+    transition: all 0.1s ease;
   }
 `;
 

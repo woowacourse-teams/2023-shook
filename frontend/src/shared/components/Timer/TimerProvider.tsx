@@ -2,9 +2,9 @@ import { createContext, useCallback, useEffect, useRef, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 
 interface TimerContextProps {
-  countTime: number;
+  countedTime: number;
   startTimer: () => void;
-  toggleTimerPauseAndResume: () => void;
+  resetTimer: () => void;
   toggleAutoRestart: () => void;
 }
 
@@ -15,16 +15,15 @@ interface TimerProviderProps {
 }
 
 export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProviderProps>) => {
-  const [initialTime, setInitialTime] = useState(time);
-  const [countTime, setCountTime] = useState(0);
+  const [countedTime, setCountedTime] = useState(0);
   const [isStart, setIsStart] = useState(false);
-  const [isPause, setIsPause] = useState(false);
   const [autoRestart, setAutoRestart] = useState(false);
 
+  const initialTimeRef = useRef(time);
   const intervalRef = useRef<number | null>(null);
 
   const count = useCallback(() => {
-    setCountTime((prev) => prev + 0.1);
+    setCountedTime((prev) => prev + 0.1);
   }, []);
 
   const updateIntervalRef = useCallback(() => {
@@ -40,42 +39,27 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
 
   const resetTimer = useCallback(() => {
     clearIntervalRef();
-    setCountTime(0);
-    setIsPause(false);
+    setCountedTime(0);
     setIsStart(false);
   }, []);
 
   const startTimer = useCallback(() => {
-    if (isStart) return;
-
     resetTimer();
-    setIsStart(true);
     updateIntervalRef();
-  }, [isStart, resetTimer, updateIntervalRef]);
-
-  const toggleTimerPauseAndResume = () => {
-    if (countTime === 0) return;
-
-    if (isPause) {
-      updateIntervalRef();
-      setIsPause(false);
-    } else {
-      clearIntervalRef();
-      setIsPause(true);
-    }
-  };
+    setIsStart(true);
+  }, [resetTimer, updateIntervalRef]);
 
   const toggleAutoRestart = () => setAutoRestart((prev) => !prev);
 
+  // 타이머 리셋 Effect
   useEffect(() => {
-    if (countTime <= initialTime) return;
-
-    clearIntervalRef();
-    setIsStart(false);
+    if (countedTime < initialTimeRef.current) return;
+    resetTimer();
 
     return () => clearIntervalRef();
-  }, [countTime, initialTime, resetTimer]);
+  }, [countedTime, resetTimer]);
 
+  // 타이머 자동 재시작 Effect
   useEffect(() => {
     if (isStart || !autoRestart) return;
     startTimer();
@@ -85,7 +69,12 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
 
   return (
     <TimerContext.Provider
-      value={{ countTime, startTimer, toggleAutoRestart, toggleTimerPauseAndResume }}
+      value={{
+        countedTime,
+        startTimer,
+        resetTimer,
+        toggleAutoRestart,
+      }}
     >
       {children}
     </TimerContext.Provider>
