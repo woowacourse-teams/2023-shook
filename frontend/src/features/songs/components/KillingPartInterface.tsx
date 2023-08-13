@@ -23,8 +23,6 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
     setIsRepeat(!isRepeat);
   };
 
-  const killingPart = killingParts.find((part) => part.rank === nowPlayingTrack);
-
   useEffect(() => {
     if (document.activeElement === videoPlayer.current?.getIframe()) {
       setNowPlayingTrack(-1);
@@ -54,7 +52,9 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
         nowPlayingTrack={nowPlayingTrack}
         setNowPlayingTrack={setNowPlayingTrack}
       />
-      {killingPart && <CommentList songId={songId} partId={killingPart?.id} />}
+      {nowPlayingTrack !== DEFAULT_PART_ID && (
+        <CommentList songId={songId} partId={nowPlayingTrack} />
+      )}
     </>
   );
 };
