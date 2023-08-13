@@ -25,22 +25,22 @@ import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class KillingPartCommentControllerTest {
 
-    @LocalServerPort
-    public int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
     private static final long SAVED_KILLING_PART_ID = 1L;
     private static final long SAVED_SONG_ID = 1L;
+
+    @LocalServerPort
+    public int port;
 
     @Autowired
     private KillingPartRepository killingPartRepository;
 
     @Autowired
     private KillingPartCommentRepository killingPartCommentRepository;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
 
     @DisplayName("킬링파트에 댓글 등록시 상태코드 201를 반환한다.")
     @Test

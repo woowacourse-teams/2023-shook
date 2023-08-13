@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
-public class KillingPartCommentRegisterRequest {
+public class KillingPartLikeRequest {
 
     @NotNull
-    private String content;
+    private Long memberId;
+
 }

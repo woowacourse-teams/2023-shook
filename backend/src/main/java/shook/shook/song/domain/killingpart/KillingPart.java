@@ -16,16 +16,20 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
+import shook.shook.song.exception.killingpart.KillingPartLikeException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -55,6 +59,12 @@ public class KillingPart {
     @Embedded
     private final KillingPartComments comments = new KillingPartComments();
 
+    @Embedded
+    private KillingPartLikes killingPartLikes = new KillingPartLikes();
+
+    @Column(nullable = false)
+    private int likeCount = 0;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -67,16 +77,18 @@ public class KillingPart {
         final Long id,
         final int startSecond,
         final PartLength length,
-        final Song song
+        final Song song,
+        final int likeCount
     ) {
         this.id = id;
         this.startSecond = startSecond;
         this.length = length;
         this.song = song;
+        this.likeCount = likeCount;
     }
 
     private KillingPart(final int startSecond, final PartLength length) {
-        this(null, startSecond, length, null);
+        this(null, startSecond, length, null, 0);
     }
 
     public static KillingPart saved(
@@ -85,11 +97,10 @@ public class KillingPart {
         final PartLength length,
         final Song song
     ) {
-        return new KillingPart(id, startSecond, length, song);
+        return new KillingPart(id, startSecond, length, song, 0);
     }
 
-    public static KillingPart forSave(final int startSecond, final PartLength length
-    ) {
+    public static KillingPart forSave(final int startSecond, final PartLength length) {
         return new KillingPart(startSecond, length);
     }
 
@@ -98,6 +109,35 @@ public class KillingPart {
             throw new KillingPartCommentException.CommentForOtherPartException();
         }
         comments.addComment(comment);
+    }
+
+    public void like(final KillingPartLike likeToAdd) {
+        validateLikeUpdate(likeToAdd);
+        final boolean isLikeCreated = killingPartLikes.addLike(likeToAdd);
+        if (isLikeCreated) {
+            this.likeCount++;
+        }
+    }
+
+    private void validateLikeUpdate(final KillingPartLike like) {
+        if (Objects.isNull(like)) {
+            throw new KillingPartLikeException.EmptyLikeException();
+        }
+        if (like.doesNotBelongsToKillingPart(this)) {
+            throw new KillingPartLikeException.LikeForOtherKillingPartException();
+        }
+    }
+
+    public void unlike(final KillingPartLike likeToDelete) {
+        validateLikeUpdate(likeToDelete);
+        final boolean isLikeDeleted = killingPartLikes.deleteLike(likeToDelete);
+        if (isLikeDeleted) {
+            this.likeCount--;
+        }
+    }
+
+    public Optional<KillingPartLike> findLikeByMember(final Member member) {
+        return killingPartLikes.getLikeByMember(member);
     }
 
     public String getStartAndEndUrlPathParameter() {
@@ -114,6 +154,14 @@ public class KillingPart {
 
     public List<KillingPartComment> getCommentsInRecentOrder() {
         return comments.getCommentsInRecentOrder();
+    }
+
+    public List<KillingPartLike> getKillingPartLikes() {
+        return new ArrayList<>(killingPartLikes.getLikes());
+    }
+
+    public int getLikeCount() {
+        return likeCount;
     }
 
     public void setSong(final Song song) {

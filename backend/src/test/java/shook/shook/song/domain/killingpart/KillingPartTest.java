@@ -7,12 +7,14 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
+import shook.shook.song.exception.killingpart.KillingPartLikeException;
 
 class KillingPartTest {
 
@@ -146,5 +148,119 @@ class KillingPartTest {
             assertThatThrownBy(() -> killingPart.setSong(song))
                 .isInstanceOf(KillingPartException.SongMaxKillingPartExceededException.class);
         }
+    }
+
+    @DisplayName("킬링파트에서 좋아요 갯수를 관리한다.")
+    @Nested
+    class LikeCountKillingPart {
+
+        @DisplayName("킬링파트를 처음 생성할 때, likeCount 는 0이고 좋아요 목록이 없다.")
+        @Test
+        void createKillingPart_likeCount_0() {
+            // given
+            // when
+            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+
+            // then
+            assertThat(killingPart.getLikeCount()).isEqualTo(0);
+            assertThat(killingPart.getKillingPartLikes()).isEmpty();
+        }
+
+        @DisplayName("킬링파트에 좋아요를 누를 때, 새롭게 추가되면 likeCount 갯수가 증가한다.")
+        @Test
+        void likeCount_updateSuccess() {
+            // given
+            final Member member = new Member("email@naver.com", "nickname");
+            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+
+            // when
+            final KillingPartLike likeToAdd = new KillingPartLike(killingPart, member);
+            killingPart.like(likeToAdd);
+
+            // then
+            assertThat(killingPart.getKillingPartLikes()).containsOnly(likeToAdd);
+            assertThat(killingPart.getLikeCount()).isEqualTo(1);
+        }
+
+        @DisplayName("킬링파트에 좋아요를 누를 때, 동일 좋아요가 이미 존재했다면 likeCount 가 증가하지 않는다.")
+        @Test
+        void likeCount_updateFail() {
+            // given
+            final Member member = new Member("email@naver.com", "nickname");
+            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPartLike like = new KillingPartLike(killingPart, member);
+            killingPart.like(like);
+
+            // when
+            killingPart.like(like);
+
+            // then
+            assertThat(killingPart.getKillingPartLikes()).containsOnly(like);
+            assertThat(killingPart.getLikeCount()).isEqualTo(1);
+        }
+
+        @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하던 것을 삭제하면 likeCount 가 감소한다.")
+        @Test
+        void likeCount_deleteSuccess() {
+            // given
+            final Member member = new Member("email@naver.com", "nickname");
+            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPartLike like = new KillingPartLike(killingPart, member);
+            killingPart.like(like);
+
+            // when
+            killingPart.unlike(like);
+
+            // then
+            assertThat(killingPart.getKillingPartLikes()).isEmpty();
+            assertThat(killingPart.getLikeCount()).isEqualTo(0);
+        }
+
+        @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하지 않았다면 likeCount 가 감소하지 않는다.")
+        @Test
+        void likeCount_deleteFail() {
+            // given
+            final Member member = new Member("email@naver.com", "nickname");
+            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPartLike like = new KillingPartLike(killingPart, member);
+            killingPart.like(like);
+
+
+            // when
+            final Member newMember = new Member("new@naver.com", "new");
+            final KillingPartLike newLike = new KillingPartLike(killingPart, newMember);
+
+            killingPart.unlike(newLike);
+
+            // then
+            assertThat(killingPart.getKillingPartLikes()).containsExactly(like);
+            assertThat(killingPart.getLikeCount()).isEqualTo(1);
+        }
+    }
+
+    @DisplayName("좋아요를 등록/취소 할 때, KillingPartLike 가 null 이면 예외가 발생한다.")
+    @Test
+    void like_empty_fail() {
+        // given
+        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+
+        // when, then
+        assertThatThrownBy(() -> killingPart.like(null))
+            .isInstanceOf(KillingPartLikeException.EmptyLikeException.class);
+    }
+
+    @DisplayName("좋아요를 등록/취소 할 때, KillingPartLike 가 다른 킬링파트에 속하면 예외가 발생한다.")
+    @Test
+    void like_belongsToOtherKillingPart_fail() {
+        // given
+        final Member member = new Member("email@naver.com", "name");
+        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPartLike like = new KillingPartLike(killingPart, member);
+
+        final KillingPart other = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
+
+        // when, then
+        assertThatThrownBy(() -> other.like(like))
+            .isInstanceOf(KillingPartLikeException.LikeForOtherKillingPartException.class);
     }
 }

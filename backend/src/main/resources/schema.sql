@@ -16,7 +16,19 @@ create table if not exists killing_part
     start_second integer      not null,
     length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
     song_id      bigint       not null,
+    like_count   integer      not null,
     created_at   timestamp(6) not null,
+    primary key (id)
+);
+
+create table if not exists killing_part_like
+(
+    id              bigint auto_increment,
+    killing_part_id bigint       not null,
+    member_id       bigint       not null,
+    is_deleted      boolean      not null,
+    created_at      timestamp(6) not null,
+    updated_at      timestamp(6) not null,
     primary key (id)
 );
 

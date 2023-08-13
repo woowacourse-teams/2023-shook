@@ -1,5 +1,7 @@
 drop table song;
 drop table killing_part;
+drop table member;
+drop table killing_part_like;
 drop table killing_part_comment;
 
 create table if not exists song
@@ -20,7 +22,27 @@ create table if not exists killing_part
     start_second integer      not null,
     length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
     song_id      bigint       not null,
+    like_count   integer      not null,
     created_at   timestamp(6) not null,
+    primary key (id)
+);
+
+create table if not exists member
+(
+    id       bigint auto_increment,
+    email    varchar(100) not null,
+    nickname varchar(100) not null,
+    primary key (id)
+);
+
+create table if not exists killing_part_like
+(
+    id              bigint auto_increment,
+    killing_part_id bigint       not null,
+    member_id       bigint       not null,
+    is_deleted      boolean      not null,
+    created_at      timestamp(6) not null,
+    updated_at      timestamp(6) not null,
     primary key (id)
 );
 
@@ -40,6 +62,8 @@ INSERT INTO song (title, singer, length, video_url, album_cover_url, created_at)
 VALUES ('Seven (feat. Latto) - Clean Ver.', '정국', 186, 'https://youtu.be/UUSbUBYqU_8',
         'http://i.maniadb.com/images/album/1000/000246_1_f.jpg', now());
 
-INSERT INTO killing_part (start_second, length, song_id, created_at) VALUES (10, 'SHORT', 1, now());
-INSERT INTO killing_part (start_second, length, song_id, created_at) VALUES (15, 'LONG', 1, now());
-INSERT INTO killing_part (start_second, length, song_id, created_at) VALUES (20, 'STANDARD', 1, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (10, 'SHORT', 1, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (15, 'LONG', 1, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (20, 'STANDARD', 1, 0, now());
+
+INSERT INTO member (email, nickname) VALUES ('email@naver.com', 'nickname');
