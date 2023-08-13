@@ -82,6 +82,7 @@ const KillingPartTrack = ({
       $isNowPlayingTrack={isNowPlayingTrack}
       htmlFor={`play-${rank}`}
       tabIndex={0}
+      role="radio"
       aria-label={`${rank}등 킬링파트 재생하기`}
     >
       <FLexContainer>

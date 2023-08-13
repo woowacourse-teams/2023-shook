@@ -15,7 +15,7 @@ const KillingPartTrackList = ({
   setNowPlayingTrack,
 }: KillingPartTrackListProps) => {
   return (
-    <TrackList>
+    <TrackList role="radiogroup">
       {killingParts.map((killingPart) => {
         const { id, start, end } = killingPart;
         const isNowPlayingTrack = id === nowPlayingTrack;
