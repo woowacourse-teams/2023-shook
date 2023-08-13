@@ -20,7 +20,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
         videoId,
         width: '100%',
         height: '100%',
-        playerVars: { start },
+        playerVars: { start, rel: 0 },
         events: {
           onReady: ({ target: player }) => (videoPlayer.current = player),
           onStateChange: updatePlayerState,
