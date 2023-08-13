@@ -52,11 +52,12 @@ export const Backdrop = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 0;
-  margin: 0;
 
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
@@ -67,23 +68,22 @@ export const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   min-width: 300px;
-
   margin: 0 auto;
   padding: 24px;
 
-  border: none;
-  border-radius: 16px;
+  color: #ffffff;
 
   background-color: #17171c;
-  color: #ffffff;
+  border: none;
+  border-radius: 16px;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `;

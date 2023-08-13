@@ -39,9 +39,9 @@ export const SwitchWrapper = styled.label`
 `;
 
 export const SwitchInput = styled.input`
-  opacity: 0;
   width: 0;
   height: 0;
+  opacity: 0;
 
   &:checked + span {
     background-color: ${({ theme }) => theme.color.primary};
@@ -53,26 +53,33 @@ export const SwitchInput = styled.input`
 `;
 
 export const SwitchSlider = styled.span`
-  position: absolute;
   cursor: pointer;
+
+  position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 32px;
+  left: 0;
+
   background-color: ${({ theme: { color } }) => color.disabledBackground};
+  border-radius: 32px;
+
   transition: 0.4s;
 
   &:before {
-    box-shadow: 1px 1px ${({ theme: { color } }) => color.black};
-    position: absolute;
-    border-radius: 50%;
     content: '';
-    height: 16px;
-    width: 16px;
-    left: 3px;
+
+    position: absolute;
     bottom: 2px;
+    left: 3px;
+
+    width: 16px;
+    height: 16px;
+
     background-color: white;
+    border-radius: 50%;
+    box-shadow: 1px 1px ${({ theme: { color } }) => color.black};
+
     transition: 0.4s;
   }
 `;

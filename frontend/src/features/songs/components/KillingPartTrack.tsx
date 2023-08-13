@@ -5,7 +5,7 @@ import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import { getPlayingTimeText } from '@/shared/utils/convertTime';
+import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
 import type { KillingPart } from '@/shared/types/song';
@@ -26,7 +26,7 @@ const KillingPartTrack = ({
   const { videoPlayer } = useVideoPlayerContext();
 
   const ordinalRank = formatOrdinals(rank);
-  const playingTime = getPlayingTimeText(start, end);
+  const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
 
   const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;

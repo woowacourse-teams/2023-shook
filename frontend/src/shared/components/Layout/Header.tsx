@@ -18,10 +18,12 @@ export default Header;
 const Container = styled.header`
   display: flex;
   align-items: center;
+
   width: 100%;
   height: ${({ theme }) => theme.headerHeight.desktop};
-  background-color: ${({ theme: { color } }) => color.black};
   padding: 0 16.66%;
+
+  background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
     padding: 0 8.33%;
