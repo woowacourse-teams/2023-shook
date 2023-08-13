@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
+import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Spacing from '@/shared/components/Spacing';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
 import KillingPartTrackList from './KillingPartTrackList';
@@ -15,14 +16,20 @@ const DEFAULT_PART_ID = -1;
 
 const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProps) => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
-
   const [isRepeat, setIsRepeat] = useState(false);
+  const { videoPlayer, playerState } = useVideoPlayerContext();
 
   const toggleRepetition = () => {
     setIsRepeat(!isRepeat);
   };
 
   const killingPart = killingParts.find((part) => part.rank === nowPlayingTrack);
+
+  useEffect(() => {
+    if (document.activeElement === videoPlayer.current?.getIframe()) {
+      setNowPlayingTrack(-1);
+    }
+  }, [videoPlayer, playerState]);
 
   return (
     <>
