@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -17,7 +17,9 @@ const DEFAULT_PART_ID = -1;
 const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProps) => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
-  const { videoPlayer, playerState } = useVideoPlayerContext();
+  const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();
+
+  const timerRef = useRef<number | null>(null);
 
   const toggleRepetition = () => {
     setIsRepeat(!isRepeat);
@@ -25,9 +27,32 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
 
   useEffect(() => {
     if (document.activeElement === videoPlayer.current?.getIframe()) {
-      setNowPlayingTrack(-1);
+      setNowPlayingTrack(DEFAULT_PART_ID);
     }
   }, [videoPlayer, playerState]);
+
+  useEffect(() => {
+    const part = killingParts.find((part) => part.id === nowPlayingTrack);
+    if (!part) return;
+
+    seekTo(part.start);
+
+    const interval = (part.end - part.start) * 1000;
+
+    if (isRepeat) {
+      timerRef.current = window.setInterval(() => seekTo(part.start), interval);
+    } else {
+      timerRef.current = window.setTimeout(() => {
+        pause();
+        setNowPlayingTrack(DEFAULT_PART_ID);
+      }, interval);
+    }
+
+    return () => {
+      if (!timerRef.current) return;
+      window.clearInterval(timerRef.current);
+    };
+  }, [isRepeat, nowPlayingTrack, seekTo, pause, killingParts]);
 
   return (
     <>

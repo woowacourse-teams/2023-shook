@@ -13,36 +13,6 @@ const SongDetailPage = () => {
   const { id: songIdParams = '' } = useParams();
   const { songDetail } = useGetSongDetail(Number(songIdParams));
 
-  // useEffect(() => {
-  //   if (!videoPlayer.current?.seekTo) return;
-  //   if (!songDetail) return;
-
-  //   const part = songDetail.killingParts?.find((part) => part.rank === killingRank);
-
-  //   if (!part) {
-  //     videoPlayer.current?.seekTo(0, true);
-  //     videoPlayer.current?.playVideo();
-  //     return;
-  //   } else {
-  //     videoPlayer.current?.seekTo(part.start, true);
-  //   }
-
-  //   videoPlayer.current?.playVideo();
-
-  //   if (isRepeat) {
-  //     timer.current = window.setInterval(
-  //       () => {
-  //         videoPlayer.current?.seekTo(part.start, true);
-  //       },
-  //       (part.end - part.start) * 1000
-  //     );
-  //   }
-
-  //   return () => {
-  //     window.clearInterval(timer.current);
-  //   };
-  // }, [isRepeat, killingRank, videoPlayer.current, songDetail]);
-
   if (!songDetail) return;
   const { id: songId, killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
 
