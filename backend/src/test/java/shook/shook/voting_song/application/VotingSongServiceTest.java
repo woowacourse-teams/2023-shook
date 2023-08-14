@@ -61,7 +61,7 @@ class VotingSongServiceTest extends UsingJpaTest {
     @Nested
     class findAll {
 
-        @DisplayName("파트 수집 중인 노래 목록을 모두 조회한다.")
+        @DisplayName("파트 수집 중인 노래 목록을 id 순으로 모두 조회한다.")
         @Test
         void findAllVotingSongs() {
             // given

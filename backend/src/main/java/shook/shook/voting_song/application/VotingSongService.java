@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.voting_song.application.dto.VotingSongRegisterRequest;
@@ -45,7 +46,9 @@ public class VotingSongService {
     }
 
     public List<VotingSongResponse> findAll() {
-        return votingSongRepository.findAll().stream()
+        final Sort ascendingSort = Sort.by("id").ascending();
+
+        return votingSongRepository.findAll(ascendingSort).stream()
             .map(VotingSongResponse::from)
             .toList();
     }
