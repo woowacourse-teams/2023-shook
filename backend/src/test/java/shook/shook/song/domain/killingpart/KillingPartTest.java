@@ -224,7 +224,7 @@ class KillingPartTest {
             final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
-            
+
             // when
             final Member newMember = new Member("new@naver.com", "new");
             final KillingPartLike newLike = new KillingPartLike(killingPart, newMember);
@@ -261,5 +261,21 @@ class KillingPartTest {
         // when, then
         assertThatThrownBy(() -> other.like(like))
             .isInstanceOf(KillingPartLikeException.LikeForOtherKillingPartException.class);
+    }
+
+    @DisplayName("KillingPart 에 대한 사용자의 좋아요 여부를 확인한다.")
+    @Test
+    void likeByMember() {
+        // given
+        final Member member = new Member("email@naver.com", "name");
+        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPartLike like = new KillingPartLike(killingPart, member);
+        killingPart.like(like);
+
+        // when
+        final boolean isLikedByMember = killingPart.isLikedByMember(member);
+
+        // then
+        assertThat(isLikedByMember).isTrue();
     }
 }

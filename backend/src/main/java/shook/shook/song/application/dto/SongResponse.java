@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 
@@ -21,7 +22,7 @@ public class SongResponse {
     private final String albumCoverUrl;
     private final List<KillingPartResponse> killingParts;
 
-    public static SongResponse from(final Song song) {
+    public static SongResponse of(final Song song, final Member member) {
         return new SongResponse(
             song.getId(),
             song.getTitle(),
@@ -29,15 +30,21 @@ public class SongResponse {
             song.getLength(),
             song.getVideoUrl(),
             song.getAlbumCoverUrl(),
-            toKillingPartResponses(song)
+            toKillingPartResponses(song, member)
         );
     }
 
-    private static List<KillingPartResponse> toKillingPartResponses(final Song song) {
-        final List<KillingPart> songKillingParts = song.getKillingParts();
+    public static SongResponse fromUnauthorizedUser(final Song song) {
+        return SongResponse.of(song, null);
+    }
+
+    private static List<KillingPartResponse> toKillingPartResponses(final Song song,
+        final Member member) {
+        final List<KillingPart> songKillingParts = song.getLikeCountSortedKillingParts();
 
         return IntStream.range(0, songKillingParts.size())
-            .mapToObj(index -> KillingPartResponse.of(song, songKillingParts.get(index), index + 1))
+            .mapToObj(index ->
+                KillingPartResponse.of(song, songKillingParts.get(index), index + 1, member))
             .collect(Collectors.toList());
     }
 }

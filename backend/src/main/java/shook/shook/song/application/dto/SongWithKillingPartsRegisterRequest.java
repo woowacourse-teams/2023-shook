@@ -36,14 +36,14 @@ public class SongWithKillingPartsRegisterRequest {
     @NotEmpty
     private List<KillingPartRegisterRequest> killingParts;
 
-    public Song getSong() {
+    public Song convertToSong() {
         return new Song(title, videoUrl, imageUrl, singer, length, convertToKillingParts());
     }
 
     private KillingParts convertToKillingParts() {
         return new KillingParts(
             killingParts.stream()
-                .map(KillingPartRegisterRequest::getKillingPart)
+                .map(KillingPartRegisterRequest::toKillingPart)
                 .toList()
         );
     }

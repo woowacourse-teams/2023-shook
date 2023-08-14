@@ -140,6 +140,13 @@ public class KillingPart {
         return killingPartLikes.getLikeByMember(member);
     }
 
+    public boolean isLikedByMember(final Member member) {
+        if (Objects.isNull(member)) {
+            return false;
+        }
+        return findLikeByMember(member).isPresent();
+    }
+
     public String getStartAndEndUrlPathParameter() {
         return String.format(EMBED_LINK_PATH_PARAMETER_FORMAT, startSecond, getEndSecond());
     }

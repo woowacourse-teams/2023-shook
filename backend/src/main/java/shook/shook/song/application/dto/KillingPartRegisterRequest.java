@@ -23,7 +23,7 @@ public class KillingPartRegisterRequest {
     @Positive
     private Integer length;
 
-    public KillingPart getKillingPart() {
+    public KillingPart toKillingPart() {
         return KillingPart.forSave(
             startSecond,
             PartLength.findBySecond(length)

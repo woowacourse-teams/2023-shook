@@ -2,6 +2,7 @@ package shook.shook.song.domain.killingpart;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.ArrayList;
@@ -10,8 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.KillingParts;
+import shook.shook.song.domain.Song;
 import shook.shook.song.exception.killingpart.KillingPartsException;
 
 class KillingPartsTest {
@@ -19,6 +22,7 @@ class KillingPartsTest {
     private static final KillingPart FIRST_PART = KillingPart.forSave(0, PartLength.SHORT);
     private static final KillingPart SECOND_PART = KillingPart.forSave(5, PartLength.SHORT);
     private static final KillingPart THIRD_PART = KillingPart.forSave(10, PartLength.SHORT);
+    private static final Song EMPTY_SONG = null;
 
     @DisplayName("한 노래의 킬링파트는 총 3개로 구성된다.")
     @Test
@@ -71,5 +75,31 @@ class KillingPartsTest {
 
         // then
         assertThat(result).isTrue();
+    }
+
+    @DisplayName("좋아요 순, id 순으로 정렬된 킬링파트를 조회한다.")
+    @Test
+    void getKillingPartsSortedByLikeCount() {
+        // given
+        final Member member = new Member("email@naver.com", "nickname");
+        final KillingPart killingPart1 = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart2 = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart3 = KillingPart.saved(3L, 10, PartLength.SHORT, EMPTY_SONG);
+
+        killingPart1.like(new KillingPartLike(killingPart1, member));
+        killingPart2.like(new KillingPartLike(killingPart2, member));
+
+        final KillingParts killingParts = new KillingParts(List.of(killingPart1, killingPart3,
+            killingPart2));
+
+        // when
+        final List<KillingPart> result = killingParts.getKillingPartsSortedByLikeCount();
+
+        // then
+        assertAll(
+            () -> assertThat(result.get(0).getId()).isEqualTo(2L),
+            () -> assertThat(result.get(1).getId()).isEqualTo(1L),
+            () -> assertThat(result.get(2).getId()).isEqualTo(3L)
+        );
     }
 }

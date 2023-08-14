@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
@@ -22,13 +23,25 @@ public class KillingPartLikeService {
     private final KillingPartLikeRepository likeRepository;
 
     @Transactional
-    public void create(final Long killingPartId, final Long memberId) {
+    public void updateLikeStatus(
+        final Long killingPartId,
+        final Long memberId,
+        final KillingPartLikeRequest request
+    ) {
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(MemberException::new);
 
         final KillingPart killingPart = killingPartRepository.findById(killingPartId)
             .orElseThrow(KillingPartException.PartNotExistException::new);
 
+        if (request.isLikeCreateRequest()) {
+            create(killingPart, member);
+            return;
+        }
+        delete(killingPart, member);
+    }
+
+    private void create(final KillingPart killingPart, final Member member) {
         if (killingPart.findLikeByMember(member).isPresent()) {
             return;
         }
@@ -45,14 +58,7 @@ public class KillingPartLikeService {
         return likeRepository.save(like);
     }
 
-    @Transactional
-    public void delete(final Long killingPartId, final Long memberId) {
-        final Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberException::new);
-
-        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
-
+    private void delete(final KillingPart killingPart, final Member member) {
         killingPart.findLikeByMember(member)
             .ifPresent(like -> killingPart.unlike(like));
     }

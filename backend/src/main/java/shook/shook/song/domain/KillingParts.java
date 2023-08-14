@@ -4,6 +4,7 @@ import io.jsonwebtoken.lang.Collections;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -49,5 +50,10 @@ public class KillingParts {
         return new ArrayList<>(killingParts);
     }
 
-    // TODO: 2023-08-12 좋아요순으로 정렬해서 조회
+    public List<KillingPart> getKillingPartsSortedByLikeCount() {
+        return killingParts.stream()
+            .sorted(Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
+                .thenComparing(KillingPart::getId, Comparator.reverseOrder()))
+            .toList();
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
+import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -42,11 +43,14 @@ class SongControllerTest {
     @Test
     void showSongById() {
         //given
-        likeService.create(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID);
-        likeService.create(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID);
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
+            new KillingPartLikeRequest(true));
 
         //when
         final SongResponse response = RestAssured.given().log().all()
+            .param("memberId", MEMBER_ID)
             .when().log().all()
             .get("/songs/{song_id}", FIRST_SONG_ID)
             .then().log().all()
@@ -55,7 +59,7 @@ class SongControllerTest {
             .body().as(SongResponse.class);
 
         //then
-        final SongResponse expected = songService.findById(FIRST_SONG_ID);
+        final SongResponse expected = songService.findByIdAndMemberId(FIRST_SONG_ID, MEMBER_ID);
 
         assertThat(response).usingRecursiveComparison()
             .isEqualTo(expected);

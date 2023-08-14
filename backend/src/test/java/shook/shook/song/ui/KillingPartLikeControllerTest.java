@@ -32,31 +32,35 @@ class KillingPartLikeControllerTest {
     @Test
     void createLikeOnKillingPart() {
         // given
-        final KillingPartLikeRequest request = new KillingPartLikeRequest(SAVED_MEMBER_ID);
+        final KillingPartLikeRequest request = new KillingPartLikeRequest(true);
 
         // when, then
         RestAssured.given().log().all()
             .contentType(ContentType.JSON)
             .body(request)
+            .param("memberId", SAVED_MEMBER_ID)
             .when().log().all()
-            .post("/songs/{songId}/parts/{killingPartId}/likes", SAVED_SONG_ID, SAVED_KILLING_PART_ID)
+            .put("/songs/{songId}/parts/{killingPartId}/likes", SAVED_SONG_ID,
+                SAVED_KILLING_PART_ID)
             .then().log().all()
             .statusCode(HttpStatus.CREATED.value());
     }
 
-    @DisplayName("킬링파트에 좋아요 취소 시 204 상태코드를 반환한다.")
+    @DisplayName("킬링파트에 좋아요 취소 시 201 상태코드를 반환한다.")
     @Test
     void deleteLikeOnKillingPart() {
         // given
-        final KillingPartLikeRequest request = new KillingPartLikeRequest(SAVED_MEMBER_ID);
+        final KillingPartLikeRequest request = new KillingPartLikeRequest(false);
 
         // when, then
         RestAssured.given().log().all()
             .contentType(ContentType.JSON)
             .body(request)
+            .param("memberId", SAVED_MEMBER_ID)
             .when().log().all()
-            .delete("/songs/{songId}/parts/{killingPartId}/likes", SAVED_SONG_ID, SAVED_KILLING_PART_ID)
+            .put("/songs/{songId}/parts/{killingPartId}/likes", SAVED_SONG_ID,
+                SAVED_KILLING_PART_ID)
             .then().log().all()
-            .statusCode(HttpStatus.NO_CONTENT.value());
+            .statusCode(HttpStatus.CREATED.value());
     }
 }

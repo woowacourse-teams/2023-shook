@@ -3,6 +3,7 @@ package shook.shook.song.application.dto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 
@@ -17,8 +18,14 @@ public class KillingPartResponse {
     private final int end;
     private final String partVideoUrl;
     private final int partLength;
+    private final boolean likeStatus;
 
-    public static KillingPartResponse of(final Song song, final KillingPart killingPart, final int rank) {
+    public static KillingPartResponse of(
+        final Song song,
+        final KillingPart killingPart,
+        final int rank,
+        final Member member
+    ) {
         return new KillingPartResponse(
             killingPart.getId(),
             rank,
@@ -26,7 +33,8 @@ public class KillingPartResponse {
             killingPart.getStartSecond(),
             killingPart.getEndSecond(),
             song.getPartVideoUrl(killingPart),
-            killingPart.getLength()
+            killingPart.getLength(),
+            killingPart.isLikedByMember(member)
         );
     }
 }

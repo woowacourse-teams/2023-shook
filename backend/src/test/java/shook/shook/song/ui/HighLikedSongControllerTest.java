@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
@@ -44,9 +45,12 @@ class HighLikedSongControllerTest {
     @Test
     void showHighLikedSongs() {
         //given
-        likeService.create(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID);
-        likeService.create(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID);
-        likeService.create(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID);
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+        likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
+            new KillingPartLikeRequest(true));
 
         //when
         final List<HighLikedSongResponse> responses = RestAssured.given().log().all()

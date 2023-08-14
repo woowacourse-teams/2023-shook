@@ -1,9 +1,14 @@
 package shook.shook.song.application;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
@@ -20,10 +25,11 @@ public class SongService {
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long register(final SongWithKillingPartsRegisterRequest request) {
-        final Song song = request.getSong();
+        final Song song = request.convertToSong();
         final Song savedSong = songRepository.save(song);
 
         killingPartRepository.saveAll(song.getKillingParts());
@@ -43,19 +49,24 @@ public class SongService {
         final List<SongTotalLikeCountDto> songWithLikeCounts
     ) {
         return songWithLikeCounts.stream()
-            .sorted((firstSong, secondSong) -> {
-                if (firstSong.getTotalLikeCount().equals(secondSong.getTotalLikeCount())) {
-                    return secondSong.getSong().getId().compareTo(firstSong.getSong().getId());
-                }
-                return secondSong.getTotalLikeCount().compareTo(firstSong.getTotalLikeCount());
-            })
-            .toList();
+            .sorted(
+                Comparator.comparing(SongTotalLikeCountDto::getTotalLikeCount,
+                        Comparator.reverseOrder())
+                    .thenComparing(dto -> dto.getSong().getId(), Comparator.reverseOrder())
+            ).toList();
     }
 
-    public SongResponse findById(final Long songId) {
+    public SongResponse findByIdAndMemberId(final Long songId, final Long memberId) {
         final Song song = songRepository.findById(songId)
             .orElseThrow(SongException.SongNotExistException::new);
 
-        return SongResponse.from(song);
+        if (Objects.isNull(memberId)) {
+            return SongResponse.fromUnauthorizedUser(song);
+        }
+
+        final Optional<Member> foundMember = memberRepository.findById(memberId);
+
+        return foundMember.map(member -> SongResponse.of(song, member))
+            .orElseGet(() -> SongResponse.fromUnauthorizedUser(song));
     }
 }

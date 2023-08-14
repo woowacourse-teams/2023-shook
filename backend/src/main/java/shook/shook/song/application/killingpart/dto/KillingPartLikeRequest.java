@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 public class KillingPartLikeRequest {
 
     @NotNull
-    private Long memberId;
+    private Boolean likeStatus;
 
+    public boolean isLikeCreateRequest() {
+        return likeStatus;
+    }
 }
