@@ -59,6 +59,44 @@ class VotingSongControllerTest extends AcceptanceTest {
             new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
         final VotingSong standardSong = votingSongRepository.save(
             new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+        final VotingSong afterSong = votingSongRepository.save(
+            new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 20));
+
+        // when
+        final VotingSongSwipeResponse response = RestAssured.given().log().all()
+            .when().log().all()
+            .get("/voting-songs/{voting_song_id}", standardSong.getId())
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .body().as(VotingSongSwipeResponse.class);
+
+        // then
+        final List<VotingSongResponse> expectedBefore = Stream.of(beforeSong)
+            .map(VotingSongResponse::from)
+            .toList();
+        final List<VotingSongResponse> expectedAfter = Stream.of(afterSong)
+            .map(VotingSongResponse::from)
+            .toList();
+
+        assertAll(
+            () -> assertThat(response.getBeforeSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedBefore),
+            () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
+                .isEqualTo(VotingSongResponse.from(standardSong)),
+            () -> assertThat(response.getAfterSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedAfter)
+        );
+    }
+
+    @DisplayName("특정 노래를 조회할 때, 이전 노래와 다음 노래의 정보를 담은 응답을 반환한다. (다음 노래가 비어있을 때)")
+    @Test
+    void findByIdEmptyAfterSong() {
+        // given
+        final VotingSong beforeSong = votingSongRepository.save(
+            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+        final VotingSong standardSong = votingSongRepository.save(
+            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()
@@ -80,6 +118,38 @@ class VotingSongControllerTest extends AcceptanceTest {
             () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
                 .isEqualTo(VotingSongResponse.from(standardSong)),
             () -> assertThat(response.getAfterSongs()).isEmpty()
+        );
+    }
+
+    @DisplayName("특정 노래를 조회할 때, 이전 노래와 다음 노래의 정보를 담은 응답을 반환한다. (이전 노래가 비어있을 때)")
+    @Test
+    void findByIdEmptyBeforeSong() {
+        // given
+        final VotingSong standardSong = votingSongRepository.save(
+            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+        final VotingSong afterSong = votingSongRepository.save(
+            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+
+        // when
+        final VotingSongSwipeResponse response = RestAssured.given().log().all()
+            .when().log().all()
+            .get("/voting-songs/{voting_song_id}", standardSong.getId())
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .body().as(VotingSongSwipeResponse.class);
+
+        // then
+        final List<VotingSongResponse> expectedAfter = Stream.of(afterSong)
+            .map(VotingSongResponse::from)
+            .toList();
+
+        assertAll(
+            () -> assertThat(response.getBeforeSongs()).isEmpty(),
+            () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
+                .isEqualTo(VotingSongResponse.from(standardSong)),
+            () -> assertThat(response.getAfterSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedAfter)
         );
     }
 }
