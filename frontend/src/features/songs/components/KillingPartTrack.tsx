@@ -136,7 +136,11 @@ const Container = styled.label<{ $isNowPlayingTrack: boolean }>`
   background-color: ${({ theme: { color }, $isNowPlayingTrack }) => {
     return $isNowPlayingTrack ? color.disabledBackground : color.secondary;
   }};
-  border-radius: 4px;
+  border-radius: ${({ $isNowPlayingTrack }) => {
+    return $isNowPlayingTrack ? '4px 4px 0px 0px' : '4px';
+  }};
+
+  transition: all 0.3s ease;
 `;
 
 const Rank = styled.span`
