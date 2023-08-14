@@ -85,6 +85,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
             <Comment key={id} content={content} createdAt={createdAt} />
           ))}
         </Comments>
+        <Spacing direction="vertical" size={8} />
         <CommentForm onSubmit={submitNewComment}>
           <Flex>
             <Profile>
@@ -169,7 +170,7 @@ const Cancel = styled.button`
 `;
 
 const Submit = styled.button`
-  ${buttonBase};
+  ${buttonBase}
   background-color: ${({ theme }) => theme.color.primary};
 
   &:hover,
@@ -183,20 +184,20 @@ const Submit = styled.button`
 `;
 
 const Comments = styled.ol`
-  overflow-y: auto;
+  overflow-y: scroll;
   display: flex;
+  flex-shrink: unset;
   flex-direction: column;
   row-gap: 10px;
 
-  margin-bottom: 120px;
   padding: 0 16px;
 `;
 
-const CommentWrapper = styled.div`
+const CommentWrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  text-align: start;
   padding: 16px;
 
   background-color: ${({ theme }) => theme.color.secondary};
@@ -208,8 +209,6 @@ const CommentTitle = styled.p`
 `;
 
 const CommentForm = styled.form`
-  position: fixed;
-  z-index: 1;
   bottom: 0;
 
   width: 100%;

@@ -63,7 +63,7 @@ export const Backdrop = styled.div`
 
 const slideUpAnimation = keyframes`
   from {
-    transform: translateY(60svh);
+    transform: translateY(60vh);
   }
   to {
     transform: translateY(0);
@@ -74,13 +74,12 @@ export const Container = styled.div`
   position: fixed;
   bottom: 0;
 
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 
   width: 100%;
-  height: 60svh;
-  max-height: 60svh;
+  height: 60vh;
+  max-height: 60vh;
 
   color: ${({ theme: { color } }) => color.white};
 
