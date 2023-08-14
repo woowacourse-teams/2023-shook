@@ -1,7 +1,6 @@
-import { Children, useState } from 'react';
+import { Children, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import type { ReactElement } from 'react';
-import type React from 'react';
 
 interface CarouselProps {
   children: ReactElement | ReactElement[];
@@ -9,6 +8,8 @@ interface CarouselProps {
 
 const CollectionCarousel = ({ children }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<HTMLUListElement | null>(null);
+  const numberOfItems = Children.count(children);
 
   const handleScroll: React.UIEventHandler<HTMLUListElement> = (event) => {
     const { scrollLeft, offsetWidth } = event.target as HTMLUListElement;
@@ -17,12 +18,25 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
     setCurrentIndex(index);
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const nextIndex = (currentIndex + 1) % numberOfItems;
+        carouselRef.current.scrollLeft = nextIndex * carouselRef.current.offsetWidth;
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, numberOfItems]);
+
   return (
     <>
       <Wrapper>
-        <CarouselWrapper onScroll={handleScroll}>{children}</CarouselWrapper>
+        <CarouselWrapper ref={carouselRef} onScroll={handleScroll}>
+          {children}
+        </CarouselWrapper>
         <IndicatorWrapper aria-hidden>
-          {Array.from({ length: Children.count(children) }, (_, idx) => (
+          {Array.from({ length: numberOfItems }, (_, idx) => (
             <Dot key={idx} isActive={idx === currentIndex} />
           ))}
         </IndicatorWrapper>

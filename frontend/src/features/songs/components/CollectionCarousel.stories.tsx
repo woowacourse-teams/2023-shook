@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import jacket from '@/assets/icon/album-jacket-default.svg';
+import Spacing from '@/shared/components/Spacing';
 import CollectionCarousel from './CollectionCarousel';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -27,18 +28,33 @@ const data = {
 
 export const Default: Story = {
   render: () => (
-    <CollectionCarousel>
-      {Array.from({ length: Math.floor(Math.random() * 10) }, (_, idx) => {
-        return (
-          <Content key={idx}>
-            <Jacket src={data.albumJacket} />
-            <Singer>{data.title}</Singer>
-            <Title>{data.singer}</Title>
-            <Collections>{'2,412명이 참여중'}</Collections>
-          </Content>
-        );
-      })}
-    </CollectionCarousel>
+    <>
+      <CollectionCarousel>
+        {Array.from({ length: 3 }, (_, idx) => {
+          return (
+            <Content key={idx}>
+              <Jacket src={data.albumJacket} />
+              <Singer>{data.title}</Singer>
+              <Title>{data.singer}</Title>
+              <Collections>{'2,412명이 참여중'}</Collections>
+            </Content>
+          );
+        })}
+      </CollectionCarousel>
+      <Spacing direction="vertical" size={10} />
+      <CollectionCarousel>
+        {Array.from({ length: 10 }, (_, idx) => {
+          return (
+            <Content key={idx}>
+              <Jacket src={data.albumJacket} />
+              <Singer>{data.title}</Singer>
+              <Title>{data.singer}</Title>
+              <Collections>{'2,412명이 참여중'}</Collections>
+            </Content>
+          );
+        })}
+      </CollectionCarousel>
+    </>
   ),
 };
 
