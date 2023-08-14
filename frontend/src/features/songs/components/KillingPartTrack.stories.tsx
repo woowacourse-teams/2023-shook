@@ -36,6 +36,7 @@ const killingPart: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const KillingPartTrackWithHook = () => {
@@ -46,6 +47,7 @@ const KillingPartTrackWithHook = () => {
   return (
     <KillingPartTrack
       killingPart={killingPart}
+      songId={1}
       isNowPlayingTrack={isNowPlayingTrack}
       setNowPlayingTrack={setNowPlayingTrack}
     />

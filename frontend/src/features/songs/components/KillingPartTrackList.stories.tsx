@@ -33,6 +33,7 @@ const killingPart: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const killingPart2: KillingPart = {
@@ -44,6 +45,7 @@ const killingPart2: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const killingPart3: KillingPart = {
@@ -55,6 +57,7 @@ const killingPart3: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const KillingPartTrackListWithHooks = () => {
@@ -63,6 +66,7 @@ const KillingPartTrackListWithHooks = () => {
   return (
     <KillingPartTrackList
       killingParts={[killingPart, killingPart2, killingPart3]}
+      songId={1}
       nowPlayingTrack={nowPlayingTrack}
       setNowPlayingTrack={setNowPlayingTrack}
     />

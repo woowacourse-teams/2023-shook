@@ -15,12 +15,13 @@ import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
+  songId: number;
   isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
-  killingPart: { id: partId, rank, start, end, likeCount, partVideoUrl },
+  songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
 }: KillingPartTrackProps) => {

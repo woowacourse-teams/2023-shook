@@ -74,6 +74,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
       <Spacing direction="vertical" size={16} />
       <KillingPartTrackList
         killingParts={killingParts}
+        songId={songId}
         nowPlayingTrack={nowPlayingTrack}
         setNowPlayingTrack={setNowPlayingTrack}
       />
