@@ -41,15 +41,15 @@ export default PartCollectingPage;
 
 const Container = styled.section`
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 `;
 
 const SongInfoContainer = styled.div`
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
 `;
 
 const Info = styled.div``;

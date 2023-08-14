@@ -1,4 +1,4 @@
-import { isValidMinSec } from './validateTime';
+import { isValidMinSec, isValidTimeFormatLength } from './validateTime';
 
 describe('isValidMinSec: 초/분 양식이 맞는지 확인하는 함수', () => {
   test('순자외 문자열은 false를 반환한다.', () => {
@@ -32,5 +32,26 @@ describe('isValidMinSec: 초/분 양식이 맞는지 확인하는 함수', () =>
 
   test('빈문자열은 true를 반환한다.', () => {
     expect(isValidMinSec('')).toBe(true);
+  });
+});
+
+describe('isValidateTimeFormatLength 함수 검증 테스트', () => {
+  test.each(['1', '22', '33'])('길이 2 이하의 string type 인자라면 true를 반환한다.', (args) => {
+    expect(isValidTimeFormatLength(args)).toBe(true);
+  });
+
+  test.each(['101', '111', '121'])(
+    '길이 2 초과의 string type 인자라면 false를 반환한다.',
+    (args) => {
+      expect(isValidTimeFormatLength(args)).toBe(false);
+    }
+  );
+
+  test.each([1, 22, 33])('길이 2 이하의 number type 인자라면 true를 반환한다.', (args) => {
+    expect(isValidTimeFormatLength(args)).toBe(true);
+  });
+
+  test.each([101, 111, 121])('길이 2 초과의 number type 인자라면 false를 반환한다.', (args) => {
+    expect(isValidTimeFormatLength(args)).toBe(false);
   });
 });

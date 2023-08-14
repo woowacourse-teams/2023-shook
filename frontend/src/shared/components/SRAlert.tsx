@@ -14,11 +14,13 @@ const SRAlert = ({ children }: SRAlertProps) => {
 
 const Paragraph = styled.p`
   position: absolute;
-  left: -9999px;
   bottom: -9999px;
+  left: -9999px;
+
+  overflow: hidden;
+
   width: 1px;
   height: 1px;
-  overflow: hidden;
 `;
 
 export default SRAlert;
