@@ -27,51 +27,48 @@ export default PopularSongItem;
 
 const Grid = styled.div`
   display: grid;
-  column-gap: 8px;
-  padding: 6px 0;
   grid-template:
     'rank thumbnail title' 26px
     'rank thumbnail singer' 26px
     'rank thumbnail info' 18px
     / 14px 70px;
+  column-gap: 8px;
+
+  padding: 6px 0;
 
   color: ${({ theme: { color } }) => color.white};
 `;
 
 const Rank = styled.div`
-  grid-area: rank;
-
   display: flex;
-  justify-content: center;
+  grid-area: rank;
   align-items: center;
+  justify-content: center;
 
   font-weight: 800;
 `;
 
 const SongTitle = styled.div`
+  overflow: hidden;
   grid-area: title;
 
   font-size: 16px;
   font-weight: 800;
-
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const Singer = styled.div`
+  overflow: hidden;
   grid-area: singer;
 
   font-size: 12px;
-
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const Info = styled.div`
   grid-area: info;
-
-  color: #808191;
   font-size: 12px;
+  color: #808191;
 `;

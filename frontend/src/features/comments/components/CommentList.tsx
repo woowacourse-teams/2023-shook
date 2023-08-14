@@ -98,45 +98,46 @@ export default CommentList;
 
 const Flex = styled.div`
   display: flex;
-  align-items: flex-start;
   gap: 14px;
+  align-items: flex-start;
 `;
 
 const Profile = styled.div`
+  overflow: hidden;
+
   width: 40px;
   height: 40px;
 
-  border-radius: 100%;
   background-color: white;
-
-  overflow: hidden;
+  border-radius: 100%;
 `;
 
 const Input = styled.input`
   flex: 1;
+
   margin: 0 8px;
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
   margin: 0;
   padding: 0;
-  background-color: transparent;
-  border-bottom: 1px solid white;
-  outline: none;
 
   font-size: 14px;
+
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid white;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 `;
 
 const FlexEnd = styled.div`
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
+  justify-content: flex-end;
 `;
 
 const buttonBase = css`
   width: 50px;
   height: 36px;
-
   font-size: 14px;
   border-radius: 10px;
 `;
@@ -152,7 +153,6 @@ const Cancel = styled.button`
 
 const Submit = styled.button`
   ${buttonBase}
-
   background-color: ${({ theme }) => theme.color.primary};
 
   &:hover,

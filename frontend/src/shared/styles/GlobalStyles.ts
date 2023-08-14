@@ -4,10 +4,9 @@ import PretendardRegular from '../../assets/fonts/Pretendard-Regular.subset.woff
 const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: "Pretendard";
-    src: local('Pretendard') url(${PretendardRegular}) format('woff2');
-
     font-weight: 400;
     font-style: normal;
+    src: local('Pretendard') url(${PretendardRegular}) format('woff2');
   }
 
   * {
@@ -19,18 +18,20 @@ const GlobalStyles = createGlobalStyle`
   *,
   :after,
   :before {
-    box-sizing: border-box;
     flex-shrink: 0;
+    box-sizing: border-box;
   }
   :root {
-    -webkit-tap-highlight-color: transparent;
+    cursor: default;
+
+    line-height: 1.5;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    cursor: default;
-    line-height: 1.5;
     overflow-wrap: break-word;
     -moz-tab-size: 4;
     tab-size: 4;
+
+    -webkit-tap-highlight-color: transparent;
   }
   img,  
   video, 
@@ -39,16 +40,16 @@ const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
   button {
+    cursor: pointer;
     background: none;
     border: 0;
-    cursor: pointer;
   }
   a {
     text-decoration: none;
   }
   table {
-    border-collapse: collapse;
     border-spacing: 0;
+    border-collapse: collapse;
   }
 
   ol, ul { 

@@ -19,14 +19,18 @@ export default Toast;
 
 const Container = styled.div`
   position: relative;
+
   display: flex;
-  align-items: center;
   gap: 4px;
+  align-items: center;
+
   width: 300px;
   height: 50px;
   padding: 14px;
-  border-radius: 60px;
+
   background: #323232;
+  border-radius: 60px;
+
   animation: ${fadeInBottomToUp} 1s ease;
 `;
 
@@ -36,6 +40,6 @@ const StatusIcon = styled.img`
 `;
 
 const Message = styled.span`
-  color: #ffffff;
   font-size: 14px;
+  color: #ffffff;
 `;
