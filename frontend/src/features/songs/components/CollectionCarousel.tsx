@@ -52,51 +52,52 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
 export default CollectionCarousel;
 
 const Wrapper = styled.div`
-  width: 100%;
   position: relative;
+  width: 100%;
 `;
 
 const CarouselWrapper = styled.ul`
-  display: flex;
-
-  column-gap: 16px;
-  margin-bottom: 16px;
-  width: 100%;
-
-  overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
+
+  overflow-x: scroll;
+  display: flex;
+  column-gap: 16px;
+
+  width: 100%;
+  margin-bottom: 16px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   & > li,
   & > div {
     scroll-snap-align: center;
     scroll-snap-stop: always;
-    width: 85% !important;
 
+    min-width: 67% !important;
     height: 140px;
+
     color: ${({ theme }) => theme.color.white};
 
     background-color: ${({ theme }) => theme.color.secondary};
     border-radius: 8px;
   }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const IndicatorWrapper = styled.div`
   display: flex;
+  column-gap: 8px;
   justify-content: center;
   background-color: transparent;
-  column-gap: 8px;
 `;
 
 const Dot = styled.div<{ isActive: boolean }>`
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background-color: ${({ isActive, theme: { color } }) =>
     isActive ? color.primary : color.secondary};
+  border-radius: 50%;
 `;

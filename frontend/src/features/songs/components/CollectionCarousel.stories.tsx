@@ -62,35 +62,37 @@ const Jacket = styled.img`
   grid-area: jacket;
 `;
 const Singer = styled.div`
-  padding-left: 16px;
   grid-area: singer;
+  padding-left: 16px;
 `;
 const Title = styled.div`
-  padding-left: 16px;
   grid-area: title;
+  padding-left: 16px;
 `;
 const Collections = styled.div`
-  padding-left: 16px;
   grid-area: collections;
+  padding-left: 16px;
 `;
 
 const Container = styled.div`
-  background-color: black;
-  padding: 16px;
   width: 400px;
   height: 800px;
+  padding: 16px;
+  background-color: black;
 `;
 
-const Content = styled.li`
-  margin: auto;
+const Content = styled.div`
   display: grid;
-  padding: 16px;
-  place-items: center;
-  grid-template-rows: repeat(3, 30px);
-  grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'jacket title'
     'jacket singer'
     'jacket collections';
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: repeat(3, 30px);
+
+  width: 100px;
+  margin: auto;
+  padding: 16px;
+
   text-align: left;
 `;
