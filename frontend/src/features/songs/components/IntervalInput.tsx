@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { css, styled } from 'styled-components';
-import { calculateMinSec, minSecToSeconds, secondsToMinSec } from '@/shared/utils/convertTime';
+import { secondsToMinSec } from '@/shared/utils/convertTime';
 import { isValidMinSec } from '@/shared/utils/validateTime';
 import ERROR_MESSAGE from '../constants/errorMessage';
 import useVoteInterfaceContext from '../hooks/useVoteInterfaceContext';
@@ -16,16 +16,13 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
   const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
 
   const [activeInput, setActiveInput] = useState<IntervalInputType>(null);
-  const { minute: startMinute, second: startSecond } = partStartTime;
 
-  const [endMinute, endSecond] = calculateMinSec(
-    startMinute,
-    startSecond,
-    (origin: number) => origin + interval
-  );
+  const partEndTime = partStartTime + interval;
+  const { minute: startMinute, second: startSecond } = secondsToMinSec(partStartTime);
+  const { minute: endMinute, second: endSecond } = secondsToMinSec(partEndTime);
 
   const onChangeIntervalStart: React.ChangeEventHandler<HTMLInputElement> = ({
-    currentTarget: { name: timeUnit, value },
+    currentTarget: { name: timeUnit, value, valueAsNumber },
   }) => {
     if (!isValidMinSec(value)) {
       onChangeErrorMessage(ERROR_MESSAGE.MIN_SEC);
@@ -34,7 +31,7 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
     }
 
     onChangeErrorMessage('');
-    updatePartStartTime(timeUnit, Number(value));
+    updatePartStartTime(timeUnit, valueAsNumber);
   };
 
   const onFocusIntervalStart: React.FocusEventHandler<HTMLInputElement> = ({
@@ -46,10 +43,8 @@ const IntervalInput = ({ errorMessage, onChangeErrorMessage }: IntervalInputProp
   };
 
   const onBlurIntervalStart = () => {
-    const timeSelected = minSecToSeconds([startMinute, startSecond]);
-
-    if (timeSelected > videoLength - interval) {
-      const [songMin, songSec] = secondsToMinSec(videoLength - interval);
+    if (partStartTime + interval > videoLength) {
+      const { minute: songMin, second: songSec } = secondsToMinSec(videoLength - interval);
 
       onChangeErrorMessage(ERROR_MESSAGE.SONG_RANGE(songMin, songSec));
       return;
@@ -101,7 +96,9 @@ const IntervalContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   padding: 0 24px;
+
   font-size: 16px;
   color: ${({ theme: { color } }) => color.white};
 `;
@@ -111,32 +108,37 @@ const Flex = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  font-size: 12px;
   margin: 8px 0;
+  font-size: 12px;
   color: ${({ theme: { color } }) => color.error};
 `;
 
 const Separator = styled.span<{ $inactive?: boolean }>`
   flex: none;
-  text-align: center;
+
   margin: 0 8px;
   padding-bottom: 8px;
+
   color: ${({ $inactive, theme: { color } }) => $inactive && color.subText};
+  text-align: center;
 `;
 
 const inputBase = css`
   flex: 1;
+
+  width: 16px;
   margin: 0 8px;
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
   margin: 0;
   padding: 0;
-  background-color: transparent;
+
   text-align: center;
+
+  background-color: transparent;
+  border: none;
   border-bottom: 1px solid white;
   outline: none;
-  width: 16px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 `;
 
 const InputStart = styled.input<{ $active: boolean }>`

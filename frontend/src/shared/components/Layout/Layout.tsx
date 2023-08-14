@@ -19,11 +19,14 @@ const LayoutContainer = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   width: 100%;
-  padding: 60px 16.66%;
   min-height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
-  background-color: ${({ theme: { color } }) => color.black};
+  padding: 60px 16.66%;
+
   color: ${({ theme: { color } }) => color.white};
+
+  background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
     padding: 36px 8.33%;

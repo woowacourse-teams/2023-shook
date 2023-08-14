@@ -4,7 +4,6 @@ spring:
   config:
     import: classpath:shook-security/application.yml
 
-
 ---
 
 spring:
@@ -16,11 +15,15 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:shook
 
+  h2:
+    console:
+      enabled: true
+
   sql:
     init:
       mode: always
       schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      data-locations: classpath:dev/data.sql
 
   jpa:
     properties:
@@ -29,3 +32,23 @@ spring:
         show-sql: true
     hibernate:
       ddl-auto: validate
+
+logging:
+  config: classpath:logback/logback-local.xml
+
+# Properties Only For Local
+oauth2:
+  google:
+    access-token-url: http://localhost:8080/token
+    member-info-url: http://localhost:8080/userinfo
+    client-id: client
+    client-secret: secret
+    redirect-uri: redirect
+
+# Properties Only For Local
+jwt:
+  secret-code: asdkfwofk23ksdfowsrk4sdkf
+  access-token-valid-time: 12000
+  refresh-token-valid-time: 634000
+
+

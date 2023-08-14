@@ -6,7 +6,7 @@ import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import { getPlayingTimeText, minSecToSeconds } from '@/shared/utils/convertTime';
+import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
 import KillingPartToggleGroup from './KillingPartToggleGroup';
@@ -18,15 +18,12 @@ const VoteInterface = () => {
   const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
-  const voteTimeText = getPlayingTimeText(startSecond, startSecond + interval);
+  const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
 
-    const startSecond = minSecToSeconds([partStartTime.minute, partStartTime.second]);
-
-    await createKillingPart(songId, { startSecond, length: interval });
+    await createKillingPart(songId, { startSecond: partStartTime, length: interval });
 
     openModal();
   };
@@ -88,33 +85,40 @@ const RegisterTitle = styled.p`
 `;
 
 const Register = styled.button`
+  cursor: pointer;
+
   width: 100%;
   height: 36px;
+
+  color: ${({ theme: { color } }) => color.white};
+
+  background-color: ${({ theme: { color } }) => color.primary};
   border: none;
   border-radius: 10px;
-  background-color: ${({ theme: { color } }) => color.primary};
-  color: ${({ theme: { color } }) => color.white};
-  cursor: pointer;
 `;
 
 const ModalTitle = styled.h3``;
 
 const ModalContent = styled.div`
+  padding: 16px 0;
+
   font-size: 16px;
   color: #b5b3bc;
-  white-space: pre-line;
-  padding: 16px 0;
   text-align: center;
+  white-space: pre-line;
 `;
 
 const Message = styled.div``;
 
 const Button = styled.button`
+  cursor: pointer;
+
   height: 36px;
+
+  color: ${({ theme: { color } }) => color.white};
+
   border: none;
   border-radius: 10px;
-  color: ${({ theme: { color } }) => color.white};
-  cursor: pointer;
 `;
 
 const Confirm = styled(Button)`
@@ -129,6 +133,6 @@ const Share = styled(Button)`
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 100%;
   gap: 16px;
+  width: 100%;
 `;

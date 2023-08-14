@@ -23,7 +23,6 @@ const MainPage = () => {
   return (
     <>
       <SRHeading>shook 메인 페이지</SRHeading>
-
       <Title>킬링파트 투표 많은순</Title>
       <Spacing direction="vertical" size={24} />
       <PopularSongList>
@@ -65,8 +64,10 @@ const StyledLink = styled(Link)`
 
 const Title = styled.h2`
   align-self: flex-start;
+
   color: white;
-  font-size: 24px;
+
+  font-size: 20px;
   font-weight: 700;
 `;
 
