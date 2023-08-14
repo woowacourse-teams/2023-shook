@@ -28,7 +28,7 @@ const data = {
 export const Default: Story = {
   render: () => (
     <CollectionCarousel>
-      {Array.from({ length: 1 }, (_, idx) => {
+      {Array.from({ length: Math.floor(Math.random() * 10) }, (_, idx) => {
         return (
           <Content key={idx}>
             <Jacket src={data.albumJacket} />

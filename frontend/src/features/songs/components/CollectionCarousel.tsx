@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { Children, useState } from 'react';
 import styled from 'styled-components';
 import type { ReactElement } from 'react';
 import type React from 'react';
 
 interface CarouselProps {
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 }
 
 const CollectionCarousel = ({ children }: CarouselProps) => {
@@ -22,7 +22,7 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
       <Wrapper>
         <CarouselWrapper onScroll={handleScroll}>{children}</CarouselWrapper>
         <IndicatorWrapper aria-hidden>
-          {Array.from({ length: children.length }, (_, idx) => (
+          {Array.from({ length: Children.count(children) }, (_, idx) => (
             <Dot key={idx} isActive={idx === currentIndex} />
           ))}
         </IndicatorWrapper>
