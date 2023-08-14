@@ -3,12 +3,13 @@ package shook.shook.song.application.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class SongResponse {
 
