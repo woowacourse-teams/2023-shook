@@ -16,7 +16,7 @@ import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs/{voting_song_id}/parts")
 @RestController
-public class VotingSongPartController {
+public class VotingSongPartController implements VotingSongPartApi {
 
     private final VotingSongPartService votingSongPartService;
 

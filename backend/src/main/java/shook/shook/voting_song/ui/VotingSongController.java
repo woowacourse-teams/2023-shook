@@ -14,7 +14,7 @@ import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs")
 @RestController
-public class VotingSongController {
+public class VotingSongController implements VotingSongApi {
 
     private final VotingSongService votingSongService;
 
