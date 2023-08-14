@@ -42,7 +42,7 @@ class TokenControllerTest {
         memberRepository.delete(savedMember);
     }
 
-    @DisplayName("올바른 refreshToken을 요청하면 accessToken과 상태코드 200을 반환한다.")
+    @DisplayName("올바른 refreshToken을 통해 accessToken 재발급을 요청하면 accessToken과 상태코드 200을 반환한다.")
     @Test
     void success_reissue_accessToken() {
         //given
@@ -51,7 +51,7 @@ class TokenControllerTest {
         //when
         final TokenReissueResponse response = RestAssured.given().log().all()
             .cookie("refreshToken", refreshToken)
-            .when().log().all().get("/token")
+            .when().log().all().get("/reissue")
             .then().statusCode(HttpStatus.OK.value())
             .extract().body().as(TokenReissueResponse.class);
 

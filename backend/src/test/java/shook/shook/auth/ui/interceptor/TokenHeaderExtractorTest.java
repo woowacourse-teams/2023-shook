@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import shook.shook.auth.exception.AuthorizationException;
-import shook.shook.auth.exception.AuthorizationException.InvalidAuthorizationHeaderFormatException;
 
 class TokenHeaderExtractorTest {
 
@@ -38,7 +37,7 @@ class TokenHeaderExtractorTest {
         //when
         //then
         assertThatThrownBy(() -> TokenHeaderExtractor.extractToken(request))
-            .isInstanceOf(AuthorizationException.TokenNotFoundException.class);
+            .isInstanceOf(AuthorizationException.AccessTokenNotFoundException.class);
     }
 
     @DisplayName("요청 메세지의 authorization header가 잘못된 형태를 가지고 있으면 예외를 던진다.")
@@ -51,7 +50,7 @@ class TokenHeaderExtractorTest {
         //when
         //then
         assertThatThrownBy(() -> TokenHeaderExtractor.extractToken(request))
-            .isInstanceOf(InvalidAuthorizationHeaderFormatException.class);
+            .isInstanceOf(AuthorizationException.InvalidAuthorizationHeaderFormatException.class);
     }
 
     private static MockHttpServletRequest getMockHttpServletRequest(final String token) {

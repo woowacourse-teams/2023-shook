@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.application.AuthService;
 import shook.shook.auth.application.dto.TokenReissueResponse;
-import shook.shook.auth.exception.TokenException;
+import shook.shook.auth.exception.AuthorizationException;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,12 +15,12 @@ public class TokenController {
 
     private final AuthService authService;
 
-    @GetMapping("/token")
+    @GetMapping("/reissue")
     public ResponseEntity<TokenReissueResponse> reissue(
         @CookieValue(value = "refreshToken", defaultValue = "none") final String refreshToken
     ) {
         if (refreshToken.equals("none")) {
-            throw new TokenException.TokenNotFoundException();
+            throw new AuthorizationException.RefreshTokenNotFoundException();
         }
         final TokenReissueResponse response = authService.reissueToken(refreshToken);
         return ResponseEntity.ok(response);

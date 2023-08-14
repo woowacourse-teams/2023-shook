@@ -44,9 +44,9 @@ public class MemberException extends RuntimeException {
         }
     }
 
-    public static class NotExistMemberException extends MemberException {
+    public static class MemberNotExsistException extends MemberException {
 
-        public NotExistMemberException() {
+        public MemberNotExsistException() {
             super();
         }
     }

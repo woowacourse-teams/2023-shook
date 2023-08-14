@@ -47,7 +47,7 @@ public class TokenProvider {
     private String createToken(final long memberId, final long validTime) {
         final Claims claims = Jwts.claims().setSubject("user");
         claims.put("memberId", memberId);
-        Date now = new Date();
+        final Date now = new Date();
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)

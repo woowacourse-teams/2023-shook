@@ -1,6 +1,7 @@
 package shook.shook.auth.ui;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.AuthService;
-import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.application.dto.TokenInfo;
 import shook.shook.auth.ui.dto.LoginResponse;
 
@@ -38,7 +38,7 @@ class AuthControllerTest {
         RestAssured.port = port;
     }
 
-    @DisplayName("회원이 로그인을 하면 요청결과 200을 반환한다.")
+    @DisplayName("회원이 소셜 로그인을 하면 요청결과로 accessToken은 ResponseBody로 refreshToken은 쿠키로 전달되며 상태코드 200을 반환한다.")
     @Test
     void login_success() {
         //given
@@ -59,10 +59,13 @@ class AuthControllerTest {
         final LoginResponse responseBody = response.body().as(LoginResponse.class);
         final String cookie = response.header("Set-Cookie");
 
-        assertThat(responseBody.getAccessToken()).isEqualTo(expectResponseBody.getAccessToken());
-        assertThat(cookie.contains("refreshToken=asdfsg5")).isTrue();
-        assertThat(cookie.contains("Max-Age="+cookieAge)).isTrue();
-        assertThat(cookie.contains("Path=/token")).isTrue();
-        assertThat(cookie.contains("HttpOnly")).isTrue();
+        assertAll(
+            () -> assertThat(responseBody.getAccessToken()).isEqualTo(
+                expectResponseBody.getAccessToken()),
+            () -> assertThat(cookie.contains("refreshToken=asdfsg5")).isTrue(),
+            () -> assertThat(cookie.contains("Max-Age=" + cookieAge)).isTrue(),
+            () -> assertThat(cookie.contains("Path=/reissue")).isTrue(),
+            () -> assertThat(cookie.contains("HttpOnly")).isTrue()
+        );
     }
 }

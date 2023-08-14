@@ -3,7 +3,6 @@ package shook.shook.member.application;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,13 +59,13 @@ class MemberServiceTest extends UsingJpaTest {
     void findByEmail() {
         //given
         //when
-        final Optional<Member> result = memberService.findByEmail(
-            new Email(savedMember.getEmail()));
+        final Member result = memberService.findByEmail(
+            new Email(savedMember.getEmail())).get();
 
         //then
-        assertThat(result.get().getId()).isEqualTo(savedMember.getId());
-        assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(result.getId()).isEqualTo(savedMember.getId());
+        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
     }
 
     @DisplayName("회원을 id로 조회한다.")
@@ -74,11 +73,11 @@ class MemberServiceTest extends UsingJpaTest {
     void findById() {
         //given
         //when
-        final Optional<Member> result = memberService.findById(savedMember.getId());
+        final Member result = memberService.findById(savedMember.getId()).get();
 
         //then
-        assertThat(result.get().getId()).isEqualTo(savedMember.getId());
-        assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(result.getId()).isEqualTo(savedMember.getId());
+        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
     }
 }

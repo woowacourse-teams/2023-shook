@@ -50,7 +50,8 @@ public class GoogleInfoProvider {
                 GOOGLE_MEMBER_INFO_URL,
                 HttpMethod.GET,
                 request,
-                GoogleMemberInfoResponse.class).getBody();
+                GoogleMemberInfoResponse.class
+            ).getBody();
 
             if (!Objects.requireNonNull(responseEntity).isVerifiedEmail()) {
                 throw new OAuthException.InvalidEmailException();

@@ -16,9 +16,9 @@ public class CookieProvider {
     public Cookie createRefreshTokenCookie(final String refreshToken) {
         final Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setMaxAge(cookieAge);
-        cookie.setPath("/token");
+        cookie.setPath("/reissue");
         cookie.setHttpOnly(true);
-        // TODO: 2023/08/11 추후에 setSecure 옵션 넣기
+        cookie.setSecure(true);
         return cookie;
     }
 }
