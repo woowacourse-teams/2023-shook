@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
+import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart } from '@/shared/types/song';
@@ -13,7 +14,9 @@ const meta = {
       return (
         <ToastProvider>
           <VideoPlayerProvider>
-            <Story />
+            <TimerProvider time={killingPart.end - killingPart.start}>
+              <Story />
+            </TimerProvider>
           </VideoPlayerProvider>
         </ToastProvider>
       );
