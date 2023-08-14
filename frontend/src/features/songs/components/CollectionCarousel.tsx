@@ -64,26 +64,18 @@ const CarouselWrapper = styled.ul`
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
 
-  & > * {
+  & > li {
     scroll-snap-align: center;
     scroll-snap-stop: always;
 
     width: 100% !important;
     flex: 0 0 auto;
-    width: 100%;
-    list-style-type: none;
 
     height: 140px;
     color: ${({ theme }) => theme.color.white};
 
     background-color: ${({ theme }) => theme.color.secondary};
     border-radius: 8px;
-
-    transition: 1s all ease;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    padding: 16px;
   }
 
   &::-webkit-scrollbar {

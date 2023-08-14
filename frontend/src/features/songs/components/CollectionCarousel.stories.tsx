@@ -84,12 +84,13 @@ const Container = styled.div`
 const Content = styled.li`
   margin: auto;
   display: grid;
+  padding: 16px;
+  place-items: center;
   grid-template-rows: repeat(3, 30px);
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'jacket title'
     'jacket singer'
     'jacket collections';
-
   text-align: left;
 `;
