@@ -15,11 +15,4 @@ public class KillingPartLikeException extends RuntimeException {
             super();
         }
     }
-
-    public static class LikeStatusNotUpdatableException extends KillingPartLikeException {
-
-        public LikeStatusNotUpdatableException() {
-            super();
-        }
-    }
 }

@@ -22,7 +22,7 @@ class KillingPartLikeTest {
         final KillingPartLike killingPartLike = new KillingPartLike(KILLING_PART, MEMBER);
 
         // when
-        killingPartLike.updateDeletion();
+        killingPartLike.updateDeletion(false);
 
         // then
         assertThat(killingPartLike.isDeleted()).isFalse();

@@ -65,8 +65,8 @@ public class KillingPartLike {
         this.isDeleted = true;
     }
 
-    public void updateDeletion() {
-        this.isDeleted = !this.isDeleted;
+    public void updateDeletion(final boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public boolean isOwner(final Member member) {

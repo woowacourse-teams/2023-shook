@@ -113,8 +113,10 @@ public class KillingPart {
 
     public void like(final KillingPartLike likeToAdd) {
         validateLikeUpdate(likeToAdd);
-        killingPartLikes.addLike(likeToAdd);
-        this.likeCount++;
+        final boolean isLikeCreated = killingPartLikes.addLike(likeToAdd);
+        if (isLikeCreated) {
+            this.likeCount++;
+        }
     }
 
     private void validateLikeUpdate(final KillingPartLike like) {
@@ -128,8 +130,10 @@ public class KillingPart {
 
     public void unlike(final KillingPartLike likeToDelete) {
         validateLikeUpdate(likeToDelete);
-        killingPartLikes.deleteLike(likeToDelete);
-        this.likeCount--;
+        final boolean isLikeDeleted = killingPartLikes.deleteLike(likeToDelete);
+        if (isLikeDeleted) {
+            this.likeCount--;
+        }
     }
 
     public Optional<KillingPartLike> findLikeByMember(final Member member) {
