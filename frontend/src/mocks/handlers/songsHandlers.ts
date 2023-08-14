@@ -61,4 +61,8 @@ export const songsHandlers = [
 
     return res(ctx.status(200), ctx.json(response));
   }),
+
+  rest.put(`${BASE_URL}/songs/:songId/parts/:partId/likes`, (req, res, ctx) => {
+    return res(ctx.status(201));
+  }),
 ];
