@@ -89,7 +89,7 @@ export const Container = styled.div`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 
-  animation: ${slideUpAnimation} 0.4s ease-in-out;
+  animation: ${slideUpAnimation} 0.1s ease-in-out;
 `;
 
 export const Wrapper = styled.div`

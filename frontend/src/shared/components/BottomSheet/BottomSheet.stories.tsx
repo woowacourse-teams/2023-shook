@@ -1,3 +1,4 @@
+import { styled } from 'styled-components';
 import useModal from '../Modal/hooks/useModal';
 import BottomSheet from './BottomSheet';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -20,10 +21,14 @@ export const Example: Story = {
           <button onClick={openModal}>모달 열기</button>
 
           <BottomSheet isOpen={isOpen} closeModal={closeModal}>
-            <div>댓글 10개</div>
-            <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
-            <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
-            <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
+            <Continer>
+              <div>댓글 10개</div>
+              <ul>
+                <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
+                <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
+                <li>대충 댓글이라는 댓글이라는 댓글이라는....</li>
+              </ul>
+            </Continer>
           </BottomSheet>
         </>
       );
@@ -32,3 +37,7 @@ export const Example: Story = {
     return <RegistrationModal />;
   },
 };
+
+const Continer = styled.div`
+  padding: 16px;
+`;
