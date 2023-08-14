@@ -11,18 +11,22 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
   const carouselRef = useRef<HTMLUListElement | null>(null);
   const numberOfItems = Children.count(children);
 
-  const handleScroll: React.UIEventHandler<HTMLUListElement> = (event) => {
-    const { scrollLeft, offsetWidth } = event.target as HTMLUListElement;
-    const index = Math.round(scrollLeft / offsetWidth);
+  const handleScroll: React.UIEventHandler<HTMLUListElement> = ({ currentTarget }) => {
+    const { scrollLeft, scrollWidth } = currentTarget;
+    const itemWidth = scrollWidth / numberOfItems;
 
-    setCurrentIndex(index);
+    setCurrentIndex(Math.round(scrollLeft / itemWidth));
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (carouselRef.current) {
         const nextIndex = (currentIndex + 1) % numberOfItems;
-        carouselRef.current.scrollLeft = nextIndex * carouselRef.current.offsetWidth;
+        const itemWidth = carouselRef.current.scrollWidth / numberOfItems;
+        carouselRef.current.scrollLeft = nextIndex * itemWidth;
+
+        console.log('offsetWidth', carouselRef.current.offsetWidth);
+        console.log('scrollWidth', carouselRef.current.scrollWidth);
       }
     }, 2000);
 
@@ -54,7 +58,7 @@ const Wrapper = styled.div`
 
 const CarouselWrapper = styled.ul`
   display: flex;
-  will-change: transform;
+
   column-gap: 16px;
   margin-bottom: 16px;
   width: 100%;
@@ -64,12 +68,11 @@ const CarouselWrapper = styled.ul`
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
 
-  & > li {
+  & > li,
+  & > div {
     scroll-snap-align: center;
     scroll-snap-stop: always;
-
-    width: 100% !important;
-    flex: 0 0 auto;
+    width: 85% !important;
 
     height: 140px;
     color: ${({ theme }) => theme.color.white};
