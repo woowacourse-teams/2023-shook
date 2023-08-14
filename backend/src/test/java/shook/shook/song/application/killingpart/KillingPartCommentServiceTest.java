@@ -21,7 +21,7 @@ import shook.shook.support.UsingJpaTest;
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 class KillingPartCommentServiceTest extends UsingJpaTest {
 
-    private static final long UNSAVED_PART_ID = 10L;
+    private static final long UNSAVED_PART_ID = Long.MAX_VALUE;
     private static KillingPart SAVED_PART;
 
     @Autowired

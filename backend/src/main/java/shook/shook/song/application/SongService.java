@@ -9,8 +9,8 @@ import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
-import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 import shook.shook.song.domain.repository.SongRepository;
+import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
@@ -22,21 +22,23 @@ public class SongService {
     private final KillingPartRepository killingPartRepository;
 
     @Transactional
-    public long register(final SongWithKillingPartsRegisterRequest request) {
-        final Song song = request.toSong();
+    public Long register(final SongWithKillingPartsRegisterRequest request) {
+        final Song song = request.getSong();
         final Song savedSong = songRepository.save(song);
 
         killingPartRepository.saveAll(song.getKillingParts());
 
         return savedSong.getId();
     }
-    
+
     public List<HighLikedSongResponse> showHighLikedSongs() {
         final List<SongTotalLikeCountDto> songsWithLikeCount = songRepository.findAllWithTotalLikeCount();
 
-        return HighLikedSongResponse.ofSongTotalLikeCounts(sortByHighestLikeCountAndId(songsWithLikeCount));
+        return HighLikedSongResponse.ofSongTotalLikeCounts(
+            sortByHighestLikeCountAndId(songsWithLikeCount)
+        );
     }
-    
+
     private List<SongTotalLikeCountDto> sortByHighestLikeCountAndId(
         final List<SongTotalLikeCountDto> songWithLikeCounts
     ) {
@@ -56,5 +58,4 @@ public class SongService {
 
         return SongResponse.from(song);
     }
-
 }

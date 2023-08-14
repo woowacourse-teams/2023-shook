@@ -182,7 +182,7 @@ class KillingPartTest {
             assertThat(killingPart.getLikeCount()).isEqualTo(1);
         }
 
-        @DisplayName("킬링파트에 좋아요를 누를 때, 동일 좋아요가 이미 존재했다면 likeCount 가 증가하지 않는다.")
+        @DisplayName("킬링파트에 좋아요를 누를 때, 동일 좋아요가 이미 존재했다면 예외가 발생한다.")
         @Test
         void likeCount_updateFail() {
             // given
@@ -191,12 +191,9 @@ class KillingPartTest {
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
 
-            // when
-            killingPart.like(like);
-
-            // then
-            assertThat(killingPart.getKillingPartLikes()).containsOnly(like);
-            assertThat(killingPart.getLikeCount()).isEqualTo(1);
+            // when, then
+            assertThatThrownBy(() -> killingPart.like(like))
+                .isInstanceOf(KillingPartLikeException.LikeStatusNotUpdatableException.class);
         }
 
         @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하던 것을 삭제하면 likeCount 가 감소한다.")
@@ -216,7 +213,7 @@ class KillingPartTest {
             assertThat(killingPart.getLikeCount()).isEqualTo(0);
         }
 
-        @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하지 않았다면 likeCount 가 감소하지 않는다.")
+        @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하지 않았다면 예외가 발생한다.")
         @Test
         void likeCount_deleteFail() {
             // given
@@ -225,16 +222,12 @@ class KillingPartTest {
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
 
-
-            // when
+            // when, then
             final Member newMember = new Member("new@naver.com", "new");
             final KillingPartLike newLike = new KillingPartLike(killingPart, newMember);
 
-            killingPart.unlike(newLike);
-
-            // then
-            assertThat(killingPart.getKillingPartLikes()).containsExactly(like);
-            assertThat(killingPart.getLikeCount()).isEqualTo(1);
+            assertThatThrownBy(() -> killingPart.unlike(newLike))
+                .isInstanceOf(KillingPartLikeException.LikeStatusNotUpdatableException.class);
         }
     }
 

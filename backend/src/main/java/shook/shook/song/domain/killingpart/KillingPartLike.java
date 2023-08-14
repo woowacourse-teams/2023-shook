@@ -49,24 +49,6 @@ public class KillingPartLike {
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public KillingPartLike(final KillingPart killingPart, final Member member) {
-        this.killingPart = killingPart;
-        this.member = member;
-        this.isDeleted = true;
-    }
-
-    public void updateDeletion(final boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public boolean isOwner(final Member member) {
-        return this.member.equals(member);
-    }
-
-    public boolean doesNotBelongsToKillingPart(final KillingPart killingPart) {
-        return !this.killingPart.equals(killingPart);
-    }
-
     @PrePersist
     private void prePersist() {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
@@ -75,6 +57,24 @@ public class KillingPartLike {
     @PreUpdate
     private void preUpdate() {
         updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+    }
+
+    public KillingPartLike(final KillingPart killingPart, final Member member) {
+        this.killingPart = killingPart;
+        this.member = member;
+        this.isDeleted = true;
+    }
+
+    public void updateDeletion() {
+        this.isDeleted = !this.isDeleted;
+    }
+
+    public boolean isOwner(final Member member) {
+        return this.member.equals(member);
+    }
+
+    public boolean isBelongToOtherKillingPart(final KillingPart killingPart) {
+        return !this.killingPart.equals(killingPart);
     }
 
     @Override

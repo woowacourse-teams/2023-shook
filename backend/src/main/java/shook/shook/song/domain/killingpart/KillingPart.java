@@ -60,7 +60,7 @@ public class KillingPart {
     private final KillingPartComments comments = new KillingPartComments();
 
     @Embedded
-    private KillingPartLikes killingPartLikes = new KillingPartLikes();
+    private final KillingPartLikes killingPartLikes = new KillingPartLikes();
 
     @Column(nullable = false)
     private int likeCount = 0;
@@ -113,27 +113,23 @@ public class KillingPart {
 
     public void like(final KillingPartLike likeToAdd) {
         validateLikeUpdate(likeToAdd);
-        final boolean isLikeCreated = killingPartLikes.addLike(likeToAdd);
-        if (isLikeCreated) {
-            this.likeCount++;
-        }
+        killingPartLikes.addLike(likeToAdd);
+        this.likeCount++;
     }
 
     private void validateLikeUpdate(final KillingPartLike like) {
         if (Objects.isNull(like)) {
             throw new KillingPartLikeException.EmptyLikeException();
         }
-        if (like.doesNotBelongsToKillingPart(this)) {
+        if (like.isBelongToOtherKillingPart(this)) {
             throw new KillingPartLikeException.LikeForOtherKillingPartException();
         }
     }
 
     public void unlike(final KillingPartLike likeToDelete) {
         validateLikeUpdate(likeToDelete);
-        final boolean isLikeDeleted = killingPartLikes.deleteLike(likeToDelete);
-        if (isLikeDeleted) {
-            this.likeCount--;
-        }
+        killingPartLikes.deleteLike(likeToDelete);
+        this.likeCount--;
     }
 
     public Optional<KillingPartLike> findLikeByMember(final Member member) {

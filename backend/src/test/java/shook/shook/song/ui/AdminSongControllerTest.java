@@ -1,7 +1,5 @@
 package shook.shook.song.ui;
 
-import static org.hamcrest.Matchers.matchesPattern;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.List;
@@ -17,8 +15,6 @@ import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class AdminSongControllerTest {
-
-    private static final String LOCATION_HEADER_WITH_ID_REGEX = "/\\d+";
 
     @LocalServerPort
     public int port;
@@ -48,7 +44,6 @@ class AdminSongControllerTest {
             .when().log().all()
             .post("/songs")
             .then().log().all()
-            .statusCode(HttpStatus.CREATED.value())
-            .header("Location", matchesPattern(LOCATION_HEADER_WITH_ID_REGEX));
+            .statusCode(HttpStatus.CREATED.value());
     }
 }

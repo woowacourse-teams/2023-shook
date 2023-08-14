@@ -23,8 +23,8 @@ import shook.shook.support.UsingJpaTest;
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 class KillingPartLikeServiceTest extends UsingJpaTest {
 
-    private static final long UNSAVED_MEMBER_ID = 10L;
-    private static final long UNSAVED_KILLING_PART_ID = 10L;
+    private static final long UNSAVED_MEMBER_ID = Long.MAX_VALUE;
+    private static final long UNSAVED_KILLING_PART_ID = Long.MAX_VALUE;
     private static KillingPart SAVED_KILLING_PART;
     private static Member SAVED_MEMBER;
 
@@ -132,7 +132,8 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_KillingPartException() {
             // given
             // when, then
-            assertThatThrownBy(() -> likeService.create(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId()))
+            assertThatThrownBy(
+                () -> likeService.create(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId()))
                 .isInstanceOf(KillingPartException.PartNotExistException.class);
         }
 
@@ -141,7 +142,8 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_MemberException() {
             // given
             // when, then
-            assertThatThrownBy(() -> likeService.create(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID))
+            assertThatThrownBy(
+                () -> likeService.create(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID))
                 .isInstanceOf(MemberException.class);
         }
     }
@@ -228,7 +230,8 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_KillingPartException() {
             // given
             // when, then
-            assertThatThrownBy(() -> likeService.delete(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId()))
+            assertThatThrownBy(
+                () -> likeService.delete(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId()))
                 .isInstanceOf(KillingPartException.PartNotExistException.class);
         }
 
@@ -237,7 +240,8 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_MemberException() {
             // given
             // when, then
-            assertThatThrownBy(() -> likeService.delete(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID))
+            assertThatThrownBy(
+                () -> likeService.delete(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID))
                 .isInstanceOf(MemberException.class);
         }
     }

@@ -17,7 +17,9 @@ public class SongController {
     private final SongService songService;
 
     @GetMapping
-    public ResponseEntity<SongResponse> showSongById(@PathVariable(name = "song_id") Long songId) {
+    public ResponseEntity<SongResponse> showSongById(
+        @PathVariable(name = "song_id") final Long songId
+    ) {
         final SongResponse response = songService.findById(songId);
         return ResponseEntity.ok(response);
     }

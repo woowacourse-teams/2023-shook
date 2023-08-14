@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 import shook.shook.member.domain.Member;
+import shook.shook.song.exception.killingpart.KillingPartLikeException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -20,27 +21,25 @@ public class KillingPartLikes {
     @Where(clause = "is_deleted = false")
     private List<KillingPartLike> likes = new ArrayList<>();
 
-    public boolean addLike(final KillingPartLike like) {
+    public void addLike(final KillingPartLike like) {
         if (like.isDeleted()) {
-            like.updateDeletion(false);
+            like.updateDeletion();
             likes.add(like);
 
-            return true;
+            return;
         }
-
-        return false;
+        throw new KillingPartLikeException.LikeStatusNotUpdatableException();
     }
 
-    public boolean deleteLike(final KillingPartLike like) {
+    public void deleteLike(final KillingPartLike like) {
         if (like.isDeleted()) {
-            return false;
+            throw new KillingPartLikeException.LikeStatusNotUpdatableException();
         }
-        like.updateDeletion(true);
+        like.updateDeletion();
         likes.remove(like);
-
-        return true;
     }
 
+    // TODO: 2023-08-14 성능향상을 위해 List->Map으로 필드 변경하는 고도화 고려
     public Optional<KillingPartLike> getLikeByMember(final Member member) {
         return likes.stream()
             .filter(like -> like.isOwner(member))

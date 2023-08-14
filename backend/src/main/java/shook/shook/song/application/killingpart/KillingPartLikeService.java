@@ -23,11 +23,11 @@ public class KillingPartLikeService {
 
     @Transactional
     public void create(final Long killingPartId, final Long memberId) {
-        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
-
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(MemberException::new);
+
+        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
+            .orElseThrow(KillingPartException.PartNotExistException::new);
 
         if (killingPart.findLikeByMember(member).isPresent()) {
             return;
@@ -47,14 +47,14 @@ public class KillingPartLikeService {
 
     @Transactional
     public void delete(final Long killingPartId, final Long memberId) {
-        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
-
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(MemberException::new);
 
+        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
+            .orElseThrow(KillingPartException.PartNotExistException::new);
+
         killingPart.findLikeByMember(member)
-            .ifPresent(killingPart::unlike);
+            .ifPresent(like -> killingPart.unlike(like));
     }
 
 }

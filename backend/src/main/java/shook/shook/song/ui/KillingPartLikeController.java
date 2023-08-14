@@ -40,6 +40,4 @@ public class KillingPartLikeController {
 
         return ResponseEntity.noContent().build();
     }
-
-
 }

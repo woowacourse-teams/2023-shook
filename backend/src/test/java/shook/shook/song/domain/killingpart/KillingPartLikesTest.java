@@ -1,6 +1,8 @@
 package shook.shook.song.domain.killingpart;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.exception.killingpart.KillingPartLikeException;
 
 class KillingPartLikesTest {
 
@@ -27,7 +30,7 @@ class KillingPartLikesTest {
     @Nested
     class AddLike {
 
-        @DisplayName("좋아요가 삭제된 상태였다면 삭제가 취소되고 true가 반환된다.")
+        @DisplayName("좋아요가 삭제된 상태였다면 좋아요 상태가 변경된다.")
         @Test
         void addLike_true_prevDeleted() {
             // given
@@ -36,39 +39,34 @@ class KillingPartLikesTest {
             LIKES.deleteLike(like);
 
             // when
-            final boolean isSuccess = LIKES.addLike(like);
+            LIKES.addLike(like);
 
             // then
             assertThat(LIKES.getSize()).isEqualTo(1);
-            assertThat(isSuccess).isTrue();
         }
 
-        @DisplayName("좋아요가 없는 상태였다면 저장되고 true가 반환된다.")
+        @DisplayName("좋아요가 없는 상태였다면 새 좋아요가 등록된다.")
         @Test
         void addLike_true_prevNonExist() {
             // given
-            // when
+            // when, then
             final KillingPartLike like = new KillingPartLike(KILLING_PART, MEMBER);
-            final boolean isSuccess = LIKES.addLike(like);
+            LIKES.addLike(like);
 
             // then
             assertThat(LIKES.getSize()).isEqualTo(1);
-            assertThat(isSuccess).isTrue();
         }
 
-        @DisplayName("좋아요가 존재하는 상태였다면 false가 반환된다.")
+        @DisplayName("좋아요가 존재하는 상태였다면 예외가 발생한다.")
         @Test
         void addLike_false_prevExist() {
             // given
             final KillingPartLike like = new KillingPartLike(KILLING_PART, MEMBER);
             LIKES.addLike(like);
 
-            // when
-            final boolean isSuccess = LIKES.addLike(like);
-
-            // then
-            assertThat(LIKES.getSize()).isEqualTo(1);
-            assertThat(isSuccess).isFalse();
+            // when, then
+            assertThatThrownBy(() -> LIKES.addLike(like))
+                .isInstanceOf(KillingPartLikeException.LikeStatusNotUpdatableException.class);
         }
     }
 
@@ -76,38 +74,32 @@ class KillingPartLikesTest {
     @Nested
     class DeleteLike {
 
-        @DisplayName("좋아요가 존재하는 상태였다면 삭제되고 true가 반환된다.")
+        @DisplayName("좋아요가 존재하는 상태였다면 취소에 성공한다.")
         @Test
         void deleteLike_true_prevExist() {
             // given
             final KillingPartLike like = new KillingPartLike(KILLING_PART, MEMBER);
             LIKES.addLike(like);
 
-            // when
-            final boolean isSuccess = LIKES.deleteLike(like);
-
-            // then
+            // when, then
+            assertDoesNotThrow(() -> LIKES.deleteLike(like));
             assertThat(LIKES.getSize()).isEqualTo(0);
-            assertThat(isSuccess).isTrue();
+
 
         }
 
-        @DisplayName("좋아요가 없는 상태였다면 false가 반환된다.")
+        @DisplayName("좋아요가 없는 상태였다면 예외가 발생한다.")
         @Test
         void deleteLike_false_prevNonExist() {
             // given
             final KillingPartLike like = new KillingPartLike(KILLING_PART, MEMBER);
 
-            // when
-            final boolean isSuccess = LIKES.deleteLike(like);
-
-            // then
-            assertThat(LIKES.getSize()).isEqualTo(0);
-            assertThat(isSuccess).isFalse();
-
+            // when, then
+            assertThatThrownBy(() -> LIKES.deleteLike(like))
+                .isInstanceOf(KillingPartLikeException.LikeStatusNotUpdatableException.class);
         }
 
-        @DisplayName("좋아요가 삭제된 상태였다면 false가 반환된다.")
+        @DisplayName("좋아요가 삭제된 상태였다면 예외가 발생한다.")
         @Test
         void deleteLike_false_prevDeleted() {
             // given
@@ -115,12 +107,9 @@ class KillingPartLikesTest {
             LIKES.addLike(like);
             LIKES.deleteLike(like);
 
-            // when
-            final boolean isSuccess = LIKES.deleteLike(like);
-
-            // then
-            assertThat(LIKES.getSize()).isEqualTo(0);
-            assertThat(isSuccess).isFalse();
+            // when, then
+            assertThatThrownBy(() -> LIKES.deleteLike(like))
+                .isInstanceOf(KillingPartLikeException.LikeStatusNotUpdatableException.class);
         }
     }
 

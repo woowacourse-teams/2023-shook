@@ -12,7 +12,8 @@ class KillingPartLikeTest {
 
     private static final Song EMPTY_SONG = null;
     private static final Member MEMBER = new Member("email@naver.com", "nickname");
-    private static final KillingPart KILLING_PART = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+    private static final KillingPart KILLING_PART = KillingPart.saved(1L, 10, PartLength.SHORT,
+        EMPTY_SONG);
 
     @DisplayName("isDeleted 상태를 변경할 수 있다.")
     @Test
@@ -21,7 +22,7 @@ class KillingPartLikeTest {
         final KillingPartLike killingPartLike = new KillingPartLike(KILLING_PART, MEMBER);
 
         // when
-        killingPartLike.updateDeletion(false);
+        killingPartLike.updateDeletion();
 
         // then
         assertThat(killingPartLike.isDeleted()).isFalse();
@@ -50,7 +51,7 @@ class KillingPartLikeTest {
         final KillingPartLike like = new KillingPartLike(KILLING_PART, MEMBER);
 
         // when
-        final boolean doesNotBelongsToKillingPart = like.doesNotBelongsToKillingPart(KILLING_PART);
+        final boolean doesNotBelongsToKillingPart = like.isBelongToOtherKillingPart(KILLING_PART);
 
         // then
         assertThat(doesNotBelongsToKillingPart).isFalse();
