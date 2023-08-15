@@ -8,6 +8,7 @@ import shareIcon from '@/assets/icon/share.svg';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -36,9 +37,10 @@ const KillingPartTrack = ({
 
   const [isLikes, setIsLikes] = useState(likeStatus);
 
-  const toggleLikes = async () => {
+  useDebounceEffect(() => toggleKillingPartLikes(songId, partId, isLikes), isLikes);
+
+  const toggleLikes = () => {
     setIsLikes((prev) => !prev);
-    await toggleKillingPartLikes(songId, partId, isLikes);
   };
 
   const ordinalRank = formatOrdinals(rank);
@@ -114,7 +116,7 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton onClick={() => toggleLikes()} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
+        <LikeButton onClick={toggleLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
           <ButtonIcon src={heartIcon} alt="" />
           <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
         </LikeButton>
