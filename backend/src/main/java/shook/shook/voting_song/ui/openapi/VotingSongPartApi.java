@@ -1,4 +1,4 @@
-package shook.shook.voting_song.ui;
+package shook.shook.voting_song.ui.openapi;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
