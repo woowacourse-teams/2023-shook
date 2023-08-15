@@ -16,7 +16,6 @@ create table if not exists killing_part
     start_second integer      not null,
     length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
     song_id      bigint       not null,
-    like_count   integer      not null,
     created_at   timestamp(6) not null,
     primary key (id)
 );
@@ -76,3 +75,5 @@ create table if not exists member
     nickname varchar(100) not null,
     primary key (id)
 );
+
+alter table killing_part add column like_count integer not null;

@@ -1,11 +1,11 @@
-name: Frontend Production Deploy (CD)
+name: Frontend Develop Deploy (CD)
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Frontend Deploy
+    name: Frontend Develop Deploy
     runs-on: shook-runner
     
     steps:
