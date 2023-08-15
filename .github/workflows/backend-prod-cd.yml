@@ -1,12 +1,12 @@
-name: Backend Develop Deploy (CD)
+name: Backend Production Deploy (CD)
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Backend Develop Deploy
-    runs-on: shook-runner
+    name: Backend Production Deploy
+    runs-on: shook-prod
 
     steps:
       - name: Checkout Source Code
