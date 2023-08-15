@@ -27,4 +27,4 @@ jobs:
         run: rm -rf /home/ubuntu/dist
       - name: Move generated new static pages
         shell: bash
-        run: cp -r /frontend/dist ~/
+        run: cp -r frontend/dist ~/
