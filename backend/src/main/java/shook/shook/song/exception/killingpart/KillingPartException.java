@@ -8,4 +8,18 @@ public class KillingPartException extends RuntimeException {
             super();
         }
     }
+
+    public static class SongNotUpdatableException extends KillingPartException {
+
+        public SongNotUpdatableException() {
+            super();
+        }
+    }
+
+    public static class SongMaxKillingPartExceededException extends KillingPartException {
+
+        public SongMaxKillingPartExceededException() {
+            super();
+        }
+    }
 }

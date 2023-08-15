@@ -2,9 +2,16 @@ package shook.shook.song.exception.killingpart;
 
 public class KillingPartsException {
 
-    public static class OverSizeLimitException extends KillingPartException {
+    public static class OutOfSizeException extends KillingPartException {
 
-        public OverSizeLimitException() {
+        public OutOfSizeException() {
+            super();
+        }
+    }
+
+    public static class EmptyKillingPartException extends KillingPartException {
+
+        public EmptyKillingPartException() {
             super();
         }
     }
