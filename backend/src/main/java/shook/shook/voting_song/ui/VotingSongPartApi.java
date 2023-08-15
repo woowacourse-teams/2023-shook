@@ -18,7 +18,7 @@ public interface VotingSongPartApi {
         description = "파트 수집 중인 노래에 파트를 등록한다."
     )
     @ApiResponse(
-        responseCode = "200",
+        responseCode = "201",
         description = "파트 수집 중인 노래에 파트 등록 성공"
     )
     @Parameter(
