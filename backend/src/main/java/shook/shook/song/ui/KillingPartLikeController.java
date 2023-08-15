@@ -1,5 +1,6 @@
 package shook.shook.song.ui;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class KillingPartLikeController {
     @PutMapping
     public ResponseEntity<Void> createLikeOnKillingPart(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
-        @RequestBody final KillingPartLikeRequest request,
+        @Valid @RequestBody final KillingPartLikeRequest request,
         @RequestParam final Long memberId
         // TODO: 2023-08-13 ArgumentResolver에서 memberId 받아오도록 변경
     ) {

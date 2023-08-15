@@ -87,7 +87,7 @@ public class Song {
 
     private void validate(final KillingParts killingParts) {
         if (Objects.isNull(killingParts)) {
-            throw new KillingPartsException.EmptyKillingPartException();
+            throw new KillingPartsException.EmptyKillingPartsException();
         }
     }
 

@@ -1,18 +1,25 @@
 package shook.shook.song.exception.killingpart;
 
-public class KillingPartsException {
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class KillingPartsException extends CustomException {
+
+    public KillingPartsException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
 
     public static class OutOfSizeException extends KillingPartException {
 
         public OutOfSizeException() {
-            super();
+            super(ErrorCode.KILLING_PARTS_OUT_OF_SIZE);
         }
     }
 
-    public static class EmptyKillingPartException extends KillingPartException {
+    public static class EmptyKillingPartsException extends KillingPartException {
 
-        public EmptyKillingPartException() {
-            super();
+        public EmptyKillingPartsException() {
+            super(ErrorCode.EMPTY_KILLING_PARTS);
         }
     }
 }

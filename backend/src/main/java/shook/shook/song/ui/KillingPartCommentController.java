@@ -1,5 +1,6 @@
 package shook.shook.song.ui;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class KillingPartCommentController {
     @PostMapping
     public ResponseEntity<Void> registerKillingPartComment(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
-        @RequestBody final KillingPartCommentRegisterRequest request
+        @Valid @RequestBody final KillingPartCommentRegisterRequest request
     ) {
         killingPartCommentService.register(killingPartId, request);
 

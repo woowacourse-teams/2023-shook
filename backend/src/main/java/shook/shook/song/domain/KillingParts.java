@@ -29,7 +29,7 @@ public class KillingParts {
 
     private void validate(final List<KillingPart> killingParts) {
         if (Collections.isEmpty(killingParts)) {
-            throw new KillingPartsException.EmptyKillingPartException();
+            throw new KillingPartsException.EmptyKillingPartsException();
         }
         if (killingParts.size() != KILLING_PART_COUNT) {
             throw new KillingPartsException.OutOfSizeException();
