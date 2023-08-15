@@ -22,13 +22,9 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
   const initialTimeRef = useRef(time);
   const intervalRef = useRef<number | null>(null);
 
-  const count = useCallback(() => {
-    setCountedTime((prev) => prev + 0.1);
-  }, []);
-
-  const updateIntervalRef = useCallback(() => {
-    intervalRef.current = window.setInterval(count, 100);
-  }, [count]);
+  const updateIntervalRef = () => {
+    intervalRef.current = window.setInterval(() => setCountedTime((prev) => prev + 0.1), 100);
+  };
 
   const clearIntervalRef = () => {
     if (intervalRef.current === null) return;
@@ -47,7 +43,7 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
     resetTimer();
     updateIntervalRef();
     setIsStart(true);
-  }, [resetTimer, updateIntervalRef]);
+  }, [resetTimer]);
 
   const toggleAutoRestart = () => setAutoRestart((prev) => !prev);
 
