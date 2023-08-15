@@ -1,10 +1,9 @@
 package shook.shook.auth.ui.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpHeaders;
-import shook.shook.auth.exception.AuthorizationException.AccessTokenNotFoundException;
-import shook.shook.auth.exception.AuthorizationException.InvalidAuthorizationHeaderFormatException;
-import shook.shook.util.StringChecker;
 
 public class TokenHeaderExtractor {
 
@@ -13,26 +12,19 @@ public class TokenHeaderExtractor {
     private static final int TOKEN_INDEX = 1;
     private static final String TOKEN_PREFIX = "Bearer";
 
-    public static String extractToken(final HttpServletRequest request) {
+    public static Optional<String> extractToken(final HttpServletRequest request) {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        validateAuthorizationHeader(authorization);
-        return getToken(authorization);
+        if (Strings.isEmpty(authorization)) {
+            return Optional.empty();
+        }
+        return getToken(authorization.split(" "));
     }
 
-    private static void validateAuthorizationHeader(final String authorizationHeader) {
-        if (StringChecker.isNullOrBlank(authorizationHeader)) {
-            throw new AccessTokenNotFoundException();
+    private static Optional<String> getToken(final String[] parts) {
+        if (parts.length != TOKEN_FORMAT_SIZE ||
+            !parts[TOKEN_PREFIX_INDEX].equals(TOKEN_PREFIX)) {
+            return Optional.empty();
         }
-
-        final String[] tokenElement = authorizationHeader.split(" ");
-        if (tokenElement.length != TOKEN_FORMAT_SIZE ||
-            !tokenElement[TOKEN_PREFIX_INDEX].equals(TOKEN_PREFIX)) {
-            throw new InvalidAuthorizationHeaderFormatException();
-        }
-    }
-
-    private static String getToken(final String authorizationHeaderValue) {
-        final String[] tokenElement = authorizationHeaderValue.split(" ");
-        return tokenElement[TOKEN_INDEX];
+        return Optional.ofNullable(parts[TOKEN_INDEX]);
     }
 }

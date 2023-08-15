@@ -10,12 +10,27 @@ import shook.shook.auth.exception.AuthorizationException;
 public class AuthContext {
 
     private Long memberId;
+    private MemberStatus memberStatus;
 
-    public void setMemberId(final Long memberId) {
-        if (Objects.isNull(memberId) || memberId <= 0) {
+    public void setLoginMember(final Long memberId) {
+        validateMemberId(memberId);
+        this.memberId = memberId;
+        this.memberStatus = MemberStatus.MEMBER;
+    }
+
+    public void setNotLoginMember() {
+        this.memberId = 0L;
+        this.memberStatus = MemberStatus.ANONYMOUS;
+    }
+
+    private static void validateMemberId(final Long memberId) {
+        if (Objects.isNull(memberId) || memberId < 0) {
             throw new AuthorizationException.AuthContextException();
         }
-        this.memberId = memberId;
+    }
+
+    public boolean isAnonymous() {
+        return this.memberStatus == MemberStatus.ANONYMOUS;
     }
 
     public long getMemberId() {
@@ -23,5 +38,12 @@ public class AuthContext {
             throw new AuthorizationException.AuthContextException();
         }
         return memberId;
+    }
+
+    public MemberStatus getMemberStatus() {
+        if (Objects.isNull(memberStatus)) {
+            throw new AuthorizationException.AuthContextException();
+        }
+        return memberStatus;
     }
 }

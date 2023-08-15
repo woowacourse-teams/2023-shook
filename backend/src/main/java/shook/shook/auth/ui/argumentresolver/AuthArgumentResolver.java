@@ -29,6 +29,9 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
         final NativeWebRequest webRequest,
         final WebDataBinderFactory binderFactory
     ) {
+        if (authContext.isAnonymous()) {
+            return null;
+        }
         return new MemberInfo(authContext.getMemberId());
     }
 }
