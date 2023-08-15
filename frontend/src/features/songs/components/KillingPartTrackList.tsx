@@ -7,12 +7,14 @@ interface KillingPartTrackListProps {
   killingParts: SongDetail['killingParts'];
   nowPlayingTrack: KillingPart['id'];
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrackList = ({
   killingParts,
   nowPlayingTrack,
   setNowPlayingTrack,
+  setCommentsPartId,
 }: KillingPartTrackListProps) => {
   return (
     <TrackList role="radiogroup">
@@ -26,6 +28,7 @@ const KillingPartTrackList = ({
               killingPart={killingPart}
               isNowPlayingTrack={isNowPlayingTrack}
               setNowPlayingTrack={setNowPlayingTrack}
+              setCommentsPartId={setCommentsPartId}
             />
           </TimerProvider>
         );

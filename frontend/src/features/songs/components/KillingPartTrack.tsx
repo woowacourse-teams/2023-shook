@@ -17,12 +17,14 @@ interface KillingPartTrackProps {
   killingPart: KillingPart;
   isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
   killingPart: { id: partId, rank, start, end, likeCount, partVideoUrl },
   isNowPlayingTrack,
   setNowPlayingTrack,
+  setCommentsPartId,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
@@ -55,6 +57,7 @@ const KillingPartTrack = ({
   const playTrack = () => {
     seekTo(start);
     setNowPlayingTrack(partId);
+    setCommentsPartId(partId);
   };
 
   const stopTrack = () => {

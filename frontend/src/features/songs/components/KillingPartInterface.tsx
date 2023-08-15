@@ -16,6 +16,7 @@ const DEFAULT_PART_ID = -1;
 
 const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProps) => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
+  const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
   const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();
 
@@ -76,9 +77,10 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
         killingParts={killingParts}
         nowPlayingTrack={nowPlayingTrack}
         setNowPlayingTrack={setNowPlayingTrack}
+        setCommentsPartId={setCommentsPartId}
       />
-      {nowPlayingTrack !== DEFAULT_PART_ID && (
-        <CommentList songId={songId} partId={nowPlayingTrack} />
+      {commentsPartId !== DEFAULT_PART_ID && (
+        <CommentList songId={songId} partId={commentsPartId} />
       )}
     </>
   );
