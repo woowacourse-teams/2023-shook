@@ -15,12 +15,12 @@ jobs:
         shell: bash
         run: |
           cd frontend
-          sudo npm ci
+          npm ci
       - name: Build files
         shell: bash
         run: |
           cd frontend
-          sudo npm run build
+          npm run build
       - name: Remove legacy static pages
         shell: bash
         run: rm -rf home/ubuntu/dist
