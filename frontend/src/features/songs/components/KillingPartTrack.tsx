@@ -38,7 +38,7 @@ const KillingPartTrack = ({
   };
 
   const getPlayIcon = useCallback(() => {
-    if (!isNowPlayingTrack || YT.PlayerState.PAUSED) {
+    if (!isNowPlayingTrack || playerState === YT.PlayerState.PAUSED) {
       return emptyPlayIcon;
     }
 
