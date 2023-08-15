@@ -1,3 +1,11 @@
+drop table if exists song;
+drop table if exists killing_part;
+drop table if exists killing_part_like;
+drop table if exists killing_part_comment;
+drop table if exists voting_song;
+drop table if exists vote;
+drop table if exists member;
+
 create table if not exists song
 (
     id              bigint auto_increment,
@@ -76,4 +84,5 @@ create table if not exists member
     primary key (id)
 );
 
-alter table killing_part add column like_count integer not null;
+alter table killing_part
+    add column like_count integer not null;
