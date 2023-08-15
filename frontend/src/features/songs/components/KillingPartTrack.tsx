@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { css, styled } from 'styled-components';
 import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
@@ -13,6 +13,7 @@ import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
+import useKillingPartLikes from '../hooks/useKillingPartLikes';
 import { putKillingPartLikes } from '../remotes/likes';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
@@ -34,14 +35,8 @@ const KillingPartTrack = ({
   const { seekTo, pause, playerState } = useVideoPlayerContext();
   const { countedTime: currentTime, startTimer, resetTimer } = useTimerContext();
   const { mutateData: toggleKillingPartLikes } = useMutation(putKillingPartLikes);
-
-  const [isLikes, setIsLikes] = useState(likeStatus);
-
+  const { isLikes, toggleLikes } = useKillingPartLikes(likeStatus);
   useDebounceEffect(() => toggleKillingPartLikes(songId, partId, isLikes), isLikes);
-
-  const toggleLikes = () => {
-    setIsLikes((prev) => !prev);
-  };
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
