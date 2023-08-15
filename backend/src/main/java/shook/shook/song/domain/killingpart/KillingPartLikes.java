@@ -22,7 +22,7 @@ public class KillingPartLikes {
 
     public boolean addLike(final KillingPartLike like) {
         if (like.isDeleted()) {
-            like.updateDeletion(false);
+            like.updateDeletion();
             likes.add(like);
 
             return true;
@@ -35,7 +35,7 @@ public class KillingPartLikes {
         if (like.isDeleted()) {
             return false;
         }
-        like.updateDeletion(true);
+        like.updateDeletion();
         likes.remove(like);
 
         return true;

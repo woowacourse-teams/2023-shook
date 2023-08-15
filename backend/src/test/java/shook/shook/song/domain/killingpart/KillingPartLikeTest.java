@@ -15,14 +15,14 @@ class KillingPartLikeTest {
     private static final KillingPart KILLING_PART = KillingPart.saved(1L, 10, PartLength.SHORT,
         EMPTY_SONG);
 
-    @DisplayName("isDeleted 상태를 변경할 수 있다.")
+    @DisplayName("isDeleted 상태를 반대로 변경할 수 있다.")
     @Test
     void updateDeletion() {
         // given
         final KillingPartLike killingPartLike = new KillingPartLike(KILLING_PART, MEMBER);
 
         // when
-        killingPartLike.updateDeletion(false);
+        killingPartLike.updateDeletion();
 
         // then
         assertThat(killingPartLike.isDeleted()).isFalse();
