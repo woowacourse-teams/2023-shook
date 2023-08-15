@@ -50,11 +50,16 @@ const KillingPartTrack = ({
   };
 
   const getPlayIcon = useCallback(() => {
-    if (!isNowPlayingTrack || playerState === 2) {
+    if (!isNowPlayingTrack || YT.PlayerState.PAUSED) {
       return emptyPlayIcon;
     }
 
-    if (playerState === undefined || playerState === -1 || playerState === 1 || playerState === 3) {
+    if (
+      playerState === undefined ||
+      playerState === YT.PlayerState.UNSTARTED ||
+      playerState === YT.PlayerState.PLAYING ||
+      playerState === YT.PlayerState.BUFFERING
+    ) {
       return fillPlayIcon;
     }
   }, [playerState, isNowPlayingTrack]);
@@ -78,12 +83,16 @@ const KillingPartTrack = ({
   };
 
   useEffect(() => {
-    if (!isNowPlayingTrack || playerState === 2 || playerState === 3) {
+    if (
+      !isNowPlayingTrack ||
+      playerState === YT.PlayerState.PAUSED ||
+      playerState === YT.PlayerState.BUFFERING
+    ) {
       resetTimer();
       return;
     }
 
-    if (playerState === 1) {
+    if (playerState === YT.PlayerState.PLAYING) {
       startTimer();
       return;
     }

@@ -22,23 +22,19 @@ export default Thumbnail;
 
 const Wrapper = styled.div<{ size: Size }>`
   overflow: hidden;
-  ${({ size }) => SIZE[size]};
+  ${({ size }) => SIZE_VARIANTS[size]};
   border-radius: 8px;
 `;
 
-const md = css`
-  width: 60px;
-  height: 60px;
-`;
-
-const lg = css`
-  width: 70px;
-  height: 70px;
-`;
-
-const SIZE = {
-  md,
-  lg,
+const SIZE_VARIANTS = {
+  md: css`
+    width: 60px;
+    height: 60px;
+  `,
+  lg: css`
+    width: 70px;
+    height: 70px;
+  `,
 } as const;
 
-type Size = keyof typeof SIZE;
+type Size = keyof typeof SIZE_VARIANTS;

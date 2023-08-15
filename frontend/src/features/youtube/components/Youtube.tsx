@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { loadIFrameApi } from '@/features/youtube/remotes/loadIframeApi';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
@@ -10,37 +10,44 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, updatePlayerState } = useVideoPlayerContext();
-
-  const createYoutubePlayer = useCallback(async () => {
-    try {
-      const YT = await loadIFrameApi();
-
-      new YT.Player('yt-player', {
-        videoId,
-        width: '100%',
-        height: '100%',
-        playerVars: { start, rel: 0 },
-        events: {
-          onReady: ({ target: player }) => (videoPlayer.current = player),
-          onStateChange: updatePlayerState,
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      console.error('Youtube Player를 생성하지 못하였습니다.');
-    }
-  }, []);
+  const { videoPlayer, initPlayer, updatePlayerState } = useVideoPlayerContext();
 
   useEffect(() => {
+    const createYoutubePlayer = async () => {
+      try {
+        const YT = await loadIFrameApi();
+
+        new YT.Player(`yt-player-${videoId}`, {
+          videoId,
+          width: '100%',
+          height: '100%',
+          playerVars: { start, rel: 0 },
+          events: {
+            onReady: initPlayer,
+            onStateChange: updatePlayerState,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        console.error('Youtube Player를 생성하지 못하였습니다.');
+      }
+    };
+
     createYoutubePlayer();
 
-    return () => videoPlayer.current?.destroy();
-  }, []);
+    const clonePlayerRef = videoPlayer;
+
+    return () => {
+      if (!clonePlayerRef.current) return;
+
+      clonePlayerRef.current?.destroy();
+      clonePlayerRef.current = null;
+    };
+  }, [initPlayer, updatePlayerState, start, videoId, videoPlayer]);
 
   return (
     <YoutubeWrapper>
-      <YoutubeIframe id="yt-player" />
+      <YoutubeIframe id={`yt-player-${videoId}`} />
     </YoutubeWrapper>
   );
 };

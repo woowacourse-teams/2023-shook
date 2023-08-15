@@ -42,7 +42,7 @@ const killingPart: KillingPart = {
 const KillingPartTrackWithHook = () => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
 
-  const isNowPlayingTrack = killingPart.rank === nowPlayingTrack;
+  const isNowPlayingTrack = killingPart.id === nowPlayingTrack;
 
   return (
     <KillingPartTrack
