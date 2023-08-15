@@ -23,7 +23,7 @@ jobs:
           sudo npm run build
       - name: Remove legacy static pages
         shell: bash
-        run: rm -rf /home/ubuntu/dist
+        run: rm -rf home/ubuntu/dist
       - name: Move generated new static pages
         shell: bash
-        run: cp -r /frontend/dist ~/
+        run: cp -r frontend/dist ~/
