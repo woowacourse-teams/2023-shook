@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.auth.ui.Authority;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.dto.KillingPartRegisterRequest;
@@ -91,7 +93,8 @@ class SongServiceTest extends UsingJpaTest {
         //when
         saveAndClearEntityManager();
         final SongSwipeResponse response =
-            songService.findSongByIdForFirstSwipe(song.getId(), member.getId());
+            songService.findSongByIdForFirstSwipe(song.getId(),
+                new MemberInfo(member.getId(), Authority.MEMBER));
 
         //then
         assertAll(
@@ -117,43 +120,41 @@ class SongServiceTest extends UsingJpaTest {
         );
     }
 
-    // TODO: 2023/08/16 로그인 되지 않은 사용자의 id 테스트 추가
-//    @DisplayName("로그인 되지 않은 사용자의 Id, 노래의 Id 로 존재하는 노래를 검색한다.")
-//    @Test
-//    void findById_exist_not_login_member() {
-//        //given
-//        final Member member = createAndSaveMember("email@naver.com", "email");
-//        final Song song = registerNewSong();
-//        addLikeToEachKillingParts(song, member);
-//
-//        //when
-//        saveAndClearEntityManager();
-//        final SongSwipeResponse response =
-//            songService.findSongByIdForFirstSwipe(song.getId(), null);
-//
-//        //then
-//        assertAll(
-//            () -> assertThat(response.getBeforeSongs()).isEmpty(),
-//            () -> assertThat(response.getAfterSongs()).isEmpty(),
-//            () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
-//                .hasFieldOrPropertyWithValue("id",
-//                    song.getLikeCountSortedKillingParts().get(0).getId())
-//                .hasFieldOrPropertyWithValue("rank", 1)
-//                .hasFieldOrPropertyWithValue("likeStatus", false),
-//
-//            () -> assertThat(response.getCurrentSong().getKillingParts().get(1))
-//                .hasFieldOrPropertyWithValue("id",
-//                    song.getLikeCountSortedKillingParts().get(1).getId())
-//                .hasFieldOrPropertyWithValue("rank", 2)
-//                .hasFieldOrPropertyWithValue("likeStatus", false),
-//
-//            () -> assertThat(response.getCurrentSong().getKillingParts().get(2))
-//                .hasFieldOrPropertyWithValue("id",
-//                    song.getLikeCountSortedKillingParts().get(2).getId())
-//                .hasFieldOrPropertyWithValue("rank", 3)
-//                .hasFieldOrPropertyWithValue("likeStatus", false)
-//        );
-//    }
+    @DisplayName("로그인 되지 않은 사용자의 Id, 노래의 Id 로 존재하는 노래를 검색한다.")
+    @Test
+    void findById_exist_not_login_member() {
+        //given
+        final Song song = registerNewSong();
+
+        //when
+        saveAndClearEntityManager();
+        final SongSwipeResponse response =
+            songService.findSongByIdForFirstSwipe(song.getId(),
+                new MemberInfo(0L, Authority.ANONYMOUS));
+
+        //then
+        assertAll(
+            () -> assertThat(response.getBeforeSongs()).isEmpty(),
+            () -> assertThat(response.getAfterSongs()).isEmpty(),
+            () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
+                .hasFieldOrPropertyWithValue("id",
+                    song.getLikeCountSortedKillingParts().get(0).getId())
+                .hasFieldOrPropertyWithValue("rank", 1)
+                .hasFieldOrPropertyWithValue("likeStatus", false),
+
+            () -> assertThat(response.getCurrentSong().getKillingParts().get(1))
+                .hasFieldOrPropertyWithValue("id",
+                    song.getLikeCountSortedKillingParts().get(1).getId())
+                .hasFieldOrPropertyWithValue("rank", 2)
+                .hasFieldOrPropertyWithValue("likeStatus", false),
+
+            () -> assertThat(response.getCurrentSong().getKillingParts().get(2))
+                .hasFieldOrPropertyWithValue("id",
+                    song.getLikeCountSortedKillingParts().get(2).getId())
+                .hasFieldOrPropertyWithValue("rank", 3)
+                .hasFieldOrPropertyWithValue("likeStatus", false)
+        );
+    }
 
     @DisplayName("존재하지 않는 id로 노래를 조회했을 때 예외가 발생한다.")
     @Test
@@ -162,8 +163,11 @@ class SongServiceTest extends UsingJpaTest {
         final Member member = createAndSaveMember("email@naver.com", "email");
         //when
         //then
-        assertThatThrownBy(() -> songService.findSongByIdForFirstSwipe(0L, member.getId()))
-            .isInstanceOf(SongException.SongNotExistException.class);
+        assertThatThrownBy(() -> songService.findSongByIdForFirstSwipe(
+                0L,
+                new MemberInfo(member.getId(), Authority.MEMBER)
+            )
+        ).isInstanceOf(SongException.SongNotExistException.class);
     }
 
     @DisplayName("1. 총 좋아요 수가 많은 순서, 2. id가 높은 순서로 모든 Song 을 조회한다.")
@@ -257,7 +261,8 @@ class SongServiceTest extends UsingJpaTest {
 
             // when
             final SongSwipeResponse result =
-                songService.findSongByIdForFirstSwipe(fifthSong.getId(), member.getId());
+                songService.findSongByIdForFirstSwipe(fifthSong.getId(),
+                    new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertAll(
@@ -283,13 +288,16 @@ class SongServiceTest extends UsingJpaTest {
             // when
             // then
             assertThatThrownBy(
-                () -> songService.findSongByIdForFirstSwipe(notExistSongId, member.getId()))
+                () -> songService.findSongByIdForFirstSwipe(notExistSongId,
+                    new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
             assertThatThrownBy(
-                () -> songService.findSongByIdForBeforeSwipe(notExistSongId, member.getId()))
+                () -> songService.findSongByIdForBeforeSwipe(notExistSongId,
+                    new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
             assertThatThrownBy(
-                () -> songService.findSongByIdForAfterSwipe(notExistSongId, member.getId()))
+                () -> songService.findSongByIdForAfterSwipe(notExistSongId,
+                    new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
         }
 
@@ -317,7 +325,8 @@ class SongServiceTest extends UsingJpaTest {
 
             // when
             final List<SongResponse> beforeResponses =
-                songService.findSongByIdForBeforeSwipe(standardSong.getId(), member.getId());
+                songService.findSongByIdForBeforeSwipe(standardSong.getId(),
+                    new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertThat(beforeResponses.stream()
@@ -349,7 +358,8 @@ class SongServiceTest extends UsingJpaTest {
 
             // when
             final List<SongResponse> afterResponses =
-                songService.findSongByIdForAfterSwipe(standardSong.getId(), member.getId());
+                songService.findSongByIdForAfterSwipe(standardSong.getId(),
+                    new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertThat(afterResponses.stream()

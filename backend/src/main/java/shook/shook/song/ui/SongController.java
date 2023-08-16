@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import shook.shook.auth.ui.argumentresolver.Authenticated;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
@@ -22,11 +23,10 @@ public class SongController {
     @GetMapping
     public ResponseEntity<SongSwipeResponse> showSongById(
         @PathVariable(name = "song_id") final Long songId,
-        @RequestParam final Long memberId
-        // TODO: 2023-08-14 accessToken 으로 변경
+        @Authenticated final MemberInfo memberInfo
     ) {
         final SongSwipeResponse response =
-            songService.findSongByIdForFirstSwipe(songId, memberId);
+            songService.findSongByIdForFirstSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -34,10 +34,10 @@ public class SongController {
     @GetMapping("/before")
     public ResponseEntity<List<SongResponse>> showSongsBeforeSongWithId(
         @PathVariable(name = "song_id") final Long songId,
-        @RequestParam final Long memberId
+        @Authenticated final MemberInfo memberInfo
     ) {
         final List<SongResponse> response =
-            songService.findSongByIdForBeforeSwipe(songId, memberId);
+            songService.findSongByIdForBeforeSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -45,10 +45,10 @@ public class SongController {
     @GetMapping("/after")
     public ResponseEntity<List<SongResponse>> showSongsAfterSongWithId(
         @PathVariable(name = "song_id") final Long songId,
-        @RequestParam final Long memberId
+        @Authenticated final MemberInfo memberInfo
     ) {
         final List<SongResponse> response =
-            songService.findSongByIdForAfterSwipe(songId, memberId);
+            songService.findSongByIdForAfterSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
