@@ -77,30 +77,24 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
     countedTime,
   ]);
 
-  // 선택된 노래 변경시
   useEffect(() => {
-    if (nowPlayingTrack === DEFAULT_PART_ID) {
-      resetTimer();
-      return;
-    }
-
     resetTimer();
-    startTimer();
-  }, [nowPlayingTrack, resetTimer, startTimer]);
+  }, [nowPlayingTrack, resetTimer]);
 
   useEffect(() => {
     if (playerState === null) return;
 
     if (playerState === YT.PlayerState.BUFFERING) {
-      console.log('버퍼링 타이머 걸림 ');
-
       const bufferingTimer = window.setTimeout(pauseTimer, 300);
 
       return () => {
-        console.log('버퍼링 가짜여서 취소함');
         window.clearTimeout(bufferingTimer);
         startTimer();
       };
+    }
+
+    if (playerState === YT.PlayerState.PLAYING) {
+      startTimer();
     }
   }, [playerState, pauseTimer, resetTimer, startTimer]);
 
