@@ -64,16 +64,19 @@ const StyledLink = styled(Link)`
 
 const Title = styled.h2`
   align-self: flex-start;
+
+  color: white;
+
   font-size: 20px;
   font-weight: 700;
-  color: white;
 `;
 
 const PopularSongList = styled.ol`
+  width: 100%;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
   align-items: flex-start;
 
-  width: 100%;
+  gap: 12px;
 `;
