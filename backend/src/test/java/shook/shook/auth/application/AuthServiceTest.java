@@ -22,7 +22,7 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 
 @SpringBootTest
-class GoogleAuthServiceTest {
+class AuthServiceTest {
 
     private static Member savedMember;
 
@@ -37,7 +37,7 @@ class GoogleAuthServiceTest {
 
     private TokenProvider tokenProvider;
 
-    private GoogleAuthService googleAuthService;
+    private AuthService authService;
 
     @BeforeEach
     void setUp() {
@@ -45,7 +45,7 @@ class GoogleAuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        googleAuthService = new GoogleAuthService(memberService, googleInfoProvider, tokenProvider);
+        authService = new AuthService(memberService, googleInfoProvider, tokenProvider);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
     }
 
@@ -69,7 +69,7 @@ class GoogleAuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final TokenPair result = googleAuthService.login("accessCode");
+        final TokenPair result = authService.login("accessCode");
 
         //then
         assertThat(result.getAccessToken()).isNotNull();
@@ -85,7 +85,7 @@ class GoogleAuthServiceTest {
             savedMember.getNickname());
 
         //when
-        final ReissueAccessTokenResponse result = googleAuthService.reissueAccessTokenByRefreshToken(
+        final ReissueAccessTokenResponse result = authService.reissueAccessTokenByRefreshToken(
             refreshToken);
 
         //then
@@ -111,7 +111,7 @@ class GoogleAuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> googleAuthService.reissueAccessTokenByRefreshToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
@@ -130,7 +130,7 @@ class GoogleAuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> googleAuthService.reissueAccessTokenByRefreshToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }

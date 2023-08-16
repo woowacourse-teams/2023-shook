@@ -47,19 +47,14 @@ public class GoogleInfoProvider {
             headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
             final HttpEntity<Object> request = new HttpEntity<>(headers);
 
-            //더 확실한 네이밍으로 가져가도 될 것 같아요~
-            final GoogleMemberInfoResponse googleMemberInfoResponse = restTemplate.exchange(
+            final ResponseEntity<GoogleMemberInfoResponse> response = restTemplate.exchange(
                 GOOGLE_MEMBER_INFO_URL,
                 HttpMethod.GET,
                 request,
                 GoogleMemberInfoResponse.class
-            ).getBody();
+            );
 
-            //이 부분에서 body가 없을 시 NPE 발생은 의도하신건지 궁금해요~
-            if (!Objects.requireNonNull(googleMemberInfoResponse).isVerifiedEmail()) {
-                throw new OAuthException.InvalidEmailException();
-            }
-            return googleMemberInfoResponse;
+            return response.getBody();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
         } catch (HttpServerErrorException e) {
@@ -69,8 +64,6 @@ public class GoogleInfoProvider {
 
     public GoogleAccessTokenResponse getAccessToken(final String authorizationCode) {
         try {
-            //이 부분은 전체적으로 로직이 잘 못 되어있더라구요
-            //제가 여러번 테스트해 본 결과 Token 요청은 본문이 아닌 param 으로 요청해야 하는 api 형식이에요~
             final HashMap<String, String> params = new HashMap<>();
             params.put("code", authorizationCode);
             params.put("client_id", GOOGLE_CLIENT_ID);

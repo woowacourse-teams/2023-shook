@@ -25,7 +25,6 @@ public class VotingSongController {
         return ResponseEntity.ok(allVotingSongs);
     }
 
-    //findById 라는 메서드가 pk를 기준으로 한개를 찾아오는 메서드이다 보니 All을 붙여서 여러개를 반환한다는 걸 나타내보면 어떨까요??
     @GetMapping("/{voting_song_id}")
     public ResponseEntity<VotingSongSwipeResponse> findAllForSwipeById(
         @PathVariable("voting_song_id") final Long votingSongId
