@@ -23,7 +23,6 @@ interface CommentListProps {
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const { isOpen, openModal, closeModal } = useModal(false);
-
   const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
   );

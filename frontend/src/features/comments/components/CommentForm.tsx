@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { css, styled } from 'styled-components';
+import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 
@@ -13,6 +18,9 @@ interface CommentFormProps {
 
 const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
+  const { user } = useAuthContext();
+
+  const isLoggedIn = !!user;
 
   const { mutateData } = useMutation(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
@@ -39,30 +47,52 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
   return (
     <Container onSubmit={submitNewComment}>
       <Flex>
-        <Profile>
-          <img src={shookshook} alt="익명 프로필" />
-        </Profile>
-        <Input
-          type="text"
-          value={newComment}
-          onChange={changeNewComment}
-          placeholder="댓글 추가..."
-          maxLength={200}
-        />
+        {isLoggedIn ? (
+          <Avatar src={shookshook} alt="슉슉이" />
+        ) : (
+          <Avatar src={defaultAvatar} alt="익명 프로필" />
+        )}
+        {isLoggedIn ? (
+          <Input
+            type="text"
+            value={newComment}
+            onChange={changeNewComment}
+            placeholder="댓글 추가..."
+            maxLength={200}
+          />
+        ) : (
+          <LinkBox
+            to={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&redirect_uri=${process.env.BASE_URL}${ROUTE_PATH.LOGIN_REDIRECT}&client_id=1008951336382-8o2n6n9u8jbj3sb6fe5jdeha9b6alnqa.apps.googleusercontent.com`}
+          >
+            <Input
+              type="text"
+              value={newComment}
+              onChange={changeNewComment}
+              placeholder="댓글 추가..."
+              maxLength={200}
+            />
+          </LinkBox>
+        )}
       </Flex>
-      <FlexEnd>
-        <Cancel type="button" onClick={resetNewComment} aria-label="댓글 작성 취소">
-          취소
-        </Cancel>
-        <Submit aria-label="댓글 작성 완료" disabled={newComment.trim() === ''}>
-          댓글
-        </Submit>
-      </FlexEnd>
+      {isLoggedIn && (
+        <FlexEnd>
+          <Cancel type="button" onClick={resetNewComment} aria-label="댓글 작성 취소">
+            취소
+          </Cancel>
+          <Submit aria-label="댓글 작성 완료" disabled={newComment.trim() === ''}>
+            댓글
+          </Submit>
+        </FlexEnd>
+      )}
     </Container>
   );
 };
 
 export default CommentForm;
+
+const LinkBox = styled(Link)`
+  flex: 1;
+`;
 
 const Flex = styled.div`
   display: flex;
@@ -92,7 +122,7 @@ const Profile = styled.div`
 
 const Input = styled.input`
   flex: 1;
-
+  width: 100%;
   margin: 0;
   padding: 0;
 
