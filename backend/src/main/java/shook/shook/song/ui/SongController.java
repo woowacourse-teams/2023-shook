@@ -31,7 +31,7 @@ public class SongController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/before")
+    @GetMapping("/prev")
     public ResponseEntity<List<SongResponse>> showSongsBeforeSongWithId(
         @PathVariable(name = "song_id") final Long songId,
         @Authenticated final MemberInfo memberInfo
@@ -42,7 +42,7 @@ public class SongController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/after")
+    @GetMapping("/next")
     public ResponseEntity<List<SongResponse>> showSongsAfterSongWithId(
         @PathVariable(name = "song_id") final Long songId,
         @Authenticated final MemberInfo memberInfo
