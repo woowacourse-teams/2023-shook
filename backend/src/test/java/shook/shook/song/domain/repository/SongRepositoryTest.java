@@ -194,7 +194,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(songs).usingRecursiveComparison()
-            .ignoringFields("updatedAt", "createdAt")
+            .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(List.of(secondSong, thirdSong, fourthSong, fifthSong, sixthSong, seventhSong,
                 eighthSong, ninthSong, tenthSong, eleventhSong)
             );
@@ -244,7 +244,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(songs).usingRecursiveComparison()
-            .ignoringFields("updatedAt", "createdAt")
+            .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(List.of(thirdSong));
     }
 
@@ -304,7 +304,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(songs).usingRecursiveComparison()
-            .ignoringFields("updatedAt", "createdAt")
+            .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
                 List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong, eleventhSong,
                     tenthSong, ninthSong, eighthSong, seventhSong));
@@ -356,7 +356,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(songs).usingRecursiveComparison()
-            .ignoringFields("updatedAt", "createdAt")
+            .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
                 List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong));
     }
