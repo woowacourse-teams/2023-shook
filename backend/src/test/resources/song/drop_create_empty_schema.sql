@@ -43,6 +43,7 @@ create table if not exists killing_part_comment
     id              bigint auto_increment,
     killing_part_id bigint       not null,
     content         varchar(200) not null,
+    member_id       bigint       not null,
     created_at      timestamp(6) not null,
     primary key (id)
     );

@@ -19,6 +19,7 @@ import shook.shook.song.exception.killingpart.KillingPartLikeException;
 class KillingPartTest {
 
     private static final Song EMPTY_SONG = null;
+    private static final Member MEMBER = new Member("email@naver.com", "nickname");
 
     @DisplayName("Id가 같은 킬링파트는 동등성 비교에 참을 반환한다.")
     @Test
@@ -95,7 +96,7 @@ class KillingPartTest {
             final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
 
             //when
-            killingPart.addComment(KillingPartComment.saved(1L, killingPart, "댓글 내용"));
+            killingPart.addComment(KillingPartComment.saved(1L, killingPart, "댓글 내용", MEMBER));
 
             //then
             assertThat(killingPart.getComments()).hasSize(1);
@@ -111,7 +112,8 @@ class KillingPartTest {
             //when
             //then
             assertThatThrownBy(
-                () -> firstPart.addComment(KillingPartComment.saved(2L, secondPart, "댓글 내용")))
+                () -> firstPart.addComment(
+                    KillingPartComment.saved(2L, secondPart, "댓글 내용", MEMBER)))
                 .isInstanceOf(KillingPartCommentException.CommentForOtherPartException.class);
         }
     }

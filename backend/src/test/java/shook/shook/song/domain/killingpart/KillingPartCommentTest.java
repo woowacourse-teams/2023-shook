@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 
 class KillingPartCommentTest {
 
     private static final Song EMPTY_SONG = null;
+    private static final Member MEMBER = new Member("email@naver.com", "nickname");
     private static final KillingPart FIRST_KILLING_PART =
         KillingPart.saved(1L, 4, PartLength.SHORT, EMPTY_SONG);
     private static final KillingPart SECOND_KILLING_PART =
@@ -22,7 +24,7 @@ class KillingPartCommentTest {
         //given
         //when
         //then
-        assertDoesNotThrow(() -> KillingPartComment.forSave(FIRST_KILLING_PART, "댓글 내용"));
+        assertDoesNotThrow(() -> KillingPartComment.forSave(FIRST_KILLING_PART, "댓글 내용", MEMBER));
     }
 
     @DisplayName("이미 작성된 댓글을 생성한다.")
@@ -31,7 +33,7 @@ class KillingPartCommentTest {
         //given
         //when
         //then
-        assertDoesNotThrow(() -> KillingPartComment.saved(1L, FIRST_KILLING_PART, "댓글 내용"));
+        assertDoesNotThrow(() -> KillingPartComment.saved(1L, FIRST_KILLING_PART, "댓글 내용", MEMBER));
     }
 
     @DisplayName("댓글의 내용을 반환한다.")
@@ -39,7 +41,7 @@ class KillingPartCommentTest {
     void getContent() {
         //given
         final KillingPartComment killingPartComment = KillingPartComment.forSave(FIRST_KILLING_PART,
-            "댓글 내용");
+            "댓글 내용", MEMBER);
 
         //when
         final String content = killingPartComment.getContent();
@@ -53,7 +55,7 @@ class KillingPartCommentTest {
     void isBelongToOtherPart_samePart() {
         //given
         final KillingPartComment killingPartComment = KillingPartComment.forSave(FIRST_KILLING_PART,
-            "댓글 내용");
+            "댓글 내용", MEMBER);
 
         //when
         final boolean isBelongTo = killingPartComment.isBelongToOtherKillingPart(
@@ -68,7 +70,7 @@ class KillingPartCommentTest {
     void isBelongToOtherPart_otherPart() {
         //given
         final KillingPartComment partComment = KillingPartComment.forSave(FIRST_KILLING_PART,
-            "댓글 내용");
+            "댓글 내용", MEMBER);
 
         //when
         final boolean isBelongTo = partComment.isBelongToOtherKillingPart(SECOND_KILLING_PART);

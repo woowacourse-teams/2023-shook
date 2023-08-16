@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartComment;
 import shook.shook.support.UsingJpaTest;
@@ -17,6 +19,7 @@ import shook.shook.support.UsingJpaTest;
 class KillingPartCommentRepositoryTest extends UsingJpaTest {
 
     private static KillingPart SAVED_KILLING_PART;
+    private static Member MEMBER;
 
     @Autowired
     private KillingPartRepository killingPartRepository;
@@ -24,9 +27,13 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
     @Autowired
     private KillingPartCommentRepository killingPartCommentRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @BeforeEach
     void setUp() {
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
+        MEMBER = memberRepository.findById(1L).get();
     }
 
     @DisplayName("KillingPartComment 를 저장한다.")
@@ -34,7 +41,7 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
     void save() {
         //given
         final KillingPartComment partComment = KillingPartComment.forSave
-            (SAVED_KILLING_PART, "댓글 내용");
+            (SAVED_KILLING_PART, "댓글 내용", MEMBER);
 
         //when
         final KillingPartComment savedPartComment = killingPartCommentRepository.save(partComment);
@@ -49,7 +56,7 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
     void createdAt() {
         //given
         final KillingPartComment partComment = KillingPartComment.forSave(SAVED_KILLING_PART,
-            "댓글 내용");
+            "댓글 내용", MEMBER);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
