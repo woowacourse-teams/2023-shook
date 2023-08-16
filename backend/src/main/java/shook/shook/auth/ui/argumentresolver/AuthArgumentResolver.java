@@ -19,7 +19,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(Member.class);
+        return parameter.hasParameterAnnotation(Authenticated.class);
     }
 
     @Override
@@ -29,9 +29,6 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
         final NativeWebRequest webRequest,
         final WebDataBinderFactory binderFactory
     ) {
-        if (authContext.isAnonymous()) {
-            return null;
-        }
-        return new MemberInfo(authContext.getMemberId());
+        return new MemberInfo(authContext.getMemberId(), authContext.getAuthority());
     }
 }

@@ -1,49 +1,31 @@
 package shook.shook.auth.ui;
 
-import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-import shook.shook.auth.exception.AuthorizationException;
 
 @RequestScope
 @Component
 public class AuthContext {
 
-    private Long memberId;
-    private MemberStatus memberStatus;
+    private static final long ANONYMOUS_ID = 0L;
 
-    public void setLoginMember(final Long memberId) {
-        validateMemberId(memberId);
+    private Long memberId = ANONYMOUS_ID;
+    private Authority authority = Authority.ANONYMOUS;
+
+    public void setAuthenticatedMember(final Long memberId) {
         this.memberId = memberId;
-        this.memberStatus = MemberStatus.MEMBER;
-    }
-
-    public void setNotLoginMember() {
-        this.memberId = 0L;
-        this.memberStatus = MemberStatus.ANONYMOUS;
-    }
-
-    private static void validateMemberId(final Long memberId) {
-        if (Objects.isNull(memberId) || memberId < 0) {
-            throw new AuthorizationException.AuthContextException();
-        }
+        this.authority = Authority.MEMBER;
     }
 
     public boolean isAnonymous() {
-        return this.memberStatus == MemberStatus.ANONYMOUS;
+        return this.authority == Authority.ANONYMOUS;
     }
 
     public long getMemberId() {
-        if (Objects.isNull(memberId)) {
-            throw new AuthorizationException.AuthContextException();
-        }
         return memberId;
     }
 
-    public MemberStatus getMemberStatus() {
-        if (Objects.isNull(memberStatus)) {
-            throw new AuthorizationException.AuthContextException();
-        }
-        return memberStatus;
+    public Authority getAuthority() {
+        return authority;
     }
 }

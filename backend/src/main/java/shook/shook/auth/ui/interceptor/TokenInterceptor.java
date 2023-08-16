@@ -8,19 +8,24 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.ui.AuthContext;
+import shook.shook.member.application.MemberService;
+import shook.shook.member.exception.MemberException.MemberNotExsistException;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
     private final AuthContext authContext;
+    private final MemberService memberService;
 
     public TokenInterceptor(
         final TokenProvider tokenProvider,
-        final AuthContext authContext
+        final AuthContext authContext,
+        final MemberService memberService
     ) {
         this.tokenProvider = tokenProvider;
         this.authContext = authContext;
+        this.memberService = memberService;
     }
 
     @Override
@@ -33,7 +38,11 @@ public class TokenInterceptor implements HandlerInterceptor {
             .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
-        authContext.setLoginMember(memberId);
+
+        memberService.findById(memberId)
+            .orElseThrow(MemberNotExsistException::new);
+
+        authContext.setAuthenticatedMember(memberId);
 
         return true;
     }

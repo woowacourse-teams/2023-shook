@@ -1,6 +1,6 @@
 package shook.shook.auth.ui;
 
-public enum MemberStatus {
+public enum Authority {
 
     MEMBER,
     ANONYMOUS;
