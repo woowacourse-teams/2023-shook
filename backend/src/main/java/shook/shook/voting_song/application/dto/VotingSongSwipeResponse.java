@@ -16,7 +16,7 @@ public class VotingSongSwipeResponse {
     private List<VotingSongResponse> beforeSongs;
     private List<VotingSongResponse> afterSongs;
 
-    public static VotingSongSwipeResponse from(
+    public static VotingSongSwipeResponse of(
         final VotingSong currentSong,
         final List<VotingSong> beforeSongs,
         final List<VotingSong> afterSongs

@@ -42,7 +42,7 @@ public class VotingSongService {
             id, PageRequest.of(0, AFTER_SONG_COUNT)
         );
 
-        return VotingSongSwipeResponse.from(votingSong, beforeVotingSongs, afterVotingSongs);
+        return VotingSongSwipeResponse.of(votingSong, beforeVotingSongs, afterVotingSongs);
     }
 
     public List<VotingSongResponse> findAll() {

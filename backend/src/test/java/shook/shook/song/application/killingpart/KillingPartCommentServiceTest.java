@@ -91,9 +91,10 @@ class KillingPartCommentServiceTest extends UsingJpaTest {
         final List<KillingPartCommentResponse> partReplies = killingPartCommentService.findKillingPartComments(
             SAVED_PART.getId());
 
-        //then
         final List<KillingPartCommentResponse> expected = KillingPartCommentResponse.ofComments(
             List.of(late, early));
+
+        //then
         assertThat(partReplies).usingRecursiveComparison().isEqualTo(expected);
     }
 

@@ -57,7 +57,7 @@ class KillingPartsTest {
 
         // when, then
         assertThatThrownBy(() -> new KillingParts(killingParts))
-            .isInstanceOf(KillingPartsException.EmptyKillingPartException.class);
+            .isInstanceOf(KillingPartsException.EmptyKillingPartsException.class);
     }
 
     @DisplayName("킬링파트가 3개 모두 등록되었다면 모두 등록되었음을 반환한다.")

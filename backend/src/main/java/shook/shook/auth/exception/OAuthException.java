@@ -1,32 +1,39 @@
 package shook.shook.auth.exception;
 
-public class OAuthException extends RuntimeException {
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class OAuthException extends CustomException {
+
+    public OAuthException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
 
     public static class InvalidEmailException extends OAuthException {
 
         public InvalidEmailException() {
-            super();
+            super(ErrorCode.INVALID_EMAIL);
         }
     }
 
     public static class InvalidAccessTokenException extends OAuthException {
 
         public InvalidAccessTokenException() {
-            super();
+            super(ErrorCode.INVALID_ACCESS_TOKEN);
         }
     }
 
     public static class InvalidAuthorizationCodeException extends OAuthException {
 
         public InvalidAuthorizationCodeException() {
-            super();
+            super(ErrorCode.INVALID_AUTHORIZATION_CODE);
         }
     }
 
     public static class GoogleServerException extends OAuthException {
 
         public GoogleServerException() {
-            super();
+            super(ErrorCode.GOOGLE_SERVER_EXCEPTION);
         }
     }
 }

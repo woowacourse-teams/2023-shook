@@ -38,9 +38,9 @@ public class KillingPartLike {
     @Getter(AccessLevel.NONE)
     private KillingPart killingPart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    @ManyToOne
     @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     private Member member;
 
     @Column(nullable = false, updatable = false)

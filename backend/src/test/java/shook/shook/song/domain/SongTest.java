@@ -14,6 +14,6 @@ class SongTest {
         // given
         // when, then
         assertThatThrownBy(() -> new Song("title", "videoUrl", "imageUrl", "singer", 300, null))
-            .isInstanceOf(KillingPartsException.EmptyKillingPartException.class);
+            .isInstanceOf(KillingPartsException.EmptyKillingPartsException.class);
     }
 }
