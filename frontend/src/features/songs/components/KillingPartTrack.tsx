@@ -1,20 +1,15 @@
 import { useCallback } from 'react';
 import { css, styled } from 'styled-components';
-import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
-import fillHeartIcon from '@/assets/icon/fill-heart.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
-import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
 import useKillingPartLikes from '../hooks/useKillingPartLikes';
-import { putKillingPartLikes } from '../remotes/likes';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
@@ -35,16 +30,17 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
-  const { mutateData: toggleKillingPartLikes } = useMutation(putKillingPartLikes);
-  const { isLikes, toggleLikes } = useKillingPartLikes(likeStatus);
-  useDebounceEffect(() => toggleKillingPartLikes(songId, partId, isLikes), isLikes);
+  const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
+    likeCount,
+    likeStatus,
+    songId,
+    partId,
+  });
   const { countedTime: currentPlayTime } = useTimerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
-  const calculatedLikeCount = isLikes ? likeCount + 1 : likeCount;
-  const heartIcon = isLikes ? fillHeartIcon : emptyHeartIcon;
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
@@ -107,7 +103,7 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton onClick={toggleLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
+        <LikeButton onClick={toggleKillingPartLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
           <ButtonIcon src={heartIcon} alt="" />
           <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
         </LikeButton>
