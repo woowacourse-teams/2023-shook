@@ -10,6 +10,7 @@ import shook.shook.auth.application.dto.TokenReissueResponse;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
+import shook.shook.member.domain.Nickname;
 
 @RequiredArgsConstructor
 @Service
@@ -30,17 +31,19 @@ public class AuthService {
             .orElseGet(() -> memberService.register(userEmail));
 
         final long memberId = member.getId();
-        final String accessToken = tokenProvider.createAccessToken(memberId);
-        final String refreshToken = tokenProvider.createRefreshToken(memberId);
+        final String nickname = member.getNickname();
+        final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
+        final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
         return new TokenInfo(accessToken, refreshToken);
     }
 
     public TokenReissueResponse reissueToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
-        memberService.findById(memberId);
+        final String nickname = claims.get("nickname", String.class);
+        memberService.findByIdAndNickname(memberId, new Nickname(nickname));
 
-        final String accessToken = tokenProvider.createAccessToken(memberId);
+        final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
         return new TokenReissueResponse(accessToken);
     }
 }
