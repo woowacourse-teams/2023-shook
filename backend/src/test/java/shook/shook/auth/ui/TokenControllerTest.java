@@ -46,7 +46,9 @@ class TokenControllerTest {
     @Test
     void success_reissue_accessToken() {
         //given
-        final String refreshToken = tokenProvider.createRefreshToken(savedMember.getId());
+        final String refreshToken = tokenProvider.createRefreshToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         //when
         final TokenReissueResponse response = RestAssured.given().log().all()
@@ -56,7 +58,9 @@ class TokenControllerTest {
             .extract().body().as(TokenReissueResponse.class);
 
         //then
-        final String accessToken = tokenProvider.createAccessToken(savedMember.getId());
+        final String accessToken = tokenProvider.createAccessToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         assertThat(response.getAccessToken()).isEqualTo(accessToken);
     }

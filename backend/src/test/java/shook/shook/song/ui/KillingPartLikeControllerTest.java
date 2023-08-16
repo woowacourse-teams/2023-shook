@@ -22,6 +22,7 @@ class KillingPartLikeControllerTest {
     private static final long SAVED_KILLING_PART_ID = 1L;
     private static final long SAVED_SONG_ID = 1L;
     private static final long SAVED_MEMBER_ID = 1L;
+    private static final String SAVED_MEMBER_NICKNAME = "nickname";
     private static final String TOKEN_PREFIX = "Bearer ";
 
     @LocalServerPort
@@ -40,7 +41,9 @@ class KillingPartLikeControllerTest {
     void createLikeOnKillingPart() {
         // given
         final KillingPartLikeRequest request = new KillingPartLikeRequest(true);
-        final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID);
+        final String accessToken = tokenProvider.createAccessToken(
+            SAVED_MEMBER_ID,
+            SAVED_MEMBER_NICKNAME);
 
         // when, then
         RestAssured.given().log().all()
@@ -59,7 +62,9 @@ class KillingPartLikeControllerTest {
     void deleteLikeOnKillingPart() {
         // given
         final KillingPartLikeRequest request = new KillingPartLikeRequest(false);
-        final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID);
+        final String accessToken = tokenProvider.createAccessToken(
+            SAVED_MEMBER_ID,
+            SAVED_MEMBER_NICKNAME);
 
         // when, then
         RestAssured.given().log().all()

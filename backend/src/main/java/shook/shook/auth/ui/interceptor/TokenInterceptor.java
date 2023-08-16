@@ -9,6 +9,7 @@ import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.ui.AuthContext;
 import shook.shook.member.application.MemberService;
+import shook.shook.member.domain.Nickname;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -37,7 +38,8 @@ public class TokenInterceptor implements HandlerInterceptor {
             .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
-        memberService.findById(memberId);
+        final String nickname = claims.get("nickname", String.class);
+        memberService.findByIdAndNickname(memberId, new Nickname(nickname));
 
         authContext.setAuthenticatedMember(memberId);
 
