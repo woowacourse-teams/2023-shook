@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { VideoPlayerProvider } from './features/youtube/components/VideoPlayerProvider';
+import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
 import PartCollectingPage from './pages/PartCollectingPage';
 import SongDetailPage from './pages/SongDetailPage';
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: '/login/redirect',
+    element: <AuthPage />,
   },
 ]);
 
