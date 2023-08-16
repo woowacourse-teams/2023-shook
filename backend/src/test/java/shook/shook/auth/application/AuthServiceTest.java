@@ -80,13 +80,17 @@ class AuthServiceTest {
     @Test
     void success_reissue() {
         //given
-        final String refreshToken = tokenProvider.createRefreshToken(savedMember.getId());
+        final String refreshToken = tokenProvider.createRefreshToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         //when
         final TokenReissueResponse result = authService.reissueToken(refreshToken);
 
         //then
-        final String accessToken = tokenProvider.createAccessToken(savedMember.getId());
+        final String accessToken = tokenProvider.createAccessToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         assertThat(result.getAccessToken()).isEqualTo(accessToken);
     }
@@ -100,7 +104,9 @@ class AuthServiceTest {
             100L,
             "asdzzxcwetg2adfvssd3xZcZXCZvzx");
 
-        final String refreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId());
+        final String refreshToken = inValidTokenProvider.createRefreshToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         //when
         //then
@@ -117,7 +123,9 @@ class AuthServiceTest {
             0,
             "asdfsdsvsdf2esvsdvsdvs23");
 
-        final String refreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId());
+        final String refreshToken = inValidTokenProvider.createRefreshToken(
+            savedMember.getId(),
+            savedMember.getNickname());
 
         //when
         //then
