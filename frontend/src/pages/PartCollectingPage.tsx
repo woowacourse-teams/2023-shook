@@ -12,10 +12,7 @@ const PartCollectingPage = () => {
   const { songDetail } = useGetSongDetail(Number(songIdParam));
 
   if (!songDetail) return;
-  const { id, title, singer, videoLength, songVideoUrl, albumCoverUrl } = songDetail;
-  // TODO: videoId 자체가 응답값으로 오도록 API 협의
-  // TODO: Jacket img src API 추가 협의
-  const videoId = songVideoUrl.replace('https://youtu.be/', '');
+  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = songDetail;
 
   return (
     <Container>
@@ -28,7 +25,7 @@ const PartCollectingPage = () => {
         </Info>
       </SongInfoContainer>
       <VideoPlayerProvider>
-        <Youtube videoId={videoId} />
+        <Youtube videoId={songVideoId} />
         <VoteInterfaceProvider videoLength={videoLength} songId={id}>
           <VoteInterface />
         </VoteInterfaceProvider>

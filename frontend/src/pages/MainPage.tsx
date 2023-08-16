@@ -12,11 +12,11 @@ interface PopularSong {
   title: string;
   singer: string;
   albumCoverUrl: string;
-  totalVoteCount: number;
+  totalLikeCount: number;
 }
 
 const MainPage = () => {
-  const { data: popularSongs } = useFetch<PopularSong[]>(() => fetcher('/songs/high-voted', 'GET'));
+  const { data: popularSongs } = useFetch<PopularSong[]>(() => fetcher('/songs/high-liked', 'GET'));
 
   if (!popularSongs) return null;
 
@@ -26,10 +26,10 @@ const MainPage = () => {
       <Title>킬링파트 투표 많은순</Title>
       <Spacing direction="vertical" size={24} />
       <PopularSongList>
-        {popularSongs.map(({ id, albumCoverUrl, title, singer, totalVoteCount }, i) => (
+        {popularSongs.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
           <Li key={id}>
             <StyledLink
-              to={`${ROUTE_PATH.SONG_DETAIL}/${id}`}
+              to={`${ROUTE_PATH.SONG_DETAILS}/${id}`}
               aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
             >
               <PopularSongItem
@@ -37,7 +37,7 @@ const MainPage = () => {
                 albumCoverUrl={albumCoverUrl}
                 title={title}
                 singer={singer}
-                totalVoteCount={totalVoteCount}
+                totalLikeCount={totalLikeCount}
               />
             </StyledLink>
           </Li>
