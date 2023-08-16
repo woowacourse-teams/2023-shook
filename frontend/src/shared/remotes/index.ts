@@ -9,6 +9,8 @@ const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<
     method,
     headers: {
       'Content-type': 'application/json',
+      // TODO: Authorization
+      // Authorization: localStorage.getItem('userToken') || '',
     },
   };
 
@@ -21,6 +23,11 @@ const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<
   if (response.status >= 500) {
     throw new Error(`서버문제로 HTTP 통신에 실패했습니다.`);
   }
+
+  // TODO: 403 status
+  // if(response.status === 403) {
+
+  // }
 
   if (!response.ok) {
     const errorResponse: ErrorResponse = await response.json();
