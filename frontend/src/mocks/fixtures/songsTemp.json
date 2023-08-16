@@ -1,0 +1,915 @@
+{
+  "prevSongs": [
+    {
+      "id": 1,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 3,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 6,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 9,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    }
+  ],
+  "currentSong": {
+    "id": 1,
+    "title": "Seven (feat. Latto) - Clean Ver.",
+    "singer": "\uc815\uad6d",
+    "videoLength": 186,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+    "killingParts": [
+      {
+        "id": 1,
+        "exist": true,
+        "rank": 1,
+        "voteCount": 10,
+        "start": 5,
+        "end": 15,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+        "likeCount": 111,
+        "likeStatus": false
+      },
+      {
+        "id": 2,
+        "exist": true,
+        "rank": 2,
+        "voteCount": 2,
+        "start": 20,
+        "end": 30,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+        "likeCount": 11,
+        "likeStatus": true
+      },
+      {
+        "id": 3,
+        "exist": true,
+        "rank": 3,
+        "voteCount": 1,
+        "start": 120,
+        "end": 130,
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+        "likeCount": 1,
+        "likeStatus": false
+      }
+    ]
+  },
+  "nextSongs": [
+    {
+      "id": 1,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 3,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 6,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "\uc815\uad6d",
+      "videoLength": 186,
+      "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 5,
+          "end": 15,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 20,
+          "end": 30,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 120,
+          "end": 130,
+          "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
+          "likeCount": 1,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoUrl": "https://youtu.be/ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 130,
+          "end": 140,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 52,
+          "end": 62,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 123,
+          "end": 133,
+          "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
+          "likeCount": 11,
+          "likeStatus": true
+        }
+      ]
+    },
+
+    {
+      "id": 9,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "\ud038\uce74 (Queencard)",
+      "singer": "(\uc5ec\uc790)\uc544\uc774\ub4e4",
+      "videoLength": 162,
+      "songVideoUrl": "https://youtu.be/VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 1,
+          "exist": true,
+          "rank": 1,
+          "voteCount": 10,
+          "start": 0,
+          "end": 10,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
+          "likeCount": 11,
+          "likeStatus": true
+        },
+        {
+          "id": 2,
+          "exist": true,
+          "rank": 2,
+          "voteCount": 2,
+          "start": 40,
+          "end": 50,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
+          "likeCount": 111,
+          "likeStatus": false
+        },
+        {
+          "id": 3,
+          "exist": true,
+          "rank": 3,
+          "voteCount": 1,
+          "start": 24,
+          "end": 34,
+          "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
+          "likeCount": 1,
+          "likeStatus": true
+        }
+      ]
+    }
+  ]
+}
