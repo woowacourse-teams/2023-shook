@@ -16,6 +16,10 @@ const Header = () => {
 export default Header;
 
 const Container = styled.header`
+  position: sticky;
+  z-index: 1000;
+  top: 0px;
+
   display: flex;
   align-items: center;
 
