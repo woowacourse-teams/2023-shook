@@ -82,8 +82,11 @@ class KillingPartCommentServiceTest extends UsingJpaTest {
         final List<KillingPartCommentResponse> partReplies = killingPartCommentService.findKillingPartComments(
             SAVED_PART.getId());
 
+        final List<KillingPartCommentResponse> expected = KillingPartCommentResponse.ofComments(
+            List.of(late, early));
+
         //then
-        assertThat(partReplies).usingRecursiveComparison().isEqualTo(List.of(late, early));
+        assertThat(partReplies).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @DisplayName("킬링파트의 모든 댓글을 조회할 때, 존재하지 않는 킬링파트라면 예외가 발생한다.")
