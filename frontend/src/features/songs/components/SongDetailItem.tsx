@@ -1,24 +1,24 @@
-import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
-import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import TimerProvider from '@/shared/components/Timer/TimerProvider';
+import type { SongDetail } from '@/shared/types/song';
 
-const SongDetailPage = () => {
-  const { id: songIdParams = '' } = useParams();
-  const { songDetail } = useGetSongDetail(Number(songIdParams));
+interface SongDetailItemProps extends SongDetail {}
 
-  if (!songDetail) return;
-  const { id: songId, killingParts, singer, title, songVideoUrl, albumCoverUrl } = songDetail;
-
-  const videoId = songVideoUrl.replace('https://youtu.be/', '');
-
+const SongDetailItem = ({
+  id,
+  killingParts,
+  singer,
+  title,
+  songVideoId,
+  albumCoverUrl,
+}: SongDetailItemProps) => {
   return (
     <Wrapper>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
@@ -33,17 +33,17 @@ const SongDetailPage = () => {
       </SongInfoContainer>
       <Spacing direction="vertical" size={20} />
       <VideoPlayerProvider>
-        <Youtube videoId={videoId} />
+        <Youtube videoId={songVideoId} />
         <Spacing direction="vertical" size={16} />
         <TimerProvider time={15}>
-          <KillingPartInterface killingParts={killingParts} songId={songId} />
+          <KillingPartInterface killingParts={killingParts} songId={id} />
         </TimerProvider>
       </VideoPlayerProvider>
     </Wrapper>
   );
 };
 
-export default SongDetailPage;
+export default SongDetailItem;
 
 const BigTitle = styled.h2`
   font-size: 28px;
