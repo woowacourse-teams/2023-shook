@@ -39,7 +39,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
-        memberService.findByIdAndNickname(memberId, new Nickname(nickname));
+        memberService.findByIdAndNicknameThrowIfNotExist(memberId, new Nickname(nickname));
 
         authContext.setAuthenticatedMember(memberId);
 
