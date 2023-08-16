@@ -1,7 +1,6 @@
 package shook.shook.song.domain.killingpart;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
@@ -11,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,57 +18,63 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.member.domain.Member;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "killing_part_comment")
+@Table(name = "killing_part_like")
 @Entity
-public class KillingPartComment {
+public class KillingPartLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    private KillingPartCommentContent content;
+    @Column(nullable = false)
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "killing_part_id", foreignKey = @ForeignKey(name = "none"), nullable = false, updatable = false)
+    @JoinColumn(name = "killing_part_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     @Getter(AccessLevel.NONE)
     private KillingPart killingPart;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    @Getter(AccessLevel.NONE)
+    private Member member;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @PrePersist
     private void prePersist() {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
-    private KillingPartComment(final Long id, final KillingPart killingPart, final String content) {
-        this.id = id;
+    @PreUpdate
+    private void preUpdate() {
+        updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+    }
+
+    public KillingPartLike(final KillingPart killingPart, final Member member) {
         this.killingPart = killingPart;
-        this.content = new KillingPartCommentContent(content);
+        this.member = member;
+        this.isDeleted = true;
     }
 
-    public static KillingPartComment saved(
-        final Long id,
-        final KillingPart part,
-        final String content
-    ) {
-        return new KillingPartComment(id, part, content);
+    public void updateDeletion() {
+        this.isDeleted = !this.isDeleted;
     }
 
-    public static KillingPartComment forSave(final KillingPart part, final String content) {
-        return new KillingPartComment(null, part, content);
+    public boolean isOwner(final Member member) {
+        return this.member.equals(member);
     }
 
     public boolean isBelongToOtherKillingPart(final KillingPart killingPart) {
         return !this.killingPart.equals(killingPart);
-    }
-
-    public String getContent() {
-        return content.getValue();
     }
 
     @Override
@@ -79,11 +85,11 @@ public class KillingPartComment {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final KillingPartComment killingPartComment = (KillingPartComment) o;
-        if (Objects.isNull(killingPartComment.id) || Objects.isNull(this.id)) {
+        final KillingPartLike killingPartLike = (KillingPartLike) o;
+        if (Objects.isNull(killingPartLike.id) || Objects.isNull(this.id)) {
             return false;
         }
-        return Objects.equals(id, killingPartComment.id);
+        return Objects.equals(id, killingPartLike.id);
     }
 
     @Override

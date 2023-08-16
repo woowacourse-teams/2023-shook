@@ -33,10 +33,10 @@ public class KillingPartCommentService {
         killingPartCommentRepository.save(killingPartComment);
     }
 
-    public List<KillingPartCommentResponse> findKillingPartComments(final Long partId) {
-        final KillingPart killingPart = killingPartRepository.findById(partId)
+    public List<KillingPartCommentResponse> findKillingPartComments(final Long killingPartId) {
+        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
             .orElseThrow(KillingPartException.PartNotExistException::new);
 
-        return KillingPartCommentResponse.getList(killingPart.getCommentsInRecentOrder());
+        return KillingPartCommentResponse.ofComments(killingPart.getCommentsInRecentOrder());
     }
 }
