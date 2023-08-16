@@ -29,12 +29,16 @@ async function main() {
         <GlobalStyles />
         <ThemeProvider theme={theme}>
           <ToastProvider>
-            <RouterProvider router={router} />
+            <App />
           </ToastProvider>
         </ThemeProvider>
       </AuthProvider>
     </React.StrictMode>
   );
 }
+
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 main();

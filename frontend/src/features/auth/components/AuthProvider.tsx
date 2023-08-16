@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 const parseJWT = (token: string) => {
   const payloadUrl = token.split('.')[1];
@@ -21,45 +21,41 @@ interface User {
 
 interface AuthContextProps {
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  login: (accessToken: string) => void;
 }
+
+export const useAuthContext = () => {
+  const contextValue = useContext(AuthContext);
+
+  if (contextValue === null) throw new Error('AuthContext가 null입니다.');
+
+  return contextValue;
+};
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const useAuth = () => {
-  const authValues = useContext(AuthContext);
+const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
+  const [accessToken, setAccessToken] = useState(
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwibWVtYmVySWQiOjEsImlhdCI6MTY5MjE3NDkyOCwiZXhwIjoxNjkyMTc0OTQwfQ.88DaWR1XRPEQVe_SOtCar060_EmTNINriRNU3zfKfsU'
+  );
 
-  if (!authValues) {
-    throw new Error('AuthContext에 value가 제공되지 않았습니다.');
-  }
+  const login = (userToken: string) => {
+    localStorage.setItem('userToken', userToken);
+    setAccessToken(userToken);
+  };
 
-  const { user, setUser } = authValues;
-
-  const login = (accessToken: string) => {
-    localStorage.setItem('userToken', accessToken);
-
-    // TODO: nickname 추가
+  let user: User | null = useMemo(() => {
     const { memberId } = parseJWT(accessToken);
 
-    const user: User = {
+    return {
       memberId,
-      // TODO: nickname 받아서 쓸 것
       nickname: 'ukko',
     };
+  }, [accessToken]);
 
-    setUser(user);
-  };
+  user = null;
 
-  return {
-    user,
-    login,
-  };
-};
-
-const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
