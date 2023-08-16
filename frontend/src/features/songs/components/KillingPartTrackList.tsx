@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
@@ -19,18 +18,17 @@ const KillingPartTrackList = ({
   return (
     <TrackList role="radiogroup">
       {killingParts.map((killingPart) => {
-        const { id, start, end } = killingPart;
+        const { id } = killingPart;
         const isNowPlayingTrack = id === nowPlayingTrack;
 
         return (
-          <TimerProvider time={end - start} key={id}>
-            <KillingPartTrack
-              killingPart={killingPart}
-              isNowPlayingTrack={isNowPlayingTrack}
-              setNowPlayingTrack={setNowPlayingTrack}
-              setCommentsPartId={setCommentsPartId}
-            />
-          </TimerProvider>
+          <KillingPartTrack
+            key={id}
+            killingPart={killingPart}
+            isNowPlayingTrack={isNowPlayingTrack}
+            setNowPlayingTrack={setNowPlayingTrack}
+            setCommentsPartId={setCommentsPartId}
+          />
         );
       })}
     </TrackList>

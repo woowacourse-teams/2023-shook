@@ -8,6 +8,7 @@ import Youtube from '@/features/youtube/components/Youtube';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
+import TimerProvider from '@/shared/components/Timer/TimerProvider';
 
 const SongDetailPage = () => {
   const { id: songIdParams = '' } = useParams();
@@ -34,7 +35,9 @@ const SongDetailPage = () => {
       <VideoPlayerProvider>
         <Youtube videoId={videoId} />
         <Spacing direction="vertical" size={16} />
-        <KillingPartInterface killingParts={killingParts} songId={songId} />
+        <TimerProvider time={15}>
+          <KillingPartInterface killingParts={killingParts} songId={songId} />
+        </TimerProvider>
       </VideoPlayerProvider>
     </Wrapper>
   );

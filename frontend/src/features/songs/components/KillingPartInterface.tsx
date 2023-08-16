@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Spacing from '@/shared/components/Spacing';
+import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
 import KillingPartTrackList from './KillingPartTrackList';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
@@ -19,11 +20,10 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
   const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
   const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();
-
-  const timerRef = useRef<number | null>(null);
+  const { countedTime, startTimer, resetTimer, pauseTimer } = useTimerContext();
 
   const toggleRepetition = () => {
-    setIsRepeat(!isRepeat);
+    setIsRepeat((prev) => !prev);
   };
 
   useEffect(() => {
@@ -34,26 +34,75 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
 
   useEffect(() => {
     const part = killingParts.find((part) => part.id === nowPlayingTrack);
-    if (!part) return;
+    if (!part || !videoPlayer.current) return;
 
-    seekTo(part.start);
+    const partLength = (part.end - part.start) * 1000;
+    const remainingTime = partLength - countedTime * 1000;
 
-    const interval = (part.end - part.start) * 1000;
+    let timeoutId1: number;
+    let timeoutId2: number;
+    let intervalIds: number;
 
     if (isRepeat) {
-      timerRef.current = window.setInterval(() => seekTo(part.start), interval);
+      timeoutId1 = window.setTimeout(() => {
+        resetTimer();
+        seekTo(part.start);
+
+        intervalIds = window.setInterval(() => {
+          resetTimer();
+          seekTo(part.start);
+        }, partLength);
+      }, remainingTime);
     } else {
-      timerRef.current = window.setTimeout(() => {
+      timeoutId2 = window.setTimeout(() => {
+        resetTimer();
         pause();
         setNowPlayingTrack(DEFAULT_PART_ID);
-      }, interval);
+      }, remainingTime);
     }
 
     return () => {
-      if (!timerRef.current) return;
-      window.clearInterval(timerRef.current);
+      window.clearTimeout(timeoutId1);
+      window.clearTimeout(timeoutId2);
+      window.clearInterval(intervalIds);
     };
-  }, [isRepeat, nowPlayingTrack, seekTo, pause, killingParts]);
+  }, [
+    killingParts,
+    isRepeat,
+    nowPlayingTrack,
+    videoPlayer,
+    pause,
+    resetTimer,
+    seekTo,
+    countedTime,
+  ]);
+
+  // 선택된 노래 변경시
+  useEffect(() => {
+    if (nowPlayingTrack === DEFAULT_PART_ID) {
+      resetTimer();
+      return;
+    }
+
+    resetTimer();
+    startTimer();
+  }, [nowPlayingTrack, resetTimer, startTimer]);
+
+  useEffect(() => {
+    if (playerState === null) return;
+
+    if (playerState === YT.PlayerState.BUFFERING) {
+      console.log('버퍼링 타이머 걸림 ');
+
+      const bufferingTimer = window.setTimeout(pauseTimer, 300);
+
+      return () => {
+        console.log('버퍼링 가짜여서 취소함');
+        window.clearTimeout(bufferingTimer);
+        startTimer();
+      };
+    }
+  }, [playerState, pauseTimer, resetTimer, startTimer]);
 
   return (
     <>

@@ -28,7 +28,7 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
-  const { countedTime: currentTime, startTimer, resetTimer, pauseTimer } = useTimerContext();
+  const { countedTime: currentPlayTime } = useTimerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
@@ -73,22 +73,6 @@ const KillingPartTrack = ({
     }
   };
 
-  useEffect(() => {
-    if (!isNowPlayingTrack || playerState === YT.PlayerState.PAUSED) {
-      resetTimer();
-      return;
-    }
-
-    if (playerState === YT.PlayerState.BUFFERING) {
-      pauseTimer();
-      return;
-    }
-
-    if (playerState === YT.PlayerState.PLAYING) {
-      startTimer();
-    }
-  }, [isNowPlayingTrack, playerState, pauseTimer, resetTimer, startTimer]);
-
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
@@ -123,7 +107,9 @@ const KillingPartTrack = ({
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
       </ButtonContainer>
-      {isNowPlayingTrack && <ProgressBar value={currentTime} max={partLength} aria-hidden="true" />}
+      {isNowPlayingTrack && (
+        <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
+      )}
     </Container>
   );
 };

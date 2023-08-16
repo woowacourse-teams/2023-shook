@@ -24,6 +24,7 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
   const intervalRef = useRef<number | null>(null);
 
   const updateIntervalRef = () => {
+    if (intervalRef.current) return;
     intervalRef.current = window.setInterval(() => setCountedTime((prev) => prev + 0.1), 100);
   };
 
