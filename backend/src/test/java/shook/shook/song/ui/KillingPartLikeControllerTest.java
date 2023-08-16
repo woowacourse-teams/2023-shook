@@ -5,11 +5,14 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
@@ -19,9 +22,13 @@ class KillingPartLikeControllerTest {
     private static final long SAVED_KILLING_PART_ID = 1L;
     private static final long SAVED_SONG_ID = 1L;
     private static final long SAVED_MEMBER_ID = 1L;
+    private static final String TOKEN_PREFIX = "Bearer ";
 
     @LocalServerPort
     public int port;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @BeforeEach
     void setUp() {
@@ -33,12 +40,13 @@ class KillingPartLikeControllerTest {
     void createLikeOnKillingPart() {
         // given
         final KillingPartLikeRequest request = new KillingPartLikeRequest(true);
+        final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID);
 
         // when, then
         RestAssured.given().log().all()
+            .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
             .contentType(ContentType.JSON)
             .body(request)
-            .param("memberId", SAVED_MEMBER_ID)
             .when().log().all()
             .put("/songs/{songId}/parts/{killingPartId}/likes", SAVED_SONG_ID,
                 SAVED_KILLING_PART_ID)
@@ -51,9 +59,11 @@ class KillingPartLikeControllerTest {
     void deleteLikeOnKillingPart() {
         // given
         final KillingPartLikeRequest request = new KillingPartLikeRequest(false);
+        final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID);
 
         // when, then
         RestAssured.given().log().all()
+            .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
             .contentType(ContentType.JSON)
             .body(request)
             .param("memberId", SAVED_MEMBER_ID)

@@ -51,4 +51,6 @@ jwt:
   access-token-valid-time: 12000
   refresh-token-valid-time: 634000
 
-
+# Properties Only For Local
+cookie:
+  valid-time: 634000

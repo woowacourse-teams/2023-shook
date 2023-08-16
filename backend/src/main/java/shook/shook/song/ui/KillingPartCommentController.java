@@ -26,6 +26,7 @@ public class KillingPartCommentController {
     public ResponseEntity<Void> registerKillingPartComment(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
         @Valid @RequestBody final KillingPartCommentRegisterRequest request
+        // TODO: 2023/08/15 memberInfo 추가하기
     ) {
         killingPartCommentService.register(killingPartId, request);
 

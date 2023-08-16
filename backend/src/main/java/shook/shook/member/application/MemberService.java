@@ -8,6 +8,7 @@ import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -28,5 +29,10 @@ public class MemberService {
 
     public Optional<Member> findByEmail(final Email email) {
         return memberRepository.findByEmail(email);
+    }
+
+    public Member findById(final Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(MemberNotExistException::new);
     }
 }

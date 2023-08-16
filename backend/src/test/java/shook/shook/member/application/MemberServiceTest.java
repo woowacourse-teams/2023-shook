@@ -3,7 +3,6 @@ package shook.shook.member.application;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.support.UsingJpaTest;
 
 class MemberServiceTest extends UsingJpaTest {
@@ -60,12 +60,35 @@ class MemberServiceTest extends UsingJpaTest {
     void findByEmail() {
         //given
         //when
-        final Optional<Member> result = memberService.findByEmail(
-            new Email(savedMember.getEmail()));
+        final Member result = memberService.findByEmail(
+            new Email(savedMember.getEmail())).get();
 
         //then
-        assertThat(result.get().getId()).isEqualTo(savedMember.getId());
-        assertThat(result.get().getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(result.get().getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(result.getId()).isEqualTo(savedMember.getId());
+        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
+    }
+
+    @DisplayName("회원을 id로 조회한다.")
+    @Test
+    void success_findById() {
+        //given
+        //when
+        final Member result = memberService.findById(savedMember.getId());
+
+        //then
+        assertThat(result.getId()).isEqualTo(savedMember.getId());
+        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
+    }
+
+    @DisplayName("회원을 id로 조회할 때 존재하지 않으면 예외를 던진다..")
+    @Test
+    void fail_findById() {
+        //given
+        //when
+        //then
+        assertThatThrownBy(() -> memberService.findById(Long.MAX_VALUE))
+            .isInstanceOf(MemberNotExistException.class);
     }
 }
