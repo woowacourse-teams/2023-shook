@@ -2,14 +2,15 @@ package shook.shook.song.application;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.dto.SongResponse;
+import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.domain.Song;
@@ -22,6 +23,9 @@ import shook.shook.song.exception.SongException;
 @Transactional(readOnly = true)
 @Service
 public class SongService {
+
+    private static final int AFTER_SONGS_COUNT = 10;
+    private static final int BEFORE_SONGS_COUNT = 10;
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
@@ -56,17 +60,89 @@ public class SongService {
             ).toList();
     }
 
-    public SongResponse findByIdAndMemberId(final Long songId, final Long memberId) {
-        final Song song = songRepository.findById(songId)
+    public SongSwipeResponse findSongByIdForFirstSwipe(
+        final Long songId,
+        final Long memberId
+    ) {
+        final Song currentSong = findSongById(songId);
+
+        final List<Song> beforeSongs = findBeforeSongs(currentSong);
+        final List<Song> afterSongs = findAfterSongs(currentSong);
+
+        return convertToSongSwipeResponse(memberId, currentSong, beforeSongs, afterSongs);
+    }
+
+    private Song findSongById(final Long songId) {
+        return songRepository.findById(songId)
             .orElseThrow(SongException.SongNotExistException::new);
+    }
 
-        if (Objects.isNull(memberId)) {
-            return SongResponse.fromUnauthorizedUser(song);
-        }
+    private List<Song> findBeforeSongs(final Song song) {
+        return songRepository.findSongsWithMoreLikeCountThanSongWithId(
+            song.getId(), PageRequest.of(0, BEFORE_SONGS_COUNT)
+        );
+    }
 
-        final Optional<Member> foundMember = memberRepository.findById(memberId);
+    private List<Song> findAfterSongs(final Song song) {
+        return songRepository.findSongsWithLessLikeCountThanSongWithId(
+            song.getId(), PageRequest.of(0, AFTER_SONGS_COUNT)
+        );
+    }
 
-        return foundMember.map(member -> SongResponse.of(song, member))
-            .orElseGet(() -> SongResponse.fromUnauthorizedUser(song));
+    private SongSwipeResponse convertToSongSwipeResponse(
+        final Long memberId,
+        final Song currentSong,
+        final List<Song> beforeSongs, final List<Song> afterSongs
+    ) {
+        final Optional<Member> member = memberRepository.findById(memberId);
+
+        return member.map(
+                value -> SongSwipeResponse.of(value, currentSong, beforeSongs, afterSongs)
+            )
+            .orElseGet(
+                () -> SongSwipeResponse.ofUnauthorizedUser(currentSong, beforeSongs, afterSongs)
+            );
+    }
+
+    public List<SongResponse> findSongByIdForBeforeSwipe(
+        final Long songId,
+        final Long memberId
+    ) {
+        final Song currentSong = findSongById(songId);
+
+        final List<Song> beforeSongs =
+            findBeforeSongs(currentSong);
+
+        return convertToSongResponses(memberId, beforeSongs);
+    }
+
+    private List<SongResponse> convertToSongResponses(
+        final Long memberId,
+        final List<Song> songs
+    ) {
+        final Optional<Member> member = memberRepository.findById(memberId);
+
+        return member.map(
+                value -> songs.stream()
+                    .map((song) -> SongResponse.of(song, value))
+                    .toList()
+            )
+            .orElseGet(
+                () -> songs.stream()
+                    .map(SongResponse::fromUnauthorizedUser)
+                    .toList()
+            );
+    }
+
+    public List<SongResponse> findSongByIdForAfterSwipe(
+        final Long songId,
+        final Long memberId
+    ) {
+        final Song currentSong = findSongById(songId);
+
+        final List<Song> afterSongs =
+            findAfterSongs(currentSong);
+
+        return convertToSongResponses(memberId, afterSongs);
     }
 }

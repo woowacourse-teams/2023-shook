@@ -61,13 +61,30 @@ VALUES ('Super Shy', 'NewJeans', 200, 'https://youtu.be/ArmDp-zijuc',
 INSERT INTO song (title, singer, length, video_url, album_cover_url, created_at)
 VALUES ('Seven (feat. Latto) - Clean Ver.', '정국', 186, 'https://youtu.be/UUSbUBYqU_8',
         'http://i.maniadb.com/images/album/1000/000246_1_f.jpg', now());
+INSERT INTO song (title, singer, length, video_url, album_cover_url, created_at)
+VALUES ('노래', '가수', 263, 'https://youtu.be/sjeifksl',
+        'http://i.maniadb.com/images/album/29382/028492.jpg', now());
 
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (10, 'SHORT', 1, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (15, 'LONG', 1, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (20, 'STANDARD', 1, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (10, 'SHORT', 1, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (15, 'LONG', 1, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (20, 'STANDARD', 1, 0, now());
 
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (10, 'SHORT', 2, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (15, 'LONG', 2, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at) VALUES (20, 'STANDARD', 2, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (10, 'SHORT', 2, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (15, 'LONG', 2, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (20, 'STANDARD', 2, 0, now());
 
-INSERT INTO member (email, nickname) VALUES ('email@naver.com', 'nickname');
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (10, 'SHORT', 3, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (15, 'LONG', 3, 0, now());
+INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+VALUES (20, 'STANDARD', 3, 0, now());
+
+INSERT INTO member (email, nickname)
+VALUES ('email@naver.com', 'nickname');

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -135,5 +136,224 @@ class SongRepositoryTest extends UsingJpaTest {
         final KillingPartLike like = new KillingPartLike(killingPart, member);
         killingPart.like(like);
         likeRepository.save(like);
+    }
+
+    @DisplayName("주어진 id보다 좋아요가 적은 노래 10개를 조회한다. (데이터가 충분할 때)")
+    @Test
+    void findSongsWithLessLikeCountThanSongWithId() {
+        // given
+        final Member member = createAndSaveMember("first@naver.com", "first");
+        final Song eleventhSong = songRepository.save(createNewSongWithKillingParts());
+        final Song tenthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song ninthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song eighthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song seventhSong = songRepository.save(createNewSongWithKillingParts());
+        final Song sixthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
+        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
+        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+
+        killingPartRepository.saveAll(standardSong.getKillingParts());
+        killingPartRepository.saveAll(secondSong.getKillingParts());
+        killingPartRepository.saveAll(thirdSong.getKillingParts());
+        killingPartRepository.saveAll(fourthSong.getKillingParts());
+        killingPartRepository.saveAll(fifthSong.getKillingParts());
+        killingPartRepository.saveAll(sixthSong.getKillingParts());
+        killingPartRepository.saveAll(seventhSong.getKillingParts());
+        killingPartRepository.saveAll(eighthSong.getKillingParts());
+        killingPartRepository.saveAll(ninthSong.getKillingParts());
+        killingPartRepository.saveAll(tenthSong.getKillingParts());
+        killingPartRepository.saveAll(eleventhSong.getKillingParts());
+
+        addLikeToKillingPart(standardSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(standardSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(standardSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(secondSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(thirdSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(fourthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fourthSong.getKillingParts().get(1), member);
+
+        addLikeToKillingPart(fifthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fifthSong.getKillingParts().get(1), member);
+
+        // when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findSongsWithLessLikeCountThanSongWithId(
+            standardSong.getId(),
+            PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(secondSong, thirdSong, fourthSong, fifthSong, sixthSong, seventhSong,
+                eighthSong, ninthSong, tenthSong, eleventhSong)
+            );
+    }
+
+    @DisplayName("주어진 id보다 좋아요가 적은 노래 10개를 조회한다. (데이터가 기준보다 적을 때)")
+    @Test
+    void findSongsWithLessLikeCountThanSongWithId_SmallData() {
+        // given
+        final Member firstMember = createAndSaveMember("first@naver.com", "first");
+
+        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
+        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
+        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
+        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
+
+        killingPartRepository.saveAll(firstSong.getKillingParts());
+        killingPartRepository.saveAll(secondSong.getKillingParts());
+        killingPartRepository.saveAll(thirdSong.getKillingParts());
+        killingPartRepository.saveAll(standardSong.getKillingParts());
+        killingPartRepository.saveAll(fifthSong.getKillingParts());
+
+        addLikeToKillingPart(firstSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(firstSong.getKillingParts().get(1), firstMember);
+        addLikeToKillingPart(firstSong.getKillingParts().get(2), firstMember);
+
+        addLikeToKillingPart(secondSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(secondSong.getKillingParts().get(1), firstMember);
+        addLikeToKillingPart(secondSong.getKillingParts().get(2), firstMember);
+
+        addLikeToKillingPart(thirdSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(1), firstMember);
+
+        addLikeToKillingPart(standardSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(standardSong.getKillingParts().get(1), firstMember);
+
+        addLikeToKillingPart(fifthSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(fifthSong.getKillingParts().get(1), firstMember);
+
+        // when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findSongsWithLessLikeCountThanSongWithId(
+            standardSong.getId(),
+            PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(thirdSong));
+    }
+
+    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 조회한다. (데이터가 충분할 때)")
+    @Test
+    void findSongsWithMoreLikeCountThanSongWithId() {
+        // given
+        final Member member = createAndSaveMember("first@naver.com", "first");
+        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
+        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
+        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+        final Song seventhSong = songRepository.save(createNewSongWithKillingParts());
+        final Song eighthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song ninthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song tenthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song eleventhSong = songRepository.save(createNewSongWithKillingParts());
+
+        killingPartRepository.saveAll(firstSong.getKillingParts());
+        killingPartRepository.saveAll(secondSong.getKillingParts());
+        killingPartRepository.saveAll(thirdSong.getKillingParts());
+        killingPartRepository.saveAll(fourthSong.getKillingParts());
+        killingPartRepository.saveAll(fifthSong.getKillingParts());
+        killingPartRepository.saveAll(standardSong.getKillingParts());
+        killingPartRepository.saveAll(seventhSong.getKillingParts());
+        killingPartRepository.saveAll(eighthSong.getKillingParts());
+        killingPartRepository.saveAll(ninthSong.getKillingParts());
+        killingPartRepository.saveAll(tenthSong.getKillingParts());
+        killingPartRepository.saveAll(eleventhSong.getKillingParts());
+
+        addLikeToKillingPart(firstSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(firstSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(firstSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(secondSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(thirdSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(fourthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fourthSong.getKillingParts().get(1), member);
+
+        addLikeToKillingPart(fifthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fifthSong.getKillingParts().get(1), member);
+
+        // when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findSongsWithMoreLikeCountThanSongWithId(
+            standardSong.getId(),
+            PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(
+                List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong, eleventhSong,
+                    tenthSong, ninthSong, eighthSong, seventhSong));
+    }
+
+    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 조회한다. (데이터가 기준보다 부족할 때)")
+    @Test
+    void findSongsWithMoreLikeCountThanSongWithId_smallData() {
+        // given
+        final Member member = createAndSaveMember("first@naver.com", "first");
+        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
+        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
+        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+
+        killingPartRepository.saveAll(firstSong.getKillingParts());
+        killingPartRepository.saveAll(secondSong.getKillingParts());
+        killingPartRepository.saveAll(thirdSong.getKillingParts());
+        killingPartRepository.saveAll(fourthSong.getKillingParts());
+        killingPartRepository.saveAll(fifthSong.getKillingParts());
+        killingPartRepository.saveAll(standardSong.getKillingParts());
+
+        addLikeToKillingPart(firstSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(firstSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(firstSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(secondSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(secondSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(thirdSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(1), member);
+        addLikeToKillingPart(thirdSong.getKillingParts().get(2), member);
+
+        addLikeToKillingPart(fourthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fourthSong.getKillingParts().get(1), member);
+
+        addLikeToKillingPart(fifthSong.getKillingParts().get(0), member);
+        addLikeToKillingPart(fifthSong.getKillingParts().get(1), member);
+
+        // when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findSongsWithMoreLikeCountThanSongWithId(
+            standardSong.getId(),
+            PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(
+                List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong));
     }
 }

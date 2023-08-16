@@ -25,6 +25,7 @@ class HighLikedSongControllerTest {
 
     private static final long FIRST_SONG_ID = 1L;
     private static final long SECOND_SONG_ID = 2L;
+    private static final long THIRD_SONG_ID = 3L;
     private static final long FIRST_SONG_KILLING_PART_ID_1 = 1L;
     private static final long FIRST_SONG_KILLING_PART_ID_2 = 2L;
     private static final long SECOND_SONG_KILLING_PART_ID_1 = 4L;
@@ -41,7 +42,7 @@ class HighLikedSongControllerTest {
     @Autowired
     private KillingPartLikeService likeService;
 
-    @DisplayName("좋아요 많은 순으로 노래 목록 조회 시 200 상태코드, 좋아요순으로 정렬된 노래 목록이 반환된다.")
+    @DisplayName("좋아요 많은 순으로 노래 목록 조회 시 200 상태코드, 좋아요 순으로 정렬된 노래 목록이 반환된다.")
     @Test
     void showHighLikedSongs() {
         //given
@@ -64,13 +65,16 @@ class HighLikedSongControllerTest {
 
         //then
         assertAll(
-            () -> assertThat(responses).hasSize(2),
+            () -> assertThat(responses).hasSize(3),
             () -> assertThat(responses.get(0))
                 .hasFieldOrPropertyWithValue("id", FIRST_SONG_ID)
                 .hasFieldOrPropertyWithValue("totalLikeCount", 2L),
             () -> assertThat(responses.get(1))
                 .hasFieldOrPropertyWithValue("id", SECOND_SONG_ID)
-                .hasFieldOrPropertyWithValue("totalLikeCount", 1L)
+                .hasFieldOrPropertyWithValue("totalLikeCount", 1L),
+            () -> assertThat(responses.get(2))
+                .hasFieldOrPropertyWithValue("id", THIRD_SONG_ID)
+                .hasFieldOrPropertyWithValue("totalLikeCount", 0L)
         );
     }
 }
