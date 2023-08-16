@@ -13,12 +13,14 @@ public class KillingPartCommentResponse {
 
     private final Long id;
     private final String content;
+    private final String writerNickname;
     private final LocalDateTime createdAt;
 
     public static KillingPartCommentResponse from(final KillingPartComment killingPartComment) {
         return new KillingPartCommentResponse(
             killingPartComment.getId(),
             killingPartComment.getContent(),
+            killingPartComment.getWriterNickname(),
             killingPartComment.getCreatedAt()
         );
     }
