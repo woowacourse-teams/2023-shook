@@ -44,7 +44,7 @@ const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
     setAccessToken(userToken);
   };
 
-  let user: User | null = useMemo(() => {
+  const user: User = useMemo(() => {
     const { memberId } = parseJWT(accessToken);
 
     return {
@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
     };
   }, [accessToken]);
 
-  user = null;
+  // user = null;
 
   return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
 };
