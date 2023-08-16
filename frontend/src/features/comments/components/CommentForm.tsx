@@ -62,7 +62,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
           />
         ) : (
           <LinkBox
-            to={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&redirect_uri=${process.env.BASE_URL}${ROUTE_PATH.LOGIN_REDIRECT}&client_id=1008951336382-8o2n6n9u8jbj3sb6fe5jdeha9b6alnqa.apps.googleusercontent.com`}
+            to={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&redirect_uri=http://localhost:8080${ROUTE_PATH.LOGIN_REDIRECT}&client_id=1008951336382-8o2n6n9u8jbj3sb6fe5jdeha9b6alnqa.apps.googleusercontent.com`}
           >
             <Input
               type="text"
@@ -108,16 +108,6 @@ const Container = styled.form`
 
   background-color: ${({ theme }) => theme.color.black};
   border-top: 1px solid ${({ theme }) => theme.color.white};
-`;
-
-const Profile = styled.div`
-  overflow: hidden;
-
-  width: 40px;
-  height: 40px;
-
-  background-color: white;
-  border-radius: 100%;
 `;
 
 const Input = styled.input`

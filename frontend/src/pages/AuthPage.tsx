@@ -10,7 +10,7 @@ const AuthPage = () => {
   const code = searchParams.get('code');
 
   const getAccessToken = async () => {
-    const response = await fetch(`${process.env.BASE_URL}/login/google?code=${code}`, {
+    const response = await fetch(`http://192.168.1.86:8080/login/google?code=${code}`, {
       method: 'get',
     });
     const data = (await response.json()) as AccessTokenResponse;
@@ -18,6 +18,7 @@ const AuthPage = () => {
     // accessToken은 localStorage에 저장한다.
     // userId와 userNickname은 전역으로 저장한다.
     const { accessToken } = data;
+    console.log(data);
     localStorage.setItem('userToken', accessToken);
   };
 
@@ -25,7 +26,7 @@ const AuthPage = () => {
     getAccessToken();
   }, []);
 
-  return <Navigate to="/" />;
+  return <div>hello</div>;
 };
 
 export default AuthPage;
