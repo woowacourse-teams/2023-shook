@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
@@ -8,6 +7,7 @@ interface KillingPartTrackListProps {
   songId: number;
   nowPlayingTrack: KillingPart['id'];
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrackList = ({
@@ -15,22 +15,23 @@ const KillingPartTrackList = ({
   songId,
   nowPlayingTrack,
   setNowPlayingTrack,
+  setCommentsPartId,
 }: KillingPartTrackListProps) => {
   return (
     <TrackList role="radiogroup">
       {killingParts.map((killingPart) => {
-        const { id, start, end } = killingPart;
+        const { id } = killingPart;
         const isNowPlayingTrack = id === nowPlayingTrack;
 
         return (
-          <TimerProvider time={end - start} key={id}>
-            <KillingPartTrack
-              killingPart={killingPart}
-              songId={songId}
-              isNowPlayingTrack={isNowPlayingTrack}
-              setNowPlayingTrack={setNowPlayingTrack}
-            />
-          </TimerProvider>
+          <KillingPartTrack
+            key={id}
+            killingPart={killingPart}
+            songId={songId}
+            isNowPlayingTrack={isNowPlayingTrack}
+            setNowPlayingTrack={setNowPlayingTrack}
+            setCommentsPartId={setCommentsPartId}
+          />
         );
       })}
     </TrackList>

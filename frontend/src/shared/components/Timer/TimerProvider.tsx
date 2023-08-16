@@ -5,6 +5,7 @@ interface TimerContextProps {
   countedTime: number;
   startTimer: () => void;
   resetTimer: () => void;
+  pauseTimer: () => void;
   toggleAutoRestart: () => void;
 }
 
@@ -22,13 +23,10 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
   const initialTimeRef = useRef(time);
   const intervalRef = useRef<number | null>(null);
 
-  const count = useCallback(() => {
-    setCountedTime((prev) => prev + 0.1);
-  }, []);
-
-  const updateIntervalRef = useCallback(() => {
-    intervalRef.current = window.setInterval(count, 100);
-  }, [count]);
+  const updateIntervalRef = () => {
+    if (intervalRef.current) return;
+    intervalRef.current = window.setInterval(() => setCountedTime((prev) => prev + 0.1), 100);
+  };
 
   const clearIntervalRef = () => {
     if (intervalRef.current === null) return;
@@ -38,16 +36,19 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
   };
 
   const resetTimer = useCallback(() => {
-    clearIntervalRef();
     setCountedTime(0);
     setIsStart(false);
+    clearIntervalRef();
   }, []);
 
   const startTimer = useCallback(() => {
-    resetTimer();
-    updateIntervalRef();
     setIsStart(true);
-  }, [resetTimer, updateIntervalRef]);
+    updateIntervalRef();
+  }, []);
+
+  const pauseTimer = useCallback(() => {
+    clearIntervalRef();
+  }, []);
 
   const toggleAutoRestart = () => setAutoRestart((prev) => !prev);
 
@@ -73,6 +74,7 @@ export const TimerProvider = ({ children, time }: PropsWithChildren<TimerProvide
         countedTime,
         startTimer,
         resetTimer,
+        pauseTimer,
         toggleAutoRestart,
       }}
     >

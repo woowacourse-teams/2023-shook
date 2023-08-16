@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { css, styled } from 'styled-components';
 import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
@@ -23,6 +23,7 @@ interface KillingPartTrackProps {
   songId: number;
   isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
@@ -30,13 +31,14 @@ const KillingPartTrack = ({
   songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
+  setCommentsPartId,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
-  const { countedTime: currentTime, startTimer, resetTimer } = useTimerContext();
   const { mutateData: toggleKillingPartLikes } = useMutation(putKillingPartLikes);
   const { isLikes, toggleLikes } = useKillingPartLikes(likeStatus);
   useDebounceEffect(() => toggleKillingPartLikes(songId, partId, isLikes), isLikes);
+  const { countedTime: currentPlayTime } = useTimerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
@@ -50,12 +52,12 @@ const KillingPartTrack = ({
   };
 
   const getPlayIcon = useCallback(() => {
-    if (!isNowPlayingTrack || YT.PlayerState.PAUSED) {
+    if (!isNowPlayingTrack || playerState === YT.PlayerState.PAUSED) {
       return emptyPlayIcon;
     }
 
     if (
-      playerState === undefined ||
+      playerState === null ||
       playerState === YT.PlayerState.UNSTARTED ||
       playerState === YT.PlayerState.PLAYING ||
       playerState === YT.PlayerState.BUFFERING
@@ -67,6 +69,7 @@ const KillingPartTrack = ({
   const playTrack = () => {
     seekTo(start);
     setNowPlayingTrack(partId);
+    setCommentsPartId(partId);
   };
 
   const stopTrack = () => {
@@ -81,22 +84,6 @@ const KillingPartTrack = ({
       playTrack();
     }
   };
-
-  useEffect(() => {
-    if (
-      !isNowPlayingTrack ||
-      playerState === YT.PlayerState.PAUSED ||
-      playerState === YT.PlayerState.BUFFERING
-    ) {
-      resetTimer();
-      return;
-    }
-
-    if (playerState === YT.PlayerState.PLAYING) {
-      startTimer();
-      return;
-    }
-  }, [isNowPlayingTrack, playerState, resetTimer, startTimer]);
 
   return (
     <Container
@@ -132,7 +119,9 @@ const KillingPartTrack = ({
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
       </ButtonContainer>
-      {isNowPlayingTrack && <ProgressBar value={currentTime} max={partLength} aria-hidden="true" />}
+      {isNowPlayingTrack && (
+        <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
+      )}
     </Container>
   );
 };

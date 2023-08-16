@@ -42,6 +42,9 @@ const killingPart: KillingPart = {
 const KillingPartTrackWithHook = () => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(-1);
+
   const isNowPlayingTrack = killingPart.id === nowPlayingTrack;
 
   return (
@@ -50,6 +53,7 @@ const KillingPartTrackWithHook = () => {
       songId={1}
       isNowPlayingTrack={isNowPlayingTrack}
       setNowPlayingTrack={setNowPlayingTrack}
+      setCommentsPartId={setCommentsPartId}
     />
   );
 };
