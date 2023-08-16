@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
@@ -23,7 +22,6 @@ import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class SongControllerTest {
 
-    private static final long FIRST_SONG_ID = 1L;
     private static final long FIRST_SONG_KILLING_PART_ID_1 = 1L;
     private static final long FIRST_SONG_KILLING_PART_ID_2 = 2L;
     private static final long SECOND_SONG_KILLING_PART_ID_1 = 4L;
@@ -40,10 +38,7 @@ class SongControllerTest {
     @Autowired
     private KillingPartLikeService likeService;
 
-    @Autowired
-    private SongService songService;
-
-    @DisplayName("노래 정보 처음 조회시 200 상태코드, 현재 노래,  이전 / 이후 노래 리스트를 반환한다.")
+    @DisplayName("노래 정보 처음 조회할 때, 가운데 노래를 기준으로 조회한 경우 200 상태코드, 현재 노래,  이전 / 이후 노래 리스트를 반환한다.")
     @Test
     void showSongById() {
         //given
@@ -71,7 +66,7 @@ class SongControllerTest {
         assertThat(response.getAfterSongs().get(0).getId()).isEqualTo(3L);
     }
 
-    @DisplayName("이전 노래 정보를 조회하면 200 상태코드, 이전 노래 리스트를 반환한다.")
+    @DisplayName("가장 좋아요가 적은 노래 id 로 이전 노래 정보를 조회할 때 200 상태코드, 이전 노래 리스트를 반환한다.")
     @Test
     void showSongsBeforeSongWithId() {
         // given
@@ -99,7 +94,7 @@ class SongControllerTest {
             .isEqualTo(List.of(1L, 3L));
     }
 
-    @DisplayName("이후 노래 정보를 조회하면 200 상태코드, 이후 노래 리스트를 반환한다.")
+    @DisplayName("가장 좋아요가 많은 노래 id 로 이후 노래 정보를 조회할 때 200 상태코드, 이후 노래 리스트를 반환한다.")
     @Test
     void showSongsAfterSongWithId() {
         // given
