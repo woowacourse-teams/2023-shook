@@ -3,7 +3,6 @@ package shook.shook.exceptionhandler;
 import static org.mockito.BDDMockito.given;
 
 import io.restassured.RestAssured;
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +13,6 @@ import shook.shook.auth.oauth.exception.OAuthException;
 import shook.shook.globalexception.CustomException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.application.SongService;
-import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
@@ -34,9 +32,6 @@ public class ControllerAdviceTest extends AcceptanceTest {
     @ParameterizedTest
     @MethodSource("exceptionTestData")
     public void testGlobalExceptionHandler(ExceptionTestData testData) {
-        final CustomException exception = testData.getException();
-        mockedService.showHighLikedSongs();
-        final List<HighLikedSongResponse> responses = mockedService.showHighLikedSongs();
         given(mockedService.showHighLikedSongs()).willThrow(testData.getException());
 
         RestAssured.given().log().all()
@@ -66,16 +61,16 @@ public class ControllerAdviceTest extends AcceptanceTest {
                 500),
 
             new ExceptionTestData(new KillingPartException.PartNotExistException(), 400),
-            new ExceptionTestData(new KillingPartException.SongNotUpdatableException(), 400),
+            new ExceptionTestData(new KillingPartException.SongNotUpdatableException(), 500),
             new ExceptionTestData(new KillingPartException.SongMaxKillingPartExceededException(),
-                400),
+                500),
 
             new ExceptionTestData(new KillingPartLikeException.LikeForOtherKillingPartException(),
-                400),
+                500),
             new ExceptionTestData(new KillingPartLikeException.EmptyLikeException(), 500),
 
-            new ExceptionTestData(new KillingPartsException.OutOfSizeException(), 400),
-            new ExceptionTestData(new KillingPartsException.EmptyKillingPartsException(), 400),
+            new ExceptionTestData(new KillingPartsException.OutOfSizeException(), 500),
+            new ExceptionTestData(new KillingPartsException.EmptyKillingPartsException(), 500),
 
             new ExceptionTestData(new SongException.SongLengthLessThanOneException(), 400),
             new ExceptionTestData(new SongException.SongNotExistException(), 400),

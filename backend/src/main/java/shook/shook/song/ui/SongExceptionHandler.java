@@ -20,9 +20,12 @@ public class SongExceptionHandler {
     }
 
     @ExceptionHandler({
+        KillingPartException.class,
         KillingPartLikeException.EmptyLikeException.class,
         KillingPartCommentException.CommentForOtherPartException.class,
-        KillingPartCommentException.DuplicateCommentExistException.class
+        KillingPartCommentException.DuplicateCommentExistException.class,
+        KillingPartsException.class,
+        KillingPartLikeException.class
     })
     public ResponseEntity<ErrorResponse> handleInternalKillingPartException(
         final CustomException e) {
@@ -30,10 +33,8 @@ public class SongExceptionHandler {
     }
 
     @ExceptionHandler({
-        KillingPartException.class,
-        KillingPartCommentException.class,
-        KillingPartsException.class,
-        KillingPartLikeException.LikeForOtherKillingPartException.class
+        KillingPartException.PartNotExistException.class,
+        KillingPartCommentException.class
     })
     public ResponseEntity<ErrorResponse> handleKillingPartException(final CustomException e) {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));

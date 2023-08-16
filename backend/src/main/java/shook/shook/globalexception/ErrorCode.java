@@ -20,17 +20,17 @@ public enum ErrorCode {
     EMPTY_KILLING_PART_COMMENT(2001, "킬링파트 댓글은 비어있을 수 없습니다."),
     TOO_LONG_KILLING_PART_COMMENT(2002, "킬링파트 댓글 길이는 최대 200 글자여야 합니다."),
     KILLING_PART_COMMENT_FOR_OTHER_PART(2003, "해당 댓글은 다른 킬링파트의 댓글입니다."),
-    DUPLICATE_COMMENT_EXIST(2003, "동일한 킬링파트 댓글이 존재합니다."),
+    DUPLICATE_COMMENT_EXIST(2004, "동일한 킬링파트 댓글이 존재합니다."),
 
-    KILLING_PART_NOT_EXIST(2004, "킬링파트가 존재하지 않습니다."),
-    KILLING_PART_SONG_NOT_UPDATABLE(2005, "노래의 킬링파트는 변경될 수 없습니다."),
-    SONG_MAX_KILLING_PART_EXCEEDED(2006, "노래의 킬링파트는 3개를 초과할 수 없습니다."),
+    KILLING_PART_NOT_EXIST(2005, "킬링파트가 존재하지 않습니다."),
+    KILLING_PART_SONG_NOT_UPDATABLE(2006, "이미 다른 노래의 킬링파트에 속해있습니다."),
+    SONG_MAX_KILLING_PART_EXCEEDED(2007, "노래의 킬링파트는 3개를 초과할 수 없습니다."),
 
-    LIKE_FOR_OTHER_KILLING_PART(2007, "다른 킬링파트에 대한 좋아요입니다."),
-    EMPTY_LIKE_EXCEPTION(2008, "비어있는 좋아요를 킬링파트에 등록할 수 없습니다."),
+    LIKE_FOR_OTHER_KILLING_PART(2008, "다른 킬링파트에 대한 좋아요입니다."),
+    EMPTY_LIKE_EXCEPTION(2009, "비어있는 좋아요를 킬링파트에 등록할 수 없습니다."),
 
-    KILLING_PARTS_OUT_OF_SIZE(2009, "킬링파트는 3개여야 합니다."),
-    EMPTY_KILLING_PARTS(2010, "노래의 킬링파트는 비어있을 수 없습니다."),
+    KILLING_PARTS_OUT_OF_SIZE(2010, "킬링파트는 3개여야 합니다."),
+    EMPTY_KILLING_PARTS(2011, "노래의 킬링파트는 비어있을 수 없습니다."),
 
     // 3000: 노래
     NEGATIVE_SONG_LENGTH(3001, "노래 길이는 0보다 커야합니다."),
@@ -55,11 +55,11 @@ public enum ErrorCode {
     VOTING_SONG_PART_NOT_EXIST(4006, "투표 대상 파트가 존재하지 않습니다."),
     VOTING_SONG_PART_FOR_OTHER_SONG(4007, "해당 파트는 다른 노래의 파트입니다."),
     VOTING_SONG_NOT_EXIST(4008, "존재하지 않는 투표 노래입니다."),
-    VOTE_FOR_OTHER_PART(4009, "잘못된 파트에 대한 투표입니다."),
+    VOTE_FOR_OTHER_PART(4009, "해당 투표는 다른 파트에 대한 투표입니다."),
     DUPLICATE_VOTE_EXIST(4010, "중복된 투표입니다."),
 
-    REQUEST_BODY_VALIDATION_FAIL(100001, "필드명: %s, 오류 메세지: %s"),
-    WRONG_REQUEST_URL(100002, "URL의 pathVariable 은 비어있을 수 없습니다.");
+    REQUEST_BODY_VALIDATION_FAIL(10001, "필드명: %s, 오류 메세지: %s"),
+    WRONG_REQUEST_URL(10002, "URL의 pathVariable 은 비어있을 수 없습니다.");
 
     private final int code;
     private final String message;
