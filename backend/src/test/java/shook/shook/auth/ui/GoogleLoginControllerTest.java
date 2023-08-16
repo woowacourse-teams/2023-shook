@@ -17,12 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import shook.shook.auth.application.AuthService;
-import shook.shook.auth.application.dto.TokenInfo;
+import shook.shook.auth.application.GoogleAuthService;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.ui.dto.LoginResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class AuthControllerTest {
+class GoogleLoginControllerTest {
 
     @LocalServerPort
     public int port;
@@ -31,7 +31,7 @@ class AuthControllerTest {
     private int cookieAge;
 
     @MockBean
-    private AuthService authService;
+    private GoogleAuthService googleAuthService;
 
     @BeforeEach
     void setUp() {
@@ -42,11 +42,9 @@ class AuthControllerTest {
     @Test
     void login_success() {
         //given
-        final TokenInfo tokenInfo = new TokenInfo(
-            "asdfafdv2",
-            "asdfsg5");
+        final TokenPair tokenPair = new TokenPair("asdfafdv2", "asdfsg5");
 
-        when(authService.login(any(String.class))).thenReturn(tokenInfo);
+        when(googleAuthService.login(any(String.class))).thenReturn(tokenPair);
 
         //when
         final ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -55,7 +53,7 @@ class AuthControllerTest {
             .extract();
 
         //then
-        final LoginResponse expectResponseBody = new LoginResponse(tokenInfo.getAccessToken());
+        final LoginResponse expectResponseBody = new LoginResponse(tokenPair.getAccessToken());
         final LoginResponse responseBody = response.body().as(LoginResponse.class);
         final String cookie = response.header("Set-Cookie");
 

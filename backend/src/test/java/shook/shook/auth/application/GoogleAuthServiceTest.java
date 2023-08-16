@@ -14,15 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.TokenInfo;
-import shook.shook.auth.application.dto.TokenReissueResponse;
+import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 
 @SpringBootTest
-class AuthServiceTest {
+class GoogleAuthServiceTest {
 
     private static Member savedMember;
 
@@ -37,7 +37,7 @@ class AuthServiceTest {
 
     private TokenProvider tokenProvider;
 
-    private AuthService authService;
+    private GoogleAuthService googleAuthService;
 
     @BeforeEach
     void setUp() {
@@ -45,7 +45,7 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        authService = new AuthService(memberService, googleInfoProvider, tokenProvider);
+        googleAuthService = new GoogleAuthService(memberService, googleInfoProvider, tokenProvider);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
     }
 
@@ -69,7 +69,7 @@ class AuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final TokenInfo result = authService.login("accessCode");
+        final TokenPair result = googleAuthService.login("accessCode");
 
         //then
         assertThat(result.getAccessToken()).isNotNull();
@@ -85,7 +85,8 @@ class AuthServiceTest {
             savedMember.getNickname());
 
         //when
-        final TokenReissueResponse result = authService.reissueToken(refreshToken);
+        final ReissueAccessTokenResponse result = googleAuthService.reissueAccessTokenByRefreshToken(
+            refreshToken);
 
         //then
         final String accessToken = tokenProvider.createAccessToken(
@@ -110,7 +111,7 @@ class AuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueToken(refreshToken))
+        assertThatThrownBy(() -> googleAuthService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
@@ -129,7 +130,7 @@ class AuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueToken(refreshToken))
+        assertThatThrownBy(() -> googleAuthService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }
