@@ -15,6 +15,8 @@ public enum ErrorCode {
     INVALID_AUTHORIZATION_CODE(1003, "올바르지 않은 authorization code 입니다."),
     INVALID_ACCESS_TOKEN(1004, "잘못된 구글 accessToken 입니다."),
     GOOGLE_SERVER_EXCEPTION(1005, "구글 서버에서 오류가 발생했습니다."),
+    REFRESH_TOKEN_NOT_FOUND_EXCEPTION(1006, "accessToken 을 재발급하기 위해서는 refreshToken 이 필요합니다."),
+    ACCESS_TOKEN_NOT_FOUND(1007, "accessToken이 필요합니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
     EMPTY_KILLING_PART_COMMENT(2001, "킬링파트 댓글은 비어있을 수 없습니다."),
@@ -33,7 +35,7 @@ public enum ErrorCode {
     EMPTY_KILLING_PARTS(2011, "노래의 킬링파트는 비어있을 수 없습니다."),
 
     // 3000: 노래
-    NEGATIVE_SONG_LENGTH(3001, "노래 길이는 0보다 커야합니다."),
+    NOT_POSITIVE_SONG_LENGTH(3001, "노래 길이는 0보다 커야합니다."),
     SONG_NOT_EXIST(3002, "존재하지 않는 노래입니다."),
     EMPTY_SONG_TITLE(3003, "노래 제목은 비어있을 수 없습니다."),
     TOO_LONG_TITLE(3004, "노래 제목은 100자를 넘길 수 없습니다."),
@@ -41,7 +43,7 @@ public enum ErrorCode {
     TOO_LONG_VIDEO_URL(3006, "비디오 URL은 65,356자를 넘길 수 없습니다."),
     EMPTY_SONG_IMAGE_URL(3007, "노래 앨범 커버는 비어있을 수 없습니다."),
     TOO_LONG_SONG_IMAGE_URL(3008, "노래 앨범 커버 URL은 65,356자를 넘길 수 없습니다."),
-    NULL_OR_EMPTY_SINGER_NAME(3009, "가수 이름은 비어있을 수 없습니다."),
+    EMPTY_SINGER_NAME(3009, "가수 이름은 비어있을 수 없습니다."),
     TOO_LONG_SINGER_NAME(3010, "가수 이름은 50글자를 넘길 수 없습니다."),
 
     // 4000: 투표
@@ -57,6 +59,15 @@ public enum ErrorCode {
     VOTING_SONG_NOT_EXIST(4008, "존재하지 않는 투표 노래입니다."),
     VOTE_FOR_OTHER_PART(4009, "해당 투표는 다른 파트에 대한 투표입니다."),
     DUPLICATE_VOTE_EXIST(4010, "중복된 투표입니다."),
+
+    // 5000: 사용자
+    EMPTY_EMAIL(5001, "이메일은 비어있을 수 없습니다."),
+    TOO_LONG_EMAIL(5002, "이메일은 100자를 초과할 수 없습니다."),
+    INVALID_EMAIL_FORM(5003, "이메일 형식에 맞지 않습니다."),
+    EMPTY_NICKNAME(5004, "닉네임은 비어있을 수 없습니다."),
+    TOO_LONG_NICKNAME(5005, "닉네임은 100자를 초과할 수 없습니다."),
+    EXIST_MEMBER(5006, "이미 회원가입 된 멤버입니다."),
+    MEMBER_NOT_EXIST(5007, "존재하지 않는 멤버입니다."),
 
     REQUEST_BODY_VALIDATION_FAIL(10001, "필드명: %s, 오류 메세지: %s"),
     WRONG_REQUEST_URL(10002, "URL의 pathVariable 은 비어있을 수 없습니다.");

@@ -147,13 +147,13 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
 
         @DisplayName("존재하지 않는 사용자면 예외가 발생한다.")
         @Test
-        void create_MemberException() {
+        void create_memberNotExist() {
             // given
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
                     new KillingPartLikeRequest(true)))
-                .isInstanceOf(MemberException.class);
+                .isInstanceOf(MemberException.MemberNotExistException.class);
         }
     }
 
@@ -253,13 +253,13 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
 
         @DisplayName("존재하지 않는 사용자면 예외가 발생한다.")
         @Test
-        void create_MemberException() {
+        void create_memberNotExist() {
             // given
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
                     new KillingPartLikeRequest(false)))
-                .isInstanceOf(MemberException.class);
+                .isInstanceOf(MemberException.MemberNotExistException.class);
         }
     }
 }

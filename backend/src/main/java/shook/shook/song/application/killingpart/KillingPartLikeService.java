@@ -29,7 +29,7 @@ public class KillingPartLikeService {
         final KillingPartLikeRequest request
     ) {
         final Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberException::new);
+            .orElseThrow(MemberException.MemberNotExistException::new);
 
         final KillingPart killingPart = killingPartRepository.findById(killingPartId)
             .orElseThrow(KillingPartException.PartNotExistException::new);

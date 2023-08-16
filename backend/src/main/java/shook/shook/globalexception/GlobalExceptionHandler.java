@@ -8,8 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import shook.shook.auth.jwt.exception.TokenException;
-import shook.shook.auth.oauth.exception.OAuthException;
+import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.exception.OAuthException;
+import shook.shook.auth.exception.TokenException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
 
 @Slf4j
@@ -25,8 +27,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ErrorResponse.from(e));
     }
 
-    @ExceptionHandler(TokenException.class)
-    public ResponseEntity<ErrorResponse> handleTokenException(final TokenException e) {
+    @ExceptionHandler({
+        TokenException.class,
+        AuthorizationException.class,
+        MemberException.MemberNotExistException.class
+    })
+    public ResponseEntity<ErrorResponse> handleTokenException(final CustomException e) {
         log.error(e.toString());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));

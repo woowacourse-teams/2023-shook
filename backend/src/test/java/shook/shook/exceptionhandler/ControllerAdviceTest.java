@@ -8,9 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import shook.shook.auth.jwt.exception.TokenException;
-import shook.shook.auth.oauth.exception.OAuthException;
+import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.exception.OAuthException;
+import shook.shook.auth.exception.TokenException;
 import shook.shook.globalexception.CustomException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.application.SongService;
 import shook.shook.song.exception.SongException;
@@ -50,6 +52,9 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new OAuthException.InvalidAuthorizationCodeException(), 503),
             new ExceptionTestData(new OAuthException.InvalidAccessTokenException(), 503),
             new ExceptionTestData(new OAuthException.GoogleServerException(), 503),
+            new ExceptionTestData(new AuthorizationException.AccessTokenNotFoundException(), 401),
+            new ExceptionTestData(new AuthorizationException.RefreshTokenNotFoundException(), 401),
+            new ExceptionTestData(new MemberException.MemberNotExistException(), 401),
 
             new ExceptionTestData(new KillingPartCommentException.NullOrEmptyPartCommentException(),
                 400),
@@ -93,7 +98,15 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new VotingSongPartException.PartForOtherSongException(), 500),
             new ExceptionTestData(new VotingSongException.VotingSongNotExistException(), 400),
             new ExceptionTestData(new VoteException.VoteForOtherPartException(), 500),
-            new ExceptionTestData(new VoteException.DuplicateVoteExistException(), 500)
+            new ExceptionTestData(new VoteException.DuplicateVoteExistException(),
+                500),
+
+            new ExceptionTestData(new MemberException.ExistMemberException(), 400),
+            new ExceptionTestData(new MemberException.TooLongEmailException(), 400),
+            new ExceptionTestData(new MemberException.InValidEmailFormException(), 400),
+            new ExceptionTestData(new MemberException.NullOrEmptyEmailException(), 400),
+            new ExceptionTestData(new MemberException.TooLongNicknameException(), 400),
+            new ExceptionTestData(new MemberException.ExistMemberException(), 400)
         );
     }
 

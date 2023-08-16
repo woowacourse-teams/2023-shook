@@ -12,7 +12,7 @@ public class SongException extends CustomException {
     public static class SongLengthLessThanOneException extends SongException {
 
         public SongLengthLessThanOneException() {
-            super(ErrorCode.NEGATIVE_SONG_LENGTH);
+            super(ErrorCode.NOT_POSITIVE_SONG_LENGTH);
         }
     }
 
@@ -68,7 +68,7 @@ public class SongException extends CustomException {
     public static class NullOrEmptySingerNameException extends SongException {
 
         public NullOrEmptySingerNameException() {
-            super(ErrorCode.NULL_OR_EMPTY_SINGER_NAME);
+            super(ErrorCode.EMPTY_SINGER_NAME);
         }
     }
 
