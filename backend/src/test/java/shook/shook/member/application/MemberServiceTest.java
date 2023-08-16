@@ -70,14 +70,24 @@ class MemberServiceTest extends UsingJpaTest {
 
     @DisplayName("회원을 id로 조회한다.")
     @Test
-    void findById() {
+    void success_findById() {
         //given
         //when
-        final Member result = memberService.findById(savedMember.getId()).get();
+        final Member result = memberService.findById(savedMember.getId());
 
         //then
         assertThat(result.getId()).isEqualTo(savedMember.getId());
         assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
+    }
+
+    @DisplayName("회원을 id로 조회할 때 존재하지 않으면 예외를 던진다..")
+    @Test
+    void fail_findById() {
+        //given
+        //when
+        //then
+        assertThatThrownBy(() -> memberService.findById(Long.MAX_VALUE))
+            .isInstanceOf(MemberException.MemberNotExsistException.class);
     }
 }

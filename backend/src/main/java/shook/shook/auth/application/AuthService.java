@@ -10,7 +10,6 @@ import shook.shook.auth.application.dto.TokenReissueResponse;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
-import shook.shook.member.exception.MemberException;
 
 @RequiredArgsConstructor
 @Service
@@ -39,8 +38,7 @@ public class AuthService {
     public TokenReissueResponse reissueToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
-        memberService.findById(memberId)
-            .orElseThrow(MemberException.MemberNotExsistException::new);
+        memberService.findById(memberId);
 
         final String accessToken = tokenProvider.createAccessToken(memberId);
         return new TokenReissueResponse(accessToken);

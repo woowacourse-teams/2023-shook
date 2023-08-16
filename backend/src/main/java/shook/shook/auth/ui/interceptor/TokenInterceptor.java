@@ -9,7 +9,6 @@ import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.ui.AuthContext;
 import shook.shook.member.application.MemberService;
-import shook.shook.member.exception.MemberException.MemberNotExsistException;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -38,9 +37,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
-
-        memberService.findById(memberId)
-            .orElseThrow(MemberNotExsistException::new);
+        memberService.findById(memberId);
 
         authContext.setAuthenticatedMember(memberId);
 

@@ -30,7 +30,8 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    public Optional<Member> findById(final Long id) {
-        return memberRepository.findById(id);
+    public Member findById(final Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(MemberException.MemberNotExsistException::new);
     }
 }
