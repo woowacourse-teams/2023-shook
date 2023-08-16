@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import Spacing from '@/shared/components/Spacing';
 
@@ -38,7 +38,7 @@ export default Comment;
 
 const Wrapper = styled.li`
   width: 100%;
-  margin-bottom: 16px;
+  list-style: none;
 `;
 
 const Flex = styled.div`
@@ -74,6 +74,8 @@ const RelativeTime = styled.span`
 const Content = styled.div`
   overflow: hidden;
   display: -webkit-box;
+
+  margin-right: 16px;
 
   font-size: 14px;
 
