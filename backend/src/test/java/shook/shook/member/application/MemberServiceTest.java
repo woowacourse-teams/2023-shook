@@ -11,6 +11,7 @@ import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.support.UsingJpaTest;
 
 class MemberServiceTest extends UsingJpaTest {
@@ -88,6 +89,6 @@ class MemberServiceTest extends UsingJpaTest {
         //when
         //then
         assertThatThrownBy(() -> memberService.findById(Long.MAX_VALUE))
-            .isInstanceOf(MemberException.MemberNotExsistException.class);
+            .isInstanceOf(MemberNotExistException.class);
     }
 }
