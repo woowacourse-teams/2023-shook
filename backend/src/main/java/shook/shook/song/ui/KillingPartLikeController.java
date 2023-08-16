@@ -1,5 +1,6 @@
 package shook.shook.song.ui;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class KillingPartLikeController {
     @PutMapping
     public ResponseEntity<Void> createLikeOnKillingPart(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
-        @RequestBody final KillingPartLikeRequest request,
+        @Valid @RequestBody final KillingPartLikeRequest request,
         @Authenticated final MemberInfo memberInfo
     ) {
         killingPartLikeService.updateLikeStatus(killingPartId, memberInfo.getMemberId(), request);

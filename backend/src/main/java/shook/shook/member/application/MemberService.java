@@ -9,7 +9,6 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
-import shook.shook.member.exception.MemberException.MemberNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,6 +42,6 @@ public class MemberService {
 
     public Member findById(final Long id) {
         return memberRepository.findById(id)
-            .orElseThrow(MemberNotExistException::new);
+            .orElseThrow(MemberException.MemberNotExistException::new);
     }
 }

@@ -1,5 +1,6 @@
 package shook.shook.song.ui;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AdminSongController {
 
     @PostMapping
     public ResponseEntity<Void> registerSongWithKillingParts(
-        @RequestBody final SongWithKillingPartsRegisterRequest request
+        @Valid @RequestBody final SongWithKillingPartsRegisterRequest request
     ) {
         songService.register(request);
 
