@@ -82,6 +82,14 @@ const CarouselWrapper = styled.ul`
     background-color: ${({ theme }) => theme.color.secondary};
     border-radius: 8px;
   }
+
+  :first-child {
+    margin-left: 20px;
+  }
+
+  :last-child {
+    margin-right: 20px;
+  }
 `;
 
 const IndicatorWrapper = styled.div`
