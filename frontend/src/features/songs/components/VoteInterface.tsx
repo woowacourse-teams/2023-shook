@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
+import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -17,7 +18,8 @@ const VoteInterface = () => {
   const { showToast } = useToastContext();
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-  const { createKillingPart } = usePostKillingPart();
+
+  const { error, createKillingPart } = usePostKillingPart();
   const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -28,6 +30,9 @@ const VoteInterface = () => {
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
+    if (!error) {
+      window.location.href = googleAuthUrl;
+    }
     openModal();
   };
 
