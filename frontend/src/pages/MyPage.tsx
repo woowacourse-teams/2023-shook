@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import useFetch from '@/shared/hooks/useFetch';
+import fetcher from '@/shared/remotes';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
@@ -29,18 +32,16 @@ type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
   };
 
 const MyPage = () => {
-  const [likes, setLikes] = useState<LikeKillingPart[]>([]);
+  const { user, logout } = useAuthContext();
+  const { data: likes } = useFetch<LikeKillingPart[]>(() => fetcher('/my-page', 'get'));
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const getLikeSongs = async () => {
-      fetch(`${BASE_URL}/my-page`)
-        .then((res) => res.json())
-        .then((data) => setLikes(data as LikeKillingPart[]))
-        .catch((error) => alert(error));
-    };
+  const logoutRedirect = () => {
+    logout();
+    navigate('/');
+  };
 
-    getLikeSongs();
-  }, []);
+  if (!likes) return null;
 
   return (
     <>
@@ -48,7 +49,7 @@ const MyPage = () => {
 
       <SpaceBetween>
         <Box>
-          <Title>아이고난</Title>
+          <Title>{user?.nickname}</Title>
           <Spacing direction="vertical" size={6} />
           <Box>{introductions[Math.floor(Math.random() * introductions.length)]}</Box>
         </Box>
@@ -59,15 +60,7 @@ const MyPage = () => {
 
       <SpaceBetween>
         <Button onClick={() => alert('기능이 준비중입니다!')}>프로필 편집</Button>
-        <Button
-          onClick={() =>
-            alert(
-              `당신의 로그아웃 점수는?\n100점 만점에 ${Math.floor(Math.random() * 101)}점 이에요!`
-            )
-          }
-        >
-          로그아웃
-        </Button>
+        <Button onClick={logoutRedirect}>로그아웃</Button>
       </SpaceBetween>
 
       <Spacing direction="vertical" size={24} />

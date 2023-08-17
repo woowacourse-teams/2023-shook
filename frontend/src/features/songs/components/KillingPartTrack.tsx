@@ -3,7 +3,10 @@ import { css, styled } from 'styled-components';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import LoginModal from '@/features/auth/components/LoginModal';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
@@ -37,6 +40,9 @@ const KillingPartTrack = ({
     partId,
   });
   const { countedTime: currentPlayTime } = useTimerContext();
+  const { isOpen, closeModal, openModal } = useModal();
+  const { user } = useAuthContext();
+  const isLoggedIn = user !== null;
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
@@ -103,7 +109,10 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton onClick={toggleKillingPartLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
+        <LikeButton
+          onClick={isLoggedIn ? toggleKillingPartLikes : openModal}
+          aria-label={`${rank}등 킬링파트 좋아요 하기`}
+        >
           <ButtonIcon src={heartIcon} alt="" />
           <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
         </LikeButton>
@@ -118,6 +127,14 @@ const KillingPartTrack = ({
       {isNowPlayingTrack && (
         <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
       )}
+      <LoginModal
+        isOpen={isOpen}
+        messageList={[
+          '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!',
+          '"좋아요!"한 노래는 마이페이지에 저장됩니다!',
+        ]}
+        closeModal={closeModal}
+      />
     </Container>
   );
 };

@@ -33,6 +33,10 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      {
+        path: `${ROUTE_PATH.MY_PAGE}`,
+        element: <MyPage />,
+      },
     ],
   },
   {
