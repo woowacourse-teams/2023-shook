@@ -1,19 +1,25 @@
-name-template: 'v$RESOLVED_VERSION 🌈'
+name-template: '🚀 v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: '🚀 Features'
+\  - title: '🚀 Features'
     labels:
-      - 'feature'
-      - 'enhancement'
+      - '✨ Feat'
+      - '💿 Databas🦷'
+      - '🎨 DesigN'
   - title: '🐛 Bug Fixes'
     labels:
-      - 'fix'
-      - 'bugfix'
-      - 'bug'
+      - '🦋 Bug'
+  - title: ' Infrastructure'
+    labels:
+      - '🤖 InfrA'
+      - '🐈‍⬛ Github'
   - title: '🧰 Maintenance'
-    label: 'chore'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+    label:
+      - '🔨 Refactor'
+      - '⚙️ Settin🐁'
+      - '✍️ Docs'
+change-template: '- $TITLE #$NUMBER @$AUTHOR '
+change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
@@ -26,6 +32,9 @@ version-resolver:
       - 'patch'
   default: patch
 template: |
-  ## Changes
-
+  ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
+  ---
   $CHANGES
+
+  Full Changelog: https://github.com/woowacourse-teams/2023-shook/commits/v$RESOLVED_VERSION
+no-changes-template: '앗! 변경사항이 없어요. 😖'
