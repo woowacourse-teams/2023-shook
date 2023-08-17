@@ -18,7 +18,7 @@ categories:
       - '🔨 Refactor'
       - '⚙️ Settin🐁'
       - '✍️ Docs'
-change-template: '- $TITLE #$NUMBER @$AUTHOR '
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 change-title-escapes: '\<*_&'
 version-resolver:
   major:
@@ -33,7 +33,7 @@ version-resolver:
   default: patch
 template: |
   ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
-  ---
+
   $CHANGES
 
   Full Changelog: https://github.com/woowacourse-teams/2023-shook/commits/v$RESOLVED_VERSION
