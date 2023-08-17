@@ -18,7 +18,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
           videoId,
           width: '100%',
           height: '100%',
-          playerVars: { start, rel: 0 },
+          playerVars: { start, rel: 0, fs: 0 },
           events: {
             onReady: (e) => {
               bindUpdatePlayerStateEvent(e);
