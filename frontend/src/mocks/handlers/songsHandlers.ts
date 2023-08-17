@@ -1,8 +1,8 @@
 import { rest } from 'msw';
 import comments from '../fixtures/comments.json';
-import nextSongEntries from '../fixtures/nextSongEntries.json';
+import nextPrevSongDetails from '../fixtures/extraNextSongDetails.json';
+import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
 import popularSongs from '../fixtures/popularSongs.json';
-import prevSongEntries from '../fixtures/prevSongEntries.json';
 import songEntries from '../fixtures/songEntries.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
@@ -38,15 +38,15 @@ export const songsHandlers = [
     return res(ctx.status(201));
   }),
 
-  rest.get(`${BASE_URL}/songs/:song_id`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/:songId`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(songEntries));
   }),
 
-  rest.get(`${BASE_URL}/songs/:song_id:/prev`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(prevSongEntries));
-  }),
+  // rest.get(`${BASE_URL}/songs/:songId:/prev`, (req, res, ctx) => {
+  //   return res(ctx.status(200), ctx.json(extraPrevSongDetails));
+  // }),
 
-  rest.get(`${BASE_URL}/songs/:song_id/next`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(nextSongEntries));
-  }),
+  // rest.get(`${BASE_URL}/songs/:songId/next`, (req, res, ctx) => {
+  //   return res(ctx.status(200), ctx.json(nextPrevSongDetails));
+  // }),
 ];
