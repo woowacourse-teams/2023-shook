@@ -16,7 +16,7 @@
   <appender name="async_slack" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="slack"/>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>ERROR</level>
+      <level>WARN</level>
     </filter>
   </appender>
 </included>

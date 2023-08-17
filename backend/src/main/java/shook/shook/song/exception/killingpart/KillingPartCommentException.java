@@ -1,32 +1,39 @@
 package shook.shook.song.exception.killingpart;
 
-public class KillingPartCommentException extends RuntimeException {
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class KillingPartCommentException extends CustomException {
+
+    public KillingPartCommentException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
 
     public static class NullOrEmptyPartCommentException extends KillingPartCommentException {
 
         public NullOrEmptyPartCommentException() {
-            super();
+            super(ErrorCode.EMPTY_KILLING_PART_COMMENT);
         }
     }
 
     public static class TooLongPartCommentException extends KillingPartCommentException {
 
         public TooLongPartCommentException() {
-            super();
+            super(ErrorCode.TOO_LONG_KILLING_PART_COMMENT);
         }
     }
 
     public static class CommentForOtherPartException extends KillingPartCommentException {
 
         public CommentForOtherPartException() {
-            super();
+            super(ErrorCode.KILLING_PART_COMMENT_FOR_OTHER_PART);
         }
     }
 
     public static class DuplicateCommentExistException extends KillingPartCommentException {
 
         public DuplicateCommentExistException() {
-            super();
+            super(ErrorCode.DUPLICATE_COMMENT_EXIST);
         }
     }
 }

@@ -16,11 +16,14 @@ public class VotingSongSwipeResponse {
     private List<VotingSongResponse> beforeSongs;
     private List<VotingSongResponse> afterSongs;
 
-    public static VotingSongSwipeResponse from(
-        final VotingSong currentSong,
-        final List<VotingSong> beforeSongs,
-        final List<VotingSong> afterSongs
+    public static VotingSongSwipeResponse of(
+        final List<VotingSong> songs,
+        final VotingSong currentSong
     ) {
+        final int votingSongIndex = songs.indexOf(currentSong);
+        final List<VotingSong> beforeSongs = songs.subList(0, votingSongIndex);
+        final List<VotingSong> afterSongs = songs.subList(votingSongIndex + 1, songs.size());
+
         final VotingSongResponse currentResponse = VotingSongResponse.from(currentSong);
         final List<VotingSongResponse> beforeResponses = beforeSongs.stream()
             .map(VotingSongResponse::from)

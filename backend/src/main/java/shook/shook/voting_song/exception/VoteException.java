@@ -1,18 +1,25 @@
 package shook.shook.voting_song.exception;
 
-public class VoteException extends RuntimeException {
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class VoteException extends CustomException {
+
+    public VoteException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
 
     public static class VoteForOtherPartException extends VoteException {
 
         public VoteForOtherPartException() {
-            super();
+            super(ErrorCode.VOTE_FOR_OTHER_PART);
         }
     }
 
     public static class DuplicateVoteExistException extends VoteException {
 
         public DuplicateVoteExistException() {
-            super();
+            super(ErrorCode.DUPLICATE_VOTE_EXIST);
         }
     }
 }
