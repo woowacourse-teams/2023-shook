@@ -53,9 +53,9 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
             VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
-        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
-        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
         assertThat(votingSongPart).isSameAs(saved);

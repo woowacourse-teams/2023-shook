@@ -59,9 +59,9 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
             "댓글 내용", MEMBER);
 
         //when
-        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
         final KillingPartComment savedPartComment = killingPartCommentRepository.save(partComment);
-        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
         assertThat(savedPartComment).isSameAs(partComment);

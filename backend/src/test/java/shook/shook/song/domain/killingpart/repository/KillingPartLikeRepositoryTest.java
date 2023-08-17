@@ -41,7 +41,8 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART, SAVED_MEMBER);
+        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+            SAVED_MEMBER);
 
         //when
         final KillingPartLike like = killingPartLikeRepository.save(killingPartLike);
@@ -55,12 +56,13 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART, SAVED_MEMBER);
+        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+            SAVED_MEMBER);
 
         //when
-        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
         final KillingPartLike like = killingPartLikeRepository.save(killingPartLike);
-        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
         assertThat(like).isSameAs(killingPartLike);
@@ -71,7 +73,8 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void findByKillingPartAndMember_isDeleted() {
         // given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART, SAVED_MEMBER);
+        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+            SAVED_MEMBER);
         killingPartLikeRepository.save(killingPartLike);
         saveAndClearEntityManager();
 

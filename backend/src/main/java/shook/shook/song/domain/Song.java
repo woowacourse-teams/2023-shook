@@ -47,11 +47,11 @@ public class Song {
     private KillingParts killingParts = new KillingParts();
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     private Song(
