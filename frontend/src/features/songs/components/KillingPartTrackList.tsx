@@ -4,6 +4,7 @@ import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartTrackListProps {
   killingParts: SongDetail['killingParts'];
+  songId: number;
   nowPlayingTrack: KillingPart['id'];
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
@@ -11,6 +12,7 @@ interface KillingPartTrackListProps {
 
 const KillingPartTrackList = ({
   killingParts,
+  songId,
   nowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
@@ -25,6 +27,7 @@ const KillingPartTrackList = ({
           <KillingPartTrack
             key={id}
             killingPart={killingPart}
+            songId={songId}
             isNowPlayingTrack={isNowPlayingTrack}
             setNowPlayingTrack={setNowPlayingTrack}
             setCommentsPartId={setCommentsPartId}

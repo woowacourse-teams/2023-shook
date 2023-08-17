@@ -118,12 +118,13 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
       <Spacing direction="vertical" size={16} />
       <KillingPartTrackList
         killingParts={killingParts}
+        songId={songId}
         nowPlayingTrack={nowPlayingTrack}
         setNowPlayingTrack={setNowPlayingTrack}
         setCommentsPartId={setCommentsPartId}
       />
       {commentsPartId !== DEFAULT_PART_ID && (
-        <CommentList songId={songId.toString()} partId={commentsPartId} />
+        <CommentList songId={songId} partId={commentsPartId} />
       )}
     </>
   );

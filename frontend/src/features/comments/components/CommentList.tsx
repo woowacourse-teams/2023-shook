@@ -17,7 +17,7 @@ interface Comment {
 }
 
 interface CommentListProps {
-  songId: string;
+  songId: number;
   partId: number;
 }
 

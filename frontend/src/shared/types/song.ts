@@ -13,9 +13,10 @@ export interface SongDetail {
 export interface KillingPart {
   id: number;
   rank: number;
-  likeCount: number;
   start: number;
   end: number;
+  voteCount: number;
+  likeCount: number;
   partVideoUrl: string;
   partLength: number;
   likeStatus: boolean;
