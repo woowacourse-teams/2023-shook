@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { styled } from 'styled-components';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
 import { getSongDetailEntries } from '@/features/songs/remotes/songs';
 import useFetch from '@/shared/hooks/useFetch';
@@ -11,16 +12,35 @@ const SongDetailListPage = () => {
   const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   return (
-    <div>
+    <ItemContainer>
       {prevSongs.map((prevSongDetail) => (
         <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
       ))}
-      <SongDetailItem {...currentSong} />
+      <SongDetailItem key={currentSong.id} {...currentSong} />
       {nextSongs.map((nextSongDetail) => (
         <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
       ))}
-    </div>
+    </ItemContainer>
   );
 };
 
 export default SongDetailListPage;
+
+export const ItemContainer = styled.div`
+  width: 100%;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: calc(
+      ${({ theme: { headerHeight, mainTopBottomPadding } }) => {
+        return `100vh - ${headerHeight.mobile} - ${mainTopBottomPadding.mobile} * 2`;
+      }}
+    );
+
+    & > div {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+`;

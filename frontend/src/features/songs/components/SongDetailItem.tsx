@@ -20,7 +20,7 @@ const SongDetailItem = ({
   albumCoverUrl,
 }: SongDetailItemProps) => {
   return (
-    <Wrapper>
+    <Container>
       <SRHeading>킬링파트 듣기 페이지</SRHeading>
       <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기</BigTitle>
       <Spacing direction="vertical" size={20} />
@@ -39,19 +39,20 @@ const SongDetailItem = ({
           <KillingPartInterface killingParts={killingParts} songId={id} />
         </TimerProvider>
       </VideoPlayerProvider>
-    </Wrapper>
+    </Container>
   );
 };
 
 export default SongDetailItem;
 
+const Container = styled(Flex)`
+  flex-direction: column;
+  height: 100%;
+`;
+
 const BigTitle = styled.h2`
   font-size: 28px;
   font-weight: 700;
-`;
-
-const Wrapper = styled(Flex)`
-  flex-direction: column;
 `;
 
 const SongInfoContainer = styled.div`
