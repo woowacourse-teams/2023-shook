@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Modal from '@/shared/components/Modal/Modal';
-import ROUTE_PATH from '@/shared/constants/path';
+import googleAuthUrl from '../constants/googleAuthUrl';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,7 +9,9 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ isOpen, closeModal, message }: LoginModalProps) => {
-  const navigate = useNavigate();
+  const linkToAuth = () => {
+    window.location.href = googleAuthUrl;
+  };
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
@@ -20,12 +21,7 @@ const LoginModal = ({ isOpen, closeModal, message }: LoginModalProps) => {
         <ConfirmButton type="button" onClick={closeModal}>
           닫기
         </ConfirmButton>
-        <LoginButton
-          type="button"
-          onClick={() => {
-            navigate(ROUTE_PATH.LOGIN_REDIRECT);
-          }}
-        >
+        <LoginButton type="button" onClick={linkToAuth}>
           로그인하러 가기
         </LoginButton>
       </ButtonContainer>
