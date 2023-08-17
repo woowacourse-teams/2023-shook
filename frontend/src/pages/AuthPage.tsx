@@ -17,6 +17,7 @@ const AuthPage = () => {
       method: 'get',
       credentials: 'include',
     });
+
     const data = (await response.json()) as AccessTokenResponse;
     const { accessToken } = data;
 

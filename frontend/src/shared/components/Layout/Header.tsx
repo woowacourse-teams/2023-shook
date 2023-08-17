@@ -8,6 +8,13 @@ import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
 
+const refreshToken = async () => {
+  await fetch(`${process.env.BASE_URL}/reissue`, {
+    method: 'get',
+    credentials: 'include',
+  });
+};
+
 const Header = () => {
   const { user } = useAuthContext();
 
@@ -21,8 +28,15 @@ const Header = () => {
           window.location.href = googleAuthUrl;
         }}
       >
-        {' '}
-        아코짱 로그인{' '}
+        로그인
+      </LoginButton>
+
+      <LoginButton
+        onClick={() => {
+          refreshToken();
+        }}
+      >
+        리프레쉬
       </LoginButton>
       {user ? (
         <Link to={`/my-page/${user?.memberId}`}>
