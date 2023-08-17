@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import comments from '../fixtures/comments.json';
-import nextPrevSongDetails from '../fixtures/extraNextSongDetails.json';
+import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
 import popularSongs from '../fixtures/popularSongs.json';
 import songEntries from '../fixtures/songEntries.json';
@@ -42,11 +42,11 @@ export const songsHandlers = [
     return res(ctx.status(200), ctx.json(songEntries));
   }),
 
-  // rest.get(`${BASE_URL}/songs/:songId:/prev`, (req, res, ctx) => {
-  //   return res(ctx.status(200), ctx.json(extraPrevSongDetails));
-  // }),
+  rest.get(`${BASE_URL}/songs/:songId/prev`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(extraPrevSongDetails));
+  }),
 
-  // rest.get(`${BASE_URL}/songs/:songId/next`, (req, res, ctx) => {
-  //   return res(ctx.status(200), ctx.json(nextPrevSongDetails));
-  // }),
+  rest.get(`${BASE_URL}/songs/:songId/next`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(extraNextSongDetails));
+  }),
 ];
