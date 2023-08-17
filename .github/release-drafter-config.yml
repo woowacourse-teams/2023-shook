@@ -9,7 +9,7 @@ categories:
   - title: '🐛 Bug Fixes'
     labels:
       - '🦋 Bug'
-  - title: ' Infrastructure'
+  - title: '🤖 Infrastructure'
     labels:
       - '🤖 InfrA'
       - '🐈‍⬛ Github'
@@ -32,7 +32,7 @@ version-resolver:
       - 'patch'
   default: patch
 template: |
-  ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
+  ## 🎉 이번 버전에서는 어떤 게 바뀌었을까요?
 
   $CHANGES
 
