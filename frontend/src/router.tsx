@@ -1,5 +1,4 @@
-import { createBrowserRouter, Link } from 'react-router-dom';
-import googleAuthUrl from './features/auth/constants/googleAuthUrl';
+import { createBrowserRouter } from 'react-router-dom';
 import { VideoPlayerProvider } from './features/youtube/components/VideoPlayerProvider';
 import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
   {
     path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
     element: <AuthPage />,
-  },
-  {
-    path: '/test',
-    element: <Link to={googleAuthUrl}>로그인 테스트</Link>,
   },
 ]);
 
