@@ -53,7 +53,7 @@ public class KillingPart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
-    @Getter(AccessLevel.NONE)
+//    @Getter(AccessLevel.NONE) 좋아요한 킬링파트 탐색 성능을 위해 사용
     private Song song;
 
     @Embedded
