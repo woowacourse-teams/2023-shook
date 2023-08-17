@@ -1,5 +1,3 @@
-import type { PartVideoUrl } from './killingPart';
-
 type VideoUrl = `https://www.youtube.com/embed/${string}`;
 
 export interface SongDetail {

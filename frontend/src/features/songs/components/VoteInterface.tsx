@@ -15,7 +15,7 @@ const VoteInterface = () => {
   const { showToast } = useToastContext();
   const { interval, partStartTime, songId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-  const { killingPartPostResponse, createKillingPart } = usePostKillingPart();
+  const { createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
@@ -29,9 +29,7 @@ const VoteInterface = () => {
   };
 
   const copyPartVideoUrl = async () => {
-    if (!killingPartPostResponse?.partVideoUrl) return;
-
-    await copyClipboard(killingPartPostResponse?.partVideoUrl);
+    await copyClipboard(`https://www.youtube.com/watch?v=${songId}`);
     closeModal();
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
