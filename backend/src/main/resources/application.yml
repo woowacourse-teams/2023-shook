@@ -57,4 +57,4 @@ cookie:
 
 #CORS
 cors:
-  allow-origin: *
+  allow-origin: "*"
