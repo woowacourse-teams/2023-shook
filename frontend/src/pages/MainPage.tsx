@@ -16,15 +16,23 @@ const MainPage = () => {
 
   if (!popularSongs || !votingSongs) return null;
 
+  const isEmptyVotingSongs = votingSongs.length === 0;
+
   return (
     <>
       <SRHeading>shook 메인 페이지</SRHeading>
       <Title>현재 수집중인 노래</Title>
       <Spacing direction="vertical" size={16} />
       <CollectionCarousel>
-        {votingSongs.map((votingSong) => {
-          return <CarouselItem key={votingSong.id} votingSong={votingSong} />;
-        })}
+        {isEmptyVotingSongs ? (
+          <EmptyMessage>
+            <span>수집중인 노래가 곧 등록될 예정입니다.</span>
+          </EmptyMessage>
+        ) : (
+          votingSongs.map((votingSong) => {
+            return <CarouselItem key={votingSong.id} votingSong={votingSong} />;
+          })
+        )}
       </CollectionCarousel>
       <Spacing direction="vertical" size={24} />
       <Title>킬링파트 좋아요 많은순</Title>
@@ -80,4 +88,12 @@ const PopularSongList = styled.ol`
   align-items: flex-start;
 
   width: 100%;
+`;
+
+const EmptyMessage = styled.li`
+  width: 100%;
+  min-width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
