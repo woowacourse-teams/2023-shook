@@ -54,3 +54,7 @@ jwt:
 # Properties Only For Local
 cookie:
   valid-time: 634000
+
+#CORS
+cors:
+  allow-origin: *
