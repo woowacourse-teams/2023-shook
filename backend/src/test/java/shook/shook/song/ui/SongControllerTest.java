@@ -61,9 +61,9 @@ class SongControllerTest {
             .body().as(SongSwipeResponse.class);
 
         //then
-        assertThat(response.getBeforeSongs().get(0).getId()).isEqualTo(1L);
+        assertThat(response.getPrevSongs().get(0).getId()).isEqualTo(1L);
         assertThat(response.getCurrentSong().getId()).isEqualTo(songId);
-        assertThat(response.getAfterSongs().get(0).getId()).isEqualTo(3L);
+        assertThat(response.getNextSongs().get(0).getId()).isEqualTo(3L);
     }
 
     @DisplayName("가장 좋아요가 적은 노래 id 로 이전 노래 정보를 조회할 때 200 상태코드, 이전 노래 리스트를 반환한다.")
