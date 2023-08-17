@@ -3,6 +3,7 @@ package shook.shook.song.application;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.member.exception.MemberException.MemberNotExistException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -78,7 +79,9 @@ public class SongService {
 
     private Song findSongById(final Long songId) {
         return songRepository.findById(songId)
-            .orElseThrow(SongException.SongNotExistException::new);
+            .orElseThrow(() -> new SongException.SongNotExistException(
+                Map.of("SongId", String.valueOf(songId))
+            ));
     }
 
     private List<Song> findBeforeSongs(final Song song) {
@@ -114,7 +117,11 @@ public class SongService {
 
     private Member findMemberById(final Long memberId) {
         return memberRepository.findById(memberId)
-            .orElseThrow(MemberNotExistException::new);
+            .orElseThrow(
+                () -> new MemberException.MemberNotExistException(
+                    Map.of("MemberId", String.valueOf(memberId))
+                )
+            );
     }
 
     public List<SongResponse> findSongByIdForBeforeSwipe(

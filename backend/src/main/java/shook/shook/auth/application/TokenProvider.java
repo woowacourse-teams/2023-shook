@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import shook.shook.auth.exception.TokenException;
@@ -65,9 +66,9 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (MalformedJwtException | SignatureException e) {
-            throw new TokenException.NotIssuedTokenException();
+            throw new TokenException.NotIssuedTokenException(Map.of("Token", token));
         } catch (ExpiredJwtException e) {
-            throw new TokenException.ExpiredTokenException();
+            throw new TokenException.ExpiredTokenException(Map.of("Token", token));
         }
     }
 }

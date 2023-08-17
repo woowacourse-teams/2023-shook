@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.AccessLevel;
@@ -106,7 +107,12 @@ public class KillingPart {
 
     public void addComment(final KillingPartComment comment) {
         if (comment.isBelongToOtherKillingPart(this)) {
-            throw new KillingPartCommentException.CommentForOtherPartException();
+            throw new KillingPartCommentException.CommentForOtherPartException(
+                Map.of(
+                    "CommentContent", comment.getContent(),
+                    "KillingPartId", String.valueOf(this.id)
+                )
+            );
         }
         comments.addComment(comment);
     }
@@ -124,7 +130,12 @@ public class KillingPart {
             throw new KillingPartLikeException.EmptyLikeException();
         }
         if (like.isBelongToOtherKillingPart(this)) {
-            throw new KillingPartLikeException.LikeForOtherKillingPartException();
+            throw new KillingPartLikeException.LikeForOtherKillingPartException(
+                Map.of(
+                    "KillingPartId", String.valueOf(this.id),
+                    "KillingPartLikeId", String.valueOf(like.getId())
+                )
+            );
         }
     }
 
@@ -177,13 +188,23 @@ public class KillingPart {
 
     public void setSong(final Song song) {
         if (Objects.nonNull(this.song)) {
-            throw new KillingPartException.SongNotUpdatableException();
+            throw new KillingPartException.SongNotUpdatableException(
+                Map.of(
+                    "KillingPartId", String.valueOf(this.id),
+                    "SongId", String.valueOf(song.getId())
+                )
+            );
         }
         if (Objects.isNull(song)) {
             throw new SongException.SongNotExistException();
         }
         if (song.hasFullKillingParts()) {
-            throw new KillingPartException.SongMaxKillingPartExceededException();
+            throw new KillingPartException.SongMaxKillingPartExceededException(
+                Map.of(
+                    "KillingPartId", String.valueOf(this.id),
+                    "SongId", String.valueOf(song.getId())
+                )
+            );
         }
         this.song = song;
     }

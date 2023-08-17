@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
@@ -84,7 +85,12 @@ public class VotingSong {
 
     private void validatePart(final VotingSongPart votingSongPart) {
         if (votingSongPart.isBelongToOtherSong(this)) {
-            throw new VotingSongPartException.PartForOtherSongException();
+            throw new VotingSongPartException.PartForOtherSongException(
+                Map.of(
+                    "VotingSongPartId", String.valueOf(votingSongPart.getId()),
+                    "VotingSongId", String.valueOf(this.id)
+                )
+            );
         }
     }
 

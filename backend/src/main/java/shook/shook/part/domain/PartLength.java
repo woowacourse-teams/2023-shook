@@ -1,6 +1,7 @@
 package shook.shook.part.domain;
 
 import java.util.Arrays;
+import java.util.Map;
 import shook.shook.part.exception.PartException;
 
 public enum PartLength {
@@ -18,7 +19,9 @@ public enum PartLength {
         return Arrays.stream(values())
             .filter(length -> length.value == second)
             .findFirst()
-            .orElseThrow(PartException.InvalidLengthException::new);
+            .orElseThrow(() -> new PartException.InvalidLengthException(
+                Map.of("PartLength", String.valueOf(second))
+            ));
     }
 
     public int getEndSecond(final int start) {

@@ -1,5 +1,6 @@
 package shook.shook.song.application.killingpart;
 
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +30,16 @@ public class KillingPartLikeService {
         final KillingPartLikeRequest request
     ) {
         final Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberException.MemberNotExistException::new);
+            .orElseThrow(
+                () -> new MemberException.MemberNotExistException(
+                    Map.of("MemberId", String.valueOf(memberId))
+                )
+            );
 
         final KillingPart killingPart = killingPartRepository.findById(killingPartId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
+            .orElseThrow(() -> new KillingPartException.PartNotExistException(
+                Map.of("KillingPartId", String.valueOf(killingPartId))
+            ));
 
         if (request.isLikeCreateRequest()) {
             create(killingPart, member);

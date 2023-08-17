@@ -2,6 +2,7 @@ package shook.shook.song.domain.killingpart;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class KillingPartCommentContent {
             throw new KillingPartCommentException.NullOrEmptyPartCommentException();
         }
         if (value.length() > MAXIMUM_LENGTH) {
-            throw new KillingPartCommentException.TooLongPartCommentException();
+            throw new KillingPartCommentException.TooLongPartCommentException(
+                Map.of("KillingPartCommentContent", value)
+            );
         }
     }
 }

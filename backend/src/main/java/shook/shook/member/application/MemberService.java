@@ -1,5 +1,6 @@
 package shook.shook.member.application;
 
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class MemberService {
     @Transactional
     public Member register(final String email) {
         findByEmail(email).ifPresent(member -> {
-            throw new MemberException.ExistMemberException();
+            throw new MemberException.ExistMemberException(Map.of("Email", email));
         });
         final String nickname = email.split(EMAIL_SPILT_DELIMITER)[NICKNAME_INDEX];
         final Member newMember = new Member(email, nickname);
@@ -33,9 +34,13 @@ public class MemberService {
     public Optional<Member> findByEmail(final String email) {
         return memberRepository.findByEmail(new Email(email));
     }
-    
+
     public Member findByIdAndNicknameThrowIfNotExist(final Long id, final Nickname nickname) {
         return memberRepository.findByIdAndNickname(id, nickname)
-            .orElseThrow(MemberException.MemberNotExistException::new);
+            .orElseThrow(
+                () -> new MemberException.MemberNotExistException(
+                    Map.of("Id", String.valueOf(id), "Nickname", nickname.getValue())
+                )
+            );
     }
 }
