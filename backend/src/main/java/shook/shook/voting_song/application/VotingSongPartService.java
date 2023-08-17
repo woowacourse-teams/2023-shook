@@ -1,5 +1,6 @@
 package shook.shook.voting_song.application;
 
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,9 @@ public class VotingSongPartService {
     @Transactional
     public void register(final Long votingSongId, final VotingSongPartRegisterRequest request) {
         final VotingSong votingSong = votingSongRepository.findById(votingSongId)
-            .orElseThrow(VotingSongException.VotingSongNotExistException::new);
+            .orElseThrow(() -> new VotingSongException.VotingSongNotExistException(
+                Map.of("VotingSongId", String.valueOf(votingSongId))
+            ));
 
         final int startSecond = request.getStartSecond();
         final PartLength partLength = PartLength.findBySecond(request.getLength());
@@ -50,7 +53,13 @@ public class VotingSongPartService {
 
     private void voteToExistPart(final VotingSong votingSong, final VotingSongPart votingSongPart) {
         final VotingSongPart existPart = votingSong.getSameLengthPartStartAt(votingSongPart)
-            .orElseThrow(VotingSongPartException.PartNotExistException::new);
+            .orElseThrow(() -> new VotingSongPartException.PartNotExistException(
+                Map.of(
+                    "VotingSongId", String.valueOf(votingSong.getId()),
+                    "StartSecond", String.valueOf(votingSongPart.getStartSecond()),
+                    "PartLength", votingSongPart.getLength().name()
+                )
+            ));
 
         voteToPart(existPart);
     }

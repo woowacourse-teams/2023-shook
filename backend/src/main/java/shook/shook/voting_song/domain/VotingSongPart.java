@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -89,13 +90,22 @@ public class VotingSongPart {
         final int songLength
     ) {
         if (startSecond < MINIMUM_START) {
-            throw new PartException.StartLessThanZeroException();
+            throw new PartException.StartLessThanZeroException(
+                Map.of("StartSecond", String.valueOf(startSecond))
+            );
         }
         if (songLength <= startSecond) {
-            throw new PartException.StartOverSongLengthException();
+            throw new PartException.StartOverSongLengthException(
+                Map.of("StartSecond", String.valueOf(startSecond))
+            );
         }
         if (songLength < partLength.getEndSecond(startSecond)) {
-            throw new PartException.EndOverSongLengthException();
+            throw new PartException.EndOverSongLengthException(
+                Map.of(
+                    "EndSecond", String.valueOf(partLength.getEndSecond(startSecond)),
+                    "SongLength", String.valueOf(songLength)
+                )
+            );
         }
     }
 
@@ -115,10 +125,20 @@ public class VotingSongPart {
 
     private void validateVote(final Vote vote) {
         if (vote.isBelongToOtherPart(this)) {
-            throw new VoteException.VoteForOtherPartException();
+            throw new VoteException.VoteForOtherPartException(
+                Map.of(
+                    "VoteId", String.valueOf(vote.getId()),
+                    "VotingSongPartId", String.valueOf(this.id)
+                )
+            );
         }
         if (votes.contains(vote)) {
-            throw new VoteException.DuplicateVoteExistException();
+            throw new VoteException.DuplicateVoteExistException(
+                Map.of(
+                    "VoteId", String.valueOf(vote.getId()),
+                    "VotingSongPartId", String.valueOf(this.id)
+                )
+            );
         }
     }
 

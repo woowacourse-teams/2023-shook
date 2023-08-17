@@ -16,9 +16,13 @@ import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
+import shook.shook.support.DataCleaner;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class AccessTokenReissueControllerTest {
+
+    @Autowired
+    private DataCleaner dataCleaner;
 
     @LocalServerPort
     private int port;
@@ -34,6 +38,7 @@ class AccessTokenReissueControllerTest {
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+        dataCleaner.clear();
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
     }
 

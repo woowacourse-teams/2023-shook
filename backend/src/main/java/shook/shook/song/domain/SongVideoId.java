@@ -2,6 +2,7 @@ package shook.shook.song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,7 +32,9 @@ public class SongVideoId {
             throw new SongException.NullOrEmptyVideoIdException();
         }
         if (value.length() != YOUTUBE_VIDEO_ID_LENGTH) {
-            throw new SongException.IncorrectVideoIdLengthException();
+            throw new SongException.IncorrectVideoIdLengthException(
+                Map.of("SongVideoId", value)
+            );
         }
     }
 
