@@ -77,14 +77,14 @@ class KillingPartsTest {
         assertThat(result).isTrue();
     }
 
-    @DisplayName("좋아요 순, id 순으로 정렬된 킬링파트를 조회한다.")
+    @DisplayName("좋아요 순, 시작 시간 오름차순으로 정렬된 킬링파트를 조회한다.")
     @Test
     void getKillingPartsSortedByLikeCount() {
         // given
         final Member member = new Member("email@naver.com", "nickname");
-        final KillingPart killingPart1 = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart1 = KillingPart.saved(1L, 15, PartLength.SHORT, EMPTY_SONG);
         final KillingPart killingPart2 = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart killingPart3 = KillingPart.saved(3L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart3 = KillingPart.saved(3L, 20, PartLength.SHORT, EMPTY_SONG);
 
         killingPart1.like(new KillingPartLike(killingPart1, member));
         killingPart2.like(new KillingPartLike(killingPart2, member));

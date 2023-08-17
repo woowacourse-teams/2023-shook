@@ -82,7 +82,7 @@ class SongServiceTest extends UsingJpaTest {
         );
     }
 
-    @DisplayName("로그인 된 사용자의 Id, 노래의 Id 로 존재하는 노래를 검색하면 좋아요 순으로 정렬된 킬링파트가 함께 조회된다.")
+    @DisplayName("로그인 된 사용자의 Id, 노래의 Id 로 존재하는 노래를 스와이프로 요청하면 좋아요 순으로 정렬된 킬링파트가 함께 조회된다.")
     @Test
     void findById_exist_login_member() {
         //given
