@@ -84,7 +84,7 @@ const KillingPartTrack = ({
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
-      htmlFor={`play-${rank}`}
+      htmlFor={`play-${songId}-${partId}`}
       tabIndex={0}
       role="radio"
       aria-label={`${rank}등 킬링파트 재생하기`}
@@ -92,7 +92,7 @@ const KillingPartTrack = ({
       <FLexContainer>
         <Rank>{ordinalRank}</Rank>
         <PlayButton
-          id={`play-${rank}`}
+          id={`play-${songId}-${partId}`}
           name="track"
           type="radio"
           onChange={toggleTrackPlayAndStop}
