@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -84,5 +85,25 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(foundLike).isPresent();
+    }
+
+    @DisplayName("Member 와 isDeleted 로 KillingPartLike 를 조회한다.")
+    @Test
+    void findAllByMemberAndDeleted() {
+        // given
+        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+            SAVED_MEMBER);
+
+        killingPartLikeRepository.save(killingPartLike);
+        saveAndClearEntityManager();
+
+        //when
+        final List<KillingPartLike> allByMemberAndDeleted =
+            killingPartLikeRepository.findAllByMemberAndIsDeleted(SAVED_MEMBER, true);
+
+        //then
+        assertThat(allByMemberAndDeleted).usingRecursiveComparison()
+            .comparingOnlyFields("id")
+            .isEqualTo(List.of(killingPartLike));
     }
 }
