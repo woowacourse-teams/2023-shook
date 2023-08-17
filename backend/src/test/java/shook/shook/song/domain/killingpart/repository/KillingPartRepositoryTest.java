@@ -43,7 +43,7 @@ class KillingPartRepositoryTest extends UsingJpaTest {
             )
         );
         SAVED_SONG = songRepository.save(
-            new Song("제목", "비디오URL", "이미지URL", "가수", 30, KILLING_PARTS));
+            new Song("제목", "비디오ID는 11글자", "이미지URL", "가수", 30, KILLING_PARTS));
     }
 
     @DisplayName("KillingPart 를 모두 저장한다.")

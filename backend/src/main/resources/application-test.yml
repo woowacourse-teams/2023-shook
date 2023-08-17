@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:shook;MODE=MySQL
 
   sql:
     init:
       mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:dev/data.sql
+      schema-locations: classpath:schema-test.sql
 
   jpa:
     properties:
