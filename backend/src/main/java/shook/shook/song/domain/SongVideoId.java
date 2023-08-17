@@ -35,7 +35,7 @@ public class SongVideoId {
         }
     }
 
-    public String getUrlOfVideo() {
+    public String convertToVideoUrl() {
         return String.format(YOUTUBE_VIDEO_PREFIX, value);
     }
 }

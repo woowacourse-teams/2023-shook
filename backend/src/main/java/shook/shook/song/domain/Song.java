@@ -96,7 +96,7 @@ public class Song {
     }
 
     public String getPartVideoUrl(final KillingPart part) {
-        return videoId.getUrlOfVideo() + part.getStartAndEndUrlPathParameter();
+        return videoId.convertToVideoUrl() + part.getStartAndEndUrlPathParameter();
     }
 
     public String getTitle() {
