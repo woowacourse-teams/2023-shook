@@ -9,6 +9,11 @@ jobs:
     runs-on: shook-runner
 
     steps:
+      - name: Remove Legacy Repository
+        shell: bash
+        run: |
+          cd ..
+          rm -rf 2023-shook
       - name: Checkout Source Code
         uses: actions/checkout@v2
         with:
