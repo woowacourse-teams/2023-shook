@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: `${ROUTE_PATH.MY_PAGE}/:id`,
+        path: `${ROUTE_PATH.MY_PAGE}`,
         element: (
           <AuthLayout>
             <MyPage />
