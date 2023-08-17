@@ -5,10 +5,10 @@ import googleAuthUrl from '../constants/googleAuthUrl';
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  message: string;
+  messageList: string[];
 }
 
-const LoginModal = ({ isOpen, closeModal, message }: LoginModalProps) => {
+const LoginModal = ({ isOpen, closeModal, messageList }: LoginModalProps) => {
   const linkToAuth = () => {
     window.location.href = googleAuthUrl;
   };
@@ -16,7 +16,11 @@ const LoginModal = ({ isOpen, closeModal, message }: LoginModalProps) => {
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
       <ModalTitle>로그인이 필요합니다</ModalTitle>
-      <ModalContent>{message}</ModalContent>
+      <>
+        {messageList.map((message) => {
+          return <ModalContent key={message}>{message}</ModalContent>;
+        })}
+      </>
       <ButtonContainer>
         <ConfirmButton type="button" onClick={closeModal}>
           닫기
@@ -34,7 +38,7 @@ export default LoginModal;
 const ModalTitle = styled.h3``;
 
 const ModalContent = styled.div`
-  padding: 16px 0;
+  margin: 16px 0;
 
   font-size: 16px;
   color: #b5b3bc;
