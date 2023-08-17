@@ -150,9 +150,9 @@ class VotingSongServiceTest extends UsingJpaTest {
                     .toList();
 
             assertAll(
-                () -> assertThat(swipeResponse.getBeforeSongs()).usingRecursiveComparison()
+                () -> assertThat(swipeResponse.getPrevSongs()).usingRecursiveComparison()
                     .isEqualTo(expectedBefore),
-                () -> assertThat(swipeResponse.getAfterSongs()).usingRecursiveComparison()
+                () -> assertThat(swipeResponse.getNextSongs()).usingRecursiveComparison()
                     .isEqualTo(expectedAfter),
                 () -> assertThat(swipeResponse.getCurrentSong()).usingRecursiveComparison()
                     .isEqualTo(expectedCurrent)

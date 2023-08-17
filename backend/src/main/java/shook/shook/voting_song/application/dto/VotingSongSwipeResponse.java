@@ -13,22 +13,22 @@ import shook.shook.voting_song.domain.VotingSong;
 public class VotingSongSwipeResponse {
 
     private VotingSongResponse currentSong;
-    private List<VotingSongResponse> beforeSongs;
-    private List<VotingSongResponse> afterSongs;
+    private List<VotingSongResponse> prevSongs;
+    private List<VotingSongResponse> nextSongs;
 
     public static VotingSongSwipeResponse of(
         final VotingSong currentSong,
-        final List<VotingSong> beforeSongs,
-        final List<VotingSong> afterSongs
+        final List<VotingSong> prevSongs,
+        final List<VotingSong> nextSongs
     ) {
         final VotingSongResponse currentResponse = VotingSongResponse.from(currentSong);
-        final List<VotingSongResponse> beforeResponses = beforeSongs.stream()
+        final List<VotingSongResponse> prevResponses = prevSongs.stream()
             .map(VotingSongResponse::from)
             .toList();
-        final List<VotingSongResponse> afterResponses = afterSongs.stream()
+        final List<VotingSongResponse> nextResponses = nextSongs.stream()
             .map(VotingSongResponse::from)
             .toList();
 
-        return new VotingSongSwipeResponse(currentResponse, beforeResponses, afterResponses);
+        return new VotingSongSwipeResponse(currentResponse, prevResponses, nextResponses);
     }
 }
