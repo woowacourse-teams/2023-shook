@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
@@ -8,6 +7,8 @@ import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import useFetch from '@/shared/hooks/useFetch';
+import fetcher from '@/shared/remotes';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
@@ -29,18 +30,9 @@ type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
   };
 
 const MyPage = () => {
-  const [likes, setLikes] = useState<LikeKillingPart[]>([]);
+  const { data: likes } = useFetch<LikeKillingPart[]>(() => fetcher('/my-page', 'GET'));
 
-  useEffect(() => {
-    const getLikeSongs = async () => {
-      fetch(`${BASE_URL}/my-page`)
-        .then((res) => res.json())
-        .then((data) => setLikes(data as LikeKillingPart[]))
-        .catch((error) => alert(error));
-    };
-
-    getLikeSongs();
-  }, []);
+  if (!likes) return null;
 
   return (
     <>
