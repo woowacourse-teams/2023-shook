@@ -9,10 +9,10 @@ const SongDetailListPage = () => {
   const { id: songIdParams } = useParams();
   const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
 
-  const ItemRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ItemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
   }, [songDetailEntries]);
 
   if (!songDetailEntries) return;
@@ -24,7 +24,7 @@ const SongDetailListPage = () => {
       {prevSongs.map((prevSongDetail) => (
         <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
       ))}
-      <SongDetailItem ref={ItemRef} key={currentSong.id} {...currentSong} />
+      <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
       {nextSongs.map((nextSongDetail) => (
         <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
       ))}
