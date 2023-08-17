@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import LoginLink from '@/features/auth/LoginLink';
 import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 
@@ -61,9 +60,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
             maxLength={200}
           />
         ) : (
-          <LinkBox
-            to={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&redirect_uri=http://localhost:8080${ROUTE_PATH.LOGIN_REDIRECT}&client_id=1008951336382-8o2n6n9u8jbj3sb6fe5jdeha9b6alnqa.apps.googleusercontent.com`}
-          >
+          <LinkBox>
             <Input
               type="text"
               value={newComment}
@@ -90,7 +87,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
 
 export default CommentForm;
 
-const LinkBox = styled(Link)`
+const LinkBox = styled(LoginLink)`
   flex: 1;
 `;
 
