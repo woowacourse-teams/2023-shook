@@ -16,6 +16,14 @@ const Header = () => {
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
+      <LoginButton
+        onClick={() => {
+          window.location.href = googleAuthUrl;
+        }}
+      >
+        {' '}
+        아코짱 로그인{' '}
+      </LoginButton>
       {user ? (
         <Link to={`/my-page/${user?.memberId}`}>
           <ProfileAvatar src={shookshook} />
@@ -30,6 +38,14 @@ const Header = () => {
 };
 
 export default Header;
+
+const LoginButton = styled.button`
+  color: white;
+  border: 1px solid pink;
+  background-color: pink;
+  border-radius: 8px;
+  padding: 8px;
+`;
 
 const Container = styled.header`
   display: flex;

@@ -43,8 +43,6 @@ const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
     setAccessToken(userToken);
   };
 
-  console.log('>>> user:', user);
-
   return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
 };
 

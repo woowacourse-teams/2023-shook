@@ -13,7 +13,7 @@ const AuthPage = () => {
 
   // TODO: 예외처리
   const getAccessToken = async () => {
-    const response = await fetch(`http://192.168.1.86:8080/login/google?code=${code}`, {
+    const response = await fetch(`${process.env.BASE_URL}/login/google?code=${code}`, {
       method: 'get',
       credentials: 'include',
     });
