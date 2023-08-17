@@ -1,10 +1,8 @@
 name: Release Drafter
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
+    branches: [main]
     types: [opened, reopened, synchronize]
 
 permissions:
