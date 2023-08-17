@@ -52,20 +52,9 @@ const VoteInterface = () => {
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
       <Spacing direction="vertical" size={16} />
-      {isLoggedIn ? (
-        <Register type="button" onClick={submitKillingPart}>
-          등록
-        </Register>
-      ) : (
-        <Register
-          type="button"
-          onClick={() => {
-            openModal();
-          }}
-        >
-          등록
-        </Register>
-      )}
+      <Register type="button" onClick={isLoggedIn ? submitKillingPart : openModal}>
+        등록
+      </Register>
       {isLoggedIn ? (
         <Modal isOpen={isOpen} closeModal={closeModal}>
           <ModalTitle>킬링파트 등록을 완료했습니다.</ModalTitle>
