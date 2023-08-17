@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.domain.VotingSong;
 
@@ -20,9 +19,9 @@ class VotingSongRepositoryTest extends UsingJpaTest {
     @Nested
     class findSongsLessThanSongId {
 
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 작은 아이디를 갖는 노래 4개를 조회한다. (이전 노래가 4개보다 많을 때)")
+        @DisplayName("앞뒤로 노래들이 충분히 존재할 때")
         @Test
-        void findFourSongsBeforeSongId() {
+        void enough() {
             // given
             final VotingSong firstSong = votingSongRepository.save(
                 new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
@@ -40,26 +39,50 @@ class VotingSongRepositoryTest extends UsingJpaTest {
                 new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
             );
             final VotingSong standardSong = votingSongRepository.save(
-                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목6", "비디오URL", "이미지URL", "가수", 30)
             );
-
+            final VotingSong seventhSong = votingSongRepository.save(
+                new VotingSong("제목7", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong eighthSong = votingSongRepository.save(
+                new VotingSong("제목8", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong ninthSong = votingSongRepository.save(
+                new VotingSong("제목9", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong tenthSong = votingSongRepository.save(
+                new VotingSong("제목10", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong eleventhSong = votingSongRepository.save(
+                new VotingSong("제목11", "비디오URL", "이미지URL", "가수", 30)
+            );
             // when
-            final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdLessThanOrderByIdDesc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
-            );
+            final List<VotingSong> beforeVotingSongs =
+                votingSongRepository.findByIdGreaterThanEqualAndIdLessThanEqual(
+                    standardSong.getId() - 4, standardSong.getId() + 4
+                );
 
             // then
             final List<VotingSong> expected =
-                List.of(fifthSong, fourthSong, thirdSong, secondSong);
+                List.of(
+                    secondSong,
+                    thirdSong,
+                    fourthSong,
+                    fifthSong,
+                    standardSong,
+                    seventhSong,
+                    eighthSong,
+                    ninthSong,
+                    tenthSong
+                );
 
             assertThat(beforeVotingSongs).usingRecursiveComparison()
                 .isEqualTo(expected);
         }
 
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 작은 아이디를 갖는 노래 4개를 조회한다. (이전 노래가 1개 이상 ~ 4개일 때)")
+        @DisplayName("이전 노래가 4개보다 적을 때")
         @Test
-        void findSongsSizeLessThanFourBeforeSongId() {
+        void prevSongNotEnough() {
             // given
             final VotingSong firstSong = votingSongRepository.save(
                 new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
@@ -70,48 +93,51 @@ class VotingSongRepositoryTest extends UsingJpaTest {
             final VotingSong standardSong = votingSongRepository.save(
                 new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 30)
             );
-
-            // when
-            final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdLessThanOrderByIdDesc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
+            final VotingSong fourthSong = votingSongRepository.save(
+                new VotingSong("제목4", "비디오URL", "이미지URL", "가수", 30)
             );
+            final VotingSong fifthSong = votingSongRepository.save(
+                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong sixthSong = votingSongRepository.save(
+                new VotingSong("제목6", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong seventhSong = votingSongRepository.save(
+                new VotingSong("제목7", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong eighthSong = votingSongRepository.save(
+                new VotingSong("제목8", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong ninthSong = votingSongRepository.save(
+                new VotingSong("제목9", "비디오URL", "이미지URL", "가수", 30)
+            );
+            // when
+            final List<VotingSong> beforeVotingSongs =
+                votingSongRepository.findByIdGreaterThanEqualAndIdLessThanEqual(
+                    standardSong.getId() - 4, standardSong.getId() + 4
+                );
 
             // then
-            final List<VotingSong> expected = List.of(secondSong, firstSong);
+            final List<VotingSong> expected =
+                List.of(
+                    firstSong,
+                    secondSong,
+                    standardSong,
+                    fourthSong,
+                    fifthSong,
+                    sixthSong,
+                    seventhSong
+                );
 
             assertThat(beforeVotingSongs).usingRecursiveComparison()
                 .isEqualTo(expected);
         }
 
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 작은 아이디를 갖는 노래 4개를 조회한다. (이전 노래가 없을 때)")
+        @DisplayName("다음 노래가 4개보다 적을 때")
         @Test
-        void findEmptySongsBeforeSongId() {
+        void nextSongNotEnough() {
             // given
-            final VotingSong standardSong = votingSongRepository.save(
-                new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
-            );
-
-            // when
-            final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdLessThanOrderByIdDesc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
-            );
-
-            // then
-            assertThat(beforeVotingSongs).isEmpty();
-        }
-    }
-
-    @DisplayName("특정 파트 수집 중인 노래 id 를 기준으로 id가 큰 노래를 조회한다.")
-    @Nested
-    class findSongsGreaterThanSongId {
-
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 큰 아이디를 갖는 노래 4개를 조회한다. (이후 노래가 4개보다 많을 때)")
-        @Test
-        void findFourSongsBeforeSongId() {
-            // given
-            final VotingSong standardSong = votingSongRepository.save(
+            final VotingSong firstSong = votingSongRepository.save(
                 new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
             );
             final VotingSong secondSong = votingSongRepository.save(
@@ -127,28 +153,44 @@ class VotingSongRepositoryTest extends UsingJpaTest {
                 new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
             );
             final VotingSong sixthSong = votingSongRepository.save(
-                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목6", "비디오URL", "이미지URL", "가수", 30)
             );
-
+            final VotingSong standardSong = votingSongRepository.save(
+                new VotingSong("제목7", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong eighthSong = votingSongRepository.save(
+                new VotingSong("제목8", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong ninthSong = votingSongRepository.save(
+                new VotingSong("제목9", "비디오URL", "이미지URL", "가수", 30)
+            );
             // when
-            final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdGreaterThanOrderByIdAsc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
-            );
+            final List<VotingSong> beforeVotingSongs =
+                votingSongRepository.findByIdGreaterThanEqualAndIdLessThanEqual(
+                    standardSong.getId() - 4, standardSong.getId() + 4
+                );
 
             // then
             final List<VotingSong> expected =
-                List.of(secondSong, thirdSong, fourthSong, fifthSong);
+                List.of(
+                    thirdSong,
+                    fourthSong,
+                    fifthSong,
+                    sixthSong,
+                    standardSong,
+                    eighthSong,
+                    ninthSong
+                );
 
             assertThat(beforeVotingSongs).usingRecursiveComparison()
                 .isEqualTo(expected);
         }
 
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 큰 아이디를 갖는 노래 4개를 조회한다. (이후 노래가 1개 이상 ~ 4개일 때)")
+        @DisplayName("이전 노래, 다음 노래 모두 4개보다 적을 때")
         @Test
-        void findSongsSizeLessThanFourAfterSongId() {
+        void bothNotEnough() {
             // given
-            final VotingSong standardSong = votingSongRepository.save(
+            final VotingSong firstSong = votingSongRepository.save(
                 new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
             );
             final VotingSong secondSong = votingSongRepository.save(
@@ -157,36 +199,35 @@ class VotingSongRepositoryTest extends UsingJpaTest {
             final VotingSong thirdSong = votingSongRepository.save(
                 new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 30)
             );
-
-            // when
-            final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdGreaterThanOrderByIdAsc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
+            final VotingSong standardSong = votingSongRepository.save(
+                new VotingSong("제목4", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong fifthSong = votingSongRepository.save(
+                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+            );
+            final VotingSong sixthSong = votingSongRepository.save(
+                new VotingSong("제목6", "비디오URL", "이미지URL", "가수", 30)
             );
 
+            // when
+            final List<VotingSong> beforeVotingSongs =
+                votingSongRepository.findByIdGreaterThanEqualAndIdLessThanEqual(
+                    standardSong.getId() - 4, standardSong.getId() + 4
+                );
+
             // then
-            final List<VotingSong> expected = List.of(secondSong, thirdSong);
+            final List<VotingSong> expected =
+                List.of(
+                    firstSong,
+                    secondSong,
+                    thirdSong,
+                    standardSong,
+                    fifthSong,
+                    sixthSong
+                );
 
             assertThat(beforeVotingSongs).usingRecursiveComparison()
                 .isEqualTo(expected);
-        }
-
-        @DisplayName("찾으려는 파트 수집 중인 노래 아이디보다 큰 아이디를 갖는 노래 4개를 조회한다. (이후 노래가 없을 때)")
-        @Test
-        void findEmptySongsAfterSongId() {
-            // given
-            final VotingSong standardSong = votingSongRepository.save(
-                new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
-            );
-
-            // when
-            final List<VotingSong> afterVotingSongs = votingSongRepository.findByIdGreaterThanOrderByIdAsc(
-                standardSong.getId(),
-                PageRequest.of(0, 4)
-            );
-
-            // then
-            assertThat(afterVotingSongs).isEmpty();
         }
     }
 }

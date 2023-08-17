@@ -56,9 +56,10 @@ public class SongService {
     ) {
         return songWithLikeCounts.stream()
             .sorted(
-                Comparator.comparing(SongTotalLikeCountDto::getTotalLikeCount,
-                        Comparator.reverseOrder())
-                    .thenComparing(dto -> dto.getSong().getId(), Comparator.reverseOrder())
+                Comparator.comparing(
+                    SongTotalLikeCountDto::getTotalLikeCount,
+                    Comparator.reverseOrder()
+                ).thenComparing(dto -> dto.getSong().getId(), Comparator.reverseOrder())
             ).toList();
     }
 
