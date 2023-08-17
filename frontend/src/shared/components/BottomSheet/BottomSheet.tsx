@@ -32,14 +32,14 @@ const BottomSheet = ({ isOpen, closeModal, children }: PropsWithChildren<BottomS
   }, [isOpen, closeByEsc]);
 
   return createPortal(
-    <Wrapper>
+    <>
       {isOpen && (
-        <>
+        <Wrapper>
           <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
           <Container role="dialog">{children}</Container>
-        </>
+        </Wrapper>
       )}
-    </Wrapper>,
+    </>,
     document.body
   );
 };
