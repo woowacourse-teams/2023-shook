@@ -8,7 +8,7 @@ jobs:
     name: Frontend Develop Deploy
 
     runs-on: shook-runner
-    
+
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
@@ -17,7 +17,7 @@ jobs:
         run: |
           rm -rf frontend/.env
           mkdir frontend/.env
-          echo "BASE_URL=${{secret.FRONT_DEV_BASE_URL}}" > frontend/.env/.env.production
+          echo "BASE_URL=${{ secrets.FRONT_DEV_BASE_URL }}" > frontend/.env/.env.production
       - name: Package clean install
         shell: bash
         run: |
