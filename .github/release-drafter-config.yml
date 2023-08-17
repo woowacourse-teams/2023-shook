@@ -37,4 +37,4 @@ template: |
   $CHANGES
 
   Full Changelog: https://github.com/woowacourse-teams/2023-shook/commits/v$RESOLVED_VERSION
-no-changes-template: '앗! 변경사항이 없어요.😖'
+no-changes-template: '앗! 변경사항이 없어요.😖 '
