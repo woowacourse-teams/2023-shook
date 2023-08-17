@@ -3,18 +3,16 @@ import type { ErrorResponse } from '@/shared/remotes';
 
 type FetchDirection = 'top' | 'down';
 
-// TODO: as 단언 개선
-
-const useExtraFetch = <T extends unknown[], P extends unknown[]>(
-  extraFetcher: (...params: P) => Promise<T>,
+const useExtraFetch = <T, P>(
+  extraFetcher: (...params: P[]) => Promise<T[]>,
   fetchDirection: FetchDirection
 ) => {
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
 
   const fetchData = useCallback(
-    async (...params: P) => {
+    async (...params: P[]) => {
       setError(null);
       setIsLoading(true);
 
@@ -22,12 +20,13 @@ const useExtraFetch = <T extends unknown[], P extends unknown[]>(
         const extraData = await extraFetcher(...params);
 
         if (fetchDirection === 'top') {
-          const newData = extraData.concat(data) as T;
+          const newData = extraData.concat(data);
           setData(newData);
           return;
         }
 
-        const newData = data?.concat(extraData) as T;
+        const newData = data?.concat(extraData);
+        console.log();
         setData(newData);
       } catch (error) {
         setError(error as ErrorResponse);
