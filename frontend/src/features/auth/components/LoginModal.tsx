@@ -38,7 +38,7 @@ export default LoginModal;
 const ModalTitle = styled.h3``;
 
 const ModalContent = styled.div`
-  padding: 16px 0;
+  margin: 16px 0;
 
   font-size: 16px;
   color: #b5b3bc;
