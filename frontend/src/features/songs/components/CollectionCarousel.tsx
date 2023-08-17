@@ -24,9 +24,6 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
         const nextIndex = (currentIndex + 1) % numberOfItems;
         const itemWidth = carouselRef.current.scrollWidth / numberOfItems;
         carouselRef.current.scrollLeft = nextIndex * itemWidth;
-
-        console.log('offsetWidth', carouselRef.current.offsetWidth);
-        console.log('scrollWidth', carouselRef.current.scrollWidth);
       }
     }, 2000);
 
