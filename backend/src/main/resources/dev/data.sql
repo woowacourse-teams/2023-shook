@@ -1,9 +1,26 @@
 TRUNCATE TABLE song;
+TRUNCATE TABLE voting_song;
+
+insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
+values ('달빛소년', '체리필터 (cherryfilter)', 241, 'MENOHM2a8Oo', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/027/236/15027236_1319188420285_1_600x600.JPG/dims/resize/Q_80,0', now());
+
+insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
+values ('Happy Day', '체리필터 (cherryfilter)', 216, '6CFs-4if788', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/041/719/050/41719050_1319703431175_1_600x600.JPG/dims/resize/Q_80,0', now());
+
+insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
+values ('낭만 고양이', '체리필터 (cherryfilter)', 228, 'Nh5Ld4EpXJs', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/026/138/15026138_1406191371950_1_600x600.JPG/dims/resize/Q_80,0', now());
+
+insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
+values ('오리날다 (영화 ''권순분여사 납치사건'' CF 테마송)', '체리필터 (cherryfilter)', 246, 'ivbdRCDCOig', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/027/236/15027236_1319188420285_1_600x600.JPG/dims/resize/Q_80,0', now());
+
+insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
+values ('피아니시모 (Pianissimo)', '체리필터 (cherryfilter)', 229, 'VxnWkErj2TE', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/079/949/993/79949993_1398756703913_1_600x600.JPG/dims/resize/Q_80,0', now());
 
 INSERT INTO song (title, singer, length, video_id, album_cover_url, created_at)
 VALUES ('취중고백', '김민석 (멜로망스)', 258, 'FCrMKhrFH7A',
         'https://cdnimg.melon.co.kr/cm2/album/images/108/16/959/10816959_20211217144957_500.jpg?c1818ddc493cb2bbb4d268431e6de7b5/melon/resize/282/quality/80/optimize',
         now());
+
 INSERT INTO killing_part(start_second, length, song_id, like_count, created_at)
 VALUES (5, 'SHORT', 1, 10, now());
 INSERT INTO killing_part(start_second, length, song_id, like_count, created_at)
