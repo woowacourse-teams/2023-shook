@@ -6,18 +6,18 @@ interface CardProps {
   title: string;
   singer: string;
   albumCoverUrl: string;
-  totalVoteCount: number;
+  totalLikeCount: number;
 }
 
-const PopularSongItem = ({ rank, albumCoverUrl, title, singer, totalVoteCount }: CardProps) => {
+const PopularSongItem = ({ rank, albumCoverUrl, title, singer, totalLikeCount }: CardProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
       <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Info aria-label={`${totalVoteCount} 투표됨`}>
-        {new Intl.NumberFormat('ko-KR').format(totalVoteCount)} votes
+      <Info aria-label={`${totalLikeCount} 투표됨`}>
+        {new Intl.NumberFormat('ko-KR').format(totalLikeCount)} likes
       </Info>
     </Grid>
   );
