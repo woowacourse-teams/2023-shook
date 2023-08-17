@@ -1,0 +1,40 @@
+name-template: '🚀 v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+\  - title: '🚀 Features'
+    labels:
+      - '✨ Feat'
+      - '💿 Databas🦷'
+      - '🎨 DesigN'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - '🦋 Bug'
+  - title: ' Infrastructure'
+    labels:
+      - '🤖 InfrA'
+      - '🐈‍⬛ Github'
+  - title: '🧰 Maintenance'
+    label:
+      - '🔨 Refactor'
+      - '⚙️ Settin🐁'
+      - '✍️ Docs'
+change-template: '- $TITLE #$NUMBER @$AUTHOR '
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
+  ---
+  $CHANGE LOG
+
+  Full Changelog: https://github.com/woowacourse-teams/2023-shook/commits/v$RESOLVED_VERSION
+no-changes-template: '앗! 변경사항이 없어요. 😖'
