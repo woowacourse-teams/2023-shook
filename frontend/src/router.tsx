@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { VideoPlayerProvider } from './features/youtube/components/VideoPlayerProvider';
 import MainPage from './pages/MainPage';
+import MyPage from './pages/MyPage';
 import PartCollectingPage from './pages/PartCollectingPage';
 import SongDetailPage from './pages/SongDetailPage';
 import Layout from './shared/components/Layout/Layout';
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             <SongDetailPage />
           </VideoPlayerProvider>
         ),
+      },
+      {
+        path: `${ROUTE_PATH.MY_PAGE}`,
+        element: <MyPage />,
       },
     ],
   },
