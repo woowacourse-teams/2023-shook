@@ -17,7 +17,9 @@ const Header = () => {
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
       {user ? (
-        <ProfileAvatar src={shookshook} />
+        <Link to={`/my-page/${user?.memberId}`}>
+          <ProfileAvatar src={shookshook} />
+        </Link>
       ) : (
         <LoginLink>
           <ProfileAvatar src={defaultAvatar} />
