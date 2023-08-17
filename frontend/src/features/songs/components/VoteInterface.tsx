@@ -1,4 +1,6 @@
 import { styled } from 'styled-components';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import LoginModal from '@/features/auth/components/LoginModal';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -16,15 +18,16 @@ const VoteInterface = () => {
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
   const { createKillingPart } = usePostKillingPart();
+  const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
+
+  const isLoggedIn = !!user;
 
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
-
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
-
     openModal();
   };
 
@@ -42,25 +45,43 @@ const VoteInterface = () => {
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
       <Spacing direction="vertical" size={16} />
-      <Register type="button" onClick={submitKillingPart}>
-        투표
-      </Register>
-
-      <Modal isOpen={isOpen} closeModal={closeModal}>
-        <ModalTitle>킬링파트 투표를 완료했습니다.</ModalTitle>
-        <ModalContent>
-          <Message>{voteTimeText}</Message>
-          <Message>파트를 공유해 보세요😀</Message>
-        </ModalContent>
-        <ButtonContainer>
-          <Confirm type="button" onClick={closeModal}>
-            확인
-          </Confirm>
-          <Share type="button" onClick={copyPartVideoUrl}>
-            공유하기
-          </Share>
-        </ButtonContainer>
-      </Modal>
+      {isLoggedIn ? (
+        <Register type="button" onClick={submitKillingPart}>
+          수집
+        </Register>
+      ) : (
+        <Register
+          type="button"
+          onClick={() => {
+            openModal();
+          }}
+        >
+          수집
+        </Register>
+      )}
+      {isLoggedIn ? (
+        <Modal isOpen={isOpen} closeModal={closeModal}>
+          <ModalTitle>킬링파트 수집을 완료했습니다.</ModalTitle>
+          <ModalContent>
+            <Message>{voteTimeText}</Message>
+            <Message>파트를 공유해 보세요😀</Message>
+          </ModalContent>
+          <ButtonContainer>
+            <Confirm type="button" onClick={closeModal}>
+              확인
+            </Confirm>
+            <Share type="button" onClick={copyPartVideoUrl}>
+              공유하기
+            </Share>
+          </ButtonContainer>
+        </Modal>
+      ) : (
+        <LoginModal
+          message="슉에서 당신만의 킬링파트를 수집해보세요!"
+          isOpen={isOpen}
+          closeModal={closeModal}
+        />
+      )}
     </Container>
   );
 };
