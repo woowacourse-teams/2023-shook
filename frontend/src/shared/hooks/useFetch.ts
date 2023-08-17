@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ErrorResponse } from '@/shared/remotes';
 
-const useFetch = <T>(fetcher: () => Promise<T>) => {
+const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
@@ -21,8 +21,10 @@ const useFetch = <T>(fetcher: () => Promise<T>) => {
   }, [fetcher]);
 
   useEffect(() => {
+    if (!defaultFetch) return;
+
     fetchData();
-  }, []);
+  }, [defaultFetch]);
 
   return { data, isLoading, error, fetchData };
 };
