@@ -5,10 +5,10 @@ export const getSongDetailEntries = async (songId: number): Promise<SongDetailEn
   return await fetcher(`/songs/${songId}`, 'GET');
 };
 
-export const getPrevSongDetailEntries = async (songId: number): Promise<SongDetail[]> => {
+export const getExtraPrevSongDetails = async (songId: number): Promise<SongDetail[]> => {
   return await fetcher(`/songs/${songId}/prev`, 'GET');
 };
 
-export const getNextSongDetailEntries = async (songId: number): Promise<SongDetail[]> => {
+export const getExtraNextSongDetails = async (songId: number): Promise<SongDetail[]> => {
   return await fetcher(`/songs/${songId}/next`, 'GET');
 };
