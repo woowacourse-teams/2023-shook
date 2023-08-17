@@ -1,6 +1,8 @@
 name: Release Drafter
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
     types: [opened, reopened, synchronize]
@@ -16,5 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter-config.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
