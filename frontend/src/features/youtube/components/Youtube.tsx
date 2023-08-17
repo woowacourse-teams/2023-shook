@@ -9,7 +9,7 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, initPlayer, updatePlayerState } = useVideoPlayerContext();
+  const { videoPlayer, initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
 
   useEffect(() => {
     const createYoutubePlayer = async () => {
@@ -20,8 +20,10 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
           height: '100%',
           playerVars: { start, rel: 0 },
           events: {
-            onReady: initPlayer,
-            onStateChange: updatePlayerState,
+            onReady: (e) => {
+              bindUpdatePlayerStateEvent(e);
+              initPlayer(e);
+            },
           },
         });
       } catch (error) {
@@ -40,7 +42,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
       clonePlayerRef.current.destroy();
       clonePlayerRef.current = null;
     };
-  }, [initPlayer, updatePlayerState, start, videoId, videoPlayer]);
+  }, [bindUpdatePlayerStateEvent, initPlayer, start, videoId, videoPlayer]);
 
   return (
     <YoutubeWrapper>
