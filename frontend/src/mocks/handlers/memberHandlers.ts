@@ -3,7 +3,7 @@ import { rest } from 'msw';
 const { BASE_URL } = process.env;
 
 export const memberHandlers = [
-  rest.get(`${BASE_URL}/mypage`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/my-page`, (req, res, ctx) => {
     return res(
       ctx.json([
         {

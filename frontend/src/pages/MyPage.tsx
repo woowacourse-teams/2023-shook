@@ -23,7 +23,7 @@ const MyPage = () => {
 
   useEffect(() => {
     const getLikeSongs = async () => {
-      fetch(`${BASE_URL}/mypage`)
+      fetch(`${BASE_URL}/my-page`)
         .then((res) => res.json())
         .then((data) => setLikes(data as LikeKillingPart[]))
         .catch((error) => alert(error));
