@@ -24,8 +24,8 @@ const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<
     throw new Error(`서버문제로 HTTP 통신에 실패했습니다.`);
   }
 
-  // TODO: 403 status
-  // if(response.status === 403) {
+  // TODO: 401 status -> login page
+  // if(response.status === 401) {
 
   // }
 
