@@ -72,8 +72,14 @@ class AuthServiceTest {
         final TokenPair result = authService.login("accessCode");
 
         //then
-        assertThat(result.getAccessToken()).isNotNull();
-        assertThat(result.getRefreshToken()).isNotNull();
+
+        final String accessToken = tokenProvider.createAccessToken(savedMember.getId(),
+            savedMember.getNickname());
+        final String refreshToken = tokenProvider.createRefreshToken(savedMember.getId(),
+            savedMember.getNickname());
+
+        assertThat(result.getAccessToken()).isEqualTo(accessToken);
+        assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
     }
 
     @DisplayName("올바른 refresh 토큰이 들어오면 access 토큰을 재발급해준다.")
