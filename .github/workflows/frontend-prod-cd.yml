@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
+      - name: Setting env
+        shell: bash
+        run: |
+          rm -rf frontend/.env
+          mkdir frontend/.env
+          echo "BASE_URL=${{secret.FRONT_PROD_BASE_URL}}" > frontend/.env/.env.production
       - name: Package clean install
         shell: bash
         run: |
