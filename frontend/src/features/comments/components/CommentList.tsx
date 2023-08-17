@@ -14,6 +14,7 @@ interface Comment {
   id: number;
   content: string;
   createdAt: string;
+  writerNickname: string;
 }
 
 interface CommentListProps {
@@ -35,6 +36,8 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
     return null;
   }
 
+  const isEmptyComment = comments.length === 0;
+
   return (
     <>
       <Spacing direction="vertical" size={24} />
@@ -42,11 +45,15 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
       <CommentTitle>댓글 {comments.length}개</CommentTitle>
       <Spacing direction="vertical" size={12} />
       <CommentWrapper onClick={openModal}>
-        <Comment
-          key={comments[0].id}
-          content={comments[0].content}
-          createdAt={comments[0].createdAt}
-        />
+        {isEmptyComment ? (
+          <Comment.DefaultComment />
+        ) : (
+          <Comment
+            content={comments[0].content}
+            createdAt={comments[0].createdAt}
+            writerNickname={comments[0].writerNickname}
+          />
+        )}
       </CommentWrapper>
       <BottomSheet isOpen={isOpen} closeModal={closeModal}>
         <Spacing direction="vertical" size={16} />
@@ -56,8 +63,13 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
         </div>
         <Spacing direction="vertical" size={20} />
         <Comments>
-          {comments.map(({ id, content, createdAt }) => (
-            <Comment key={id} content={content} createdAt={createdAt} />
+          {comments.map(({ id, content, createdAt, writerNickname }) => (
+            <Comment
+              key={id}
+              content={content}
+              createdAt={createdAt}
+              writerNickname={writerNickname}
+            />
           ))}
         </Comments>
         <Spacing direction="vertical" size={8} />
@@ -76,6 +88,7 @@ const Comments = styled.ol`
   flex-shrink: unset;
   row-gap: 10px;
 
+  height: 100%;
   padding: 0 16px;
 `;
 
