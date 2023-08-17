@@ -13,7 +13,7 @@ jobs:
         shell: bash
         run: |
           pwd
-          cd ..
+          cd ../..
           ls -al
           rm -rf 2023-shook
       - name: Checkout Source Code
