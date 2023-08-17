@@ -3,6 +3,7 @@ package shook.shook.auth.ui.interceptor;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import shook.shook.auth.application.TokenProvider;
@@ -33,9 +34,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         final HttpServletRequest request,
         final HttpServletResponse response,
         final Object handler
-    ) throws Exception {
+    ) {
         final String token = TokenHeaderExtractor.extractToken(request)
-            .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
+            .orElseThrow(() -> new AuthorizationException.AccessTokenNotFoundException(
+                Map.of("RequestURL", request.getRequestURL().toString())
+            ));
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);

@@ -12,7 +12,7 @@ import shook.shook.song.exception.SongException;
 
 class SongVideoIdTest {
 
-    @DisplayName("노래의 비디오 URL 을 뜻하는 객체를 생성한다.")
+    @DisplayName("노래의 비디오 ID 를 뜻하는 객체를 생성한다.")
     @Test
     void create_success() {
         //given

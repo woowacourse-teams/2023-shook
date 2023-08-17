@@ -2,6 +2,7 @@ package shook.shook.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
@@ -34,11 +35,15 @@ public class Email {
             throw new MemberException.NullOrEmptyEmailException();
         }
         if (value.length() > EMAIL_MAXIMUM_LENGTH) {
-            throw new MemberException.TooLongEmailException();
+            throw new MemberException.TooLongEmailException(
+                Map.of("Email", value)
+            );
         }
         final Matcher matcher = EMAIL_FORM.matcher(value);
         if (!matcher.matches()) {
-            throw new MemberException.InValidEmailFormException();
+            throw new MemberException.InValidEmailFormException(
+                Map.of("Email", value)
+            );
         }
     }
 }

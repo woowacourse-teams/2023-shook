@@ -5,6 +5,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class KillingPartComments {
 
     private void validateComment(final KillingPartComment comment) {
         if (comments.contains(comment)) {
-            throw new KillingPartCommentException.DuplicateCommentExistException();
+            throw new KillingPartCommentException.DuplicateCommentExistException(
+                Map.of("KillingPartCommentId", String.valueOf(comment.getId()))
+            );
         }
     }
 

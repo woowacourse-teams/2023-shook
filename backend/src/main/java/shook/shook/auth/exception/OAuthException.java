@@ -9,13 +9,6 @@ public class OAuthException extends CustomException {
         super(errorCode);
     }
 
-    public static class InvalidEmailException extends OAuthException {
-
-        public InvalidEmailException() {
-            super(ErrorCode.INVALID_EMAIL);
-        }
-    }
-
     public static class InvalidAccessTokenException extends OAuthException {
 
         public InvalidAccessTokenException() {

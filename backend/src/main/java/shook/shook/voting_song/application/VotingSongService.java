@@ -2,6 +2,7 @@ package shook.shook.voting_song.application;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,9 @@ public class VotingSongService {
 
     public VotingSongSwipeResponse findAllForSwipeById(final Long id) {
         final VotingSong votingSong = votingSongRepository.findById(id)
-            .orElseThrow(VotingSongException.VotingSongNotExistException::new);
+            .orElseThrow(() -> new VotingSongException.VotingSongNotExistException(
+                Map.of("VotingSongId", String.valueOf(id))
+            ));
 
         final long startId = Math.max(0, id - BEFORE_SONG_COUNT);
         final long endId = id + AFTER_SONG_COUNT;
