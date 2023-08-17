@@ -13,12 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.application.dto.TokenReissueResponse;
+import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class TokenControllerTest {
+class AccessTokenReissueControllerTest {
 
     @LocalServerPort
     private int port;
@@ -51,11 +51,11 @@ class TokenControllerTest {
             savedMember.getNickname());
 
         //when
-        final TokenReissueResponse response = RestAssured.given().log().all()
+        final ReissueAccessTokenResponse response = RestAssured.given().log().all()
             .cookie("refreshToken", refreshToken)
             .when().log().all().get("/reissue")
             .then().statusCode(HttpStatus.OK.value())
-            .extract().body().as(TokenReissueResponse.class);
+            .extract().body().as(ReissueAccessTokenResponse.class);
 
         //then
         final String accessToken = tokenProvider.createAccessToken(

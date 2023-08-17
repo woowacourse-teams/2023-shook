@@ -26,11 +26,11 @@ public class VotingSongController {
     }
 
     @GetMapping("/{voting_song_id}")
-    public ResponseEntity<VotingSongSwipeResponse> findByIdForSwipe(
+    public ResponseEntity<VotingSongSwipeResponse> findAllForSwipeById(
         @PathVariable("voting_song_id") final Long votingSongId
     ) {
         final VotingSongSwipeResponse swipeResponse =
-            votingSongService.findByIdForSwipe(votingSongId);
+            votingSongService.findAllForSwipeById(votingSongId);
 
         return ResponseEntity.ok(swipeResponse);
     }
