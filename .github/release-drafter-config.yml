@@ -35,6 +35,6 @@ template: |
   ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
   ---
   $CHANGES
-
+footer: |
   Full Changelog: https://github.com/woowacourse-teams/2023-shook/commits/v$RESOLVED_VERSION
 no-changes-template: '앗! 변경사항이 없어요. 😖'
