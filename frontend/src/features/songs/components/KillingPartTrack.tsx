@@ -129,7 +129,10 @@ const KillingPartTrack = ({
       )}
       <LoginModal
         isOpen={isOpen}
-        message='슉에 로그인하여 킬링파트에 "좋아요!"를 눌러주세요!'
+        messageList={[
+          '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!',
+          '"좋아요!"한 노래는 마이페이지에 저장됩니다!',
+        ]}
         closeModal={closeModal}
       />
     </Container>
