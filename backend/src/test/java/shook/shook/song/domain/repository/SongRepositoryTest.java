@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
@@ -100,8 +102,116 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(song.getCreatedAt()).isBetween(prev, after);
     }
 
+    @DisplayName("일치하는 가수를 가진 모든 Song 목록을 조회한다. (가수는 대소문자를 무시한다.)")
+    @ParameterizedTest(name = "가수의  이름이 {0} 일 때")
+    @ValueSource(strings = {"redvelvet", "Redvelvet"})
+    void findAllBySingerIgnoringCase_exist(final String singer) {
+        //given
+        final Song song1 = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
+        final Song song2 = new Song("노래제목2", "비디오URL", "image", "RedVelvet", 100);
+        songRepository.save(song1);
+        songRepository.save(song2);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase(singer);
+
+        //then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(song1, song2));
+    }
+
+    @DisplayName("일치하는 가수가 없다면 빈 Song 목록이 조회된다")
+    @Test
+    void findAllBySingerIgnoringCase_noExist() {
+        //given
+        final Song song = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
+        songRepository.save(song);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllBySingerIgnoringCase("뉴진스");
+
+        //then
+        assertThat(songs).isEmpty();
+    }
+
+    @DisplayName("일치하는 제목을 가진 모든 Song 목록을 조회한다. (제목은 대소문자를 무시한다.)")
+    @ParameterizedTest(name = "제목이 {0} 일 때")
+    @ValueSource(strings = {"hi", "HI"})
+    void findAllByTitleIgnoringCase_exist(final String title) {
+        //given
+        final Song song1 = new Song("Hi", "비디오URL", "image", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "image", "가수", 100);
+        songRepository.save(song1);
+        songRepository.save(song2);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase(title);
+
+        //then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(song1, song2));
+    }
+
+    @DisplayName("일치하는 제목이 없다면 빈 Song 목록이 조회된다")
+    @Test
+    void findAllByTitleIgnoringCase_noExist() {
+        //given
+        final Song song = new Song("노래제목", "비디오URL", "image", "RedVelvet", 180);
+        songRepository.save(song);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleIgnoringCase("다른제목");
+
+        //then
+        assertThat(songs).isEmpty();
+    }
+
+    @DisplayName("제목과 가수가 모두 일치하는 모든 Song 목록을 조회한다. (가수와 제목은 대소문자를 무시한다.)")
+    @Test
+    void findAllByTitleAndSingerIgnoringCase_exist() {
+        //given
+        final Song song1 = new Song("Hi", "비디오URL", "image", "가수", 180);
+        final Song song2 = new Song("hI", "비디오URL", "image", "가수", 100);
+        final Song song3 = new Song("hI", "비디오URL", "image", "다른가수", 100);
+        songRepository.save(song1);
+        songRepository.save(song2);
+        songRepository.save(song3);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleAndSingerIgnoringCase("hi", "가수");
+
+        //then
+        assertThat(songs).usingRecursiveComparison()
+            .isEqualTo(List.of(song1, song2));
+    }
+
+    @DisplayName("제목과 가수가 모두 일치하는 Song 이 없다면 빈 Song 목록이 조회된다")
+    @Test
+    void findAllByTitleAndSingerIgnoringCase_noExist() {
+        //given
+        final Song song1 = new Song("노래제목", "비디오URL", "image", "뉴진스", 180);
+        final Song song2 = new Song("다른제목", "비디오URL", "image", "RedVelvet", 180);
+        songRepository.save(song1);
+        songRepository.save(song2);
+
+        //when
+        saveAndClearEntityManager();
+        final List<Song> songs = songRepository.findAllByTitleAndSingerIgnoringCase("다른제목", "뉴진스");
+
+        //then
+        assertThat(songs).isEmpty();
+    }
+
+    @DisplayName("모든 노래와 노래의 총 득표수를 가진 객체 리스트를 반환한다.")
+
     @Sql("classpath:/song/drop_create_empty_schema.sql")
     @DisplayName("Song 을 KillingPart 의 총합 좋아요 수와 함께 조회한다.")
+
     @Test
     void findAllWithTotalLikeCount() {
         // given
@@ -304,6 +414,11 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // then
         assertThat(songs).usingRecursiveComparison()
+
+            .isEqualTo(expectedSongs);
+        assertThat(totalVotes).usingRecursiveComparison()
+            .isEqualTo(expectedTotalVotes);
+
             .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
                 List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong, eleventhSong,

@@ -17,6 +17,22 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         + "GROUP BY s.id")
     List<SongTotalLikeCountDto> findAllWithTotalLikeCount();
 
+
+    @Query("SELECT s FROM Song s WHERE LOWER(s.singer.name) = LOWER(:singer)")
+    List<Song> findAllBySingerIgnoringCase(@Param("singer") final String singer);
+
+    @Query("SELECT s FROM Song s WHERE LOWER(s.title.value) = LOWER(:title)")
+    List<Song> findAllByTitleIgnoringCase(@Param("title") final String title);
+
+    @Query("SELECT s FROM Song s WHERE LOWER(s.title.value) = LOWER(:title) AND LOWER(s.singer.name) = LOWER(:singer)")
+    List<Song> findAllByTitleAndSingerIgnoringCase(
+        @Param("title") final String title,
+        @Param("singer") final String singer
+    );
+  
+    @Query("SELECT s AS song, COUNT(v) AS totalVoteCount FROM Song s LEFT JOIN s.parts.parts p LEFT JOIN p.votes v GROUP BY s.id")
+    List<SongTotalVoteCountDto> findSongWithTotalVoteCount();
+  
     @Query("SELECT s FROM Song s "
         + "LEFT JOIN s.killingParts.killingParts kp "
         + "GROUP BY s.id "
