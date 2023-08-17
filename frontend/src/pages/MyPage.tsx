@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import type { KillingPart, SongDetail } from '@/shared/types/song';
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
@@ -7,10 +9,19 @@ import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
+import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
-import type { KillingPart, SongDetail } from '@/shared/types/song';
+import copyClipboard from '@/shared/utils/copyClipBoard';
 
 const { BASE_URL } = process.env;
+
+const introductions = [
+  '아무 노래나 일단 틀어',
+  '또 물보라를 일으켜',
+  '난 내가 말야, 스무살쯤엔 요절할 천재일줄만 알고',
+  'You make me feel special',
+  '우린 참 별나고 이상한 사이야',
+];
 
 type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
   Pick<KillingPart, 'start' | 'end'> & {
@@ -40,7 +51,7 @@ const MyPage = () => {
         <Box>
           <Title>아이고난</Title>
           <Spacing direction="vertical" size={6} />
-          <Box>아무 노래나 일단 틀어</Box>
+          <Box>{introductions[Math.floor(Math.random() * introductions.length)]}</Box>
         </Box>
         <Avatar src={shookshook} alt="" />
       </SpaceBetween>
@@ -62,15 +73,17 @@ const MyPage = () => {
 
       <Spacing direction="vertical" size={24} />
 
-      <Subtitle>좋아요한 킬링파트 {likes.length}개</Subtitle>
+      <Subtitle>좋아요한 킬링파트 {likes.length.toLocaleString('ko-KR')}개</Subtitle>
 
       <Spacing direction="vertical" size={24} />
 
       <PopularSongList>
-        {likes.map(({ title, singer, albumCoverUrl, partId, start, end }, i) => {
+        {likes.map(({ songId, title, singer, albumCoverUrl, partId, start, end }, i) => {
           return (
             <Li key={partId}>
               <LikePartItem
+                songId={songId}
+                partId={partId}
                 rank={i + 1}
                 albumCoverUrl={albumCoverUrl}
                 title={title}
@@ -95,6 +108,12 @@ const Box = styled.div`
 
 const Li = styled.li`
   width: 100%;
+  padding: 0 10px;
+
+  &:hover,
+  &:focus {
+    background-color: ${({ theme }) => theme.color.secondary};
+  }
 `;
 
 const Title = styled.h2`
@@ -129,19 +148,6 @@ const Avatar = styled.img`
   border-radius: 50%;
 `;
 
-const ShareLink = styled.img`
-  cursor: pointer;
-
-  grid-area: share;
-
-  width: 26px;
-  height: 26px;
-  padding: 2px;
-
-  background-color: white;
-  border-radius: 50%;
-`;
-
 const Button = styled.button`
   width: 48%;
   height: 40px;
@@ -159,14 +165,26 @@ const Subtitle = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.color.white};
 `;
 
-type LikePartItemProps = Pick<
-  LikeKillingPart,
-  'albumCoverUrl' | 'title' | 'singer' | 'start' | 'end'
-> & {
+type LikePartItemProps = LikeKillingPart & {
   rank: number;
 };
 
-const LikePartItem = ({ albumCoverUrl, title, singer, start, end }: LikePartItemProps) => {
+const LikePartItem = ({
+  songId,
+  albumCoverUrl,
+  title,
+  singer,
+  // partId,
+  start,
+  end,
+}: LikePartItemProps) => {
+  const { showToast } = useToastContext();
+
+  const shareUrl = () => {
+    copyClipboard(`${BASE_URL?.replace('/api', '')}/songs/${songId}`);
+    showToast('클립보드에 영상링크가 복사되었습니다.');
+  };
+
   const { minute: startMin, second: startSec } = secondsToMinSec(start);
   const { minute: endMin, second: endSec } = secondsToMinSec(end);
 
@@ -186,7 +204,9 @@ const LikePartItem = ({ albumCoverUrl, title, singer, start, end }: LikePartItem
         </p>
         <Spacing direction="horizontal" size={10} />
       </TimeWrapper>
-      <ShareLink src={link} alt="영상 링크 공유하기" />
+      <ShareButton onClick={shareUrl}>
+        <Share src={link} alt="영상 링크 공유하기" />
+      </ShareButton>
     </Grid>
   );
 };
@@ -197,7 +217,7 @@ const Grid = styled.div`
     'thumbnail title _' 26px
     'thumbnail singer share' 26px
     'thumbnail info share' 18px
-    / 70px auto 28px;
+    / 70px auto 26px;
   column-gap: 8px;
 
   padding: 6px 0;
@@ -232,4 +252,16 @@ const TimeWrapper = styled.div`
   font-weight: 700;
   color: ${({ theme: { color } }) => color.primary};
   letter-spacing: 1px;
+`;
+
+const ShareButton = styled.button`
+  grid-area: share;
+  width: 26px;
+  height: 26px;
+`;
+
+const Share = styled.img`
+  padding: 2px;
+  background-color: white;
+  border-radius: 50%;
 `;
