@@ -22,22 +22,22 @@ const LayoutContainer = styled.main`
 
   width: 100%;
   min-height: calc(100vh - ${({ theme }) => theme.headerHeight.desktop});
-  padding: 60px 16.66%;
+  padding: ${({ theme: { mainTopBottomPadding } }) => `${mainTopBottomPadding.desktop} 16.66%`};
 
   color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.black};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
-    padding: 36px 8.33%;
+    padding: ${({ theme: { mainTopBottomPadding } }) => `${mainTopBottomPadding.desktop} 8.33%`};
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 36px 4.16%;
+    padding: ${({ theme: { mainTopBottomPadding } }) => `${mainTopBottomPadding.tablet} 4.16%`};
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     min-height: calc(100vh - ${({ theme }) => theme.headerHeight.mobile});
-    padding: 16px 16px;
+    padding: ${({ theme: { mainTopBottomPadding } }) => mainTopBottomPadding.mobile};
   }
 `;
