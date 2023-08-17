@@ -53,7 +53,7 @@ const VoteInterface = () => {
       <Spacing direction="vertical" size={16} />
       {isLoggedIn ? (
         <Register type="button" onClick={submitKillingPart}>
-          수집
+          등록
         </Register>
       ) : (
         <Register
@@ -62,12 +62,12 @@ const VoteInterface = () => {
             openModal();
           }}
         >
-          수집
+          등록
         </Register>
       )}
       {isLoggedIn ? (
         <Modal isOpen={isOpen} closeModal={closeModal}>
-          <ModalTitle>킬링파트 수집을 완료했습니다.</ModalTitle>
+          <ModalTitle>킬링파트 등록을 완료했습니다.</ModalTitle>
           <ModalContent>
             <Message>{voteTimeText}</Message>
             <Message>파트를 공유해 보세요😀</Message>
@@ -83,7 +83,7 @@ const VoteInterface = () => {
         </Modal>
       ) : (
         <LoginModal
-          message="슉에서 당신만의 킬링파트를 수집해보세요!"
+          message="슉에서 당신만의 킬링파트를 등록해보세요!"
           isOpen={isOpen}
           closeModal={closeModal}
         />
