@@ -16,7 +16,6 @@ import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.application.SongService;
 import shook.shook.song.exception.SongException;
-import shook.shook.song.exception.SongException.NullOrEmptyVideoIdException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
 import shook.shook.song.exception.killingpart.KillingPartLikeException;
@@ -82,7 +81,7 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new SongException.SongNotExistException(), 400),
             new ExceptionTestData(new SongException.NullOrEmptyTitleException(), 400),
             new ExceptionTestData(new SongException.TooLongTitleException(), 400),
-            new ExceptionTestData(new NullOrEmptyVideoIdException(), 400),
+            new ExceptionTestData(new SongException.NullOrEmptyVideoIdException(), 400),
             new ExceptionTestData(new SongException.TooLongTitleException(), 400),
             new ExceptionTestData(new SongException.NullOrEmptyImageUrlException(), 400),
             new ExceptionTestData(new SongException.TooLongImageUrlException(), 400),
