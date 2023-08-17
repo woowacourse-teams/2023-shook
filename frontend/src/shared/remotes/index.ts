@@ -6,7 +6,7 @@ export interface ErrorResponse {
 
 const { BASE_URL } = process.env;
 
-const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<T> => {
+const fetcher = async (url: string, method: string, body?: unknown) => {
   const accessToken = localStorage.getItem('userToken');
 
   const headers: Record<string, string> = {
@@ -42,9 +42,11 @@ const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<
 
     throw errorResponse;
   }
-  const data = await response.json();
 
-  return data;
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) return response;
+
+  return response.json();
 };
 
 export default fetcher;

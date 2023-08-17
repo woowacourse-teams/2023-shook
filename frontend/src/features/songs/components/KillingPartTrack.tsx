@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { css, styled } from 'styled-components';
-import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
@@ -10,24 +9,33 @@ import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
+import useKillingPartLikes from '../hooks/useKillingPartLikes';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
+  songId: number;
   isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
 const KillingPartTrack = ({
-  killingPart: { id: partId, rank, start, end, likeCount, partVideoUrl },
+  killingPart: { id: partId, rank, start, end, partVideoUrl, likeCount, likeStatus },
+  songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
+  const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
+    likeCount,
+    likeStatus,
+    songId,
+    partId,
+  });
   const { countedTime: currentPlayTime } = useTimerContext();
 
   const ordinalRank = formatOrdinals(rank);
@@ -95,9 +103,9 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton aria-label={`${rank}등 킬링파트 좋아요 하기`}>
-          <ButtonIcon src={emptyHeartIcon} alt="" />
-          <ButtonTitle>{`${likeCount} Likes`}</ButtonTitle>
+        <LikeButton onClick={toggleKillingPartLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
+          <ButtonIcon src={heartIcon} alt="" />
+          <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
         </LikeButton>
         <ShareButton
           aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}

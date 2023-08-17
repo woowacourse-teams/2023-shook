@@ -63,7 +63,11 @@ export const songsHandlers = [
     return res(ctx.status(200), ctx.json(response));
   }),
 
+  rest.put(`${BASE_URL}/songs/:songId/parts/:partId/likes`, (req, res, ctx) => {
+    return res(ctx.status(201));
+  }),
+
   rest.get(`${BASE_URL}/voting-songs`, (req, res, ctx) => {
-    return res(ctx.json(votingSongs));
+    return res(ctx.status(200), ctx.json(votingSongs));
   }),
 ];
