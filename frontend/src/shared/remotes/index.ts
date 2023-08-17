@@ -6,7 +6,7 @@ export interface ErrorResponse {
 
 const { BASE_URL } = process.env;
 
-const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<T> => {
+const fetcher = async (url: string, method: string, body?: unknown) => {
   const accessToken = localStorage.getItem('userToken');
 
   const headers: Record<string, string> = {

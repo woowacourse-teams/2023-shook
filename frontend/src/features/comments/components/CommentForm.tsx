@@ -12,7 +12,7 @@ import fetcher from '@/shared/remotes';
 
 interface CommentFormProps {
   getComment: () => Promise<void>;
-  songId: string;
+  songId: number;
   partId: number;
 }
 
@@ -110,6 +110,7 @@ const Container = styled.form`
 
 const Input = styled.input`
   flex: 1;
+
   width: 100%;
   margin: 0;
   padding: 0;
