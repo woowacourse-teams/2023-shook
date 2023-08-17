@@ -30,8 +30,9 @@ const VoteInterface = () => {
   const submitKillingPart = async () => {
     videoPlayer?.pauseVideo();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
-    if (!error) {
+    if (error) {
       window.location.href = googleAuthUrl;
+      return;
     }
     openModal();
   };
