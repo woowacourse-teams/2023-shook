@@ -1,16 +1,17 @@
 package shook.shook.auth.application;
 
+import java.util.HashMap;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-import shook.shook.auth.application.dto.GoogleAccessTokenRequest;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
 import shook.shook.auth.exception.OAuthException;
@@ -46,18 +47,14 @@ public class GoogleInfoProvider {
             headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
             final HttpEntity<Object> request = new HttpEntity<>(headers);
 
-            final GoogleMemberInfoResponse responseEntity = restTemplate.exchange(
+            final ResponseEntity<GoogleMemberInfoResponse> response = restTemplate.exchange(
                 GOOGLE_MEMBER_INFO_URL,
                 HttpMethod.GET,
                 request,
                 GoogleMemberInfoResponse.class
-            ).getBody();
+            );
 
-            if (!Objects.requireNonNull(responseEntity).isVerifiedEmail()) {
-                throw new OAuthException.InvalidEmailException();
-            }
-
-            return responseEntity;
+            return response.getBody();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
         } catch (HttpServerErrorException e) {
@@ -67,19 +64,19 @@ public class GoogleInfoProvider {
 
     public GoogleAccessTokenResponse getAccessToken(final String authorizationCode) {
         try {
-            final GoogleAccessTokenRequest googleAccessTokenRequest = new GoogleAccessTokenRequest(
-                authorizationCode,
-                GOOGLE_CLIENT_ID,
-                GOOGLE_CLIENT_SECRET,
-                LOGIN_REDIRECT_URL,
-                GRANT_TYPE);
-            final HttpEntity<GoogleAccessTokenRequest> request = new HttpEntity<>(
-                googleAccessTokenRequest);
+            final HashMap<String, String> params = new HashMap<>();
+            params.put("code", authorizationCode);
+            params.put("client_id", GOOGLE_CLIENT_ID);
+            params.put("client_secret", GOOGLE_CLIENT_SECRET);
+            params.put("redirect_uri", LOGIN_REDIRECT_URL);
+            params.put("grant_type", GRANT_TYPE);
 
-            return Objects.requireNonNull(restTemplate.postForEntity(
+            final ResponseEntity<GoogleAccessTokenResponse> response = restTemplate.postForEntity(
                 GOOGLE_ACCESS_TOKEN_URL,
-                request,
-                GoogleAccessTokenResponse.class).getBody());
+                params,
+                GoogleAccessTokenResponse.class);
+
+            return Objects.requireNonNull(response.getBody());
 
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAuthorizationCodeException();

@@ -46,9 +46,9 @@ public class KillingPartLikeService {
             return;
         }
 
-        final KillingPartLike likeOnKillingPart = likeRepository
-            .findByKillingPartAndMember(killingPart, member)
-            .orElseGet(() -> createNewLike(killingPart, member));
+        final KillingPartLike likeOnKillingPart =
+            likeRepository.findByKillingPartAndMember(killingPart, member)
+                .orElseGet(() -> createNewLike(killingPart, member));
 
         killingPart.like(likeOnKillingPart);
     }

@@ -6,9 +6,3 @@ export interface KillingPartPostRequest {
   startSecond: number;
   length: KillingPartInterval;
 }
-
-export interface KillingPartPostResponse {
-  rank: number;
-  voteCount: number;
-  partVideoUrl: PartVideoUrl;
-}

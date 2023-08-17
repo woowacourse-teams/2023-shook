@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "HYPE BBBBBBBBBBBBBBOOOOOOYYYYYYYY",
+    "singer": "명탐정 코난1",
+    "videoLength": 181,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 2,
+    "title": "아침에 눈을 뜨면...2",
+    "singer": "명탐정 코난2",
+    "videoLength": 182,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 3,
+    "title": "아침에 눈을 뜨면...3",
+    "singer": "명탐정 코난3",
+    "videoLength": 183,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 4,
+    "title": "아침에 눈을 뜨면...4",
+    "singer": "명탐정 코난4",
+    "videoLength": 184,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 5,
+    "title": "아침에 눈을 뜨면...5",
+    "singer": "명탐정 코난5",
+    "videoLength": 185,
+    "songVideoUrl": "https://youtu.be/UUSbUBYqU_8",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  }
+]

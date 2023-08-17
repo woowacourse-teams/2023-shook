@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.application.AuthService;
-import shook.shook.auth.application.dto.TokenInfo;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.ui.dto.LoginResponse;
 
 @RequiredArgsConstructor
@@ -20,14 +20,13 @@ public class AuthController {
 
     @GetMapping("/login/google")
     public ResponseEntity<LoginResponse> googleLogin(
-        @RequestParam("code") final String accessCode,
+        @RequestParam("code") final String authorizationCode,
         final HttpServletResponse response
     ) {
-        final TokenInfo tokenInfo = authService.login(accessCode);
-        final Cookie cookie = cookieProvider.createRefreshTokenCookie(
-            tokenInfo.getRefreshToken());
+        final TokenPair tokenPair = authService.login(authorizationCode);
+        final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
         response.addCookie(cookie);
-        final LoginResponse loginResponse = new LoginResponse(tokenInfo.getAccessToken());
+        final LoginResponse loginResponse = new LoginResponse(tokenPair.getAccessToken());
         return ResponseEntity.ok(loginResponse);
     }
 }

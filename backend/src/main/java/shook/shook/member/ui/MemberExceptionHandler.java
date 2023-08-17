@@ -17,5 +17,4 @@ public class MemberExceptionHandler {
 
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
-
 }
