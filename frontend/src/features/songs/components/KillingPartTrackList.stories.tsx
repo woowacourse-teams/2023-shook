@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrackList from './KillingPartTrackList';
@@ -32,6 +33,7 @@ const killingPart: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const killingPart2: KillingPart = {
@@ -43,6 +45,7 @@ const killingPart2: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
 };
 
 const killingPart3: KillingPart = {
@@ -54,8 +57,25 @@ const killingPart3: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
+  likeStatus: false,
+};
+
+const KillingPartTrackListWithHooks = () => {
+  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(-1);
+
+  return (
+    <KillingPartTrackList
+      killingParts={[killingPart, killingPart2, killingPart3]}
+      songId={1}
+      nowPlayingTrack={nowPlayingTrack}
+      setNowPlayingTrack={setNowPlayingTrack}
+      setCommentsPartId={setCommentsPartId}
+    />
+  );
 };
 
 export const Default: Story = {
-  render: () => <KillingPartTrackList killingParts={[killingPart, killingPart2, killingPart3]} />,
+  render: () => <KillingPartTrackListWithHooks />,
 };
