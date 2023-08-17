@@ -1,92 +1,61 @@
-import { useCallback } from 'react';
 import { css, styled } from 'styled-components';
+import emptyHeartIcon from '@/assets/icon/empty-heart.svg';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
-import useKillingPartLikes from '../hooks/useKillingPartLikes';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
   killingPart: KillingPart;
-  songId: number;
-  isNowPlayingTrack: boolean;
-  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
-  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  isPlaying: boolean;
+  changePlayingTrack: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const KillingPartTrack = ({
-  killingPart: { id: partId, rank, start, end, partVideoUrl, likeCount, likeStatus },
-  songId,
-  isNowPlayingTrack,
-  setNowPlayingTrack,
-  setCommentsPartId,
+  killingPart: { rank, start, end, likeCount, partVideoUrl },
+  isPlaying,
+  changePlayingTrack,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
-  const { seekTo, pause, playerState } = useVideoPlayerContext();
-  const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
-    likeCount,
-    likeStatus,
-    songId,
-    partId,
-  });
-  const { countedTime: currentPlayTime } = useTimerContext();
+  const { videoPlayer } = useVideoPlayerContext();
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
+
+  const playIcon = isPlaying ? fillPlayIcon : emptyPlayIcon;
+  const currentPlayTime = videoPlayer?.getCurrentTime();
 
   const copyKillingPartUrl = async () => {
     await copyClipboard(partVideoUrl);
     showToast('영상 링크가 복사되었습니다.');
   };
 
-  const getPlayIcon = useCallback(() => {
-    if (!isNowPlayingTrack || playerState === YT.PlayerState.PAUSED) {
-      return emptyPlayIcon;
-    }
+  // TODO 비디오 프로바이더로 분리
+  // const playKillingPart = () => {
+  //   videoPlayer?.seekTo(start, false);
+  //   videoPlayer?.playVideo();
+  // };
 
-    if (
-      playerState === null ||
-      playerState === YT.PlayerState.UNSTARTED ||
-      playerState === YT.PlayerState.PLAYING ||
-      playerState === YT.PlayerState.BUFFERING
-    ) {
-      return fillPlayIcon;
-    }
-  }, [playerState, isNowPlayingTrack]);
+  // const stopPlaying = () => {
+  //   const isPlaying = videoPlayer?.getPlayerState() === 1;
 
-  const playTrack = () => {
-    seekTo(start);
-    setNowPlayingTrack(partId);
-    setCommentsPartId(partId);
-  };
-
-  const stopTrack = () => {
-    pause();
-    setNowPlayingTrack(-1);
-  };
-
-  const toggleTrackPlayAndStop = () => {
-    if (isNowPlayingTrack) {
-      stopTrack();
-    } else {
-      playTrack();
-    }
-  };
+  //   if (isPlaying) {
+  //     videoPlayer.pauseVideo();
+  //   }
+  // };
 
   return (
     <Container
-      $isNowPlayingTrack={isNowPlayingTrack}
+      $isPlaying={isPlaying}
       htmlFor={`play-${rank}`}
       tabIndex={0}
-      role="radio"
       aria-label={`${rank}등 킬링파트 재생하기`}
     >
       <FLexContainer>
@@ -95,17 +64,17 @@ const KillingPartTrack = ({
           id={`play-${rank}`}
           name="track"
           type="radio"
-          onChange={toggleTrackPlayAndStop}
-          onClick={toggleTrackPlayAndStop}
-          checked={isNowPlayingTrack}
+          value={rank}
+          onChange={changePlayingTrack}
+          checked={isPlaying}
         />
-        <ButtonIcon src={getPlayIcon()} alt="" />
+        <ButtonIcon src={playIcon} alt="" />
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton onClick={toggleKillingPartLikes} aria-label={`${rank}등 킬링파트 좋아요 하기`}>
-          <ButtonIcon src={heartIcon} alt="" />
-          <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
+        <LikeButton aria-label={`${rank}등 킬링파트 좋아요 하기`}>
+          <ButtonIcon src={emptyHeartIcon} alt="" />
+          <ButtonTitle>{`${likeCount} Likes`}</ButtonTitle>
         </LikeButton>
         <ShareButton
           aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
@@ -115,45 +84,34 @@ const KillingPartTrack = ({
           <ButtonTitle>Share</ButtonTitle>
         </ShareButton>
       </ButtonContainer>
-      {isNowPlayingTrack && (
-        <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
-      )}
+      {isPlaying && <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />}
     </Container>
   );
 };
 
 export default KillingPartTrack;
 
-const Container = styled.label<{ $isNowPlayingTrack: boolean }>`
-  cursor: pointer;
-
+const Container = styled.label<{ $isPlaying: boolean }>`
   position: relative;
-
   display: flex;
+  padding: 0 12px;
   align-items: center;
   justify-content: space-between;
-
   width: 100%;
   height: 60px;
-  padding: 0 12px;
-
+  background-color: ${({ theme: { color }, $isPlaying }) => {
+    return $isPlaying ? color.disabledBackground : color.secondary;
+  }};
+  border-radius: 4px;
   color: ${({ theme: { color } }) => color.white};
-
-  background-color: ${({ theme: { color }, $isNowPlayingTrack }) => {
-    return $isNowPlayingTrack ? color.disabledBackground : color.secondary;
-  }};
-  border-radius: ${({ $isNowPlayingTrack }) => {
-    return $isNowPlayingTrack ? '4px 4px 0px 0px' : '4px';
-  }};
-
-  transition: all 0.3s ease;
+  cursor: pointer;
 `;
 
 const Rank = styled.span`
   width: 36px;
+  text-align: center;
   font-size: 16px;
   font-weight: 700;
-  text-align: center;
 `;
 
 const PlayButton = styled.input`
@@ -162,18 +120,17 @@ const PlayButton = styled.input`
 
 const PlayingTime = styled.span`
   width: 120px;
+  text-align: center;
   font-size: 16px;
   font-weight: 700;
-  text-align: center;
 `;
 
 const ButtonWithIcon = css`
   display: flex;
   flex-direction: column;
-  gap: 2px;
   align-items: center;
-
-  width: 44px;
+  gap: 2px;
+  width: 40px;
 `;
 
 const LikeButton = styled.button`
@@ -197,10 +154,8 @@ const ProgressBar = styled.progress`
   position: absolute;
   bottom: 0;
   left: 0;
-
   width: 100%;
   height: 2px;
-
   appearance: none;
 
   &::-webkit-progress-bar {
@@ -209,7 +164,6 @@ const ProgressBar = styled.progress`
 
   &::-webkit-progress-value {
     background-color: #ff137f;
-    transition: all 0.1s ease;
   }
 `;
 
@@ -220,6 +174,6 @@ const ButtonContainer = styled.div`
 
 const FLexContainer = styled.div`
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
 `;

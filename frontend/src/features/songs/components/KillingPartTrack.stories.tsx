@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
-import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart } from '@/shared/types/song';
@@ -14,9 +13,7 @@ const meta = {
       return (
         <ToastProvider>
           <VideoPlayerProvider>
-            <TimerProvider time={killingPart.end - killingPart.start}>
-              <Story />
-            </TimerProvider>
+            <Story />
           </VideoPlayerProvider>
         </ToastProvider>
       );
@@ -36,24 +33,24 @@ const killingPart: KillingPart = {
   end: 80,
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
-  likeStatus: false,
 };
 
 const KillingPartTrackWithHook = () => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
+  const [nowPlayingTrack, setNowPlayingTrack] = useState(-1);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(-1);
+  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+    const newTrack = Number(currentTarget.value);
 
-  const isNowPlayingTrack = killingPart.id === nowPlayingTrack;
+    setNowPlayingTrack(newTrack);
+  };
+
+  const isPlaying = killingPart.rank === nowPlayingTrack;
 
   return (
     <KillingPartTrack
       killingPart={killingPart}
-      songId={1}
-      isNowPlayingTrack={isNowPlayingTrack}
-      setNowPlayingTrack={setNowPlayingTrack}
-      setCommentsPartId={setCommentsPartId}
+      isPlaying={isPlaying}
+      changePlayingTrack={changePlayingTrack}
     />
   );
 };

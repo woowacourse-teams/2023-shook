@@ -5,5 +5,5 @@ export const postKillingPart = async (
   songId: number,
   body: KillingPartPostRequest
 ): Promise<KillingPartPostResponse> => {
-  return await fetcher(`/songs/${songId}/parts`, 'POST', body);
+  return await fetcher<KillingPartPostResponse>(`/songs/${songId}/parts`, 'POST', body);
 };

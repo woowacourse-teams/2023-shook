@@ -61,11 +61,11 @@ export const VoteInterfaceProvider = ({
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      videoPlayer.current?.seekTo(partStartTime, true);
+      videoPlayer?.seekTo(partStartTime, true);
     }, interval * 1000);
 
     return () => window.clearInterval(timer);
-  }, [videoPlayer.current, partStartTime, interval]);
+  }, [videoPlayer, partStartTime, interval]);
 
   return (
     <VoteInterfaceContext.Provider

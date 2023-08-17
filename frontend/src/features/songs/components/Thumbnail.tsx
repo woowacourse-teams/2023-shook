@@ -1,18 +1,16 @@
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import defaultAlbumJacket from '@/assets/icon/album-jacket-default.svg';
 import type { ImgHTMLAttributes, SyntheticEvent } from 'react';
 
-interface ThumbnailProps extends ImgHTMLAttributes<HTMLImageElement> {
-  size?: Size;
-}
+interface ThumbnailProps extends ImgHTMLAttributes<HTMLImageElement> {}
 
-const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
+const Thumbnail = ({ ...props }: ThumbnailProps) => {
   const insertDefaultJacket = ({ currentTarget }: SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = defaultAlbumJacket;
   };
 
   return (
-    <Wrapper size={size}>
+    <Wrapper>
       <img {...props} alt="노래 앨범" aria-hidden loading="lazy" onError={insertDefaultJacket} />
     </Wrapper>
   );
@@ -20,21 +18,9 @@ const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
 
 export default Thumbnail;
 
-const Wrapper = styled.div<{ size: Size }>`
+const Wrapper = styled.div`
   overflow: hidden;
-  ${({ size }) => SIZE_VARIANTS[size]};
+  width: 70px;
+  height: 70px;
   border-radius: 8px;
 `;
-
-const SIZE_VARIANTS = {
-  md: css`
-    width: 60px;
-    height: 60px;
-  `,
-  lg: css`
-    width: 70px;
-    height: 70px;
-  `,
-} as const;
-
-type Size = keyof typeof SIZE_VARIANTS;

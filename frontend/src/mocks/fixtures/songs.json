@@ -8,37 +8,28 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
-        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
         "start": 5,
         "end": 15,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
-        "likeCount": 111,
-        "likeStatus": false
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15"
       },
       {
-        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
         "start": 20,
         "end": 30,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
-        "likeCount": 11,
-        "likeStatus": true
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30"
       },
       {
-        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
         "start": 120,
         "end": 130,
-        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
-        "likeCount": 1,
-        "likeStatus": false
+        "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130"
       }
     ]
   },
@@ -51,37 +42,28 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
-        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
         "start": 130,
         "end": 140,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
-        "likeCount": 111,
-        "likeStatus": false
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140"
       },
       {
-        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
         "start": 52,
         "end": 62,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
-        "likeCount": 11,
-        "likeStatus": true
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62"
       },
       {
-        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
         "start": 123,
         "end": 133,
-        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
-        "likeCount": 11,
-        "likeStatus": true
+        "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133"
       }
     ]
   },
@@ -95,37 +77,28 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
     "killingParts": [
       {
-        "id": 1,
         "exist": true,
         "rank": 1,
         "voteCount": 10,
         "start": 0,
         "end": 10,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
-        "likeCount": 11,
-        "likeStatus": true
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10"
       },
       {
-        "id": 2,
         "exist": true,
         "rank": 2,
         "voteCount": 2,
         "start": 40,
         "end": 50,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
-        "likeCount": 111,
-        "likeStatus": false
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50"
       },
       {
-        "id": 3,
         "exist": true,
         "rank": 3,
         "voteCount": 1,
         "start": 24,
         "end": 34,
-        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
-        "likeCount": 1,
-        "likeStatus": true
+        "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34"
       }
     ]
   }

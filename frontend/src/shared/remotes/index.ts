@@ -4,7 +4,7 @@ export interface ErrorResponse {
 
 const { BASE_URL } = process.env;
 
-const fetcher = async (url: string, method: string, body?: unknown) => {
+const fetcher = async <T>(url: string, method: string, body?: unknown): Promise<T> => {
   const options: RequestInit = {
     method,
     headers: {
@@ -34,11 +34,9 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
     throw errorResponse;
   }
+  const data = await response.json();
 
-  const contentType = response.headers.get('content-type');
-  if (!contentType || !contentType.includes('application/json')) return response;
-
-  return response.json();
+  return data;
 };
 
 export default fetcher;
