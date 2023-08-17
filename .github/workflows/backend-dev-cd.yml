@@ -16,6 +16,7 @@ jobs:
           cd ../..
           ls -al
           rm -rf 2023-shook
+          ls -al
       - name: Checkout Source Code
         uses: actions/checkout@v2
         with:
