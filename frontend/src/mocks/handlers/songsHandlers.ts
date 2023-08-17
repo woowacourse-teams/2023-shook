@@ -1,7 +1,9 @@
 import { rest } from 'msw';
 import comments from '../fixtures/comments.json';
+import nextSongEntries from '../fixtures/nextSongEntries.json';
 import popularSongs from '../fixtures/popularSongs.json';
-import songsTemp from '../fixtures/songsTemp.json';
+import prevSongEntries from '../fixtures/prevSongEntries.json';
+import songEntries from '../fixtures/songEntries.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
@@ -37,10 +39,14 @@ export const songsHandlers = [
   }),
 
   rest.get(`${BASE_URL}/songs/:song_id`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(songsTemp));
+    return res(ctx.status(200), ctx.json(songEntries));
   }),
 
-  // rest.get(`${BASE_URL}/songs/:song_id:/prev`, (req, res, ctx) => {}),
+  rest.get(`${BASE_URL}/songs/:song_id:/prev`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(prevSongEntries));
+  }),
 
-  // rest.get(`${BASE_URL}/songs/:song_id/next`, (req, res, ctx) => {}),
+  rest.get(`${BASE_URL}/songs/:song_id/next`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(nextSongEntries));
+  }),
 ];

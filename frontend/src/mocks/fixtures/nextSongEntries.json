@@ -1,0 +1,402 @@
+[
+  {
+    "id": 10,
+    "title": "ISTJ",
+    "singer": "NCT DREAM",
+    "videoLength": 186,
+    "songVideoId": "es60T3k-tyM",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/998/998384_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 30,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 29,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 28,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "사랑은 늘 도망가",
+    "singer": "임영웅",
+    "videoLength": 273,
+    "songVideoId": "pBEAzM2TRmE",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/918/918794_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 27,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 26,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 25,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Steal The Show (From \"엘리멘탈\")",
+    "singer": "Lauv",
+    "videoLength": 194,
+    "songVideoId": "kUMds6XKtfY",
+    "albumCoverUrl": "",
+    "killingParts": [
+      {
+        "id": 24,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 23,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 22,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Spicy",
+    "singer": "aespa",
+    "videoLength": 198,
+    "songVideoId": "1kfmWl3o8TE",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/990/990970_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 21,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 20,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 19,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "이브, 프시케 그리고 푸른 수염의 아내",
+    "singer": "LE SSERAFIM (르세라핌)",
+    "videoLength": 186,
+    "songVideoId": "Ii8L0qEvfC8",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/989/989969_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 18,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 17,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 16,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "I AM",
+    "singer": "IVE (아이브)",
+    "videoLength": 208,
+    "songVideoId": "cU0JrSAyy7o",
+    "albumCoverUrl": "",
+    "killingParts": [
+      {
+        "id": 15,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 14,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 13,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "헤어지자 말해요",
+    "singer": "박재정",
+    "videoLength": 244,
+    "songVideoId": "SrQzxD8UFdM",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/988/988164_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 12,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 11,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 10,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "퀸카 (Queencard)",
+    "singer": "(여자)아이들",
+    "videoLength": 162,
+    "songVideoId": "VOcb6ZHxSjc",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/992/992813_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 9,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 8,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 7,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Seven (feat. Latto) - Clean Ver.",
+    "singer": "정국",
+    "videoLength": 186,
+    "songVideoId": "UUSbUBYqU_8",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/1000/000246_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 6,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 5,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 4,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Super Shy",
+    "singer": "NewJeans",
+    "videoLength": 200,
+    "songVideoId": "ArmDp-zijuc",
+    "albumCoverUrl": "http://i.maniadb.com/images/album/999/999126_1_f.jpg",
+    "killingParts": [
+      {
+        "id": 3,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 2,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 1,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  }
+]
