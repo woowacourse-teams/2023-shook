@@ -30,7 +30,7 @@ const PartCollectingPage = () => {
       </SongInfoContainer>
       <VideoPlayerProvider>
         <Youtube videoId={songVideoId} />
-        <VoteInterfaceProvider videoLength={videoLength} songId={id}>
+        <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
           <VoteInterface />
         </VoteInterfaceProvider>
       </VideoPlayerProvider>

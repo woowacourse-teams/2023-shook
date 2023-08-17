@@ -10,7 +10,7 @@ const meta = {
   decorators: [
     (Story) => (
       <VideoPlayerProvider>
-        <VoteInterfaceProvider videoLength={180} songId={1}>
+        <VoteInterfaceProvider videoLength={180} songId={1} songVideoId="11cta61wi0g">
           <Story />
         </VoteInterfaceProvider>
       </VideoPlayerProvider>

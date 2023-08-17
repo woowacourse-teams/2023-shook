@@ -13,7 +13,7 @@ import KillingPartToggleGroup from './KillingPartToggleGroup';
 
 const VoteInterface = () => {
   const { showToast } = useToastContext();
-  const { interval, partStartTime, songId } = useVoteInterfaceContext();
+  const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
   const { createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
@@ -29,7 +29,7 @@ const VoteInterface = () => {
   };
 
   const copyPartVideoUrl = async () => {
-    await copyClipboard(`https://www.youtube.com/watch?v=${songId}`);
+    await copyClipboard(`https://www.youtube.com/watch?v=${songVideoId}`);
     closeModal();
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
