@@ -1,7 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
+import MyPage from './pages/MyPage';
 import PartCollectingPage from './pages/PartCollectingPage';
 import SongDetailListPage from './pages/SongDetailListPage';
+import AuthLayout from './shared/components/Layout/AuthLayout';
 import Layout from './shared/components/Layout/Layout';
 import ROUTE_PATH from './shared/constants/path';
 
@@ -22,7 +25,19 @@ const router = createBrowserRouter([
         path: `${ROUTE_PATH.SONG_DETAILS}/:id`,
         element: <SongDetailListPage />,
       },
+      {
+        path: `${ROUTE_PATH.MY_PAGE}`,
+        element: (
+          <AuthLayout>
+            <MyPage />
+          </AuthLayout>
+        ),
+      },
     ],
+  },
+  {
+    path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
+    element: <AuthPage />,
   },
 ]);
 

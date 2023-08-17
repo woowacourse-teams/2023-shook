@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import shook.shook.song.domain.AlbumCoverUrl;
 import shook.shook.song.domain.Singer;
 import shook.shook.song.domain.SongLength;
 import shook.shook.song.domain.SongTitle;
-import shook.shook.song.domain.SongVideoUrl;
+import shook.shook.song.domain.SongVideoId;
 import shook.shook.voting_song.exception.VotingSongPartException;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
@@ -36,7 +37,7 @@ public class VotingSong {
     private SongTitle title;
 
     @Embedded
-    private SongVideoUrl videoUrl;
+    private SongVideoId videoId;
 
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
@@ -55,14 +56,14 @@ public class VotingSong {
 
     public VotingSong(
         final String title,
-        final String videoUrl,
+        final String videoId,
         final String albumCoverUrl,
         final String singer,
         final int length
     ) {
         this.id = null;
         this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
+        this.videoId = new SongVideoId(videoId);
         this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
@@ -70,7 +71,7 @@ public class VotingSong {
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     public Optional<VotingSongPart> getSameLengthPartStartAt(final VotingSongPart other) {
@@ -84,7 +85,12 @@ public class VotingSong {
 
     private void validatePart(final VotingSongPart votingSongPart) {
         if (votingSongPart.isBelongToOtherSong(this)) {
-            throw new VotingSongPartException.PartForOtherSongException();
+            throw new VotingSongPartException.PartForOtherSongException(
+                Map.of(
+                    "VotingSongPartId", String.valueOf(votingSongPart.getId()),
+                    "VotingSongId", String.valueOf(this.id)
+                )
+            );
         }
     }
 
@@ -96,8 +102,8 @@ public class VotingSong {
         return title.getValue();
     }
 
-    public String getVideoUrl() {
-        return videoUrl.getValue();
+    public String getVideoId() {
+        return videoId.getValue();
     }
 
     public String getAlbumCoverUrl() {

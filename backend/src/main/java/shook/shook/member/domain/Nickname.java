@@ -2,6 +2,7 @@ package shook.shook.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +31,9 @@ public class Nickname {
             throw new MemberException.NullOrEmptyNicknameException();
         }
         if (value.length() > NICKNAME_MAXIMUM_LENGTH) {
-            throw new MemberException.TooLongNicknameException();
+            throw new MemberException.TooLongNicknameException(
+                Map.of("Nickname", value)
+            );
         }
     }
 }

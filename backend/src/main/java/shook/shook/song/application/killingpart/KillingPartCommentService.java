@@ -1,9 +1,13 @@
 package shook.shook.song.application.killingpart;
 
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
+import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentResponse;
 import shook.shook.song.domain.killingpart.KillingPart;
@@ -19,24 +23,42 @@ public class KillingPartCommentService {
 
     private final KillingPartRepository killingPartRepository;
     private final KillingPartCommentRepository killingPartCommentRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public void register(final long partId, final KillingPartCommentRegisterRequest request) {
+    public void register(
+        final Long partId,
+        final KillingPartCommentRegisterRequest request,
+        final Long memberId
+    ) {
+        final Member member = memberRepository.findById(memberId)
+            .orElseThrow(
+                () -> new MemberException.MemberNotExistException(
+                    Map.of("MemberId", String.valueOf(memberId))
+                )
+            );
+
         final KillingPart killingPart = killingPartRepository.findById(partId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
+            .orElseThrow(() -> new KillingPartException.PartNotExistException(
+                Map.of("KillingPartId", String.valueOf(partId))
+            ));
+
         final KillingPartComment killingPartComment = KillingPartComment.forSave(
             killingPart,
-            request.getContent()
+            request.getContent(),
+            member
         );
 
         killingPart.addComment(killingPartComment);
         killingPartCommentRepository.save(killingPartComment);
     }
 
-    public List<KillingPartCommentResponse> findKillingPartComments(final Long partId) {
-        final KillingPart killingPart = killingPartRepository.findById(partId)
-            .orElseThrow(KillingPartException.PartNotExistException::new);
+    public List<KillingPartCommentResponse> findKillingPartComments(final Long killingPartId) {
+        final KillingPart killingPart = killingPartRepository.findById(killingPartId)
+            .orElseThrow(() -> new KillingPartException.PartNotExistException(
+                Map.of("KillingPartId", String.valueOf(killingPartId))
+            ));
 
-        return KillingPartCommentResponse.getList(killingPart.getCommentsInRecentOrder());
+        return KillingPartCommentResponse.ofComments(killingPart.getCommentsInRecentOrder());
     }
 }

@@ -1,18 +1,41 @@
 package shook.shook.voting_song.exception;
 
-public class VotingSongPartException extends RuntimeException {
+import java.util.Map;
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class VotingSongPartException extends CustomException {
+
+    public VotingSongPartException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
+
+    public VotingSongPartException(
+        final ErrorCode errorCode,
+        final Map<String, String> inputValuesByProperty
+    ) {
+        super(errorCode, inputValuesByProperty);
+    }
 
     public static class PartNotExistException extends VotingSongPartException {
 
         public PartNotExistException() {
-            super();
+            super(ErrorCode.VOTING_SONG_PART_NOT_EXIST);
+        }
+
+        public PartNotExistException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.VOTING_SONG_PART_NOT_EXIST, inputValuesByProperty);
         }
     }
 
     public static class PartForOtherSongException extends VotingSongPartException {
 
         public PartForOtherSongException() {
-            super();
+            super(ErrorCode.VOTING_SONG_PART_FOR_OTHER_SONG);
+        }
+
+        public PartForOtherSongException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.VOTING_SONG_PART_FOR_OTHER_SONG, inputValuesByProperty);
         }
     }
 }

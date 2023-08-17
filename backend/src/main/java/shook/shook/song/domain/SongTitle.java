@@ -2,6 +2,7 @@ package shook.shook.song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +31,9 @@ public class SongTitle {
             throw new SongException.NullOrEmptyTitleException();
         }
         if (value.length() > MAXIMUM_LENGTH) {
-            throw new SongException.TooLongTitleException();
+            throw new SongException.TooLongTitleException(
+                Map.of("SongTitle", value)
+            );
         }
     }
 }

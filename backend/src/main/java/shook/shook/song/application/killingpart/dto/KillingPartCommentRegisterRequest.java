@@ -1,5 +1,6 @@
 package shook.shook.song.application.killingpart.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class KillingPartCommentRegisterRequest {
 
+    @NotNull
     private String content;
 }

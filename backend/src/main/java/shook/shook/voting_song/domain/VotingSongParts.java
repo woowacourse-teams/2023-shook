@@ -4,6 +4,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,15 +24,14 @@ public class VotingSongParts {
         this.votingSongParts.add(votingSongPart);
     }
 
-    public void addPart(final VotingSongPart... newVotingSongParts) {
-        for (final VotingSongPart votingSongPart : newVotingSongParts) {
-            addPart(votingSongPart);
-        }
-    }
-
     private void validatePart(final VotingSongPart newVotingSongPart) {
         if (votingSongParts.contains(newVotingSongPart) || !isUniquePart(newVotingSongPart)) {
-            throw new PartException.DuplicateStartAndLengthException();
+            throw new PartException.DuplicateStartAndLengthException(
+                Map.of(
+                    "StartSecond", String.valueOf(newVotingSongPart.getStartSecond()),
+                    "PartLength", newVotingSongPart.getLength().name()
+                )
+            );
         }
     }
 

@@ -2,6 +2,7 @@ package shook.shook.song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +31,9 @@ public class AlbumCoverUrl {
             throw new SongException.NullOrEmptyImageUrlException();
         }
         if (value.length() > MAXIMUM_LENGTH) {
-            throw new SongException.TooLongImageUrlException();
+            throw new SongException.TooLongImageUrlException(
+                Map.of("AlbumCoverUrl", value)
+            );
         }
     }
 }

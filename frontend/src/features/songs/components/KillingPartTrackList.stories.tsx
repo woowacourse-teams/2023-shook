@@ -25,7 +25,6 @@ export default meta;
 type Story = StoryObj<typeof KillingPartTrackList>;
 
 const killingPart: KillingPart = {
-  exist: true,
   id: 1,
   rank: 1,
   voteCount: 0,
@@ -34,10 +33,10 @@ const killingPart: KillingPart = {
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
   likeStatus: false,
+  partLength: 10,
 };
 
 const killingPart2: KillingPart = {
-  exist: true,
   id: 2,
   rank: 2,
   voteCount: 0,
@@ -46,10 +45,10 @@ const killingPart2: KillingPart = {
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
   likeStatus: false,
+  partLength: 10,
 };
 
 const killingPart3: KillingPart = {
-  exist: true,
   id: 3,
   rank: 3,
   voteCount: 0,
@@ -58,6 +57,7 @@ const killingPart3: KillingPart = {
   partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
   likeCount: 12,
   likeStatus: false,
+  partLength: 10,
 };
 
 const KillingPartTrackListWithHooks = () => {

@@ -2,9 +2,10 @@
 <included>
   <!--  슬랙 로그 알림 appender-->
   <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+  <springProperty name="SLACK_CHANNEL" source="logging.slack.channel"/>
   <appender name="slack" class="com.github.maricn.logback.SlackAppender">
     <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
-    <channel>#shook-log-alert</channel>
+    <channel>#${SLACK_CHANNEL}</channel>
     <layout class="ch.qos.logback.classic.PatternLayout">
       <pattern>
         [ %d{yyyy/MM/dd HH:mm:ss.SSS} ] %-5level-- [%thread] %logger[%method:%line] - %msg %n
@@ -15,7 +16,7 @@
   <appender name="async_slack" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="slack"/>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>ERROR</level>
+      <level>WARN</level>
     </filter>
   </appender>
 </included>

@@ -2,11 +2,12 @@ package shook.shook.song.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.song.exception.SongException.SongLengthLessThanOneException;
+import shook.shook.song.exception.SongException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -24,7 +25,9 @@ public class SongLength {
 
     private void validate(final int value) {
         if (value <= 0) {
-            throw new SongLengthLessThanOneException();
+            throw new SongException.SongLengthLessThanOneException(
+                Map.of("SongLength", String.valueOf(value))
+            );
         }
     }
 }

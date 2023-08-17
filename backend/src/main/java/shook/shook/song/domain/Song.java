@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.exception.killingpart.KillingPartsException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -31,7 +32,7 @@ public class Song {
     private SongTitle title;
 
     @Embedded
-    private SongVideoUrl videoUrl;
+    private SongVideoId videoId;
 
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
@@ -46,54 +47,64 @@ public class Song {
     private KillingParts killingParts = new KillingParts();
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
-    public Song(
+    private Song(
+        final Long id,
         final String title,
-        final String videoUrl,
+        final String videoId,
         final String imageUrl,
         final String singer,
-        final int length
+        final int length,
+        final KillingParts killingParts
     ) {
-        this.id = null;
+        validate(killingParts);
+        this.id = id;
         this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
+        this.videoId = new SongVideoId(videoId);
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
+        killingParts.setSong(this);
+        this.killingParts = killingParts;
     }
 
     public Song(
         final String title,
-        final String videoUrl,
+        final String videoId,
         final String albumCoverUrl,
         final String singer,
         final int length,
         final KillingParts killingParts
     ) {
-        this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
-        this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
-        this.singer = new Singer(singer);
-        this.length = new SongLength(length);
-        this.killingParts = killingParts;
+        this(null, title, videoId, albumCoverUrl, singer, length, killingParts);
+    }
+
+    private void validate(final KillingParts killingParts) {
+        if (Objects.isNull(killingParts)) {
+            throw new KillingPartsException.EmptyKillingPartsException();
+        }
+    }
+
+    public boolean hasFullKillingParts() {
+        return killingParts.isFull();
     }
 
     public String getPartVideoUrl(final KillingPart part) {
-        return videoUrl.getValue() + part.getStartAndEndUrlPathParameter();
+        return videoId.convertToVideoUrl() + part.getStartAndEndUrlPathParameter();
     }
 
     public String getTitle() {
         return title.getValue();
     }
 
-    public String getVideoUrl() {
-        return videoUrl.getValue();
+    public String getVideoId() {
+        return videoId.getValue();
     }
 
     public String getAlbumCoverUrl() {
@@ -110,6 +121,10 @@ public class Song {
 
     public List<KillingPart> getKillingParts() {
         return killingParts.getKillingParts();
+    }
+
+    public List<KillingPart> getLikeCountSortedKillingParts() {
+        return killingParts.getKillingPartsSortedByLikeCount();
     }
 
     @Override

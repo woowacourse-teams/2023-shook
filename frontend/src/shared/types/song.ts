@@ -1,5 +1,3 @@
-import type { PartVideoUrl } from './killingPart';
-
 export interface SongDetailEntries {
   prevSongs: SongDetail[];
   currentSong: SongDetail;
@@ -18,12 +16,28 @@ export interface SongDetail {
 
 export interface KillingPart {
   id: number;
-  exist: true;
   rank: number;
   start: number;
   end: number;
-  partVideoUrl: PartVideoUrl;
   voteCount: number;
   likeCount: number;
+  partVideoUrl: string;
+  partLength: number;
   likeStatus: boolean;
+}
+
+export interface SongVoting {
+  id: number;
+  title: string;
+  singer: string;
+  videoLength: number;
+  songVideoId: string;
+  albumCoverUrl: string;
+  killingParts: KillingPart[];
+}
+
+export interface VotingSongList {
+  prevSongs: SongVoting[];
+  currentSong: SongVoting;
+  nextSongs: SongVoting[];
 }
