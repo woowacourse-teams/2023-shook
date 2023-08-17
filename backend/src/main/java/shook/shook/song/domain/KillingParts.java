@@ -58,7 +58,7 @@ public class KillingParts {
     public List<KillingPart> getKillingPartsSortedByLikeCount() {
         return killingParts.stream()
             .sorted(Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
-                .thenComparing(KillingPart::getId, Comparator.reverseOrder()))
+                .thenComparing(KillingPart::getStartSecond))
             .toList();
     }
 }
