@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import type { KillingPart, SongDetail } from '@/shared/types/song';
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
@@ -12,6 +10,7 @@ import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
+import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 const { BASE_URL } = process.env;
 

@@ -72,8 +72,8 @@ export default CommentList;
 const Comments = styled.ol`
   overflow-y: scroll;
   display: flex;
-  flex-shrink: unset;
   flex-direction: column;
+  flex-shrink: unset;
   row-gap: 10px;
 
   padding: 0 16px;
@@ -83,8 +83,10 @@ const CommentWrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: start;
+
   padding: 16px;
+
+  text-align: start;
 
   background-color: ${({ theme }) => theme.color.secondary};
   border-radius: 4px;
