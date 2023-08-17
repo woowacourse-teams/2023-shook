@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import LoginLink from '@/features/auth/LoginLink';
+import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { useMutation } from '@/shared/hooks/useMutation';
@@ -60,7 +61,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
             maxLength={200}
           />
         ) : (
-          <LinkBox>
+          <LoginLink to={googleAuthUrl}>
             <Input
               type="text"
               value={newComment}
@@ -68,7 +69,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
               placeholder="댓글 추가..."
               maxLength={200}
             />
-          </LinkBox>
+          </LoginLink>
         )}
       </Flex>
       {isLoggedIn && (
@@ -87,7 +88,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
 
 export default CommentForm;
 
-const LinkBox = styled(LoginLink)`
+const LoginLink = styled(Link)`
   flex: 1;
 `;
 

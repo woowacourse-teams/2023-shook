@@ -4,7 +4,7 @@ import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import logo from '@/assets/icon/shook-logo.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import LoginLink from '@/features/auth/LoginLink';
+import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
 
@@ -21,9 +21,9 @@ const Header = () => {
           <ProfileAvatar src={shookshook} />
         </Link>
       ) : (
-        <LoginLink>
+        <Link to={googleAuthUrl}>
           <ProfileAvatar src={defaultAvatar} />
-        </LoginLink>
+        </Link>
       )}
     </Container>
   );

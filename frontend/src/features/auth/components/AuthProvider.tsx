@@ -1,18 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react';
-
-const parseJWT = (token: string) => {
-  const payloadUrl = token.split('.')[1];
-  const base64 = payloadUrl.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  );
-
-  return JSON.parse(jsonPayload);
-};
+import parseJWT from '../utils/parseJWT';
 
 interface User {
   memberId: number;
@@ -37,6 +24,7 @@ const AuthContext = createContext<AuthContextProps | null>(null);
 const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem('userToken') || '');
 
+  // TODO: 예외처리?
   const user: User | null = useMemo(() => {
     if (!accessToken) {
       return null;
