@@ -17,8 +17,6 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
     return (
       <Container ref={ref}>
         <SRHeading>킬링파트 듣기 페이지</SRHeading>
-        <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기</BigTitle>
-        <Spacing direction="vertical" size={20} />
         <SongInfoContainer>
           <Thumbnail src={albumCoverUrl} size="md" />
           <Info>
@@ -50,11 +48,6 @@ const Container = styled(Flex)`
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     scroll-margin: ${({ theme: { headerHeight } }) => headerHeight.mobile};
   }
-`;
-
-const BigTitle = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
 `;
 
 const SongInfoContainer = styled.div`
