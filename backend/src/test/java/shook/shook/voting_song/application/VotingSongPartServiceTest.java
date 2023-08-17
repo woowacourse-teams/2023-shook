@@ -43,7 +43,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
             voteRepository
         );
         SAVED_SONG =
-            votingSongRepository.save(new VotingSong("노래제목", "비디오URL", "이미지URL", "가수", 180));
+            votingSongRepository.save(new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180));
     }
 
     void addPart(final VotingSong votingSong, final VotingSongPart votingSongPart) {

@@ -37,17 +37,17 @@ public class SongException extends CustomException {
         }
     }
 
-    public static class NullOrEmptyVideoUrlException extends SongException {
+    public static class NullOrEmptyVideoIdException extends SongException {
 
-        public NullOrEmptyVideoUrlException() {
-            super(ErrorCode.EMPTY_VIDEO_URL);
+        public NullOrEmptyVideoIdException() {
+            super(ErrorCode.EMPTY_VIDEO_ID);
         }
     }
 
-    public static class TooLongVideoUrlException extends SongException {
+    public static class IncorrectVideoIdLengthException extends SongException {
 
-        public TooLongVideoUrlException() {
-            super(ErrorCode.TOO_LONG_VIDEO_URL);
+        public IncorrectVideoIdLengthException() {
+            super(ErrorCode.INCORRECT_VIDEO_ID_LENGTH);
         }
     }
 

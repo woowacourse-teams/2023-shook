@@ -27,7 +27,8 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
-        SAVED_SONG = votingSongRepository.save(new VotingSong("제목", "비디오URL", "이미지URL", "가수", 30));
+        SAVED_SONG = votingSongRepository.save(
+            new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30));
     }
 
     @DisplayName("VotingSongPart 를 저장한다.")

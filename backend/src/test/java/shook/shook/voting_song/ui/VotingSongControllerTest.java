@@ -26,9 +26,9 @@ class VotingSongControllerTest extends AcceptanceTest {
     void showSongById() {
         //given
         final VotingSong song1 = votingSongRepository.save(
-            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong song2 = votingSongRepository.save(
-            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         final List<VotingSongResponse> expected = Stream.of(song1, song2)
             .map(VotingSongResponse::from)
@@ -56,11 +56,11 @@ class VotingSongControllerTest extends AcceptanceTest {
     void findById() {
         // given
         final VotingSong beforeSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong afterSong = votingSongRepository.save(
-            new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목3", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()
@@ -94,9 +94,9 @@ class VotingSongControllerTest extends AcceptanceTest {
     void findByIdEmptyAfterSong() {
         // given
         final VotingSong beforeSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()
@@ -126,9 +126,9 @@ class VotingSongControllerTest extends AcceptanceTest {
     void findByIdEmptyBeforeSong() {
         // given
         final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong afterSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 20));
+            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()

@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import shook.shook.song.exception.SongException;
 
-class SongVideoUrlTest {
+class SongVideoIdTest {
 
     @DisplayName("노래의 비디오 URL 을 뜻하는 객체를 생성한다.")
     @Test
@@ -18,30 +18,30 @@ class SongVideoUrlTest {
         //given
         //when
         //then
-        Assertions.assertDoesNotThrow(() -> new SongVideoUrl("비디오 URL"));
+        Assertions.assertDoesNotThrow(() -> new SongVideoId("elevenVideo"));
     }
 
-    @DisplayName("노래 비디오 URL 이 유효하지 않으면 예외를 던진다.")
+    @DisplayName("노래 비디오 ID 가 유효하지 않으면 예외를 던진다.")
     @NullSource
-    @ParameterizedTest(name = "노래의 비디오 URL 이 \"{0}\" 일 때")
+    @ParameterizedTest(name = "노래의 비디오 ID 가 \"{0}\" 일 때")
     @ValueSource(strings = {"", " "})
     void create_fail_lessThanOne(final String imageUrl) {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new SongVideoUrl(imageUrl))
-            .isInstanceOf(SongException.NullOrEmptyVideoUrlException.class);
+        assertThatThrownBy(() -> new SongVideoId(imageUrl))
+            .isInstanceOf(SongException.NullOrEmptyVideoIdException.class);
     }
 
-    @DisplayName("노래 비디오 URL 의 길이가 65536를 넘을 경우 예외를 던진다.")
+    @DisplayName("노래 비디오 ID 의 길이가 11자를 넘을 경우 예외를 던진다.")
     @Test
     void create_fail_lengthOver65536() {
         //given
-        final String imageUrl = ".".repeat(65537);
+        final String videoId = ".".repeat(12);
 
         //when
         //then
-        assertThatThrownBy(() -> new SongVideoUrl(imageUrl))
-            .isInstanceOf(SongException.TooLongVideoUrlException.class);
+        assertThatThrownBy(() -> new SongVideoId(videoId))
+            .isInstanceOf(SongException.IncorrectVideoIdLengthException.class);
     }
 }

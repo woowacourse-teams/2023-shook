@@ -13,24 +13,29 @@ import shook.shook.util.StringChecker;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-public class SongVideoUrl {
+public class SongVideoId {
 
-    private static final int MAXIMUM_LENGTH = 65_536;
-    
-    @Column(name = "video_url", columnDefinition = "text", nullable = false)
+    private static final int YOUTUBE_VIDEO_ID_LENGTH = 11;
+    private static final String YOUTUBE_VIDEO_PREFIX = "https://youtu.be/%s";
+
+    @Column(name = "video_id", length = 20, nullable = false)
     private String value;
 
-    public SongVideoUrl(final String value) {
+    public SongVideoId(final String value) {
         validate(value);
         this.value = value;
     }
 
     private void validate(final String value) {
         if (StringChecker.isNullOrBlank(value)) {
-            throw new SongException.NullOrEmptyVideoUrlException();
+            throw new SongException.NullOrEmptyVideoIdException();
         }
-        if (value.length() > MAXIMUM_LENGTH) {
-            throw new SongException.TooLongVideoUrlException();
+        if (value.length() != YOUTUBE_VIDEO_ID_LENGTH) {
+            throw new SongException.IncorrectVideoIdLengthException();
         }
+    }
+
+    public String convertToVideoUrl() {
+        return String.format(YOUTUBE_VIDEO_PREFIX, value);
     }
 }

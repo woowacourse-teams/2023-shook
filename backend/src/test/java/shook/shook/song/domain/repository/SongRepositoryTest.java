@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.jdbc.Sql;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
@@ -43,7 +42,7 @@ class SongRepositoryTest extends UsingJpaTest {
         final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
 
         return new Song(
-            "제목", "비디오URL", "이미지URL", "가수", 5,
+            "제목", "비디오ID는 11글자", "이미지URL", "가수", 5,
             new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart)));
     }
 
@@ -100,7 +99,6 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(song.getCreatedAt()).isBetween(prev, after);
     }
 
-    @Sql("classpath:/song/drop_create_empty_schema.sql")
     @DisplayName("Song 을 KillingPart 의 총합 좋아요 수와 함께 조회한다.")
     @Test
     void findAllWithTotalLikeCount() {

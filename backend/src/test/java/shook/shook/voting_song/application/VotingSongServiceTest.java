@@ -37,7 +37,7 @@ class VotingSongServiceTest extends UsingJpaTest {
     void register() {
         //given
         final VotingSongRegisterRequest request =
-            new VotingSongRegisterRequest("새로운노래제목", "비디오URL", "이미지URL", "가수", 180);
+            new VotingSongRegisterRequest("새로운노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
 
         //when
         votingSongService.register(request);
@@ -51,7 +51,7 @@ class VotingSongServiceTest extends UsingJpaTest {
             () -> assertThat(savedSong.getId()).isNotNull(),
             () -> assertThat(savedSong.getCreatedAt()).isNotNull(),
             () -> assertThat(savedSong.getTitle()).isEqualTo("새로운노래제목"),
-            () -> assertThat(savedSong.getVideoUrl()).isEqualTo("비디오URL"),
+            () -> assertThat(savedSong.getVideoId()).isEqualTo("비디오ID는 11글자"),
             () -> assertThat(savedSong.getSinger()).isEqualTo("가수"),
             () -> assertThat(savedSong.getLength()).isEqualTo(180)
         );
@@ -66,15 +66,20 @@ class VotingSongServiceTest extends UsingJpaTest {
         void findAllVotingSongs() {
             // given
             final VotingSong firstSong =
-                votingSongRepository.save(new VotingSong("노래1", "비디오URL", "이미지URL", "가수", 180));
+                votingSongRepository.save(
+                    new VotingSong("노래1", "비디오ID는 11글자", "이미지URL", "가수", 180));
             final VotingSong secondSong =
-                votingSongRepository.save(new VotingSong("노래2", "비디오URL", "이미지URL", "가수", 180));
+                votingSongRepository.save(
+                    new VotingSong("노래2", "비디오ID는 11글자", "이미지URL", "가수", 180));
             final VotingSong thirdSong =
-                votingSongRepository.save(new VotingSong("노래3", "비디오URL", "이미지URL", "가수", 180));
+                votingSongRepository.save(
+                    new VotingSong("노래3", "비디오ID는 11글자", "이미지URL", "가수", 180));
             final VotingSong fourthSong =
-                votingSongRepository.save(new VotingSong("노래4", "비디오URL", "이미지URL", "가수", 180));
+                votingSongRepository.save(
+                    new VotingSong("노래4", "비디오ID는 11글자", "이미지URL", "가수", 180));
             final VotingSong fifthSong =
-                votingSongRepository.save(new VotingSong("노래5", "비디오URL", "이미지URL", "가수", 180));
+                votingSongRepository.save(
+                    new VotingSong("노래5", "비디오ID는 11글자", "이미지URL", "가수", 180));
 
             final List<VotingSongResponse> expected =
                 Stream.of(firstSong, secondSong, thirdSong, fourthSong, fifthSong)
@@ -110,22 +115,22 @@ class VotingSongServiceTest extends UsingJpaTest {
         void success() {
             // given
             final VotingSong firstSong = votingSongRepository.save(
-                new VotingSong("제목1", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
             final VotingSong secondSong = votingSongRepository.save(
-                new VotingSong("제목2", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
             final VotingSong standardSong = votingSongRepository.save(
-                new VotingSong("제목3", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목3", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
             final VotingSong fourthSong = votingSongRepository.save(
-                new VotingSong("제목4", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목4", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
             final VotingSong fifthSong = votingSongRepository.save(
-                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목5", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
             final VotingSong sixthSong = votingSongRepository.save(
-                new VotingSong("제목5", "비디오URL", "이미지URL", "가수", 30)
+                new VotingSong("제목5", "비디오ID는 11글자", "이미지URL", "가수", 30)
             );
 
             // when

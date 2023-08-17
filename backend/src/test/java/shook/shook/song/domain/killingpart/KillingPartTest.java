@@ -140,7 +140,7 @@ class KillingPartTest {
             final KillingPart dummyKillingPart1 = KillingPart.forSave(0, PartLength.STANDARD);
             final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
             final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
-            final Song song = new Song("title", "videoUrl", "imageUrl", "singer", 10,
+            final Song song = new Song("title", "elevenVideo", "imageUrl", "singer", 10,
                 new KillingParts(List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
             );
 

@@ -12,7 +12,7 @@ public class VotingSongResponse {
     private final String title;
     private final String singer;
     private final int videoLength;
-    private final String songVideoUrl;
+    private final String songVideoId;
     private final String albumCoverUrl;
 
     public static VotingSongResponse from(final VotingSong song) {
@@ -21,7 +21,7 @@ public class VotingSongResponse {
             song.getTitle(),
             song.getSinger(),
             song.getLength(),
-            song.getVideoUrl(),
+            song.getVideoId(),
             song.getAlbumCoverUrl()
         );
     }

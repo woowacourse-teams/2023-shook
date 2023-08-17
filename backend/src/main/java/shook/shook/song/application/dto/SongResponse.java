@@ -28,7 +28,7 @@ public class SongResponse {
             song.getTitle(),
             song.getSinger(),
             song.getLength(),
-            song.getVideoUrl(),
+            song.getVideoId(),
             song.getAlbumCoverUrl(),
             toKillingPartResponses(song, member)
         );

@@ -21,7 +21,7 @@ public class SongWithKillingPartsRegisterRequest {
     private String title;
 
     @NotBlank
-    private String videoUrl;
+    private String videoId;
 
     @NotBlank
     private String imageUrl;
@@ -37,7 +37,7 @@ public class SongWithKillingPartsRegisterRequest {
     private List<KillingPartRegisterRequest> killingParts;
 
     public Song convertToSong() {
-        return new Song(title, videoUrl, imageUrl, singer, length, convertToKillingParts());
+        return new Song(title, videoId, imageUrl, singer, length, convertToKillingParts());
     }
 
     private KillingParts convertToKillingParts() {

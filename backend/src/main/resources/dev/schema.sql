@@ -12,7 +12,7 @@ create table if not exists song
     title           varchar(100) not null,
     singer          varchar(50)  not null,
     length          integer      not null,
-    video_url       text         not null,
+    video_id        varchar(20)  not null,
     album_cover_url text         not null,
     created_at      timestamp(6) not null,
     primary key (id)
@@ -56,7 +56,7 @@ create table if not exists voting_song
     title           varchar(100) not null,
     singer          varchar(50)  not null,
     length          integer      not null,
-    video_url       text         not null,
+    video_id        varchar(20)  not null,
     album_cover_url text         not null,
     created_at      timestamp(6) not null,
     primary key (id)

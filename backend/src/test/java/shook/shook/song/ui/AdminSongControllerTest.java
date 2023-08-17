@@ -29,7 +29,7 @@ class AdminSongControllerTest {
     void register_success() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title", "videoUrl", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300,
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
