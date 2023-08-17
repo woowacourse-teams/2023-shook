@@ -3,38 +3,38 @@ package shook.shook.song.application.dto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.part.domain.Part;
+import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
+import shook.shook.song.domain.killingpart.KillingPart;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class KillingPartResponse {
 
-    private final boolean exist;
     private final Long id;
-    private final Integer rank;
-    private final Integer voteCount;
-    private final Integer start;
-    private final Integer end;
+    private final int rank;
+    private final long likeCount;
+    private final int start;
+    private final int end;
     private final String partVideoUrl;
+    private final int partLength;
+    private final boolean likeStatus;
 
-    public static KillingPartResponse of(final Song song, final Part part) {
-        final int rank = song.getRank(part);
-        final int voteCount = part.getVoteCount();
-        final int startSecond = part.getStartSecond();
-        final String partVideoUrl = song.getPartVideoUrl(part);
+    public static KillingPartResponse of(
+        final Song song,
+        final KillingPart killingPart,
+        final int rank,
+        final Member member
+    ) {
         return new KillingPartResponse(
-            true,
-            part.getId(),
+            killingPart.getId(),
             rank,
-            voteCount,
-            startSecond,
-            part.getEndSecond(),
-            partVideoUrl
+            killingPart.getLikeCount(),
+            killingPart.getStartSecond(),
+            killingPart.getEndSecond(),
+            song.getPartVideoUrl(killingPart),
+            killingPart.getLength(),
+            killingPart.isLikedByMember(member)
         );
-    }
-
-    public static KillingPartResponse empty() {
-        return new KillingPartResponse(false, null, null, null, null, null, null);
     }
 }
