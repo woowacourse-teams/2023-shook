@@ -70,5 +70,14 @@ class AccessTokenReissueControllerTest {
         assertThat(response.getAccessToken()).isEqualTo(accessToken);
     }
 
-    // TODO: 2023/08/11 예외 상태코드가 정해지면 쿠키가 없는 경우 테스트 코드 추가하기
+    @DisplayName("refreshToken이 없이 accessToken을 재발급 받으려면 예외를 던잔디.")
+    @Test
+    void fail_reissue_accessToken() {
+        //given
+        //when
+        //then
+        RestAssured.given().log().all()
+            .when().log().all().get("/reissue")
+            .then().statusCode(HttpStatus.UNAUTHORIZED.value());
+    }
 }
