@@ -4,7 +4,6 @@ import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
 import popularSongs from '../fixtures/popularSongs.json';
 import songEntries from '../fixtures/songEntries.json';
-import songs from '../fixtures/songs.json';
 import votingSongs from '../fixtures/votingSongs.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
@@ -13,21 +12,6 @@ const { BASE_URL } = process.env;
 export const songsHandlers = [
   rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(popularSongs));
-  }),
-
-  rest.get(`${BASE_URL}/songs/:songId`, (req, res, ctx) => {
-    const { songId } = req.params;
-
-    const song = songs.find((song) => song.id == Number(songId));
-
-    if (!song) {
-      return res(
-        ctx.status(404),
-        ctx.json({ message: `id:${songId}에 해당되는 노래가 없습니다.` })
-      );
-    }
-
-    return res(ctx.status(200), ctx.json(song));
   }),
 
   rest.get(`${BASE_URL}/songs/:songId/parts/:partId/comments`, (req, res, ctx) => {
