@@ -91,9 +91,9 @@ class SongRepositoryTest extends UsingJpaTest {
         final Song song = createNewSongWithKillingParts();
 
         //when
-        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
         final Song saved = songRepository.save(song);
-        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
         assertThat(song).isSameAs(saved);

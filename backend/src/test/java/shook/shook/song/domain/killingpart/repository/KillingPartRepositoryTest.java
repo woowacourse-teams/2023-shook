@@ -71,9 +71,9 @@ class KillingPartRepositoryTest extends UsingJpaTest {
     void createdAt() {
         //given
         //when
-        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
         final KillingPart saved = killingPartRepository.save(FIRST_KILLING_PART);
-        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
         assertThat(FIRST_KILLING_PART).isSameAs(saved);

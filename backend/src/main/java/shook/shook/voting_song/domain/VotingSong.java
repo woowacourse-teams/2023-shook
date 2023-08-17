@@ -70,7 +70,7 @@ public class VotingSong {
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     public Optional<VotingSongPart> getSameLengthPartStartAt(final VotingSongPart other) {

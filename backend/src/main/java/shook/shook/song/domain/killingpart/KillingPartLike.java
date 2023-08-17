@@ -44,19 +44,19 @@ public class KillingPartLike {
     private Member member;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     @Column(nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     @PreUpdate
     private void preUpdate() {
-        updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     public KillingPartLike(final KillingPart killingPart, final Member member) {
