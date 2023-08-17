@@ -33,7 +33,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         + "GROUP BY s.id "
         + "HAVING (SUM(COALESCE(kp.likeCount, 0)) > (SELECT SUM(COALESCE(kp2.likeCount, 0)) FROM KillingPart kp2 WHERE kp2.song.id = :id) "
         + "OR (SUM(COALESCE(kp.likeCount, 0)) = (SELECT SUM(COALESCE(kp3.likeCount, 0)) FROM KillingPart kp3 WHERE kp3.song.id = :id) AND s.id > :id)) "
-        + "ORDER BY SUM(COALESCE(kp.likeCount, 0)) DESC, s.id DESC")
+        + "ORDER BY SUM(COALESCE(kp.likeCount, 0)), s.id")
     List<Song> findSongsWithMoreLikeCountThanSongWithId(
         @Param("id") final Long songId,
         final Pageable pageable

@@ -1,5 +1,6 @@
 package shook.shook.song.application;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -80,9 +81,12 @@ public class SongService {
     }
 
     private List<Song> findBeforeSongs(final Song song) {
-        return songRepository.findSongsWithMoreLikeCountThanSongWithId(
+        final List<Song> result = songRepository.findSongsWithMoreLikeCountThanSongWithId(
             song.getId(), PageRequest.of(0, BEFORE_SONGS_COUNT)
         );
+
+        Collections.reverse(result);
+        return result;
     }
 
     private List<Song> findAfterSongs(final Song song) {

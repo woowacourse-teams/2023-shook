@@ -248,7 +248,7 @@ class SongRepositoryTest extends UsingJpaTest {
             .isEqualTo(List.of(thirdSong));
     }
 
-    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 조회한다. (데이터가 충분할 때)")
+    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 총 좋아요 오름차순, id 오름차순으로 조회한다. (데이터가 충분할 때)")
     @Test
     void findSongsWithMoreLikeCountThanSongWithId() {
         // given
@@ -306,11 +306,11 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
-                List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong, eleventhSong,
-                    tenthSong, ninthSong, eighthSong, seventhSong));
+                List.of(seventhSong, eighthSong, ninthSong, tenthSong, eleventhSong, fourthSong,
+                    fifthSong, firstSong, secondSong, thirdSong));
     }
 
-    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 조회한다. (데이터가 기준보다 부족할 때)")
+    @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 총 좋아요 오름차순, id 오름차순으로 조회한다. (데이터가 기준보다 부족할 때)")
     @Test
     void findSongsWithMoreLikeCountThanSongWithId_smallData() {
         // given
@@ -358,6 +358,6 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
-                List.of(thirdSong, secondSong, firstSong, fifthSong, fourthSong));
+                List.of(fourthSong, fifthSong, firstSong, secondSong, thirdSong));
     }
 }
