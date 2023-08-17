@@ -123,7 +123,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
         setCommentsPartId={setCommentsPartId}
       />
       {commentsPartId !== DEFAULT_PART_ID && (
-        <CommentList songId={songId} partId={commentsPartId} />
+        <CommentList songId={songId.toString()} partId={commentsPartId} />
       )}
     </>
   );
