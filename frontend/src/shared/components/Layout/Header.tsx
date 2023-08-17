@@ -1,14 +1,28 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import logo from '@/assets/icon/shook-logo.svg';
+import shookshook from '@/assets/icon/shookshook.svg';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import LoginLink from '@/features/auth/LoginLink';
 import ROUTE_PATH from '@/shared/constants/path';
+import Avatar from '../Avatar';
 
 const Header = () => {
+  const { user } = useAuthContext();
+
   return (
     <Container>
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
+      {user ? (
+        <ProfileAvatar src={shookshook} />
+      ) : (
+        <LoginLink>
+          <ProfileAvatar src={defaultAvatar} />
+        </LoginLink>
+      )}
     </Container>
   );
 };
@@ -18,6 +32,7 @@ export default Header;
 const Container = styled.header`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   width: 100%;
   height: ${({ theme }) => theme.headerHeight.desktop};
@@ -47,4 +62,9 @@ const Logo = styled.img`
     width: 140px;
     height: 40px;
   }
+`;
+
+const ProfileAvatar = styled(Avatar)`
+  width: 28px;
+  height: 28px;
 `;
