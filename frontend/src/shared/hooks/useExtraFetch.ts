@@ -1,0 +1,49 @@
+import { useCallback, useState } from 'react';
+import type { ErrorResponse } from '@/shared/remotes';
+
+type FetchDirection = 'top' | 'down';
+
+// TODO: as 단언 개선
+
+const useExtraFetch = <T extends unknown[], P extends unknown[]>(
+  extraFetcher: (...params: P) => Promise<T>,
+  fetchDirection: FetchDirection
+) => {
+  const [data, setData] = useState<T | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<ErrorResponse | null>(null);
+
+  const fetchData = useCallback(
+    async (...params: P) => {
+      setError(null);
+      setIsLoading(true);
+
+      try {
+        const extraData = await extraFetcher(...params);
+
+        if (fetchDirection === 'top') {
+          const newData = extraData.concat(data) as T;
+          setData(newData);
+          return;
+        }
+
+        const newData = data?.concat(extraData) as T;
+        setData(newData);
+      } catch (error) {
+        setError(error as ErrorResponse);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [data, extraFetcher, fetchDirection]
+  );
+
+  return { data, isLoading, error, fetchData };
+};
+
+export default useExtraFetch;
+
+// TODO: 현 fetch기준으로 코드 전반적인 에러처리 구조 생각해보기
+// useXXX는 fetcher에서 throw한 에러를 state에 넣어 return하고 이걸 컴포넌트에서 분기로 처리하는 구조.
+// 서버에서 내려주는 커스텀 에러코드, 메세지 객체 활용 고민
+// ex) Error class
