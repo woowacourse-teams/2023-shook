@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.application.AuthService;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.ui.dto.LoginResponse;
+import shook.shook.auth.ui.openapi.AuthApi;
 
 @RequiredArgsConstructor
 @RestController
-public class AuthController {
+public class AuthController implements AuthApi {
 
     private final AuthService authService;
     private final CookieProvider cookieProvider;

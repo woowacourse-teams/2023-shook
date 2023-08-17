@@ -39,7 +39,7 @@ public interface VotingSongApi {
         required = true
     )
     @GetMapping("/{voting_song_id}")
-    ResponseEntity<VotingSongSwipeResponse> findByIdForSwipe(
+    ResponseEntity<VotingSongSwipeResponse> findAllForSwipeById(
         @PathVariable("voting_song_id") final Long votingSongId
     );
 }

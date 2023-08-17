@@ -1,6 +1,7 @@
 package shook.shook.song.ui.openapi;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -23,6 +24,11 @@ public interface SongApi {
         responseCode = "200",
         description = "노래 조회 성공"
     )
+    @Parameter(
+        name = "song_id",
+        description = "노래 id",
+        required = true
+    )
     @GetMapping
     ResponseEntity<SongSwipeResponse> showSongById(
         @PathVariable(name = "song_id") final Long songId,
@@ -37,6 +43,11 @@ public interface SongApi {
         responseCode = "200",
         description = "이전 노래 조회 성공"
     )
+    @Parameter(
+        name = "song_id",
+        description = "노래 id",
+        required = true
+    )
     @GetMapping("/prev")
     ResponseEntity<List<SongResponse>> showSongsBeforeSongWithId(
         @PathVariable(name = "song_id") final Long songId,
@@ -50,6 +61,11 @@ public interface SongApi {
     @ApiResponse(
         responseCode = "200",
         description = "이후 노래 조회 성공"
+    )
+    @Parameter(
+        name = "song_id",
+        description = "노래 id",
+        required = true
     )
     @GetMapping("/next")
     ResponseEntity<List<SongResponse>> showSongsAfterSongWithId(

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shook.shook.auth.ui.dto.LoginResponse;
 
 @Tag(name = "OAuth", description = "구글 로그인 API")
-public interface OauthApi {
+public interface AuthApi {
 
     @Operation(
         summary = "구글 로그인 API",
