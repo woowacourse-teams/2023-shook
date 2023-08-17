@@ -7,7 +7,7 @@ import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 const { BASE_URL } = process.env;
 
 export const songsHandlers = [
-  rest.get(`${BASE_URL}/songs/high-voted`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
     return res(ctx.json(popularSongs));
   }),
 
