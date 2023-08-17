@@ -7,12 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
-import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.support.UsingJpaTest;
 
 class MemberServiceTest extends UsingJpaTest {
@@ -63,36 +61,12 @@ class MemberServiceTest extends UsingJpaTest {
     void findByEmail() {
         //given
         //when
-        final Member result = memberService.findByEmail(
-            new Email(savedMember.getEmail())).get();
+        final Member result = memberService.findByEmail(savedMember.getEmail()).get();
 
         //then
         assertThat(result.getId()).isEqualTo(savedMember.getId());
         assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
-    }
-
-    @DisplayName("회원을 id로 조회한다.")
-    @Test
-    void success_findById() {
-        //given
-        //when
-        final Member result = memberService.findById(savedMember.getId());
-
-        //then
-        assertThat(result.getId()).isEqualTo(savedMember.getId());
-        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(result.getNickname()).isEqualTo(savedMember.getNickname());
-    }
-
-    @DisplayName("회원을 id로 조회할 때 존재하지 않으면 예외를 던진다.")
-    @Test
-    void fail_findById() {
-        //given
-        //when
-        //then
-        assertThatThrownBy(() -> memberService.findById(Long.MAX_VALUE))
-            .isInstanceOf(MemberNotExistException.class);
     }
 
     @DisplayName("회원을 id와 nickname으로 조회한다.")
@@ -100,7 +74,7 @@ class MemberServiceTest extends UsingJpaTest {
     void success_findByIdAndNickname() {
         //given
         //when
-        final Member result = memberService.findByIdAndNickname(
+        final Member result = memberService.findByIdAndNicknameThrowIfNotExist(
             savedMember.getId(),
             new Nickname(savedMember.getNickname()));
 
@@ -115,7 +89,7 @@ class MemberServiceTest extends UsingJpaTest {
         //when
         //then
         assertThatThrownBy(
-            () -> memberService.findByIdAndNickname(savedMember.getId(),
+            () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId(),
                 new Nickname(savedMember.getNickname() + "none")))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
@@ -127,7 +101,7 @@ class MemberServiceTest extends UsingJpaTest {
         //when
         //then
         assertThatThrownBy(
-            () -> memberService.findByIdAndNickname(savedMember.getId() + 1,
+            () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId() + 1,
                 new Nickname(savedMember.getNickname())))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
@@ -139,7 +113,7 @@ class MemberServiceTest extends UsingJpaTest {
         //when
         //then
         assertThatThrownBy(
-            () -> memberService.findByIdAndNickname(savedMember.getId() + 1,
+            () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId() + 1,
                 new Nickname(savedMember.getNickname() + "none")))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
