@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from '@/shared/styles/GlobalStyles';
+import { loadIFrameApi } from './features/youtube/remotes/loadIframeApi';
 import router from './router';
 import ToastProvider from './shared/components/Toast/ToastProvider';
 import theme from './shared/styles/theme';
@@ -17,6 +18,8 @@ async function main() {
       },
     });
   }
+
+  await loadIFrameApi();
 
   const root = createRoot(document.getElementById('root') as HTMLElement);
 
