@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import { css, styled } from 'styled-components';
-import shookshook from '@/assets/icon/shookshook.svg';
+import { useEffect } from 'react';
+import { styled } from 'styled-components';
+import cancelIcon from '@/assets/icon/cancel.svg';
+import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
+import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
-import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import useFetch from '@/shared/hooks/useFetch';
-import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 import Comment from './Comment';
+import CommentForm from './CommentForm';
 
 interface Comment {
   id: number;
@@ -21,12 +22,17 @@ interface CommentListProps {
 }
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
+
   const { showToast } = useToastContext();
   const [newComment, setNewComment] = useState('');
+
+
+  const { isOpen, openModal, closeModal } = useModal(false);
 
   const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
   );
+
 
   const { mutateData } = useMutation(() =>
     fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
@@ -48,6 +54,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
     getComment();
   };
 
+
   useEffect(() => {
     getComment();
   }, [partId]);
@@ -56,6 +63,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
     <>
       <Spacing direction="vertical" size={24} />
       <SRHeading as="h3">댓글 목록</SRHeading>
+
       <p>댓글 {comments?.length ?? 0}개</p>
       <Spacing direction="vertical" size={24} />
       <form onSubmit={submitNewComment}>
@@ -86,81 +94,70 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           <Comment key={id} content={content} createdAt={createdAt} />
         ))}
       </Comments>
+
+      <CommentTitle>댓글 {comments.length}개</CommentTitle>
+      <Spacing direction="vertical" size={12} />
+      <CommentWrapper onClick={openModal}>
+        <Comment
+          key={comments[0].id}
+          content={comments[0].content}
+          createdAt={comments[0].createdAt}
+        />
+      </CommentWrapper>
+      <BottomSheet isOpen={isOpen} closeModal={closeModal}>
+        <Spacing direction="vertical" size={16} />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <CommentsTitle>댓글 {comments.length}개</CommentsTitle>
+          <CloseImg src={cancelIcon} onClick={closeModal} />
+        </div>
+        <Spacing direction="vertical" size={20} />
+        <Comments>
+          {comments.map(({ id, content, createdAt }) => (
+            <Comment key={id} content={content} createdAt={createdAt} />
+          ))}
+        </Comments>
+        <Spacing direction="vertical" size={8} />
+        <CommentForm getComment={getComment} songId={songId} partId={partId} />
+      </BottomSheet>
+
     </>
   );
 };
 
 export default CommentList;
 
-const Flex = styled.div`
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-`;
-
-const Profile = styled.div`
-  overflow: hidden;
-
-  width: 40px;
-  height: 40px;
-
-  background-color: white;
-  border-radius: 100%;
-`;
-
-const Input = styled.input`
-  flex: 1;
-
-  margin: 0 8px;
-  margin: 0;
-  padding: 0;
-
-  font-size: 14px;
-
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid white;
-  outline: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-`;
-
-const FlexEnd = styled.div`
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-`;
-
-const buttonBase = css`
-  width: 50px;
-  height: 36px;
-  font-size: 14px;
-  border-radius: 10px;
-`;
-
-const Cancel = styled.button`
-  ${buttonBase}
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.color.secondary};
-  }
-`;
-
-const Submit = styled.button`
-  ${buttonBase}
-  background-color: ${({ theme }) => theme.color.primary};
-
-  &:hover,
-  &:focus {
-    background-color: #de5484;
-  }
-
-  &:disabled {
-    background-color: ${({ theme }) => theme.color.secondary};
-  }
-`;
-
 const Comments = styled.ol`
-  gap: 10px;
+  overflow-y: scroll;
+  display: flex;
+  flex-shrink: unset;
+  flex-direction: column;
+  row-gap: 10px;
+
+  padding: 0 16px;
+`;
+
+const CommentWrapper = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: start;
+  padding: 16px;
+
+  background-color: ${({ theme }) => theme.color.secondary};
+  border-radius: 4px;
+`;
+
+const CommentTitle = styled.p`
+  font-size: 20px;
+`;
+
+const CommentsTitle = styled.p`
+  padding-left: 16px;
+`;
+
+const CloseImg = styled.img`
+  position: fixed;
+  right: 16px;
+  width: 24px;
+  height: 24px;
 `;

@@ -1,0 +1,30 @@
+name: Frontend Develop Deploy (CD)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Frontend Develop Deploy
+
+    runs-on: shook-runner
+    
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+      - name: Package clean install
+        shell: bash
+        run: |
+          cd frontend
+          npm ci
+      - name: Build files
+        shell: bash
+        run: |
+          cd frontend
+          npm run build
+      - name: Remove legacy static pages
+        shell: bash
+        run: rm -rf /home/ubuntu/dist
+      - name: Move generated new static pages
+        shell: bash
+        run: cp -r frontend/dist ~/

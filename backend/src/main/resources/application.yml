@@ -15,11 +15,15 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:shook
 
+  h2:
+    console:
+      enabled: true
+
   sql:
     init:
       mode: always
       schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      data-locations: classpath:dev/data.sql
 
   jpa:
     properties:
@@ -47,4 +51,6 @@ jwt:
   access-token-valid-time: 12000
   refresh-token-valid-time: 634000
 
-
+# Properties Only For Local
+cookie:
+  valid-time: 634000

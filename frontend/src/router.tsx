@@ -1,6 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Link } from 'react-router-dom';
 import { VideoPlayerProvider } from './features/youtube/components/VideoPlayerProvider';
+import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
+import MyPage from './pages/MyPage';
 import PartCollectingPage from './pages/PartCollectingPage';
 import SongDetailPage from './pages/SongDetailPage';
 import Layout from './shared/components/Layout/Layout';
@@ -27,7 +29,25 @@ const router = createBrowserRouter([
           </VideoPlayerProvider>
         ),
       },
+      {
+        path: `${ROUTE_PATH.MY_PAGE}/:id`,
+        element: <MyPage />,
+      },
     ],
+  },
+  {
+    path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
+    element: <AuthPage />,
+  },
+  {
+    path: '/test',
+    element: (
+      <Link
+        to={`https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&redirect_uri=http://localhost:8080${ROUTE_PATH.LOGIN_REDIRECT}&client_id=1008951336382-8o2n6n9u8jbj3sb6fe5jdeha9b6alnqa.apps.googleusercontent.com`}
+      >
+        사랑해요 코나안~
+      </Link>
+    ),
   },
 ]);
 

@@ -20,6 +20,17 @@ create table if not exists killing_part
     primary key (id)
 );
 
+create table if not exists killing_part_like
+(
+    id              bigint auto_increment,
+    killing_part_id bigint       not null,
+    member_id       bigint       not null,
+    is_deleted      boolean      not null,
+    created_at      timestamp(6) not null,
+    updated_at      timestamp(6) not null,
+    primary key (id)
+);
+
 create table if not exists killing_part_comment
 (
     id              bigint auto_increment,
@@ -64,3 +75,10 @@ create table if not exists member
     nickname varchar(100) not null,
     primary key (id)
 );
+
+
+alter table killing_part
+    add column if not exists like_count integer not null;
+alter table killing_part add column like_count integer not null;
+alter table killing_part_comment add column member_id bigint not null;
+

@@ -6,7 +6,7 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      data-locations: classpath:dev/data.sql
 
   jpa:
     properties:
@@ -15,3 +15,19 @@ spring:
         show-sql: true
     hibernate:
       ddl-auto: validate
+
+oauth2:
+  google:
+    access-token-url: http://localhost:8080/token
+    member-info-url: http://localhost:8080/userinfo
+    client-id: client
+    client-secret: secret
+    redirect-uri: redirect
+
+jwt:
+  secret-code: asdkfwofk23ksdfowsrk4sdkf
+  access-token-valid-time: 12000
+  refresh-token-valid-time: 634000
+
+cookie:
+  valid-time: 634000

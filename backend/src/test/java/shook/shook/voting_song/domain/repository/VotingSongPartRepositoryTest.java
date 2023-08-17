@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
@@ -77,5 +78,34 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
         //then
         assertThat(allBySong).containsAll(List.of(firstPart, secondPart));
+    }
+
+    @DisplayName("특정 파트를 조회한다.")
+    @Nested
+    class findById {
+
+        @DisplayName("id로 파트를 조회한다.")
+        @Test
+        void findOnePart() {
+            // given
+            final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            votingSongPartRepository.save(part);
+
+            // when
+            final VotingSongPart saved = votingSongPartRepository.findById(part.getId()).get();
+
+            // then
+            assertThat(saved).isSameAs(part);
+            assertThat(saved.getCreatedAt()).isNotNull();
+        }
+
+        @DisplayName("파트가 없으면 빈 Optional을 반환한다.")
+        @Test
+        void findNotExistedPart() {
+            // given
+            // when
+            // then
+            assertThat(votingSongPartRepository.findById(1L)).isEmpty();
+        }
     }
 }
