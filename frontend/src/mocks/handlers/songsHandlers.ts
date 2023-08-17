@@ -1,12 +1,13 @@
 import { rest } from 'msw';
 import popularSongs from '../fixtures/popularSongs.json';
 import songs from '../fixtures/songs.json';
+import votingSongs from '../fixtures/votingSongs.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
 
 export const songsHandlers = [
-  rest.get(`${BASE_URL}/songs/high-voted`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
     return res(ctx.json(popularSongs));
   }),
 
@@ -64,5 +65,9 @@ export const songsHandlers = [
 
   rest.put(`${BASE_URL}/songs/:songId/parts/:partId/likes`, (req, res, ctx) => {
     return res(ctx.status(201));
+  }),
+
+  rest.get(`${BASE_URL}/voting-songs`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(votingSongs));
   }),
 ];

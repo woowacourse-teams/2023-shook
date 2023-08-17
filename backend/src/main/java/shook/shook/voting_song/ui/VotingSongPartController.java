@@ -1,6 +1,7 @@
 package shook.shook.voting_song.ui;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class VotingSongPartController {
     @PostMapping
     public ResponseEntity<Void> registerPart(
         @PathVariable(name = "voting_song_id") final Long votingSongId,
-        @RequestBody final VotingSongPartRegisterRequest request
+        @Valid @RequestBody final VotingSongPartRegisterRequest request
     ) {
         votingSongPartService.register(votingSongId, request);
 

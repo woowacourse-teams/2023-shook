@@ -1,74 +1,81 @@
 package shook.shook.song.exception;
 
-public class SongException extends RuntimeException {
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
+
+public class SongException extends CustomException {
+
+    public SongException(final ErrorCode errorCode) {
+        super(errorCode);
+    }
 
     public static class SongLengthLessThanOneException extends SongException {
 
         public SongLengthLessThanOneException() {
-            super();
+            super(ErrorCode.NOT_POSITIVE_SONG_LENGTH);
         }
     }
 
     public static class SongNotExistException extends SongException {
 
         public SongNotExistException() {
-            super();
+            super(ErrorCode.SONG_NOT_EXIST);
         }
     }
 
     public static class NullOrEmptyTitleException extends SongException {
 
         public NullOrEmptyTitleException() {
-            super();
+            super(ErrorCode.EMPTY_SONG_TITLE);
         }
     }
 
     public static class TooLongTitleException extends SongException {
 
         public TooLongTitleException() {
-            super();
+            super(ErrorCode.TOO_LONG_TITLE);
         }
     }
 
-    public static class NullOrEmptyVideoUrlException extends SongException {
+    public static class NullOrEmptyVideoIdException extends SongException {
 
-        public NullOrEmptyVideoUrlException() {
-            super();
+        public NullOrEmptyVideoIdException() {
+            super(ErrorCode.EMPTY_VIDEO_ID);
         }
     }
 
-    public static class TooLongVideoUrlException extends SongException {
+    public static class IncorrectVideoIdLengthException extends SongException {
 
-        public TooLongVideoUrlException() {
-            super();
+        public IncorrectVideoIdLengthException() {
+            super(ErrorCode.INCORRECT_VIDEO_ID_LENGTH);
         }
     }
 
     public static class NullOrEmptyImageUrlException extends SongException {
 
         public NullOrEmptyImageUrlException() {
-            super();
+            super(ErrorCode.EMPTY_SONG_IMAGE_URL);
         }
     }
 
     public static class TooLongImageUrlException extends SongException {
 
         public TooLongImageUrlException() {
-            super();
+            super(ErrorCode.TOO_LONG_SONG_IMAGE_URL);
         }
     }
 
     public static class NullOrEmptySingerNameException extends SongException {
 
         public NullOrEmptySingerNameException() {
-            super();
+            super(ErrorCode.EMPTY_SINGER_NAME);
         }
     }
 
     public static class TooLongSingerNameException extends SongException {
 
         public TooLongSingerNameException() {
-            super();
+            super(ErrorCode.TOO_LONG_SINGER_NAME);
         }
     }
 }

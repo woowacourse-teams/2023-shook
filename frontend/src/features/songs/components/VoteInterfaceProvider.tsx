@@ -16,12 +16,14 @@ export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | nu
 interface VoteInterfaceProviderProps {
   videoLength: number;
   songId: number;
+  songVideoId: string;
 }
 
 export const VoteInterfaceProvider = ({
   children,
   videoLength,
   songId,
+  songVideoId,
 }: PropsWithChildren<VoteInterfaceProviderProps>) => {
   const [interval, setInterval] = useState<KillingPartInterval>(10);
   const [partStartTime, setPartStartTime] = useState(0);
@@ -74,6 +76,7 @@ export const VoteInterfaceProvider = ({
         interval,
         videoLength,
         songId,
+        songVideoId,
         updatePartStartTime,
         updateKillingPartInterval,
       }}

@@ -23,12 +23,6 @@ public class VotingSongParts {
         this.votingSongParts.add(votingSongPart);
     }
 
-    public void addPart(final VotingSongPart... newVotingSongParts) {
-        for (final VotingSongPart votingSongPart : newVotingSongParts) {
-            addPart(votingSongPart);
-        }
-    }
-
     private void validatePart(final VotingSongPart newVotingSongPart) {
         if (votingSongParts.contains(newVotingSongPart) || !isUniquePart(newVotingSongPart)) {
             throw new PartException.DuplicateStartAndLengthException();
