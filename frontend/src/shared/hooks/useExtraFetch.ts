@@ -25,8 +25,7 @@ const useExtraFetch = <T, P>(
           return;
         }
 
-        const newData = data?.concat(extraData);
-        console.log();
+        const newData = data.concat(extraData);
         setData(newData);
       } catch (error) {
         setError(error as ErrorResponse);
