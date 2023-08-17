@@ -11,9 +11,9 @@ import shook.shook.song.domain.Song;
 @Getter
 public class SongSwipeResponse {
 
-    private final List<SongResponse> beforeSongs;
+    private final List<SongResponse> prevSongs;
     private final SongResponse currentSong;
-    private final List<SongResponse> afterSongs;
+    private final List<SongResponse> nextSongs;
 
     public static SongSwipeResponse of(
         final Member member,

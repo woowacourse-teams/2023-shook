@@ -98,8 +98,8 @@ class SongServiceTest extends UsingJpaTest {
 
         //then
         assertAll(
-            () -> assertThat(response.getBeforeSongs()).isEmpty(),
-            () -> assertThat(response.getAfterSongs()).isEmpty(),
+            () -> assertThat(response.getPrevSongs()).isEmpty(),
+            () -> assertThat(response.getNextSongs()).isEmpty(),
             () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
                 .hasFieldOrPropertyWithValue("id",
                     song.getLikeCountSortedKillingParts().get(0).getId())
@@ -134,8 +134,8 @@ class SongServiceTest extends UsingJpaTest {
 
         //then
         assertAll(
-            () -> assertThat(response.getBeforeSongs()).isEmpty(),
-            () -> assertThat(response.getAfterSongs()).isEmpty(),
+            () -> assertThat(response.getPrevSongs()).isEmpty(),
+            () -> assertThat(response.getNextSongs()).isEmpty(),
             () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
                 .hasFieldOrPropertyWithValue("id",
                     song.getLikeCountSortedKillingParts().get(0).getId())
@@ -267,12 +267,12 @@ class SongServiceTest extends UsingJpaTest {
             // then
             assertAll(
                 () -> assertThat(result.getCurrentSong().getId()).isEqualTo(fifthSong.getId()),
-                () -> assertThat(result.getBeforeSongs()).hasSize(2),
-                () -> assertThat(result.getAfterSongs()).hasSize(2),
-                () -> assertThat(result.getBeforeSongs().stream()
+                () -> assertThat(result.getPrevSongs()).hasSize(2),
+                () -> assertThat(result.getNextSongs()).hasSize(2),
+                () -> assertThat(result.getPrevSongs().stream()
                     .map(SongResponse::getId)
                     .toList()).usingRecursiveComparison().isEqualTo(List.of(4L, 3L)),
-                () -> assertThat(result.getAfterSongs().stream()
+                () -> assertThat(result.getNextSongs().stream()
                     .map(SongResponse::getId)
                     .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 1L))
             );

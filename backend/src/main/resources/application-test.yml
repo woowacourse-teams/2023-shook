@@ -16,6 +16,10 @@ spring:
     hibernate:
       ddl-auto: validate
 
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+
 oauth2:
   google:
     access-token-url: http://localhost:8080/token
