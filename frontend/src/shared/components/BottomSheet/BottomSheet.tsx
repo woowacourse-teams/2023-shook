@@ -31,17 +31,15 @@ const BottomSheet = ({ isOpen, closeModal, children }: PropsWithChildren<BottomS
     };
   }, [isOpen, closeByEsc]);
 
-  return createPortal(
-    <>
-      {isOpen && (
-        <Wrapper>
-          <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
-          <Container role="dialog">{children}</Container>
-        </Wrapper>
-      )}
-    </>,
-    document.body
-  );
+  if (isOpen) {
+    return createPortal(
+      <Wrapper id={'도밥'}>
+        <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
+        <Container role="dialog">{children}</Container>
+      </Wrapper>,
+      document.body
+    );
+  }
 };
 
 export default BottomSheet;
