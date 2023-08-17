@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
-import { loadIFrameApi } from '@/features/youtube/remotes/loadIframeApi';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
 interface YoutubeProps {
@@ -10,21 +9,21 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, initPlayer, updatePlayerState } = useVideoPlayerContext();
+  const { videoPlayer, initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
 
   useEffect(() => {
     const createYoutubePlayer = async () => {
       try {
-        const YT = await loadIFrameApi();
-
         new YT.Player(`yt-player-${videoId}`, {
           videoId,
           width: '100%',
           height: '100%',
           playerVars: { start, rel: 0 },
           events: {
-            onReady: initPlayer,
-            onStateChange: updatePlayerState,
+            onReady: (e) => {
+              bindUpdatePlayerStateEvent(e);
+              initPlayer(e);
+            },
           },
         });
       } catch (error) {
@@ -40,10 +39,10 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
     return () => {
       if (!clonePlayerRef.current) return;
 
-      clonePlayerRef.current?.destroy();
+      clonePlayerRef.current.destroy();
       clonePlayerRef.current = null;
     };
-  }, [initPlayer, updatePlayerState, start, videoId, videoPlayer]);
+  }, [bindUpdatePlayerStateEvent, initPlayer, start, videoId, videoPlayer]);
 
   return (
     <YoutubeWrapper>

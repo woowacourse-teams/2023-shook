@@ -1,11 +1,15 @@
-type VideoUrl = `https://www.youtube.com/embed/${string}`;
+export interface SongDetailEntries {
+  prevSongs: SongDetail[];
+  currentSong: SongDetail;
+  nextSongs: SongDetail[];
+}
 
 export interface SongDetail {
   id: number;
   title: string;
   singer: string;
   videoLength: number;
-  songVideoUrl: VideoUrl;
+  songVideoId: string;
   albumCoverUrl: string;
   killingParts: KillingPart[];
 }

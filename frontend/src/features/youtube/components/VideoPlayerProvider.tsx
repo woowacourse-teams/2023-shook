@@ -7,7 +7,7 @@ interface VideoPlayerContextProps {
   seekTo: (start: number) => void;
   pause: () => void;
   initPlayer: YT.PlayerEventHandler<YT.PlayerEvent>;
-  updatePlayerState: YT.PlayerEventHandler<YT.PlayerEvent>;
+  bindUpdatePlayerStateEvent: YT.PlayerEventHandler<YT.PlayerEvent>;
 }
 
 export const VideoPlayerContext = createContext<VideoPlayerContextProps | null>(null);
@@ -31,11 +31,11 @@ export const VideoPlayerProvider = ({ children }: PropsWithChildren) => {
     videoPlayer.current = target;
   }, []);
 
-  const updatePlayerState: YT.PlayerEventHandler<YT.PlayerEvent> = useCallback(({ target }) => {
-    const state = target.getPlayerState();
-
-    setPlayerState(state);
-  }, []);
+  const bindUpdatePlayerStateEvent: YT.PlayerEventHandler<YT.PlayerEvent> = useCallback(
+    ({ target }) =>
+      target.addEventListener('onStateChange', () => setPlayerState(target.getPlayerState())),
+    []
+  );
 
   return (
     <VideoPlayerContext.Provider
@@ -45,7 +45,7 @@ export const VideoPlayerProvider = ({ children }: PropsWithChildren) => {
         seekTo,
         pause,
         initPlayer,
-        updatePlayerState,
+        bindUpdatePlayerStateEvent,
       }}
     >
       {children}

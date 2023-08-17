@@ -33,8 +33,8 @@ const MainPage = () => {
         {popularSongs.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
           <Li key={id}>
             <StyledLink
-              to={`${ROUTE_PATH.SONG_DETAIL}/${id}`}
-              aria-label={`킬링파트 좋아요순 ${i + 1}등 ${singer} ${title}`}
+              to={`${ROUTE_PATH.SONG_DETAILS}/${id}`}
+              aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
             >
               <PopularSongItem
                 rank={i + 1}
@@ -68,19 +68,16 @@ const StyledLink = styled(Link)`
 
 const Title = styled.h2`
   align-self: flex-start;
-
-  color: white;
-
   font-size: 20px;
   font-weight: 700;
+  color: white;
 `;
 
 const PopularSongList = styled.ol`
-  width: 100%;
-
   display: flex;
   flex-direction: column;
+  gap: 12px;
   align-items: flex-start;
 
-  gap: 12px;
+  width: 100%;
 `;

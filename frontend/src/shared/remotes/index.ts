@@ -1,6 +1,7 @@
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 
 export interface ErrorResponse {
+  code: number;
   message: string;
 }
 

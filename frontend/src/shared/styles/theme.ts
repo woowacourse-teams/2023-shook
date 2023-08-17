@@ -29,7 +29,14 @@ const theme = {
 
   headerHeight: {
     mobile: '60px',
+    tablet: '80px',
     desktop: '80px',
+  },
+
+  mainTopBottomPadding: {
+    mobile: '16px',
+    tablet: '36px',
+    desktop: '36px',
   },
 } as const;
 

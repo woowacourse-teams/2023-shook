@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import Thumbnail from './Thumbnail';
 
-interface CardProps {
+interface PopularSongItemProps {
   rank: number;
   title: string;
   singer: string;
@@ -9,14 +9,20 @@ interface CardProps {
   totalLikeCount: number;
 }
 
-const PopularSongItem = ({ rank, albumCoverUrl, title, singer, totalLikeCount }: CardProps) => {
+const PopularSongItem = ({
+  rank,
+  albumCoverUrl,
+  title,
+  singer,
+  totalLikeCount,
+}: PopularSongItemProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
       <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Info aria-label={`${totalLikeCount} 투표됨`}>
+      <Info aria-label={`${totalLikeCount} 좋아요`}>
         {new Intl.NumberFormat('ko-KR').format(totalLikeCount)} likes
       </Info>
     </Grid>
