@@ -35,25 +35,27 @@ export const useAuthContext = () => {
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
-  const [accessToken, setAccessToken] = useState(
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwibWVtYmVySWQiOjEsImlhdCI6MTY5MjE3NDkyOCwiZXhwIjoxNjkyMTc0OTQwfQ.88DaWR1XRPEQVe_SOtCar060_EmTNINriRNU3zfKfsU'
-  );
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('userToken') || '');
+
+  const user: User | null = useMemo(() => {
+    if (!accessToken) {
+      return null;
+    }
+
+    const { memberId, nickname } = parseJWT(accessToken);
+
+    return {
+      memberId,
+      nickname,
+    };
+  }, [accessToken]);
 
   const login = (userToken: string) => {
     localStorage.setItem('userToken', userToken);
     setAccessToken(userToken);
   };
 
-  const user: User = useMemo(() => {
-    const { memberId } = parseJWT(accessToken);
-
-    return {
-      memberId,
-      nickname: 'ukko',
-    };
-  }, [accessToken]);
-
-  // user = null;
+  console.log('>>> user:', user);
 
   return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
 };
