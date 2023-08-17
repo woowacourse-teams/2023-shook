@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(OAuthException.class)
     public ResponseEntity<ErrorResponse> handleExternalLoginException(final OAuthException e) {
-        log.error(e.getErrorPropertyValue());
+        log.error(e.getErrorInfoLog());
 
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ErrorResponse.from(e));
     }
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
         MemberException.MemberNotExistException.class
     })
     public ResponseEntity<ErrorResponse> handleTokenException(final CustomException e) {
-        log.error(e.getErrorPropertyValue());
+        log.error(e.getErrorInfoLog());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));
     }
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
         PartException.class
     })
     public ResponseEntity<ErrorResponse> handleGlobalBadRequestException(final CustomException e) {
-        log.error(e.getErrorPropertyValue());
+        log.error(e.getErrorInfoLog());
 
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
             .get(METHOD_ARGUMENT_FIRST_ERROR_INDEX);
         final CustomException exception = CustomException.fromFieldError(firstErrorField);
 
-        log.error(exception.getErrorPropertyValue());
+        log.error(exception.getErrorInfoLog());
 
         return ResponseEntity.badRequest().body(ErrorResponse.from(exception));
     }
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
             Map.of(e.getVariableName(), "")
         );
 
-        log.error(exception.getErrorPropertyValue());
+        log.error(exception.getErrorInfoLog());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(exception));
     }
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleInternalKillingPartException(
         final CustomException e) {
-        log.error(e.getErrorPropertyValue());
+        log.error(e.getErrorInfoLog());
 
         return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
     }
