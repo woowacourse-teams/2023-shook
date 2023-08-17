@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 
 interface AccessTokenResponse {
   accessToken: string;
@@ -8,11 +9,17 @@ interface AccessTokenResponse {
 
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
-  const code = searchParams.get('code');
   const { login } = useAuthContext();
 
   // TODO: 예외처리
   const getAccessToken = async () => {
+    const code = searchParams.get('code');
+    if (!code) {
+      localStorage.removeItem('userToken');
+      window.location.href = googleAuthUrl;
+      return;
+    }
+
     const response = await fetch(`${process.env.BASE_URL}/login/google?code=${code}`, {
       method: 'get',
       credentials: 'include',
