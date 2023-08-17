@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
@@ -11,43 +12,44 @@ import type { SongDetail } from '@/shared/types/song';
 
 interface SongDetailItemProps extends SongDetail {}
 
-const SongDetailItem = ({
-  id,
-  killingParts,
-  singer,
-  title,
-  songVideoId,
-  albumCoverUrl,
-}: SongDetailItemProps) => {
-  return (
-    <Container>
-      <SRHeading>킬링파트 듣기 페이지</SRHeading>
-      <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기</BigTitle>
-      <Spacing direction="vertical" size={20} />
-      <SongInfoContainer>
-        <Thumbnail src={albumCoverUrl} size="md" />
-        <Info>
-          <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
-          <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
-        </Info>
-      </SongInfoContainer>
-      <Spacing direction="vertical" size={20} />
-      <VideoPlayerProvider>
-        <Youtube videoId={songVideoId} />
-        <Spacing direction="vertical" size={16} />
-        <TimerProvider time={15}>
-          <KillingPartInterface killingParts={killingParts} songId={id} />
-        </TimerProvider>
-      </VideoPlayerProvider>
-    </Container>
-  );
-};
+const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
+  ({ id, killingParts, singer, title, songVideoId, albumCoverUrl }, ref) => {
+    return (
+      <Container ref={ref}>
+        <SRHeading>킬링파트 듣기 페이지</SRHeading>
+        <BigTitle aria-label="킬링파트 듣기">킬링파트 듣기</BigTitle>
+        <Spacing direction="vertical" size={20} />
+        <SongInfoContainer>
+          <Thumbnail src={albumCoverUrl} size="md" />
+          <Info>
+            <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
+            <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
+          </Info>
+        </SongInfoContainer>
+        <Spacing direction="vertical" size={20} />
+        <VideoPlayerProvider>
+          <Youtube videoId={songVideoId} />
+          <Spacing direction="vertical" size={16} />
+          <TimerProvider time={15}>
+            <KillingPartInterface killingParts={killingParts} songId={id} />
+          </TimerProvider>
+        </VideoPlayerProvider>
+      </Container>
+    );
+  }
+);
+
+SongDetailItem.displayName = 'SongDetailItem';
 
 export default SongDetailItem;
 
 const Container = styled(Flex)`
   flex-direction: column;
   height: 100%;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    scroll-margin: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+  }
 `;
 
 const BigTitle = styled.h2`

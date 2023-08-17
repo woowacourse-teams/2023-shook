@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
@@ -7,6 +8,13 @@ import useFetch from '@/shared/hooks/useFetch';
 const SongDetailListPage = () => {
   const { id: songIdParams } = useParams();
   const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
+
+  const ItemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    ItemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }, [songDetailEntries]);
+
   if (!songDetailEntries) return;
 
   const { prevSongs, currentSong, nextSongs } = songDetailEntries;
@@ -16,7 +24,7 @@ const SongDetailListPage = () => {
       {prevSongs.map((prevSongDetail) => (
         <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
       ))}
-      <SongDetailItem key={currentSong.id} {...currentSong} />
+      <SongDetailItem ref={ItemRef} key={currentSong.id} {...currentSong} />
       {nextSongs.map((nextSongDetail) => (
         <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
       ))}
