@@ -5,10 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.TokenInfo;
-import shook.shook.auth.application.dto.TokenReissueResponse;
+import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.member.application.MemberService;
-import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 
@@ -20,30 +19,31 @@ public class AuthService {
     private final GoogleInfoProvider googleInfoProvider;
     private final TokenProvider tokenProvider;
 
-    public TokenInfo login(final String accessCode) {
+    public TokenPair login(final String authorizationCode) {
         final GoogleAccessTokenResponse accessTokenResponse =
-            googleInfoProvider.getAccessToken(accessCode);
+            googleInfoProvider.getAccessToken(authorizationCode);
         final GoogleMemberInfoResponse memberInfo = googleInfoProvider
             .getMemberInfo(accessTokenResponse.getAccessToken());
 
         final String userEmail = memberInfo.getEmail();
-        final Member member = memberService.findByEmail(new Email(userEmail))
+
+        final Member member = memberService.findByEmail(userEmail)
             .orElseGet(() -> memberService.register(userEmail));
 
-        final long memberId = member.getId();
+        final Long memberId = member.getId();
         final String nickname = member.getNickname();
         final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
         final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
-        return new TokenInfo(accessToken, refreshToken);
+        return new TokenPair(accessToken, refreshToken);
     }
 
-    public TokenReissueResponse reissueToken(final String refreshToken) {
+    public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
-        memberService.findByIdAndNickname(memberId, new Nickname(nickname));
+        memberService.findByIdAndNicknameThrowIfNotExist(memberId, new Nickname(nickname));
 
         final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
-        return new TokenReissueResponse(accessToken);
+        return new ReissueAccessTokenResponse(accessToken);
     }
 }

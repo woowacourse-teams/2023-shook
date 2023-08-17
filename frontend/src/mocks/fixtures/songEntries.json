@@ -1,0 +1,846 @@
+{
+  "prevSongs": [
+    {
+      "id": 21,
+      "title": "Ditto",
+      "singer": "NewJeans",
+      "videoLength": 187,
+      "songVideoId": "haCpjUXIhrI",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 63,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/haCpjUXIhrI?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 62,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/haCpjUXIhrI?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 61,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/haCpjUXIhrI?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "무지개",
+      "singer": "임영웅",
+      "videoLength": 198,
+      "songVideoId": "o8e0Qd2H1qc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 60,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/o8e0Qd2H1qc?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 59,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/o8e0Qd2H1qc?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 58,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/o8e0Qd2H1qc?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Still With You",
+      "singer": "정국",
+      "videoLength": 239,
+      "songVideoId": "BksBNbTIoPE",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 57,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/BksBNbTIoPE?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 56,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/BksBNbTIoPE?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 55,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/BksBNbTIoPE?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Broken Melodies",
+      "singer": "NCT DREAM",
+      "videoLength": 227,
+      "songVideoId": "EPsh2192sTU",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 54,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/EPsh2192sTU?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 53,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/EPsh2192sTU?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 52,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/EPsh2192sTU?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "다시 만날 수 있을까",
+      "singer": "임영웅",
+      "videoLength": 275,
+      "songVideoId": "VPDRLgfqfSs",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 51,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/VPDRLgfqfSs?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 50,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/VPDRLgfqfSs?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 49,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/VPDRLgfqfSs?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Hype boy",
+      "singer": "NewJeans",
+      "videoLength": 180,
+      "songVideoId": "T--6HBX2K4g",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 48,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/T--6HBX2K4g?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 47,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/T--6HBX2K4g?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 46,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/T--6HBX2K4g?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Candy",
+      "singer": "NCT DREAM",
+      "videoLength": 220,
+      "songVideoId": "QuaVFoBLQeg",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 45,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/QuaVFoBLQeg?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 44,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/QuaVFoBLQeg?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 43,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/QuaVFoBLQeg?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "우리들의 블루스",
+      "singer": "임영웅",
+      "videoLength": 207,
+      "songVideoId": "epz-aL5RaLQ",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 42,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/epz-aL5RaLQ?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 41,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/epz-aL5RaLQ?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 40,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/epz-aL5RaLQ?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Kitsch",
+      "singer": "IVE (아이브)",
+      "videoLength": 195,
+      "songVideoId": "r572qh2__-U",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 39,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/r572qh2__-U?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 38,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/r572qh2__-U?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 37,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/r572qh2__-U?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "UNFORGIVEN (feat. Nile Rodgers)",
+      "singer": "LE SSERAFIM (르세라핌)",
+      "videoLength": 181,
+      "songVideoId": "fzSDGXyGTjg",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 36,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/fzSDGXyGTjg?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 35,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/fzSDGXyGTjg?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 34,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/fzSDGXyGTjg?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    }
+  ],
+  "currentSong": {
+    "id": 11,
+    "title": "모래 알갱이",
+    "singer": "임영웅",
+    "videoLength": 221,
+    "songVideoId": "3_wOZrzmQ1o",
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+    "killingParts": [
+      {
+        "id": 33,
+        "rank": 1,
+        "likeCount": 0,
+        "start": 90,
+        "end": 100,
+        "partVideoUrl": "https://youtu.be/3_wOZrzmQ1o?start=90&end=100",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 32,
+        "rank": 2,
+        "likeCount": 0,
+        "start": 60,
+        "end": 70,
+        "partVideoUrl": "https://youtu.be/3_wOZrzmQ1o?start=60&end=70",
+        "partLength": 10,
+        "likeStatus": false
+      },
+      {
+        "id": 31,
+        "rank": 3,
+        "likeCount": 0,
+        "start": 30,
+        "end": 40,
+        "partVideoUrl": "https://youtu.be/3_wOZrzmQ1o?start=30&end=40",
+        "partLength": 10,
+        "likeStatus": false
+      }
+    ]
+  },
+  "nextSongs": [
+    {
+      "id": 10,
+      "title": "ISTJ",
+      "singer": "NCT DREAM",
+      "videoLength": 186,
+      "songVideoId": "es60T3k-tyM",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 30,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 29,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 28,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/es60T3k-tyM?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "사랑은 늘 도망가",
+      "singer": "임영웅",
+      "videoLength": 273,
+      "songVideoId": "pBEAzM2TRmE",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 27,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 26,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 25,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/pBEAzM2TRmE?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Steal The Show (From \"엘리멘탈\")",
+      "singer": "Lauv",
+      "videoLength": 194,
+      "songVideoId": "kUMds6XKtfY",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 24,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 23,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 22,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/kUMds6XKtfY?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Spicy",
+      "singer": "aespa",
+      "videoLength": 198,
+      "songVideoId": "1kfmWl3o8TE",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 21,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 20,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 19,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/1kfmWl3o8TE?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "이브, 프시케 그리고 푸른 수염의 아내",
+      "singer": "LE SSERAFIM (르세라핌)",
+      "videoLength": 186,
+      "songVideoId": "Ii8L0qEvfC8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 18,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 17,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 16,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/Ii8L0qEvfC8?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "I AM",
+      "singer": "IVE (아이브)",
+      "videoLength": 208,
+      "songVideoId": "cU0JrSAyy7o",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 15,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 14,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 13,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/cU0JrSAyy7o?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "헤어지자 말해요",
+      "singer": "박재정",
+      "videoLength": 244,
+      "songVideoId": "SrQzxD8UFdM",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 12,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 11,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 10,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/SrQzxD8UFdM?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "퀸카 (Queencard)",
+      "singer": "(여자)아이들",
+      "videoLength": 162,
+      "songVideoId": "VOcb6ZHxSjc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 9,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 8,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 7,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/VOcb6ZHxSjc?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Seven (feat. Latto) - Clean Ver.",
+      "singer": "정국",
+      "videoLength": 186,
+      "songVideoId": "UUSbUBYqU_8",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 6,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 5,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 4,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/UUSbUBYqU_8?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Super Shy",
+      "singer": "NewJeans",
+      "videoLength": 200,
+      "songVideoId": "ArmDp-zijuc",
+      "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize",
+      "killingParts": [
+        {
+          "id": 3,
+          "rank": 1,
+          "likeCount": 0,
+          "start": 90,
+          "end": 100,
+          "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=90&end=100",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 2,
+          "rank": 2,
+          "likeCount": 0,
+          "start": 60,
+          "end": 70,
+          "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=60&end=70",
+          "partLength": 10,
+          "likeStatus": false
+        },
+        {
+          "id": 1,
+          "rank": 3,
+          "likeCount": 0,
+          "start": 30,
+          "end": 40,
+          "partVideoUrl": "https://youtu.be/ArmDp-zijuc?start=30&end=40",
+          "partLength": 10,
+          "likeStatus": false
+        }
+      ]
+    }
+  ]
+}

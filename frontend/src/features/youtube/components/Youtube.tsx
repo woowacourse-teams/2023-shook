@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
-import { loadIFrameApi } from '@/features/youtube/remotes/loadIframeApi';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
 interface YoutubeProps {
@@ -10,35 +9,44 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, updatePlayer } = useVideoPlayerContext();
+  const { videoPlayer, initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
 
-  const createYoutubePlayer = useCallback(async () => {
-    try {
-      const YT = await loadIFrameApi();
-
-      updatePlayer(
-        new YT.Player('yt-player', {
+  useEffect(() => {
+    const createYoutubePlayer = async () => {
+      try {
+        new YT.Player(`yt-player-${videoId}`, {
           videoId,
           width: '100%',
           height: '100%',
-          playerVars: { start },
-        })
-      );
-    } catch (error) {
-      console.error(error);
-      console.error('Youtube Player를 생성하지 못하였습니다.');
-    }
-  }, []);
+          playerVars: { start, rel: 0 },
+          events: {
+            onReady: (e) => {
+              bindUpdatePlayerStateEvent(e);
+              initPlayer(e);
+            },
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        console.error('Youtube Player를 생성하지 못하였습니다.');
+      }
+    };
 
-  useEffect(() => {
     createYoutubePlayer();
 
-    return () => videoPlayer?.destroy();
-  }, []);
+    const clonePlayerRef = videoPlayer;
+
+    return () => {
+      if (!clonePlayerRef.current) return;
+
+      clonePlayerRef.current.destroy();
+      clonePlayerRef.current = null;
+    };
+  }, [bindUpdatePlayerStateEvent, initPlayer, start, videoId, videoPlayer]);
 
   return (
     <YoutubeWrapper>
-      <YoutubeIframe id="yt-player" />
+      <YoutubeIframe id={`yt-player-${videoId}`} />
     </YoutubeWrapper>
   );
 };

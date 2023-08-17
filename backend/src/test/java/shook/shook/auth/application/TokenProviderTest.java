@@ -53,11 +53,27 @@ class TokenProviderTest {
             .isEqualTo(REFRESH_TOKEN_VALID_TIME);
     }
 
-    @DisplayName("잘못 만들어진 token을 parsing하면 에러를 발생한다.")
+    @DisplayName("망가진 형식의 token을 parsing하면 에러를 발생한다.")
     @Test
     void parsing_fail_malformed_token() {
-        // given
+        //given
         final String inValidToken = "asdfsev.asefsbd.23dfvs";
+
+        //when
+        //then
+        assertThatThrownBy(() -> tokenProvider.parseClaims(inValidToken))
+            .isInstanceOf(TokenException.NotIssuedTokenException.class);
+    }
+
+    @DisplayName("다른 출처의 token을 parsing하면 예외를 발생한다.")
+    @Test
+    void parsing_fail_different_secretkey() {
+        //given
+        final TokenProvider differentTokenProvider = new TokenProvider(
+            10000,
+            10000,
+            "asdfksnlxcnvporfsdg8xjcvlk323d");
+        final String inValidToken = differentTokenProvider.createAccessToken(1, "shook");
 
         //when
         //then

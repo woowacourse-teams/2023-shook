@@ -1,5 +1,6 @@
 package shook.shook.voting_song.application;
 
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,7 @@ import shook.shook.voting_song.domain.VotingSongPart;
 import shook.shook.voting_song.domain.repository.VoteRepository;
 import shook.shook.voting_song.domain.repository.VotingSongPartRepository;
 import shook.shook.voting_song.domain.repository.VotingSongRepository;
-import shook.shook.voting_song.exception.VotingSongException.VotingSongNotExistException;
+import shook.shook.voting_song.exception.VotingSongException;
 import shook.shook.voting_song.exception.VotingSongPartException;
 
 @RequiredArgsConstructor
@@ -24,12 +25,11 @@ public class VotingSongPartService {
     private final VoteRepository voteRepository;
 
     @Transactional
-    public void register(
-        final Long votingSongId,
-        final VotingSongPartRegisterRequest request
-    ) {
+    public void register(final Long votingSongId, final VotingSongPartRegisterRequest request) {
         final VotingSong votingSong = votingSongRepository.findById(votingSongId)
-            .orElseThrow(VotingSongNotExistException::new);
+            .orElseThrow(() -> new VotingSongException.VotingSongNotExistException(
+                Map.of("VotingSongId", String.valueOf(votingSongId))
+            ));
 
         final int startSecond = request.getStartSecond();
         final PartLength partLength = PartLength.findBySecond(request.getLength());
@@ -44,22 +44,22 @@ public class VotingSongPartService {
         voteToExistPart(votingSong, votingSongPart);
     }
 
-    private void addPartAndVote(
-        final VotingSong votingSong,
-        final VotingSongPart votingSongPart
-    ) {
+    private void addPartAndVote(final VotingSong votingSong, final VotingSongPart votingSongPart) {
         votingSong.addPart(votingSongPart);
         votingSongPartRepository.save(votingSongPart);
 
         voteToPart(votingSongPart);
     }
 
-    private void voteToExistPart(
-        final VotingSong votingSong,
-        final VotingSongPart votingSongPart
-    ) {
+    private void voteToExistPart(final VotingSong votingSong, final VotingSongPart votingSongPart) {
         final VotingSongPart existPart = votingSong.getSameLengthPartStartAt(votingSongPart)
-            .orElseThrow(VotingSongPartException.PartNotExistException::new);
+            .orElseThrow(() -> new VotingSongPartException.PartNotExistException(
+                Map.of(
+                    "VotingSongId", String.valueOf(votingSong.getId()),
+                    "StartSecond", String.valueOf(votingSongPart.getStartSecond()),
+                    "PartLength", votingSongPart.getLength().name()
+                )
+            ));
 
         voteToPart(existPart);
     }

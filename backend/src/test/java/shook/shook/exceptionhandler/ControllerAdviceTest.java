@@ -16,7 +16,6 @@ import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.application.SongService;
 import shook.shook.song.exception.SongException;
-import shook.shook.song.exception.SongException.NullOrEmptyVideoIdException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
 import shook.shook.song.exception.killingpart.KillingPartLikeException;
@@ -49,7 +48,6 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new TokenException.NotIssuedTokenException(), 401),
             new ExceptionTestData(new TokenException.ExpiredTokenException(), 401),
 
-            new ExceptionTestData(new OAuthException.InvalidEmailException(), 503),
             new ExceptionTestData(new OAuthException.InvalidAuthorizationCodeException(), 503),
             new ExceptionTestData(new OAuthException.InvalidAccessTokenException(), 503),
             new ExceptionTestData(new OAuthException.GoogleServerException(), 503),
@@ -78,16 +76,26 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new KillingPartsException.OutOfSizeException(), 500),
             new ExceptionTestData(new KillingPartsException.EmptyKillingPartsException(), 500),
 
-            new ExceptionTestData(new SongException.SongLengthLessThanOneException(), 400),
-            new ExceptionTestData(new SongException.SongNotExistException(), 400),
-            new ExceptionTestData(new SongException.NullOrEmptyTitleException(), 400),
+            new ExceptionTestData(
+                new SongException.SongLengthLessThanOneException(), 400),
+            new ExceptionTestData(
+                new SongException.SongNotExistException(),
+                400),
+            new ExceptionTestData(new SongException.NullOrEmptyTitleException(),
+                400),
             new ExceptionTestData(new SongException.TooLongTitleException(), 400),
-            new ExceptionTestData(new NullOrEmptyVideoIdException(), 400),
-            new ExceptionTestData(new SongException.TooLongTitleException(), 400),
-            new ExceptionTestData(new SongException.NullOrEmptyImageUrlException(), 400),
-            new ExceptionTestData(new SongException.TooLongImageUrlException(), 400),
-            new ExceptionTestData(new SongException.NullOrEmptySingerNameException(), 400),
-            new ExceptionTestData(new SongException.TooLongSingerNameException(), 400),
+            new ExceptionTestData(new SongException.NullOrEmptyVideoIdException(),
+                400),
+            new ExceptionTestData(
+                new SongException.IncorrectVideoIdLengthException(), 400),
+            new ExceptionTestData(new SongException.NullOrEmptyImageUrlException(),
+                400),
+            new ExceptionTestData(
+                new SongException.TooLongImageUrlException(), 400),
+            new ExceptionTestData(
+                new SongException.NullOrEmptySingerNameException(), 400),
+            new ExceptionTestData(
+                new SongException.TooLongSingerNameException(), 400),
 
             new ExceptionTestData(new PartException.StartLessThanZeroException(), 400),
             new ExceptionTestData(new PartException.StartOverSongLengthException(), 400),

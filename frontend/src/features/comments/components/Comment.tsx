@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
+import Avatar from '@/shared/components/Avatar';
 import Spacing from '@/shared/components/Spacing';
 
 interface CommentProps {
@@ -20,9 +21,7 @@ const Comment = ({ content, createdAt }: CommentProps) => {
   return (
     <Wrapper>
       <Flex>
-        <Profile>
-          <img src={shookshook} alt="익명 프로필" />
-        </Profile>
+        <Avatar src={shookshook} alt="익명 프로필" />
         <Spacing direction="horizontal" size={14} />
         <Box tabIndex={0} role="comment">
           <Username>익명</Username>
@@ -45,16 +44,6 @@ const Flex = styled.div`
   display: flex;
   align-items: flex-start;
   width: 100%;
-`;
-
-const Profile = styled.div`
-  overflow: hidden;
-
-  width: 40px;
-  height: 40px;
-
-  background-color: white;
-  border-radius: 100%;
 `;
 
 const Box = styled.div`

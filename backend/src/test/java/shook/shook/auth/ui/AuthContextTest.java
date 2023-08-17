@@ -38,7 +38,7 @@ class AuthContextTest {
         assertThat(result).isEqualTo(1L);
     }
 
-    @DisplayName("authContext의 memberStatus가 Member이면 false를 반환한다.")
+    @DisplayName("authContext의 memberStatus가 Member이면 비회원검사에서 false를 반환한다.")
     @Test
     void return_false_memberStatus_is_member() {
         //given

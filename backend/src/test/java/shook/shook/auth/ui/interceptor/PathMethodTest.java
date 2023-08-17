@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PathMethodTest {
 
-
     @DisplayName("요청 메소드 이름이 인자로 들어오는 경우 요소의 이름과 비교하여 대소문자 구분없이 같은 true를 반환한다.")
     @ValueSource(strings = {"post", "POST", "Post"})
     @ParameterizedTest
@@ -24,7 +23,7 @@ class PathMethodTest {
         assertThat(result).isTrue();
     }
 
-    @DisplayName("요청 메소드 이름이 인자로 들어오는 경우 요소의 이름과 비교하여 대소문자 구분없이 같은 true를 반환한다.")
+    @DisplayName("요청 메소드 이름이 인자로 들어오는 경우 요소의 이름과 비교하여 대소문자 구분없이 같은 false를 반환한다.")
     @ValueSource(strings = {"post", "POST", "Post"})
     @ParameterizedTest
     void return_false_nonMatch_name(String requestMethod) {

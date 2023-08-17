@@ -1,20 +1,53 @@
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useRef, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 
 interface VideoPlayerContextProps {
-  videoPlayer: YT.Player | null;
-  updatePlayer: (player: YT.Player) => void;
+  videoPlayer: React.MutableRefObject<YT.Player | null>;
+  playerState: YT.PlayerState | null;
+  seekTo: (start: number) => void;
+  pause: () => void;
+  initPlayer: YT.PlayerEventHandler<YT.PlayerEvent>;
+  bindUpdatePlayerStateEvent: YT.PlayerEventHandler<YT.PlayerEvent>;
 }
 
 export const VideoPlayerContext = createContext<VideoPlayerContextProps | null>(null);
 
 export const VideoPlayerProvider = ({ children }: PropsWithChildren) => {
-  const [videoPlayer, setVideoPlayer] = useState<YT.Player | null>(null);
+  const videoPlayer = useRef<YT.Player | null>(null);
+  const [playerState, setPlayerState] = useState<YT.PlayerState | null>(null);
 
-  const updatePlayer = useCallback((player: YT.Player) => setVideoPlayer(player), []);
+  const pause = useCallback(() => videoPlayer.current?.pauseVideo(), []);
+  const play = useCallback(() => videoPlayer.current?.playVideo(), []);
+
+  const seekTo = useCallback(
+    (start: number) => {
+      videoPlayer.current?.seekTo(start, true);
+      play();
+    },
+    [play]
+  );
+
+  const initPlayer: YT.PlayerEventHandler<YT.PlayerEvent> = useCallback(({ target }) => {
+    videoPlayer.current = target;
+  }, []);
+
+  const bindUpdatePlayerStateEvent: YT.PlayerEventHandler<YT.PlayerEvent> = useCallback(
+    ({ target }) =>
+      target.addEventListener('onStateChange', () => setPlayerState(target.getPlayerState())),
+    []
+  );
 
   return (
-    <VideoPlayerContext.Provider value={{ videoPlayer, updatePlayer }}>
+    <VideoPlayerContext.Provider
+      value={{
+        videoPlayer,
+        playerState,
+        seekTo,
+        pause,
+        initPlayer,
+        bindUpdatePlayerStateEvent,
+      }}
+    >
       {children}
     </VideoPlayerContext.Provider>
   );
