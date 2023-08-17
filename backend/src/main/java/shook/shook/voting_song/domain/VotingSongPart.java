@@ -54,7 +54,12 @@ public class VotingSongPart {
     private final List<Vote> votes = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+
+    @PrePersist
+    private void prePersist() {
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+    }
 
     private VotingSongPart(
         final Long id,
@@ -101,11 +106,6 @@ public class VotingSongPart {
     ) {
         validateStartSecond(startSecond, length, votingSong.getLength());
         return new VotingSongPart(null, startSecond, length, votingSong);
-    }
-
-    @PrePersist
-    private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
     public void vote(final Vote vote) {

@@ -18,6 +18,7 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.member.domain.Member;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -37,34 +38,54 @@ public class KillingPartComment {
     @Getter(AccessLevel.NONE)
     private KillingPart killingPart;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    @Getter(AccessLevel.NONE)
+    private Member member;
+
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     @PrePersist
     private void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
-    private KillingPartComment(final Long id, final KillingPart killingPart, final String content) {
+    private KillingPartComment(
+        final Long id,
+        final KillingPart killingPart,
+        final String content,
+        final Member member
+    ) {
         this.id = id;
         this.killingPart = killingPart;
         this.content = new KillingPartCommentContent(content);
+        this.member = member;
     }
 
     public static KillingPartComment saved(
         final Long id,
         final KillingPart part,
-        final String content
+        final String content,
+        final Member member
     ) {
-        return new KillingPartComment(id, part, content);
+        return new KillingPartComment(id, part, content, member);
     }
 
-    public static KillingPartComment forSave(final KillingPart part, final String content) {
-        return new KillingPartComment(null, part, content);
+    public static KillingPartComment forSave(
+        final KillingPart part,
+        final String content,
+        final Member member
+    ) {
+        return new KillingPartComment(null, part, content, member);
     }
 
-    public boolean isBelongToOtherPart(final KillingPart part) {
-        return !this.killingPart.equals(part);
+    public boolean isBelongToOtherKillingPart(final KillingPart killingPart) {
+        return !this.killingPart.equals(killingPart);
+    }
+
+    public String getWriterNickname() {
+        return member.getNickname();
     }
 
     public String getContent() {
@@ -79,11 +100,11 @@ public class KillingPartComment {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final KillingPartComment partComment = (KillingPartComment) o;
-        if (Objects.isNull(partComment.id) || Objects.isNull(this.id)) {
+        final KillingPartComment killingPartComment = (KillingPartComment) o;
+        if (Objects.isNull(killingPartComment.id) || Objects.isNull(this.id)) {
             return false;
         }
-        return Objects.equals(id, partComment.id);
+        return Objects.equals(id, killingPartComment.id);
     }
 
     @Override

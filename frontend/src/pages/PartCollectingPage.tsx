@@ -3,23 +3,24 @@ import { styled } from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import VoteInterface from '@/features/songs/components/VoteInterface';
 import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
-import { useGetSongDetail } from '@/features/songs/remotes/useGetSongDetail';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
+import useFetch from '@/shared/hooks/useFetch';
+import fetcher from '@/shared/remotes';
+import type { VotingSongList } from '@/shared/types/song';
 
 const PartCollectingPage = () => {
-  const { id: songIdParam } = useParams();
-  const { songDetail } = useGetSongDetail(Number(songIdParam));
+  const { id: songId } = useParams();
+  const { data: votingSongs } = useFetch<VotingSongList>(() =>
+    fetcher(`/voting-songs/${songId}`, 'GET')
+  );
 
-  if (!songDetail) return;
-  const { id, title, singer, videoLength, songVideoUrl, albumCoverUrl } = songDetail;
-  // TODO: videoId 자체가 응답값으로 오도록 API 협의
-  // TODO: Jacket img src API 추가 협의
-  const videoId = songVideoUrl.replace('https://youtu.be/', '');
+  if (!votingSongs) return;
+  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = votingSongs.currentSong;
 
   return (
     <Container>
-      <BigTitle>킬링파트 투표 🔖</BigTitle>
+      <BigTitle>킬링파트 수집</BigTitle>
       <SongInfoContainer>
         <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
@@ -28,8 +29,8 @@ const PartCollectingPage = () => {
         </Info>
       </SongInfoContainer>
       <VideoPlayerProvider>
-        <Youtube videoId={videoId} />
-        <VoteInterfaceProvider videoLength={videoLength} songId={id}>
+        <Youtube videoId={songVideoId} />
+        <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
           <VoteInterface />
         </VoteInterfaceProvider>
       </VideoPlayerProvider>

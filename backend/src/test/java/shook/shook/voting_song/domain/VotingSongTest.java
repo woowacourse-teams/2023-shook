@@ -14,7 +14,7 @@ class VotingSongTest {
     @Test
     void addPart_valid() {
         //given
-        final VotingSong votingSong = new VotingSong("노래제목", "비디오URL", "이미지URL", "가수", 180);
+        final VotingSong votingSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
         final VotingSongPart votingSongPart =
             VotingSongPart.forSave(1, PartLength.STANDARD, votingSong);
 
@@ -29,8 +29,8 @@ class VotingSongTest {
     @Test
     void addPart_invalid() {
         //given
-        final VotingSong firstSong = new VotingSong("노래제목", "비디오URL", "이미지URL", "가수", 180);
-        final VotingSong secondSong = new VotingSong("노래제목", "비디오URL", "이미지URL", "가수", 180);
+        final VotingSong firstSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
+        final VotingSong secondSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
         final VotingSongPart partInSecondSong =
             VotingSongPart.forSave(1, PartLength.STANDARD, secondSong);
 

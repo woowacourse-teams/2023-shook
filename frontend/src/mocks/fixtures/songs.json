@@ -15,7 +15,8 @@
         "start": 5,
         "end": 15,
         "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=5&end=15",
-        "likeCount": "111"
+        "likeCount": 111,
+        "likeStatus": false
       },
       {
         "id": 2,
@@ -25,7 +26,8 @@
         "start": 20,
         "end": 30,
         "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=20&end=30",
-        "likeCount": "56"
+        "likeCount": 11,
+        "likeStatus": true
       },
       {
         "id": 3,
@@ -35,7 +37,8 @@
         "start": 120,
         "end": 130,
         "partVideoUrl": "https://www.youtube.com/embed/UUSbUBYqU_8?start=120&end=130",
-        "likeCount": "88"
+        "likeCount": 1,
+        "likeStatus": false
       }
     ]
   },
@@ -55,7 +58,8 @@
         "start": 130,
         "end": 140,
         "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=130&end=140",
-        "likeCount": "111"
+        "likeCount": 111,
+        "likeStatus": false
       },
       {
         "id": 2,
@@ -65,7 +69,8 @@
         "start": 52,
         "end": 62,
         "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=52&end=62",
-        "likeCount": "111"
+        "likeCount": 11,
+        "likeStatus": true
       },
       {
         "id": 3,
@@ -75,7 +80,8 @@
         "start": 123,
         "end": 133,
         "partVideoUrl": "https://www.youtube.com/embed/ArmDp-zijuc?start=123&end=133",
-        "likeCount": "111"
+        "likeCount": 11,
+        "likeStatus": true
       }
     ]
   },
@@ -96,7 +102,8 @@
         "start": 0,
         "end": 10,
         "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=0&end=10",
-        "likeCount": "111"
+        "likeCount": 11,
+        "likeStatus": true
       },
       {
         "id": 2,
@@ -106,7 +113,8 @@
         "start": 40,
         "end": 50,
         "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=40&end=50",
-        "likeCount": "111"
+        "likeCount": 111,
+        "likeStatus": false
       },
       {
         "id": 3,
@@ -116,7 +124,8 @@
         "start": 24,
         "end": 34,
         "partVideoUrl": "https://www.youtube.com/embed/VOcb6ZHxSjc?start=24&end=34",
-        "likeCount": "111"
+        "likeCount": 1,
+        "likeStatus": true
       }
     ]
   }

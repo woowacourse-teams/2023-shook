@@ -33,7 +33,7 @@ public class Vote {
     private VotingSongPart votingSongPart;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     private Vote(final Long id, final VotingSongPart votingSongPart) {
         this.id = id;
@@ -50,7 +50,7 @@ public class Vote {
 
     @PrePersist
     void prePersist() {
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     public boolean isBelongToOtherPart(final VotingSongPart votingSongPart) {

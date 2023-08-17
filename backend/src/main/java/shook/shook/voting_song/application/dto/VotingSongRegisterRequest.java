@@ -18,7 +18,7 @@ public class VotingSongRegisterRequest {
     private String title;
 
     @NotBlank
-    private String videoUrl;
+    private String videoId;
 
     @NotBlank
     private String imageUrl;
@@ -31,6 +31,6 @@ public class VotingSongRegisterRequest {
     private Integer length;
 
     public VotingSong getVotingSong() {
-        return new VotingSong(title, videoUrl, imageUrl, singer, length);
+        return new VotingSong(title, videoId, imageUrl, singer, length);
     }
 }
