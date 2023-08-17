@@ -9,6 +9,7 @@ interface User {
 interface AuthContextProps {
   user: User | null;
   login: (accessToken: string) => void;
+  logout: () => void;
 }
 
 export const useAuthContext = () => {
@@ -43,7 +44,12 @@ const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
     setAccessToken(userToken);
   };
 
-  return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    localStorage.removeItem('userToken');
+    setAccessToken('');
+  };
+
+  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
