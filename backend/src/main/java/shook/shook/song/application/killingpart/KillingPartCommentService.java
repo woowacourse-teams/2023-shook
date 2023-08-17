@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.member.exception.MemberException.MemberNotExistException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentResponse;
 import shook.shook.song.domain.killingpart.KillingPart;
@@ -25,10 +25,13 @@ public class KillingPartCommentService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void register(final long partId, final KillingPartCommentRegisterRequest request,
-        final Long memberId) {
+    public void register(
+        final Long partId,
+        final KillingPartCommentRegisterRequest request,
+        final Long memberId
+    ) {
         final Member member = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotExistException::new);
+            .orElseThrow(MemberException.MemberNotExistException::new);
 
         final KillingPart killingPart = killingPartRepository.findById(partId)
             .orElseThrow(KillingPartException.PartNotExistException::new);

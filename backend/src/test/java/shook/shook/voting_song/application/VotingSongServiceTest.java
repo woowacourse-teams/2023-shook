@@ -135,7 +135,7 @@ class VotingSongServiceTest extends UsingJpaTest {
 
             // when
             final VotingSongSwipeResponse swipeResponse =
-                votingSongService.findByIdForSwipe(standardSong.getId());
+                votingSongService.findAllForSwipeById(standardSong.getId());
 
             // then
             final VotingSongResponse expectedCurrent = VotingSongResponse.from(standardSong);
@@ -150,9 +150,9 @@ class VotingSongServiceTest extends UsingJpaTest {
                     .toList();
 
             assertAll(
-                () -> assertThat(swipeResponse.getBeforeSongs()).usingRecursiveComparison()
+                () -> assertThat(swipeResponse.getPrevSongs()).usingRecursiveComparison()
                     .isEqualTo(expectedBefore),
-                () -> assertThat(swipeResponse.getAfterSongs()).usingRecursiveComparison()
+                () -> assertThat(swipeResponse.getNextSongs()).usingRecursiveComparison()
                     .isEqualTo(expectedAfter),
                 () -> assertThat(swipeResponse.getCurrentSong()).usingRecursiveComparison()
                     .isEqualTo(expectedCurrent)
@@ -167,7 +167,7 @@ class VotingSongServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThatThrownBy(() -> votingSongService.findByIdForSwipe(notExistId))
+            assertThatThrownBy(() -> votingSongService.findAllForSwipeById(notExistId))
                 .isInstanceOf(VotingSongException.VotingSongNotExistException.class);
         }
     }

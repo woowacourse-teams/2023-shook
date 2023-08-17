@@ -18,33 +18,33 @@ public class SongSwipeResponse {
     public static SongSwipeResponse of(
         final Member member,
         final Song currentSong,
-        final List<Song> beforeSongs,
-        final List<Song> afterSongs
+        final List<Song> prevSongs,
+        final List<Song> nextSongs
     ) {
         final SongResponse currentResponse = SongResponse.of(currentSong, member);
-        final List<SongResponse> beforeResponses = beforeSongs.stream()
+        final List<SongResponse> prevResponses = prevSongs.stream()
             .map(song -> SongResponse.of(song, member))
             .toList();
-        final List<SongResponse> afterResponses = afterSongs.stream()
+        final List<SongResponse> nextResponses = nextSongs.stream()
             .map(song -> SongResponse.of(song, member))
             .toList();
 
-        return new SongSwipeResponse(beforeResponses, currentResponse, afterResponses);
+        return new SongSwipeResponse(prevResponses, currentResponse, nextResponses);
     }
 
     public static SongSwipeResponse ofUnauthorizedUser(
         final Song currentSong,
-        final List<Song> beforeSongs,
-        final List<Song> afterSongs
+        final List<Song> prevSongs,
+        final List<Song> nextSongs
     ) {
         final SongResponse currentResponse = SongResponse.fromUnauthorizedUser(currentSong);
-        final List<SongResponse> beforeResponses = beforeSongs.stream()
+        final List<SongResponse> prevResponses = prevSongs.stream()
             .map(SongResponse::fromUnauthorizedUser)
             .toList();
-        final List<SongResponse> afterResponses = afterSongs.stream()
+        final List<SongResponse> nextResponses = nextSongs.stream()
             .map(SongResponse::fromUnauthorizedUser)
             .toList();
 
-        return new SongSwipeResponse(beforeResponses, currentResponse, afterResponses);
+        return new SongSwipeResponse(prevResponses, currentResponse, nextResponses);
     }
 }

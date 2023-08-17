@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class TokenReissueResponse {
+public class ReissueAccessTokenResponse {
 
     private String accessToken;
 }
