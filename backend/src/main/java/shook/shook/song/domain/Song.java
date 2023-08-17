@@ -32,7 +32,7 @@ public class Song {
     private SongTitle title;
 
     @Embedded
-    private SongVideoUrl videoUrl;
+    private SongVideoId videoId;
 
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
@@ -57,7 +57,7 @@ public class Song {
     private Song(
         final Long id,
         final String title,
-        final String videoUrl,
+        final String videoId,
         final String imageUrl,
         final String singer,
         final int length,
@@ -66,7 +66,7 @@ public class Song {
         validate(killingParts);
         this.id = id;
         this.title = new SongTitle(title);
-        this.videoUrl = new SongVideoUrl(videoUrl);
+        this.videoId = new SongVideoId(videoId);
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
@@ -76,13 +76,13 @@ public class Song {
 
     public Song(
         final String title,
-        final String videoUrl,
+        final String videoId,
         final String albumCoverUrl,
         final String singer,
         final int length,
         final KillingParts killingParts
     ) {
-        this(null, title, videoUrl, albumCoverUrl, singer, length, killingParts);
+        this(null, title, videoId, albumCoverUrl, singer, length, killingParts);
     }
 
     private void validate(final KillingParts killingParts) {
@@ -96,15 +96,15 @@ public class Song {
     }
 
     public String getPartVideoUrl(final KillingPart part) {
-        return videoUrl.getValue() + part.getStartAndEndUrlPathParameter();
+        return videoId.getUrlOfVideo() + part.getStartAndEndUrlPathParameter();
     }
 
     public String getTitle() {
         return title.getValue();
     }
 
-    public String getVideoUrl() {
-        return videoUrl.getValue();
+    public String getVideoId() {
+        return videoId.getValue();
     }
 
     public String getAlbumCoverUrl() {

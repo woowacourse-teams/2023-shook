@@ -29,7 +29,7 @@ import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
 import shook.shook.support.UsingJpaTest;
 
-@Sql("classpath:/song/drop_create_empty_schema.sql")
+@Sql("classpath:/schema-test.sql")
 class SongServiceTest extends UsingJpaTest {
 
     @Autowired
@@ -56,7 +56,7 @@ class SongServiceTest extends UsingJpaTest {
     void register() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title", "videoUrl", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300,
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -74,7 +74,7 @@ class SongServiceTest extends UsingJpaTest {
         assertAll(
             () -> assertThat(foundSong).isNotNull(),
             () -> assertThat(foundSong.getTitle()).isEqualTo("title"),
-            () -> assertThat(foundSong.getVideoUrl()).isEqualTo("videoUrl"),
+            () -> assertThat(foundSong.getVideoId()).isEqualTo("elevenVideo"),
             () -> assertThat(foundSong.getAlbumCoverUrl()).isEqualTo("imageUrl"),
             () -> assertThat(foundSong.getSinger()).isEqualTo("singer"),
             () -> assertThat(foundSong.getCreatedAt()).isNotNull(),
@@ -212,7 +212,7 @@ class SongServiceTest extends UsingJpaTest {
 
     private Song registerNewSong() {
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title", "videoUrl", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300,
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
