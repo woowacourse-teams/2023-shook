@@ -1,10 +1,9 @@
 package shook.shook.voting_song.application;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.voting_song.application.dto.VotingSongRegisterRequest;
@@ -29,26 +28,27 @@ public class VotingSongService {
         votingSongRepository.save(request.getVotingSong());
     }
 
-    public VotingSongSwipeResponse findByIdForSwipe(final Long id) {
+    public VotingSongSwipeResponse findAllForSwipeById(final Long id) {
         final VotingSong votingSong = votingSongRepository.findById(id)
-            .orElseThrow(VotingSongException.VotingSongNotExistException::new);
+            .orElseThrow(() -> new VotingSongException.VotingSongNotExistException(
+                Map.of("VotingSongId", String.valueOf(id))
+            ));
 
-        final List<VotingSong> beforeVotingSongs = votingSongRepository.findByIdLessThanOrderByIdDesc(
-            id, PageRequest.of(0, BEFORE_SONG_COUNT)
-        );
-        Collections.reverse(beforeVotingSongs);
+        final long startId = Math.max(0, id - BEFORE_SONG_COUNT);
+        final long endId = id + AFTER_SONG_COUNT;
 
-        final List<VotingSong> afterVotingSongs = votingSongRepository.findByIdGreaterThanOrderByIdAsc(
-            id, PageRequest.of(0, AFTER_SONG_COUNT)
-        );
+        final List<VotingSong> songsForSwipe =
+            votingSongRepository.findByIdGreaterThanEqualAndIdLessThanEqual(startId, endId)
+                .stream()
+                .sorted(Comparator.comparing(VotingSong::getId))
+                .toList();
 
-        return VotingSongSwipeResponse.of(votingSong, beforeVotingSongs, afterVotingSongs);
+        return VotingSongSwipeResponse.of(songsForSwipe, votingSong);
     }
 
     public List<VotingSongResponse> findAll() {
-        final Sort ascendingSort = Sort.by("id").ascending();
-
-        return votingSongRepository.findAll(ascendingSort).stream()
+        return votingSongRepository.findAll().stream()
+            .sorted(Comparator.comparing(VotingSong::getId))
             .map(VotingSongResponse::from)
             .toList();
     }

@@ -1,35 +1,39 @@
-import { useState } from 'react';
 import { styled } from 'styled-components';
-import KILLING_PART_RANK from '../constants/killingPartRank';
 import KillingPartTrack from './KillingPartTrack';
-import type { KillingPartRank } from '../types/KillingPartRank.type';
-import type { SongDetail } from '@/shared/types/song';
+import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartTrackListProps {
   killingParts: SongDetail['killingParts'];
+  songId: number;
+  nowPlayingTrack: KillingPart['id'];
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
-const KillingPartTrackList = ({ killingParts }: KillingPartTrackListProps) => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPartRank>(
-    KILLING_PART_RANK.DEFAULT
-  );
-
-  const changePlayingTrack: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    const newTrack = Number(currentTarget.value) as KillingPartRank;
-
-    setNowPlayingTrack(newTrack);
-  };
-
+const KillingPartTrackList = ({
+  killingParts,
+  songId,
+  nowPlayingTrack,
+  setNowPlayingTrack,
+  setCommentsPartId,
+}: KillingPartTrackListProps) => {
   return (
-    <TrackList>
-      {killingParts.map((killingPart) => (
-        <KillingPartTrack
-          key={killingPart.id}
-          killingPart={killingPart}
-          isPlaying={killingPart.rank === nowPlayingTrack}
-          changePlayingTrack={changePlayingTrack}
-        />
-      ))}
+    <TrackList role="radiogroup">
+      {killingParts.map((killingPart) => {
+        const { id } = killingPart;
+        const isNowPlayingTrack = id === nowPlayingTrack;
+
+        return (
+          <KillingPartTrack
+            key={id}
+            killingPart={killingPart}
+            songId={songId}
+            isNowPlayingTrack={isNowPlayingTrack}
+            setNowPlayingTrack={setNowPlayingTrack}
+            setCommentsPartId={setCommentsPartId}
+          />
+        );
+      })}
     </TrackList>
   );
 };
@@ -39,5 +43,5 @@ export default KillingPartTrackList;
 export const TrackList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;

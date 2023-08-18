@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,11 @@ public class KillingParts {
             throw new KillingPartsException.EmptyKillingPartsException();
         }
         if (killingParts.size() != KILLING_PART_COUNT) {
-            throw new KillingPartsException.OutOfSizeException();
+            throw new KillingPartsException.OutOfSizeException(
+                Map.of(
+                    "KillingPartsSize", String.valueOf(killingParts.size())
+                )
+            );
         }
     }
 
@@ -53,7 +58,7 @@ public class KillingParts {
     public List<KillingPart> getKillingPartsSortedByLikeCount() {
         return killingParts.stream()
             .sorted(Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
-                .thenComparing(KillingPart::getId, Comparator.reverseOrder()))
+                .thenComparing(KillingPart::getStartSecond))
             .toList();
     }
 }

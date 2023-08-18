@@ -13,11 +13,12 @@ import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.ui.openapi.KillingPartLikeApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs/{song_id}/parts/{killing_part_id}/likes")
 @RestController
-public class KillingPartLikeController {
+public class KillingPartLikeController implements KillingPartLikeApi {
 
     private final KillingPartLikeService killingPartLikeService;
 

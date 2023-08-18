@@ -10,7 +10,7 @@ class CookieProviderTest {
 
     private final CookieProvider cookieProvider = new CookieProvider(640000);
 
-    @DisplayName("refreshToken이 주어지면 올바른 Cookie를 생성한다.")
+    @DisplayName("refreshToken이 주어지면 Cookie를 생성한다.")
     @Test
     void success_create_cookie() {
         //given

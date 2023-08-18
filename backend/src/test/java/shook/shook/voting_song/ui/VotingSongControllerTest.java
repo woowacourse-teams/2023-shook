@@ -55,11 +55,11 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Test
     void findById() {
         // given
-        final VotingSong beforeSong = votingSongRepository.save(
+        final VotingSong prevSong = votingSongRepository.save(
             new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong standardSong = votingSongRepository.save(
             new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong afterSong = votingSongRepository.save(
+        final VotingSong nextSong = votingSongRepository.save(
             new VotingSong("제목3", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         // when
@@ -72,20 +72,20 @@ class VotingSongControllerTest extends AcceptanceTest {
             .body().as(VotingSongSwipeResponse.class);
 
         // then
-        final List<VotingSongResponse> expectedBefore = Stream.of(beforeSong)
+        final List<VotingSongResponse> expectedPrev = Stream.of(prevSong)
             .map(VotingSongResponse::from)
             .toList();
-        final List<VotingSongResponse> expectedAfter = Stream.of(afterSong)
+        final List<VotingSongResponse> expectedNext = Stream.of(nextSong)
             .map(VotingSongResponse::from)
             .toList();
 
         assertAll(
-            () -> assertThat(response.getBeforeSongs()).usingRecursiveComparison()
-                .isEqualTo(expectedBefore),
+            () -> assertThat(response.getPrevSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedPrev),
             () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
                 .isEqualTo(VotingSongResponse.from(standardSong)),
-            () -> assertThat(response.getAfterSongs()).usingRecursiveComparison()
-                .isEqualTo(expectedAfter)
+            () -> assertThat(response.getNextSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedNext)
         );
     }
 
@@ -93,7 +93,7 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Test
     void findByIdEmptyAfterSong() {
         // given
-        final VotingSong beforeSong = votingSongRepository.save(
+        final VotingSong prevSong = votingSongRepository.save(
             new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSong standardSong = votingSongRepository.save(
             new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
@@ -108,16 +108,16 @@ class VotingSongControllerTest extends AcceptanceTest {
             .body().as(VotingSongSwipeResponse.class);
 
         // then
-        final List<VotingSongResponse> expectedBefore = Stream.of(beforeSong)
+        final List<VotingSongResponse> expectedPrev = Stream.of(prevSong)
             .map(VotingSongResponse::from)
             .toList();
 
         assertAll(
-            () -> assertThat(response.getBeforeSongs()).usingRecursiveComparison()
-                .isEqualTo(expectedBefore),
+            () -> assertThat(response.getPrevSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedPrev),
             () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
                 .isEqualTo(VotingSongResponse.from(standardSong)),
-            () -> assertThat(response.getAfterSongs()).isEmpty()
+            () -> assertThat(response.getNextSongs()).isEmpty()
         );
     }
 
@@ -127,7 +127,7 @@ class VotingSongControllerTest extends AcceptanceTest {
         // given
         final VotingSong standardSong = votingSongRepository.save(
             new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong afterSong = votingSongRepository.save(
+        final VotingSong nextSong = votingSongRepository.save(
             new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
 
         // when
@@ -140,16 +140,16 @@ class VotingSongControllerTest extends AcceptanceTest {
             .body().as(VotingSongSwipeResponse.class);
 
         // then
-        final List<VotingSongResponse> expectedAfter = Stream.of(afterSong)
+        final List<VotingSongResponse> expectedNext = Stream.of(nextSong)
             .map(VotingSongResponse::from)
             .toList();
 
         assertAll(
-            () -> assertThat(response.getBeforeSongs()).isEmpty(),
+            () -> assertThat(response.getPrevSongs()).isEmpty(),
             () -> assertThat(response.getCurrentSong()).usingRecursiveComparison()
                 .isEqualTo(VotingSongResponse.from(standardSong)),
-            () -> assertThat(response.getAfterSongs()).usingRecursiveComparison()
-                .isEqualTo(expectedAfter)
+            () -> assertThat(response.getNextSongs()).usingRecursiveComparison()
+                .isEqualTo(expectedNext)
         );
     }
 }

@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.TokenInfo;
-import shook.shook.auth.application.dto.TokenReissueResponse;
+import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Member;
@@ -69,11 +69,17 @@ class AuthServiceTest {
             .thenReturn(memberInfoResponse);
 
         //when
-        final TokenInfo result = authService.login("accessCode");
+        final TokenPair result = authService.login("accessCode");
 
         //then
-        assertThat(result.getAccessToken()).isNotNull();
-        assertThat(result.getRefreshToken()).isNotNull();
+
+        final String accessToken = tokenProvider.createAccessToken(savedMember.getId(),
+            savedMember.getNickname());
+        final String refreshToken = tokenProvider.createRefreshToken(savedMember.getId(),
+            savedMember.getNickname());
+
+        assertThat(result.getAccessToken()).isEqualTo(accessToken);
+        assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
     }
 
     @DisplayName("올바른 refresh 토큰이 들어오면 access 토큰을 재발급해준다.")
@@ -85,7 +91,8 @@ class AuthServiceTest {
             savedMember.getNickname());
 
         //when
-        final TokenReissueResponse result = authService.reissueToken(refreshToken);
+        final ReissueAccessTokenResponse result = authService.reissueAccessTokenByRefreshToken(
+            refreshToken);
 
         //then
         final String accessToken = tokenProvider.createAccessToken(
@@ -110,7 +117,7 @@ class AuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
@@ -129,7 +136,7 @@ class AuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
             .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }

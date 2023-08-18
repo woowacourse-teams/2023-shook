@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.song.application.SongService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.ui.openapi.HighLikedSongApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs/high-liked")
 @RestController
-public class HighLikedSongController {
+public class HighLikedSongController implements HighLikedSongApi {
 
     private final SongService songService;
 

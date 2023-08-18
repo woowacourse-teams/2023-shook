@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import shook.shook.voting_song.application.VotingSongService;
 import shook.shook.voting_song.application.dto.VotingSongResponse;
 import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
+import shook.shook.voting_song.ui.openapi.VotingSongApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs")
 @RestController
-public class VotingSongController {
+public class VotingSongController implements VotingSongApi {
 
     private final VotingSongService votingSongService;
 
@@ -26,11 +27,11 @@ public class VotingSongController {
     }
 
     @GetMapping("/{voting_song_id}")
-    public ResponseEntity<VotingSongSwipeResponse> findByIdForSwipe(
+    public ResponseEntity<VotingSongSwipeResponse> findAllForSwipeById(
         @PathVariable("voting_song_id") final Long votingSongId
     ) {
         final VotingSongSwipeResponse swipeResponse =
-            votingSongService.findByIdForSwipe(votingSongId);
+            votingSongService.findAllForSwipeById(votingSongId);
 
         return ResponseEntity.ok(swipeResponse);
     }

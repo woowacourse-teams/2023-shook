@@ -21,12 +21,12 @@ const VideoSlider = () => {
     updatePartStartTime('minute', minute);
     updatePartStartTime('second', second);
 
-    videoPlayer?.seekTo(currentSelectedTime, false);
+    videoPlayer.current?.seekTo(currentSelectedTime, false);
   };
 
   const seekToTime = () => {
-    videoPlayer?.seekTo(partStartTime, true);
-    videoPlayer?.playVideo();
+    videoPlayer.current?.seekTo(partStartTime, true);
+    videoPlayer.current?.playVideo();
   };
 
   return (

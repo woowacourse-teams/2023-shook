@@ -17,7 +17,7 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
 
   if (!killingPart) return;
 
-  const { voteCount, start, end, partVideoUrl } = killingPart;
+  const { likeCount, start, end, partVideoUrl } = killingPart;
 
   const shareUrl = () => {
     copyClipboard(partVideoUrl);
@@ -42,9 +42,9 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
         </TimeWrapper>
 
         <RestWrapper>
-          <VoteBox tabIndex={0} aria-label={`${voteCount}명 투표했음`}>
+          <VoteBox tabIndex={0} aria-label={`${likeCount}명 좋아요~`}>
             <Img src={people} alt="" />
-            <VoteCount>{voteCount}votes</VoteCount>
+            <VoteCount>{likeCount}votes</VoteCount>
           </VoteBox>
 
           <ShareBox onClick={shareUrl}>
