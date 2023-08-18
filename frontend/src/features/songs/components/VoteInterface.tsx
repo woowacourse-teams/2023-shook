@@ -46,7 +46,7 @@ const VoteInterface = () => {
 
   return (
     <Container>
-      <RegisterTitle>당신의 킬링파트에 투표하세요 🔖</RegisterTitle>
+      <RegisterTitle>당신의 킬링파트를 등록하세요</RegisterTitle>
       <Spacing direction="vertical" size={16} />
       <KillingPartToggleGroup />
       <Spacing direction="vertical" size={24} />
