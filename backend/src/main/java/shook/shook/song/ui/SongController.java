@@ -11,12 +11,13 @@ import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.SongResponse;
+import shook.shook.song.ui.openapi.SongApi;
 import shook.shook.song.application.dto.SongSwipeResponse;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs/{song_id}")
 @RestController
-public class SongController {
+public class SongController implements SongApi {
 
     private final SongService songService;
 

@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.application.AuthService;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.ui.openapi.AccessTokenReissueApi;
 
 @RequiredArgsConstructor
 @RestController
-public class AccessTokenReissueController {
+public class AccessTokenReissueController implements AccessTokenReissueApi {
 
     private static final String EMPTY_REFRESH_TOKEN = "none";
     private static final String REFRESH_TOKEN_KEY = "refreshToken";
