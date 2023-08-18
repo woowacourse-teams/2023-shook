@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -21,6 +21,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
   const [isRepeat, setIsRepeat] = useState(false);
   const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();
   const { countedTime, startTimer, resetTimer, pauseTimer } = useTimerContext();
+  const observingTargetRef = useRef<HTMLDivElement>(null);
 
   const toggleRepetition = () => {
     setIsRepeat((prev) => !prev);
@@ -98,9 +99,29 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
     }
   }, [playerState, pauseTimer, resetTimer, startTimer]);
 
+  useEffect(() => {
+    const onObserveTarget: IntersectionObserverCallback = async ([entry], observer) => {
+      if (entry.intersectionRatio > 0) return;
+
+      observer.unobserve(entry.target);
+      setNowPlayingTrack(DEFAULT_PART_ID);
+      pause();
+      observer.observe(entry.target);
+    };
+
+    const observer = new IntersectionObserver(onObserveTarget, {
+      threshold: [0],
+    });
+
+    if (!observingTargetRef.current) return;
+    observer.observe(observingTargetRef.current);
+
+    return () => observer.disconnect();
+  }, [pause]);
+
   return (
     <>
-      <FlexContainer>
+      <FlexContainer ref={observingTargetRef}>
         <TitleWrapper aria-label="Top 3 킬링파트 듣기">
           <ItalicTitle aria-hidden="true">Top 3</ItalicTitle>
           <NormalTitle aria-hidden="true"> Killing part</NormalTitle>
