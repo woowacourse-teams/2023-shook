@@ -1,5 +1,6 @@
 package shook.shook.song.application.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,12 +8,18 @@ import lombok.Getter;
 import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
 
+@Schema(description = "첫 스와이프 시, 현재 노래와 이전, 이후 노래 리스트 조회 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class SongSwipeResponse {
 
+    @Schema(description = "이전 노래 리스트")
     private final List<SongResponse> prevSongs;
+
+    @Schema(description = "현재 노래")
     private final SongResponse currentSong;
+
+    @Schema(description = "다음 노래 리스트")
     private final List<SongResponse> nextSongs;
 
     public static SongSwipeResponse of(

@@ -10,11 +10,12 @@ import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.KillingPartService;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
+import shook.shook.song.ui.openapi.MyPageApi;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/my-page")
-public class MyPageController {
+public class MyPageController implements MyPageApi {
 
     private final KillingPartService killingPartService;
 
