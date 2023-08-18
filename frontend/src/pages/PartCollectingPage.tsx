@@ -20,7 +20,6 @@ const PartCollectingPage = () => {
 
   return (
     <Container>
-      <BigTitle>킬링파트 수집</BigTitle>
       <SongInfoContainer>
         <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
         <Info>
@@ -44,7 +43,17 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   width: 100%;
+  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
+  }
 `;
 
 const SongInfoContainer = styled.div`
@@ -84,9 +93,4 @@ const Singer = styled.p`
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 16px;
   }
-`;
-
-const BigTitle = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
 `;

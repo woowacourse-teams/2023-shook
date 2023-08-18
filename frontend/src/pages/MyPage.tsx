@@ -44,7 +44,7 @@ const MyPage = () => {
   if (!likes) return null;
 
   return (
-    <>
+    <Container>
       <SRHeading>마이 페이지</SRHeading>
 
       <SpaceBetween>
@@ -87,11 +87,26 @@ const MyPage = () => {
           );
         })}
       </PopularSongList>
-    </>
+    </Container>
   );
 };
 
 export default MyPage;
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
+  }
+`;
 
 const Box = styled.div`
   flex: 1;
