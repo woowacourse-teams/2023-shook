@@ -2,6 +2,7 @@ package shook.shook.auth.ui;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.jsonwebtoken.Claims;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,11 +64,9 @@ class AccessTokenReissueControllerTest {
             .extract().body().as(ReissueAccessTokenResponse.class);
 
         //then
-        final String accessToken = tokenProvider.createAccessToken(
-            savedMember.getId(),
-            savedMember.getNickname());
-
-        assertThat(response.getAccessToken()).isEqualTo(accessToken);
+        final Claims claims = tokenProvider.parseClaims(response.getAccessToken());
+        assertThat(claims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
+        assertThat(claims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
     }
 
     @DisplayName("refreshToken이 없이 accessToken을 재발급 받으려면 예외를 던잔디.")
