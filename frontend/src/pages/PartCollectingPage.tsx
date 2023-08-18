@@ -94,8 +94,3 @@ const Singer = styled.p`
     font-size: 16px;
   }
 `;
-
-const BigTitle = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-`;
