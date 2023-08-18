@@ -45,7 +45,7 @@ const Container = styled(Flex)`
   flex-direction: column;
   height: 100%;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     scroll-margin: ${({ theme: { headerHeight } }) => headerHeight.mobile};
   }
 `;
