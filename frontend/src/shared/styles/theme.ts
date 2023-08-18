@@ -28,12 +28,14 @@ const theme = {
   },
 
   headerHeight: {
+    xxs: '50px',
     mobile: '60px',
     tablet: '80px',
     desktop: '80px',
   },
 
   mainTopBottomPadding: {
+    xxs: '8px',
     mobile: '16px',
     tablet: '16px',
     desktop: '36px',

@@ -150,11 +150,16 @@ export const ItemContainer = styled.div`
     }
   }
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     height: calc(
       ${({ theme: { headerHeight, mainTopBottomPadding } }) => {
-        return `100vh - ${headerHeight.mobile} - ${mainTopBottomPadding.mobile} * 2`;
+        return `100vh - ${headerHeight.xxs} - ${mainTopBottomPadding.xxs} * 2`;
       }}
     );
+
+    & > div[role='article'] {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
   }
 `;

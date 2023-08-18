@@ -12,6 +12,10 @@ export default Avatar;
 const Img = styled.img`
   width: 40px;
   height: 40px;
-
   border-radius: 50%;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    width: 30px;
+    height: 30px;
+  }
 `;

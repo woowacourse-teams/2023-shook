@@ -38,6 +38,11 @@ const LayoutContainer = styled.main`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     min-height: calc(100vh - ${({ theme }) => theme.headerHeight.mobile});
-    padding: ${({ theme: { mainTopBottomPadding } }) => mainTopBottomPadding.mobile};
+    padding: ${({ theme: { mainTopBottomPadding } }) => `${mainTopBottomPadding.tablet} 4.16%`};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    min-height: calc(100vh - ${({ theme }) => theme.headerHeight.xxs});
+    padding: ${({ theme: { mainTopBottomPadding } }) => `${mainTopBottomPadding.xxs} 16px`};
   }
 `;

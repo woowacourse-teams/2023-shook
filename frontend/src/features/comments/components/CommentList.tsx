@@ -40,7 +40,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
 
   return (
     <>
-      <Spacing direction="vertical" size={24} />
+      <Spacing direction="vertical" size={16} />
       <SRHeading as="h3">댓글 목록</SRHeading>
       <CommentTitle>댓글 {comments.length}개</CommentTitle>
       <Spacing direction="vertical" size={12} />
@@ -103,10 +103,20 @@ const CommentWrapper = styled.button`
 
   background-color: ${({ theme }) => theme.color.secondary};
   border-radius: 4px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    padding: 8px;
+  }
 `;
 
 const CommentTitle = styled.p`
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 700;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    font-size: 16px;
+    font-weight: 700;
+  }
 `;
 
 const CommentsTitle = styled.p`
