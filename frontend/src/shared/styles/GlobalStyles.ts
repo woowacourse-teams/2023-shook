@@ -16,6 +16,12 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     font: inherit;
     color: inherit;
+    &::-webkit-scrollbar { 
+      display: none;
+      background: transparent;
+      width: 0;
+      height: 0;
+    }
   }
   *,
   :after,

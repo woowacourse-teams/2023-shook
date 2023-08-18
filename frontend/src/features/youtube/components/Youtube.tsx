@@ -56,6 +56,10 @@ export default Youtube;
 export const YoutubeWrapper = styled.div`
   aspect-ratio: auto 16 / 9;
   width: 100%;
+
+  /* @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    width: 90%;
+  } */
 `;
 
 export const YoutubeIframe = styled.div``;

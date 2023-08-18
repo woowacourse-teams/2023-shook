@@ -1,6 +1,6 @@
 const theme = {
   color: {
-    primary: '#de2f5f',
+    primary: '#FF137F',
     secondary: '#242424',
     success: '#52c41a',
     warning: '#fadb14',
@@ -28,14 +28,16 @@ const theme = {
   },
 
   headerHeight: {
+    xxs: '50px',
     mobile: '60px',
     tablet: '80px',
     desktop: '80px',
   },
 
   mainTopBottomPadding: {
+    xxs: '8px',
     mobile: '16px',
-    tablet: '36px',
+    tablet: '16px',
     desktop: '36px',
   },
 } as const;

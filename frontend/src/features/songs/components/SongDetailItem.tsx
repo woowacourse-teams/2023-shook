@@ -24,10 +24,10 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
             <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
           </Info>
         </SongInfoContainer>
-        <Spacing direction="vertical" size={20} />
+        <Spacing direction="vertical" size={16} />
         <VideoPlayerProvider>
           <Youtube videoId={songVideoId} />
-          <Spacing direction="vertical" size={16} />
+          <Spacing direction="vertical" size={12} />
           <TimerProvider time={15}>
             <KillingPartInterface killingParts={killingParts} songId={id} />
           </TimerProvider>
@@ -44,9 +44,14 @@ export default SongDetailItem;
 const Container = styled(Flex)`
   flex-direction: column;
   height: 100%;
+  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    scroll-margin: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
   }
 `;
 
@@ -71,7 +76,11 @@ const SongTitle = styled.div`
   color: ${({ theme: { color } }) => color.white};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    font-size: 16px;
   }
 `;
 
@@ -82,5 +91,9 @@ const Singer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 16px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    font-size: 14px;
   }
 `;

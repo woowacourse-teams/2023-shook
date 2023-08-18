@@ -32,7 +32,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.header`
-  position: sticky;
+  position: fixed;
   z-index: 1000;
   top: 0px;
 
@@ -58,6 +58,11 @@ const Container = styled.header`
     height: ${({ theme }) => theme.headerHeight.mobile};
     padding: 0 16px;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    height: ${({ theme }) => theme.headerHeight.xxs};
+    padding: 0 8px;
+  }
 `;
 
 const Logo = styled.img`
@@ -68,9 +73,19 @@ const Logo = styled.img`
     width: 140px;
     height: 40px;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    width: 120px;
+    height: 30px;
+  }
 `;
 
 const ProfileAvatar = styled(Avatar)`
   width: 28px;
   height: 28px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    width: 22px;
+    height: 22px;
+  }
 `;

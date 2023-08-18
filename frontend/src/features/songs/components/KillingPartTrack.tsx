@@ -164,6 +164,10 @@ const Container = styled.label<{ $isNowPlayingTrack: boolean }>`
   }};
 
   transition: all 0.3s ease;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    height: 46px;
+  }
 `;
 
 const Rank = styled.span`
@@ -208,6 +212,11 @@ const ButtonTitle = styled.span`
 const ButtonIcon = styled.img`
   width: 22px;
   height: 22px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    width: 18px;
+    height: 18px;
+  }
 `;
 
 const ProgressBar = styled.progress`
