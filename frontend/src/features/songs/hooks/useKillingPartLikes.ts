@@ -25,12 +25,7 @@ const useKillingPartLikes = ({
 
   const toggleKillingPartLikes = () => {
     setIsLikes((prev) => !prev);
-
-    if (isLikes) {
-      setCalculatedLikeCount((prev) => prev - 1);
-    } else {
-      setCalculatedLikeCount((prev) => prev + 1);
-    }
+    setCalculatedLikeCount((prev) => (isLikes ? prev - 1 : prev + 1));
 
     if (LikesTimeOutRef.current) {
       window.clearTimeout(LikesTimeOutRef.current);
