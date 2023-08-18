@@ -1,6 +1,6 @@
 const theme = {
   color: {
-    primary: '#de2f5f',
+    primary: '#FF137F',
     secondary: '#242424',
     success: '#52c41a',
     warning: '#fadb14',
@@ -35,7 +35,7 @@ const theme = {
 
   mainTopBottomPadding: {
     mobile: '16px',
-    tablet: '36px',
+    tablet: '16px',
     desktop: '36px',
   },
 } as const;

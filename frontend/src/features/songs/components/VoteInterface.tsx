@@ -108,6 +108,7 @@ const Register = styled.button`
   width: 100%;
   height: 36px;
 
+  font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.primary};
