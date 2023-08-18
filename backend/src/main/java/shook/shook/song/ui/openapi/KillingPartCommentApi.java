@@ -5,12 +5,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import shook.shook.auth.ui.argumentresolver.Authenticated;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentResponse;
 
@@ -42,7 +45,8 @@ public interface KillingPartCommentApi {
     @PostMapping
     ResponseEntity<Void> registerKillingPartComment(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
-        @RequestBody final KillingPartCommentRegisterRequest request
+        @Valid @RequestBody final KillingPartCommentRegisterRequest request,
+        @Authenticated final MemberInfo memberInfo
     );
 
     @Operation(

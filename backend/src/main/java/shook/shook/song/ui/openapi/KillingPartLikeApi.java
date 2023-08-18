@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import shook.shook.auth.ui.argumentresolver.Authenticated;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Tag(name = "Killing Part Like", description = "킬링파트 좋아요 API")
@@ -40,7 +42,7 @@ public interface KillingPartLikeApi {
     @PutMapping
     ResponseEntity<Void> createLikeOnKillingPart(
         @PathVariable(name = "killing_part_id") final Long killingPartId,
-        @RequestBody final KillingPartLikeRequest request,
-        @RequestParam final Long memberId
+        @Valid @RequestBody final KillingPartLikeRequest request,
+        @Authenticated final MemberInfo memberInfo
     );
 }
