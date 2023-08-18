@@ -14,8 +14,9 @@ import org.springframework.validation.FieldError;
 @Getter
 public class CustomException extends RuntimeException {
 
-    private static final String EXCEPTION_INFO_BRACKET = "{ %s }";
-    private static final String PROPERTY_VALUE = " Property: %s, Value: %s ";
+    private static final String EXCEPTION_INFO_BRACKET = "{ %s | %s }";
+    private static final String CODE_MESSAGE = " Code: %d, Message: %s ";
+    private static final String PROPERTY_VALUE = "Property: %s, Value: %s ";
     private static final String VALUE_DELIMITER = "/";
 
     private final int code;
@@ -58,12 +59,17 @@ public class CustomException extends RuntimeException {
         );
     }
 
-    public String getErrorPropertyValue() {
-        final String propertyWithValue = inputValuesByProperty.entrySet()
+    public String getErrorInfoLog() {
+        final String codeMessage = String.format(CODE_MESSAGE, code, message);
+        final String errorPropertyValue = getErrorPropertyValue();
+
+        return String.format(EXCEPTION_INFO_BRACKET, codeMessage, errorPropertyValue);
+    }
+
+    private String getErrorPropertyValue() {
+        return inputValuesByProperty.entrySet()
             .stream()
             .map(entry -> String.format(PROPERTY_VALUE, entry.getKey(), entry.getValue()))
             .collect(Collectors.joining(VALUE_DELIMITER));
-
-        return String.format(EXCEPTION_INFO_BRACKET, propertyWithValue);
     }
 }
