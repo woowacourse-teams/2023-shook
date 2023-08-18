@@ -139,8 +139,8 @@ export const ItemContainer = styled.div`
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
     height: calc(
-      ${({ theme: { headerHeight, mainTopBottomPadding } }) => {
-        return `100vh - ${headerHeight.mobile} - ${mainTopBottomPadding.tablet} * 2`;
+      ${({ theme: { mainTopBottomPadding } }) => {
+        return `100vh - ${mainTopBottomPadding.tablet} * 2`;
       }}
     );
 
@@ -152,8 +152,8 @@ export const ItemContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     height: calc(
-      ${({ theme: { headerHeight, mainTopBottomPadding } }) => {
-        return `100vh - ${headerHeight.xxs} - ${mainTopBottomPadding.xxs} * 2`;
+      ${({ theme: { mainTopBottomPadding } }) => {
+        return `100vh -  ${mainTopBottomPadding.xxs} * 2`;
       }}
     );
 

@@ -32,7 +32,7 @@ const Header = () => {
 export default Header;
 
 const Container = styled.header`
-  position: sticky;
+  position: fixed;
   z-index: 1000;
   top: 0px;
 

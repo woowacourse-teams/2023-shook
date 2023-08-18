@@ -44,6 +44,15 @@ export default SongDetailItem;
 const Container = styled(Flex)`
   flex-direction: column;
   height: 100%;
+  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
+  }
 `;
 
 const SongInfoContainer = styled.div`
