@@ -21,7 +21,7 @@ public class MyPageController implements MyPageApi {
 
     @GetMapping
     public ResponseEntity<List<LikedKillingPartResponse>> getMemberLikedKillingParts(
-        @Authenticated MemberInfo memberInfo
+        @Authenticated final MemberInfo memberInfo
     ) {
         return ResponseEntity.ok(killingPartService.findLikedKillingPartByMemberId(memberInfo));
     }

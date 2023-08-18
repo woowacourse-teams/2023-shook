@@ -28,7 +28,7 @@ public interface AuthApi {
     )
     @GetMapping("/login/google")
     ResponseEntity<LoginResponse> googleLogin(
-        @RequestParam("code") final String accessCode,
+        @RequestParam("code") final String authorizationCode,
         final HttpServletResponse response
     );
 }

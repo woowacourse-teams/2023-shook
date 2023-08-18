@@ -23,6 +23,6 @@ public interface MyPageApi {
     )
     @GetMapping
     ResponseEntity<List<LikedKillingPartResponse>> getMemberLikedKillingParts(
-        @Authenticated MemberInfo memberInfo
+        @Authenticated final MemberInfo memberInfo
     );
 }
