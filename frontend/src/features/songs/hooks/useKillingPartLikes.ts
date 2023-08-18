@@ -18,13 +18,14 @@ const useKillingPartLikes = ({
   songId,
 }: UseKillingPartLikesProps) => {
   const [isLikes, setIsLikes] = useState(likeStatus);
+  const [calculatedLikeCount, setCalculatedLikeCount] = useState(likeCount);
   const LikesTimeOutRef = useRef<number | null>(null);
   const { mutateData: mutateKillingPartLikes } = useMutation(putKillingPartLikes);
-  const calculatedLikeCount = isLikes ? likeCount + 1 : likeCount;
   const heartIcon = isLikes ? fillHeartIcon : emptyHeartIcon;
 
   const toggleKillingPartLikes = () => {
     setIsLikes((prev) => !prev);
+    setCalculatedLikeCount((prev) => (isLikes ? prev - 1 : prev + 1));
 
     if (LikesTimeOutRef.current) {
       window.clearTimeout(LikesTimeOutRef.current);
