@@ -18,6 +18,8 @@ public class KillingPartCommentResponse {
 
     @Schema(description = "킬링파트 댓글 내용", example = "댓글 내용")
     private final String content;
+
+    @Schema(description = "댓글 작성자 닉네임", example = "닉네임")
     private final String writerNickname;
 
     @Schema(description = "킬링파트 댓글 등록 시간", example = "2023-08-15T16:34:30.388")
