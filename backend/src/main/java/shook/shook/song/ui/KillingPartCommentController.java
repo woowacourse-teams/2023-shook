@@ -16,11 +16,12 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.killingpart.KillingPartCommentService;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.song.application.killingpart.dto.KillingPartCommentResponse;
+import shook.shook.song.ui.openapi.KillingPartCommentApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs/{song_id}/parts/{killing_part_id}/comments")
 @RestController
-public class KillingPartCommentController {
+public class KillingPartCommentController implements KillingPartCommentApi {
 
     private final KillingPartCommentService killingPartCommentService;
 

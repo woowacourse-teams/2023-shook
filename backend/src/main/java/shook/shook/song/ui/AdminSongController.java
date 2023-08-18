@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
+import shook.shook.song.ui.openapi.AdminSongApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/songs")
 @RestController
-public class AdminSongController {
+public class AdminSongController implements AdminSongApi {
 
     private final SongService songService;
 
