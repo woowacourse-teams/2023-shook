@@ -53,12 +53,19 @@ const SongInfoContainer = styled.div`
   align-items: center;
 `;
 
-const Info = styled.div``;
+const Info = styled.div`
+  overflow: hidden;
+  flex: 1;
+`;
 
 const SongTitle = styled.p`
+  overflow: hidden;
+
   font-size: 24px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 20px;
@@ -66,9 +73,13 @@ const SongTitle = styled.p`
 `;
 
 const Singer = styled.p`
+  overflow: hidden;
+
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.subText};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 16px;
