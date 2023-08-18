@@ -6,7 +6,9 @@ const GlobalStyles = createGlobalStyle`
     font-family: "Pretendard";
     font-weight: 400;
     font-style: normal;
-    src: local('Pretendard') url(${PretendardRegular}) format('woff2');
+    src:
+      local('Pretendard'),
+      url(${PretendardRegular}) format('woff2');
   }
 
   * {

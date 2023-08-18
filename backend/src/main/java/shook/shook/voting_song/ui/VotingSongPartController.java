@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.voting_song.application.VotingSongPartService;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
+import shook.shook.voting_song.ui.openapi.VotingSongPartApi;
 
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs/{voting_song_id}/parts")
 @RestController
-public class VotingSongPartController {
+public class VotingSongPartController implements VotingSongPartApi {
 
     private final VotingSongPartService votingSongPartService;
 
