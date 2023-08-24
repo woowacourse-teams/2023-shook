@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { ErrorResponse } from '@/shared/remotes';
 
-type FetchDirection = 'top' | 'down';
+type FetchDirection = 'prev' | 'next';
 
 const useExtraFetch = <T, P>(
   extraFetcher: (...params: P[]) => Promise<T[]>,
@@ -19,21 +19,18 @@ const useExtraFetch = <T, P>(
       try {
         const extraData = await extraFetcher(...params);
 
-        if (fetchDirection === 'top') {
-          const newData = extraData.concat(data);
-          setData(newData);
-          return;
+        if (fetchDirection === 'prev') {
+          setData((prevData) => [...extraData, ...prevData]);
+        } else {
+          setData((prevData) => [...prevData, ...extraData]);
         }
-
-        const newData = data.concat(extraData);
-        setData(newData);
       } catch (error) {
         setError(error as ErrorResponse);
       } finally {
         setIsLoading(false);
       }
     },
-    [data, extraFetcher, fetchDirection]
+    [extraFetcher, fetchDirection]
   );
 
   return { data, isLoading, error, fetchData };

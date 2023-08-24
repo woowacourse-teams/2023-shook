@@ -13,14 +13,15 @@ import useFetch from '@/shared/hooks/useFetch';
 const SongDetailListPage = () => {
   const { id: songIdParams } = useParams();
   const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
-  const { data: extraNextSongDetails, fetchData: fetchExtraNextSongDetails } = useExtraFetch(
-    getExtraNextSongDetails,
-    'down'
-  );
 
   const { data: extraPrevSongDetails, fetchData: fetchExtraPrevSongDetails } = useExtraFetch(
     getExtraPrevSongDetails,
-    'top'
+    'prev'
+  );
+
+  const { data: extraNextSongDetails, fetchData: fetchExtraNextSongDetails } = useExtraFetch(
+    getExtraNextSongDetails,
+    'next'
   );
 
   const itemRef = useRef<HTMLDivElement>(null);
