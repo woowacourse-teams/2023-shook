@@ -9,7 +9,6 @@ import {
 } from '@/features/songs/remotes/songs';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
-import createObserver from '@/shared/utils/createObserver';
 
 const SongDetailListPage = () => {
   const { id: songIdParams } = useParams();
@@ -33,11 +32,13 @@ const SongDetailListPage = () => {
   useEffect(() => {
     if (!prevTargetRef.current) return;
 
-    const firstSongId = prevTargetRef.current?.nextElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
+    const prevObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
 
-    const prevObserver = createObserver(() => fetchExtraPrevSongDetails(Number(firstSongId)));
+      const firstSongId = entry.target.nextElementSibling?.getAttribute('data-song-id') as string;
+
+      fetchExtraPrevSongDetails(Number(firstSongId));
+    });
 
     prevObserver.observe(prevTargetRef.current);
 
@@ -47,11 +48,15 @@ const SongDetailListPage = () => {
   useEffect(() => {
     if (!nextTargetRef.current) return;
 
-    const lastSongId = nextTargetRef.current?.previousElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
+    const nextObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
 
-    const nextObserver = createObserver(() => fetchExtraNextSongDetails(Number(lastSongId)));
+      const lastSongId = entry.target.previousElementSibling?.getAttribute(
+        'data-song-id'
+      ) as string;
+
+      fetchExtraNextSongDetails(Number(lastSongId));
+    });
 
     nextObserver.observe(nextTargetRef.current);
 
