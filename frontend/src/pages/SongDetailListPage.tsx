@@ -9,6 +9,7 @@ import {
 } from '@/features/songs/remotes/songs';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
+import createObserver from '@/shared/utils/createObserver';
 
 const SongDetailListPage = () => {
   const { id: songIdParams } = useParams();
@@ -26,77 +27,36 @@ const SongDetailListPage = () => {
 
   const itemRef = useRef<HTMLDivElement>(null);
 
-  const songItemContainerRef = useRef<HTMLDivElement>(null);
-  const topObservingTargetRef = useRef<HTMLDivElement>(null);
-  const bottomObservingTargetRef = useRef<HTMLDivElement>(null);
+  const prevTargetRef = useRef<HTMLDivElement | null>(null);
+  const nextTargetRef = useRef<HTMLDivElement | null>(null);
 
-  const getFirstSongId = () => {
-    const firstSongId = topObservingTargetRef.current?.nextElementSibling?.getAttribute(
+  useEffect(() => {
+    if (!prevTargetRef.current) return;
+
+    const firstSongId = prevTargetRef.current?.nextElementSibling?.getAttribute(
       'data-song-id'
     ) as string;
 
-    return Number(firstSongId);
-  };
+    const prevObserver = createObserver(() => fetchExtraPrevSongDetails(Number(firstSongId)));
 
-  const getLastSongId = () => {
-    const lastSongId = bottomObservingTargetRef.current?.previousElementSibling?.getAttribute(
+    prevObserver.observe(prevTargetRef.current);
+
+    return () => prevObserver.disconnect();
+  }, [fetchExtraPrevSongDetails, songDetailEntries]);
+
+  useEffect(() => {
+    if (!nextTargetRef.current) return;
+
+    const lastSongId = nextTargetRef.current?.previousElementSibling?.getAttribute(
       'data-song-id'
     ) as string;
 
-    return Number(lastSongId);
-  };
+    const nextObserver = createObserver(() => fetchExtraNextSongDetails(Number(lastSongId)));
 
-  useEffect(() => {
-    console.log('탑 터짐');
-    console.log(extraPrevSongDetails);
+    nextObserver.observe(nextTargetRef.current);
 
-    const onObserveTopTarget: IntersectionObserverCallback = async ([entry], observer) => {
-      if (entry.isIntersecting) {
-        const firstSongId = getFirstSongId();
-
-        observer.unobserve(entry.target);
-        await fetchExtraPrevSongDetails(firstSongId);
-        observer.observe(entry.target);
-      }
-    };
-
-    const observer = new IntersectionObserver(onObserveTopTarget, {
-      threshold: [0],
-      rootMargin: '1500px 0px',
-      root: songItemContainerRef.current,
-    });
-
-    if (!bottomObservingTargetRef.current) return;
-    observer.observe(bottomObservingTargetRef.current);
-
-    return () => observer.disconnect();
-  }, [extraPrevSongDetails, fetchExtraPrevSongDetails]);
-
-  useEffect(() => {
-    console.log('바텀 터짐');
-    console.log(extraNextSongDetails);
-
-    const onObserveBottomTarget: IntersectionObserverCallback = async ([entry], observer) => {
-      if (entry.isIntersecting) {
-        const lastSongId = getLastSongId();
-
-        observer.unobserve(entry.target);
-        await fetchExtraNextSongDetails(lastSongId);
-        observer.observe(entry.target);
-      }
-    };
-
-    const observer = new IntersectionObserver(onObserveBottomTarget, {
-      threshold: [0],
-      rootMargin: '1500px 0px',
-      root: songItemContainerRef.current,
-    });
-
-    if (!bottomObservingTargetRef.current) return;
-    observer.observe(bottomObservingTargetRef.current);
-
-    return () => observer.disconnect();
-  }, [extraNextSongDetails, fetchExtraNextSongDetails]);
+    return () => nextObserver.disconnect();
+  }, [fetchExtraNextSongDetails, songDetailEntries]);
 
   useEffect(() => {
     itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
@@ -107,22 +67,26 @@ const SongDetailListPage = () => {
   const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   return (
-    <ItemContainer ref={songItemContainerRef}>
-      <ObservingTrigger ref={topObservingTargetRef} aria-hidden="true" />
+    <ItemContainer>
+      <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
+
       {extraPrevSongDetails?.map((extraPrevSongDetail) => (
         <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
       ))}
       {prevSongs.map((prevSongDetail) => (
         <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
       ))}
+
       <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
+
       {nextSongs.map((nextSongDetail) => (
         <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
       ))}
       {extraNextSongDetails?.map((extraNextSongDetail) => (
         <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
       ))}
-      <ObservingTrigger ref={bottomObservingTargetRef} aria-hidden="true" />
+
+      <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
     </ItemContainer>
   );
 };
