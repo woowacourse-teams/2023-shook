@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { ErrorResponse } from '@/shared/remotes';
 
 type FetchDirection = 'prev' | 'next';
