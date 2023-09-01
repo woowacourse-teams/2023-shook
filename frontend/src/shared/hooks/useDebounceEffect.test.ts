@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useDebounceEffect from './useDebounceEffect';
 
 jest.useFakeTimers();
@@ -23,7 +23,7 @@ describe('useDebounceEffect 테스트. debounce 제한 딜레이를 0.5초로 �
     expect(fn).not.toBeCalled();
   });
 
-  test('0.5초 지났을 때, 한 번만 실행되지 않는다.', () => {
+  test('0.5초 지났을 때, 한 번만 실행된다.', () => {
     const fn = jest.fn();
     const { rerender } = renderHook(({ deps, delay }) => useDebounceEffect(fn, deps, delay), {
       initialProps: { deps: 'dependency1', delay: 500 },
