@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.ui.Authority;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -116,5 +119,47 @@ class MemberServiceTest extends UsingJpaTest {
             () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId() + 1,
                 new Nickname(savedMember.getNickname() + "none")))
             .isInstanceOf(MemberException.MemberNotExistException.class);
+    }
+
+    @DisplayName("회원 id로 회원을 삭제한다.")
+    @Test
+    void success_delete() {
+        // given
+        final Long targetId = savedMember.getId();
+        final Long requestId = targetId;
+
+        // when
+        memberService.deleteById(targetId, new MemberInfo(requestId, Authority.MEMBER));
+
+        // then
+        assertThat(memberRepository.findById(targetId))
+            .isEmpty();
+    }
+
+    @DisplayName("회원 id로 회원을 삭제할 때, 존재하지 않는 id 라면 예외가 발생한다.")
+    @Test
+    void fail_delete() {
+        // given
+        final long unsavedMemberId = Long.MAX_VALUE;
+        final Long targetId = unsavedMemberId;
+
+        // when, then
+        assertThatThrownBy(() ->
+            memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, Authority.MEMBER))
+        ).isInstanceOf(MemberException.MemberNotExistException.class);
+    }
+
+    @DisplayName("회원 id로 회원을 삭제할 때, token 에 담긴 회원과 대상 회원이 다르다면 예외가 발생한다.")
+    @Test
+    void fail_delete_unauthenticated() {
+        // given
+        final Member targetMember = savedMember;
+        final Member requestMember = memberRepository.save(new Member("hi@email.com", "hi"));
+
+        // when, then
+        assertThatThrownBy(() ->
+            memberService.deleteById(targetMember.getId(),
+                new MemberInfo(requestMember.getId(), Authority.MEMBER))
+        ).isInstanceOf(AuthorizationException.UnauthenticatedException.class);
     }
 }

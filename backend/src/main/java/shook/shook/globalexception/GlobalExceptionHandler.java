@@ -63,6 +63,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
 
+    @ExceptionHandler(AuthorizationException.UnauthenticatedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthenticatedException(final CustomException e) {
+        log.error(e.getErrorInfoLog());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.from(e));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleRequestValidationException(
         final MethodArgumentNotValidException e

@@ -17,6 +17,8 @@ public enum ErrorCode {
     GOOGLE_SERVER_EXCEPTION(1005, "구글 서버에서 오류가 발생했습니다."),
     REFRESH_TOKEN_NOT_FOUND_EXCEPTION(1006, "accessToken 을 재발급하기 위해서는 refreshToken 이 필요합니다."),
     ACCESS_TOKEN_NOT_FOUND(1007, "accessToken이 필요합니다."),
+    UNAUTHENTICATED_EXCEPTION(1008, "권한이 없는 요청입니다."),
+
     // 2000: 킬링파트 - 좋아요, 댓글
 
     EMPTY_KILLING_PART_COMMENT(2001, "킬링파트 댓글은 비어있을 수 없습니다."),
