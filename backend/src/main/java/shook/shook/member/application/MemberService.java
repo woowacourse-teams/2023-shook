@@ -46,6 +46,7 @@ public class MemberService {
             );
     }
 
+    @Transactional
     public void deleteById(final Long id, final MemberInfo memberInfo) {
         final long requestMemberId = memberInfo.getMemberId();
         final Member requestMember = findById(requestMemberId);
