@@ -2,24 +2,19 @@ TRUNCATE TABLE song;
 TRUNCATE TABLE voting_song;
 
 insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
-values ('달빛소년', '체리필터 (cherryfilter)', 241, 'MENOHM2a8Oo', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/027/236/15027236_1319188420285_1_600x600.JPG/dims/resize/Q_80,0', now());
+values ('N.Y.C.T', 'NCT U', 241, '8umUXHLGl3o', 'https://cdnimg.melon.co.kr/cm2/album/images/113/22/590/11322590_20230907111726_500.jpg?3d8bcc03a4900fdba3f199390f432b24/melon/resize/140/quality/80/optimize', now());
 
 insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
-values ('Happy Day', '체리필터 (cherryfilter)', 216, '6CFs-4if788', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/041/719/050/41719050_1319703431175_1_600x600.JPG/dims/resize/Q_80,0', now());
+values ('Slow Dancing', 'V', 190, 'eI0iTRS0Ha8', 'https://cdnimg.melon.co.kr/cm2/album/images/113/03/638/11303638_20230811103847_500.jpg?92b308988cd1521e8bd4d9c2f56768ed/melon/resize/140/quality/80/optimize', now());
 
 insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
-values ('낭만 고양이', '체리필터 (cherryfilter)', 228, 'Nh5Ld4EpXJs', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/026/138/15026138_1406191371950_1_600x600.JPG/dims/resize/Q_80,0', now());
+values ('LET''S DANCE', '이채연', 222, 'kQFLWdjk_8s', 'https://cdnimg.melon.co.kr/cm2/album/images/113/19/933/11319933_20230905152508_500.jpg?2bc0bb896e182ebb6ab11119b40657bc/melon/resize/140/quality/80/optimize', now());
 
 insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
-values ('오리날다 (영화 ''권순분여사 납치사건'' CF 테마송)', '체리필터 (cherryfilter)', 246, 'ivbdRCDCOig', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/015/027/236/15027236_1319188420285_1_600x600.JPG/dims/resize/Q_80,0', now());
+values ('Smoke (Prod. Dynamicduo, Padi)', '다이나믹 듀오, 이영지', 210, 'ZwXzaqzRVi4', 'https://cdnimg.melon.co.kr/cm2/album/images/113/15/612/11315612_20230905120657_500.jpg?e9f1ae79ad72f3749b9678e7ebd90027/melon/resize/140/quality/80/optimize', now());
 
 insert into voting_song (title, singer, length, video_id, album_cover_url, created_at)
-values ('피아니시모 (Pianissimo)', '체리필터 (cherryfilter)', 229, 'VxnWkErj2TE', 'https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/079/949/993/79949993_1398756703913_1_600x600.JPG/dims/resize/Q_80,0', now());
-
-INSERT INTO song (title, singer, length, video_id, album_cover_url, created_at)
-VALUES ('취중고백', '김민석 (멜로망스)', 258, 'FCrMKhrFH7A',
-        'https://cdnimg.melon.co.kr/cm2/album/images/108/16/959/10816959_20211217144957_500.jpg?c1818ddc493cb2bbb4d268431e6de7b5/melon/resize/282/quality/80/optimize',
-        now());
+values ('뭣 같아', 'BOYNEXTDOOR', 180, '97_-_WugRFA', 'https://cdnimg.melon.co.kr/cm2/album/images/113/19/182/11319182_20230904102829_500.jpg?6555bb763ac1707683f5d05c0ab1b496/melon/resize/140/quality/80/optimize', now());
 
 INSERT INTO killing_part(start_second, length, song_id, like_count, created_at)
 VALUES (5, 'SHORT', 1, 10, now());
