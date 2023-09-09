@@ -38,4 +38,15 @@ public class AuthorizationException extends CustomException {
             super(ErrorCode.ACCESS_TOKEN_NOT_FOUND);
         }
     }
+
+    public static class UnauthenticatedException extends AuthorizationException {
+
+        public UnauthenticatedException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.UNAUTHENTICATED_EXCEPTION, inputValuesByProperty);
+        }
+
+        public UnauthenticatedException() {
+            super(ErrorCode.UNAUTHENTICATED_EXCEPTION);
+        }
+    }
 }

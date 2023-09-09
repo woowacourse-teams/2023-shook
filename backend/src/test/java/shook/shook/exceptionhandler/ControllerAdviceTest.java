@@ -25,7 +25,7 @@ import shook.shook.voting_song.exception.VoteException;
 import shook.shook.voting_song.exception.VotingSongException;
 import shook.shook.voting_song.exception.VotingSongPartException;
 
-public class ControllerAdviceTest extends AcceptanceTest {
+class ControllerAdviceTest extends AcceptanceTest {
 
     @MockBean
     private SongService mockedService;
@@ -33,7 +33,7 @@ public class ControllerAdviceTest extends AcceptanceTest {
     @DisplayName("Controller Advice를 테스트한다.")
     @ParameterizedTest
     @MethodSource("exceptionTestData")
-    public void testGlobalExceptionHandler(ExceptionTestData testData) {
+    void testGlobalExceptionHandler(ExceptionTestData testData) {
         given(mockedService.showHighLikedSongs()).willThrow(testData.getException());
 
         RestAssured.given().log().all()
@@ -53,6 +53,7 @@ public class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new OAuthException.GoogleServerException(), 503),
             new ExceptionTestData(new AuthorizationException.AccessTokenNotFoundException(), 401),
             new ExceptionTestData(new AuthorizationException.RefreshTokenNotFoundException(), 401),
+            new ExceptionTestData(new AuthorizationException.UnauthenticatedException(), 403),
             new ExceptionTestData(new MemberException.MemberNotExistException(), 401),
 
             new ExceptionTestData(new KillingPartCommentException.NullOrEmptyPartCommentException(),
