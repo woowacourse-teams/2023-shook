@@ -54,3 +54,8 @@ jwt:
 # Properties Only For Local
 cookie:
   valid-time: 634000
+
+excel:
+  video-url-delimiter: "v="
+  killingpart-data-delimiter: " "
+  song-length-suffix: "초"

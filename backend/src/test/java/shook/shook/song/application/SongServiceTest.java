@@ -44,11 +44,19 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private SongDataExcelReader songDataExcelReader;
+
     private SongService songService;
 
     @BeforeEach
     public void setUp() {
-        songService = new SongService(songRepository, killingPartRepository, memberRepository);
+        songService = new SongService(
+            songRepository,
+            killingPartRepository,
+            memberRepository,
+            songDataExcelReader
+        );
     }
 
     @DisplayName("Song 을 저장할 때, Song 과 KillingParts 가 함께 저장된다.")
