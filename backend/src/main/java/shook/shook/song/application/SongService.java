@@ -40,14 +40,18 @@ public class SongService {
 
     @Transactional
     public Long register(final SongWithKillingPartsRegisterRequest request) {
-        final Song song = request.convertToSong();
+        final Song savedSong = saveSong(request.convertToSong());
+
+        return savedSong.getId();
+    }
+
+    private Song saveSong(final Song song) {
         if (songRepository.existsSongByTitle(new SongTitle(song.getTitle()))) {
-            throw new SongException.SongAlreadyExistException();
+            throw new SongException.SongAlreadyExistException(Map.of("Song-Name", song.getTitle()));
         }
         final Song savedSong = songRepository.save(song);
         killingPartRepository.saveAll(song.getKillingParts());
-
-        return savedSong.getId();
+        return savedSong;
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
@@ -175,10 +179,6 @@ public class SongService {
     @Transactional
     public void saveSongsFromExcelFile(final MultipartFile excel) {
         final List<Song> songs = songDataExcelReader.parseToSongs(excel);
-
-        songRepository.saveAll(songs);
-        for (Song song : songs) {
-            killingPartRepository.saveAll(song.getKillingParts());
-        }
+        songs.forEach(this::saveSong);
     }
 }
