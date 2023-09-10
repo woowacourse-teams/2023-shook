@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import WITHDRAWAL_MESSAGE from '@/features/profile/constants/withdrawalMessage';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
@@ -32,8 +33,8 @@ const EditProfilePage = () => {
       <SubmitButton disabled>제출</SubmitButton>
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <>
-          <ModalContent>{'회원 탈퇴시 활동한 모든 이력이 삭제됩니다.'}</ModalContent>
-          <ModalContent>{'정말 회원 탈퇴하겠습니까?'}</ModalContent>
+          <ModalContent>{WITHDRAWAL_MESSAGE.ERASE}</ModalContent>
+          <ModalContent>{WITHDRAWAL_MESSAGE.ASK_CONFIRM}</ModalContent>
           <Spacing direction={'vertical'} size={16} />
           <ButtonContainer>
             <ConfirmButton type="button" onClick={closeModal}>
