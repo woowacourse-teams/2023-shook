@@ -10,12 +10,25 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpe?g)$/,
+        test: /\.(png|jpe?g)$/,
         type: 'asset/resource',
+        generator: {
+          filename: 'static/image/[contenthash][ext]',
+        },
+      },
+      {
+        test: /\.(svg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/icon/[contenthash][ext]',
+        },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'static/font/[contenthash][ext]',
+        },
       },
     ],
   },
