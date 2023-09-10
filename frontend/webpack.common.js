@@ -36,9 +36,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      favicon: './public/favicon.ico',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: './public/assets/og/og-image.jpg', to: 'static/og/og-image.jpg' }],
+      patterns: [{ from: './public/assets/og', to: './static/og' }],
     }),
   ],
   resolve: {
