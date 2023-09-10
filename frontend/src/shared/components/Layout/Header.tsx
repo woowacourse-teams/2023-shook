@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
-import logo from '@/assets/icon/shook-logo.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
+import logo from '@/assets/image/logo.png';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import ROUTE_PATH from '@/shared/constants/path';
@@ -61,22 +61,20 @@ const Container = styled.header`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     height: ${({ theme }) => theme.headerHeight.xxs};
-    padding: 0 8px;
+    padding: 0 16px;
   }
 `;
 
 const Logo = styled.img`
+  aspect-ratio: 177 / 40;
   width: 180px;
-  height: 56px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     width: 140px;
-    height: 40px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     width: 120px;
-    height: 30px;
   }
 `;
 
