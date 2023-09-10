@@ -6,9 +6,10 @@ import Spacing from '@/shared/components/Spacing';
 interface WithdrawalModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  onWithdraw: () => void;
 }
 
-const WithdrawalModal = ({ isOpen, closeModal }: WithdrawalModalProps) => {
+const WithdrawalModal = ({ isOpen, closeModal, onWithdraw }: WithdrawalModalProps) => {
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
       <>
@@ -16,7 +17,7 @@ const WithdrawalModal = ({ isOpen, closeModal }: WithdrawalModalProps) => {
         <ModalContent>{WITHDRAWAL_MESSAGE.ASK_CONFIRM}</ModalContent>
         <Spacing direction={'vertical'} size={16} />
         <ButtonContainer>
-          <ConfirmButton type="button" onClick={closeModal}>
+          <ConfirmButton type="button" onClick={onWithdraw}>
             회원 탈퇴
           </ConfirmButton>
           <CancelButton onClick={closeModal} type="button">

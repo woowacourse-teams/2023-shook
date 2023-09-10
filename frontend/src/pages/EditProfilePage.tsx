@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
@@ -5,15 +6,26 @@ import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import WithdrawalModal from '@/features/profile/components/WithdrawalModal';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
+import ROUTE_PATH from '@/shared/constants/path';
+import { useMutation } from '@/shared/hooks/useMutation';
+import fetcher from '@/shared/remotes';
 
 const EditProfilePage = () => {
   const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
+  const { mutateData } = useMutation(() => fetcher(`/members/${user?.memberId}`, 'DELETE'));
+  const navigate = useNavigate();
+
   if (!user) {
     window.location.href = googleAuthUrl;
     return;
   }
+
+  const handleWithdrawal = async () => {
+    await mutateData();
+    navigate(ROUTE_PATH.ROOT);
+  };
 
   return (
     <Container>
@@ -30,7 +42,7 @@ const EditProfilePage = () => {
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton disabled>제출</SubmitButton>
-      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} />
+      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} onWithdraw={handleWithdrawal} />
     </Container>
   );
 };
