@@ -5,6 +5,8 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
@@ -42,5 +44,34 @@ public class MemberService {
                     Map.of("Id", String.valueOf(id), "Nickname", nickname.getValue())
                 )
             );
+    }
+
+    @Transactional
+    public void deleteById(final Long id, final MemberInfo memberInfo) {
+        final long requestMemberId = memberInfo.getMemberId();
+        final Member requestMember = findById(requestMemberId);
+        final Member targetMember = findById(id);
+        validateMemberAuthentication(requestMember, targetMember);
+
+        memberRepository.delete(targetMember);
+    }
+
+    private Member findById(final Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(() -> new MemberException.MemberNotExistException(
+                Map.of("Id", String.valueOf(id))
+            ));
+    }
+
+    private void validateMemberAuthentication(final Member requestMember,
+        final Member targetMember) {
+        if (!requestMember.equals(targetMember)) {
+            throw new AuthorizationException.UnauthenticatedException(
+                Map.of(
+                    "tokenMemberId", String.valueOf(requestMember.getId()),
+                    "pathMemberId", String.valueOf(targetMember.getId())
+                )
+            );
+        }
     }
 }
