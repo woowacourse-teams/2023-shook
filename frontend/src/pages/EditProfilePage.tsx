@@ -2,9 +2,8 @@ import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
-import WITHDRAWAL_MESSAGE from '@/features/profile/constants/withdrawalMessage';
+import WithdrawalModal from '@/features/profile/components/WithdrawalModal';
 import useModal from '@/shared/components/Modal/hooks/useModal';
-import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 
 const EditProfilePage = () => {
@@ -31,21 +30,7 @@ const EditProfilePage = () => {
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton disabled>제출</SubmitButton>
-      <Modal isOpen={isOpen} closeModal={closeModal}>
-        <>
-          <ModalContent>{WITHDRAWAL_MESSAGE.ERASE}</ModalContent>
-          <ModalContent>{WITHDRAWAL_MESSAGE.ASK_CONFIRM}</ModalContent>
-          <Spacing direction={'vertical'} size={16} />
-          <ButtonContainer>
-            <ConfirmButton type="button" onClick={closeModal}>
-              회원 탈퇴
-            </ConfirmButton>
-            <CancelButton onClick={closeModal} type="button">
-              닫기
-            </CancelButton>
-          </ButtonContainer>
-        </>
-      </Modal>
+      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} />
     </Container>
   );
 };
@@ -124,39 +109,4 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   ${disabledStyle};
   border: none;
   border-radius: 10px;
-`;
-
-const ModalContent = styled.div`
-  font-size: 16px;
-  color: #b5b3bc;
-
-  white-space: pre-line;
-  align-self: start;
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-
-  height: 36px;
-
-  color: ${({ theme: { color } }) => color.white};
-
-  border: none;
-  border-radius: 10px;
-`;
-
-const ConfirmButton = styled(Button)`
-  flex: 1;
-  background-color: ${({ theme: { color } }) => color.secondary};
-`;
-
-const CancelButton = styled(Button)`
-  flex: 1.5;
-  background-color: ${({ theme: { color } }) => color.primary};
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 16px;
-  width: 100%;
 `;
