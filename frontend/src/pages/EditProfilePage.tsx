@@ -1,25 +1,28 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import shookshook from '@/assets/icon/shookshook.svg';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 
 const EditProfilePage = () => {
-  // const { user } = useAuthContext();
-
-  // if (!user) {
-  //   window.location.href = googleAuthUrl;
-  // }
-
+  const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
-  const nickname = 'ukko';
+
+  if (!user) {
+    window.location.href = googleAuthUrl;
+    return;
+  }
 
   return (
     <Container>
       <Title>프로필 수정</Title>
       <Spacing direction={'vertical'} size={16} />
+      <Avatar src={shookshook} />
       <SubTitle>닉네임</SubTitle>
       <Spacing direction={'vertical'} size={4} />
-      <Input value={nickname} disabled />
+      <Input value={user.nickname} disabled />
       <Spacing direction={'vertical'} size={16} />
       <SubTitle>소개</SubTitle>
       <Spacing direction={'vertical'} size={4} />
@@ -73,16 +76,32 @@ const Title = styled.h2`
   font-weight: 700;
 `;
 
+const Avatar = styled.img`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  align-self: center;
+`;
+
 const SubTitle = styled.h3`
+  font-weight: 700;
   font-size: 20px;
 `;
 
-const Input = styled.input`
-  color: ${({ theme }) => theme.color.black};
+const disabledStyle = css<{ disabled: boolean }>`
+  color: ${({ disabled, theme }) => (disabled ? theme.color.black400 : theme.color.black)};
+  background-color: ${({ disabled, theme }) =>
+    disabled ? theme.color.disabledBackground : theme.color.white};
 `;
 
-const TextArea = styled.textarea`
-  color: ${({ theme }) => theme.color.black};
+const Input = styled.input<{ disabled: boolean }>`
+  ${disabledStyle};
+  font-size: 20px;
+  padding: 0 8px;
+`;
+
+const TextArea = styled.textarea<{ disabled: boolean }>`
+  ${disabledStyle}
 `;
 
 const WithdrawalButton = styled.button`
@@ -101,21 +120,17 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   height: 36px;
 
   font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-
-  background-color: ${({ disabled, theme: { color } }) =>
-    disabled ? color.disabledBackground : color.primary};
+  ${disabledStyle};
   border: none;
   border-radius: 10px;
 `;
 
 const ModalContent = styled.div`
-  margin: 16px 0;
-
   font-size: 16px;
   color: #b5b3bc;
-  text-align: center;
+
   white-space: pre-line;
+  align-self: start;
 `;
 
 const Button = styled.button`
