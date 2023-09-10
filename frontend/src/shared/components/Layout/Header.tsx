@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
-import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import logo from '@/assets/icon/shook-logo.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
 
@@ -21,8 +19,8 @@ const Header = () => {
           <ProfileAvatar src={shookshook} />
         </Link>
       ) : (
-        <Link to={googleAuthUrl}>
-          <ProfileAvatar src={defaultAvatar} />
+        <Link to="/login">
+          <LoginButton>로그인</LoginButton>
         </Link>
       )}
     </Container>
@@ -88,4 +86,11 @@ const ProfileAvatar = styled(Avatar)`
     width: 22px;
     height: 22px;
   }
+`;
+
+const LoginButton = styled.button`
+  padding: 4px 8px;
+  color: ${({ theme: { color } }) => color.primary};
+  border: 1px solid ${({ theme: { color } }) => color.primary};
+  border-radius: 8px;
 `;
