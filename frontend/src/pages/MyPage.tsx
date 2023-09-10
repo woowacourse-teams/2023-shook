@@ -43,7 +43,7 @@ const MyPage = () => {
   };
 
   const editProfileRedirect = () => {
-    navigate(ROUTE_PATH.EDIT_PROFILE);
+    navigate('/my-page/edit');
   };
 
   if (!likes) return null;

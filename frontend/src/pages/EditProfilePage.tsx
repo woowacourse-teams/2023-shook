@@ -11,7 +11,7 @@ import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 
 const EditProfilePage = () => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
   const { mutateData } = useMutation(() => fetcher(`/members/${user?.memberId}`, 'DELETE'));
@@ -24,7 +24,8 @@ const EditProfilePage = () => {
 
   const handleWithdrawal = async () => {
     await mutateData();
-    navigate(ROUTE_PATH.ROOT);
+    logout();
+    navigate('/');
   };
 
   return (
