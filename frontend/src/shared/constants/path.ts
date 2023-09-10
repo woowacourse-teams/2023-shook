@@ -4,6 +4,7 @@ const ROUTE_PATH = {
   SONG_DETAILS: 'songs',
   LOGIN_REDIRECT: '/login/redirect',
   MY_PAGE: 'my-page',
+  EDIT_PROFILE: 'my-page/edit',
 } as const;
 
 export default ROUTE_PATH;
