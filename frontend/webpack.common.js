@@ -14,21 +14,21 @@ module.exports = {
         test: /\.(png|jpe?g)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'static/image/[contenthash][ext]',
+          filename: 'assets/images/[contenthash][ext]',
         },
       },
       {
         test: /\.(svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/icon/[contenthash][ext]',
+          filename: 'assets/icons/[contenthash][ext]',
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/font/[contenthash][ext]',
+          filename: 'assets/fonts/[name][ext]',
         },
       },
     ],
