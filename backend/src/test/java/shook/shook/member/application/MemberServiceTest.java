@@ -3,7 +3,6 @@ package shook.shook.member.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,8 +60,8 @@ class MemberServiceTest extends UsingJpaTest {
         //then
         final String nickname = email.split("@")[0];
 
-        AssertionsForClassTypes.assertThat(result.getEmail()).isEqualTo(email);
-        AssertionsForClassTypes.assertThat(result.getNickname()).isEqualTo(nickname);
+        assertThat(result.getEmail()).isEqualTo(email);
+        assertThat(result.getNickname()).isEqualTo(nickname);
     }
 
     @DisplayName("중복된 이메일로 회원을 등록되는 경우 예외를 던진다.")
@@ -85,9 +84,9 @@ class MemberServiceTest extends UsingJpaTest {
         final Member result = memberService.findByEmail(savedMember.getEmail()).get();
 
         //then
-        AssertionsForClassTypes.assertThat(result.getId()).isEqualTo(savedMember.getId());
-        AssertionsForClassTypes.assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
-        AssertionsForClassTypes.assertThat(result.getNickname())
+        assertThat(result.getId()).isEqualTo(savedMember.getId());
+        assertThat(result.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(result.getNickname())
             .isEqualTo(savedMember.getNickname());
     }
 
@@ -101,7 +100,7 @@ class MemberServiceTest extends UsingJpaTest {
             new Nickname(savedMember.getNickname()));
 
         //then
-        AssertionsForClassTypes.assertThat(result).usingRecursiveComparison()
+        assertThat(result).usingRecursiveComparison()
             .isEqualTo(savedMember);
     }
 
