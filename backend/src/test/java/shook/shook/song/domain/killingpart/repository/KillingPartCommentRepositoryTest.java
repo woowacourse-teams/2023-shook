@@ -69,9 +69,9 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
         assertThat(partComment.getCreatedAt()).isBetween(prev, after);
     }
 
-    @DisplayName("KillingPartComment 를 저장할 때의 시간 정보로 createAt이 자동 생성된다.")
+    @DisplayName("멤버가 작성한 모든 파트 댓글을 삭제한다.")
     @Test
-    void deleteAllByMemberId() {
+    void deleteAllByMember() {
         //given
         killingPartRepository.deleteAll();
         final KillingPartComment partComment1 = KillingPartComment.forSave(SAVED_KILLING_PART,
@@ -82,7 +82,7 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
         killingPartCommentRepository.save(partComment2);
 
         //when
-        killingPartCommentRepository.deleteAllByMember_Id(MEMBER.getId());
+        killingPartCommentRepository.deleteAllByMember(MEMBER);
 
         //then
         final List<KillingPart> all = killingPartRepository.findAll();
