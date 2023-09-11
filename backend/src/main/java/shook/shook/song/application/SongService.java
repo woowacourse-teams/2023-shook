@@ -4,10 +4,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
@@ -18,6 +20,7 @@ import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.domain.Song;
+import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
@@ -34,15 +37,24 @@ public class SongService {
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
     private final MemberRepository memberRepository;
+    private final SongDataExcelReader songDataExcelReader;
 
     @Transactional
     public Long register(final SongWithKillingPartsRegisterRequest request) {
-        final Song song = request.convertToSong();
-        final Song savedSong = songRepository.save(song);
-
-        killingPartRepository.saveAll(song.getKillingParts());
+        final Song savedSong = saveSong(request.convertToSong());
 
         return savedSong.getId();
+    }
+
+    private Song saveSong(final Song song) {
+        final Optional<Song> findSong =
+            songRepository.findSongByTitle(new SongTitle(song.getTitle()));
+        if (findSong.isPresent()) {
+            return findSong.get();
+        }
+        final Song savedSong = songRepository.save(song);
+        killingPartRepository.saveAll(song.getKillingParts());
+        return savedSong;
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
@@ -151,7 +163,7 @@ public class SongService {
         final Member member = findMemberById(memberInfo.getMemberId());
 
         return songs.stream()
-            .map((song) -> SongResponse.of(song, member))
+            .map(song -> SongResponse.of(song, member))
             .toList();
     }
 
@@ -165,5 +177,11 @@ public class SongService {
             findAfterSongs(currentSong);
 
         return convertToSongResponses(memberInfo, afterSongs);
+    }
+
+    @Transactional
+    public void saveSongsFromExcelFile(final MultipartFile excel) {
+        final List<Song> songs = songDataExcelReader.parseToSongs(excel);
+        songs.forEach(this::saveSong);
     }
 }

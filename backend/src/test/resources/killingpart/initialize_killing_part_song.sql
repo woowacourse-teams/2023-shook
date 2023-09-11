@@ -29,9 +29,10 @@ create table if not exists killing_part
 
 create table if not exists member
 (
-    id       bigint auto_increment,
-    email    varchar(100) not null,
-    nickname varchar(100) not null,
+    id         bigint auto_increment,
+    email      varchar(100) not null,
+    nickname   varchar(100) not null,
+    created_at timestamp(6) not null,
     primary key (id)
 );
 
@@ -87,5 +88,5 @@ VALUES (15, 'LONG', 3, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
 VALUES (20, 'STANDARD', 3, 0, now());
 
-INSERT INTO member (email, nickname)
-VALUES ('email@naver.com', 'nickname');
+INSERT INTO member (email, nickname, created_at)
+VALUES ('email@naver.com', 'nickname', now());
