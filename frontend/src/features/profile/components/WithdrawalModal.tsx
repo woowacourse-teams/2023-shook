@@ -13,8 +13,7 @@ const WithdrawalModal = ({ isOpen, closeModal, onWithdraw }: WithdrawalModalProp
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
       <>
-        <ModalContent>{WITHDRAWAL_MESSAGE.ERASE}</ModalContent>
-        <ModalContent>{WITHDRAWAL_MESSAGE.ASK_CONFIRM}</ModalContent>
+        <ModalContent>{WITHDRAWAL_MESSAGE}</ModalContent>
         <Spacing direction={'vertical'} size={16} />
         <ButtonContainer>
           <ConfirmButton type="button" onClick={onWithdraw}>
@@ -36,6 +35,7 @@ const ModalContent = styled.div`
   color: #b5b3bc;
 
   white-space: pre-line;
+  line-height: 200%;
   align-self: start;
 `;
 
