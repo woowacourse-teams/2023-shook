@@ -76,8 +76,15 @@ create table if not exists member
     primary key (id)
 );
 
-alter table killing_part add column like_count integer not null;
-alter table killing_part_comment add column member_id bigint not null;
-alter table song change video_url video_id varchar(20) not null;
-alter table voting_song change video_url video_id varchar(20) not null;
-alter table killing_part alter column like_count set default 0;
+alter table killing_part
+    add column like_count integer not null;
+alter table killing_part_comment
+    add column member_id bigint not null;
+alter table song
+    change video_url video_id varchar(20) not null;
+alter table voting_song
+    change video_url video_id varchar(20) not null;
+alter table killing_part
+    alter column like_count set default 0;
+alter table member
+    add column created_at timestamp(6) not null;
