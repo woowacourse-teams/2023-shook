@@ -3,18 +3,17 @@ import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
-import WithdrawalModal from '@/features/profile/components/WithdrawalModal';
+import WithdrawalModal from '@/features/member/components/WithdrawalModal';
+import { deleteMember } from '@/features/member/remotes/member';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
-import fetcher from '@/shared/remotes';
 
 const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
-
-  const { mutateData } = useMutation(() => fetcher(`/members/${user?.memberId}`, 'DELETE'));
+  const { mutateData } = useMutation(deleteMember(user?.memberId));
   const navigate = useNavigate();
 
   if (!user) {
@@ -25,7 +24,7 @@ const EditProfilePage = () => {
   const handleWithdrawal = async () => {
     await mutateData();
     logout();
-    navigate('/');
+    navigate(ROUTE_PATH.ROOT);
   };
 
   return (
