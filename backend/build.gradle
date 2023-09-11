@@ -46,6 +46,10 @@ dependencies {
 
     //log to slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
+    //xlsx reader
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
 }
 
 tasks.named('test') {
