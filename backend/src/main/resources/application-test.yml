@@ -35,3 +35,8 @@ jwt:
 
 cookie:
   valid-time: 634000
+
+excel:
+  video-url-delimiter: "="
+  killingpart-data-delimiter: " "
+  song-length-suffix: "s"

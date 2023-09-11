@@ -1,5 +1,4 @@
 import type { Preview } from '@storybook/react';
-import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import GlobalStyles from '../src/shared/styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import theme from '../src/shared/styles/theme';
@@ -17,10 +16,10 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
+        <GlobalStyles />
         <Story />
       </ThemeProvider>
     ),
-    withThemeFromJSXProvider({ GlobalStyles }),
   ],
 };
 

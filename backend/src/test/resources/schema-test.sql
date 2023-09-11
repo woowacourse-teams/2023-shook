@@ -81,8 +81,9 @@ create table if not exists vote
 
 create table if not exists member
 (
-    id       bigint auto_increment,
-    email    varchar(100) not null,
-    nickname varchar(100) not null,
+    id         bigint auto_increment,
+    email      varchar(100) not null,
+    nickname   varchar(100) not null,
+    created_at timestamp(6) not null,
     primary key (id)
 );
