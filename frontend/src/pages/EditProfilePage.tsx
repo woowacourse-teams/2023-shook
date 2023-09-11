@@ -100,7 +100,8 @@ const Input = styled.input<{ disabled: boolean }>`
 `;
 
 const TextArea = styled.textarea<{ disabled: boolean }>`
-  ${disabledStyle}
+  ${disabledStyle};
+  resize: none;
 `;
 
 const WithdrawalButton = styled.button`
