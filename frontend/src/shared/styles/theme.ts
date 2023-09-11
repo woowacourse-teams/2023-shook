@@ -15,6 +15,10 @@ const theme = {
     disabledBackground: '#5d5d5d',
     disabled: '#2d2c2c',
     subText: '#a7a7a7',
+    oauth: {
+      kakao: '#fee500',
+      google: '#ffffff',
+    },
   },
 
   breakPoints: {

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import EditProfilePage from '@/pages/EditProfilePage';
 import AuthPage from './pages/AuthPage';
+import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/MyPage';
 import PartCollectingPage from './pages/PartCollectingPage';
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         element: <EditProfilePage />,
       },
     ],
+  },
+  {
+    path: `${ROUTE_PATH.LOGIN}`,
+    element: <LoginPage />,
   },
   {
     path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
