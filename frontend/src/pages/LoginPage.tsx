@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import googleLogo from '@/assets/icon/google-logo.svg';
 import kakaoLogo from '@/assets/icon/kakao-logo.svg';
-import logo from '@/assets/icon/shook-logo.svg';
+import slogan from '@/assets/image/shook-slogan.jpg';
 import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
@@ -11,18 +11,12 @@ const LoginPage = () => {
   return (
     <LayoutContainer>
       <div>
-        <Spacing direction="vertical" size={140} />
+        <Spacing direction="vertical" size={120} />
         <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
-          <MainLogo src={logo} alt="logo" aria-hidden="true" />
+          <MainLogo src={slogan} alt="logo" aria-hidden="true" />
         </Link>
       </div>
       <LoginButtonContainer>
-        <KakaoLogin type="button" onClick={() => alert('카카오 로그인은 준비중입니다.')}>
-          <Spacing direction="horizontal" size={10} />
-          <LoginLogo src={kakaoLogo} alt="google logo" />
-          <LoginText>카카오로 로그인하기</LoginText>
-          <Spacing direction="horizontal" size={10} />
-        </KakaoLogin>
         <LoginLink href={googleAuthUrl}>
           <GoogleLogin type="button">
             <Spacing direction="horizontal" size={10} />
@@ -31,6 +25,12 @@ const LoginPage = () => {
             <Spacing direction="horizontal" size={10} />
           </GoogleLogin>
         </LoginLink>
+        <KakaoLogin type="button" onClick={() => alert('카카오 로그인은 준비중입니다.')}>
+          <Spacing direction="horizontal" size={10} />
+          <LoginLogo src={kakaoLogo} alt="google logo" />
+          <LoginText>카카오로 로그인하기</LoginText>
+          <Spacing direction="horizontal" size={10} />
+        </KakaoLogin>
       </LoginButtonContainer>
       <div>
         <UnderLineAnchor
@@ -39,7 +39,7 @@ const LoginPage = () => {
         >
           개인정보 처리방침
         </UnderLineAnchor>
-        <Spacing direction="vertical" size={30} />
+        <Spacing direction="vertical" size={80} />
       </div>
     </LayoutContainer>
   );
@@ -53,6 +53,7 @@ const LayoutContainer = styled.main`
 
   width: 100%;
   min-height: 100vh;
+  padding: 0 16.66%;
 
   color: ${({ theme: { color } }) => color.white};
 
@@ -83,22 +84,15 @@ const LoginButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
 `;
 
 const MainLogo = styled.img`
-  width: 180px;
-  height: 56px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 140px;
-    height: 40px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    width: 120px;
-    height: 30px;
-  }
+  aspect-ratio: 3 / 1;
+  width: 500px;
 `;
 
 const LoginButton = styled.button`
@@ -106,22 +100,30 @@ const LoginButton = styled.button`
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  width: 400px;
   height: 60px;
 
   border-radius: 12px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    width: 100%;
+  }
 `;
 
 const KakaoLogin = styled(LoginButton)`
-  background-color: #fee500;
+  background-color: ${({ theme: { color } }) => color.oauth.kakao};
 `;
 
 const GoogleLogin = styled(LoginButton)`
-  background-color: white;
+  background-color: ${({ theme: { color } }) => color.oauth.google};
 `;
 
 const LoginLink = styled.a`
-  width: 100%;
+  flex: 1;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    width: 100%;
+  }
 `;
 
 const LoginLogo = styled.img`
