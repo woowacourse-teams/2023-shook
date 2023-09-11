@@ -69,8 +69,4 @@ public class KillingPartLikeService {
         killingPart.findLikeByMember(member)
             .ifPresent(killingPart::unlike);
     }
-
-    public void deleteAllByIMemberId(final Long memberId) {
-        likeRepository.deleteAllByMember_Id(memberId);
-    }
 }
