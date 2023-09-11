@@ -126,15 +126,4 @@ public class SongException extends CustomException {
             super(ErrorCode.TOO_LONG_SINGER_NAME, inputValuesByProperty);
         }
     }
-
-    public static class SongAlreadyExistException extends SongException {
-
-        public SongAlreadyExistException() {
-            super(ErrorCode.SONG_ALREADY_EXIST);
-        }
-
-        public SongAlreadyExistException(final Map<String, String> inputValuesByProperty) {
-            super(ErrorCode.SONG_ALREADY_EXIST, inputValuesByProperty);
-        }
-    }
 }

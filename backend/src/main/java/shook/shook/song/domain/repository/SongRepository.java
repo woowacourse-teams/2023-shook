@@ -1,14 +1,12 @@
 package shook.shook.song.domain.repository;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import shook.shook.song.domain.Song;
-import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 
 @Repository
@@ -40,6 +38,4 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         @Param("id") final Long songId,
         final Pageable pageable
     );
-
-    Optional<Song> findSongByTitle(final SongTitle title);
 }

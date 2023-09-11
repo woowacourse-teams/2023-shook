@@ -43,16 +43,12 @@ class SongServiceTest extends UsingJpaTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
     private SongService songService;
 
     @BeforeEach
     public void setUp() {
-        songService = new SongService(
-            songRepository,
-            killingPartRepository,
-            memberRepository,
-            new SongDataExcelReader(" ", " ", " ")
-        );
+        songService = new SongService(songRepository, killingPartRepository, memberRepository);
     }
 
     @DisplayName("Song 을 저장할 때, Song 과 KillingParts 가 함께 저장된다.")
@@ -91,7 +87,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_login_member() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
-        final Song song = registerNewSong("title");
+        final Song song = registerNewSong();
         addLikeToEachKillingParts(song, member);
 
         //when
@@ -128,7 +124,7 @@ class SongServiceTest extends UsingJpaTest {
     @Test
     void findById_exist_not_login_member() {
         //given
-        final Song song = registerNewSong("title");
+        final Song song = registerNewSong();
 
         //when
         saveAndClearEntityManager();
@@ -178,10 +174,10 @@ class SongServiceTest extends UsingJpaTest {
     @Test
     void showHighLikedSongs() {
         // given
-        final Song firstSong = registerNewSong("title1");
-        final Song secondSong = registerNewSong("title2");
-        final Song thirdSong = registerNewSong("title3");
-        final Song fourthSong = registerNewSong("title4");
+        final Song firstSong = registerNewSong();
+        final Song secondSong = registerNewSong();
+        final Song thirdSong = registerNewSong();
+        final Song fourthSong = registerNewSong();
 
         final Member member1 = createAndSaveMember("first@naver.com", "first");
         final Member member2 = createAndSaveMember("second@naver.com", "second");
@@ -214,9 +210,9 @@ class SongServiceTest extends UsingJpaTest {
         );
     }
 
-    private Song registerNewSong(final String title) {
+    private Song registerNewSong() {
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            title, "elevenVideo", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300,
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -250,11 +246,11 @@ class SongServiceTest extends UsingJpaTest {
         @Test
         void firstFindByMember() {
             // given
-            final Song firstSong = registerNewSong("title1");
-            final Song secondSong = registerNewSong("title2");
-            final Song thirdSong = registerNewSong("title3");
-            final Song fourthSong = registerNewSong("title4");
-            final Song fifthSong = registerNewSong("title5");
+            final Song firstSong = registerNewSong();
+            final Song secondSong = registerNewSong();
+            final Song thirdSong = registerNewSong();
+            final Song fourthSong = registerNewSong();
+            final Song fifthSong = registerNewSong();
 
             final Member member = createAndSaveMember("first@naver.com", "first");
 
@@ -309,11 +305,11 @@ class SongServiceTest extends UsingJpaTest {
         @Test
         void findSongByIdForBeforeSwipe() {
             // given
-            final Song firstSong = registerNewSong("title1");
-            final Song secondSong = registerNewSong("title2");
-            final Song standardSong = registerNewSong("title3");
-            final Song fourthSong = registerNewSong("title4");
-            final Song fifthSong = registerNewSong("title5");
+            final Song firstSong = registerNewSong();
+            final Song secondSong = registerNewSong();
+            final Song standardSong = registerNewSong();
+            final Song fourthSong = registerNewSong();
+            final Song fifthSong = registerNewSong();
 
             final Member member = createAndSaveMember("first@naver.com", "first");
             final Member member2 = createAndSaveMember("first@naver.com", "first");
@@ -342,11 +338,11 @@ class SongServiceTest extends UsingJpaTest {
         @Test
         void findSongByIdForAfterSwipe() {
             // given
-            final Song firstSong = registerNewSong("title1");
-            final Song secondSong = registerNewSong("title2");
-            final Song thirdSong = registerNewSong("title3");
-            final Song standardSong = registerNewSong("title4");
-            final Song fifthSong = registerNewSong("title5");
+            final Song firstSong = registerNewSong();
+            final Song secondSong = registerNewSong();
+            final Song thirdSong = registerNewSong();
+            final Song standardSong = registerNewSong();
+            final Song fifthSong = registerNewSong();
 
             final Member member = createAndSaveMember("first@naver.com", "first");
             final Member member2 = createAndSaveMember("first@naver.com", "first");

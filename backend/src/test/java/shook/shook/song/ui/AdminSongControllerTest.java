@@ -6,12 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import shook.shook.song.application.SongService;
 import shook.shook.song.application.dto.KillingPartRegisterRequest;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 
@@ -20,9 +18,6 @@ class AdminSongControllerTest {
 
     @LocalServerPort
     public int port;
-
-    @Autowired
-    private SongService songService;
 
     @BeforeEach
     void setUp() {
@@ -34,38 +29,13 @@ class AdminSongControllerTest {
     void register_success() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title1", "elevenVideo", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300,
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
                 new KillingPartRegisterRequest(0, 10)
             )
         );
-
-        // when, then
-        RestAssured.given().log().all()
-            .contentType(ContentType.JSON)
-            .body(request)
-            .when().log().all()
-            .post("/songs")
-            .then().log().all()
-            .statusCode(HttpStatus.CREATED.value());
-    }
-
-    @DisplayName("노래와 킬링파트 등록시 이미 존재하는 노래일 경우 401 상태코드를 반환한다.")
-    @Test
-    void register_alreadyExist() {
-        // given
-        final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title2", "elevenVideo", "imageUrl", "singer", 300,
-            List.of(
-                new KillingPartRegisterRequest(10, 5),
-                new KillingPartRegisterRequest(15, 10),
-                new KillingPartRegisterRequest(0, 10)
-            )
-        );
-
-        songService.register(request);
 
         // when, then
         RestAssured.given().log().all()
