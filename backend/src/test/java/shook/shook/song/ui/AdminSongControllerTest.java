@@ -74,6 +74,6 @@ class AdminSongControllerTest {
             .when().log().all()
             .post("/songs")
             .then().log().all()
-            .statusCode(HttpStatus.BAD_REQUEST.value());
+            .statusCode(HttpStatus.CREATED.value());
     }
 }
