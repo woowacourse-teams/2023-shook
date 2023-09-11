@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -47,10 +46,8 @@ public class SongService {
     }
 
     private Song saveSong(final Song song) {
-        final Optional<Song> findSong =
-            songRepository.findSongByTitle(new SongTitle(song.getTitle()));
-        if (findSong.isPresent()) {
-            return findSong.get();
+        if (songRepository.existsSongByTitle(new SongTitle(song.getTitle()))) {
+            throw new SongException.SongAlreadyExistException(Map.of("Song-Name", song.getTitle()));
         }
         final Song savedSong = songRepository.save(song);
         killingPartRepository.saveAll(song.getKillingParts());

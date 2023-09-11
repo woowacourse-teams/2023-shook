@@ -3,6 +3,7 @@ package shook.shook.song.application;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,8 @@ public class SongDataExcelReader {
         } catch (IOException e) {
             throw new SongDataFileReadException();
         }
+        Collections.reverse(songs);
+        
         return songs;
     }
 
