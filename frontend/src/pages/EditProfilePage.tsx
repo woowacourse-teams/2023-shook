@@ -32,13 +32,13 @@ const EditProfilePage = () => {
       <Title>프로필 수정</Title>
       <Spacing direction={'vertical'} size={16} />
       <Avatar src={shookshook} />
-      <SubTitle>닉네임</SubTitle>
+      <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input value={user.nickname} disabled />
+      <Input id="nickname" value={user.nickname} disabled />
       <Spacing direction={'vertical'} size={16} />
-      <SubTitle>소개</SubTitle>
+      <Label htmlFor="introduction">소개</Label>
       <Spacing direction={'vertical'} size={4} />
-      <TextArea value={''} disabled maxLength={100} />
+      <TextArea id="introduction" value={''} disabled maxLength={100} />
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton disabled>제출</SubmitButton>
@@ -50,9 +50,11 @@ const EditProfilePage = () => {
 export default EditProfilePage;
 
 const Container = styled.div`
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  position: relative;
+
   width: 100%;
   height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.desktop});
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
@@ -70,20 +72,20 @@ const Container = styled.div`
 
 const Title = styled.h2`
   align-self: flex-start;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
 `;
 
 const Avatar = styled.img`
+  align-self: center;
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  align-self: center;
 `;
 
-const SubTitle = styled.h3`
+const Label = styled.label`
+  font-size: 16px;
   font-weight: 700;
-  font-size: 20px;
 `;
 
 const disabledStyle = css<{ disabled: boolean }>`
@@ -94,7 +96,7 @@ const disabledStyle = css<{ disabled: boolean }>`
 
 const Input = styled.input<{ disabled: boolean }>`
   ${disabledStyle};
-  font-size: 20px;
+  font-size: 16px;
   padding: 0 8px;
 `;
 
@@ -115,10 +117,12 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   bottom: 0;
 
   align-self: flex-end;
+
   width: 100%;
   height: 36px;
 
   font-weight: 700;
+
   ${disabledStyle};
   border: none;
   border-radius: 10px;

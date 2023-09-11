@@ -31,12 +31,12 @@ const WithdrawalModal = ({ isOpen, closeModal, onWithdraw }: WithdrawalModalProp
 export default WithdrawalModal;
 
 const ModalContent = styled.div`
-  font-size: 16px;
-  color: ${({ theme }) => theme.color.subText};
-
-  white-space: pre-line;
-  line-height: 200%;
   align-self: start;
+
+  font-size: 16px;
+  line-height: 200%;
+  color: ${({ theme }) => theme.color.subText};
+  white-space: pre-line;
 `;
 
 const Button = styled.button`
