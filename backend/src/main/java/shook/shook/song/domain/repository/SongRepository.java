@@ -1,7 +1,6 @@
 package shook.shook.song.domain.repository;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,5 +40,5 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         final Pageable pageable
     );
 
-    Optional<Song> findSongByTitle(final SongTitle title);
+    boolean existsSongByTitle(final SongTitle title);
 }

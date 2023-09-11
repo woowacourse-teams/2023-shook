@@ -1,8 +1,8 @@
 package shook.shook.song.ui;
 
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,9 +25,9 @@ public class AdminSongController implements AdminSongApi {
     public ResponseEntity<Void> registerSongWithKillingParts(
         @Valid @RequestBody final SongWithKillingPartsRegisterRequest request
     ) {
-        final Long registeredSongId = songService.register(request);
+        songService.register(request);
 
-        return ResponseEntity.created(URI.create("/songs/" + registeredSongId)).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/file")
