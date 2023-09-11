@@ -7,4 +7,5 @@ import shook.shook.song.domain.killingpart.KillingPartComment;
 @Repository
 public interface KillingPartCommentRepository extends JpaRepository<KillingPartComment, Long> {
 
+    void deleteAllByMember_Id(final Long memberId);
 }

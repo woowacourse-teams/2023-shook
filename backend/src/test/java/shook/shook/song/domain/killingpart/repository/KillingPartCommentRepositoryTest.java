@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,5 +67,25 @@ class KillingPartCommentRepositoryTest extends UsingJpaTest {
         //then
         assertThat(savedPartComment).isSameAs(partComment);
         assertThat(partComment.getCreatedAt()).isBetween(prev, after);
+    }
+
+    @DisplayName("KillingPartComment 를 저장할 때의 시간 정보로 createAt이 자동 생성된다.")
+    @Test
+    void deleteAllByMemberId() {
+        //given
+        killingPartRepository.deleteAll();
+        final KillingPartComment partComment1 = KillingPartComment.forSave(SAVED_KILLING_PART,
+            "댓글 내용", MEMBER);
+        final KillingPartComment partComment2 = KillingPartComment.forSave(SAVED_KILLING_PART,
+            "댓글 내용", MEMBER);
+        killingPartCommentRepository.save(partComment1);
+        killingPartCommentRepository.save(partComment2);
+
+        //when
+        killingPartCommentRepository.deleteAllByMember_Id(MEMBER.getId());
+
+        //then
+        final List<KillingPart> all = killingPartRepository.findAll();
+        assertThat(all).isEmpty();
     }
 }

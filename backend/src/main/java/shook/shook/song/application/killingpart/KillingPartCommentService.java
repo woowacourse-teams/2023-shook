@@ -61,4 +61,8 @@ public class KillingPartCommentService {
 
         return KillingPartCommentResponse.ofComments(killingPart.getCommentsInRecentOrder());
     }
+
+    public void deleteAllByMemberId(final Long memberId) {
+        killingPartCommentRepository.deleteAllByMember_Id(memberId);
+    }
 }
