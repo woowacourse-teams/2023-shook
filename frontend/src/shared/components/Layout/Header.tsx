@@ -15,11 +15,11 @@ const Header = () => {
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
       {user ? (
-        <Link to="/my-page">
+        <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
           <ProfileAvatar src={shookshook} />
         </Link>
       ) : (
-        <Link to="/login">
+        <Link to={ROUTE_PATH.LOGIN}>
           <LoginButton>로그인</LoginButton>
         </Link>
       )}
