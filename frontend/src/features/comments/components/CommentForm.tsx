@@ -67,7 +67,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
         ) : (
           <>
             <Avatar src={defaultAvatar} alt="익명 프로필" />
-            <Input type="text" onFocus={recommendLogin} placeholder="댓글 추가..." maxLength={0} />
+            <Input type="text" onFocus={recommendLogin} placeholder="댓글 추가..." />
             <LoginModal
               isOpen={isOpen}
               messageList={['로그인하고 댓글을 작성해 보세요!']}
