@@ -1,11 +1,15 @@
 package shook.shook.member.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +30,14 @@ public class Member {
 
     @Embedded
     private Nickname nickname;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+
+    @PrePersist
+    private void prePersist() {
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+    }
 
     public Member(final String email, final String nickname) {
         this.id = null;
