@@ -32,7 +32,7 @@ export default WithdrawalModal;
 
 const ModalContent = styled.div`
   font-size: 16px;
-  color: #b5b3bc;
+  color: ${({ theme }) => theme.color.subText};
 
   white-space: pre-line;
   line-height: 200%;
