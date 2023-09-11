@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import WITHDRAWAL_MESSAGE from '@/features/profile/constants/withdrawalMessage';
+import WITHDRAWAL_MESSAGE from '@/features/member/constants/withdrawalMessage';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 
