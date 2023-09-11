@@ -9,7 +9,6 @@ import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
@@ -42,7 +41,7 @@ const MyPage = () => {
     navigate('/');
   };
 
-  const editProfileRedirect = () => {
+  const redirectEditPage = () => {
     navigate('/my-page/edit');
   };
 
@@ -64,7 +63,7 @@ const MyPage = () => {
       <Spacing direction="vertical" size={24} />
 
       <SpaceBetween>
-        <Button onClick={editProfileRedirect}>프로필 편집</Button>
+        <Button onClick={redirectEditPage}>프로필 편집</Button>
         <Button onClick={logoutRedirect}>로그아웃</Button>
       </SpaceBetween>
 
