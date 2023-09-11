@@ -1,4 +1,5 @@
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import { useNavigate } from 'react-router-dom';
+import ROUTE_PATH from '@/shared/constants/path';
 
 export interface ErrorResponse {
   code: number;
@@ -8,6 +9,8 @@ export interface ErrorResponse {
 const { BASE_URL } = process.env;
 
 const fetcher = async (url: string, method: string, body?: unknown) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem('userToken');
 
   const headers: Record<string, string> = {
@@ -35,7 +38,7 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
   if (response.status === 401) {
     localStorage.removeItem('userToken');
-    window.location.href = googleAuthUrl;
+    navigate(ROUTE_PATH.LOGIN);
   }
 
   if (!response.ok) {

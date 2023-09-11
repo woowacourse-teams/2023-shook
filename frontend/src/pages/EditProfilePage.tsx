@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import WithdrawalModal from '@/features/member/components/WithdrawalModal';
 import { deleteMember } from '@/features/member/remotes/member';
 import useModal from '@/shared/components/Modal/hooks/useModal';
@@ -17,7 +16,7 @@ const EditProfilePage = () => {
   const navigate = useNavigate();
 
   if (!user) {
-    window.location.href = googleAuthUrl;
+    navigate(ROUTE_PATH.LOGIN);
     return;
   }
 
