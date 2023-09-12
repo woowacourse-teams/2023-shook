@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
@@ -64,7 +64,7 @@ const SongDetailListPage = () => {
     return () => nextObserver.disconnect();
   }, [fetchExtraNextSongDetails, songDetailEntries]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
   }, [songDetailEntries]);
 
