@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
-import { useEffect } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import createObserver from '@/shared/utils/createObserver';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
 interface YoutubeProps {
@@ -9,9 +10,11 @@ interface YoutubeProps {
 }
 
 const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
-  const { videoPlayer, initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
+  const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
+  const [loading, setLoading] = useState(true);
+  const observerRef = useRef<IntersectionObserver | null>();
 
-  useEffect(() => {
+  const createPlayerOnObserve: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
     const createYoutubePlayer = async () => {
       try {
         new YT.Player(`yt-player-${videoId}`, {
@@ -23,6 +26,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
             onReady: (e) => {
               bindUpdatePlayerStateEvent(e);
               initPlayer(e);
+              setLoading(false);
             },
           },
         });
@@ -32,20 +36,24 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
       }
     };
 
-    createYoutubePlayer();
+    if (domNode !== null) {
+      observerRef.current = createObserver(createYoutubePlayer);
+      observerRef.current.observe(domNode);
+      return;
+    }
 
-    const clonePlayerRef = videoPlayer;
-
-    return () => {
-      if (!clonePlayerRef.current) return;
-
-      clonePlayerRef.current.destroy();
-      clonePlayerRef.current = null;
-    };
-  }, [bindUpdatePlayerStateEvent, initPlayer, start, videoId, videoPlayer]);
+    observerRef.current?.disconnect();
+  }, []);
 
   return (
     <YoutubeWrapper>
+      {loading && (
+        <Preview
+          src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+          ref={createPlayerOnObserve}
+          loading="lazy"
+        />
+      )}
       <YoutubeIframe id={`yt-player-${videoId}`} />
     </YoutubeWrapper>
   );
@@ -54,12 +62,16 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
 export default Youtube;
 
 export const YoutubeWrapper = styled.div`
-  aspect-ratio: auto 16 / 9;
+  position: relative;
+  aspect-ratio: 16 / 9;
   width: 100%;
-
-  /* @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    width: 90%;
-  } */
 `;
 
 export const YoutubeIframe = styled.div``;
+
+const Preview = styled.img`
+  position: absolute;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+`;
