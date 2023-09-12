@@ -4,9 +4,9 @@ import { css, styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 
@@ -61,7 +61,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
             maxLength={200}
           />
         ) : (
-          <LoginLink to={googleAuthUrl}>
+          <LoginLink to={ROUTE_PATH.LOGIN}>
             <Input
               type="text"
               value={newComment}
@@ -148,7 +148,7 @@ const Cancel = styled.button`
 `;
 
 const Submit = styled.button`
-  ${buttonBase}
+  ${buttonBase};
   background-color: ${({ theme }) => theme.color.primary};
 
   &:hover,
