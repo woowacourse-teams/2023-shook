@@ -1,5 +1,6 @@
 package shook.shook.member.application;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,9 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.song.domain.killingpart.KillingPartLike;
+import shook.shook.song.domain.killingpart.repository.KillingPartCommentRepository;
+import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,6 +26,8 @@ public class MemberService {
     private static final int NICKNAME_INDEX = 0;
 
     private final MemberRepository memberRepository;
+    private final KillingPartCommentRepository commentRepository;
+    private final KillingPartLikeRepository likeRepository;
 
     @Transactional
     public Member register(final String email) {
@@ -53,6 +59,13 @@ public class MemberService {
         final Member targetMember = findById(id);
         validateMemberAuthentication(requestMember, targetMember);
 
+        final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(
+            targetMember,
+            false
+        );
+
+        membersExistLikes.forEach(KillingPartLike::updateDeletion);
+        commentRepository.deleteAllByMember(targetMember);
         memberRepository.delete(targetMember);
     }
 
