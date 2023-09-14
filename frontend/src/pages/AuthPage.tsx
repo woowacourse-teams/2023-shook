@@ -35,7 +35,7 @@ const AuthPage = () => {
     getAccessToken();
   }, []);
 
-  return <Navigate to="/" />;
+  return <Navigate to="/" replace />;
 };
 
 export default AuthPage;

@@ -7,6 +7,7 @@ import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
 
@@ -148,7 +149,7 @@ const Cancel = styled.button`
 `;
 
 const Submit = styled.button`
-  ${buttonBase}
+  ${buttonBase};
   background-color: ${({ theme }) => theme.color.primary};
 
   &:hover,

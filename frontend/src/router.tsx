@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import EditProfilePage from '@/pages/EditProfilePage';
 import AuthPage from './pages/AuthPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: `${ROUTE_PATH.MY_PAGE}`,
         element: <MyPage />,
+      },
+      {
+        path: `${ROUTE_PATH.EDIT_PROFILE}`,
+        element: <EditProfilePage />,
       },
     ],
   },

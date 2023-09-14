@@ -1,7 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -9,6 +9,7 @@ import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import ROUTE_PATH from '@/shared/constants/path';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
@@ -18,7 +19,7 @@ const VoteInterface = () => {
   const { showToast } = useToastContext();
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-
+  const navigate = useNavigate();
   const { error, createKillingPart } = usePostKillingPart();
   const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
@@ -32,7 +33,7 @@ const VoteInterface = () => {
 
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
     if (error) {
-      window.location.href = googleAuthUrl;
+      navigate(ROUTE_PATH.LOGIN);
       return;
     }
     openModal();
