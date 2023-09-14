@@ -1,5 +1,6 @@
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import { useNavigate } from 'react-router-dom';
 import parseJWT from '@/features/auth/utils/parseJWT';
+import ROUTE_PATH from '@/shared/constants/path';
 
 const isValidToken = (accessToken: string) => {
   if (!accessToken) return false;
@@ -16,11 +17,11 @@ const isValidToken = (accessToken: string) => {
 
 const AuthLayout = ({ children }: { children: React.ReactElement }) => {
   const accessToken = localStorage.getItem('userToken');
+  const navigator = useNavigate();
 
   if (!accessToken || !isValidToken(accessToken)) {
-    console.log(isValidToken(accessToken!));
     localStorage.removeItem('userToken');
-    window.location.href = `${googleAuthUrl}`;
+    navigator(ROUTE_PATH.LOGIN);
     return;
   }
 

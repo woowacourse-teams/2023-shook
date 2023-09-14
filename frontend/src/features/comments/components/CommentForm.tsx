@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
+import useModal from '@/shared/components/Modal/hooks/useModal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { useMutation } from '@/shared/hooks/useMutation';
 import fetcher from '@/shared/remotes';
@@ -18,6 +18,7 @@ interface CommentFormProps {
 
 const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
+  const { isOpen, closeModal: closeLoginModal, openModal: openLoginModal } = useModal();
   const { user } = useAuthContext();
 
   const isLoggedIn = !!user;
@@ -48,20 +49,8 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
     <Container onSubmit={submitNewComment}>
       <Flex>
         {isLoggedIn ? (
-          <Avatar src={shookshook} alt="슉슉이" />
-        ) : (
-          <Avatar src={defaultAvatar} alt="익명 프로필" />
-        )}
-        {isLoggedIn ? (
-          <Input
-            type="text"
-            value={newComment}
-            onChange={changeNewComment}
-            placeholder="댓글 추가..."
-            maxLength={200}
-          />
-        ) : (
-          <LoginLink to={googleAuthUrl}>
+          <>
+            <Avatar src={shookshook} alt="슉슉이" />
             <Input
               type="text"
               value={newComment}
@@ -69,7 +58,22 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
               placeholder="댓글 추가..."
               maxLength={200}
             />
-          </LoginLink>
+          </>
+        ) : (
+          <>
+            <Avatar src={defaultAvatar} alt="익명 프로필" />
+            <Input
+              type="text"
+              onFocus={openLoginModal}
+              placeholder="댓글 추가..."
+              disabled={isOpen}
+            />
+            <LoginModal
+              isOpen={isOpen}
+              messageList={['로그인하고 댓글을 작성해 보세요!']}
+              closeModal={closeLoginModal}
+            />
+          </>
         )}
       </Flex>
       {isLoggedIn && (
@@ -87,10 +91,6 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
 };
 
 export default CommentForm;
-
-const LoginLink = styled(Link)`
-  flex: 1;
-`;
 
 const Flex = styled.div`
   display: flex;
@@ -148,7 +148,7 @@ const Cancel = styled.button`
 `;
 
 const Submit = styled.button`
-  ${buttonBase}
+  ${buttonBase};
   background-color: ${({ theme }) => theme.color.primary};
 
   &:hover,
