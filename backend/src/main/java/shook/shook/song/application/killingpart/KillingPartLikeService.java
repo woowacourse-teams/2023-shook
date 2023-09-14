@@ -42,10 +42,23 @@ public class KillingPartLikeService {
             ));
 
         if (request.isLikeCreateRequest()) {
-            create(killingPart, member);
+            doLikeByUpdateQuery(killingPart, member);
             return;
         }
         delete(killingPart, member);
+    }
+
+    private void doLikeByUpdateQuery(final KillingPart killingPart, final Member member) {
+        if (killingPart.findLikeByMember(member).isPresent()) {
+            return;
+        }
+
+        final KillingPartLike killingPartLike =
+            likeRepository.findByKillingPartAndMember(killingPart, member)
+                .orElseGet(() -> createNewLike(killingPart, member)); // deletion true
+
+        killingPartLike.updateDeletion();
+        killingPartRepository.increaseKillingPartLikeCount(killingPart.getId());
     }
 
     private void create(final KillingPart killingPart, final Member member) {
@@ -65,9 +78,15 @@ public class KillingPartLikeService {
         return likeRepository.save(like);
     }
 
+    private void unlikeByUpdateQuery(final KillingPart killingPart,
+        final KillingPartLike killingPartLike) {
+        killingPartLike.updateDeletion();
+        killingPartRepository.decreaseKillingPartLikeCount(killingPart.getId());
+    }
+
     private void delete(final KillingPart killingPart, final Member member) {
         killingPart.findLikeByMember(member)
-            .ifPresent(like -> killingPart.unlike(like));
+            .ifPresent(like -> unlikeByUpdateQuery(killingPart, like));
     }
 
 }
