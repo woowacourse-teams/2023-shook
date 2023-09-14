@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Modal from '@/shared/components/Modal/Modal';
 import ROUTE_PATH from '@/shared/constants/path';
@@ -28,9 +28,9 @@ const LoginModal = ({ isOpen, closeModal, messageList }: LoginModalProps) => {
         <ConfirmButton type="button" onClick={closeModal}>
           닫기
         </ConfirmButton>
-        <LoginButton type="button" onClick={goLoginPage}>
-          로그인하러 가기
-        </LoginButton>
+        <FlexLink to={ROUTE_PATH.LOGIN}>
+          <LoginButton type="button">로그인하러 가기</LoginButton>
+        </FlexLink>
       </ButtonContainer>
     </Modal>
   );
@@ -66,7 +66,7 @@ const ConfirmButton = styled(Button)`
 `;
 
 const LoginButton = styled(Button)`
-  flex: 1.5;
+  width: 100%;
   background-color: ${({ theme: { color } }) => color.primary};
 `;
 
@@ -74,4 +74,8 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 16px;
   width: 100%;
+`;
+
+const FlexLink = styled(Link)`
+  flex: 1.5;
 `;
