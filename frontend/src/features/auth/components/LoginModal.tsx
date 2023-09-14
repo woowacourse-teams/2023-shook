@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-
 import { styled } from 'styled-components';
 import Modal from '@/shared/components/Modal/Modal';
 import ROUTE_PATH from '@/shared/constants/path';
