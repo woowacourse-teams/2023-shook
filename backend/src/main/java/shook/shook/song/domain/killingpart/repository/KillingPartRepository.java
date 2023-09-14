@@ -14,11 +14,11 @@ public interface KillingPartRepository extends JpaRepository<KillingPart, Long> 
 
     List<KillingPart> findAllBySong(final Song song);
 
-    @Modifying
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("UPDATE KillingPart kp SET kp.likeCount = kp.likeCount + 1 WHERE kp.id = :id")
     void increaseKillingPartLikeCount(@Param("id") final Long killingPartId);
 
-    @Modifying
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("UPDATE KillingPart kp SET kp.likeCount = kp.likeCount - 1 WHERE kp.id = :id")
     void decreaseKillingPartLikeCount(@Param("id") final Long killingPartId);
 }
