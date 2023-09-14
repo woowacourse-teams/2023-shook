@@ -45,11 +45,6 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
     getComment();
   };
 
-  const recommendLogin: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    e.currentTarget.blur();
-    openLoginModal();
-  };
-
   return (
     <Container onSubmit={submitNewComment}>
       <Flex>
@@ -67,7 +62,12 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
         ) : (
           <>
             <Avatar src={defaultAvatar} alt="익명 프로필" />
-            <Input type="text" onFocus={recommendLogin} placeholder="댓글 추가..." />
+            <Input
+              type="text"
+              onFocus={openLoginModal}
+              placeholder="댓글 추가..."
+              disabled={isOpen}
+            />
             <LoginModal
               isOpen={isOpen}
               messageList={['로그인하고 댓글을 작성해 보세요!']}
