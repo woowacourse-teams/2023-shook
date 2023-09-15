@@ -13,9 +13,16 @@ import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query("SELECT s AS song, SUM(COALESCE(kp.likeCount, 0)) AS totalLikeCount "
-        + "FROM Song s LEFT JOIN s.killingParts.killingParts kp "
+        + "FROM Song s "
+        + "LEFT JOIN s.killingParts.killingParts kp "
         + "GROUP BY s.id")
     List<SongTotalLikeCountDto> findAllWithTotalLikeCount();
+
+    @Query("SELECT s AS song "
+        + "FROM Song s "
+        + "LEFT JOIN FETCH s.killingParts.killingParts kp "
+        + "GROUP BY s.id, kp.id")
+    List<Song> findAllWithKillingParts();
 
     @Query("SELECT s FROM Song s "
         + "LEFT JOIN s.killingParts.killingParts kp "

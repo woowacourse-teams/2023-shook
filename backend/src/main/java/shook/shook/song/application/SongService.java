@@ -71,8 +71,24 @@ public class SongService {
     ) {
         final Song currentSong = findSongById(songId);
 
-        final List<Song> beforeSongs = findBeforeSongs(currentSong);
-        final List<Song> afterSongs = findAfterSongs(currentSong);
+        final List<Song> songs = songRepository.findAllWithKillingParts();
+        songs.sort(
+            Comparator.comparing(Song::getTotalLikeCount, Comparator.reverseOrder())
+                .thenComparing(Song::getId, Comparator.reverseOrder()
+                )
+        );
+
+        final int currentSongIndex = songs.indexOf(currentSong);
+        final List<Song> beforeSongs = songs.subList(Math.max(0, currentSongIndex - 10), currentSongIndex);
+
+        if (currentSongIndex == songs.size() - 1) {
+            return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, Collections.emptyList());
+        }
+
+        final List<Song> afterSongs = songs.subList(
+            Math.min(currentSongIndex + 1, songs.size() - 1),
+            Math.min(songs.size(), currentSongIndex + 11)
+        );
 
         return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, afterSongs);
     }

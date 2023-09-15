@@ -15,4 +15,10 @@ public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike
         final Member member);
 
     List<KillingPartLike> findAllByMemberAndIsDeleted(final Member member, final boolean isDeleted);
+
+    List<KillingPartLike> findByKillingPartAndMemberAndIsDeleted(
+        final KillingPart killingPart,
+        final Member member,
+        final boolean isDeleted
+    );
 }

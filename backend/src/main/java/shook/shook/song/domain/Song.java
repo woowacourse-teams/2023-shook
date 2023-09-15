@@ -127,6 +127,10 @@ public class Song {
         return killingParts.getKillingPartsSortedByLikeCount();
     }
 
+    public int getTotalLikeCount() {
+        return killingParts.getKillingPartsTotalLikeCount();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
