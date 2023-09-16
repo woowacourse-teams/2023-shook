@@ -18,10 +18,8 @@ import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
-import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 import shook.shook.song.exception.SongException;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +30,7 @@ public class SongService {
 
     private static final int AFTER_SONGS_COUNT = 10;
     private static final int BEFORE_SONGS_COUNT = 10;
+    private static final int TOP_COUNT = 100;
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
@@ -55,23 +54,10 @@ public class SongService {
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
-        final List<SongTotalLikeCountDto> songsWithLikeCount = songRepository.findAllWithTotalLikeCount();
+        final List<Song> songs = CachedSong.getSongs();
+        final List<Song> top100Songs = songs.subList(0, Math.min(TOP_COUNT, songs.size()));
 
-        return HighLikedSongResponse.ofSongTotalLikeCounts(
-            sortByHighestLikeCountAndId(songsWithLikeCount)
-        );
-    }
-
-    private List<SongTotalLikeCountDto> sortByHighestLikeCountAndId(
-        final List<SongTotalLikeCountDto> songWithLikeCounts
-    ) {
-        return songWithLikeCounts.stream()
-            .sorted(
-                Comparator.comparing(
-                    SongTotalLikeCountDto::getTotalLikeCount,
-                    Comparator.reverseOrder()
-                ).thenComparing(dto -> dto.getSong().getId(), Comparator.reverseOrder())
-            ).toList();
+        return HighLikedSongResponse.ofSongs(top100Songs);
     }
 
     public SongSwipeResponse findSongByIdForFirstSwipe(

@@ -30,10 +30,9 @@ public class CachedSong {
             ).toList();
     }
 
-    public static List<Song> getTop100Songs() {
+    public static List<Song> getSongs() {
         return songsSortedInLikeCountById.values()
             .stream()
-            .limit(HOT_SONG_COUNT)
             .toList();
     }
 

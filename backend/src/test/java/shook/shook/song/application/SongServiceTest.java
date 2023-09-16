@@ -195,8 +195,8 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(thirdSong, member2);
         addLikeToEachKillingParts(fourthSong, member1);
 
-        CachedSong.recreate(songRepository.findAllWithKillingParts());
         saveAndClearEntityManager();
+        CachedSong.recreate(songRepository.findAllWithKillingParts());
 
         // when
         final List<HighLikedSongResponse> result = songService.showHighLikedSongs();
