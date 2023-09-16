@@ -14,7 +14,7 @@ public class CachedSongGenerator {
 
     private final SongRepository songRepository;
 
-    @Scheduled(cron = "0 10 21 * * ?")
+    @Scheduled(cron = "0 17 21 * * ?")
     public void recreateCachedSong() {
         CachedSong.recreate(songRepository.findAllWithKillingParts());
     }
