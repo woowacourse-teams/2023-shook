@@ -1,11 +1,6 @@
 package shook.shook.song.application;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +13,17 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.domain.CachedSong;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 import shook.shook.song.exception.SongException;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -78,34 +78,12 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
+        final Song currentSong = CachedSong.getSongById(songId);
 
-        final List<Song> beforeSongs = findBeforeSongs(currentSong);
-        final List<Song> afterSongs = findAfterSongs(currentSong);
+        final List<Song> beforeSongs = CachedSong.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
+        final List<Song> afterSongs = CachedSong.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, afterSongs);
-    }
-
-    private Song findSongById(final Long songId) {
-        return songRepository.findById(songId)
-            .orElseThrow(() -> new SongException.SongNotExistException(
-                Map.of("SongId", String.valueOf(songId))
-            ));
-    }
-
-    private List<Song> findBeforeSongs(final Song song) {
-        final List<Song> result = songRepository.findSongsWithMoreLikeCountThanSongWithId(
-            song.getId(), PageRequest.of(0, BEFORE_SONGS_COUNT)
-        );
-
-        Collections.reverse(result);
-        return result;
-    }
-
-    private List<Song> findAfterSongs(final Song song) {
-        return songRepository.findSongsWithLessLikeCountThanSongWithId(
-            song.getId(), PageRequest.of(0, AFTER_SONGS_COUNT)
-        );
     }
 
     private SongSwipeResponse convertToSongSwipeResponse(
@@ -137,10 +115,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
-
-        final List<Song> beforeSongs =
-            findBeforeSongs(currentSong);
+        final Song currentSong = CachedSong.getSongById(songId);
+        final List<Song> beforeSongs = CachedSong.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, beforeSongs);
     }
@@ -168,10 +144,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
-
-        final List<Song> afterSongs =
-            findAfterSongs(currentSong);
+        final Song currentSong = CachedSong.getSongById(songId);
+        final List<Song> afterSongs = CachedSong.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, afterSongs);
     }

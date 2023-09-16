@@ -20,6 +20,7 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.domain.CachedSong;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
@@ -93,6 +94,7 @@ class SongServiceTest extends UsingJpaTest {
         final Member member = createAndSaveMember("email@naver.com", "email");
         final Song song = registerNewSong("title");
         addLikeToEachKillingParts(song, member);
+        CachedSong.recreate(songRepository.findAllWithKillingParts());
 
         //when
         saveAndClearEntityManager();
@@ -129,8 +131,9 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_not_login_member() {
         //given
         final Song song = registerNewSong("title");
+        CachedSong.recreate(songRepository.findAllWithKillingParts());
 
-        //when
+        //when인
         saveAndClearEntityManager();
         final SongSwipeResponse response =
             songService.findSongByIdForFirstSwipe(song.getId(),
@@ -165,6 +168,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_notExist() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
+
         //when
         //then
         assertThatThrownBy(() -> songService.findSongByIdForFirstSwipe(
@@ -191,6 +195,7 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(thirdSong, member2);
         addLikeToEachKillingParts(fourthSong, member1);
 
+        CachedSong.recreate(songRepository.findAllWithKillingParts());
         saveAndClearEntityManager();
 
         // when
@@ -260,6 +265,7 @@ class SongServiceTest extends UsingJpaTest {
 
             addLikeToEachKillingParts(thirdSong, member);
             addLikeToEachKillingParts(fourthSong, member);
+            CachedSong.recreate(songRepository.findAllWithKillingParts());
 
             saveAndClearEntityManager();
 
@@ -323,6 +329,7 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(fourthSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
 
+            CachedSong.recreate(songRepository.findAllWithKillingParts());
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
 
             saveAndClearEntityManager();
@@ -355,6 +362,7 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(secondSong, member2);
             addLikeToEachKillingParts(standardSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
+            CachedSong.recreate(songRepository.findAllWithKillingParts());
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
 

@@ -18,6 +18,12 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         + "GROUP BY s.id")
     List<SongTotalLikeCountDto> findAllWithTotalLikeCount();
 
+    @Query("SELECT s AS song "
+        + "FROM Song s "
+        + "LEFT JOIN FETCH s.killingParts.killingParts kp "
+        + "GROUP BY s.id, kp.id")
+    List<Song> findAllWithKillingParts();
+
     @Query("SELECT s FROM Song s "
         + "LEFT JOIN s.killingParts.killingParts kp "
         + "GROUP BY s.id "
