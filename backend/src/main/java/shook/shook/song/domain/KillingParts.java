@@ -61,4 +61,9 @@ public class KillingParts {
                 .thenComparing(KillingPart::getStartSecond))
             .toList();
     }
+
+    public int getKillingPartsTotalLikeCount() {
+        return killingParts.stream()
+                .reduce(0, (sum, killingPart) -> sum + killingPart.getLikeCount(), Integer::sum);
+    }
 }

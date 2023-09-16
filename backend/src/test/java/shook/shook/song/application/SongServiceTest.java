@@ -1,10 +1,5 @@
 package shook.shook.song.application;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,6 +24,12 @@ import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
 import shook.shook.support.UsingJpaTest;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 @Sql("classpath:/schema-test.sql")
 class SongServiceTest extends UsingJpaTest {
 
@@ -51,6 +52,7 @@ class SongServiceTest extends UsingJpaTest {
             songRepository,
             killingPartRepository,
             memberRepository,
+            likeRepository,
             new SongDataExcelReader(" ", " ", " ")
         );
     }

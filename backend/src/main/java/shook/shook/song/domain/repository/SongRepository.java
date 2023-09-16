@@ -1,6 +1,5 @@
 package shook.shook.song.domain.repository;
 
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +9,8 @@ import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 
+import java.util.List;
+
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
 
@@ -18,6 +19,13 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         + "GROUP BY s.id")
     List<SongTotalLikeCountDto> findAllWithTotalLikeCount();
 
+    @Query("SELECT s AS song "
+        + "FROM Song s "
+        + "LEFT JOIN FETCH s.killingParts.killingParts kp "
+        + "GROUP BY s.id, kp.id")
+    List<Song> findAllWithKillingParts();
+
+    // TODO 좋아요 수가 적은 노래 가져오는 것도 join을 통해 song 과 KillingPart 가
     @Query("SELECT s FROM Song s "
         + "LEFT JOIN s.killingParts.killingParts kp "
         + "GROUP BY s.id "

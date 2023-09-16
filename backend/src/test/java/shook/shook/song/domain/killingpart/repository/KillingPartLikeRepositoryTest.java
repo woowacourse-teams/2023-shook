@@ -106,4 +106,21 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
             .comparingOnlyFields("id")
             .isEqualTo(List.of(killingPartLike));
     }
+
+    @Test
+    @DisplayName("멤버가 좋아요한 킬링파트 id 가져오기")
+    void getKillingPartIdThatMemberLike() {
+        // given
+        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+                SAVED_MEMBER);
+
+        killingPartLikeRepository.save(killingPartLike);
+        saveAndClearEntityManager();
+
+        // when
+        final List<Long> killingPartIdsByMemberId = killingPartLikeRepository.findKillingPartIdsByMember(SAVED_MEMBER);
+
+        // then
+        assertThat(killingPartIdsByMemberId).containsExactly(SAVED_KILLING_PART.getId());
+    }
 }

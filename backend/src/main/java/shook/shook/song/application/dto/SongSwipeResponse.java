@@ -1,12 +1,12 @@
 package shook.shook.song.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
+
+import java.util.List;
 
 @Schema(description = "첫 스와이프 시, 현재 노래와 이전, 이후 노래 리스트 조회 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,17 +23,17 @@ public class SongSwipeResponse {
     private final List<SongResponse> nextSongs;
 
     public static SongSwipeResponse of(
-        final Member member,
+        final List<Long> likedKillingPartIds,
         final Song currentSong,
         final List<Song> prevSongs,
         final List<Song> nextSongs
     ) {
-        final SongResponse currentResponse = SongResponse.of(currentSong, member);
+        final SongResponse currentResponse = SongResponse.of(currentSong, likedKillingPartIds);
         final List<SongResponse> prevResponses = prevSongs.stream()
-            .map(song -> SongResponse.of(song, member))
+            .map(song -> SongResponse.of(song, likedKillingPartIds))
             .toList();
         final List<SongResponse> nextResponses = nextSongs.stream()
-            .map(song -> SongResponse.of(song, member))
+            .map(song -> SongResponse.of(song, likedKillingPartIds))
             .toList();
 
         return new SongSwipeResponse(prevResponses, currentResponse, nextResponses);
