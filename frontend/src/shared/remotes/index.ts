@@ -1,4 +1,4 @@
-import ROUTE_PATH from '@/shared/constants/path';
+import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 
 export interface ErrorResponse {
   code: number;
@@ -8,16 +8,31 @@ export interface ErrorResponse {
 const { BASE_URL } = process.env;
 
 const fetcher = async (url: string, method: string, body?: unknown) => {
-  const loginRedirectUrl = `${process.env.BASE_URL}${ROUTE_PATH.LOGIN}`?.replace(/api\/?/, '');
-
-  const accessToken = localStorage.getItem('userToken');
-
   const headers: Record<string, string> = {
     'Content-type': 'application/json',
   };
 
-  if (accessToken) {
+  const accessTokenWithPayload = accessTokenStorage.getTokenWithPayload();
+
+  if (accessTokenWithPayload) {
+    const {
+      accessToken,
+      payload: { exp },
+    } = accessTokenWithPayload;
+
     headers['Authorization'] = `Bearer ${accessToken}`;
+
+    if (exp * 1000 + 1 * 6 * 1000 > Date.now()) {
+      const response = await fetch(`${BASE_URL}/reissue`, {
+        ...headers,
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const { accessToken } = await response.json();
+        accessTokenStorage.setToken(accessToken);
+      }
+    }
   }
 
   const options: RequestInit = {
@@ -36,9 +51,8 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
   }
 
   if (response.status === 401) {
-    localStorage.removeItem('userToken');
-    //TODO: 해당 부분 router-dom으로 해결 가능한지 확인해야함.
-    window.location.href = loginRedirectUrl;
+    accessTokenStorage.removeToken();
+    throw new Error(`인증 에러`);
   }
 
   if (!response.ok) {
