@@ -109,11 +109,11 @@ public class SongDataExcelReader {
         final int length,
         final String videoUrl
     ) {
-        return title.isEmpty() ||
-            singer.isEmpty() ||
-            albumCoverUrl.isEmpty() ||
-            genre.isEmpty() ||
-            videoUrl.isEmpty() || !videoUrl.contains(videoUrlDelimiter) ||
+        return title.isBlank() ||
+            singer.isBlank() ||
+            albumCoverUrl.isBlank() ||
+            genre.isBlank() ||
+            videoUrl.isBlank() || !videoUrl.contains(videoUrlDelimiter) ||
             length == 0;
     }
 

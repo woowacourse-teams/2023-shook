@@ -27,7 +27,7 @@ public enum Genre {
 
     public static Genre from(final String name) {
         return Arrays.stream(values())
-            .filter(value -> value.getValue().equalsIgnoreCase(name))
+            .filter(genre -> genre.value.equalsIgnoreCase(name))
             .findFirst()
             .orElse(ETC);
     }

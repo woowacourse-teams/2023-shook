@@ -15,7 +15,7 @@ create table if not exists song
     length          integer      not null,
     video_id        varchar(20)  not null,
     album_cover_url text         not null,
-    genre           varchar(20) not null,
+    genre           varchar(20),
     created_at      timestamp(6) not null,
     primary key (id)
 );
