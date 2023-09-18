@@ -1,42 +1,45 @@
 package shook.shook.song.domain;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
 import shook.shook.song.exception.SongException;
 
-import java.util.*;
+@Repository
+public class InMemorySongs {
 
-public class CachedSong {
+    private Map<Long, Song> songsSortedInLikeCountById = new LinkedHashMap<>();
 
-    private static final int HOT_SONG_COUNT = 100;
-    private static final Map<Long, Song> songsSortedInLikeCountById = new LinkedHashMap<>();
-
-    private CachedSong() {
+    public void recreate(final List<Song> songs) {
+        songsSortedInLikeCountById = getSortedSong(songs);
     }
 
-    public static void recreate(final List<Song> songs) {
-        clear();
-        final List<Song> sortedSongs = getSortedSong(songs);
-        for (final Song song : sortedSongs) {
-            songsSortedInLikeCountById.put(song.getId(), song);
-        }
-    }
+    private static Map<Long, Song> getSortedSong(final List<Song> songs) {
+        songs.sort(Comparator.comparing(
+            Song::getTotalLikeCount,
+            Comparator.reverseOrder()
+        ).thenComparing(Song::getId, Comparator.reverseOrder()));
 
-    private static List<Song> getSortedSong(final List<Song> songs) {
         return songs.stream()
-            .sorted(
-                Comparator.comparing(
-                    Song::getTotalLikeCount,
-                    Comparator.reverseOrder()
-                ).thenComparing(Song::getId, Comparator.reverseOrder())
-            ).toList();
+            .collect(Collectors.toMap(
+                Song::getId,
+                song -> song,
+                (prev, update) -> update,
+                LinkedHashMap::new
+            ));
     }
 
-    public static List<Song> getSongs() {
+    public List<Song> getSongs() {
         return songsSortedInLikeCountById.values()
             .stream()
             .toList();
     }
 
-    public static Song getSongById(final Long id) {
+    public Song getSongById(final Long id) {
         if (songsSortedInLikeCountById.containsKey(id)) {
             return songsSortedInLikeCountById.get(id);
         }
@@ -45,8 +48,9 @@ public class CachedSong {
         );
     }
 
-    public static List<Song> getPrevLikedSongs(final Song currentSong, final int prevSongCount) {
-        final List<Long> songIds = songsSortedInLikeCountById.keySet().stream()
+    public List<Song> getPrevLikedSongs(final Song currentSong, final int prevSongCount) {
+        final List<Long> songIds = songsSortedInLikeCountById.keySet()
+            .stream()
             .toList();
         final int currentSongIndex = songIds.indexOf(currentSong.getId());
 
@@ -55,7 +59,7 @@ public class CachedSong {
             .toList();
     }
 
-    public static List<Song> getNextLikedSongs(final Song currentSong, final int nextSongCount) {
+    public List<Song> getNextLikedSongs(final Song currentSong, final int nextSongCount) {
         final List<Long> songIds = songsSortedInLikeCountById.keySet().stream()
             .toList();
         final int currentSongIndex = songIds.indexOf(currentSong.getId());
@@ -68,9 +72,5 @@ public class CachedSong {
             .stream()
             .map(songsSortedInLikeCountById::get)
             .toList();
-    }
-
-    private static void clear() {
-        songsSortedInLikeCountById.clear();
     }
 }

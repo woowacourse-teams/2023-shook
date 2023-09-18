@@ -1,5 +1,7 @@
 package shook.shook.song.application;
 
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,15 +15,12 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
-import shook.shook.song.domain.CachedSong;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
-
-import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,6 +34,7 @@ public class SongService {
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
     private final MemberRepository memberRepository;
+    private final InMemorySongs inMemorySongs;
     private final SongDataExcelReader songDataExcelReader;
 
     @Transactional
@@ -54,7 +54,7 @@ public class SongService {
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
-        final List<Song> songs = CachedSong.getSongs();
+        final List<Song> songs = inMemorySongs.getSongs();
         final List<Song> top100Songs = songs.subList(0, Math.min(TOP_COUNT, songs.size()));
 
         return HighLikedSongResponse.ofSongs(top100Songs);
@@ -64,10 +64,10 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = CachedSong.getSongById(songId);
+        final Song currentSong = inMemorySongs.getSongById(songId);
 
-        final List<Song> beforeSongs = CachedSong.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
-        final List<Song> afterSongs = CachedSong.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, afterSongs);
     }
@@ -75,7 +75,8 @@ public class SongService {
     private SongSwipeResponse convertToSongSwipeResponse(
         final MemberInfo memberInfo,
         final Song currentSong,
-        final List<Song> beforeSongs, final List<Song> afterSongs
+        final List<Song> beforeSongs,
+        final List<Song> afterSongs
     ) {
         final Authority authority = memberInfo.getAuthority();
 
@@ -101,8 +102,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = CachedSong.getSongById(songId);
-        final List<Song> beforeSongs = CachedSong.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, beforeSongs);
     }
@@ -130,8 +131,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = CachedSong.getSongById(songId);
-        final List<Song> afterSongs = CachedSong.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, afterSongs);
     }

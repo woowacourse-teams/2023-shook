@@ -1,6 +1,9 @@
 package shook.shook.song.ui;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.restassured.RestAssured;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,15 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.song.application.CachedSongGenerator;
+import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -41,7 +40,7 @@ class SongControllerTest {
     private KillingPartLikeService likeService;
 
     @Autowired
-    private CachedSongGenerator cachedSongGenerator;
+    private InMemorySongsScheduler inMemorySongsScheduler;
 
     // TODO: 2023/09/16 실시간 좋아요 반영이 아니게 됨 -> 테스트 할 때 임의 좋아요 데이터를 추가할 필요가 없어진다. 아니면 테스트하기 전에 캐시를 재생성해야함
     @DisplayName("노래 정보 처음 조회할 때, 가운데 노래를 기준으로 조회한 경우 200 상태코드, 현재 노래,  이전 / 이후 노래 리스트를 반환한다.")
@@ -56,7 +55,7 @@ class SongControllerTest {
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
-        cachedSongGenerator.recreateCachedSong();
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final SongSwipeResponse response = RestAssured.given().log().all()
@@ -84,7 +83,7 @@ class SongControllerTest {
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
-        cachedSongGenerator.recreateCachedSong();
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final List<SongResponse> response = RestAssured.given().log().all()
@@ -109,7 +108,7 @@ class SongControllerTest {
     void showSongsAfterSongWithId() {
         // given
         final Long songId = 3L;
-        cachedSongGenerator.recreateCachedSong();
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final List<SongResponse> response = RestAssured.given().log().all()

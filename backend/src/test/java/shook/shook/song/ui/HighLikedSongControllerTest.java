@@ -14,12 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.song.application.CachedSongGenerator;
+import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
-import shook.shook.song.domain.CachedSong;
-
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -45,7 +43,7 @@ class HighLikedSongControllerTest {
     private KillingPartLikeService likeService;
 
     @Autowired
-    private CachedSongGenerator cachedSongGenerator;
+    private InMemorySongsScheduler inMemorySongsScheduler;
 
     @DisplayName("좋아요 많은 순으로 노래 목록 조회 시 200 상태코드, 좋아요 순으로 정렬된 노래 목록이 반환된다.")
     @Test
@@ -58,7 +56,7 @@ class HighLikedSongControllerTest {
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
-        cachedSongGenerator.recreateCachedSong();
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final List<HighLikedSongResponse> responses = RestAssured.given().log().all()
