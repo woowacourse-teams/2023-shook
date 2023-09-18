@@ -22,20 +22,21 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
     headers['Authorization'] = `Bearer ${accessToken}`;
 
-    // (reissue) 재발급 받아야하는 경우 외에는 본요청으로 보낸다.
     const dateNow = Date.now();
 
-    console.log('dateNow', dateNow);
-    console.log('exp * 1000', exp * 1000);
-    if (exp * 1000 < dateNow + 2000) {
+    if (exp * 1000 - 30 * 1000 < dateNow) {
       const response = await fetch(`${BASE_URL}/reissue`, {
         headers,
         method: 'GET',
       });
 
+      accessTokenStorage.removeToken();
+      delete headers.Authorization;
+
       if (response.ok) {
         const { accessToken } = await response.json();
         accessTokenStorage.setToken(accessToken);
+        headers['Authorization'] = `Bearer ${accessToken}`;
       }
     }
   }
