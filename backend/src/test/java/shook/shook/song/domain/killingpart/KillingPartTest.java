@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.SongException;
@@ -141,6 +142,7 @@ class KillingPartTest {
             final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
             final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
             final Song song = new Song("title", "elevenVideo", "imageUrl", "singer", 10,
+                Genre.from("댄스"),
                 new KillingParts(List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
             );
 
@@ -164,7 +166,7 @@ class KillingPartTest {
             final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
 
             // then
-            assertThat(killingPart.getLikeCount()).isEqualTo(0);
+            assertThat(killingPart.getLikeCount()).isZero();
             assertThat(killingPart.getKillingPartLikes()).isEmpty();
         }
 
@@ -215,7 +217,7 @@ class KillingPartTest {
 
             // then
             assertThat(killingPart.getKillingPartLikes()).isEmpty();
-            assertThat(killingPart.getLikeCount()).isEqualTo(0);
+            assertThat(killingPart.getLikeCount()).isZero();
         }
 
         @DisplayName("킬링파트에 좋아요를 취소할 때, 존재하지 않았다면 likeCount 가 감소하지 않는다.")

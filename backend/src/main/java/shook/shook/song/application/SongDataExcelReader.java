@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
@@ -60,7 +61,7 @@ public class SongDataExcelReader {
             throw new SongDataFileReadException();
         }
         Collections.reverse(songs);
-        
+
         return songs;
     }
 
@@ -76,10 +77,11 @@ public class SongDataExcelReader {
         final String title = getString(cellIterator);
         final String singer = getString(cellIterator);
         final String albumCoverUrl = getString(cellIterator);
+        final String genre = getString(cellIterator);
         final int length = getIntegerCell(cellIterator);
         final String videoUrl = getString(cellIterator);
 
-        if (isNotValidData(title, singer, albumCoverUrl, length, videoUrl)) {
+        if (isNotValidData(title, singer, albumCoverUrl, genre, length, videoUrl)) {
             return Optional.empty();
         }
 
@@ -87,7 +89,8 @@ public class SongDataExcelReader {
         final Optional<KillingParts> killingParts = getKillingParts(cellIterator);
 
         return killingParts.map(
-            parts -> new Song(title, videoId, albumCoverUrl, singer, length, parts));
+            parts -> new Song(title, videoId, albumCoverUrl, singer, length, Genre.from(genre),
+                parts));
     }
 
     private String getString(final Iterator<Cell> iterator) {
@@ -102,12 +105,14 @@ public class SongDataExcelReader {
         final String title,
         final String singer,
         final String albumCoverUrl,
+        final String genre,
         final int length,
         final String videoUrl
     ) {
         return title.isEmpty() ||
             singer.isEmpty() ||
             albumCoverUrl.isEmpty() ||
+            genre.isEmpty() ||
             videoUrl.isEmpty() || !videoUrl.contains(videoUrlDelimiter) ||
             length == 0;
     }
