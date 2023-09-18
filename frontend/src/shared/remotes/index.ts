@@ -23,9 +23,9 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
     headers['Authorization'] = `Bearer ${accessToken}`;
 
     // (reissue) 재발급 받아야하는 경우 외에는 본요청으로 보낸다.
-    if (exp * 1000 + 1 * 6 * 1000 > Date.now()) {
+    if (exp * 1000 + 1 * 6 * 500 > Date.now()) {
       const response = await fetch(`${BASE_URL}/reissue`, {
-        ...headers,
+        headers,
         method: 'GET',
       });
 
