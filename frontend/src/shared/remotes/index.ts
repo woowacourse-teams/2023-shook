@@ -1,4 +1,5 @@
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
+import { isExpiredAfter60seconds } from '@/shared/utils/fetchUtils';
 
 export interface ErrorResponse {
   code: number;
@@ -22,9 +23,7 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
     headers['Authorization'] = `Bearer ${accessToken}`;
 
-    const dateNow = Date.now();
-
-    if (exp * 1000 - 30 * 1000 < dateNow) {
+    if (isExpiredAfter60seconds(exp)) {
       const response = await fetch(`${BASE_URL}/reissue`, {
         headers,
         method: 'GET',
@@ -59,6 +58,7 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
   if (response.status === 401) {
     accessTokenStorage.removeToken();
     throw new Error(`인증 에러`);
+    // TODO: 인증 에러 발생했을 때 -> localstorage비워주기, 전역상태 비워주기, login redirect
   }
 
   if (!response.ok) {
