@@ -88,3 +88,4 @@ alter table killing_part
     alter column like_count set default 0;
 alter table member
     add column created_at timestamp(6) not null;
+alter table song add column genre varchar(20);
