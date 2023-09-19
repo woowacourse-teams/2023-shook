@@ -1,17 +1,22 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
+import swipeUpDown from '@/assets/icon/swipe-up-down.svg';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
 import {
   getExtraNextSongDetails,
   getExtraPrevSongDetails,
   getSongDetailEntries,
 } from '@/features/songs/remotes/songs';
+import CoachMark from '@/shared/components/CoachMark';
+import useModal from '@/shared/components/Modal/hooks/useModal';
+import Spacing from '@/shared/components/Spacing';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
 import createObserver from '@/shared/utils/createObserver';
 
 const SongDetailListPage = () => {
+  const { isOpen, closeModal } = useModal(true);
   const { id: songIdParams } = useParams();
   const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
 
@@ -73,27 +78,40 @@ const SongDetailListPage = () => {
   const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   return (
-    <ItemContainer>
-      <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
+    <>
+      <CoachMark isOpen={isOpen} closeModal={closeModal}>
+        <Spacing direction="vertical" size={170} />
+        <img src={swipeUpDown} width="100px" />
+        <Spacing direction="vertical" size={30} />
+        <div style={{ fontSize: '18px' }}>위 아래로 스와이프하여 노래를 탐색해보세요!</div>
+        <Spacing direction="vertical" size={40} />
+        <Confirm type="button" onClick={closeModal}>
+          확인
+        </Confirm>
+      </CoachMark>
 
-      {extraPrevSongDetails?.map((extraPrevSongDetail) => (
-        <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
-      ))}
-      {prevSongs.map((prevSongDetail) => (
-        <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
-      ))}
+      <ItemContainer>
+        <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
 
-      <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
+        {extraPrevSongDetails?.map((extraPrevSongDetail) => (
+          <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
+        ))}
+        {prevSongs.map((prevSongDetail) => (
+          <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
+        ))}
 
-      {nextSongs.map((nextSongDetail) => (
-        <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
-      ))}
-      {extraNextSongDetails?.map((extraNextSongDetail) => (
-        <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
-      ))}
+        <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
 
-      <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
-    </ItemContainer>
+        {nextSongs.map((nextSongDetail) => (
+          <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
+        ))}
+        {extraNextSongDetails?.map((extraNextSongDetail) => (
+          <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
+        ))}
+
+        <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
+      </ItemContainer>
+    </>
   );
 };
 
@@ -133,4 +151,14 @@ export const ItemContainer = styled.div`
       scroll-snap-stop: always;
     }
   }
+`;
+
+const Confirm = styled.button`
+  width: 200px;
+  height: 40px;
+
+  color: ${({ theme: { color } }) => color.black};
+
+  background-color: ${({ theme: { color } }) => color.white};
+  border-radius: 10px;
 `;
