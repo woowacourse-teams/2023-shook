@@ -21,7 +21,7 @@ public class InMemorySongsScheduler {
         recreateCachedSong();
     }
 
-    @Scheduled(cron = "0 17 21 * * ?")
+    @Scheduled(cron = "${schedules.in-memory-song.cron}")
     public void recreateCachedSong() {
         inMemorySongs.recreate(songRepository.findAllWithKillingParts());
     }

@@ -102,4 +102,26 @@ class KillingPartsTest {
             () -> assertThat(result.get(2).getId()).isEqualTo(3L)
         );
     }
+
+    @DisplayName("한 킬링파트 묶음의 총 좋아요 개수를 계산한다.")
+    @Test
+    void getTotalLikeCount() {
+        // given
+        final Member member = new Member("email@naver.com", "nickname");
+        final KillingPart killingPart1 = KillingPart.saved(1L, 15, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart2 = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart3 = KillingPart.saved(3L, 20, PartLength.SHORT, EMPTY_SONG);
+
+        killingPart1.like(new KillingPartLike(killingPart1, member));
+        killingPart2.like(new KillingPartLike(killingPart2, member));
+
+        final KillingParts killingParts = new KillingParts(List.of(killingPart1, killingPart3,
+            killingPart2));
+
+        // when
+        final int totalLikeCount = killingParts.getKillingPartsTotalLikeCount();
+
+        // then
+        assertThat(totalLikeCount).isEqualTo(2);
+    }
 }
