@@ -3,10 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        targets: {
-          // TODO: 브라우저 지원 범위
-          chrome: '51',
-},
+        targets: 'last 2 years',
         useBuiltIns: 'entry',
         corejs: '3.31.1',
       },
