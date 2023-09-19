@@ -23,11 +23,30 @@ public interface AuthApi {
     )
     @Parameter(
         name = "code",
-        description = "구글 로그인 후 발급받은 인증 코드",
+        description = "구글 로그인 시 발급받은 인증 코드",
         required = true
     )
     @GetMapping("/login/google")
     ResponseEntity<LoginResponse> googleLogin(
+        @RequestParam("code") final String authorizationCode,
+        final HttpServletResponse response
+    );
+
+    @Operation(
+        summary = "카카오 로그인 API",
+        description = "카카오 로그인을 진행한 후, accessToken, refreshToken을 발급한다."
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "카카오 로그인 성공"
+    )
+    @Parameter(
+        name = "code",
+        description = "카카오 로그인 시 발급받은 인증 코드",
+        required = true
+    )
+    @GetMapping("/login/kakao")
+    ResponseEntity<LoginResponse> kakaoLogin(
         @RequestParam("code") final String authorizationCode,
         final HttpServletResponse response
     );

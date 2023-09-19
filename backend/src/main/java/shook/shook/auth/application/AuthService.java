@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
 import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
+import shook.shook.auth.application.dto.KakaoAccessTokenResponse;
+import shook.shook.auth.application.dto.KakaoMemberInfoResponse;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
@@ -17,6 +19,7 @@ public class AuthService {
 
     private final MemberService memberService;
     private final GoogleInfoProvider googleInfoProvider;
+    private final KakaoInfoProvider kakaoInfoProvider;
     private final TokenProvider tokenProvider;
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
@@ -30,6 +33,23 @@ public class AuthService {
 
         final Member member = memberService.findByEmail(userEmail)
             .orElseGet(() -> memberService.register(userEmail));
+
+        final Long memberId = member.getId();
+        final String nickname = member.getNickname();
+        final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
+        final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
+        return new TokenPair(accessToken, refreshToken);
+    }
+
+    public TokenPair kakaoLogin(final String authorizationCode) {
+        final KakaoAccessTokenResponse accessTokenResponse =
+            kakaoInfoProvider.getAccessToken(authorizationCode);
+        final KakaoMemberInfoResponse memberInfo =
+            kakaoInfoProvider.getMemberInfo(accessTokenResponse.getAccessToken());
+
+        final String platformId = String.valueOf(memberInfo.getId());
+        final Member member = memberService.findByEmail(platformId)
+            .orElseGet(() -> memberService.register(platformId));
 
         final Long memberId = member.getId();
         final String nickname = member.getNickname();

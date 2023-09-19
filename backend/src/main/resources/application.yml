@@ -43,6 +43,11 @@ oauth2:
     client-id: client
     client-secret: secret
     redirect-uri: redirect
+  kakao:
+    access-token-url: https://localhost:8080/oauth/token
+    member-info-url: https://localhost:8080/v2/user/me
+    client-id: client
+    redirect-url: redirect
 
 # Properties Only For Local
 jwt:

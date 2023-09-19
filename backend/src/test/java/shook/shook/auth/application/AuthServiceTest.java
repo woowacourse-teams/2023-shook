@@ -34,6 +34,9 @@ class AuthServiceTest {
     @MockBean
     private GoogleInfoProvider googleInfoProvider;
 
+    @MockBean
+    private KakaoInfoProvider kakaoInfoProvider;
+
     @Autowired
     private MemberService memberService;
 
@@ -54,6 +57,7 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
+        authService = new AuthService(memberService, googleInfoProvider, kakaoInfoProvider, tokenProvider);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());

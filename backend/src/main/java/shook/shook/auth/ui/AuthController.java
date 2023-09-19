@@ -30,4 +30,17 @@ public class AuthController implements AuthApi {
         final LoginResponse loginResponse = new LoginResponse(tokenPair.getAccessToken());
         return ResponseEntity.ok(loginResponse);
     }
+
+    @GetMapping("/login/kakao")
+    public ResponseEntity<LoginResponse> kakaoLogin(
+        @RequestParam("code") final String authorizationCode,
+        final HttpServletResponse response
+    ) {
+        System.out.println(authorizationCode);
+        final TokenPair tokenPair = authService.kakaoLogin(authorizationCode);
+        final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
+        response.addCookie(cookie);
+        final LoginResponse loginResponse = new LoginResponse(tokenPair.getAccessToken());
+        return ResponseEntity.ok(loginResponse);
+    }
 }
