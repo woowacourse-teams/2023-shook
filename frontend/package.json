@@ -66,7 +66,6 @@
     "stylelint": "^15.10.2",
     "stylelint-config-clean-order": "^5.0.1",
     "ts-jest": "^29.1.1",
-    "ts-loader": "^9.4.4",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4",
