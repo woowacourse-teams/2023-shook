@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import parseJWT from '@/features/auth/utils/parseJWT';
 import ROUTE_PATH from '@/shared/constants/path';
+import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 
 const isValidToken = (accessToken: string) => {
   if (!accessToken) return false;
@@ -16,11 +17,13 @@ const isValidToken = (accessToken: string) => {
 };
 
 const AuthLayout = ({ children }: { children: React.ReactElement }) => {
-  const accessToken = localStorage.getItem('userToken');
+  const accessToken = accessTokenStorage.getToken();
   const navigator = useNavigate();
 
+  // TODO: accessToken 유효하지 않은 경우
   if (!accessToken || !isValidToken(accessToken)) {
-    localStorage.removeItem('userToken');
+    // TODO: 인증 에러 발생했을 때 -> 전역상태 비워주기, login redirect
+    accessTokenStorage.removeToken();
     navigator(ROUTE_PATH.LOGIN);
     return;
   }
