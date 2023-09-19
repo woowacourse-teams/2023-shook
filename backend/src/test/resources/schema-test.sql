@@ -15,7 +15,7 @@ create table if not exists song
     length          integer      not null,
     video_id        varchar(20)  not null,
     album_cover_url text         not null,
-    genre           varchar(20),
+    genre varchar(255) check (genre in ('BALLAD', 'DANCE', 'HIPHOP', 'RHYTHM_AND_BLUES', 'INDIE', 'ROCK_METAL', 'TROT', 'FOLK_BLUES', 'POP', 'JAZZ', 'CLASSIC', 'J_POP', 'EDM', 'ETC')),
     created_at      timestamp(6) not null,
     primary key (id)
 );
