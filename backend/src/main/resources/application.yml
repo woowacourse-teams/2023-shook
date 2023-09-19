@@ -58,3 +58,7 @@ excel:
   video-url-delimiter: "v="
   killingpart-data-delimiter: " "
   song-length-suffix: "초"
+
+# Properties Only For local
+schedules:
+  cron: "0 0 0/1 * * *"

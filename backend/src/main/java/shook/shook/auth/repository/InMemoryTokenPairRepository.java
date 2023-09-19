@@ -27,4 +27,16 @@ public class InMemoryTokenPairRepository {
     public void update(final String refreshToken, final String accessToken) {
         tokenPairs.put(refreshToken, accessToken);
     }
+
+    public void delete(final String refreshToken) {
+        tokenPairs.remove(refreshToken);
+    }
+
+    public Map<String, String> getTokenPairs() {
+        return tokenPairs;
+    }
+
+    public void clear() {
+        tokenPairs.clear();
+    }
 }

@@ -40,3 +40,6 @@ excel:
   video-url-delimiter: "="
   killingpart-data-delimiter: " "
   song-length-suffix: "s"
+
+schedules:
+  cron: 0/1 * * * * *
