@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import shook.shook.song.domain.GenreType;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
@@ -47,4 +48,6 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     );
 
     boolean existsSongByTitle(final SongTitle title);
+
+    List<Song> findAllByGenre(final GenreType genreType);
 }

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
-import shook.shook.song.domain.Genre;
+import shook.shook.song.domain.GenreType;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.SongException;
@@ -142,7 +142,7 @@ class KillingPartTest {
             final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
             final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
             final Song song = new Song("title", "elevenVideo", "imageUrl", "singer", 10,
-                Genre.from("댄스"),
+                GenreType.from("댄스"),
                 new KillingParts(List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
             );
 

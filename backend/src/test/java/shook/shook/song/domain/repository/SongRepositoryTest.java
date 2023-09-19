@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
-import shook.shook.song.domain.Genre;
+import shook.shook.song.domain.GenreType;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
@@ -43,7 +43,7 @@ class SongRepositoryTest extends UsingJpaTest {
         final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
 
         return new Song(
-            "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, Genre.from("댄스"),
+            "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, GenreType.from("댄스"),
             new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart)));
     }
 

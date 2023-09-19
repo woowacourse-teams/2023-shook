@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.song.application.dto.GenreSongResponse;
 import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
@@ -125,5 +126,49 @@ class SongControllerTest {
             .usingRecursiveComparison()
             .comparingOnlyFields("id")
             .isEqualTo(List.of(2L, 1L));
+    }
+
+    @DisplayName("장르를 쿼리 스트링으로 받아 해당 장르의 노래 리스트를 조회할 때 200 상태코드, 장르별 노래 리스트를 반환한다.")
+    @Test
+    void showSongsByGenre() {
+        // given
+        final String genre = "DANCE";
+
+        // when
+        final List<GenreSongResponse> response = RestAssured.given().log().all()
+            .queryParam("type", genre)
+            .param("memberId", MEMBER_ID)
+            .when().log().all()
+            .get("/songs/genre")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .body().jsonPath().getList(".", GenreSongResponse.class);
+
+        // then
+        assertThat(response.stream()
+            .map(GenreSongResponse::getId).toList())
+            .usingRecursiveComparison()
+            .comparingOnlyFields("id")
+            .isEqualTo(List.of(1L, 2L));
+    }
+
+    @DisplayName("존재하지 않는 장르를 요청한 경우 400 상태코드를 반환한다.")
+    @Test
+    void showSongsByWrongGenre() {
+        // given
+        final String genre = "WRONG_GENRE";
+
+        // when
+        // then
+        RestAssured.given().log().all()
+            .queryParam("type", genre)
+            .param("memberId", MEMBER_ID)
+            .when().log().all()
+            .get("/songs/genre")
+            .then().log().all()
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .extract()
+            .body().jsonPath().getString("genre");
     }
 }

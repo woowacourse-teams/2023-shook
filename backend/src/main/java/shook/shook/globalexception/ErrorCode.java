@@ -48,6 +48,7 @@ public enum ErrorCode {
     TOO_LONG_SINGER_NAME(3010, "가수 이름은 50글자를 넘길 수 없습니다."),
     CAN_NOT_READ_SONG_DATA_FILE(3011, "노래 데이터 파일을 읽을 수 없습니다."),
     SONG_ALREADY_EXIST(3012, "등록하려는 노래가 이미 존재합니다."),
+    WRONG_GENRE_TYPE(3013, "잘못된 장르 타입입니다."),
 
     // 4000: 투표
     VOTING_PART_START_LESS_THAN_ZERO(4001, "파트의 시작 초는 0보다 작을 수 없습니다."),

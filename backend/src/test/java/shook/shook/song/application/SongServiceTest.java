@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,9 @@ import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
+import shook.shook.song.application.dto.GenreSongResponse;
 import shook.shook.song.application.dto.KillingPartRegisterRequest;
+import shook.shook.song.application.dto.KillingPartResponse;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -381,6 +384,90 @@ class SongServiceTest extends UsingJpaTest {
             assertThat(afterResponses.stream()
                 .map(SongResponse::getId)
                 .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
+        }
+    }
+
+    // TODO: 2023/09/19 캐싱 결과 정렬 필요
+    @Disabled
+    @Nested
+    class GenreType {
+
+        @DisplayName("비회원이 장르별 노래를 조회한다.")
+        @Test
+        void findSongsByGenreWithNotMember() {
+            // given
+            final Song song1 = registerNewSong("노래1");
+            final Song song2 = registerNewSong("노래2");
+            final Song song3 = registerNewSong("노래3");
+            final Song song4 = registerNewSong("노래4");
+            final Song song5 = registerNewSong("노래5");
+
+            final Member member = createAndSaveMember("first@naver.com", "first");
+            final Member secondMember = createAndSaveMember("second@naver.com", "second");
+            final Member thirdMember = createAndSaveMember("third@naver.com", "third");
+
+            addLikeToEachKillingParts(song2, member);
+            addLikeToEachKillingParts(song2, secondMember);
+            addLikeToEachKillingParts(song2, thirdMember);
+            addLikeToEachKillingParts(song1, member);
+            addLikeToEachKillingParts(song1, secondMember);
+            addLikeToEachKillingParts(song3, member);
+
+            // 정렬 순서: 2L, 1L, 3L, 5L, 4L
+
+            // when
+            final List<GenreSongResponse> response = songService.findSongsByGenre("DANCE",
+                new MemberInfo(0L, Authority.ANONYMOUS));
+
+            // then
+            assertAll(
+                () -> assertThat(response).hasSize(5),
+                () -> assertThat(response.stream()
+                    .map(GenreSongResponse::getId)
+                    .toList()
+                ).usingRecursiveComparison().isEqualTo(List.of(2L, 1L, 3L, 5L, 4L))
+            );
+        }
+
+        @DisplayName("회원이 장르별 노래를 조회한다.")
+        @Test
+        void findSongsByGenreWithMember() {
+            // given
+            final Song song1 = registerNewSong("노래1");
+            final Song song2 = registerNewSong("노래2");
+            final Song song3 = registerNewSong("노래3");
+            final Song song4 = registerNewSong("노래4");
+            final Song song5 = registerNewSong("노래5");
+
+            final Member member = createAndSaveMember("first@naver.com", "first");
+            final Member secondMember = createAndSaveMember("second@naver.com", "second");
+            final Member thirdMember = createAndSaveMember("third@naver.com", "third");
+
+            addLikeToEachKillingParts(song2, member);
+            addLikeToEachKillingParts(song2, secondMember);
+            addLikeToEachKillingParts(song2, thirdMember);
+            addLikeToEachKillingParts(song1, member);
+            addLikeToEachKillingParts(song1, secondMember);
+            addLikeToEachKillingParts(song3, member);
+
+            saveAndClearEntityManager();
+
+            // when
+            final List<GenreSongResponse> response = songService.findSongsByGenre("DANCE",
+                new MemberInfo(member.getId(), Authority.MEMBER));
+
+            // then
+            assertAll(
+                () -> assertThat(response).hasSize(5),
+                () -> assertThat(response.stream()
+                    .map(GenreSongResponse::getId)
+                    .toList()
+                ).usingRecursiveComparison().isEqualTo(List.of(2L, 1L, 3L, 5L, 4L)),
+                () -> assertThat(response.stream()
+                    .map(genreSongResponse -> genreSongResponse.getKillingParts().stream()
+                        .allMatch(KillingPartResponse::getLikeStatus)).toList())
+                    .usingRecursiveComparison().isEqualTo(List.of(true, true, true, false, false))
+            );
         }
     }
 }
