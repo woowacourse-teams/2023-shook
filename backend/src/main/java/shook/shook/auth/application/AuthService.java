@@ -1,6 +1,7 @@
 package shook.shook.auth.application;
 
 import io.jsonwebtoken.Claims;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
@@ -40,6 +41,10 @@ public class AuthService {
     }
 
     public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken, final String accessToken) {
+        final Map<String, String> tokenPairs = inMemoryTokenPairRepository.getTokenPairs();
+        for (String a : tokenPairs.keySet()) {
+            System.out.println(a.equals(refreshToken));
+        }
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);

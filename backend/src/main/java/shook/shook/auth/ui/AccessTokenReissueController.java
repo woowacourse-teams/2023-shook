@@ -31,7 +31,7 @@ public class AccessTokenReissueController implements AccessTokenReissueApi {
         }
         final String accessToken = authorization.split(TOKEN_PREFIX)[1];
         final ReissueAccessTokenResponse response =
-            authService.reissueAccessTokenByRefreshToken(accessToken, refreshToken);
+            authService.reissueAccessTokenByRefreshToken(refreshToken, accessToken);
 
         return ResponseEntity.ok(response);
     }

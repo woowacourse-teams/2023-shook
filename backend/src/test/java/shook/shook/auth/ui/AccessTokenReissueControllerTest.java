@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.support.DataCleaner;
@@ -37,6 +37,9 @@ class AccessTokenReissueControllerTest {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @Autowired
+    private InMemoryTokenPairRepository inMemoryTokenPairRepository;
+
     private String refreshToken;
     private String accessToken;
 
@@ -47,6 +50,7 @@ class AccessTokenReissueControllerTest {
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
+        inMemoryTokenPairRepository.add(refreshToken, accessToken);
     }
 
     @AfterEach
@@ -54,7 +58,6 @@ class AccessTokenReissueControllerTest {
         memberRepository.delete(savedMember);
     }
 
-    @Disabled
     @DisplayName("올바른 refreshToken을 통해 accessToken 재발급을 요청하면 accessToken과 상태코드 200을 반환한다.")
     @Test
     void success_reissue_accessToken() {
