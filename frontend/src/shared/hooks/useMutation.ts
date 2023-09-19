@@ -12,6 +12,10 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
       setError(null);
       setIsLoading(true);
 
+      if (error) {
+        throw error;
+      }
+
       try {
         const responseBody = await mutateFn(...params);
         setData(responseBody);

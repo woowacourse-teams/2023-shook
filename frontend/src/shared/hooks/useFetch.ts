@@ -10,6 +10,10 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
     setError(null);
     setIsLoading(true);
 
+    if (error) {
+      throw error;
+    }
+
     try {
       const data = await fetcher();
       setData(data);

@@ -1,3 +1,4 @@
+import AuthError from '@/shared/remotes/AuthError';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 import { isExpiredAfter60seconds } from '@/shared/utils/fetchUtils';
 
@@ -29,13 +30,13 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
         method: 'GET',
       });
 
-      accessTokenStorage.removeToken();
-      delete headers.Authorization;
-
       if (response.ok) {
         const { accessToken } = await response.json();
         accessTokenStorage.setToken(accessToken);
         headers['Authorization'] = `Bearer ${accessToken}`;
+      } else {
+        accessTokenStorage.removeToken();
+        delete headers.Authorization;
       }
     }
   }
@@ -57,8 +58,9 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
   if (response.status === 401) {
     accessTokenStorage.removeToken();
-    throw new Error(`인증 에러`);
     // TODO: 인증 에러 발생했을 때 -> localstorage비워주기, 전역상태 비워주기, login redirect
+    console.log('in Fetcher, 401 error');
+    throw new AuthError();
   }
 
   if (!response.ok) {

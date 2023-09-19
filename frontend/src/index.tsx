@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import AuthErrorBoundary from '@/shared/remotes/AuthErrorBoundary';
 import GlobalStyles from '@/shared/styles/GlobalStyles';
 import AuthProvider from './features/auth/components/AuthProvider';
 import { loadIFrameApi } from './features/youtube/remotes/loadIframeApi';
@@ -28,14 +29,16 @@ async function main() {
 
   root.render(
     <React.StrictMode>
-      <AuthProvider>
-        <GlobalStyles />
-        <ThemeProvider theme={theme}>
-          <ToastProvider>
-            <RouterProvider router={router} />
-          </ToastProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <AuthErrorBoundary>
+        <AuthProvider>
+          <GlobalStyles />
+          <ThemeProvider theme={theme}>
+            <ToastProvider>
+              <RouterProvider router={router} />
+            </ToastProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </AuthErrorBoundary>
     </React.StrictMode>
   );
 }
