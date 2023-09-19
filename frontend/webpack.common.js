@@ -49,8 +49,8 @@ module.exports = {
         },
       },
       issue: {
-        include: [{ file: '../**/src/**/*.{ts,tsx}' }, { file: '**/src/**/*.{ts,tsx}' }],
-        exclude: [{ file: '**/src/**/?(*.)test.*' }],
+        include: [{ file: '**/src/**/*.{ts,tsx}' }],
+        exclude: [{ file: '**/*.test.{ts,tsx}' }],
       },
     }),
   ],
