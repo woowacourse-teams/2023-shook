@@ -18,7 +18,7 @@ import shook.shook.auth.exception.OAuthException;
 
 @RequiredArgsConstructor
 @Component
-public class GoogleInfoProvider {
+public class GoogleInfoProvider implements OAuthInfoProvider {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String GRANT_TYPE = "authorization_code";
@@ -41,7 +41,8 @@ public class GoogleInfoProvider {
 
     private final RestTemplate restTemplate;
 
-    public GoogleMemberInfoResponse getMemberInfo(final String accessToken) {
+    @Override
+    public String getMemberInfo(final String accessToken) {
         try {
             final HttpHeaders headers = new HttpHeaders();
             headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
@@ -54,7 +55,7 @@ public class GoogleInfoProvider {
                 GoogleMemberInfoResponse.class
             );
 
-            return response.getBody();
+            return Objects.requireNonNull(response.getBody()).getEmail();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
         } catch (HttpServerErrorException e) {
@@ -62,7 +63,8 @@ public class GoogleInfoProvider {
         }
     }
 
-    public GoogleAccessTokenResponse getAccessToken(final String authorizationCode) {
+    @Override
+    public String getAccessToken(final String authorizationCode) {
         try {
             final HashMap<String, String> params = new HashMap<>();
             params.put("code", authorizationCode);
@@ -76,7 +78,7 @@ public class GoogleInfoProvider {
                 params,
                 GoogleAccessTokenResponse.class);
 
-            return Objects.requireNonNull(response.getBody());
+            return Objects.requireNonNull(response.getBody()).getAccessToken();
 
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAuthorizationCodeException();

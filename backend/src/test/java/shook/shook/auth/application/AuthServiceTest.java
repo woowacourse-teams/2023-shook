@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
-import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.TokenException;
@@ -30,6 +29,12 @@ class AuthServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private OAuthExecutionFinder oauthExecutionFinder;
+
+    @Autowired
+    private MemberService memberService;
 
     @MockBean
     private GoogleInfoProvider googleInfoProvider;
@@ -57,7 +62,7 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        authService = new AuthService(memberService, googleInfoProvider, kakaoInfoProvider, tokenProvider);
+        authService = new AuthService(memberService, oauthExecutionFinder, tokenProvider);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
@@ -70,24 +75,25 @@ class AuthServiceTest {
         memberRepository.delete(savedMember);
     }
 
-    @DisplayName("소셜 로그인 시 accessToken과 refreshToken을 반환한다.")
+    @DisplayName("구글 소셜 로그인 시 accessToken과 refreshToken을 반환한다.")
     @Test
-    void success_login() {
+    void success_google_login() {
         //given
-        final GoogleAccessTokenResponse accessTokenResponse =
-            new GoogleAccessTokenResponse("accessToken");
+        final String authAccessToken = "accessToken";
         when(googleInfoProvider.getAccessToken(any(String.class)))
-            .thenReturn(accessTokenResponse);
-
-        final GoogleMemberInfoResponse memberInfoResponse =
-            new GoogleMemberInfoResponse("shook@wooteco.com", true);
+            .thenReturn(authAccessToken);
+        final String email = "shook@wooteco.com";
         when(googleInfoProvider.getMemberInfo(any(String.class)))
-            .thenReturn(memberInfoResponse);
+            .thenReturn(email);
 
         //when
-        final TokenPair result = authService.login("accessCode");
+        final TokenPair result = authService.oAuthLogin("google", "accessCode");
 
         //then
+        final String accessToken = result.getAccessToken();
+        final String refreshToken = result.getRefreshToken();
+        final Claims accessTokenClaims = tokenProvider.parseClaims(accessToken);
+        final Claims refreshTokenClaims = tokenProvider.parseClaims(refreshToken);
 
         final String accessToken = tokenProvider.createAccessToken(savedMember.getId(),
             savedMember.getNickname());
@@ -97,6 +103,10 @@ class AuthServiceTest {
         assertThat(result.getAccessToken()).isEqualTo(accessToken);
         assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
         assertDoesNotThrow(() -> inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken));
+        assertThat(accessTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
+        assertThat(accessTokenClaims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
+        assertThat(refreshTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
+        assertThat(refreshTokenClaims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
     }
 
     @DisplayName("올바른 refresh 토큰과 access 토큰이 들어오면 access 토큰을 재발급해준다.")

@@ -44,7 +44,7 @@ class AuthControllerTest {
         //given
         final TokenPair tokenPair = new TokenPair("asdfafdv2", "asdfsg5");
 
-        when(authService.login(any(String.class))).thenReturn(tokenPair);
+        when(authService.oAuthLogin(any(String.class), any(String.class))).thenReturn(tokenPair);
 
         //when
         final ExtractableResponse<Response> response = RestAssured.given().log().all()

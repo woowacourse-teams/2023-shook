@@ -19,7 +19,7 @@ import shook.shook.auth.exception.OAuthException;
 
 @RequiredArgsConstructor
 @Component
-public class KakaoInfoProvider {
+public class KakaoInfoProvider implements OAuthInfoProvider {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String GRANT_TYPE = "authorization_code";
@@ -39,7 +39,7 @@ public class KakaoInfoProvider {
 
     private final RestTemplate restTemplate;
 
-    public KakaoMemberInfoResponse getMemberInfo(final String accessToken) {
+    public String getMemberInfo(final String accessToken) {
         try {
             final HttpHeaders headers = new HttpHeaders();
             headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
@@ -52,7 +52,7 @@ public class KakaoInfoProvider {
                 KakaoMemberInfoResponse.class
             );
 
-            return response.getBody();
+            return String.valueOf(Objects.requireNonNull(response.getBody()).getId());
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
         } catch (HttpServerErrorException e) {
@@ -60,7 +60,7 @@ public class KakaoInfoProvider {
         }
     }
 
-    public KakaoAccessTokenResponse getAccessToken(final String authorizationCode) {
+    public String getAccessToken(final String authorizationCode) {
         try {
             final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type", GRANT_TYPE);
@@ -78,7 +78,7 @@ public class KakaoInfoProvider {
                 request,
                 KakaoAccessTokenResponse.class);
 
-            return Objects.requireNonNull(response.getBody());
+            return Objects.requireNonNull(response.getBody()).getAccessToken();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAuthorizationCodeException();
         } catch (HttpServerErrorException e) {

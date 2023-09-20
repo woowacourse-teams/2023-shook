@@ -3,10 +3,6 @@ package shook.shook.auth.application;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
-import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
-import shook.shook.auth.application.dto.KakaoAccessTokenResponse;
-import shook.shook.auth.application.dto.KakaoMemberInfoResponse;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
@@ -18,38 +14,18 @@ import shook.shook.member.domain.Member;
 public class AuthService {
 
     private final MemberService memberService;
-    private final GoogleInfoProvider googleInfoProvider;
-    private final KakaoInfoProvider kakaoInfoProvider;
+    private final OAuthExecutionFinder oauthExecutionFinder;
     private final TokenProvider tokenProvider;
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
-    public TokenPair login(final String authorizationCode) {
-        final GoogleAccessTokenResponse accessTokenResponse =
-            googleInfoProvider.getAccessToken(authorizationCode);
-        final GoogleMemberInfoResponse memberInfo = googleInfoProvider
-            .getMemberInfo(accessTokenResponse.getAccessToken());
+    public TokenPair oAuthLogin(final String oauthType, final String authorizationCode) {
+        final OAuthInfoProvider oAuthInfoProvider = oauthExecutionFinder.getOAuthInfoProvider(oauthType);
 
-        final String userEmail = memberInfo.getEmail();
+        final String accessTokenResponse = oAuthInfoProvider.getAccessToken(authorizationCode);
+        final String memberInfo = oAuthInfoProvider.getMemberInfo(accessTokenResponse);
 
-        final Member member = memberService.findByEmail(userEmail)
-            .orElseGet(() -> memberService.register(userEmail));
-
-        final Long memberId = member.getId();
-        final String nickname = member.getNickname();
-        final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
-        final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
-        return new TokenPair(accessToken, refreshToken);
-    }
-
-    public TokenPair kakaoLogin(final String authorizationCode) {
-        final KakaoAccessTokenResponse accessTokenResponse =
-            kakaoInfoProvider.getAccessToken(authorizationCode);
-        final KakaoMemberInfoResponse memberInfo =
-            kakaoInfoProvider.getMemberInfo(accessTokenResponse.getAccessToken());
-
-        final String platformId = String.valueOf(memberInfo.getId());
-        final Member member = memberService.findByEmail(platformId)
-            .orElseGet(() -> memberService.register(platformId));
+        final Member member = memberService.findByEmail(memberInfo)
+            .orElseGet(() -> memberService.register(memberInfo));
 
         final Long memberId = member.getId();
         final String nickname = member.getNickname();
