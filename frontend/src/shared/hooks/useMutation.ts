@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import { useLoginPopup } from '@/features/auth/hooks/LoginPopUpContext';
 import AuthError from '@/shared/remotes/AuthError';
 
@@ -8,6 +9,7 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { popupLoginModal } = useLoginPopup();
+  const { logout } = useAuthContext();
 
   if (error) {
     throw error;
@@ -24,6 +26,7 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
       } catch (error) {
         console.log('in mutation', 'error is...', error);
         if (error instanceof AuthError) {
+          logout();
           popupLoginModal();
           return;
         }
