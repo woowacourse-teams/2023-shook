@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
@@ -38,6 +39,9 @@ class SongControllerTest {
     @Autowired
     private KillingPartLikeService likeService;
 
+    @Autowired
+    private InMemorySongsScheduler inMemorySongsScheduler;
+
     @DisplayName("노래 정보 처음 조회할 때, 가운데 노래를 기준으로 조회한 경우 200 상태코드, 현재 노래,  이전 / 이후 노래 리스트를 반환한다.")
     @Test
     void showSongById() {
@@ -49,6 +53,8 @@ class SongControllerTest {
             new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
+
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final SongSwipeResponse response = RestAssured.given().log().all()
@@ -76,6 +82,8 @@ class SongControllerTest {
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
+        inMemorySongsScheduler.recreateCachedSong();
+
         //when
         final List<SongResponse> response = RestAssured.given().log().all()
             .param("memberId", MEMBER_ID)
@@ -99,6 +107,7 @@ class SongControllerTest {
     void showSongsAfterSongWithId() {
         // given
         final Long songId = 3L;
+        inMemorySongsScheduler.recreateCachedSong();
 
         //when
         final List<SongResponse> response = RestAssured.given().log().all()
