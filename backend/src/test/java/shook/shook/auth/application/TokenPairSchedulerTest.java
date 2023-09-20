@@ -44,12 +44,12 @@ class TokenPairSchedulerTest {
         final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L, "expiredShook");
         final String expiredAccessToken = expiredTokenProvider.createAccessToken(2L, "expiredShook");
 
-        inMemoryTokenPairRepository.add(refreshToken, accessToken);
-        inMemoryTokenPairRepository.add(expiredRefreshToken, expiredAccessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(expiredRefreshToken, expiredAccessToken);
 
         // when
         final TokenPairScheduler tokenPairScheduler = new TokenPairScheduler(tokenProvider, inMemoryTokenPairRepository);
-        tokenPairScheduler.renewInMemoryTokenPairRepository();
+        tokenPairScheduler.removeExpiredTokenPair();
 
         // then
         final Map<String, String> tokenPairs = inMemoryTokenPairRepository.getTokenPairs();
@@ -68,8 +68,8 @@ class TokenPairSchedulerTest {
         final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L, "expiredShook");
         final String expiredAccessToken = expiredTokenProvider.createAccessToken(2L, "expiredShook");
 
-        inMemoryTokenPairRepository.add(refreshToken, accessToken);
-        inMemoryTokenPairRepository.add(expiredRefreshToken, expiredAccessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(expiredRefreshToken, expiredAccessToken);
 
         // when
         final Map<String, String> tokenPairs = inMemoryTokenPairRepository.getTokenPairs();
@@ -83,4 +83,3 @@ class TokenPairSchedulerTest {
             });
     }
 }
-

@@ -1,7 +1,6 @@
 package shook.shook.auth.application;
 
 import io.jsonwebtoken.Claims;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shook.shook.auth.application.dto.GoogleAccessTokenResponse;
@@ -36,22 +35,18 @@ public class AuthService {
         final String nickname = member.getNickname();
         final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
         final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
-        inMemoryTokenPairRepository.add(refreshToken, accessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
         return new TokenPair(accessToken, refreshToken);
     }
 
     public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken, final String accessToken) {
-        final Map<String, String> tokenPairs = inMemoryTokenPairRepository.getTokenPairs();
-        for (String a : tokenPairs.keySet()) {
-            System.out.println(a.equals(refreshToken));
-        }
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
 
         inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken);
         final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);
-        inMemoryTokenPairRepository.update(refreshToken, reissuedAccessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, reissuedAccessToken);
         return new ReissueAccessTokenResponse(reissuedAccessToken);
     }
 }

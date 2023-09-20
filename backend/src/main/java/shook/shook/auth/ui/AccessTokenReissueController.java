@@ -1,6 +1,7 @@
 package shook.shook.auth.ui;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class AccessTokenReissueController implements AccessTokenReissueApi {
     @PostMapping("/reissue")
     public ResponseEntity<ReissueAccessTokenResponse> reissueAccessToken(
         @CookieValue(value = REFRESH_TOKEN_KEY, defaultValue = EMPTY_REFRESH_TOKEN) final String refreshToken,
-        @RequestHeader("Authorization") final String authorization
+        @RequestHeader(HttpHeaders.AUTHORIZATION) final String authorization
     ) {
         if (refreshToken.equals(EMPTY_REFRESH_TOKEN)) {
             throw new AuthorizationException.RefreshTokenNotFoundException();

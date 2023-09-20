@@ -50,7 +50,7 @@ class AccessTokenReissueControllerTest {
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
-        inMemoryTokenPairRepository.add(refreshToken, accessToken);
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
     }
 
     @AfterEach

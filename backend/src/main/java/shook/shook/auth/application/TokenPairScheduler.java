@@ -15,14 +15,14 @@ public class TokenPairScheduler {
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
     @Scheduled(cron = "${schedules.cron}")
-    public void renewInMemoryTokenPairRepository() {
+    public void removeExpiredTokenPair() {
         final Set<String> refreshTokens = inMemoryTokenPairRepository.getTokenPairs().keySet();
-        refreshTokens.forEach(refreshToken -> {
+        for (String refreshToken : refreshTokens) {
             try {
                 tokenProvider.parseClaims(refreshToken);
             } catch (TokenException.ExpiredTokenException e) {
                 inMemoryTokenPairRepository.delete(refreshToken);
             }
-        });
+        }
     }
 }

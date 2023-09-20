@@ -20,11 +20,7 @@ public class InMemoryTokenPairRepository {
         }
     }
 
-    public void add(final String refreshToken, final String accessToken) {
-        tokenPairs.put(refreshToken, accessToken);
-    }
-
-    public void update(final String refreshToken, final String accessToken) {
+    public void addOrUpdateTokenPair(final String refreshToken, final String accessToken) {
         tokenPairs.put(refreshToken, accessToken);
     }
 

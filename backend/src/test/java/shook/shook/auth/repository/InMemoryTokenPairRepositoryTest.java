@@ -15,7 +15,7 @@ class InMemoryTokenPairRepositoryTest {
     void successValidateTokenPair() {
         // given
         final InMemoryTokenPairRepository inMemoryTokenPairRepository = new InMemoryTokenPairRepository();
-        inMemoryTokenPairRepository.add("refreshToken", "accessToken");
+        inMemoryTokenPairRepository.addOrUpdateTokenPair("refreshToken", "accessToken");
 
         // when
         // then
@@ -27,7 +27,7 @@ class InMemoryTokenPairRepositoryTest {
     void failValidateTokenPair_refreshTokenNotExist() {
         // given
         final InMemoryTokenPairRepository inMemoryTokenPairRepository = new InMemoryTokenPairRepository();
-        inMemoryTokenPairRepository.add("refreshToken", "accessToken");
+        inMemoryTokenPairRepository.addOrUpdateTokenPair("refreshToken", "accessToken");
 
         // when
         // then
@@ -40,7 +40,7 @@ class InMemoryTokenPairRepositoryTest {
     void failValidateTokenPair_notMatching() {
         // given
         final InMemoryTokenPairRepository inMemoryTokenPairRepository = new InMemoryTokenPairRepository();
-        inMemoryTokenPairRepository.add("refreshToken", "accessToken");
+        inMemoryTokenPairRepository.addOrUpdateTokenPair("refreshToken", "accessToken");
 
         // when
         // then
