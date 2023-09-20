@@ -3,9 +3,12 @@ const ROUTE_PATH = {
   COLLECT: 'collect',
   SONG_DETAILS: 'songs',
   LOGIN: '/login',
-  LOGIN_REDIRECT: '/login/redirect',
+  GOOGLE_REDIRECT: 'login/redirect',
+  KAKAO_REDIRECT: 'kakao/redirect',
   MY_PAGE: 'my-page',
   EDIT_PROFILE: 'my-page/edit',
 } as const;
+
+//TODO: google redirect "google/redirect"
 
 export default ROUTE_PATH;

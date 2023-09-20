@@ -55,7 +55,7 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
+    path: `/:platform/redirect`,
     element: <AuthPage />,
   },
 ]);

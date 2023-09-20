@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import googleLogo from '@/assets/icon/google-logo.svg';
 import kakaoLogo from '@/assets/icon/kakao-logo.svg';
 import slogan from '@/assets/image/shook-slogan.jpg';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import { googleAuthUrl, kakaoAuthUrl } from '@/features/auth/constants/authUrls';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 
@@ -25,12 +25,14 @@ const LoginPage = () => {
             <Spacing direction="horizontal" size={10} />
           </GoogleLogin>
         </LoginLink>
-        <KakaoLogin type="button" onClick={() => alert('카카오 로그인은 준비중입니다.')}>
-          <Spacing direction="horizontal" size={10} />
-          <LoginLogo src={kakaoLogo} alt="google logo" />
-          <LoginText>카카오로 로그인하기</LoginText>
-          <Spacing direction="horizontal" size={10} />
-        </KakaoLogin>
+        <LoginLink href={kakaoAuthUrl}>
+          <KakaoLogin type="button">
+            <Spacing direction="horizontal" size={10} />
+            <LoginLogo src={kakaoLogo} alt="google logo" />
+            <LoginText>카카오로 로그인하기</LoginText>
+            <Spacing direction="horizontal" size={10} />
+          </KakaoLogin>
+        </LoginLink>
       </LoginButtonContainer>
       <div>
         <UnderLineAnchor
