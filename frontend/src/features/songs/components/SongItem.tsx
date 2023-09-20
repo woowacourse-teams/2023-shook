@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import Thumbnail from './Thumbnail';
 
-interface PopularSongItemProps {
+interface SongItemProps {
   rank: number;
   title: string;
   singer: string;
@@ -9,13 +9,7 @@ interface PopularSongItemProps {
   totalLikeCount: number;
 }
 
-const PopularSongItem = ({
-  rank,
-  albumCoverUrl,
-  title,
-  singer,
-  totalLikeCount,
-}: PopularSongItemProps) => {
+const SongItem = ({ rank, albumCoverUrl, title, singer, totalLikeCount }: SongItemProps) => {
   return (
     <Grid>
       <Rank>{rank}</Rank>
@@ -29,7 +23,7 @@ const PopularSongItem = ({
   );
 };
 
-export default PopularSongItem;
+export default SongItem;
 
 const Grid = styled.div`
   display: grid;

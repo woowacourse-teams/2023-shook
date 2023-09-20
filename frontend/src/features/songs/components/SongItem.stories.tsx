@@ -1,14 +1,14 @@
 import popularSongs from '@/mocks/fixtures/popularSongs.json';
-import PopularSongItem from './PopularSongItem';
+import SongItem from './SongItem';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof PopularSongItem> = {
-  component: PopularSongItem,
+const meta: Meta<typeof SongItem> = {
+  component: SongItem,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof PopularSongItem>;
+type Story = StoryObj<typeof SongItem>;
 
 const { title, singer, albumCoverUrl, totalLikeCount } = popularSongs[0];
 

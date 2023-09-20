@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import CarouselItem from '@/features/songs/components/CarouselItem';
 import CollectionCarousel from '@/features/songs/components/CollectionCarousel';
-import PopularSongItem from '@/features/songs/components/PopularSongItem';
+import SongItem from '@/features/songs/components/SongItem';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import ROUTE_PATH from '@/shared/constants/path';
@@ -44,7 +44,7 @@ const MainPage = () => {
               to={`${ROUTE_PATH.SONG_DETAILS}/${id}`}
               aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
             >
-              <PopularSongItem
+              <SongItem
                 rank={i + 1}
                 albumCoverUrl={albumCoverUrl}
                 title={title}
