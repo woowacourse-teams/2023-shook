@@ -58,3 +58,7 @@ excel:
   video-url-delimiter: "v="
   killingpart-data-delimiter: " "
   song-length-suffix: "초"
+
+schedules:
+  in-memory-song:
+    cron: "0 0 0/1 * * *" #1시간
