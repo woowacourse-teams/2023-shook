@@ -26,7 +26,6 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
       if (error instanceof AuthError) {
         logout();
         popupLoginModal();
-        리;
         return;
       }
       setError(error as Error);
