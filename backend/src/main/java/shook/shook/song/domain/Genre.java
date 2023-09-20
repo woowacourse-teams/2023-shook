@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 import shook.shook.song.exception.SongException;
 
-public enum GenreType {
+public enum Genre {
 
     BALLAD("발라드"),
     DANCE("댄스"),
@@ -23,20 +23,20 @@ public enum GenreType {
 
     private final String value;
 
-    GenreType(final String value) {
+    Genre(final String value) {
         this.value = value;
     }
 
-    public static GenreType from(final String name) {
+    public static Genre from(final String name) {
         return Arrays.stream(values())
             .filter(genre -> genre.value.equalsIgnoreCase(name))
             .findFirst()
             .orElse(ETC);
     }
 
-    public static GenreType findByName(final String name) {
+    public static Genre findByName(final String name) {
         return Arrays.stream(values())
-            .filter(genre -> genre.value.equalsIgnoreCase(name))
+            .filter(genre -> genre.name().equalsIgnoreCase(name))
             .findFirst()
             .orElseThrow(() -> new SongException.SongGenreNotFoundException(Map.of("genre", name)));
     }

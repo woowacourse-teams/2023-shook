@@ -47,7 +47,7 @@ public class Song {
 
     @Column(nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private GenreType genre;
+    private Genre genre;
 
     @Embedded
     private KillingParts killingParts = new KillingParts();
@@ -67,7 +67,7 @@ public class Song {
         final String imageUrl,
         final String singer,
         final int length,
-        final GenreType genre,
+        final Genre genre,
         final KillingParts killingParts
     ) {
         validate(killingParts);
@@ -88,7 +88,7 @@ public class Song {
         final String albumCoverUrl,
         final String singer,
         final int length,
-        final GenreType genre,
+        final Genre genre,
         final KillingParts killingParts
     ) {
         this(null, title, videoId, albumCoverUrl, singer, length, genre, killingParts);

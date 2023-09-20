@@ -10,7 +10,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.song.domain.GenreType;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 
@@ -50,7 +50,7 @@ public class SongWithKillingPartsRegisterRequest {
     private List<KillingPartRegisterRequest> killingParts;
 
     public Song convertToSong() {
-        return new Song(title, videoId, imageUrl, singer, length, GenreType.from(genre),
+        return new Song(title, videoId, imageUrl, singer, length, Genre.from(genre),
             convertToKillingParts());
     }
 
