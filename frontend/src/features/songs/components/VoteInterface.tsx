@@ -23,12 +23,12 @@ const VoteInterface = () => {
   const { isOpen, openModal, closeModal } = useModal();
 
   const isLoggedIn = !!user;
-
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
     videoPlayer.current?.pauseVideo();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
+    openModal();
   };
 
   const copyPartVideoUrl = async () => {
