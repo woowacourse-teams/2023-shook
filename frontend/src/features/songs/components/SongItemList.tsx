@@ -4,22 +4,29 @@ import SongItem from '@/features/songs/components/SongItem';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
+import GENRES from '../constants/genres';
 import { getHighLikedSongs } from '../remotes/song';
-import type { Song } from '../types/Song.type';
+import type { Genre, Song } from '../types/Song.type';
 
-const SongItemList = () => {
-  const { data: popularSongs } = useFetch<Song[]>(() => getHighLikedSongs());
+interface SongItemListProps {
+  genre: Genre;
+}
+
+const SongItemList = ({ genre }: SongItemListProps) => {
+  const { data: songs } = useFetch<Song[]>(() => getHighLikedSongs(genre));
+
+  if (songs?.length === 0) return;
 
   return (
     <>
-      <Title>킬링파트 좋아요 많은순</Title>
+      <Title>{`${GENRES[genre]} Top 10`}</Title>
       <Spacing direction="vertical" size={16} />
       <SongList>
-        {popularSongs?.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
+        {songs?.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
           <Li key={id}>
             <StyledLink
               to={`${ROUTE_PATH.SONG_DETAILS}/${id}`}
-              aria-label={`킬링파트 투표순 ${i + 1}등 ${singer} ${title}`}
+              aria-label={`${GENRES[genre]} 장르 ${i + 1}등 ${singer} ${title}`}
             >
               <SongItem
                 rank={i + 1}
@@ -32,14 +39,29 @@ const SongItemList = () => {
           </Li>
         ))}
       </SongList>
+      <Spacing direction="vertical" size={30} />
     </>
   );
 };
 
 export default SongItemList;
 
+const SongList = styled.ol`
+  scroll-snap-type: x mandatory;
+
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+
+  width: 100%;
+`;
+
 const Li = styled.li`
-  max-width: 250px;
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+  max-width: 130px;
 `;
 
 const StyledLink = styled(Link)`
@@ -53,17 +75,7 @@ const StyledLink = styled(Link)`
 
 const Title = styled.h2`
   align-self: flex-start;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: white;
-`;
-
-const SongList = styled.ol`
-  overflow-x: scroll;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: flex-start;
-
-  width: 100%;
 `;
