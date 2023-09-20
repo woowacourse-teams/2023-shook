@@ -1,6 +1,9 @@
+import { Navigate } from 'react-router-dom';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import parseJWT from '@/features/auth/utils/parseJWT';
-import AuthError from '@/shared/remotes/AuthError';
+import path from '@/shared/constants/path';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
+import type React from 'react';
 
 const isValidToken = (accessToken: string) => {
   if (!accessToken) return false;
@@ -17,13 +20,11 @@ const isValidToken = (accessToken: string) => {
 
 const AuthLayout = ({ children }: { children: React.ReactElement }) => {
   const accessToken = accessTokenStorage.getToken();
+  const { logout } = useAuthContext();
 
-  // TODO: accessToken 유효하지 않은 경우
   if (!accessToken || !isValidToken(accessToken)) {
-    // TODO: 인증 에러 발생했을 때 -> 전역상태 비워주기, login redirect
-    console.log('layout 유효 X');
-    throw new AuthError();
-    return;
+    logout();
+    return <Navigate to={path.LOGIN} />;
   }
 
   return <>{children}</>;
