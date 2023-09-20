@@ -8,7 +8,7 @@ import { getHighLikedSongs } from '../remotes/song';
 import type { Song } from '../types/Song.type';
 
 const SongItemList = () => {
-  const { data: popularSongs } = useFetch<Song[]>(getHighLikedSongs);
+  const { data: popularSongs } = useFetch<Song[]>(() => getHighLikedSongs());
 
   return (
     <>
