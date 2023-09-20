@@ -25,7 +25,7 @@ import shook.shook.song.exception.SongDataFileReadException;
 @Component
 public class SongDataExcelReader {
 
-    private static final DataFormatter CELL_FORMATTER = new DataFormatter();
+    private static final DataFormatter stringDataFormatter = new DataFormatter();
     private static final int VIDEO_ID_INDEX = 1;
     private static final int FIRST_PAGE_INDEX = 0;
     private static final int SONG_LENGTH_INDEX = 1;
@@ -96,7 +96,7 @@ public class SongDataExcelReader {
     }
 
     private String getString(final Iterator<Cell> iterator) {
-        final String cellValue = CELL_FORMATTER.formatCellValue(iterator.next());
+        final String cellValue = stringDataFormatter.formatCellValue(iterator.next());
 
         return cellValue.trim();
     }
