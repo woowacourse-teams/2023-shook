@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import Spacing from '@/shared/components/Spacing';
 import Thumbnail from './Thumbnail';
 
 interface SongItemProps {
@@ -9,51 +10,31 @@ interface SongItemProps {
   totalLikeCount: number;
 }
 
-const SongItem = ({ rank, albumCoverUrl, title, singer, totalLikeCount }: SongItemProps) => {
+const SongItem = ({ albumCoverUrl, title, singer }: SongItemProps) => {
   return (
-    <Grid>
-      <Rank>{rank}</Rank>
-      <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
+    <Flex>
+      <Thumbnail size="xl" src={albumCoverUrl} alt={`${title}-${singer}`} />
+      <Spacing direction="vertical" size={4} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
-      <Info aria-label={`${totalLikeCount} 좋아요`}>
-        {new Intl.NumberFormat('ko-KR').format(totalLikeCount)} likes
-      </Info>
-    </Grid>
+    </Flex>
   );
 };
 
 export default SongItem;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template:
-    'rank thumbnail title' 26px
-    'rank thumbnail singer' 26px
-    'rank thumbnail info' 18px
-    / 14px 70px;
-  column-gap: 8px;
-
-  padding: 6px 0;
-
-  color: ${({ theme: { color } }) => color.white};
-`;
-
-const Rank = styled.div`
+const Flex = styled.div`
   display: flex;
-  grid-area: rank;
-  align-items: center;
-  justify-content: center;
-
-  font-weight: 800;
+  flex-direction: column;
+  color: ${({ theme: { color } }) => color.white};
 `;
 
 const SongTitle = styled.div`
   overflow: hidden;
   grid-area: title;
 
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -65,10 +46,4 @@ const Singer = styled.div`
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
-`;
-
-const Info = styled.div`
-  grid-area: info;
-  font-size: 12px;
-  color: #808191;
 `;
