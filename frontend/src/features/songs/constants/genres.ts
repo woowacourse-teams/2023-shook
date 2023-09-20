@@ -1,4 +1,4 @@
-const GENRE = {
+const GENRES = {
   DANCE: '댄스',
   HIPHOP: '힙합',
   BALLAD: '발라드',
@@ -16,4 +16,4 @@ const GENRE = {
 } as const;
 `  `;
 
-export default GENRE;
+export default GENRES;

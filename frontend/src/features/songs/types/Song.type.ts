@@ -1,6 +1,6 @@
-import type GENRE from '@/features/songs/constants/genre';
+import type GENRES from '@/features/songs/constants/genres';
 
-export type Genre = keyof typeof GENRE;
+export type Genre = keyof typeof GENRES;
 
 export interface Song {
   id: number;
