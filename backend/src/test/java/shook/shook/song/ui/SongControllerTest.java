@@ -42,7 +42,6 @@ class SongControllerTest {
     @Autowired
     private InMemorySongsScheduler inMemorySongsScheduler;
 
-    // TODO: 2023/09/16 실시간 좋아요 반영이 아니게 됨 -> 테스트 할 때 임의 좋아요 데이터를 추가할 필요가 없어진다. 아니면 테스트하기 전에 캐시를 재생성해야함
     @DisplayName("노래 정보 처음 조회할 때, 가운데 노래를 기준으로 조회한 경우 200 상태코드, 현재 노래,  이전 / 이후 노래 리스트를 반환한다.")
     @Test
     void showSongById() {
