@@ -65,7 +65,7 @@ class SongServiceTest extends UsingJpaTest {
     void register() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title", "elevenVideo", "imageUrl", "singer", 300,
+            "title", "elevenVideo", "imageUrl", "singer", 300, "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -225,7 +225,7 @@ class SongServiceTest extends UsingJpaTest {
 
     private Song registerNewSong(final String title) {
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            title, "elevenVideo", "imageUrl", "singer", 300,
+            title, "elevenVideo", "imageUrl", "singer", 300, "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),

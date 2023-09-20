@@ -34,7 +34,7 @@ class AdminSongControllerTest {
     void register_success() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title1", "elevenVideo", "imageUrl", "singer", 300,
+            "title1", "elevenVideo", "imageUrl", "singer", 300, "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -57,7 +57,7 @@ class AdminSongControllerTest {
     void register_alreadyExist() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title2", "elevenVideo", "imageUrl", "singer", 300,
+            "title2", "elevenVideo", "imageUrl", "singer", 300, "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
