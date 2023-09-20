@@ -4,11 +4,11 @@ import SongItem from '@/features/songs/components/SongItem';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
-import fetcher from '@/shared/remotes';
+import { getHighLikedSongs } from '../remotes/song';
 import type { Song } from '../types/Song.type';
 
 const SongItemList = () => {
-  const { data: popularSongs } = useFetch<Song[]>(() => fetcher('/songs/high-liked', 'GET'));
+  const { data: popularSongs } = useFetch<Song[]>(getHighLikedSongs);
 
   return (
     <>
