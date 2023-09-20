@@ -1,26 +1,33 @@
 import { useCallback, useState } from 'react';
-import type { ErrorResponse } from '@/shared/remotes';
+import { useLoginPopup } from '@/features/auth/hooks/LoginPopUpContext';
+import AuthError from '@/shared/remotes/AuthError';
 
 // eslint-disable-next-line
 export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Promise<T>) => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<ErrorResponse | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const { popupLoginModal } = useLoginPopup();
+
+  if (error) {
+    throw error;
+  }
 
   const mutateData = useCallback(
     async (...params: P) => {
       setError(null);
       setIsLoading(true);
 
-      if (error) {
-        throw error;
-      }
-
       try {
         const responseBody = await mutateFn(...params);
         setData(responseBody);
       } catch (error) {
-        setError(error as ErrorResponse);
+        console.log('in mutation', 'error is...', error);
+        if (error instanceof AuthError) {
+          popupLoginModal();
+          return;
+        }
+        setError(error as Error);
       } finally {
         setIsLoading(false);
       }
