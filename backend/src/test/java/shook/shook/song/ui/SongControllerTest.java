@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.song.application.dto.GenreSongResponse;
 import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
+import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
@@ -61,7 +61,7 @@ class SongControllerTest {
         final SongSwipeResponse response = RestAssured.given().log().all()
             .param("memberId", MEMBER_ID)
             .when().log().all()
-            .get("/songs/{song_id}", songId)
+            .get("/songs/high-liked/{song_id}", songId)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
@@ -70,7 +70,7 @@ class SongControllerTest {
         //then
         assertThat(response.getPrevSongs().get(0).getId()).isEqualTo(1L);
         assertThat(response.getCurrentSong().getId()).isEqualTo(songId);
-        assertThat(response.getNextSongs().get(0).getId()).isEqualTo(3L);
+        assertThat(response.getNextSongs().get(0).getId()).isEqualTo(4L);
     }
 
     @DisplayName("가장 좋아요가 적은 노래 id 로 이전 노래 정보를 조회할 때 200 상태코드, 이전 노래 리스트를 반환한다.")
@@ -89,7 +89,7 @@ class SongControllerTest {
         final List<SongResponse> response = RestAssured.given().log().all()
             .param("memberId", MEMBER_ID)
             .when().log().all()
-            .get("/songs/{song_id}/prev", songId)
+            .get("/songs/high-liked/{song_id}/prev", songId)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
@@ -98,9 +98,7 @@ class SongControllerTest {
         // then
         assertThat(response.stream()
             .map(SongResponse::getId).toList())
-            .usingRecursiveComparison()
-            .comparingOnlyFields("id")
-            .isEqualTo(List.of(1L, 3L));
+            .containsExactly(1L, 4L, 3L);
     }
 
     @DisplayName("가장 좋아요가 많은 노래 id 로 이후 노래 정보를 조회할 때 200 상태코드, 이후 노래 리스트를 반환한다.")
@@ -114,7 +112,7 @@ class SongControllerTest {
         final List<SongResponse> response = RestAssured.given().log().all()
             .param("memberId", MEMBER_ID)
             .when().log().all()
-            .get("/songs/{song_id}/next", songId)
+            .get("/songs/high-liked/{song_id}/next", songId)
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
@@ -135,22 +133,20 @@ class SongControllerTest {
         final String genre = "DANCE";
 
         // when
-        final List<GenreSongResponse> response = RestAssured.given().log().all()
-            .queryParam("type", genre)
+        final List<HighLikedSongResponse> response = RestAssured.given().log().all()
+            .queryParam("genre", genre)
             .param("memberId", MEMBER_ID)
             .when().log().all()
-            .get("/songs/genre")
+            .get("/songs/high-liked")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
-            .body().jsonPath().getList(".", GenreSongResponse.class);
+            .body().jsonPath().getList(".", HighLikedSongResponse.class);
 
         // then
         assertThat(response.stream()
-            .map(GenreSongResponse::getId).toList())
-            .usingRecursiveComparison()
-            .comparingOnlyFields("id")
-            .isEqualTo(List.of(1L, 2L));
+            .map(HighLikedSongResponse::getId).toList())
+            .containsExactly(4L, 3L, 1L);
     }
 
     @DisplayName("존재하지 않는 장르를 요청한 경우 400 상태코드를 반환한다.")
@@ -162,10 +158,10 @@ class SongControllerTest {
         // when
         // then
         RestAssured.given().log().all()
-            .queryParam("type", genre)
+            .queryParam("genre", genre)
             .param("memberId", MEMBER_ID)
             .when().log().all()
-            .get("/songs/genre")
+            .get("/songs/high-liked")
             .then().log().all()
             .statusCode(HttpStatus.BAD_REQUEST.value())
             .extract()

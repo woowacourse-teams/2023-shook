@@ -56,6 +56,7 @@ class HighLikedSongControllerTest {
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
+        // 정렬 순서 1L 2L 4L 3L
         inMemorySongsScheduler.recreateCachedSong();
 
         //when
@@ -70,7 +71,7 @@ class HighLikedSongControllerTest {
 
         //then
         assertAll(
-            () -> assertThat(responses).hasSize(3),
+            () -> assertThat(responses).hasSize(4),
             () -> assertThat(responses.get(0))
                 .hasFieldOrPropertyWithValue("id", FIRST_SONG_ID)
                 .hasFieldOrPropertyWithValue("totalLikeCount", 2L),
@@ -78,8 +79,49 @@ class HighLikedSongControllerTest {
                 .hasFieldOrPropertyWithValue("id", SECOND_SONG_ID)
                 .hasFieldOrPropertyWithValue("totalLikeCount", 1L),
             () -> assertThat(responses.get(2))
-                .hasFieldOrPropertyWithValue("id", THIRD_SONG_ID)
+                .hasFieldOrPropertyWithValue("id", 4L)
+                .hasFieldOrPropertyWithValue("totalLikeCount", 0L),
+            () -> assertThat(responses.get(3))
+                .hasFieldOrPropertyWithValue("id", 3L)
                 .hasFieldOrPropertyWithValue("totalLikeCount", 0L)
+        );
+    }
+
+    @DisplayName("좋아요 많은 순으로 장르 노래 목록 조회 시 200 상태코드, 좋아요 순으로 정렬된 노래 목록이 반환된다.")
+    @Test
+    void showHighLikedSongsWithGenre() {
+        // given
+        final String genre = "DANCE";
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+        likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+        likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
+            new KillingPartLikeRequest(true));
+
+        // 정렬 순서 1L 4L 3L
+        inMemorySongsScheduler.recreateCachedSong();
+
+        // when
+        final List<HighLikedSongResponse> responses = RestAssured.given().log().all()
+            .queryParam("genre", genre)
+            .when().log().all()
+            .get("/songs/high-liked")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract()
+            .jsonPath().getList(".", HighLikedSongResponse.class);
+
+        // then
+        assertAll(
+            () -> assertThat(responses).hasSize(3),
+            () -> assertThat(responses.stream()
+                .map(HighLikedSongResponse::getId)
+                .toList())
+                .containsExactly(1L, 4L, 3L),
+            () -> assertThat(responses.stream()
+                .map(HighLikedSongResponse::getTotalLikeCount))
+                .containsExactly(2L, 0L, 0L)
         );
     }
 }

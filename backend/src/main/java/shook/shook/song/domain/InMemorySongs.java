@@ -1,5 +1,6 @@
 package shook.shook.song.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -39,6 +40,20 @@ public class InMemorySongs {
             .toList();
     }
 
+    public List<Song> getSortedSongsByGenre(final Genre genre) {
+        final List<Song> songsWithGenre = new ArrayList<>(songsSortedInLikeCountById.values()
+            .stream()
+            .filter(song -> song.getGenre() == genre)
+            .toList());
+
+        songsWithGenre.sort(Comparator.comparing(
+            Song::getTotalLikeCount,
+            Comparator.reverseOrder()
+        ).thenComparing(Song::getId, Comparator.reverseOrder()));
+
+        return songsWithGenre;
+    }
+
     public Song getSongById(final Long id) {
         if (songsSortedInLikeCountById.containsKey(id)) {
             return songsSortedInLikeCountById.get(id);
@@ -46,6 +61,28 @@ public class InMemorySongs {
         throw new SongException.SongNotExistException(
             Map.of("song id", String.valueOf(id))
         );
+    }
+
+    public List<Song> getPrevLikedSongByGenre(final Song currentSong, final Genre genre, final int prevSongCount) {
+        final List<Song> songsWithGenre = getSortedSongsByGenre(genre);
+        final int currentSongIndex = songsWithGenre.indexOf(currentSong);
+
+        return songsWithGenre.subList(Math.max(0, currentSongIndex - prevSongCount), currentSongIndex).stream()
+            .toList();
+    }
+
+    public List<Song> getNextLikedSongByGenre(final Song currentSong, final Genre genre, final int nextSongCount) {
+        final List<Song> songsWithGenre = getSortedSongsByGenre(genre);
+        final int currentSongIndex = songsWithGenre.indexOf(currentSong);
+
+        if (currentSongIndex == songsWithGenre.size() - 1) {
+            return Collections.emptyList();
+        }
+
+        return songsWithGenre.subList(Math.min(currentSongIndex + 1, songsWithGenre.size() - 1),
+                Math.min(songsWithGenre.size(), currentSongIndex + nextSongCount + 1))
+            .stream()
+            .toList();
     }
 
     public List<Song> getPrevLikedSongs(final Song currentSong, final int prevSongCount) {
@@ -68,7 +105,8 @@ public class InMemorySongs {
             return Collections.emptyList();
         }
 
-        return songIds.subList(Math.min(currentSongIndex + 1, songIds.size() - 1), Math.min(songIds.size(), currentSongIndex + nextSongCount + 1))
+        return songIds.subList(Math.min(currentSongIndex + 1, songIds.size() - 1),
+                Math.min(songIds.size(), currentSongIndex + nextSongCount + 1))
             .stream()
             .map(songsSortedInLikeCountById::get)
             .toList();

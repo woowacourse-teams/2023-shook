@@ -45,7 +45,7 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private InMemorySongs inMemorySongs = new InMemorySongs();
+    private final InMemorySongs inMemorySongs = new InMemorySongs();
 
     private SongService songService;
 
@@ -383,8 +383,6 @@ class SongServiceTest extends UsingJpaTest {
                 .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
         }
     }
-
-    // TODO: 2023/09/19 캐싱 결과 정렬 필요
 
     @Nested
     class Genre {

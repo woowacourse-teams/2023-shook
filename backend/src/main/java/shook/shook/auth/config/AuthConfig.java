@@ -42,7 +42,6 @@ public class AuthConfig implements WebMvcConfigurer {
     private HandlerInterceptor tokenInterceptor() {
         return new PathMatcherInterceptor(tokenInterceptor)
             .includePathPattern("/my-page", PathMethod.GET)
-            .includePathPattern("/songs/genre/*", PathMethod.GET)
             .includePathPattern("/songs/*/parts/*/likes", PathMethod.PUT)
             .includePathPattern("/voting-songs/*/parts", PathMethod.POST)
             .includePathPattern("/songs/*/parts/*/comments", PathMethod.POST)

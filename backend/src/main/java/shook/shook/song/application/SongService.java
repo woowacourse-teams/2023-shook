@@ -15,6 +15,7 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
@@ -29,7 +30,10 @@ public class SongService {
 
     private static final int AFTER_SONGS_COUNT = 10;
     private static final int BEFORE_SONGS_COUNT = 10;
-    private static final int TOP_COUNT = 100;
+    private static final int TOP_COUNT = 10;
+    private static final int GENRE_SONG_COUNT = 10;
+    private static final int BEFORE_GENRE_SONGS_COUNT = 10;
+    private static final int AFTER_GENRE_SONGS_COUNT = 10;
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
@@ -141,5 +145,59 @@ public class SongService {
     public void saveSongsFromExcelFile(final MultipartFile excel) {
         final List<Song> songs = songDataExcelReader.parseToSongs(excel);
         songs.forEach(this::saveSong);
+    }
+
+    public List<HighLikedSongResponse> findSongsByGenre(final String genreName) {
+        final Genre genre = Genre.findByName(genreName);
+        final List<Song> songs = inMemorySongs.getSortedSongsByGenre(genre);
+        final List<Song> top10Songs = songs.subList(0, Math.min(GENRE_SONG_COUNT, songs.size()));
+
+        return HighLikedSongResponse.ofSongs(top10Songs);
+    }
+
+    public SongSwipeResponse findSongsByGenreForSwipe(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
+            BEFORE_GENRE_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_GENRE_SONGS_COUNT);
+
+        final Authority authority = memberInfo.getAuthority();
+
+        if (authority.isAnonymous()) {
+            return SongSwipeResponse.ofUnauthorizedUser(currentSong, prevSongs, nextSongs);
+        }
+
+        final Member member = findMemberById(memberInfo.getMemberId());
+        return SongSwipeResponse.of(member, currentSong, prevSongs, nextSongs);
+    }
+
+    public List<SongResponse> findPrevSongsByGenre(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
+            BEFORE_GENRE_SONGS_COUNT);
+
+        return convertToSongResponses(memberInfo, prevSongs);
+    }
+
+    public List<SongResponse> findNextSongsByGenre(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_GENRE_SONGS_COUNT);
+
+        return convertToSongResponses(memberInfo, nextSongs);
     }
 }
