@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import path from '@/shared/constants/path';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 
 interface AccessTokenResponse {
@@ -11,14 +11,16 @@ interface AccessTokenResponse {
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
   const { login } = useAuthContext();
+  const navigate = useNavigate();
 
   // TODO: 예외처리
   const getAccessToken = async () => {
     const code = searchParams.get('code');
+
     if (!code) {
-      // TODO: throw error -> 401 인증에러
       accessTokenStorage.removeToken();
-      window.location.href = googleAuthUrl;
+      navigate(path.LOGIN);
+      alert('비정상적인 로그인입니다. 다시 로그인해주세요.');
       return;
     }
 
