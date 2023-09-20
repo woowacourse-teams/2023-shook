@@ -18,7 +18,7 @@ const VoteInterface = () => {
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
 
-  const { error, createKillingPart } = usePostKillingPart();
+  const { createKillingPart } = usePostKillingPart();
   const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -26,9 +26,6 @@ const VoteInterface = () => {
 
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
-  if (error) {
-    closeModal();
-  }
   const submitKillingPart = async () => {
     videoPlayer.current?.pauseVideo();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
