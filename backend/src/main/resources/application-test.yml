@@ -43,4 +43,4 @@ excel:
 
 schedules:
   in-memory-song:
-    cron: 0/1 * * * * * # 1초
+    cron: "0/1 * * * * *" # 1초
