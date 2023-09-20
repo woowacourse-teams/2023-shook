@@ -1,11 +1,11 @@
 package shook.shook.song.application.killingpart.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.song.domain.Song;
-import java.util.List;
+import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 
 @Schema(description = "좋아요 순 노래 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,17 +27,19 @@ public class HighLikedSongResponse {
     @Schema(description = "총 좋아요 개수", example = "40")
     private final long totalLikeCount;
 
-    private static HighLikedSongResponse from(final Song song) {
+    private static HighLikedSongResponse from(final SongTotalLikeCountDto songTotalVoteCountDto) {
         return new HighLikedSongResponse(
-            song.getId(),
-            song.getTitle(),
-            song.getSinger(),
-            song.getAlbumCoverUrl(),
-            song.getTotalLikeCount()
+            songTotalVoteCountDto.getSong().getId(),
+            songTotalVoteCountDto.getSong().getTitle(),
+            songTotalVoteCountDto.getSong().getSinger(),
+            songTotalVoteCountDto.getSong().getAlbumCoverUrl(),
+            songTotalVoteCountDto.getTotalLikeCount()
         );
     }
 
-    public static List<HighLikedSongResponse> ofSongs(final List<Song> songs) {
+    public static List<HighLikedSongResponse> ofSongTotalLikeCounts(
+        final List<SongTotalLikeCountDto> songs
+    ) {
         return songs.stream()
             .map(HighLikedSongResponse::from)
             .toList();

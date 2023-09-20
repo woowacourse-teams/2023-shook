@@ -47,4 +47,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     );
 
     boolean existsSongByTitle(final SongTitle title);
+
+    @Query("SELECT s FROM Song s LEFT JOIN FETCH s.killingParts.killingParts kp")
+    List<Song> findAllSongWithKillingParts();
 }

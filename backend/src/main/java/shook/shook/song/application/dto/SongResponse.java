@@ -1,13 +1,12 @@
 package shook.shook.song.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 
@@ -37,7 +36,10 @@ public class SongResponse {
     @Schema(description = "킬링파트 3개")
     private final List<KillingPartResponse> killingParts;
 
-    public static SongResponse of(final Song song, final Member member) {
+    public static SongResponse of(
+        final Song song,
+        final List<Long> likedKillingPartIds
+    ) {
         return new SongResponse(
             song.getId(),
             song.getTitle(),
@@ -45,21 +47,32 @@ public class SongResponse {
             song.getLength(),
             song.getVideoId(),
             song.getAlbumCoverUrl(),
-            toKillingPartResponses(song, member)
+            toKillingPartResponses(song, likedKillingPartIds)
         );
     }
 
     public static SongResponse fromUnauthorizedUser(final Song song) {
-        return SongResponse.of(song, null);
+        return SongResponse.of(song, Collections.emptyList());
     }
 
-    private static List<KillingPartResponse> toKillingPartResponses(final Song song,
-        final Member member) {
+    private static List<KillingPartResponse> toKillingPartResponses(
+        final Song song,
+        final List<Long> likedKillingPartIds
+    ) {
         final List<KillingPart> songKillingParts = song.getLikeCountSortedKillingParts();
 
         return IntStream.range(0, songKillingParts.size())
             .mapToObj(index ->
-                KillingPartResponse.of(song, songKillingParts.get(index), index + 1, member))
-            .collect(Collectors.toList());
+            {
+                final KillingPart killingPart = songKillingParts.get(index);
+                final int killingPartRank = index + 1;
+                return KillingPartResponse.of(
+                    song,
+                    killingPart,
+                    killingPartRank,
+                    likedKillingPartIds.contains(killingPart.getId())
+                );
+            })
+            .toList();
     }
 }

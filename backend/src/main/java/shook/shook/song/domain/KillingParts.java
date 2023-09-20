@@ -51,14 +51,21 @@ public class KillingParts {
         }
     }
 
+    public int getTotalLikeCount() {
+        return killingParts.stream()
+            .map(KillingPart::getLikeCount)
+            .reduce(0, Integer::sum);
+    }
+
     public List<KillingPart> getKillingParts() {
         return new ArrayList<>(killingParts);
     }
 
     public List<KillingPart> getKillingPartsSortedByLikeCount() {
         return killingParts.stream()
-            .sorted(Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
-                .thenComparing(KillingPart::getStartSecond))
+            .sorted(
+                Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
+                    .thenComparing(KillingPart::getStartSecond))
             .toList();
     }
 
