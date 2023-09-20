@@ -11,10 +11,6 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
   const { popupLoginModal } = useLoginPopup();
   const { logout } = useAuthContext();
 
-  if (error) {
-    throw error;
-  }
-
   const mutateData = useCallback(
     async (...params: P) => {
       setError(null);

@@ -10,10 +10,6 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
   const { popupLoginModal } = useLoginPopup();
   const { logout } = useAuthContext();
 
-  if (error) {
-    throw error;
-  }
-
   const fetchData = useCallback(async () => {
     setError(null);
     setIsLoading(true);
