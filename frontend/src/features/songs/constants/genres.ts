@@ -1,4 +1,5 @@
 const GENRES = {
+  ALL: '전체',
   DANCE: '댄스',
   HIPHOP: '힙합',
   BALLAD: '발라드',

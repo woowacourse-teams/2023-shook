@@ -6,8 +6,8 @@ export const getSongDetail = async (songId: number): Promise<SongDetail> => {
   return await fetcher(`/songs/${songId}`, 'GET');
 };
 
-export const getHighLikedSongs = async (genre?: Genre): Promise<Song[]> => {
-  const query = genre ? `?genre=${genre}` : '';
+export const getHighLikedSongs = async (genre: Genre): Promise<Song[]> => {
+  const query = genre === 'ALL' ? '' : `?genre=${genre}`;
 
   return await fetcher(`/songs/high-liked${query}`, 'GET');
 };
