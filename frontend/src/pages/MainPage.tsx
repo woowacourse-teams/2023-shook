@@ -77,7 +77,7 @@ const Container = styled.div`
 `;
 
 const Li = styled.li`
-  width: 100%;
+  max-width: 250px;
 `;
 
 const StyledLink = styled(Link)`
@@ -97,9 +97,10 @@ const Title = styled.h2`
 `;
 
 const PopularSongList = styled.ol`
+  overflow-x: scroll;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  gap: 8px;
   align-items: flex-start;
 
   width: 100%;
