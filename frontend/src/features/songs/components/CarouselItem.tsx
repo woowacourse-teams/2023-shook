@@ -47,6 +47,7 @@ const CollectingLink = styled(Link)`
 const Album = styled.img`
   max-width: 120px;
   background-color: white;
+  border-radius: 4px;
 `;
 
 const Contents = styled.div`
