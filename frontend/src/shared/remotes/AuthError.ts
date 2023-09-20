@@ -1,7 +1,9 @@
 class AuthError extends Error {
-  constructor(message: string = '') {
-    console.log('new error created!');
+  code: number;
+  name: string;
+  constructor({ code, message }: { code: number; message: string }) {
     super(message);
+    this.code = code;
     this.name = 'AuthError';
   }
 }

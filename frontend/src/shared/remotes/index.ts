@@ -8,7 +8,6 @@ export interface ErrorResponse {
 }
 
 const { BASE_URL } = process.env;
-
 const fetcher = async (url: string, method: string, body?: unknown) => {
   const headers: Record<string, string> = {
     'Content-type': 'application/json',
@@ -52,21 +51,22 @@ const fetcher = async (url: string, method: string, body?: unknown) => {
 
   const response = await fetch(`${BASE_URL}${url}`, options);
 
-  if (response.status >= 500) {
-    throw new Error(`서버문제로 HTTP 통신에 실패했습니다.`);
-  }
-
-  if (response.status === 401) {
-    accessTokenStorage.removeToken();
-    // TODO: 인증 에러 발생했을 때 -> localstorage비워주기, 전역상태 비워주기, login redirect
-    console.log('in Fetcher, 401 error');
-    throw new AuthError();
-  }
-
   if (!response.ok) {
     const errorResponse: ErrorResponse = await response.json();
 
-    throw errorResponse;
+    if (response.status >= 500) {
+      // TODO: Error 객체
+      throw new Error(errorResponse.message);
+    }
+
+    if (response.status === 401) {
+      // TODO: 인증 에러 발생했을 때 -> localstorage비워주기, 전역상태 비워주기, login redirect
+      console.log('in Fetcher, 401 error');
+      throw new AuthError(errorResponse);
+    }
+
+    // TODO: Error 객체
+    throw new Error(errorResponse.message);
   }
 
   const contentType = response.headers.get('content-type');
