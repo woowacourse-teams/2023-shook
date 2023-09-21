@@ -13,10 +13,13 @@ import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
+import useLocalStorage from '@/shared/hooks/useLocalStorage';
 import createObserver from '@/shared/utils/createObserver';
 
 const SongDetailListPage = () => {
   const { isOpen, closeModal } = useModal(true);
+  const [onboarding, setOnboarding] = useLocalStorage<boolean>('onboarding', true);
+
   const { id: songIdParams } = useParams();
   const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
 
@@ -51,6 +54,11 @@ const SongDetailListPage = () => {
     return Number(lastSongId);
   };
 
+  const closeCoachMark = () => {
+    setOnboarding(false);
+    closeModal();
+  };
+
   useEffect(() => {
     if (!prevTargetRef.current) return;
 
@@ -79,16 +87,18 @@ const SongDetailListPage = () => {
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={closeModal} css={{ backgroundColor: 'transparent' }}>
-        <Spacing direction="vertical" size={170} />
-        <img src={swipeUpDown} width="100px" />
-        <Spacing direction="vertical" size={30} />
-        <div style={{ fontSize: '18px' }}>위 아래로 스와이프하여 노래를 탐색해보세요!</div>
-        <Spacing direction="vertical" size={40} />
-        <Confirm type="button" onClick={closeModal}>
-          확인
-        </Confirm>
-      </Modal>
+      {onboarding && (
+        <Modal isOpen={isOpen} closeModal={closeCoachMark} css={{ backgroundColor: 'transparent' }}>
+          <Spacing direction="vertical" size={170} />
+          <img src={swipeUpDown} width="100px" />
+          <Spacing direction="vertical" size={30} />
+          <div style={{ fontSize: '18px' }}>위 아래로 스와이프하여 노래를 탐색해보세요!</div>
+          <Spacing direction="vertical" size={40} />
+          <Confirm type="button" onClick={closeCoachMark}>
+            확인
+          </Confirm>
+        </Modal>
+      )}
 
       <ItemContainer>
         <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
