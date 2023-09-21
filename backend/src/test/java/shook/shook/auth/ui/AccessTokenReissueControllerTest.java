@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.support.DataCleaner;
@@ -36,11 +37,20 @@ class AccessTokenReissueControllerTest {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @Autowired
+    private InMemoryTokenPairRepository inMemoryTokenPairRepository;
+
+    private String refreshToken;
+    private String accessToken;
+
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
         dataCleaner.clear();
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
+        refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
+        accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
     }
 
     @AfterEach
@@ -52,14 +62,13 @@ class AccessTokenReissueControllerTest {
     @Test
     void success_reissue_accessToken() {
         //given
-        final String refreshToken = tokenProvider.createRefreshToken(
-            savedMember.getId(),
-            savedMember.getNickname());
+        final String authorization = "Bearer " + accessToken;
 
         //when
         final ReissueAccessTokenResponse response = RestAssured.given().log().all()
+            .header("Authorization", authorization)
             .cookie("refreshToken", refreshToken)
-            .when().log().all().get("/reissue")
+            .when().log().all().post("/reissue")
             .then().statusCode(HttpStatus.OK.value())
             .extract().body().as(ReissueAccessTokenResponse.class);
 
@@ -76,7 +85,8 @@ class AccessTokenReissueControllerTest {
         //when
         //then
         RestAssured.given().log().all()
-            .when().log().all().get("/reissue")
+            .header("Authorization", "authorization")
+            .when().log().all().post("/reissue")
             .then().statusCode(HttpStatus.UNAUTHORIZED.value());
     }
 }

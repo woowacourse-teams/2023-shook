@@ -43,6 +43,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:5.3.1'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 
     //log to slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'

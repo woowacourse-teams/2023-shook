@@ -43,6 +43,11 @@ oauth2:
     client-id: client
     client-secret: secret
     redirect-uri: redirect
+  kakao:
+    access-token-url: https://localhost:8080/oauth/token
+    member-info-url: https://localhost:8080/v2/user/me
+    client-id: client
+    redirect-url: redirect
 
 # Properties Only For Local
 jwt:
@@ -58,3 +63,10 @@ excel:
   video-url-delimiter: "v="
   killingpart-data-delimiter: " "
   song-length-suffix: "초"
+
+# Properties Only For local
+schedules:
+  in-memory-token:
+    cron: "0 0 0/1 * * *"
+  in-memory-song:
+    cron: "0 0 0/1 * * *" #1시간

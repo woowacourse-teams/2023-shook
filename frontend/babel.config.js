@@ -3,15 +3,17 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        targets: {
-          // TODO: 브라우저 지원 범위
-          chrome: '51',
-        },
+        targets: 'last 2 years, not dead',
         useBuiltIns: 'entry',
         corejs: '3.31.1',
       },
     ],
-    ['@babel/preset-react'],
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
     ['@babel/preset-typescript'],
   ],
 };

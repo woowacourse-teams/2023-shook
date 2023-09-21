@@ -20,6 +20,7 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
@@ -43,6 +44,9 @@ class SongServiceTest extends UsingJpaTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    private final InMemorySongs inMemorySongs = new InMemorySongs();
+
     private SongService songService;
 
     @BeforeEach
@@ -51,6 +55,7 @@ class SongServiceTest extends UsingJpaTest {
             songRepository,
             killingPartRepository,
             memberRepository,
+            inMemorySongs,
             new SongDataExcelReader(" ", " ", " ")
         );
     }
@@ -93,6 +98,7 @@ class SongServiceTest extends UsingJpaTest {
         final Member member = createAndSaveMember("email@naver.com", "email");
         final Song song = registerNewSong("title");
         addLikeToEachKillingParts(song, member);
+        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
         //when
         saveAndClearEntityManager();
@@ -129,8 +135,9 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_not_login_member() {
         //given
         final Song song = registerNewSong("title");
+        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
-        //when
+        //when인
         saveAndClearEntityManager();
         final SongSwipeResponse response =
             songService.findSongByIdForFirstSwipe(song.getId(),
@@ -165,6 +172,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_notExist() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
+
         //when
         //then
         assertThatThrownBy(() -> songService.findSongByIdForFirstSwipe(
@@ -192,6 +200,7 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(fourthSong, member1);
 
         saveAndClearEntityManager();
+        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
         // when
         final List<HighLikedSongResponse> result = songService.showHighLikedSongs();
@@ -260,6 +269,7 @@ class SongServiceTest extends UsingJpaTest {
 
             addLikeToEachKillingParts(thirdSong, member);
             addLikeToEachKillingParts(fourthSong, member);
+            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             saveAndClearEntityManager();
 
@@ -323,6 +333,7 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(fourthSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
 
+            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
 
             saveAndClearEntityManager();
@@ -355,6 +366,7 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(secondSong, member2);
             addLikeToEachKillingParts(standardSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
+            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
 
@@ -369,6 +381,47 @@ class SongServiceTest extends UsingJpaTest {
             assertThat(afterResponses.stream()
                 .map(SongResponse::getId)
                 .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
+        }
+    }
+
+    @Nested
+    class Genre {
+
+        @DisplayName("장르별 노래를 조회한다.")
+        @Test
+        void findSongsByGenre() {
+            // given
+            final Song song1 = registerNewSong("노래1");
+            final Song song2 = registerNewSong("노래2");
+            final Song song3 = registerNewSong("노래3");
+            final Song song4 = registerNewSong("노래4");
+            final Song song5 = registerNewSong("노래5");
+
+            final Member member = createAndSaveMember("first@naver.com", "first");
+            final Member secondMember = createAndSaveMember("second@naver.com", "second");
+            final Member thirdMember = createAndSaveMember("third@naver.com", "third");
+
+            addLikeToEachKillingParts(song2, member);
+            addLikeToEachKillingParts(song2, secondMember);
+            addLikeToEachKillingParts(song2, thirdMember);
+            addLikeToEachKillingParts(song1, member);
+            addLikeToEachKillingParts(song1, secondMember);
+            addLikeToEachKillingParts(song3, member);
+            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
+
+            // 정렬 순서: 2L, 1L, 3L, 5L, 4L
+            saveAndClearEntityManager();
+
+            // when
+            final List<HighLikedSongResponse> response = songService.findSongsByGenre("DANCE");
+
+            // then
+            assertAll(
+                () -> assertThat(response).hasSize(5),
+                () -> assertThat(response.stream()
+                    .map(HighLikedSongResponse::getId).toList())
+                    .containsExactly(2L, 1L, 3L, 5L, 4L)
+            );
         }
     }
 }

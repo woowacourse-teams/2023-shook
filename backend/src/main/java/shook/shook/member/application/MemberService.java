@@ -22,8 +22,7 @@ import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 @Service
 public class MemberService {
 
-    private static final String EMAIL_SPILT_DELIMITER = "@";
-    private static final int NICKNAME_INDEX = 0;
+    private static final String BASIC_NICKNAME = "shook";
 
     private final MemberRepository memberRepository;
     private final KillingPartCommentRepository commentRepository;
@@ -34,9 +33,11 @@ public class MemberService {
         findByEmail(email).ifPresent(member -> {
             throw new MemberException.ExistMemberException(Map.of("Email", email));
         });
-        final String nickname = email.split(EMAIL_SPILT_DELIMITER)[NICKNAME_INDEX];
-        final Member newMember = new Member(email, nickname);
-        return memberRepository.save(newMember);
+
+        final Member newMember = new Member(email, BASIC_NICKNAME);
+        final Member savedMember = memberRepository.save(newMember);
+        savedMember.updateNickname(savedMember.getNickname() + savedMember.getId());
+        return savedMember;
     }
 
     public Optional<Member> findByEmail(final String email) {
