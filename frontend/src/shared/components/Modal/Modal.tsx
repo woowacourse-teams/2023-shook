@@ -38,7 +38,7 @@ const Modal = ({ isOpen, closeModal, children, css }: PropsWithChildren<ModalPro
       {isOpen && (
         <Wrapper>
           <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
-          <Container role="dialog" css={css}>
+          <Container role="dialog" $css={css}>
             {children}
           </Container>
         </Wrapper>
@@ -65,7 +65,7 @@ export const Backdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
-export const Container = styled.div<{ css: CSSProp }>`
+export const Container = styled.div<{ $css: CSSProp }>`
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -85,7 +85,7 @@ export const Container = styled.div<{ css: CSSProp }>`
   border: none;
   border-radius: 16px;
 
-  ${(props) => props.css}
+  ${(props) => props.$css}
 `;
 
 export const Wrapper = styled.div`
