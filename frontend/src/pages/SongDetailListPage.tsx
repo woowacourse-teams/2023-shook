@@ -95,7 +95,12 @@ const SongDetailListPage = () => {
   return (
     <>
       {onboarding && (
-        <Modal isOpen={isOpen} closeModal={closeCoachMark} css={{ backgroundColor: 'transparent' }}>
+        <Modal
+          isOpen={isOpen}
+          closeModal={closeCoachMark}
+          css={{ backgroundColor: 'transparent' }}
+          canCloseByBackDrop={false}
+        >
           <Spacing direction="vertical" size={170} />
           <img src={swipeUpDown} width="100px" />
           <Spacing direction="vertical" size={30} />
