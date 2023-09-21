@@ -31,9 +31,6 @@ public class SongService {
     private static final int AFTER_SONGS_COUNT = 10;
     private static final int BEFORE_SONGS_COUNT = 10;
     private static final int TOP_COUNT = 10;
-    private static final int GENRE_SONG_COUNT = 10;
-    private static final int BEFORE_GENRE_SONGS_COUNT = 10;
-    private static final int AFTER_GENRE_SONGS_COUNT = 10;
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
@@ -150,7 +147,7 @@ public class SongService {
     public List<HighLikedSongResponse> findSongsByGenre(final String genreName) {
         final Genre genre = Genre.findByName(genreName);
         final List<Song> songs = inMemorySongs.getSortedSongsByGenre(genre);
-        final List<Song> top10Songs = songs.subList(0, Math.min(GENRE_SONG_COUNT, songs.size()));
+        final List<Song> top10Songs = songs.subList(0, Math.min(TOP_COUNT, songs.size()));
 
         return HighLikedSongResponse.ofSongs(top10Songs);
     }
@@ -163,8 +160,8 @@ public class SongService {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
         final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
-            BEFORE_GENRE_SONGS_COUNT);
-        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_GENRE_SONGS_COUNT);
+            BEFORE_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
 
         final Authority authority = memberInfo.getAuthority();
 
@@ -184,7 +181,7 @@ public class SongService {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
         final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
-            BEFORE_GENRE_SONGS_COUNT);
+            BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, prevSongs);
     }
@@ -196,7 +193,7 @@ public class SongService {
     ) {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
-        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_GENRE_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, nextSongs);
     }
