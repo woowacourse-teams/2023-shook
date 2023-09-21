@@ -19,8 +19,6 @@ import shook.shook.util.StringChecker;
 public class Email {
 
     private static final int EMAIL_MAXIMUM_LENGTH = 100;
-    private static final Pattern EMAIL_FORM = Pattern.compile(
-        "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$");
 
     @Column(name = "email", length = 100, nullable = false)
     private String value;
@@ -36,12 +34,6 @@ public class Email {
         }
         if (value.length() > EMAIL_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongEmailException(
-                Map.of("Email", value)
-            );
-        }
-        final Matcher matcher = EMAIL_FORM.matcher(value);
-        if (!matcher.matches()) {
-            throw new MemberException.InValidEmailFormException(
                 Map.of("Email", value)
             );
         }

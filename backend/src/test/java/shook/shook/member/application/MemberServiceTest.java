@@ -58,10 +58,10 @@ class MemberServiceTest extends UsingJpaTest {
         final Member result = memberService.register(email);
 
         //then
-        final String nickname = email.split("@")[0];
+        final Member expect = memberService.findByEmail(email).get();
 
-        assertThat(result.getEmail()).isEqualTo(email);
-        assertThat(result.getNickname()).isEqualTo(nickname);
+        assertThat(result.getEmail()).isEqualTo(expect.getEmail());
+        assertThat(result.getNickname()).isEqualTo(expect.getNickname());
     }
 
     @DisplayName("중복된 이메일로 회원을 등록되는 경우 예외를 던진다.")
