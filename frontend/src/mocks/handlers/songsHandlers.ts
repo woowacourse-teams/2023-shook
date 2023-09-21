@@ -11,6 +11,7 @@ const { BASE_URL } = process.env;
 
 export const songsHandlers = [
   rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
+    // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(popularSongs));
   }),
 
@@ -39,15 +40,17 @@ export const songsHandlers = [
     return res(ctx.status(201));
   }),
 
-  rest.get(`${BASE_URL}/songs/:songId`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/high-liked/:songId`, (req, res, ctx) => {
+    // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(songEntries));
   }),
-
-  rest.get(`${BASE_URL}/songs/:songId/prev`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/high-liked/:songId/prev`, (req, res, ctx) => {
+    // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(extraPrevSongDetails));
   }),
 
-  rest.get(`${BASE_URL}/songs/:songId/next`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/songs/high-liked/:songId/next`, (req, res, ctx) => {
+    // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(extraNextSongDetails));
   }),
 
