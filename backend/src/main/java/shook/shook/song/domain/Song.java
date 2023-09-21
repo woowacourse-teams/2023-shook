@@ -3,6 +3,8 @@ package shook.shook.song.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,6 +45,10 @@ public class Song {
     @Embedded
     private SongLength length;
 
+    @Column(nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+
     @Embedded
     private KillingParts killingParts = new KillingParts();
 
@@ -61,6 +67,7 @@ public class Song {
         final String imageUrl,
         final String singer,
         final int length,
+        final Genre genre,
         final KillingParts killingParts
     ) {
         validate(killingParts);
@@ -70,6 +77,7 @@ public class Song {
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
         this.singer = new Singer(singer);
         this.length = new SongLength(length);
+        this.genre = genre;
         killingParts.setSong(this);
         this.killingParts = killingParts;
     }
@@ -80,9 +88,10 @@ public class Song {
         final String albumCoverUrl,
         final String singer,
         final int length,
+        final Genre genre,
         final KillingParts killingParts
     ) {
-        this(null, title, videoId, albumCoverUrl, singer, length, killingParts);
+        this(null, title, videoId, albumCoverUrl, singer, length, genre, killingParts);
     }
 
     private void validate(final KillingParts killingParts) {
@@ -125,6 +134,10 @@ public class Song {
 
     public List<KillingPart> getLikeCountSortedKillingParts() {
         return killingParts.getKillingPartsSortedByLikeCount();
+    }
+
+    public int getTotalLikeCount() {
+        return killingParts.getKillingPartsTotalLikeCount();
     }
 
     @Override

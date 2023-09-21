@@ -38,4 +38,26 @@ public class TokenException extends CustomException {
             super(ErrorCode.EXPIRED_TOKEN, inputValuesByProperty);
         }
     }
+
+    public static class RefreshTokenNotFoundException extends TokenException {
+
+        public RefreshTokenNotFoundException() {
+            super(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        public RefreshTokenNotFoundException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.INVALID_REFRESH_TOKEN, inputValuesByProperty);
+        }
+    }
+
+    public static class TokenPairNotMatchingException extends TokenException {
+
+        public TokenPairNotMatchingException() {
+            super(ErrorCode.TOKEN_PAIR_NOT_MATCHING_EXCEPTION);
+        }
+
+        public TokenPairNotMatchingException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.TOKEN_PAIR_NOT_MATCHING_EXCEPTION, inputValuesByProperty);
+        }
+    }
 }

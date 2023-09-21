@@ -17,7 +17,8 @@ class SongTest {
     void songCreate_nullKillingParts_fail() {
         // given
         // when, then
-        assertThatThrownBy(() -> new Song("title", "videoId", "imageUrl", "singer", 300, null))
+        assertThatThrownBy(
+            () -> new Song("title", "videoId", "imageUrl", "singer", 300, Genre.from("댄스"), null))
             .isInstanceOf(KillingPartsException.EmptyKillingPartsException.class);
     }
 
@@ -32,6 +33,7 @@ class SongTest {
             List.of(killingPart1, killingPart2, killingPart3)
         );
         final Song song = new Song("title", "3rUPND6FG8A", "image_url", "singer", 230,
+            Genre.from("댄스"),
             killingParts);
 
         // when
