@@ -54,8 +54,4 @@ public class KillingPartResponse {
             killingPart.isLikedByMember(member)
         );
     }
-
-    public boolean getLikeStatus() {
-        return likeStatus;
-    }
 }
