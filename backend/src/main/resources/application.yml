@@ -68,4 +68,4 @@ schedules:
 server:
   tomcat:
     threads:
-      max: 50
+      min-spare: 200
