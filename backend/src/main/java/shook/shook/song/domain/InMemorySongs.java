@@ -40,6 +40,12 @@ public class InMemorySongs {
             .toList();
     }
 
+    public List<Song> getSongs(final int limit) {
+        final List<Song> songs = getSongs();
+
+        return songs.subList(0, Math.min(limit, songs.size()));
+    }
+
     public List<Song> getSortedSongsByGenre(final Genre genre) {
         final List<Song> songsWithGenre = new ArrayList<>(songsSortedInLikeCountById.values()
             .stream()
@@ -52,6 +58,12 @@ public class InMemorySongs {
         ).thenComparing(Song::getId, Comparator.reverseOrder()));
 
         return songsWithGenre;
+    }
+
+    public List<Song> getSortedSongsByGenre(final Genre genre, final int limit) {
+        final List<Song> songsByGenre = getSortedSongsByGenre(genre);
+
+        return songsByGenre.subList(0, Math.min(limit, songsByGenre.size()));
     }
 
     public Song getSongById(final Long id) {

@@ -55,10 +55,9 @@ public class SongService {
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
-        final List<Song> songs = inMemorySongs.getSongs();
-        final List<Song> top100Songs = songs.subList(0, Math.min(TOP_COUNT, songs.size()));
+        final List<Song> songs = inMemorySongs.getSongs(TOP_COUNT);
 
-        return HighLikedSongResponse.ofSongs(top100Songs);
+        return HighLikedSongResponse.ofSongs(songs);
     }
 
     public SongSwipeResponse findSongByIdForFirstSwipe(
@@ -146,10 +145,9 @@ public class SongService {
 
     public List<HighLikedSongResponse> findSongsByGenre(final String genreName) {
         final Genre genre = Genre.findByName(genreName);
-        final List<Song> songs = inMemorySongs.getSortedSongsByGenre(genre);
-        final List<Song> top10Songs = songs.subList(0, Math.min(TOP_COUNT, songs.size()));
+        final List<Song> songs = inMemorySongs.getSortedSongsByGenre(genre, TOP_COUNT);
 
-        return HighLikedSongResponse.ofSongs(top10Songs);
+        return HighLikedSongResponse.ofSongs(songs);
     }
 
     public SongSwipeResponse findSongsByGenreForSwipe(
