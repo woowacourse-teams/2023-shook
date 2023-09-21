@@ -9,9 +9,16 @@ interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void;
   children: ReactElement | ReactElement[];
   css?: CSSProp;
+  canCloseByBackDrop?: boolean;
 }
 
-const Modal = ({ isOpen, closeModal, children, css }: PropsWithChildren<ModalProps>) => {
+const Modal = ({
+  canCloseByBackDrop = true,
+  isOpen,
+  closeModal,
+  children,
+  css,
+}: PropsWithChildren<ModalProps>) => {
   const closeByEsc = useCallback(
     ({ key }: KeyboardEvent) => {
       if (key === 'Escape') {
@@ -20,6 +27,12 @@ const Modal = ({ isOpen, closeModal, children, css }: PropsWithChildren<ModalPro
     },
     [closeModal]
   );
+
+  const closeModalByBackDrop = () => {
+    if (!canCloseByBackDrop) return;
+
+    closeModal();
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -37,7 +50,7 @@ const Modal = ({ isOpen, closeModal, children, css }: PropsWithChildren<ModalPro
     <>
       {isOpen && (
         <Wrapper>
-          <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
+          <Backdrop role="backdrop" onClick={closeModalByBackDrop} aria-hidden="true" />
           <Container role="dialog" $css={css}>
             {children}
           </Container>
