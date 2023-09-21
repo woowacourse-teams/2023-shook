@@ -1,6 +1,5 @@
 import AuthError from '@/shared/remotes/AuthError';
-import accessTokenStorage from '@/shared/utils/accessTokenStorage';
-import { isExpiredAfter60seconds } from '@/shared/utils/fetchUtils';
+import preCheckAccessToken from '@/shared/remotes/preCheckAccessToken';
 
 export interface ErrorResponse {
   code: number;
@@ -8,36 +7,16 @@ export interface ErrorResponse {
 }
 
 const { BASE_URL } = process.env;
+
 const fetcher = async (url: string, method: string, body?: unknown) => {
   const headers: Record<string, string> = {
     'Content-type': 'application/json',
   };
 
-  const accessTokenWithPayload = accessTokenStorage.getTokenWithPayload();
+  const accessToken = await preCheckAccessToken();
 
-  if (accessTokenWithPayload) {
-    const {
-      accessToken,
-      payload: { exp },
-    } = accessTokenWithPayload;
-
+  if (accessToken) {
     headers['Authorization'] = `Bearer ${accessToken}`;
-
-    if (isExpiredAfter60seconds(exp)) {
-      const response = await fetch(`${BASE_URL}/reissue`, {
-        headers,
-        method: 'GET',
-      });
-
-      if (response.ok) {
-        const { accessToken } = await response.json();
-        accessTokenStorage.setToken(accessToken);
-        headers['Authorization'] = `Bearer ${accessToken}`;
-      } else {
-        accessTokenStorage.removeToken();
-        delete headers.Authorization;
-      }
-    }
   }
 
   const options: RequestInit = {
