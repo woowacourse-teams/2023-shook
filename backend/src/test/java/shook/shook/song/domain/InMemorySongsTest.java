@@ -46,14 +46,14 @@ class InMemorySongsTest extends UsingJpaTest {
 
         // when
         inMemorySongs.recreate(songs);
-        // 정렬 순서: 2L, 1L, 3L
+        // 정렬 순서: 2L, 1L, 4L
 
         // then
         final List<Song> songsInMemory = inMemorySongs.getSongs();
         assertAll(
             () -> assertThat(songsInMemory.get(0)).hasFieldOrPropertyWithValue("id", 2L),
             () -> assertThat(songsInMemory.get(1)).hasFieldOrPropertyWithValue("id", 1L),
-            () -> assertThat(songsInMemory.get(2)).hasFieldOrPropertyWithValue("id", 3L)
+            () -> assertThat(songsInMemory.get(2)).hasFieldOrPropertyWithValue("id", 4L)
         );
     }
 
@@ -72,7 +72,7 @@ class InMemorySongsTest extends UsingJpaTest {
         inMemorySongs.recreate(songs);
 
         // when
-        final Song foundSong = inMemorySongs.getSongById(3L);
+        final Song foundSong = inMemorySongs.getSongById(4L);
 
         // then
         final Song expectedSong = songs.get(0);
@@ -87,9 +87,10 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);
+        final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // second, first, third
+        inMemorySongs.recreate(songs); // second, first, fourth, third
 
         // when
         final List<Song> prevLikedSongs = inMemorySongs.getPrevLikedSongs(thirdSong, 2);
@@ -97,8 +98,8 @@ class InMemorySongsTest extends UsingJpaTest {
         // then
         assertAll(
             () -> assertThat(prevLikedSongs).hasSize(2),
-            () -> assertThat(prevLikedSongs.get(0)).isEqualTo(secondSong),
-            () -> assertThat(prevLikedSongs.get(1)).isEqualTo(firstSong)
+            () -> assertThat(prevLikedSongs.get(0)).isEqualTo(firstSong),
+            () -> assertThat(prevLikedSongs.get(1)).isEqualTo(fourthSong)
         );
     }
 
@@ -110,9 +111,10 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);
+        final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // second, first, third
+        inMemorySongs.recreate(songs); // second, first, fourth, third
 
         // when
         final List<Song> nextLikedSongs = inMemorySongs.getNextLikedSongs(secondSong, 2);
@@ -121,7 +123,51 @@ class InMemorySongsTest extends UsingJpaTest {
         assertAll(
             () -> assertThat(nextLikedSongs).hasSize(2),
             () -> assertThat(nextLikedSongs.get(0)).isEqualTo(firstSong),
-            () -> assertThat(nextLikedSongs.get(1)).isEqualTo(thirdSong)
+            () -> assertThat(nextLikedSongs.get(1)).isEqualTo(fourthSong)
         );
+    }
+
+    @DisplayName("특정 장르 노래에 대해 1. 좋아요 수가 더 적거나 2. 좋아요 수가 같은 경우 id가 더 작은 노래 목록을 조회한다.")
+    @Test
+    void getSortedSongsByGenre() {
+        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final Song firstSong = songs.get(0);
+        final Song secondSong = songs.get(1);
+        final Song thirdSong = songs.get(2);
+        final Song fourthSong = songs.get(3);
+        likeAllKillingPartsInSong(firstSong);
+        likeAllKillingPartsInSong(secondSong);
+        inMemorySongs.recreate(songs); // first, fourth, third
+
+        // when
+        final List<Song> prevLikedSongs = inMemorySongs.getPrevLikedSongByGenre(firstSong, Genre.DANCE, 2);
+
+        // then
+        assertThat(prevLikedSongs)
+            .usingRecursiveComparison()
+            .comparingOnlyFields("id")
+            .isEqualTo(List.of(4L, 3L));
+    }
+
+    @DisplayName("특정 장르 노래에 대해 1. 좋아요 수가 더 많거나 2. 좋아요 수가 같은 경우 id가 더 큰 노래 목록을 조회한다.")
+    @Test
+    void getPrevLikedSongByGenre() {
+        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final Song firstSong = songs.get(0);
+        final Song secondSong = songs.get(1);
+        final Song thirdSong = songs.get(2);
+        final Song fourthSong = songs.get(3);
+        likeAllKillingPartsInSong(firstSong);
+        likeAllKillingPartsInSong(secondSong);
+        inMemorySongs.recreate(songs); // first, fourth, third
+
+        // when
+        final List<Song> prevLikedSongs = inMemorySongs.getNextLikedSongByGenre(thirdSong, Genre.DANCE, 2);
+
+        // then
+        assertThat(prevLikedSongs)
+            .usingRecursiveComparison()
+            .comparingOnlyFields("id")
+            .isEqualTo(List.of(1L, 4L));
     }
 }

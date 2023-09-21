@@ -45,7 +45,7 @@ public class Song {
     @Embedded
     private SongLength length;
 
-    @Column(nullable = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private Genre genre;
 

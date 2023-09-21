@@ -34,9 +34,26 @@ public class InMemorySongs {
     }
 
     public List<Song> getSongs() {
-        return songsSortedInLikeCountById.values()
-            .stream()
+        return songsSortedInLikeCountById.values().stream()
             .toList();
+    }
+
+    public List<Song> getSongs(final int limit) {
+        final List<Song> songs = getSongs();
+
+        return songs.subList(0, Math.min(limit, songs.size()));
+    }
+
+    public List<Song> getSortedSongsByGenre(final Genre genre) {
+        return songsSortedInLikeCountById.values().stream()
+            .filter(song -> song.getGenre() == genre)
+            .toList();
+    }
+
+    public List<Song> getSortedSongsByGenre(final Genre genre, final int limit) {
+        final List<Song> songsByGenre = getSortedSongsByGenre(genre);
+
+        return songsByGenre.subList(0, Math.min(limit, songsByGenre.size()));
     }
 
     public Song getSongById(final Long id) {
@@ -48,9 +65,27 @@ public class InMemorySongs {
         );
     }
 
+    public List<Song> getPrevLikedSongByGenre(final Song currentSong, final Genre genre, final int prevSongCount) {
+        final List<Song> songsWithGenre = getSortedSongsByGenre(genre);
+        final int currentSongIndex = songsWithGenre.indexOf(currentSong);
+
+        return songsWithGenre.subList(Math.max(0, currentSongIndex - prevSongCount), currentSongIndex);
+    }
+
+    public List<Song> getNextLikedSongByGenre(final Song currentSong, final Genre genre, final int nextSongCount) {
+        final List<Song> songsWithGenre = getSortedSongsByGenre(genre);
+        final int currentSongIndex = songsWithGenre.indexOf(currentSong);
+
+        if (currentSongIndex == songsWithGenre.size() - 1) {
+            return Collections.emptyList();
+        }
+
+        return songsWithGenre.subList(Math.min(currentSongIndex + 1, songsWithGenre.size() - 1),
+            Math.min(songsWithGenre.size(), currentSongIndex + nextSongCount + 1));
+    }
+
     public List<Song> getPrevLikedSongs(final Song currentSong, final int prevSongCount) {
-        final List<Long> songIds = songsSortedInLikeCountById.keySet()
-            .stream()
+        final List<Long> songIds = songsSortedInLikeCountById.keySet().stream()
             .toList();
         final int currentSongIndex = songIds.indexOf(currentSong.getId());
 
@@ -68,8 +103,8 @@ public class InMemorySongs {
             return Collections.emptyList();
         }
 
-        return songIds.subList(Math.min(currentSongIndex + 1, songIds.size() - 1), Math.min(songIds.size(), currentSongIndex + nextSongCount + 1))
-            .stream()
+        return songIds.subList(Math.min(currentSongIndex + 1, songIds.size() - 1),
+                Math.min(songIds.size(), currentSongIndex + nextSongCount + 1)).stream()
             .map(songsSortedInLikeCountById::get)
             .toList();
     }

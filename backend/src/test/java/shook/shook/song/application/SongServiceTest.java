@@ -45,7 +45,7 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private InMemorySongs inMemorySongs = new InMemorySongs();
+    private final InMemorySongs inMemorySongs = new InMemorySongs();
 
     private SongService songService;
 
@@ -381,6 +381,47 @@ class SongServiceTest extends UsingJpaTest {
             assertThat(afterResponses.stream()
                 .map(SongResponse::getId)
                 .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
+        }
+    }
+
+    @Nested
+    class Genre {
+
+        @DisplayName("장르별 노래를 조회한다.")
+        @Test
+        void findSongsByGenre() {
+            // given
+            final Song song1 = registerNewSong("노래1");
+            final Song song2 = registerNewSong("노래2");
+            final Song song3 = registerNewSong("노래3");
+            final Song song4 = registerNewSong("노래4");
+            final Song song5 = registerNewSong("노래5");
+
+            final Member member = createAndSaveMember("first@naver.com", "first");
+            final Member secondMember = createAndSaveMember("second@naver.com", "second");
+            final Member thirdMember = createAndSaveMember("third@naver.com", "third");
+
+            addLikeToEachKillingParts(song2, member);
+            addLikeToEachKillingParts(song2, secondMember);
+            addLikeToEachKillingParts(song2, thirdMember);
+            addLikeToEachKillingParts(song1, member);
+            addLikeToEachKillingParts(song1, secondMember);
+            addLikeToEachKillingParts(song3, member);
+            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
+
+            // 정렬 순서: 2L, 1L, 3L, 5L, 4L
+            saveAndClearEntityManager();
+
+            // when
+            final List<HighLikedSongResponse> response = songService.findSongsByGenre("DANCE");
+
+            // then
+            assertAll(
+                () -> assertThat(response).hasSize(5),
+                () -> assertThat(response.stream()
+                    .map(HighLikedSongResponse::getId).toList())
+                    .containsExactly(2L, 1L, 3L, 5L, 4L)
+            );
         }
     }
 }

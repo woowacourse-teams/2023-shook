@@ -1,11 +1,11 @@
 package shook.shook.song.application.killingpart.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import shook.shook.song.domain.Song;
-import java.util.List;
 
 @Schema(description = "좋아요 순 노래 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,13 +27,17 @@ public class HighLikedSongResponse {
     @Schema(description = "총 좋아요 개수", example = "40")
     private final long totalLikeCount;
 
+    @Schema(description = "노래 장르", example = "DANCE")
+    private final String genre;
+
     private static HighLikedSongResponse from(final Song song) {
         return new HighLikedSongResponse(
             song.getId(),
             song.getTitle(),
             song.getSinger(),
             song.getAlbumCoverUrl(),
-            song.getTotalLikeCount()
+            song.getTotalLikeCount(),
+            song.getGenre().name()
         );
     }
 

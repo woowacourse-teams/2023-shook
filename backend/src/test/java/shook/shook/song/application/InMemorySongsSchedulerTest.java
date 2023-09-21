@@ -30,7 +30,7 @@ class InMemorySongsSchedulerTest {
         scheduler.recreateCachedSong();
 
         // then
-        assertThat(inMemorySongs.getSongs()).hasSize(3);
+        assertThat(inMemorySongs.getSongs()).hasSize(4);
     }
 
     @DisplayName("Scheduler 가 1초마다 실행된다.")
@@ -42,6 +42,6 @@ class InMemorySongsSchedulerTest {
         Thread.sleep(1000);
 
         // then
-        assertThat(inMemorySongs.getSongs()).hasSize(3);
+        assertThat(inMemorySongs.getSongs()).hasSize(4);
     }
 }
