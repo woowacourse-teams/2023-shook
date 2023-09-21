@@ -18,6 +18,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND_EXCEPTION(1006, "accessToken 을 재발급하기 위해서는 refreshToken 이 필요합니다."),
     ACCESS_TOKEN_NOT_FOUND(1007, "accessToken이 필요합니다."),
     UNAUTHENTICATED_EXCEPTION(1008, "권한이 없는 요청입니다."),
+    INVALID_REFRESH_TOKEN(1009, "존재하지 않는 refreshToken 입니다."),
+    TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1010, "올바르지 않은 TokenPair 입니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 

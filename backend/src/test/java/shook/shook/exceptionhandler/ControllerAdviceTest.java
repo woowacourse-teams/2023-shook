@@ -47,6 +47,8 @@ class ControllerAdviceTest extends AcceptanceTest {
         return Stream.of(
             new ExceptionTestData(new TokenException.NotIssuedTokenException(), 401),
             new ExceptionTestData(new TokenException.ExpiredTokenException(), 401),
+            new ExceptionTestData(new TokenException.TokenPairNotMatchingException(), 401),
+            new ExceptionTestData(new TokenException.RefreshTokenNotFoundException(), 401),
 
             new ExceptionTestData(new OAuthException.InvalidAuthorizationCodeException(), 503),
             new ExceptionTestData(new OAuthException.InvalidAccessTokenException(), 503),
