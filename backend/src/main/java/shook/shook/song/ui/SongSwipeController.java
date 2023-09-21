@@ -27,8 +27,7 @@ public class SongSwipeController implements SongSwipeApi {
         @PathVariable(name = "song_id") final Long songId,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final SongSwipeResponse response =
-            songService.findSongByIdForFirstSwipe(songId, memberInfo);
+        final SongSwipeResponse response = songService.findSongByIdForFirstSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -38,8 +37,7 @@ public class SongSwipeController implements SongSwipeApi {
         @PathVariable(name = "song_id") final Long songId,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final List<SongResponse> response =
-            songService.findSongByIdForBeforeSwipe(songId, memberInfo);
+        final List<SongResponse> response = songService.findSongByIdForBeforeSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -49,8 +47,7 @@ public class SongSwipeController implements SongSwipeApi {
         @PathVariable(name = "song_id") final Long songId,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final List<SongResponse> response =
-            songService.findSongByIdForAfterSwipe(songId, memberInfo);
+        final List<SongResponse> response = songService.findSongByIdForAfterSwipe(songId, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -61,8 +58,7 @@ public class SongSwipeController implements SongSwipeApi {
         @RequestParam(name = "genre") final String genre,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final SongSwipeResponse response =
-            songService.findSongsByGenreForSwipe(songId, genre, memberInfo);
+        final SongSwipeResponse response = songService.findSongsByGenreForSwipe(songId, genre, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -73,8 +69,7 @@ public class SongSwipeController implements SongSwipeApi {
         @RequestParam(name = "genre") final String genre,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final List<SongResponse> response =
-            songService.findPrevSongsByGenre(songId, genre, memberInfo);
+        final List<SongResponse> response = songService.findPrevSongsByGenre(songId, genre, memberInfo);
 
         return ResponseEntity.ok(response);
     }
@@ -85,8 +80,7 @@ public class SongSwipeController implements SongSwipeApi {
         @RequestParam(name = "genre") final String genre,
         @Authenticated final MemberInfo memberInfo
     ) {
-        final List<SongResponse> response =
-            songService.findNextSongsByGenre(songId, genre, memberInfo);
+        final List<SongResponse> response = songService.findNextSongsByGenre(songId, genre, memberInfo);
 
         return ResponseEntity.ok(response);
     }
