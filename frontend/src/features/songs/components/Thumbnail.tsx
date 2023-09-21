@@ -12,7 +12,7 @@ const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
   };
 
   return (
-    <Wrapper size={size}>
+    <Wrapper $size={size}>
       <img {...props} alt="노래 앨범" aria-hidden loading="lazy" onError={insertDefaultJacket} />
     </Wrapper>
   );
@@ -20,10 +20,10 @@ const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
 
 export default Thumbnail;
 
-const Wrapper = styled.div<{ size: Size }>`
+const Wrapper = styled.div<{ $size: Size }>`
   overflow: hidden;
-  ${({ size }) => SIZE_VARIANTS[size]};
-  border-radius: 8px;
+  ${({ $size }) => SIZE_VARIANTS[$size]};
+  border-radius: 4px;
 `;
 
 const SIZE_VARIANTS = {
@@ -34,6 +34,10 @@ const SIZE_VARIANTS = {
   lg: css`
     width: 70px;
     height: 70px;
+  `,
+  xl: css`
+    width: 130px;
+    height: 130px;
   `,
 } as const;
 
