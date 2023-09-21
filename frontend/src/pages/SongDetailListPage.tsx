@@ -1,18 +1,26 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { styled } from 'styled-components';
+import swipeUpDown from '@/assets/icon/swipe-up-down.svg';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
 import {
   getExtraNextSongDetails,
   getExtraPrevSongDetails,
   getSongDetailEntries,
 } from '@/features/songs/remotes/songs';
+import useModal from '@/shared/components/Modal/hooks/useModal';
+import Modal from '@/shared/components/Modal/Modal';
+import Spacing from '@/shared/components/Spacing';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
+import useLocalStorage from '@/shared/hooks/useLocalStorage';
 import useValidParams from '@/shared/hooks/useValidParams';
 import createObserver from '@/shared/utils/createObserver';
 import type { Genre } from '@/features/songs/types/Song.type';
 
 const SongDetailListPage = () => {
+  const { isOpen, closeModal } = useModal(true);
+  const [onboarding, setOnboarding] = useLocalStorage<boolean>('onboarding', true);
+
   const { id: songIdParams, genre: genreParams } = useValidParams();
   const { data: songDetailEntries } = useFetch(() =>
     getSongDetailEntries(Number(songIdParams), genreParams as Genre)
@@ -49,6 +57,11 @@ const SongDetailListPage = () => {
     return Number(lastSongId);
   };
 
+  const closeCoachMark = () => {
+    setOnboarding(false);
+    closeModal();
+  };
+
   useEffect(() => {
     if (!prevTargetRef.current) return;
 
@@ -80,27 +93,42 @@ const SongDetailListPage = () => {
   const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   return (
-    <ItemContainer>
-      <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
+    <>
+      {onboarding && (
+        <Modal isOpen={isOpen} closeModal={closeCoachMark} css={{ backgroundColor: 'transparent' }}>
+          <Spacing direction="vertical" size={170} />
+          <img src={swipeUpDown} width="100px" />
+          <Spacing direction="vertical" size={30} />
+          <div style={{ fontSize: '18px' }}>위 아래로 스와이프하여 노래를 탐색해보세요!</div>
+          <Spacing direction="vertical" size={40} />
+          <Confirm type="button" onClick={closeCoachMark}>
+            확인
+          </Confirm>
+        </Modal>
+      )}
 
-      {extraPrevSongDetails?.map((extraPrevSongDetail) => (
-        <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
-      ))}
-      {prevSongs.map((prevSongDetail) => (
-        <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
-      ))}
+      <ItemContainer>
+        <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
 
-      <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
+        {extraPrevSongDetails?.map((extraPrevSongDetail) => (
+          <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
+        ))}
+        {prevSongs.map((prevSongDetail) => (
+          <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
+        ))}
 
-      {nextSongs.map((nextSongDetail) => (
-        <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
-      ))}
-      {extraNextSongDetails?.map((extraNextSongDetail) => (
-        <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
-      ))}
+        <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
 
-      <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
-    </ItemContainer>
+        {nextSongs.map((nextSongDetail) => (
+          <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
+        ))}
+        {extraNextSongDetails?.map((extraNextSongDetail) => (
+          <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
+        ))}
+
+        <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
+      </ItemContainer>
+    </>
   );
 };
 
@@ -140,4 +168,14 @@ export const ItemContainer = styled.div`
       scroll-snap-stop: always;
     }
   }
+`;
+
+const Confirm = styled.button`
+  width: 200px;
+  height: 40px;
+
+  color: ${({ theme: { color } }) => color.black};
+
+  background-color: ${({ theme: { color } }) => color.white};
+  border-radius: 10px;
 `;
