@@ -2,14 +2,16 @@ import { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { styled } from 'styled-components';
 import type { HTMLAttributes, PropsWithChildren, ReactElement } from 'react';
+import type { CSSProp } from 'styled-components';
 
 interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   closeModal: () => void;
   children: ReactElement | ReactElement[];
+  css?: CSSProp;
 }
 
-const Modal = ({ isOpen, closeModal, children }: PropsWithChildren<ModalProps>) => {
+const Modal = ({ isOpen, closeModal, children, css }: PropsWithChildren<ModalProps>) => {
   const closeByEsc = useCallback(
     ({ key }: KeyboardEvent) => {
       if (key === 'Escape') {
@@ -36,7 +38,9 @@ const Modal = ({ isOpen, closeModal, children }: PropsWithChildren<ModalProps>) 
       {isOpen && (
         <Wrapper>
           <Backdrop role="backdrop" onClick={closeModal} aria-hidden="true" />
-          <Container role="dialog">{children}</Container>
+          <Container role="dialog" css={css}>
+            {children}
+          </Container>
         </Wrapper>
       )}
     </>,
@@ -58,10 +62,10 @@ export const Backdrop = styled.div`
   margin: 0;
   padding: 0;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ css: CSSProp }>`
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
@@ -80,6 +84,8 @@ export const Container = styled.div`
   background-color: #17171c;
   border: none;
   border-radius: 16px;
+
+  ${(props) => props.css}
 `;
 
 export const Wrapper = styled.div`
