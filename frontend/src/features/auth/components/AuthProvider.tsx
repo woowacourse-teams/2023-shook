@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react';
+import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 import parseJWT from '../utils/parseJWT';
 
 interface User {
@@ -23,9 +24,8 @@ export const useAuthContext = () => {
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('userToken') || '');
+  const [accessToken, setAccessToken] = useState(accessTokenStorage.getToken() || '');
 
-  // TODO: 예외처리?
   const user: User | null = useMemo(() => {
     if (!accessToken) {
       return null;
@@ -40,12 +40,12 @@ const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
   }, [accessToken]);
 
   const login = (userToken: string) => {
-    localStorage.setItem('userToken', userToken);
+    accessTokenStorage.setToken(userToken);
     setAccessToken(userToken);
   };
 
   const logout = () => {
-    localStorage.removeItem('userToken');
+    accessTokenStorage.removeToken();
     setAccessToken('');
   };
 

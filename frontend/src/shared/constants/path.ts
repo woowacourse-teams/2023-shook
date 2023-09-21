@@ -3,7 +3,8 @@ const ROUTE_PATH = {
   COLLECT: 'collect',
   SONG_DETAILS: 'songs',
   LOGIN: '/login',
-  LOGIN_REDIRECT: '/login/redirect',
+  GOOGLE_REDIRECT: 'google/redirect',
+  KAKAO_REDIRECT: 'kakao/redirect',
   MY_PAGE: 'my-page',
   EDIT_PROFILE: 'my-page/edit',
 } as const;

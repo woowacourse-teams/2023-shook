@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
@@ -9,7 +8,6 @@ import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import ROUTE_PATH from '@/shared/constants/path';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
@@ -19,23 +17,17 @@ const VoteInterface = () => {
   const { showToast } = useToastContext();
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-  const navigate = useNavigate();
-  const { error, createKillingPart } = usePostKillingPart();
+
+  const { createKillingPart } = usePostKillingPart();
   const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
   const isLoggedIn = !!user;
-
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
     videoPlayer.current?.pauseVideo();
-
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
-    if (error) {
-      navigate(ROUTE_PATH.LOGIN);
-      return;
-    }
     openModal();
   };
 
@@ -74,10 +66,9 @@ const VoteInterface = () => {
         </Modal>
       ) : (
         <LoginModal
-          messageList={[
-            '슉에서 당신만의 킬링파트를 등록해보세요!',
-            '당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!',
-          ]}
+          message={
+            '슉에서 당신만의 킬링파트를 등록해보세요!\n당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!'
+          }
           isOpen={isOpen}
           closeModal={closeModal}
         />

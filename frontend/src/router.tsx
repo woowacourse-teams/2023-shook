@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import LoginPopupProvider from '@/features/auth/hooks/LoginPopUpContext';
 import EditProfilePage from '@/pages/EditProfilePage';
 import AuthPage from './pages/AuthPage';
 import LoginPage from './pages/LoginPage';
@@ -13,7 +14,11 @@ import ROUTE_PATH from './shared/constants/path';
 const router = createBrowserRouter([
   {
     path: ROUTE_PATH.ROOT,
-    element: <Layout />,
+    element: (
+      <LoginPopupProvider>
+        <Layout />
+      </LoginPopupProvider>
+    ),
     children: [
       {
         index: true,
@@ -36,12 +41,12 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: `${ROUTE_PATH.MY_PAGE}`,
-        element: <MyPage />,
-      },
-      {
         path: `${ROUTE_PATH.EDIT_PROFILE}`,
-        element: <EditProfilePage />,
+        element: (
+          <AuthLayout>
+            <EditProfilePage />
+          </AuthLayout>
+        ),
       },
     ],
   },
@@ -50,7 +55,7 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: `${ROUTE_PATH.LOGIN_REDIRECT}`,
+    path: `/:platform/redirect`,
     element: <AuthPage />,
   },
 ]);

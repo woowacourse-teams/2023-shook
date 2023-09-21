@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import path from '@/shared/constants/path';
+import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 
 interface AccessTokenResponse {
   accessToken: string;
@@ -9,18 +10,22 @@ interface AccessTokenResponse {
 
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
-  const { login } = useAuthContext();
+  const { platform } = useParams();
 
-  // TODO: 예외처리
+  const { login } = useAuthContext();
+  const navigate = useNavigate();
+
   const getAccessToken = async () => {
     const code = searchParams.get('code');
+
     if (!code) {
-      localStorage.removeItem('userToken');
-      window.location.href = googleAuthUrl;
+      accessTokenStorage.removeToken();
+      navigate(path.LOGIN);
+      alert('비정상적인 로그인입니다. 다시 로그인해주세요.');
       return;
     }
 
-    const response = await fetch(`${process.env.BASE_URL}/login/google?code=${code}`, {
+    const response = await fetch(`${process.env.BASE_URL}/login/${platform}?code=${code}`, {
       method: 'get',
       credentials: 'include',
     });
@@ -28,7 +33,9 @@ const AuthPage = () => {
     const data = (await response.json()) as AccessTokenResponse;
     const { accessToken } = data;
 
-    login(accessToken);
+    if (accessToken) {
+      login(accessToken);
+    }
   };
 
   useEffect(() => {
