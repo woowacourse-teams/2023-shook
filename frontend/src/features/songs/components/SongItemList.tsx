@@ -61,7 +61,7 @@ const SongList = styled.ol`
 const Li = styled.li`
   scroll-snap-align: center;
   scroll-snap-stop: normal;
-  max-width: 130px;
+  max-width: 120px;
 `;
 
 const StyledLink = styled(Link)`

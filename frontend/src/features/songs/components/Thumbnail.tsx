@@ -36,8 +36,8 @@ const SIZE_VARIANTS = {
     height: 70px;
   `,
   xl: css`
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
   `,
 } as const;
 
