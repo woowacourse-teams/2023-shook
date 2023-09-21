@@ -34,6 +34,9 @@ public class SongResponse {
     @Schema(description = "노래 앨범 커버 이미지 url", example = "https://image.com/album-cover.jpg")
     private final String albumCoverUrl;
 
+    @Schema(description = "노래 장르", example = "BALLAD")
+    private final String genre;
+
     @Schema(description = "킬링파트 3개")
     private final List<KillingPartResponse> killingParts;
 
@@ -45,6 +48,7 @@ public class SongResponse {
             song.getLength(),
             song.getVideoId(),
             song.getAlbumCoverUrl(),
+            song.getGenre().name(),
             toKillingPartResponses(song, member)
         );
     }

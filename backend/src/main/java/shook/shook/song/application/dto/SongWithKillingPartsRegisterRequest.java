@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 
@@ -40,12 +41,17 @@ public class SongWithKillingPartsRegisterRequest {
     @Positive
     private Integer length;
 
+    @Schema(description = "노래 장르", example = "댄스")
+    @NotBlank
+    private String genre;
+
     @Schema(description = "킬링파트 3개")
     @NotEmpty
     private List<KillingPartRegisterRequest> killingParts;
 
     public Song convertToSong() {
-        return new Song(title, videoId, imageUrl, singer, length, convertToKillingParts());
+        return new Song(title, videoId, imageUrl, singer, length, Genre.from(genre),
+            convertToKillingParts());
     }
 
     private KillingParts convertToKillingParts() {

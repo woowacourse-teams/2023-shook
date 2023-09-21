@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
@@ -23,6 +25,7 @@ import shook.shook.song.exception.SongDataFileReadException;
 @Component
 public class SongDataExcelReader {
 
+    private static final DataFormatter stringDataFormatter = new DataFormatter();
     private static final int VIDEO_ID_INDEX = 1;
     private static final int FIRST_PAGE_INDEX = 0;
     private static final int SONG_LENGTH_INDEX = 1;
@@ -60,7 +63,7 @@ public class SongDataExcelReader {
             throw new SongDataFileReadException();
         }
         Collections.reverse(songs);
-        
+
         return songs;
     }
 
@@ -76,10 +79,11 @@ public class SongDataExcelReader {
         final String title = getString(cellIterator);
         final String singer = getString(cellIterator);
         final String albumCoverUrl = getString(cellIterator);
+        final String genre = getString(cellIterator);
         final int length = getIntegerCell(cellIterator);
         final String videoUrl = getString(cellIterator);
 
-        if (isNotValidData(title, singer, albumCoverUrl, length, videoUrl)) {
+        if (isNotValidData(title, singer, albumCoverUrl, genre, length, videoUrl)) {
             return Optional.empty();
         }
 
@@ -87,11 +91,14 @@ public class SongDataExcelReader {
         final Optional<KillingParts> killingParts = getKillingParts(cellIterator);
 
         return killingParts.map(
-            parts -> new Song(title, videoId, albumCoverUrl, singer, length, parts));
+            parts -> new Song(title, videoId, albumCoverUrl, singer, length, Genre.from(genre),
+                parts));
     }
 
     private String getString(final Iterator<Cell> iterator) {
-        return iterator.next().getStringCellValue().trim();
+        final String cellValue = stringDataFormatter.formatCellValue(iterator.next());
+
+        return cellValue.trim();
     }
 
     private int getIntegerCell(final Iterator<Cell> iterator) {
@@ -102,13 +109,15 @@ public class SongDataExcelReader {
         final String title,
         final String singer,
         final String albumCoverUrl,
+        final String genre,
         final int length,
         final String videoUrl
     ) {
-        return title.isEmpty() ||
-            singer.isEmpty() ||
-            albumCoverUrl.isEmpty() ||
-            videoUrl.isEmpty() || !videoUrl.contains(videoUrlDelimiter) ||
+        return title.isBlank() ||
+            singer.isBlank() ||
+            albumCoverUrl.isBlank() ||
+            genre.isBlank() ||
+            videoUrl.isBlank() || !videoUrl.contains(videoUrlDelimiter) ||
             length == 0;
     }
 

@@ -2,6 +2,7 @@ package shook.shook.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +18,7 @@ import shook.shook.auth.application.dto.GoogleMemberInfoResponse;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.TokenException;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -35,7 +37,14 @@ class AuthServiceTest {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private InMemoryTokenPairRepository inMemoryTokenPairRepository;
+
     private TokenProvider tokenProvider;
+
+    private String refreshToken;
+
+    private String accessToken;
 
     private AuthService authService;
 
@@ -45,8 +54,11 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        authService = new AuthService(memberService, googleInfoProvider, tokenProvider);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
+        refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
+        accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
+        authService = new AuthService(memberService, googleInfoProvider, tokenProvider, inMemoryTokenPairRepository);
     }
 
     @AfterEach
@@ -80,19 +92,16 @@ class AuthServiceTest {
 
         assertThat(result.getAccessToken()).isEqualTo(accessToken);
         assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
+        assertDoesNotThrow(() -> inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken));
     }
 
-    @DisplayName("올바른 refresh 토큰이 들어오면 access 토큰을 재발급해준다.")
+    @DisplayName("올바른 refresh 토큰과 access 토큰이 들어오면 access 토큰을 재발급해준다.")
     @Test
     void success_reissue() {
         //given
-        final String refreshToken = tokenProvider.createRefreshToken(
-            savedMember.getId(),
-            savedMember.getNickname());
-
         //when
         final ReissueAccessTokenResponse result = authService.reissueAccessTokenByRefreshToken(
-            refreshToken);
+            refreshToken, accessToken);
 
         //then
         final String accessToken = tokenProvider.createAccessToken(
@@ -111,13 +120,13 @@ class AuthServiceTest {
             100L,
             "asdzzxcwetg2adfvssd3xZcZXCZvzx");
 
-        final String refreshToken = inValidTokenProvider.createRefreshToken(
+        final String wrongRefreshToken = inValidTokenProvider.createRefreshToken(
             savedMember.getId(),
             savedMember.getNickname());
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(wrongRefreshToken, accessToken))
             .isInstanceOf(TokenException.NotIssuedTokenException.class);
     }
 
@@ -136,7 +145,7 @@ class AuthServiceTest {
 
         //when
         //then
-        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken))
+        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken, accessToken))
             .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }

@@ -1,11 +1,8 @@
 package shook.shook.song.application;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,11 +15,12 @@ import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
+import shook.shook.song.domain.Genre;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
-import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
 import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
@@ -32,10 +30,12 @@ public class SongService {
 
     private static final int AFTER_SONGS_COUNT = 10;
     private static final int BEFORE_SONGS_COUNT = 10;
+    private static final int TOP_COUNT = 10;
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
     private final MemberRepository memberRepository;
+    private final InMemorySongs inMemorySongs;
     private final SongDataExcelReader songDataExcelReader;
 
     @Transactional
@@ -55,63 +55,28 @@ public class SongService {
     }
 
     public List<HighLikedSongResponse> showHighLikedSongs() {
-        final List<SongTotalLikeCountDto> songsWithLikeCount = songRepository.findAllWithTotalLikeCount();
+        final List<Song> songs = inMemorySongs.getSongs(TOP_COUNT);
 
-        return HighLikedSongResponse.ofSongTotalLikeCounts(
-            sortByHighestLikeCountAndId(songsWithLikeCount)
-        );
-    }
-
-    private List<SongTotalLikeCountDto> sortByHighestLikeCountAndId(
-        final List<SongTotalLikeCountDto> songWithLikeCounts
-    ) {
-        return songWithLikeCounts.stream()
-            .sorted(
-                Comparator.comparing(
-                    SongTotalLikeCountDto::getTotalLikeCount,
-                    Comparator.reverseOrder()
-                ).thenComparing(dto -> dto.getSong().getId(), Comparator.reverseOrder())
-            ).toList();
+        return HighLikedSongResponse.ofSongs(songs);
     }
 
     public SongSwipeResponse findSongByIdForFirstSwipe(
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
+        final Song currentSong = inMemorySongs.getSongById(songId);
 
-        final List<Song> beforeSongs = findBeforeSongs(currentSong);
-        final List<Song> afterSongs = findAfterSongs(currentSong);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, afterSongs);
-    }
-
-    private Song findSongById(final Long songId) {
-        return songRepository.findById(songId)
-            .orElseThrow(() -> new SongException.SongNotExistException(
-                Map.of("SongId", String.valueOf(songId))
-            ));
-    }
-
-    private List<Song> findBeforeSongs(final Song song) {
-        final List<Song> result = songRepository.findSongsWithMoreLikeCountThanSongWithId(
-            song.getId(), PageRequest.of(0, BEFORE_SONGS_COUNT)
-        );
-
-        Collections.reverse(result);
-        return result;
-    }
-
-    private List<Song> findAfterSongs(final Song song) {
-        return songRepository.findSongsWithLessLikeCountThanSongWithId(
-            song.getId(), PageRequest.of(0, AFTER_SONGS_COUNT)
-        );
     }
 
     private SongSwipeResponse convertToSongSwipeResponse(
         final MemberInfo memberInfo,
         final Song currentSong,
-        final List<Song> beforeSongs, final List<Song> afterSongs
+        final List<Song> beforeSongs,
+        final List<Song> afterSongs
     ) {
         final Authority authority = memberInfo.getAuthority();
 
@@ -137,10 +102,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
-
-        final List<Song> beforeSongs =
-            findBeforeSongs(currentSong);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, beforeSongs);
     }
@@ -168,10 +131,8 @@ public class SongService {
         final Long songId,
         final MemberInfo memberInfo
     ) {
-        final Song currentSong = findSongById(songId);
-
-        final List<Song> afterSongs =
-            findAfterSongs(currentSong);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, afterSongs);
     }
@@ -180,5 +141,58 @@ public class SongService {
     public void saveSongsFromExcelFile(final MultipartFile excel) {
         final List<Song> songs = songDataExcelReader.parseToSongs(excel);
         songs.forEach(this::saveSong);
+    }
+
+    public List<HighLikedSongResponse> findSongsByGenre(final String genreName) {
+        final Genre genre = Genre.findByName(genreName);
+        final List<Song> songs = inMemorySongs.getSortedSongsByGenre(genre, TOP_COUNT);
+
+        return HighLikedSongResponse.ofSongs(songs);
+    }
+
+    public SongSwipeResponse findSongsByGenreForSwipe(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
+            BEFORE_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
+
+        final Authority authority = memberInfo.getAuthority();
+
+        if (authority.isAnonymous()) {
+            return SongSwipeResponse.ofUnauthorizedUser(currentSong, prevSongs, nextSongs);
+        }
+
+        final Member member = findMemberById(memberInfo.getMemberId());
+        return SongSwipeResponse.of(member, currentSong, prevSongs, nextSongs);
+    }
+
+    public List<SongResponse> findPrevSongsByGenre(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
+            BEFORE_SONGS_COUNT);
+
+        return convertToSongResponses(memberInfo, prevSongs);
+    }
+
+    public List<SongResponse> findNextSongsByGenre(
+        final Long songId,
+        final String genreName,
+        final MemberInfo memberInfo
+    ) {
+        final Genre genre = Genre.findByName(genreName);
+        final Song currentSong = inMemorySongs.getSongById(songId);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
+
+        return convertToSongResponses(memberInfo, nextSongs);
     }
 }
