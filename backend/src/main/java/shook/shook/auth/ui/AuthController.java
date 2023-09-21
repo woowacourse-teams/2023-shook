@@ -3,6 +3,7 @@ package shook.shook.auth.ui;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import shook.shook.auth.ui.openapi.AuthApi;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AuthController implements AuthApi {
 
     private final AuthService authService;
@@ -26,7 +28,7 @@ public class AuthController implements AuthApi {
         @PathVariable("oauthType") final String oauthType,
         final HttpServletResponse response
     ) {
-        System.out.println("요청 들어오는 것인가?");
+        log.warn("로그인 요청 들어옴");
         final TokenPair tokenPair = authService.oAuthLogin(oauthType, authorizationCode);
         final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
         response.addCookie(cookie);
