@@ -115,13 +115,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleInternalServer(final Exception e) {
-//        final CustomException customException = CustomException.from(
-//            ErrorCode.INTERNAL_SERVER_ERROR);
-//
-//        log.error(e.toString());
-//
-//        return ResponseEntity.internalServerError().body(ErrorResponse.from(customException));
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleInternalServer(final Exception e) {
+        final CustomException customException = CustomException.from(
+            ErrorCode.INTERNAL_SERVER_ERROR);
+
+        log.error(e.toString());
+
+        return ResponseEntity.internalServerError().body(ErrorResponse.from(customException));
+    }
 }

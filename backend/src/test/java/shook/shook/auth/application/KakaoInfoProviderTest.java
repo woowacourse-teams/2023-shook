@@ -5,7 +5,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.test.web.client.MockRestServiceServer;
 import shook.shook.auth.exception.OAuthException;
 
-@Disabled
 @AutoConfigureWebClient(registerRestTemplate = true)
 @RestClientTest(value = {KakaoInfoProvider.class})
 class KakaoInfoProviderTest {

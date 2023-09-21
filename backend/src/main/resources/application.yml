@@ -66,6 +66,7 @@ excel:
 
 # Properties Only For local
 schedules:
-  cron: "0 0 0/1 * * *"
+  in-memory-token:
+    cron: "0 0 0/1 * * *"
   in-memory-song:
     cron: "0 0 0/1 * * *" #1시간

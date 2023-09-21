@@ -2,7 +2,6 @@ package shook.shook.auth.application;
 
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,6 @@ import shook.shook.auth.exception.OAuthException;
 
 @RequiredArgsConstructor
 @Component
-@Slf4j
 public class KakaoInfoProvider implements OAuthInfoProvider {
 
     private static final String TOKEN_PREFIX = "Bearer ";
@@ -63,25 +61,28 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
     }
 
     public String getAccessToken(final String authorizationCode) {
-        final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", GRANT_TYPE);
-        params.add("client_id", KAKAO_CLIENT_ID);
-        params.add("redirect_uri", LOGIN_REDIRECT_URL);
-        params.add("code", authorizationCode);
+        try {
+            final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("grant_type", GRANT_TYPE);
+            params.add("client_id", KAKAO_CLIENT_ID);
+            params.add("redirect_uri", LOGIN_REDIRECT_URL);
+            params.add("code", authorizationCode);
 
-        log.warn("received access code: {}", authorizationCode);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+            final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+            final ResponseEntity<KakaoAccessTokenResponse> response = restTemplate.postForEntity(
+                KAKAO_ACCESS_TOKEN_URL,
+                request,
+                KakaoAccessTokenResponse.class);
 
-        final ResponseEntity<KakaoAccessTokenResponse> response = restTemplate.postForEntity(
-            KAKAO_ACCESS_TOKEN_URL,
-            request,
-            KakaoAccessTokenResponse.class);
-
-        return Objects.requireNonNull(response.getBody()).getAccessToken();
-
+            return Objects.requireNonNull(response.getBody()).getAccessToken();
+        } catch (HttpClientErrorException e) {
+            throw new OAuthException.InvalidAuthorizationCodeException();
+        } catch (HttpServerErrorException e) {
+            throw new OAuthException.KakaoServerException();
+        }
     }
 }

@@ -4,7 +4,6 @@ import static org.mockito.BDDMockito.given;
 
 import io.restassured.RestAssured;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,7 +30,6 @@ class ControllerAdviceTest extends AcceptanceTest {
     @MockBean
     private SongService mockedService;
 
-    @Disabled
     @DisplayName("Controller Advice를 테스트한다.")
     @ParameterizedTest
     @MethodSource("exceptionTestData")

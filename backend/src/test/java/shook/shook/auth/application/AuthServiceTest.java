@@ -39,12 +39,6 @@ class AuthServiceTest {
     @MockBean
     private GoogleInfoProvider googleInfoProvider;
 
-    @MockBean
-    private KakaoInfoProvider kakaoInfoProvider;
-
-    @Autowired
-    private MemberService memberService;
-
     @Autowired
     private InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
@@ -62,12 +56,11 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        authService = new AuthService(memberService, oauthExecutionFinder, tokenProvider);
+        authService = new AuthService(memberService, oauthExecutionFinder, tokenProvider, inMemoryTokenPairRepository);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
-        authService = new AuthService(memberService, googleInfoProvider, tokenProvider, inMemoryTokenPairRepository);
     }
 
     @AfterEach
@@ -95,14 +88,6 @@ class AuthServiceTest {
         final Claims accessTokenClaims = tokenProvider.parseClaims(accessToken);
         final Claims refreshTokenClaims = tokenProvider.parseClaims(refreshToken);
 
-        final String accessToken = tokenProvider.createAccessToken(savedMember.getId(),
-            savedMember.getNickname());
-        final String refreshToken = tokenProvider.createRefreshToken(savedMember.getId(),
-            savedMember.getNickname());
-
-        assertThat(result.getAccessToken()).isEqualTo(accessToken);
-        assertThat(result.getRefreshToken()).isEqualTo(refreshToken);
-        assertDoesNotThrow(() -> inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken));
         assertThat(accessTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
         assertThat(accessTokenClaims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
         assertThat(refreshTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());

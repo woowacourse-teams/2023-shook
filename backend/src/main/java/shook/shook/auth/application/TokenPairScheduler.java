@@ -14,7 +14,7 @@ public class TokenPairScheduler {
     private final TokenProvider tokenProvider;
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
-    @Scheduled(cron = "${schedules.cron}")
+    @Scheduled(cron = "${schedules.in-memory-token.cron}")
     public void removeExpiredTokenPair() {
         final Set<String> refreshTokens = inMemoryTokenPairRepository.getTokenPairs().keySet();
         for (String refreshToken : refreshTokens) {
