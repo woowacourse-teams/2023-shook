@@ -16,7 +16,6 @@ const AuthPage = () => {
   const { login } = useAuthContext();
   const navigate = useNavigate();
 
-  // TODO: 예외처리
   const getAccessToken = async () => {
     const code = searchParams.get('code');
 
@@ -27,7 +26,6 @@ const AuthPage = () => {
       return;
     }
 
-    console.log('AuthPage_fetch_url', `${process.env.BASE_URL}/login/${platform}?code=${code}`);
     const response = await fetch(`${process.env.BASE_URL}/login/${platform}?code=${code}`, {
       method: 'get',
       credentials: 'include',
@@ -36,7 +34,6 @@ const AuthPage = () => {
     const data = (await response.json()) as AccessTokenResponse;
     const { accessToken } = data;
 
-    // accesstoken이 제대로 들어왔을 경
     if (accessToken) {
       login(accessToken);
     }

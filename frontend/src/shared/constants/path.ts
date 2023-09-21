@@ -9,6 +9,4 @@ const ROUTE_PATH = {
   EDIT_PROFILE: 'my-page/edit',
 } as const;
 
-//TODO: google redirect "google/redirect"
-
 export default ROUTE_PATH;

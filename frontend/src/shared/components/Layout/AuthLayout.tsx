@@ -10,7 +10,6 @@ const isValidToken = (accessToken: string) => {
 
   const { memberId, nickname } = parseJWT(accessToken);
 
-  // TODO: memberId와 url param Id 가 다를 때 다르게 처리해줄 것.
   if (!memberId || !nickname || typeof memberId !== 'number' || typeof nickname !== 'string') {
     return false;
   }
