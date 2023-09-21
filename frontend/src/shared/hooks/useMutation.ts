@@ -25,10 +25,9 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
         const responseBody = await mutateFn(...params);
         setData(responseBody);
       } catch (error) {
-        console.log('in mutation', 'error is...', error);
         if (error instanceof AuthError) {
           logout();
-          popupLoginModal();
+          popupLoginModal(error.code);
           return;
         }
         setError(error as Error);

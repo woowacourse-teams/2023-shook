@@ -23,10 +23,9 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
       const data = await fetcher();
       setData(data);
     } catch (error) {
-      console.log('in useFetch', 'error is...', error);
       if (error instanceof AuthError) {
         logout();
-        popupLoginModal();
+        popupLoginModal(error.code);
         return;
       }
       setError(error as Error);
