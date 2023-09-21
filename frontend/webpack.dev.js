@@ -25,7 +25,6 @@ module.exports = merge(common, {
               plugins: ['react-refresh/babel'],
             },
           },
-          'ts-loader',
         ],
       },
     ],
