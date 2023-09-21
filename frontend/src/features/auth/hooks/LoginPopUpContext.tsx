@@ -23,7 +23,7 @@ const LoginPopupProvider = ({ children }: PropsWithChildren) => {
   return (
     <LoginPopUpContext.Provider value={{ popupLoginModal }}>
       {children}
-      <LoginModal isOpen={isOpen} closeModal={closeModal} messageList={['로그인 하시겠습니까?']} />
+      <LoginModal isOpen={isOpen} closeModal={closeModal} message={'로그인 하시겠습니까?'} />
     </LoginPopUpContext.Provider>
   );
 };
