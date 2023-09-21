@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <PartCollectingPage />,
       },
       {
-        path: `${ROUTE_PATH.SONG_DETAILS}/:id`,
+        path: `${ROUTE_PATH.SONG_DETAILS}/:id/:genre`,
         element: <SongDetailListPage />,
       },
       {

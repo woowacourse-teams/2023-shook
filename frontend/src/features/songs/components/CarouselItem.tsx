@@ -41,41 +41,44 @@ const Wrapper = styled.li`
 const CollectingLink = styled(Link)`
   display: flex;
   justify-content: center;
-
   padding: 10px;
 `;
 
 const Album = styled.img`
   max-width: 120px;
   background-color: white;
+  border-radius: 4px;
 `;
 
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
+  justify-content: space-evenly;
 
   width: 150px;
+
   white-space: nowrap;
-  justify-content: space-evenly;
 `;
 
 const Title = styled.p`
   overflow: hidden;
+
+  max-width: 150px;
   margin-left: 0;
+
   font-size: 18px;
   font-weight: 700;
-  max-width: 150px;
-
   text-overflow: ellipsis;
 `;
 
 const Singer = styled.p`
   overflow: hidden;
-  margin-left: 0;
-  font-size: 14px;
-  max-width: 150px;
 
+  max-width: 150px;
+  margin-left: 0;
+
+  font-size: 14px;
   text-overflow: ellipsis;
 `;
 
