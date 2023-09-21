@@ -3,8 +3,8 @@ import type { ErrorResponse } from '@/shared/remotes';
 
 type FetchDirection = 'prev' | 'next';
 
-const useExtraFetch = <T, P>(
-  extraFetcher: (...params: P[]) => Promise<T[]>,
+const useExtraFetch = <T, P extends unknown[]>(
+  extraFetcher: (...params: P) => Promise<T[]>,
   fetchDirection: FetchDirection
 ) => {
   const [data, setData] = useState<T[]>([]);
@@ -12,7 +12,7 @@ const useExtraFetch = <T, P>(
   const [error, setError] = useState<ErrorResponse | null>(null);
 
   const fetchData = useCallback(
-    async (...params: P[]) => {
+    async (...params: P) => {
       setError(null);
       setIsLoading(true);
 
