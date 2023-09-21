@@ -1,4 +1,6 @@
 import parseJWT from '@/features/auth/utils/parseJWT';
+
+const ACCESS_TOKEN_KEY = 'userToken';
 interface AccessTokenPayload {
   sub: string;
   memberId: number;
@@ -7,24 +9,30 @@ interface AccessTokenPayload {
   exp: number;
 }
 
-const ACCESS_TOKEN_KEY = 'userToken';
+interface AccessCache {
+  accessToken: string;
+  payload: AccessTokenPayload;
+}
+
+// 은닉하기 위해 객체 밖으로 빼어냈습니다.
+let cache: AccessCache | null;
 
 const accessTokenStorage = {
   getTokenWithPayload() {
-    // token을 가져온다.
     const accessToken = this.getToken();
-    //1. token이 null일 경우
-    if (!accessToken) {
-      this.removeToken();
-      return null;
-    }
 
-    //3. token의 유효성을 검사한다.
     try {
-      return {
-        accessToken,
-        payload: this.parseToken(accessToken) as AccessTokenPayload,
-      };
+      if (!accessToken) throw new Error();
+
+      if (this.isCacheMissed(accessToken)) {
+        this.setCache(accessToken);
+      }
+
+      if (cache) {
+        return {
+          ...cache,
+        };
+      }
     } catch {
       this.removeToken();
       return null;
@@ -43,9 +51,19 @@ const accessTokenStorage = {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
   },
 
-  // jwt parsing을 시도하고 에러가 발생할 경우 false를 반환한다.
   parseToken(token: string) {
     return parseJWT(token);
+  },
+
+  isCacheMissed(accessToken: string) {
+    return !cache || cache.accessToken !== accessToken;
+  },
+
+  setCache(accessToken: string) {
+    cache = {
+      accessToken: accessToken,
+      payload: this.parseToken(accessToken) as AccessTokenPayload,
+    };
   },
 };
 
