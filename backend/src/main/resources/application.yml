@@ -67,5 +67,4 @@ schedules:
 
 server:
   tomcat:
-    threads:
-      min-spare: 200
+    max-connections: 200
