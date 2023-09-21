@@ -2,10 +2,12 @@ package shook.shook.auth.ui.openapi;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 
 @Tag(name = "AccessTokenReissue", description = "액세스 토큰 재발급 API")
@@ -19,13 +21,23 @@ public interface AccessTokenReissueApi {
         responseCode = "200",
         description = "액세스 토큰 재발급 성공"
     )
-    @Parameter(
-        name = "refreshToken",
-        description = "리프레시 토큰",
-        required = true
+    @Parameters(
+        value = {
+            @Parameter(
+                name = "refreshToken",
+                description = "리프레시 토큰",
+                required = true
+            ),
+            @Parameter(
+                name = "authorization",
+                description = "authorization 헤더",
+                required = true
+            )
+        }
     )
-    @GetMapping("/reissue")
+    @PostMapping("/reissue")
     ResponseEntity<ReissueAccessTokenResponse> reissueAccessToken(
-        final String refreshToken
+        final String refreshToken,
+        @RequestHeader("Authorization") final String authorization
     );
 }
