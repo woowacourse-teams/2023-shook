@@ -22,7 +22,6 @@ async function main() {
   }
 
   await loadIFrameApi();
-  // TODO: 웹 사이트 진입 시에 자동 로그인 (token 확인)
 
   const root = createRoot(document.getElementById('root') as HTMLElement);
 

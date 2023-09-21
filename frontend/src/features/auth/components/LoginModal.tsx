@@ -6,18 +6,14 @@ import ROUTE_PATH from '@/shared/constants/path';
 interface LoginModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  messageList: string[];
+  message: string;
 }
 
-const LoginModal = ({ isOpen, closeModal, messageList }: LoginModalProps) => {
+const LoginModal = ({ isOpen, closeModal, message }: LoginModalProps) => {
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
       <ModalTitle>로그인이 필요합니다</ModalTitle>
-      <>
-        {messageList.map((message) => {
-          return <ModalContent key={message}>{message}</ModalContent>;
-        })}
-      </>
+      <ModalContent>{message}</ModalContent>
       <ButtonContainer>
         <ConfirmButton type="button" onClick={closeModal}>
           닫기
@@ -38,8 +34,8 @@ const ModalContent = styled.div`
   margin: 16px 0;
 
   font-size: 16px;
+  line-height: 1.7;
   color: #b5b3bc;
-  text-align: center;
   white-space: pre-line;
 `;
 

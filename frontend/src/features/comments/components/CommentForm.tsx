@@ -70,7 +70,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
             />
             <LoginModal
               isOpen={isOpen}
-              messageList={['로그인하고 댓글을 작성해 보세요!']}
+              message={'로그인하고 댓글을 작성해 보세요!'}
               closeModal={closeLoginModal}
             />
           </>

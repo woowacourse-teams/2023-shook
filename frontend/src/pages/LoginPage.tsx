@@ -3,11 +3,19 @@ import { styled } from 'styled-components';
 import googleLogo from '@/assets/icon/google-logo.svg';
 import kakaoLogo from '@/assets/icon/kakao-logo.svg';
 import slogan from '@/assets/image/shook-slogan.jpg';
-import googleAuthUrl from '@/features/auth/constants/googleAuthUrl';
+import { googleAuthUrl, kakaoAuthUrl } from '@/features/auth/constants/authUrls';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 
 const LoginPage = () => {
+  const goToGoogleAuth = () => {
+    if (window.navigator.userAgent.match(/kakaotalk/i)) {
+      alert('카카오톡에서 구글 로그인은 불가능합니다.');
+      return;
+    }
+    window.location.href = googleAuthUrl;
+  };
+
   return (
     <LayoutContainer>
       <div>
@@ -17,20 +25,22 @@ const LoginPage = () => {
         </Link>
       </div>
       <LoginButtonContainer>
-        <LoginLink href={googleAuthUrl}>
-          <GoogleLogin type="button">
+        <GoogleLoginButton onClick={goToGoogleAuth}>
+          <GoogleLogin>
             <Spacing direction="horizontal" size={10} />
             <LoginLogo src={googleLogo} alt="google logo" />
             <LoginText>구글로 로그인하기</LoginText>
             <Spacing direction="horizontal" size={10} />
           </GoogleLogin>
+        </GoogleLoginButton>
+        <LoginLink href={kakaoAuthUrl}>
+          <KakaoLogin>
+            <Spacing direction="horizontal" size={10} />
+            <LoginLogo src={kakaoLogo} alt="google logo" />
+            <LoginText>카카오로 로그인하기</LoginText>
+            <Spacing direction="horizontal" size={10} />
+          </KakaoLogin>
         </LoginLink>
-        <KakaoLogin type="button" onClick={() => alert('카카오 로그인은 준비중입니다.')}>
-          <Spacing direction="horizontal" size={10} />
-          <LoginLogo src={kakaoLogo} alt="google logo" />
-          <LoginText>카카오로 로그인하기</LoginText>
-          <Spacing direction="horizontal" size={10} />
-        </KakaoLogin>
       </LoginButtonContainer>
       <div>
         <UnderLineAnchor
@@ -95,10 +105,11 @@ const MainLogo = styled.img`
   width: 500px;
 `;
 
-const LoginButton = styled.button`
+const PlatformName = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   width: 400px;
   height: 60px;
@@ -110,12 +121,20 @@ const LoginButton = styled.button`
   }
 `;
 
-const KakaoLogin = styled(LoginButton)`
+const KakaoLogin = styled(PlatformName)`
   background-color: ${({ theme: { color } }) => color.oauth.kakao};
 `;
 
-const GoogleLogin = styled(LoginButton)`
+const GoogleLogin = styled(PlatformName)`
   background-color: ${({ theme: { color } }) => color.oauth.google};
+`;
+
+const GoogleLoginButton = styled.button`
+  flex: 1;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    width: 100%;
+  }
 `;
 
 const LoginLink = styled.a`
