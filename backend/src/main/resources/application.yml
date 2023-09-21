@@ -64,3 +64,9 @@ excel:
 schedules:
   in-memory-song:
     cron: "0 0 0/1 * * *" #1시간
+
+server:
+  tomcat:
+    accept-count: 200
+    threads:
+      max: 200
