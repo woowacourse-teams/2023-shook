@@ -8,8 +8,8 @@ import {
   getExtraPrevSongDetails,
   getSongDetailEntries,
 } from '@/features/songs/remotes/songs';
-import CoachMark from '@/shared/components/CoachMark';
 import useModal from '@/shared/components/Modal/hooks/useModal';
+import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
@@ -79,7 +79,7 @@ const SongDetailListPage = () => {
 
   return (
     <>
-      <CoachMark isOpen={isOpen} closeModal={closeModal}>
+      <Modal isOpen={isOpen} closeModal={closeModal} css={{ backgroundColor: 'transparent' }}>
         <Spacing direction="vertical" size={170} />
         <img src={swipeUpDown} width="100px" />
         <Spacing direction="vertical" size={30} />
@@ -88,7 +88,7 @@ const SongDetailListPage = () => {
         <Confirm type="button" onClick={closeModal}>
           확인
         </Confirm>
-      </CoachMark>
+      </Modal>
 
       <ItemContainer>
         <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
