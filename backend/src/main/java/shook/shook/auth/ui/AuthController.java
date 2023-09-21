@@ -28,7 +28,7 @@ public class AuthController implements AuthApi {
         @PathVariable("oauthType") final String oauthType,
         final HttpServletResponse response
     ) {
-        log.warn("로그인 요청 들어옴");
+        log.warn("로그인 요청 들어옴: {}", authorizationCode);
         final TokenPair tokenPair = authService.oAuthLogin(oauthType, authorizationCode);
         final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
         response.addCookie(cookie);
