@@ -25,7 +25,7 @@ const SongItemList = ({ genre }: SongItemListProps) => {
         {songs?.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
           <Li key={id}>
             <StyledLink
-              to={`${ROUTE_PATH.SONG_DETAILS}/${id}`}
+              to={`${ROUTE_PATH.SONG_DETAILS}/${id}?genre=${genre}`}
               aria-label={`${GENRES[genre]} 장르 ${i + 1}등 ${singer} ${title}`}
             >
               <SongItem
