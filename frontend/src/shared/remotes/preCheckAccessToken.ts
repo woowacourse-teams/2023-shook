@@ -18,6 +18,7 @@ const preCheckAccessToken = async () => {
     }
 
     const response = await fetch(`${process.env.BASE_URL}/reissue`, {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
