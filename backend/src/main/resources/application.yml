@@ -67,4 +67,5 @@ schedules:
 
 server:
   tomcat:
-    max-connections: 200
+    threads:
+      max: 10
