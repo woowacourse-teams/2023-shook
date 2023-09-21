@@ -15,7 +15,7 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 
-@Tag(name = "Song", description = "노래 조회 API")
+@Tag(name = "Song Swipe", description = "노래 스와이프 조회 API")
 public interface SongSwipeApi {
 
     @Operation(
