@@ -1,6 +1,5 @@
 package shook.shook.song.domain;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -47,17 +46,10 @@ public class InMemorySongs {
     }
 
     public List<Song> getSortedSongsByGenre(final Genre genre) {
-        final List<Song> songsWithGenre = new ArrayList<>(songsSortedInLikeCountById.values()
+        return songsSortedInLikeCountById.values()
             .stream()
             .filter(song -> song.getGenre() == genre)
-            .toList());
-
-        songsWithGenre.sort(Comparator.comparing(
-            Song::getTotalLikeCount,
-            Comparator.reverseOrder()
-        ).thenComparing(Song::getId, Comparator.reverseOrder()));
-
-        return songsWithGenre;
+            .toList();
     }
 
     public List<Song> getSortedSongsByGenre(final Genre genre, final int limit) {
