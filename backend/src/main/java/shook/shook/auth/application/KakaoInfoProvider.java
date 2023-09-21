@@ -2,6 +2,7 @@ package shook.shook.auth.application;
 
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import shook.shook.auth.exception.OAuthException;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class KakaoInfoProvider implements OAuthInfoProvider {
 
     private static final String TOKEN_PREFIX = "Bearer ";
@@ -66,6 +68,8 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
         params.add("client_id", KAKAO_CLIENT_ID);
         params.add("redirect_uri", LOGIN_REDIRECT_URL);
         params.add("code", authorizationCode);
+
+        log.warn("received access code: {}", authorizationCode);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
