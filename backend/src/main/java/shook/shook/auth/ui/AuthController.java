@@ -20,7 +20,7 @@ public class AuthController implements AuthApi {
     private final AuthService authService;
     private final CookieProvider cookieProvider;
 
-    @GetMapping("{oauthType}/redirect")
+    @GetMapping("/login/{oauthType}")
     public ResponseEntity<LoginResponse> googleLogin(
         @RequestParam("code") final String authorizationCode,
         @PathVariable("oauthType") final String oauthType,
