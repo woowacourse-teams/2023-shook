@@ -15,7 +15,7 @@ interface SongItemListProps {
 const SongItemList = ({ genre }: SongItemListProps) => {
   const { data: songs } = useFetch<Song[]>(() => getHighLikedSongs(genre));
 
-  if (songs?.length === 0) return;
+  if (songs === null || songs?.length === 0) return;
 
   return (
     <>
