@@ -11,7 +11,6 @@ interface AccessTokenResponse {
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
   const { platform } = useParams();
-  console.log('AuthPage_param_platform', platform);
 
   const { login } = useAuthContext();
   const navigate = useNavigate();
