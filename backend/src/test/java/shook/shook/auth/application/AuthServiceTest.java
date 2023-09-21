@@ -31,7 +31,7 @@ class AuthServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private OAuthExecutionFinder oauthExecutionFinder;
+    private OAuthProviderFinder oauthProviderFinder;
 
     @Autowired
     private MemberService memberService;
@@ -56,7 +56,7 @@ class AuthServiceTest {
             100000L,
             1000000L,
             "asdfsdsvsdf2esvsdvsdvs23");
-        authService = new AuthService(memberService, oauthExecutionFinder, tokenProvider, inMemoryTokenPairRepository);
+        authService = new AuthService(memberService, oauthProviderFinder, tokenProvider, inMemoryTokenPairRepository);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
         refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());

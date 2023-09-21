@@ -21,9 +21,10 @@ import shook.shook.auth.exception.OAuthException;
 @Component
 public class KakaoInfoProvider implements OAuthInfoProvider {
 
+    private static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded;charset=utf-8";
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String GRANT_TYPE = "authorization_code";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
+
 
     @Value("${oauth2.kakao.access-token-url}")
     private String KAKAO_ACCESS_TOKEN_URL;
@@ -42,8 +43,7 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
     public String getMemberInfo(final String accessToken) {
         try {
             final HttpHeaders headers = new HttpHeaders();
-            headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
-
+            headers.set(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken);
             final HttpEntity<Object> request = new HttpEntity<>(headers);
             final ResponseEntity<KakaoMemberInfoResponse> response = restTemplate.exchange(
                 KAKAO_MEMBER_INFO_URL,
@@ -55,7 +55,7 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
             return String.valueOf(Objects.requireNonNull(response.getBody()).getId());
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
-        } catch (HttpServerErrorException e) {
+        } catch (HttpServerErrorException | NullPointerException e) {
             throw new OAuthException.KakaoServerException();
         }
     }
@@ -69,7 +69,7 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
             params.add("code", authorizationCode);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+            headers.set(HttpHeaders.CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED);
 
             final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
@@ -81,7 +81,7 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
             return Objects.requireNonNull(response.getBody()).getAccessToken();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAuthorizationCodeException();
-        } catch (HttpServerErrorException e) {
+        } catch (HttpServerErrorException | NullPointerException e) {
             throw new OAuthException.KakaoServerException();
         }
     }

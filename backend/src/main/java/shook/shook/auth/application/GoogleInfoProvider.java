@@ -22,7 +22,6 @@ public class GoogleInfoProvider implements OAuthInfoProvider {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String GRANT_TYPE = "authorization_code";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     @Value("${oauth2.google.access-token-url}")
     private String GOOGLE_ACCESS_TOKEN_URL;
@@ -45,7 +44,7 @@ public class GoogleInfoProvider implements OAuthInfoProvider {
     public String getMemberInfo(final String accessToken) {
         try {
             final HttpHeaders headers = new HttpHeaders();
-            headers.set(AUTHORIZATION_HEADER, TOKEN_PREFIX + accessToken);
+            headers.set(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken);
             final HttpEntity<Object> request = new HttpEntity<>(headers);
 
             final ResponseEntity<GoogleMemberInfoResponse> response = restTemplate.exchange(
@@ -58,7 +57,7 @@ public class GoogleInfoProvider implements OAuthInfoProvider {
             return Objects.requireNonNull(response.getBody()).getEmail();
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAccessTokenException();
-        } catch (HttpServerErrorException e) {
+        } catch (HttpServerErrorException | NullPointerException e) {
             throw new OAuthException.GoogleServerException();
         }
     }
@@ -82,7 +81,7 @@ public class GoogleInfoProvider implements OAuthInfoProvider {
 
         } catch (HttpClientErrorException e) {
             throw new OAuthException.InvalidAuthorizationCodeException();
-        } catch (HttpServerErrorException e) {
+        } catch (HttpServerErrorException | NullPointerException e) {
             throw new OAuthException.GoogleServerException();
         }
     }

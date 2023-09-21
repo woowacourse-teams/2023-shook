@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class KakaoMemberInfoResponse {
 
-    @JsonProperty("id")
     private Long id;
 }

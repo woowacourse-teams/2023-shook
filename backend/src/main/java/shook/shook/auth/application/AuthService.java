@@ -14,12 +14,12 @@ import shook.shook.member.domain.Member;
 public class AuthService {
 
     private final MemberService memberService;
-    private final OAuthExecutionFinder oauthExecutionFinder;
+    private final OAuthProviderFinder oauthProviderFinder;
     private final TokenProvider tokenProvider;
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
     public TokenPair oAuthLogin(final String oauthType, final String authorizationCode) {
-        final OAuthInfoProvider oAuthInfoProvider = oauthExecutionFinder.getOAuthInfoProvider(oauthType);
+        final OAuthInfoProvider oAuthInfoProvider = oauthProviderFinder.getOAuthInfoProvider(oauthType);
 
         final String accessTokenResponse = oAuthInfoProvider.getAccessToken(authorizationCode);
         final String memberInfo = oAuthInfoProvider.getMemberInfo(accessTokenResponse);

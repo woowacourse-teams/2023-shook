@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class OAuthExecutionFinder {
+public class OAuthProviderFinder {
 
     private final Map<OAuthType, OAuthInfoProvider> oauthExecution = new HashMap<>();
     private final KakaoInfoProvider kakaoInfoProvider;
