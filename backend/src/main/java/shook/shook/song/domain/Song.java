@@ -45,7 +45,7 @@ public class Song {
     @Embedded
     private SongLength length;
 
-    @Column(nullable = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
@@ -134,6 +134,10 @@ public class Song {
 
     public List<KillingPart> getLikeCountSortedKillingParts() {
         return killingParts.getKillingPartsSortedByLikeCount();
+    }
+
+    public int getTotalLikeCount() {
+        return killingParts.getKillingPartsTotalLikeCount();
     }
 
     @Override

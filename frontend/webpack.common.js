@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -40,6 +41,17 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: './public/assets/og', to: './static/og' }],
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          syntactic: true,
+        },
+      },
+      issue: {
+        include: [{ file: '**/src/**/*.{ts,tsx}' }],
+        exclude: [{ file: '**/*.test.{ts,tsx}' }],
+      },
     }),
   ],
   resolve: {

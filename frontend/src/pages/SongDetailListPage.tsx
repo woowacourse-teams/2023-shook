@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import swipeUpDown from '@/assets/icon/swipe-up-down.svg';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
@@ -14,14 +13,18 @@ import Spacing from '@/shared/components/Spacing';
 import useExtraFetch from '@/shared/hooks/useExtraFetch';
 import useFetch from '@/shared/hooks/useFetch';
 import useLocalStorage from '@/shared/hooks/useLocalStorage';
+import useValidParams from '@/shared/hooks/useValidParams';
 import createObserver from '@/shared/utils/createObserver';
+import type { Genre } from '@/features/songs/types/Song.type';
 
 const SongDetailListPage = () => {
   const { isOpen, closeModal } = useModal(true);
   const [onboarding, setOnboarding] = useLocalStorage<boolean>('onboarding', true);
 
-  const { id: songIdParams } = useParams();
-  const { data: songDetailEntries } = useFetch(() => getSongDetailEntries(Number(songIdParams)));
+  const { id: songIdParams, genre: genreParams } = useValidParams();
+  const { data: songDetailEntries } = useFetch(() =>
+    getSongDetailEntries(Number(songIdParams), genreParams as Genre)
+  );
 
   const { data: extraPrevSongDetails, fetchData: fetchExtraPrevSongDetails } = useExtraFetch(
     getExtraPrevSongDetails,
@@ -62,20 +65,24 @@ const SongDetailListPage = () => {
   useEffect(() => {
     if (!prevTargetRef.current) return;
 
-    const prevObserver = createObserver(() => fetchExtraPrevSongDetails(getFirstSongId()));
+    const prevObserver = createObserver(() =>
+      fetchExtraPrevSongDetails(getFirstSongId(), genreParams as Genre)
+    );
     prevObserver.observe(prevTargetRef.current);
 
     return () => prevObserver.disconnect();
-  }, [fetchExtraPrevSongDetails, songDetailEntries]);
+  }, [fetchExtraPrevSongDetails, songDetailEntries, genreParams]);
 
   useEffect(() => {
     if (!nextTargetRef.current) return;
 
-    const nextObserver = createObserver(() => fetchExtraNextSongDetails(getLastSongId()));
+    const nextObserver = createObserver(() =>
+      fetchExtraNextSongDetails(getLastSongId(), genreParams as Genre)
+    );
     nextObserver.observe(nextTargetRef.current);
 
     return () => nextObserver.disconnect();
-  }, [fetchExtraNextSongDetails, songDetailEntries]);
+  }, [fetchExtraNextSongDetails, songDetailEntries, genreParams]);
 
   useLayoutEffect(() => {
     itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });

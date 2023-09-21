@@ -137,4 +137,15 @@ public class SongException extends CustomException {
             super(ErrorCode.SONG_ALREADY_EXIST, inputValuesByProperty);
         }
     }
+
+    public static class SongGenreNotFoundException extends SongException {
+
+        public SongGenreNotFoundException() {
+            super(ErrorCode.WRONG_GENRE_TYPE);
+        }
+
+        public SongGenreNotFoundException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.WRONG_GENRE_TYPE, inputValuesByProperty);
+        }
+    }
 }

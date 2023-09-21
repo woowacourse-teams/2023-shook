@@ -1,6 +1,8 @@
 package shook.shook.song.domain;
 
 import java.util.Arrays;
+import java.util.Map;
+import shook.shook.song.exception.SongException;
 
 public enum Genre {
 
@@ -30,6 +32,13 @@ public enum Genre {
             .filter(genre -> genre.value.equalsIgnoreCase(name))
             .findFirst()
             .orElse(ETC);
+    }
+
+    public static Genre findByName(final String name) {
+        return Arrays.stream(values())
+            .filter(genre -> genre.name().equalsIgnoreCase(name))
+            .findFirst()
+            .orElseThrow(() -> new SongException.SongGenreNotFoundException(Map.of("genre", name)));
     }
 
     public String getValue() {

@@ -15,9 +15,13 @@ public enum ErrorCode {
     INVALID_AUTHORIZATION_CODE(1003, "올바르지 않은 authorization code 입니다."),
     INVALID_ACCESS_TOKEN(1004, "잘못된 구글 accessToken 입니다."),
     GOOGLE_SERVER_EXCEPTION(1005, "구글 서버에서 오류가 발생했습니다."),
-    REFRESH_TOKEN_NOT_FOUND_EXCEPTION(1006, "accessToken 을 재발급하기 위해서는 refreshToken 이 필요합니다."),
-    ACCESS_TOKEN_NOT_FOUND(1007, "accessToken이 필요합니다."),
-    UNAUTHENTICATED_EXCEPTION(1008, "권한이 없는 요청입니다."),
+    KAKAO_SERVER_EXCEPTION(1006, "카카오 서버에서 오류가 발생했습니다."),
+    REFRESH_TOKEN_NOT_FOUND_EXCEPTION(1007, "accessToken 을 재발급하기 위해서는 refreshToken 이 필요합니다."),
+    ACCESS_TOKEN_NOT_FOUND(1008, "accessToken이 필요합니다."),
+    UNAUTHENTICATED_EXCEPTION(1009, "권한이 없는 요청입니다."),
+    NOT_FOUND_OAUTH(1010, "현재 지원하지 않는 OAuth 요청입니다."),
+    INVALID_REFRESH_TOKEN(1011, "존재하지 않는 refreshToken 입니다."),
+    TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1012, "올바르지 않은 TokenPair 입니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 
@@ -48,6 +52,7 @@ public enum ErrorCode {
     TOO_LONG_SINGER_NAME(3010, "가수 이름은 50글자를 넘길 수 없습니다."),
     CAN_NOT_READ_SONG_DATA_FILE(3011, "노래 데이터 파일을 읽을 수 없습니다."),
     SONG_ALREADY_EXIST(3012, "등록하려는 노래가 이미 존재합니다."),
+    WRONG_GENRE_TYPE(3013, "잘못된 장르 타입입니다."),
 
     // 4000: 투표
     VOTING_PART_START_LESS_THAN_ZERO(4001, "파트의 시작 초는 0보다 작을 수 없습니다."),

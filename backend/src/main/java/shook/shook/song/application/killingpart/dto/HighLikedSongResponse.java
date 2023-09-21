@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
+import shook.shook.song.domain.Song;
 
 @Schema(description = "좋아요 순 노래 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,19 +27,21 @@ public class HighLikedSongResponse {
     @Schema(description = "총 좋아요 개수", example = "40")
     private final long totalLikeCount;
 
-    public static HighLikedSongResponse from(final SongTotalLikeCountDto songTotalVoteCountDto) {
+    @Schema(description = "노래 장르", example = "DANCE")
+    private final String genre;
+
+    private static HighLikedSongResponse from(final Song song) {
         return new HighLikedSongResponse(
-            songTotalVoteCountDto.getSong().getId(),
-            songTotalVoteCountDto.getSong().getTitle(),
-            songTotalVoteCountDto.getSong().getSinger(),
-            songTotalVoteCountDto.getSong().getAlbumCoverUrl(),
-            songTotalVoteCountDto.getTotalLikeCount()
+            song.getId(),
+            song.getTitle(),
+            song.getSinger(),
+            song.getAlbumCoverUrl(),
+            song.getTotalLikeCount(),
+            song.getGenre().name()
         );
     }
 
-    public static List<HighLikedSongResponse> ofSongTotalLikeCounts(
-        final List<SongTotalLikeCountDto> songs
-    ) {
+    public static List<HighLikedSongResponse> ofSongs(final List<Song> songs) {
         return songs.stream()
             .map(HighLikedSongResponse::from)
             .toList();

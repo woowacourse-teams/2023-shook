@@ -29,4 +29,18 @@ public class OAuthException extends CustomException {
             super(ErrorCode.GOOGLE_SERVER_EXCEPTION);
         }
     }
+
+    public static class KakaoServerException extends OAuthException {
+
+        public KakaoServerException() {
+            super(ErrorCode.GOOGLE_SERVER_EXCEPTION);
+        }
+    }
+
+    public static class OauthTypeNotFoundException extends OAuthException {
+
+        public OauthTypeNotFoundException() {
+            super(ErrorCode.NOT_FOUND_OAUTH);
+        }
+    }
 }
