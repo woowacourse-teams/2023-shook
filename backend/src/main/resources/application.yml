@@ -67,6 +67,5 @@ schedules:
 
 server:
   tomcat:
-    accept-count: 200
     threads:
-      max: 200
+      max: 400
