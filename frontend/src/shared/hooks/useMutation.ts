@@ -11,6 +11,11 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
   const { popupLoginModal } = useLoginPopup();
   const { logout } = useAuthContext();
 
+  // TODO: Error Boudary 적용 시에 주석을 사용해주세요.
+  // if (error) {
+  //   throw error;
+  // }
+
   const mutateData = useCallback(
     async (...params: P) => {
       setError(null);

@@ -10,9 +10,10 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
   const { popupLoginModal } = useLoginPopup();
   const { logout } = useAuthContext();
 
-  if (error) {
-    throw error;
-  }
+  // TODO: Error Boudary 적용 시에 주석을 사용해주세요.
+  // if (error) {
+  //   throw error;
+  // }
 
   const fetchData = useCallback(async () => {
     setError(null);
