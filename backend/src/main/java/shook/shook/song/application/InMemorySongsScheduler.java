@@ -25,6 +25,7 @@ public class InMemorySongsScheduler {
 
     @Scheduled(cron = "${schedules.in-memory-song.cron}")
     public void recreateCachedSong() {
+        log.info("InMemorySongsScheduler worked");
         inMemorySongs.recreate(songRepository.findAllWithKillingParts());
     }
 }
