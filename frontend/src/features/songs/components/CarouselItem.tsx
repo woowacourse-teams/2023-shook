@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import emptyPlay from '@/assets/icon/empty-play.svg';
+import Thumbnail from '@/features/songs/components/Thumbnail';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { toMinSecText } from '@/shared/utils/convertTime';
@@ -16,13 +17,13 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
   return (
     <Wrapper>
       <CollectingLink to={`${ROUTE_PATH.COLLECT}/${id}`}>
-        <Album src={albumCoverUrl} />
+        <Thumbnail src={albumCoverUrl} size="xl" borderRadius={0} />
         <Spacing direction={'horizontal'} size={24} />
         <Contents>
           <Title>{title}</Title>
           <Singer>{singer}</Singer>
           <PlayingTime>
-            <img src={emptyPlay} />
+            <PlayIcon src={emptyPlay} />
             <PlayingTimeText>{toMinSecText(videoLength)}</PlayingTimeText>
           </PlayingTime>
         </Contents>
@@ -42,12 +43,6 @@ const CollectingLink = styled(Link)`
   display: flex;
   justify-content: center;
   padding: 10px;
-`;
-
-const Album = styled.img`
-  max-width: 120px;
-  background-color: white;
-  border-radius: 4px;
 `;
 
 const Contents = styled.div`
@@ -91,3 +86,5 @@ const PlayingTime = styled.div`
 const PlayingTimeText = styled.p`
   padding-top: 2px;
 `;
+
+const PlayIcon = styled.img``;
