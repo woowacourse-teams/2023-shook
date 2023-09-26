@@ -9,6 +9,7 @@ import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContex
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
@@ -87,6 +88,16 @@ const KillingPartTrack = ({
     }
   };
 
+  const onLikeButton = () => {
+    sendGAEvent({
+      action: 'click_like',
+      category: 'like',
+      value: `${user?.memberId}`,
+    });
+
+    toggleKillingPartLikes();
+  };
+
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
@@ -110,7 +121,7 @@ const KillingPartTrack = ({
       </FLexContainer>
       <ButtonContainer>
         <LikeButton
-          onClick={isLoggedIn ? toggleKillingPartLikes : openModal}
+          onClick={isLoggedIn ? onLikeButton : openModal}
           aria-label={`${rank}등 킬링파트 좋아요 하기`}
         >
           <ButtonIcon src={heartIcon} alt="" />
