@@ -49,6 +49,10 @@ public class Member {
         this.nickname = new Nickname(newNickName);
     }
 
+    public void updateNickname(final Nickname newNickname) {
+        this.nickname = newNickname;
+    }
+
     public String getEmail() {
         return email.getValue();
     }

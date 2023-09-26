@@ -30,6 +30,7 @@ public class AuthController implements AuthApi {
         final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
         response.addCookie(cookie);
         final LoginResponse loginResponse = new LoginResponse(tokenPair.getAccessToken());
+
         return ResponseEntity.ok(loginResponse);
     }
 }

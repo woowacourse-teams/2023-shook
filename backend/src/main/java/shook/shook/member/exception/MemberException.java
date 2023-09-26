@@ -93,4 +93,15 @@ public class MemberException extends CustomException {
             super(ErrorCode.MEMBER_NOT_EXIST, inputValuesByProperty);
         }
     }
+
+    public static class ExistNicknameException extends MemberException {
+
+        public ExistNicknameException() {
+            super(ErrorCode.ALREADY_EXIST_NICKNAME);
+        }
+
+        public ExistNicknameException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.ALREADY_EXIST_NICKNAME, inputValuesByProperty);
+        }
+    }
 }

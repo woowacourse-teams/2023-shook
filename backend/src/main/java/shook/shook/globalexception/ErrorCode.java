@@ -22,6 +22,7 @@ public enum ErrorCode {
     NOT_FOUND_OAUTH(1010, "현재 지원하지 않는 OAuth 요청입니다."),
     INVALID_REFRESH_TOKEN(1011, "존재하지 않는 refreshToken 입니다."),
     TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1012, "올바르지 않은 TokenPair 입니다."),
+    ALREADY_EXIST_NICKNAME(1013, "존재하는 닉네임입니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 
@@ -60,7 +61,7 @@ public enum ErrorCode {
     VOTING_PART_END_OVER_SONG_LENGTH(4003, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
     INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5, 10, 15초 중 하나여야합니다."),
     VOTING_PART_DUPLICATE_START_AND_LENGTH_EXCEPTION(4005,
-        "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
+                                                     "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
     VOTING_SONG_PART_NOT_EXIST(4006, "투표 대상 파트가 존재하지 않습니다."),
 
     VOTING_SONG_PART_FOR_OTHER_SONG(4007, "해당 파트는 다른 노래의 파트입니다."),

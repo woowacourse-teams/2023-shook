@@ -2,15 +2,22 @@ package shook.shook.member.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static shook.shook.auth.ui.Authority.MEMBER;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.auth.application.TokenProvider;
+import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.AuthorizationException;
-import shook.shook.auth.ui.Authority;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.member.application.dto.NicknameUpdateRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
 import shook.shook.member.domain.repository.MemberRepository;
@@ -27,6 +34,9 @@ import shook.shook.support.UsingJpaTest;
 class MemberServiceTest extends UsingJpaTest {
 
     private static Member savedMember;
+    private static final long ACCESS_TOKEN_VALID_TIME = 12000L;
+    private static final long REFRESH_TOKEN_VALID_TIME = 6048000L;
+    private static final String SECRET_CODE = "2345asdfasdfsadfsdf243dfdsfsfs";
 
     @Autowired
     private MemberRepository memberRepository;
@@ -40,11 +50,17 @@ class MemberServiceTest extends UsingJpaTest {
     @Autowired
     private KillingPartLikeRepository likeRepository;
 
+    private TokenProvider tokenProvider;
+
     private MemberService memberService;
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberRepository, partCommentRepository, likeRepository);
+        tokenProvider = new TokenProvider(ACCESS_TOKEN_VALID_TIME,
+                                          REFRESH_TOKEN_VALID_TIME,
+                                          SECRET_CODE);
+        memberService = new MemberService(memberRepository, partCommentRepository, likeRepository, tokenProvider,
+                                          new InMemoryTokenPairRepository());
         savedMember = memberRepository.save(new Member("woowa@wooteco.com", "shook"));
     }
 
@@ -112,7 +128,7 @@ class MemberServiceTest extends UsingJpaTest {
         //then
         assertThatThrownBy(
             () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId(),
-                new Nickname(savedMember.getNickname() + "none")))
+                                                                   new Nickname(savedMember.getNickname() + "none")))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -124,7 +140,7 @@ class MemberServiceTest extends UsingJpaTest {
         //then
         assertThatThrownBy(
             () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId() + 1,
-                new Nickname(savedMember.getNickname())))
+                                                                   new Nickname(savedMember.getNickname())))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -136,7 +152,7 @@ class MemberServiceTest extends UsingJpaTest {
         //then
         assertThatThrownBy(
             () -> memberService.findByIdAndNicknameThrowIfNotExist(savedMember.getId() + 1,
-                new Nickname(savedMember.getNickname() + "none")))
+                                                                   new Nickname(savedMember.getNickname() + "none")))
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -152,7 +168,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         saveAndClearEntityManager();
         // when
-        memberService.deleteById(targetId, new MemberInfo(targetId, Authority.MEMBER));
+        memberService.deleteById(targetId, new MemberInfo(targetId, MEMBER));
 
         // then
         assertThat(likeRepository.findAllByMemberAndIsDeleted(savedMember, false)).isEmpty();
@@ -169,7 +185,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         // when, then
         assertThatThrownBy(() ->
-            memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, Authority.MEMBER))
+                               memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, MEMBER))
         ).isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -182,8 +198,91 @@ class MemberServiceTest extends UsingJpaTest {
 
         // when, then
         assertThatThrownBy(() ->
-            memberService.deleteById(targetMember.getId(),
-                new MemberInfo(requestMember.getId(), Authority.MEMBER))
+                               memberService.deleteById(targetMember.getId(),
+                                                        new MemberInfo(requestMember.getId(), MEMBER))
         ).isInstanceOf(AuthorizationException.UnauthenticatedException.class);
+    }
+
+    @DisplayName("닉네임을 변경한다.")
+    @Nested
+    class NicknameUpdate {
+
+        @DisplayName("변경할 닉네임으로 닉네임을 변경한다.")
+        @ValueSource(strings = {"newNickname", "newNickname123", "newNickname1234", "한글도20자를닉네임으로사용할수있습니다"})
+        @ParameterizedTest
+        void success_update(final String newNickname) {
+            // given
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
+
+            // when
+            final TokenPair tokenPair = memberService.updateNickname(savedMember.getId(),
+                                                                     new MemberInfo(savedMember.getId(), MEMBER),
+                                                                     request);
+
+            // then
+            assertThat(memberRepository.findById(savedMember.getId()).get().getNickname())
+                .isEqualTo(newNickname);
+            assertThat(tokenProvider.parseClaims(tokenPair.getAccessToken()))
+                .usingRecursiveComparison()
+                .ignoringFields("exp")
+                .isEqualTo(tokenProvider.parseClaims(tokenPair.getRefreshToken()));
+        }
+
+        @DisplayName("기존 닉네임과 동일한 닉네임으로 변경하는 경우, null 을 리턴한다.")
+        @Test
+        void success_updateNickname_same_nickname_before() {
+            // given
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(savedMember.getNickname());
+
+            // when
+            // then
+            assertThat(memberService.updateNickname(savedMember.getId(), new MemberInfo(savedMember.getId(), MEMBER),
+                                                    request)).isNull();
+        }
+
+        @DisplayName("변경할 닉네임이 중복되면 예외를 던진다.")
+        @Test
+        void fail_updateNickname_duplicate_nickname() {
+            // given
+            final Member newMember = memberRepository.save(new Member("temp@email", "shook2"));
+            final String newNickname = "shook";  // 중복된 닉네임
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
+            final MemberInfo newMemberInfo = new MemberInfo(newMember.getId(), MEMBER);
+
+            // when
+            // then
+            assertThatThrownBy(() -> memberService.updateNickname(newMember.getId(), newMemberInfo, request))
+                .isInstanceOf(MemberException.ExistNicknameException.class);
+        }
+
+        @DisplayName("닉네임이 빈 문자열이면 예외를 던진다.")
+        @ValueSource(strings = {"", " ", "  ", "\r", "\n", "\t"})
+        @ParameterizedTest
+        void fail_updateNickname_empty_nickname(final String emptyValue) {
+            // given
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(emptyValue);
+
+            // when
+            // then
+            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
+                                                                  new MemberInfo(savedMember.getId(), MEMBER),
+                                                                  request))
+                .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
+        }
+
+        @DisplayName("변경할 닉네임 길이가 20자를 초과하면 예외를 던진다.")
+        @ValueSource(strings = {"veryverylonglonglongnickname", "123456789012345678901", "입력한닉네임이너무길어서업데이트할수없어요"})
+        @ParameterizedTest
+        void fail_updateNickname_too_long_nickname(final String tooLongNickname) {
+            // given
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(tooLongNickname);
+
+            // when
+            // then
+            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
+                                                                  new MemberInfo(savedMember.getId(), MEMBER),
+                                                                  request))
+                .isInstanceOf(MemberException.TooLongNicknameException.class);
+        }
     }
 }
