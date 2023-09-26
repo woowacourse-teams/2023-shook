@@ -10,6 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.domain.VotingSong;
@@ -18,6 +20,10 @@ import shook.shook.voting_song.domain.VotingSongPart;
 class VotingSongPartRepositoryTest extends UsingJpaTest {
 
     private static VotingSong SAVED_SONG;
+    private static Member MEMBER;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private VotingSongPartRepository votingSongPartRepository;
@@ -27,6 +33,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
+        MEMBER = memberRepository.save(new Member("a@a.com", "nickname"));
         SAVED_SONG = votingSongRepository.save(
             new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30));
     }
@@ -35,8 +42,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(MEMBER, 14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
@@ -50,8 +56,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(MEMBER, 14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -67,15 +72,14 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void findAllBySong() {
         //given
-        final VotingSongPart firstPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
-        final VotingSongPart secondPart = VotingSongPart.forSave(5, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart firstPart = VotingSongPart.forSave(MEMBER, 1, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart secondPart = VotingSongPart.forSave(MEMBER, 5, PartLength.SHORT, SAVED_SONG);
         votingSongPartRepository.save(firstPart);
         votingSongPartRepository.save(secondPart);
 
         //when
         saveAndClearEntityManager();
-        final List<VotingSongPart> allBySong =
-            votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
+        final List<VotingSongPart> allBySong = votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
 
         //then
         assertThat(allBySong).containsAll(List.of(firstPart, secondPart));
@@ -89,7 +93,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
         @Test
         void findOnePart() {
             // given
-            final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart part = VotingSongPart.forSave(MEMBER, 1, PartLength.SHORT, SAVED_SONG);
             votingSongPartRepository.save(part);
 
             // when
@@ -108,5 +112,25 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
             // then
             assertThat(votingSongPartRepository.findById(1L)).isEmpty();
         }
+    }
+
+    @DisplayName("등록중인 노래, 등록한 멤버, 시작시간, 길이가 같은 파트가 존재하는지 반환한다.")
+    @Test
+    void existsByVotingSongAndMemberAndStartSecondAndLength() {
+        //given
+        final VotingSongPart part = VotingSongPart.forSave(MEMBER, 1, PartLength.SHORT, SAVED_SONG);
+        votingSongPartRepository.save(part);
+
+        //when
+        saveAndClearEntityManager();
+        final boolean isMemberSamePartExist = votingSongPartRepository.existsByVotingSongAndMemberAndStartSecondAndLength(
+            part.getVotingSong(),
+            part.getMember(),
+            part.getStartSecond(),
+            part.getLength()
+        );
+
+        //then
+        assertThat(isMemberSamePartExist).isTrue();
     }
 }
