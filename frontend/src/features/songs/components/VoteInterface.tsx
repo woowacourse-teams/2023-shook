@@ -52,8 +52,8 @@ const VoteInterface = () => {
 
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>
-          <div>{user?.nickname}님의</div>
-          <div>킬링파트 등록을 완료했습니다.</div>
+          <TitleColumn>{user?.nickname}님의</TitleColumn>
+          <TitleColumn>킬링파트 등록을 완료했습니다.</TitleColumn>
         </ModalTitle>
         <ModalContent>
           <Message>{voteTimeText}</Message>
@@ -104,6 +104,10 @@ const Register = styled.button`
 `;
 
 const ModalTitle = styled.h3``;
+
+const TitleColumn = styled.div`
+  text-align: center;
+`;
 
 const ModalContent = styled.div`
   padding: 16px 0;
