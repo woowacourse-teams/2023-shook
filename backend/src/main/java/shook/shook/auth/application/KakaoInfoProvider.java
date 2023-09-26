@@ -25,7 +25,6 @@ public class KakaoInfoProvider implements OAuthInfoProvider {
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String GRANT_TYPE = "authorization_code";
 
-
     @Value("${oauth2.kakao.access-token-url}")
     private String KAKAO_ACCESS_TOKEN_URL;
 
