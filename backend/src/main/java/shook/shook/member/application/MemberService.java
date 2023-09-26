@@ -100,6 +100,7 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public TokenPair updateNickname(final Long memberId, final MemberInfo memberInfo,
         final NicknameUpdateRequest request) {
         final Member member = getMemberIfValidRequest(memberId, memberInfo);

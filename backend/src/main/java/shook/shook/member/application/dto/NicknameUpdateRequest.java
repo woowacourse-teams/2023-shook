@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Schema(description = "닉네임 변경 요청")
-@AllArgsConstructor
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
 public class NicknameUpdateRequest {
 
