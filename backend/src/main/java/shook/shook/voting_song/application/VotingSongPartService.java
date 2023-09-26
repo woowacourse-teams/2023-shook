@@ -4,6 +4,10 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.part.domain.PartLength;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 import shook.shook.voting_song.domain.Vote;
@@ -20,27 +24,56 @@ import shook.shook.voting_song.exception.VotingSongPartException;
 @Service
 public class VotingSongPartService {
 
+    private final MemberRepository memberRepository;
     private final VotingSongRepository votingSongRepository;
     private final VotingSongPartRepository votingSongPartRepository;
     private final VoteRepository voteRepository;
 
     @Transactional
-    public void register(final Long votingSongId, final VotingSongPartRegisterRequest request) {
-        final VotingSong votingSong = votingSongRepository.findById(votingSongId)
-            .orElseThrow(() -> new VotingSongException.VotingSongNotExistException(
-                Map.of("VotingSongId", String.valueOf(votingSongId))
-            ));
-
+    public boolean registerAndReturnMemberPartDuplication(final MemberInfo memberInfo,
+                                                          final Long votingSongId,
+                                                          final VotingSongPartRegisterRequest request) {
+        final long memberId = memberInfo.getMemberId();
+        final Member member = findMemberThrowIfNotExist(memberId);
+        final VotingSong votingSong = findVotingSongThrowIfNotExist(votingSongId);
         final int startSecond = request.getStartSecond();
         final PartLength partLength = PartLength.findBySecond(request.getLength());
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(startSecond, partLength, votingSong);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(member, startSecond, partLength, votingSong);
 
+        if (isMemberSamePartExist(votingSongPart)) {
+            return true;
+        }
+        votePart(votingSong, votingSongPart);
+        return false;
+    }
+
+    private Member findMemberThrowIfNotExist(final Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotExistException::new);
+    }
+
+    private VotingSong findVotingSongThrowIfNotExist(final Long votingSongId) {
+        return votingSongRepository.findById(votingSongId)
+            .orElseThrow(() -> {
+                final Map<String, String> errorProperties = Map.of("VotingSongId", String.valueOf(votingSongId));
+                return new VotingSongException.VotingSongNotExistException(errorProperties);
+            });
+    }
+
+    private boolean isMemberSamePartExist(final VotingSongPart votingSongPart) {
+        return votingSongPartRepository.existsByVotingSongAndMemberAndStartSecondAndLength(
+            votingSongPart.getVotingSong(),
+            votingSongPart.getMember(),
+            votingSongPart.getStartSecond(),
+            votingSongPart.getLength()
+        );
+    }
+
+    private void votePart(final VotingSong votingSong, final VotingSongPart votingSongPart) {
         if (votingSong.isUniquePart(votingSongPart)) {
             addPartAndVote(votingSong, votingSongPart);
             return;
         }
-
         voteToExistPart(votingSong, votingSongPart);
     }
 
