@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -19,6 +20,8 @@ const VoteInterface = () => {
   const { createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
 
+  const { user } = useAuthContext();
+
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
@@ -36,6 +39,8 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>당신의 킬링파트를 등록하세요</RegisterTitle>
+      <Spacing direction="vertical" size={4} />
+      <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={16} />
       <KillingPartToggleGroup />
       <Spacing direction="vertical" size={24} />
@@ -46,7 +51,10 @@ const VoteInterface = () => {
       </Register>
 
       <Modal isOpen={isOpen} closeModal={closeModal}>
-        <ModalTitle>킬링파트 등록을 완료했습니다.</ModalTitle>
+        <ModalTitle>
+          <div>{user?.nickname}님의</div>
+          <div>킬링파트 등록을 완료했습니다.</div>
+        </ModalTitle>
         <ModalContent>
           <Message>{voteTimeText}</Message>
           <Message>파트를 공유해 보세요😀</Message>
@@ -133,4 +141,8 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 16px;
   width: 100%;
+`;
+
+const Warning = styled.div`
+  color: ${({ theme: { color } }) => color.subText};
 `;
