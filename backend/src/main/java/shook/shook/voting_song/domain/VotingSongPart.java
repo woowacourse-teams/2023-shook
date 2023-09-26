@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
 import shook.shook.voting_song.exception.VoteException;
@@ -48,7 +48,6 @@ public class VotingSongPart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voting_song_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
-    @Getter(AccessLevel.NONE)
     private VotingSong votingSong;
 
     @OneToMany(mappedBy = "votingSongPart")
@@ -57,6 +56,10 @@ public class VotingSongPart {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    private Member member;
+
     @PrePersist
     private void prePersist() {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -64,11 +67,13 @@ public class VotingSongPart {
 
     private VotingSongPart(
         final Long id,
+        final Member member,
         final int startSecond,
         final PartLength length,
         final VotingSong votingSong
     ) {
         this.id = id;
+        this.member = member;
         this.startSecond = startSecond;
         this.length = length;
         this.votingSong = votingSong;
@@ -76,12 +81,13 @@ public class VotingSongPart {
 
     public static VotingSongPart saved(
         final Long id,
+        final Member member,
         final int startSecond,
         final PartLength length,
         final VotingSong votingSong
     ) {
         validateStartSecond(startSecond, length, votingSong.getLength());
-        return new VotingSongPart(id, startSecond, length, votingSong);
+        return new VotingSongPart(id, member, startSecond, length, votingSong);
     }
 
     private static void validateStartSecond(
@@ -110,12 +116,13 @@ public class VotingSongPart {
     }
 
     public static VotingSongPart forSave(
+        final Member member,
         final int startSecond,
         final PartLength length,
         final VotingSong votingSong
     ) {
         validateStartSecond(startSecond, length, votingSong.getLength());
-        return new VotingSongPart(null, startSecond, length, votingSong);
+        return new VotingSongPart(null, member, startSecond, length, votingSong);
     }
 
     public void vote(final Vote vote) {

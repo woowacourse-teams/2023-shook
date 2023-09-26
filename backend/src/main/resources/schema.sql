@@ -92,3 +92,5 @@ alter table song
     add column genre varchar(255) check
         (genre in ('BALLAD', 'DANCE', 'HIPHOP', 'RHYTHM_AND_BLUES', 'INDIE', 'ROCK_METAL', 'TROT',
                    'FOLK_BLUES', 'POP', 'JAZZ', 'CLASSIC', 'J_POP', 'EDM', 'ETC'));
+alter table voting_song_part
+    add column member_id bigint not null;
