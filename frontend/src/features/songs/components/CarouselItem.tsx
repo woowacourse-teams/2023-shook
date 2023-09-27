@@ -87,4 +87,8 @@ const PlayingTimeText = styled.p`
   padding-top: 2px;
 `;
 
-const PlayIcon = styled.img``;
+const PlayIcon = styled.img`
+  width: 16px;
+  height: 16px;
+  margin: auto;
+`;
