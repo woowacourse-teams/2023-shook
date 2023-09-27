@@ -1,16 +1,14 @@
 interface GAProps {
   action: string;
   category?: string;
-  label?: string;
-  value?: string;
+  memberId?: number;
 }
 
-const sendGAEvent = ({ action, category = '', label = '', value = '' }: GAProps) => {
+export const sendGAEvent = ({ action, category, memberId }: GAProps) => {
   if ('gtag' in window) {
     window?.gtag('event', action, {
       event_category: category,
-      event_label: label,
-      value: value,
+      member_id: memberId,
     });
   }
 };
