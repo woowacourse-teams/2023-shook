@@ -248,8 +248,8 @@ class MemberServiceTest extends UsingJpaTest {
         void fail_updateNickname_duplicate_nickname() {
             // given
             final Member newMember = memberRepository.save(new Member("temp@email", "shook2"));
-            final String newNickname = "shook";  // 중복된 닉네임
-            final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
+            final String duplicateNickname = "shook";
+            final NicknameUpdateRequest request = new NicknameUpdateRequest(duplicateNickname);
             final MemberInfo newMemberInfo = new MemberInfo(newMember.getId(), Authority.MEMBER);
 
             // when
