@@ -37,7 +37,7 @@ class NicknameTest {
     @Test
     void create_fail_lengthOver20() {
         //given
-        final String nickname = ".".repeat(101);
+        final String nickname = ".".repeat(21);
 
         //when
         //then
