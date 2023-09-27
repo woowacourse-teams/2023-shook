@@ -17,7 +17,7 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
   return (
     <Wrapper>
       <CollectingLink to={`${ROUTE_PATH.COLLECT}/${id}`}>
-        <Thumbnail src={albumCoverUrl} size="xl" borderRadius={0} />
+        <Thumbnail src={albumCoverUrl} size="xl" borderRadius={4} />
         <Spacing direction={'horizontal'} size={24} />
         <Contents>
           <Title>{title}</Title>
@@ -28,6 +28,7 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
           </PlayingTime>
         </Contents>
       </CollectingLink>
+      가
     </Wrapper>
   );
 };
