@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
@@ -58,8 +59,8 @@ class VotingSongPartControllerTest {
         RestAssured.given().log().all()
             .contentType(ContentType.JSON)
             .body(request)
-            .header("Authorization", "Bearer " + accessToken)
-            .when().log().all().post("/voting-songs/" + votingSong.getId() + "/parts")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            .when().log().all().post("/voting-songs/{songId}/parts", votingSong.getId())
             .then().statusCode(HttpStatus.CREATED.value());
     }
 
@@ -78,8 +79,8 @@ class VotingSongPartControllerTest {
         RestAssured.given().log().all()
             .contentType(ContentType.JSON)
             .body(request)
-            .header("Authorization", "Bearer " + accessToken)
-            .when().log().all().post("/voting-songs/" + votingSong.getId() + "/parts")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            .when().log().all().post("/voting-songs/{songId}/parts", votingSong.getId())
             .then().statusCode(HttpStatus.OK.value());
     }
 
