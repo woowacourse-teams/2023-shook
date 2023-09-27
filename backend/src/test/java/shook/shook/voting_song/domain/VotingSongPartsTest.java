@@ -17,8 +17,8 @@ class VotingSongPartsTest {
     void create_fail_duplicatePartExist() {
         //given
         final VotingSong votingSong = new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30);
-        final VotingSongPart firstPart = VotingSongPart.saved(1L, MEMBER, 5, PartLength.SHORT, votingSong);
-        final VotingSongPart secondPart = VotingSongPart.forSave(MEMBER, 5, PartLength.SHORT, votingSong);
+        final VotingSongPart firstPart = VotingSongPart.saved(1L, 5, PartLength.SHORT, votingSong);
+        final VotingSongPart secondPart = VotingSongPart.forSave(5, PartLength.SHORT, votingSong);
 
         final VotingSongParts votingSongParts = new VotingSongParts();
         votingSongParts.addPart(firstPart);

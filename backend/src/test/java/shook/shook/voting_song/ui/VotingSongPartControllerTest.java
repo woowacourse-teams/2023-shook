@@ -12,13 +12,13 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
+import shook.shook.auth.ui.Authority;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.part.domain.PartLength;
+import shook.shook.voting_song.application.VotingSongPartService;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 import shook.shook.voting_song.domain.VotingSong;
-import shook.shook.voting_song.domain.VotingSongPart;
-import shook.shook.voting_song.domain.repository.VotingSongPartRepository;
 import shook.shook.voting_song.domain.repository.VotingSongRepository;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
@@ -43,7 +43,7 @@ class VotingSongPartControllerTest {
     private VotingSongRepository votingSongRepository;
 
     @Autowired
-    private VotingSongPartRepository votingSongPartRepository;
+    private VotingSongPartService votingSongPartService;
 
     @DisplayName("투표중인 노래에 파트를 등록 성공시 201 상태코드를 반환한다.")
     @Test
@@ -71,7 +71,7 @@ class VotingSongPartControllerTest {
         final String accessToken = getToken(1L, "nickname");
         final Member member = getMember();
         final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 10);
-        addPart(votingSong, member, request);
+        addPartAndVote(votingSong, member, request);
 
         //when
         //then
@@ -95,8 +95,13 @@ class VotingSongPartControllerTest {
         return memberRepository.findById(1L).orElseThrow(RuntimeException::new);
     }
 
-    private void addPart(final VotingSong song, final Member member, final VotingSongPartRegisterRequest request) {
-        final PartLength length = PartLength.findBySecond(request.getLength());
-        votingSongPartRepository.save(VotingSongPart.forSave(member, request.getStartSecond(), length, song));
+    private void addPartAndVote(final VotingSong song,
+                                final Member member,
+                                final VotingSongPartRegisterRequest request) {
+        votingSongPartService.registerAndReturnMemberPartDuplication(
+            new MemberInfo(member.getId(), Authority.MEMBER),
+            song.getId(),
+            request
+        );
     }
 }

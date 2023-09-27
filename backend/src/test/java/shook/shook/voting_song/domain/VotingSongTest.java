@@ -5,21 +5,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.voting_song.exception.VotingSongPartException;
 
 class VotingSongTest {
-
-    private static Member MEMBER = new Member("a@a.com", "nickname");
 
     @DisplayName("파트 수집 중인 노래에 파트를 등록한다. ( 노래에 해당하는 파트일 때 )")
     @Test
     void addPart_valid() {
         //given
         final VotingSong votingSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(MEMBER, 1, PartLength.STANDARD, votingSong);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(1, PartLength.STANDARD, votingSong);
 
         //when
         votingSong.addPart(votingSongPart);
@@ -34,8 +30,7 @@ class VotingSongTest {
         //given
         final VotingSong firstSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
         final VotingSong secondSong = new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180);
-        final VotingSongPart partInSecondSong =
-            VotingSongPart.forSave(MEMBER, 1, PartLength.STANDARD, secondSong);
+        final VotingSongPart partInSecondSong = VotingSongPart.forSave(1, PartLength.STANDARD, secondSong);
 
         //when
         //then
