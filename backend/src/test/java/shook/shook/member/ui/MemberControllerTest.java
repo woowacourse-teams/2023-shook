@@ -37,8 +37,8 @@ class MemberControllerTest extends AcceptanceTest {
 
         // when, then
         RestAssured.given().log().all()
-            .when().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            .when().log().all()
             .delete("/members/{member_id}", member.getId())
             .then().log().all()
             .statusCode(HttpStatus.NO_CONTENT.value());
@@ -55,8 +55,8 @@ class MemberControllerTest extends AcceptanceTest {
 
         // when, then
         RestAssured.given().log().all()
-            .when().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            .when().log().all()
             .delete("/members/{member_id}", member.getId())
             .then().log().all()
             .statusCode(HttpStatus.FORBIDDEN.value());
@@ -73,10 +73,10 @@ class MemberControllerTest extends AcceptanceTest {
         // when
         // then
         final ReissueAccessTokenResponse response = RestAssured.given().log().all()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
             .body(request)
             .when().log().all()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .patch("/members/{member_id}/nickname", member.getId())
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
@@ -100,10 +100,10 @@ class MemberControllerTest extends AcceptanceTest {
         // when
         // then
         RestAssured.given().log().all()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
             .body(request)
             .when().log().all()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .patch("/members/{member_id}/nickname", member.getId())
             .then().log().all()
             .statusCode(HttpStatus.NO_CONTENT.value());
@@ -124,10 +124,10 @@ class MemberControllerTest extends AcceptanceTest {
         // when
         // then
         RestAssured.given().log().all()
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
             .body(request)
             .when().log().all()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .patch("/members/{member_id}/nickname", newMember.getId())
             .then().log().all()
             .statusCode(HttpStatus.BAD_REQUEST.value());
