@@ -26,7 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: `${ROUTE_PATH.COLLECT}/:id`,
-        element: <PartCollectingPage />,
+        element: (
+          <AuthLayout>
+            <PartCollectingPage />
+          </AuthLayout>
+        ),
       },
       {
         path: `${ROUTE_PATH.SONG_DETAILS}/:id/:genre`,
