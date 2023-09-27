@@ -2,6 +2,7 @@ package shook.shook.member.ui;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class MemberController implements MemberApi {
     public ResponseEntity<ReissueAccessTokenResponse> updateNickname(
         @PathVariable(name = "member_id") final Long memberId,
         @Authenticated final MemberInfo memberInfo,
-        @RequestBody final NicknameUpdateRequest request,
+        @Valid @RequestBody final NicknameUpdateRequest request,
         final HttpServletResponse response
     ) {
         final TokenPair tokenPair = memberService.updateNickname(memberId, memberInfo, request);
