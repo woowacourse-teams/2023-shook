@@ -35,7 +35,6 @@ class InMemorySongsTest extends UsingJpaTest {
         inMemorySongs = new InMemorySongs();
     }
 
-
     @DisplayName("InMemorySong 을 1.좋아요 순, 2. id 순으로 정렬된 노래로 초기화한다.")
     @Test
     void recreate() {

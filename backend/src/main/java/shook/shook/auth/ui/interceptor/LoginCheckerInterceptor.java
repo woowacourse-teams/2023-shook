@@ -17,8 +17,9 @@ public class LoginCheckerInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
-        final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request,
+                             final HttpServletResponse response,
+                             final Object handler) throws Exception {
         if (TokenHeaderExtractor.extractToken(request).isEmpty()) {
             return true;
         }

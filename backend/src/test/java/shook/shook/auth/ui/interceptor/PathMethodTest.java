@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-
 class PathMethodTest {
 
     @DisplayName("요청 메소드 이름이 인자로 들어오는 경우 요소의 이름과 비교하여 대소문자 구분없이 같은 true를 반환한다.")

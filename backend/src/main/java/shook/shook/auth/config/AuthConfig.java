@@ -20,8 +20,8 @@ public class AuthConfig implements WebMvcConfigurer {
     private final TokenInterceptor tokenInterceptor;
 
     public AuthConfig(final AuthArgumentResolver authArgumentResolver,
-        final LoginCheckerInterceptor loginCheckerInterceptor,
-        final TokenInterceptor tokenInterceptor
+                      final LoginCheckerInterceptor loginCheckerInterceptor,
+                      final TokenInterceptor tokenInterceptor
     ) {
         this.authArgumentResolver = authArgumentResolver;
         this.loginCheckerInterceptor = loginCheckerInterceptor;

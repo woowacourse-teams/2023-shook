@@ -1,6 +1,5 @@
 package shook.shook.voting_song.ui;
 
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
