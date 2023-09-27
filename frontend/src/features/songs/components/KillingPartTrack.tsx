@@ -27,7 +27,7 @@ interface KillingPartTrackProps {
 }
 
 const KillingPartTrack = ({
-  killingPart: { id: partId, rank, start, end, partVideoUrl, likeCount, likeStatus },
+  killingPart: { id: partId, rank, start, end, likeCount, likeStatus },
   songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
@@ -57,7 +57,7 @@ const KillingPartTrack = ({
       memberId: user?.memberId,
     });
 
-    await copyClipboard(partVideoUrl);
+    await copyClipboard(window.location.href);
     showToast('영상 링크가 복사되었습니다.');
   };
 
