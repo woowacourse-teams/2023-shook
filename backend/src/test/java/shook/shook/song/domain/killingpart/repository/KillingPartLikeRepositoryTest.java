@@ -136,4 +136,31 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
         //then
         assertThat(likedKillingPartAndSongByMember).hasSize(2);
     }
+
+    @DisplayName("멤버가 좋아요한 킬링파트 아이디 목록을 반환한다.")
+    @Test
+    void findLikedKillingPartIdsByMember() {
+        //given
+        final KillingPartLike firstKillingPartLike = new KillingPartLike(
+            FIRST_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+        final KillingPartLike secondKillingPartLike = new KillingPartLike(
+            SECOND_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+
+        firstKillingPartLike.updateDeletion();
+        secondKillingPartLike.updateDeletion();
+        
+        killingPartLikeRepository.save(firstKillingPartLike);
+        killingPartLikeRepository.save(secondKillingPartLike);
+
+        //when
+        final List<Long> likedKillingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(
+            SAVED_MEMBER);
+
+        //then
+        assertThat(likedKillingPartIds).contains(FIRST_SAVED_KILLING_PART.getId(), SECOND_SAVED_KILLING_PART.getId());
+    }
 }

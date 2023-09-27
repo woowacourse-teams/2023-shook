@@ -28,7 +28,7 @@ public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike
         @Param("member") final Member member
     );
 
-    @Query("SELECT kp_like.id "
+    @Query("SELECT kp_like.killingPart.id "
         + "FROM KillingPartLike kp_like "
         + "WHERE kp_like.member=:member and kp_like.isDeleted=false")
     List<Long> findLikedKillingPartIdsByMember(@Param("member") final Member member);
