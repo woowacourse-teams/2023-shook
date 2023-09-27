@@ -92,10 +92,10 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         @Test
         void registered_membersSamePartExist() {
             //given
-            final VotingSongPart votingSongPart = VotingSongPart.forSave(FIRST_MEMBER, 1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart votingSongPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, votingSongPart);
 
-            final Vote vote = Vote.forSave(votingSongPart);
+            final Vote vote = Vote.forSave(FIRST_MEMBER, votingSongPart);
             votePart(votingSongPart, vote);
 
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 5);
@@ -117,10 +117,10 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         @Test
         void registered() {
             //given
-            final VotingSongPart votingSongPart = VotingSongPart.forSave(FIRST_MEMBER, 1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart votingSongPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, votingSongPart);
 
-            final Vote vote = Vote.forSave(votingSongPart);
+            final Vote vote = Vote.forSave(FIRST_MEMBER, votingSongPart);
             votePart(votingSongPart, vote);
 
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 5);
