@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import LoginModal from '@/features/auth/components/LoginModal';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -19,10 +18,10 @@ const VoteInterface = () => {
   const { videoPlayer } = useVideoPlayerContext();
 
   const { createKillingPart } = usePostKillingPart();
-  const { user } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const isLoggedIn = !!user;
+  const { user } = useAuthContext();
+
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const submitKillingPart = async () => {
@@ -40,39 +39,35 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>당신의 킬링파트를 등록하세요</RegisterTitle>
+      <Spacing direction="vertical" size={4} />
+      <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={16} />
       <KillingPartToggleGroup />
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
       <Spacing direction="vertical" size={16} />
-      <Register type="button" onClick={isLoggedIn ? submitKillingPart : openModal}>
+      <Register type="button" onClick={submitKillingPart}>
         등록
       </Register>
-      {isLoggedIn ? (
-        <Modal isOpen={isOpen} closeModal={closeModal}>
-          <ModalTitle>킬링파트 등록을 완료했습니다.</ModalTitle>
-          <ModalContent>
-            <Message>{voteTimeText}</Message>
-            <Message>파트를 공유해 보세요😀</Message>
-          </ModalContent>
-          <ButtonContainer>
-            <Confirm type="button" onClick={closeModal}>
-              확인
-            </Confirm>
-            <Share type="button" onClick={copyPartVideoUrl}>
-              공유하기
-            </Share>
-          </ButtonContainer>
-        </Modal>
-      ) : (
-        <LoginModal
-          message={
-            '슉에서 당신만의 킬링파트를 등록해보세요!\n당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!'
-          }
-          isOpen={isOpen}
-          closeModal={closeModal}
-        />
-      )}
+
+      <Modal isOpen={isOpen} closeModal={closeModal}>
+        <ModalTitle>
+          <TitleColumn>{user?.nickname}님의</TitleColumn>
+          <TitleColumn>킬링파트 등록을 완료했습니다.</TitleColumn>
+        </ModalTitle>
+        <ModalContent>
+          <Message>{voteTimeText}</Message>
+          <Message>파트를 공유해 보세요😀</Message>
+        </ModalContent>
+        <ButtonContainer>
+          <Confirm type="button" onClick={closeModal}>
+            확인
+          </Confirm>
+          <Share type="button" onClick={copyPartVideoUrl}>
+            공유하기
+          </Share>
+        </ButtonContainer>
+      </Modal>
     </Container>
   );
 };
@@ -110,6 +105,10 @@ const Register = styled.button`
 
 const ModalTitle = styled.h3``;
 
+const TitleColumn = styled.div`
+  text-align: center;
+`;
+
 const ModalContent = styled.div`
   padding: 16px 0;
 
@@ -146,4 +145,8 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 16px;
   width: 100%;
+`;
+
+const Warning = styled.div`
+  color: ${({ theme: { color } }) => color.subText};
 `;
