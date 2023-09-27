@@ -14,7 +14,10 @@ interface YoutubeProps {
 const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
   const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
   const [loading, setLoading] = useState(true);
+
   const observerRef = useRef<IntersectionObserver | null>();
+  const iframeRef = useRef<IntersectionObserver | null>(null);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,13 +50,27 @@ const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
       return;
     }
 
-    const [, songs, , genre] = location.pathname.split('/');
-
-    navigate(`/${songs}/${songId}/${genre}`, {
-      preventScrollReset: true,
-    });
-
     observerRef.current?.disconnect();
+  }, []);
+
+  const navigateToCurrentSongId: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
+    const navigateToCurrentSong = () => {
+      const [, songs, , genre] = location.pathname.split('/');
+
+      navigate(`/${songs}/${songId}/${genre}`, {
+        replace: true,
+        preventScrollReset: true,
+      });
+    };
+
+    if (domNode !== null) {
+      iframeRef.current = createObserver(navigateToCurrentSong);
+      iframeRef.current.observe(domNode);
+
+      return;
+    }
+
+    iframeRef.current?.disconnect();
   }, []);
 
   return (
@@ -65,7 +82,7 @@ const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
           loading="lazy"
         />
       )}
-      <YoutubeIframe id={`yt-player-${videoId}`} />
+      <YoutubeIframe ref={navigateToCurrentSongId} id={`yt-player-${videoId}`} />
     </YoutubeWrapper>
   );
 };
