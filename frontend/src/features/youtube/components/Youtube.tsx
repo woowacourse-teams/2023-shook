@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import { useCallback, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import createObserver from '@/shared/utils/createObserver';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
@@ -8,18 +7,13 @@ import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 interface YoutubeProps {
   start?: number;
   videoId: string;
-  songId: number;
 }
 
-const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
+const Youtube = ({ start = 0, videoId }: YoutubeProps) => {
   const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
   const [loading, setLoading] = useState(true);
 
   const observerRef = useRef<IntersectionObserver | null>();
-  const iframeRef = useRef<IntersectionObserver | null>(null);
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const createPlayerOnObserve: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
     const createYoutubePlayer = async () => {
@@ -53,26 +47,6 @@ const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
     observerRef.current?.disconnect();
   }, []);
 
-  const navigateToCurrentSongId: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
-    const navigateToCurrentSong = () => {
-      const [, songs, , genre] = location.pathname.split('/');
-
-      navigate(`/${songs}/${songId}/${genre}`, {
-        replace: true,
-        preventScrollReset: true,
-      });
-    };
-
-    if (domNode !== null) {
-      iframeRef.current = createObserver(navigateToCurrentSong);
-      iframeRef.current.observe(domNode);
-
-      return;
-    }
-
-    iframeRef.current?.disconnect();
-  }, []);
-
   return (
     <YoutubeWrapper>
       {loading && (
@@ -82,7 +56,7 @@ const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
           loading="lazy"
         />
       )}
-      <YoutubeIframe ref={navigateToCurrentSongId} id={`yt-player-${videoId}`} />
+      <YoutubeIframe id={`yt-player-${videoId}`} />
     </YoutubeWrapper>
   );
 };
