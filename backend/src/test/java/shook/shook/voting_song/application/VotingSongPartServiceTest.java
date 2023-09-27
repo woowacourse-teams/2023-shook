@@ -9,6 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import shook.shook.auth.ui.Authority;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.member.domain.Member;
+import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
@@ -23,6 +27,11 @@ import shook.shook.voting_song.exception.VotingSongException;
 class VotingSongPartServiceTest extends UsingJpaTest {
 
     private static VotingSong SAVED_SONG;
+    private static Member FIRST_MEMBER;
+    private static Member SECOND_MEMBER;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private VotingSongRepository votingSongRepository;
@@ -38,12 +47,14 @@ class VotingSongPartServiceTest extends UsingJpaTest {
     @BeforeEach
     void setUp() {
         votingSongPartService = new VotingSongPartService(
+            memberRepository,
             votingSongRepository,
             votingSongPartRepository,
             voteRepository
         );
-        SAVED_SONG =
-            votingSongRepository.save(new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180));
+        FIRST_MEMBER = memberRepository.save(new Member("a@a.com", "nickname"));
+        SECOND_MEMBER = memberRepository.save(new Member("b@b.com", "nickname"));
+        SAVED_SONG = votingSongRepository.save(new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180));
     }
 
     void addPart(final VotingSong votingSong, final VotingSongPart votingSongPart) {
@@ -65,33 +76,59 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         void notRegistered() {
             //given
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 10);
+            final MemberInfo memberInfo = new MemberInfo(FIRST_MEMBER.getId(), Authority.MEMBER);
 
             //when
-            votingSongPartService.register(SAVED_SONG.getId(), request);
+            votingSongPartService.registerAndReturnMemberPartDuplication(memberInfo, SAVED_SONG.getId(), request);
             saveAndClearEntityManager();
 
             //then
-            final List<VotingSongPart> votingSongs =
-                votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
+            final List<VotingSongPart> votingSongs = votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
             assertThat(votingSongs).hasSize(1);
             assertThat(votingSongs.get(0).getVoteCount()).isOne();
         }
 
-        @DisplayName("이미 등록된 파트일 때 파트의 투표수가 1 증가한다.")
+        @DisplayName("이미 등록된 동일한 사람의 파트일 때 파트의 투표수가 유지된다.")
         @Test
-        void registered() {
+        void registered_membersSamePartExist() {
             //given
-            final VotingSongPart votingSongPart =
-                VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart votingSongPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
             addPart(SAVED_SONG, votingSongPart);
 
-            final Vote vote = Vote.forSave(votingSongPart);
+            final Vote vote = Vote.forSave(FIRST_MEMBER, votingSongPart);
             votePart(votingSongPart, vote);
 
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 5);
 
             //when
-            votingSongPartService.register(SAVED_SONG.getId(), request);
+            final MemberInfo anotherMemberInfo = new MemberInfo(FIRST_MEMBER.getId(), Authority.MEMBER);
+            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(),
+                request);
+            saveAndClearEntityManager();
+
+            //then
+            final List<VotingSongPart> findParts =
+                votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
+            assertThat(findParts).hasSize(1);
+            assertThat(findParts.get(0).getVoteCount()).isEqualTo(1);
+        }
+
+        @DisplayName("이미 등록된 다른 사람의 파트일 때 파트의 투표수가 1 증가한다.")
+        @Test
+        void registered() {
+            //given
+            final VotingSongPart votingSongPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            addPart(SAVED_SONG, votingSongPart);
+
+            final Vote vote = Vote.forSave(FIRST_MEMBER, votingSongPart);
+            votePart(votingSongPart, vote);
+
+            final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 5);
+
+            //when
+            final MemberInfo anotherMemberInfo = new MemberInfo(SECOND_MEMBER.getId(), Authority.MEMBER);
+            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(),
+                request);
             saveAndClearEntityManager();
 
             //then
@@ -105,12 +142,14 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         @Test
         void songNotExist() {
             //given
+            final MemberInfo memberInfo = new MemberInfo(FIRST_MEMBER.getId(), Authority.MEMBER);
             final VotingSongPartRegisterRequest request = new VotingSongPartRegisterRequest(1, 10);
             final long notExistSongId = 0L;
 
             //when
             //then
-            assertThatThrownBy(() -> votingSongPartService.register(notExistSongId, request))
+            assertThatThrownBy(
+                () -> votingSongPartService.registerAndReturnMemberPartDuplication(memberInfo, notExistSongId, request))
                 .isInstanceOf(VotingSongException.VotingSongNotExistException.class);
         }
     }

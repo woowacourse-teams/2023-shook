@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,13 +18,13 @@ import shook.shook.voting_song.domain.VotingSongPart;
 
 class VotingSongPartRepositoryTest extends UsingJpaTest {
 
-    private static VotingSong SAVED_SONG;
-
     @Autowired
     private VotingSongPartRepository votingSongPartRepository;
 
     @Autowired
     private VotingSongRepository votingSongRepository;
+    
+    private VotingSong SAVED_SONG;
 
     @BeforeEach
     void setUp() {
@@ -35,8 +36,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
@@ -50,8 +50,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final VotingSongPart votingSongPart =
-            VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -74,8 +73,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
         //when
         saveAndClearEntityManager();
-        final List<VotingSongPart> allBySong =
-            votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
+        final List<VotingSongPart> allBySong = votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
 
         //then
         assertThat(allBySong).containsAll(List.of(firstPart, secondPart));
@@ -108,5 +106,24 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
             // then
             assertThat(votingSongPartRepository.findById(1L)).isEmpty();
         }
+    }
+
+    @DisplayName("등록중인 노래, 등록한 멤버, 시작시간, 길이가 같은 파트가 존재하는지 반환한다.")
+    @Test
+    void existsByVotingSongAndMemberAndStartSecondAndLength() {
+        //given
+        final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+        votingSongPartRepository.save(part);
+
+        //when
+        saveAndClearEntityManager();
+        final Optional<VotingSongPart> findVotingSongPart = votingSongPartRepository.findByVotingSongAndStartSecondAndLength(
+            SAVED_SONG,
+            part.getStartSecond(),
+            part.getLength()
+        );
+
+        //then
+        assertThat(findVotingSongPart).isPresent();
     }
 }
