@@ -9,10 +9,8 @@ export const GA_ACTIONS = {
 export const GA_CATEGORIES = {
   SONG_DETAIL: 'song_playing',
   MY_PAGE: 'profile',
-  NOT_COLLECTING: 'none',
 };
 
 export const GA_MEMBER = {
   NOT_LOGGED_IN: -1,
-  NOT_COLLECTING: -2,
 };

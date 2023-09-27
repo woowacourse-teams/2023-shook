@@ -196,9 +196,14 @@ type LikePartItemProps = LikeKillingPart & {
 
 const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: LikePartItemProps) => {
   const { showToast } = useToastContext();
+  const { user } = useAuthContext();
 
   const shareUrl = () => {
-    sendGAEvent({ action: GA_ACTIONS.COPY_URL, category: GA_CATEGORIES.MY_PAGE });
+    sendGAEvent({
+      action: GA_ACTIONS.COPY_URL,
+      category: GA_CATEGORIES.MY_PAGE,
+      memberId: user?.memberId,
+    });
 
     copyClipboard(`${BASE_URL?.replace('/api', '')}/songs/${songId}`);
     showToast('클립보드에 영상링크가 복사되었습니다.');
