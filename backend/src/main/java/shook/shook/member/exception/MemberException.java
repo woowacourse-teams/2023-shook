@@ -97,11 +97,11 @@ public class MemberException extends CustomException {
     public static class ExistNicknameException extends MemberException {
 
         public ExistNicknameException() {
-            super(ErrorCode.ALREADY_EXIST_NICKNAME);
+            super(ErrorCode.DUPLICATE_NICKNAME);
         }
 
         public ExistNicknameException(final Map<String, String> inputValuesByProperty) {
-            super(ErrorCode.ALREADY_EXIST_NICKNAME, inputValuesByProperty);
+            super(ErrorCode.DUPLICATE_NICKNAME, inputValuesByProperty);
         }
     }
 }

@@ -22,7 +22,7 @@ public enum ErrorCode {
     NOT_FOUND_OAUTH(1010, "현재 지원하지 않는 OAuth 요청입니다."),
     INVALID_REFRESH_TOKEN(1011, "존재하지 않는 refreshToken 입니다."),
     TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1012, "올바르지 않은 TokenPair 입니다."),
-    ALREADY_EXIST_NICKNAME(1013, "존재하는 닉네임입니다."),
+    DUPLICATE_NICKNAME(1013, "중복되는 닉네임입니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 
