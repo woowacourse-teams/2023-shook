@@ -205,7 +205,7 @@ const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: Like
       memberId: user?.memberId,
     });
 
-    copyClipboard(`${BASE_URL?.replace('/api', '')}/songs/${songId}`);
+    copyClipboard(`${BASE_URL?.replace('/api', '')}/songs/${songId}/ALL`);
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
