@@ -9,6 +9,8 @@ import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContex
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
+import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
@@ -49,6 +51,12 @@ const KillingPartTrack = ({
   const partLength = end - start;
 
   const copyKillingPartUrl = async () => {
+    sendGAEvent({
+      action: GA_ACTIONS.COPY_URL,
+      category: GA_CATEGORIES.SONG_DETAIL,
+      memberId: user?.memberId,
+    });
+
     await copyClipboard(partVideoUrl);
     showToast('영상 링크가 복사되었습니다.');
   };
@@ -80,11 +88,27 @@ const KillingPartTrack = ({
   };
 
   const toggleTrackPlayAndStop = () => {
+    sendGAEvent({
+      action: GA_ACTIONS.PLAY,
+      category: GA_CATEGORIES.SONG_DETAIL,
+      memberId: user?.memberId,
+    });
+
     if (isNowPlayingTrack) {
       stopTrack();
     } else {
       playTrack();
     }
+  };
+
+  const toggleLike = () => {
+    sendGAEvent({
+      action: GA_ACTIONS.LIKE,
+      category: GA_CATEGORIES.SONG_DETAIL,
+      memberId: user?.memberId,
+    });
+
+    toggleKillingPartLikes();
   };
 
   return (
@@ -110,7 +134,7 @@ const KillingPartTrack = ({
       </FLexContainer>
       <ButtonContainer>
         <LikeButton
-          onClick={isLoggedIn ? toggleKillingPartLikes : openModal}
+          onClick={isLoggedIn ? toggleLike : openModal}
           aria-label={`${rank}등 킬링파트 좋아요 하기`}
         >
           <ButtonIcon src={heartIcon} alt="" />
