@@ -1,18 +1,22 @@
 /* eslint-disable react/display-name */
 import { useCallback, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import createObserver from '@/shared/utils/createObserver';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
 interface YoutubeProps {
-  videoId: string;
   start?: number;
+  videoId: string;
+  songId: number;
 }
 
-const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
+const Youtube = ({ start = 0, videoId, songId }: YoutubeProps) => {
   const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
   const [loading, setLoading] = useState(true);
   const observerRef = useRef<IntersectionObserver | null>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const createPlayerOnObserve: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
     const createYoutubePlayer = async () => {
@@ -39,8 +43,15 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
     if (domNode !== null) {
       observerRef.current = createObserver(createYoutubePlayer);
       observerRef.current.observe(domNode);
+
       return;
     }
+
+    const [, songs, , genre] = location.pathname.split('/');
+
+    navigate(`/${songs}/${songId}/${genre}`, {
+      preventScrollReset: true,
+    });
 
     observerRef.current?.disconnect();
   }, []);

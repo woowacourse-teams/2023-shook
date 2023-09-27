@@ -28,7 +28,7 @@ const PartCollectingPage = () => {
         </Info>
       </SongInfoContainer>
       <VideoPlayerProvider>
-        <Youtube videoId={songVideoId} />
+        <Youtube videoId={songVideoId} songId={id} />
         <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
           <VoteInterface />
         </VoteInterfaceProvider>

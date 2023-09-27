@@ -26,7 +26,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
         </SongInfoContainer>
         <Spacing direction="vertical" size={16} />
         <VideoPlayerProvider>
-          <Youtube videoId={songVideoId} />
+          <Youtube videoId={songVideoId} songId={id} />
           <Spacing direction="vertical" size={12} />
           <TimerProvider time={15}>
             <KillingPartInterface killingParts={killingParts} songId={id} />
