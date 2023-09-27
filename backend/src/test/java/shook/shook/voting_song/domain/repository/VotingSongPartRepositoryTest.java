@@ -23,8 +23,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
     @Autowired
     private VotingSongRepository votingSongRepository;
-    
-    private VotingSong SAVED_SONG;
+    private static VotingSong SAVED_SONG;
 
     @BeforeEach
     void setUp() {
