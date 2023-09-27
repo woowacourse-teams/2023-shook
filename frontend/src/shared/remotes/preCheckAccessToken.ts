@@ -1,6 +1,4 @@
-import AuthError from '@/shared/remotes/AuthError';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
-import type { ErrorResponse } from '@/shared/remotes/index';
 
 const isTokenExpiredAfter60seconds = (tokenExp: number) => {
   return tokenExp * 1000 - 30 * 1000 < Date.now();
@@ -31,13 +29,7 @@ const preCheckAccessToken = async () => {
       accessTokenStorage.setToken(accessToken);
       return accessToken;
     }
-
-    const errorResponse: ErrorResponse = await response.json();
-
-    if (response.status === 401) {
-      throw new AuthError(errorResponse);
-    }
-    // 기타 상태코드 처리
+    accessTokenStorage.removeToken();
   }
 
   return null;
