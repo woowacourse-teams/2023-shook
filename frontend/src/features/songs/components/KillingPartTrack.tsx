@@ -50,6 +50,12 @@ const KillingPartTrack = ({
   const partLength = end - start;
 
   const copyKillingPartUrl = async () => {
+    sendGAEvent({
+      action: 'click_copy',
+      category: 'song_playing',
+      memberId: user?.memberId,
+    });
+
     await copyClipboard(partVideoUrl);
     showToast('영상 링크가 복사되었습니다.');
   };
@@ -81,6 +87,12 @@ const KillingPartTrack = ({
   };
 
   const toggleTrackPlayAndStop = () => {
+    sendGAEvent({
+      action: 'click_play',
+      category: 'song_playing',
+      memberId: user?.memberId,
+    });
+
     if (isNowPlayingTrack) {
       stopTrack();
     } else {
@@ -91,8 +103,8 @@ const KillingPartTrack = ({
   const onLikeButton = () => {
     sendGAEvent({
       action: 'click_like',
-      category: 'like',
-      value: `${user?.memberId}`,
+      category: 'song_playing',
+      memberId: user?.memberId,
     });
 
     toggleKillingPartLikes();
