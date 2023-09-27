@@ -80,13 +80,6 @@ public class MemberService {
         return targetMember;
     }
 
-    private Member findById(final Long id) {
-        return memberRepository.findById(id)
-            .orElseThrow(() -> new MemberException.MemberNotExistException(
-                Map.of("Id", String.valueOf(id))
-            ));
-    }
-
     private void validateMemberAuthentication(final Member requestMember, final Member targetMember) {
         if (!requestMember.equals(targetMember)) {
             throw new AuthorizationException.UnauthenticatedException(
@@ -98,13 +91,20 @@ public class MemberService {
         }
     }
 
+    private Member findById(final Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(() -> new MemberException.MemberNotExistException(
+                Map.of("Id", String.valueOf(id))
+            ));
+    }
+
     @Transactional
     public TokenPair updateNickname(final Long memberId, final MemberInfo memberInfo,
                                     final NicknameUpdateRequest request) {
         final Member member = getMemberIfValidRequest(memberId, memberInfo);
         final Nickname nickname = new Nickname(request.getNickname());
 
-        if (isSameNickname(member, nickname)) {
+        if (member.hasSameNickname(nickname)) {
             return null;
         }
 
@@ -121,14 +121,6 @@ public class MemberService {
         inMemoryTokenPairRepository.addOrUpdateTokenPair(reissuedRefreshToken, reissuedAccessToken);
 
         return new TokenPair(reissuedAccessToken, reissuedRefreshToken);
-    }
-
-
-    private boolean isSameNickname(final Member member, final Nickname nickname) {
-        final String originalNickname = member.getNickname();
-        final String nicknameForUpdate = nickname.getValue();
-
-        return originalNickname.equals(nicknameForUpdate);
     }
 
     private void validateDuplicateNickname(final Nickname nickname) {
