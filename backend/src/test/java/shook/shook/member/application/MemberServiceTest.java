@@ -2,7 +2,6 @@ package shook.shook.member.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static shook.shook.auth.ui.Authority.MEMBER;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +15,7 @@ import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
+import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.application.dto.NicknameUpdateRequest;
 import shook.shook.member.domain.Member;
@@ -168,7 +168,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         saveAndClearEntityManager();
         // when
-        memberService.deleteById(targetId, new MemberInfo(targetId, MEMBER));
+        memberService.deleteById(targetId, new MemberInfo(targetId, Authority.MEMBER));
 
         // then
         assertThat(likeRepository.findAllByMemberAndIsDeleted(savedMember, false)).isEmpty();
@@ -185,7 +185,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         // when, then
         assertThatThrownBy(() ->
-                               memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, MEMBER))
+                               memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, Authority.MEMBER))
         ).isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -199,7 +199,7 @@ class MemberServiceTest extends UsingJpaTest {
         // when, then
         assertThatThrownBy(() ->
                                memberService.deleteById(targetMember.getId(),
-                                                        new MemberInfo(requestMember.getId(), MEMBER))
+                                                        new MemberInfo(requestMember.getId(), Authority.MEMBER))
         ).isInstanceOf(AuthorizationException.UnauthenticatedException.class);
     }
 
@@ -216,7 +216,8 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             final TokenPair tokenPair = memberService.updateNickname(savedMember.getId(),
-                                                                     new MemberInfo(savedMember.getId(), MEMBER),
+                                                                     new MemberInfo(savedMember.getId(),
+                                                                                    Authority.MEMBER),
                                                                      request);
 
             // then
@@ -236,8 +237,10 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThat(memberService.updateNickname(savedMember.getId(), new MemberInfo(savedMember.getId(), MEMBER),
-                                                    request)).isNull();
+            assertThat(
+                memberService.updateNickname(savedMember.getId(),
+                                             new MemberInfo(savedMember.getId(), Authority.MEMBER),
+                                             request)).isNull();
         }
 
         @DisplayName("변경할 닉네임이 중복되면 예외를 던진다.")
@@ -247,7 +250,7 @@ class MemberServiceTest extends UsingJpaTest {
             final Member newMember = memberRepository.save(new Member("temp@email", "shook2"));
             final String newNickname = "shook";  // 중복된 닉네임
             final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
-            final MemberInfo newMemberInfo = new MemberInfo(newMember.getId(), MEMBER);
+            final MemberInfo newMemberInfo = new MemberInfo(newMember.getId(), Authority.MEMBER);
 
             // when
             // then
@@ -265,7 +268,7 @@ class MemberServiceTest extends UsingJpaTest {
             // when
             // then
             assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
-                                                                  new MemberInfo(savedMember.getId(), MEMBER),
+                                                                  new MemberInfo(savedMember.getId(), Authority.MEMBER),
                                                                   request))
                 .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
         }
@@ -280,7 +283,7 @@ class MemberServiceTest extends UsingJpaTest {
             // when
             // then
             assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
-                                                                  new MemberInfo(savedMember.getId(), MEMBER),
+                                                                  new MemberInfo(savedMember.getId(), Authority.MEMBER),
                                                                   request))
                 .isInstanceOf(MemberException.TooLongNicknameException.class);
         }

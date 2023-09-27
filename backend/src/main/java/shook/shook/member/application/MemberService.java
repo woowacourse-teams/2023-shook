@@ -43,6 +43,7 @@ public class MemberService {
         final Member newMember = new Member(email, BASIC_NICKNAME);
         final Member savedMember = memberRepository.save(newMember);
         savedMember.updateNickname(savedMember.getNickname() + savedMember.getId());
+
         return savedMember;
     }
 
@@ -63,10 +64,7 @@ public class MemberService {
     public void deleteById(final Long id, final MemberInfo memberInfo) {
         final Member member = getMemberIfValidRequest(id, memberInfo);
 
-        final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(
-            member,
-            false
-        );
+        final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(member, false);
 
         membersExistLikes.forEach(KillingPartLike::updateDeletion);
         commentRepository.deleteAllByMember(member);
@@ -77,8 +75,8 @@ public class MemberService {
         final long requestMemberId = memberInfo.getMemberId();
         final Member requestMember = findById(requestMemberId);
         final Member targetMember = findById(memberId);
-
         validateMemberAuthentication(requestMember, targetMember);
+
         return targetMember;
     }
 
@@ -102,7 +100,7 @@ public class MemberService {
 
     @Transactional
     public TokenPair updateNickname(final Long memberId, final MemberInfo memberInfo,
-        final NicknameUpdateRequest request) {
+                                    final NicknameUpdateRequest request) {
         final Member member = getMemberIfValidRequest(memberId, memberInfo);
         final Nickname nickname = new Nickname(request.getNickname());
 
@@ -121,6 +119,7 @@ public class MemberService {
         final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);
         final String reissuedRefreshToken = tokenProvider.createRefreshToken(memberId, nickname);
         inMemoryTokenPairRepository.addOrUpdateTokenPair(reissuedRefreshToken, reissuedAccessToken);
+
         return new TokenPair(reissuedAccessToken, reissuedRefreshToken);
     }
 
