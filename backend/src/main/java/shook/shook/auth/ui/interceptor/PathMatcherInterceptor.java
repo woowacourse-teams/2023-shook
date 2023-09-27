@@ -15,8 +15,9 @@ public class PathMatcherInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
-        final Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request,
+                             final HttpServletResponse response,
+                             final Object handler) throws Exception {
         if (pathContainer.isNotIncludedPath(request.getServletPath(), request.getMethod())) {
             return true;
         }
@@ -24,13 +25,13 @@ public class PathMatcherInterceptor implements HandlerInterceptor {
     }
 
     public PathMatcherInterceptor includePathPattern(final String requestPathPattern,
-        final PathMethod requestPathMethod) {
+                                                     final PathMethod requestPathMethod) {
         pathContainer.includePathPattern(requestPathPattern, requestPathMethod);
         return this;
     }
 
     public PathMatcherInterceptor excludePathPattern(final String requestPathPattern,
-        final PathMethod requestPathMethod) {
+                                                     final PathMethod requestPathMethod) {
         pathContainer.excludePathPattern(requestPathPattern, requestPathMethod);
         return this;
     }

@@ -12,7 +12,7 @@ import shook.shook.song.domain.killingpart.KillingPartLike;
 public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike, Long> {
 
     Optional<KillingPartLike> findByKillingPartAndMember(final KillingPart killingPart,
-        final Member member);
+                                                         final Member member);
 
     List<KillingPartLike> findAllByMemberAndIsDeleted(final Member member, final boolean isDeleted);
 }

@@ -3,8 +3,6 @@ package shook.shook.member.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

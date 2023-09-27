@@ -4,15 +4,16 @@ import type { ImgHTMLAttributes, SyntheticEvent } from 'react';
 
 interface ThumbnailProps extends ImgHTMLAttributes<HTMLImageElement> {
   size?: Size;
+  borderRadius?: number;
 }
 
-const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
+const Thumbnail = ({ size = 'lg', borderRadius = 4, ...props }: ThumbnailProps) => {
   const insertDefaultJacket = ({ currentTarget }: SyntheticEvent<HTMLImageElement>) => {
     currentTarget.src = defaultAlbumJacket;
   };
 
   return (
-    <Wrapper $size={size}>
+    <Wrapper $size={size} $borderRadius={borderRadius}>
       <img {...props} alt="노래 앨범" aria-hidden loading="lazy" onError={insertDefaultJacket} />
     </Wrapper>
   );
@@ -20,10 +21,10 @@ const Thumbnail = ({ size = 'lg', ...props }: ThumbnailProps) => {
 
 export default Thumbnail;
 
-const Wrapper = styled.div<{ $size: Size }>`
+const Wrapper = styled.div<{ $size: Size; $borderRadius: number }>`
   overflow: hidden;
   ${({ $size }) => SIZE_VARIANTS[$size]};
-  border-radius: 4px;
+  border-radius: ${({ $borderRadius }) => $borderRadius}px;
 `;
 
 const SIZE_VARIANTS = {

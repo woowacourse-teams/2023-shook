@@ -54,6 +54,7 @@ const GlobalStyles = createGlobalStyle`
   }
   a {
     text-decoration: none;
+    cursor: pointer;
   }
   table {
     border-spacing: 0;

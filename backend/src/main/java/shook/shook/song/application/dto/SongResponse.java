@@ -58,7 +58,7 @@ public class SongResponse {
     }
 
     private static List<KillingPartResponse> toKillingPartResponses(final Song song,
-        final Member member) {
+                                                                    final Member member) {
         final List<KillingPart> songKillingParts = song.getLikeCountSortedKillingParts();
 
         return IntStream.range(0, songKillingParts.size())

@@ -12,8 +12,9 @@ public class RequestPathPattern {
         this.method = method;
     }
 
-    public boolean match(final PathMatcher pathMatcher, final String requestPath,
-        final String requestMethod) {
+    public boolean match(final PathMatcher pathMatcher,
+                         final String requestPath,
+                         final String requestMethod) {
         return pathMatcher.match(path, requestPath) && method.match(requestMethod);
     }
 }

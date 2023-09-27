@@ -48,7 +48,8 @@ class TokenPairSchedulerTest {
         inMemoryTokenPairRepository.addOrUpdateTokenPair(expiredRefreshToken, expiredAccessToken);
 
         // when
-        final TokenPairScheduler tokenPairScheduler = new TokenPairScheduler(tokenProvider, inMemoryTokenPairRepository);
+        final TokenPairScheduler tokenPairScheduler
+            = new TokenPairScheduler(tokenProvider, inMemoryTokenPairRepository);
         tokenPairScheduler.removeExpiredTokenPair();
 
         // then

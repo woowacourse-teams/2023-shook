@@ -78,7 +78,7 @@ public class MemberService {
     }
 
     private void validateMemberAuthentication(final Member requestMember,
-        final Member targetMember) {
+                                              final Member targetMember) {
         if (!requestMember.equals(targetMember)) {
             throw new AuthorizationException.UnauthenticatedException(
                 Map.of(
