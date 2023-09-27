@@ -10,6 +10,7 @@ import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import ROUTE_PATH from '@/shared/constants/path';
+import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
@@ -38,11 +39,22 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const logoutRedirect = () => {
+    sendGAEvent({
+      action: 'click_logout',
+      category: 'profile',
+      memberId: user?.memberId,
+    });
     logout();
     navigate(ROUTE_PATH.ROOT);
   };
 
   const goEditPage = () => {
+    sendGAEvent({
+      action: 'click_edit_profile',
+      category: 'profile',
+      memberId: user?.memberId,
+    });
+
     navigate(`/${ROUTE_PATH.EDIT_PROFILE}`);
   };
 
