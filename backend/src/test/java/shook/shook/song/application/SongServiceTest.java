@@ -54,6 +54,7 @@ class SongServiceTest extends UsingJpaTest {
         songService = new SongService(
             songRepository,
             killingPartRepository,
+            likeRepository,
             memberRepository,
             inMemorySongs,
             new SongDataExcelReader(" ", " ", " ")
