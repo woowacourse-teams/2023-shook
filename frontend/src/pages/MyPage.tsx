@@ -9,6 +9,7 @@ import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import ROUTE_PATH from '@/shared/constants/path';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import useFetch from '@/shared/hooks/useFetch';
@@ -40,8 +41,8 @@ const MyPage = () => {
 
   const logoutRedirect = () => {
     sendGAEvent({
-      action: 'click_logout',
-      category: 'profile',
+      action: GA_ACTIONS.LOGOUT,
+      category: GA_CATEGORIES.MY_PAGE,
       memberId: user?.memberId,
     });
     logout();
@@ -50,8 +51,8 @@ const MyPage = () => {
 
   const goEditPage = () => {
     sendGAEvent({
-      action: 'click_edit_profile',
-      category: 'profile',
+      action: GA_ACTIONS.EDIT_PROFILE,
+      category: GA_CATEGORIES.MY_PAGE,
       memberId: user?.memberId,
     });
 
@@ -193,18 +194,12 @@ type LikePartItemProps = LikeKillingPart & {
   rank: number;
 };
 
-const LikePartItem = ({
-  songId,
-  albumCoverUrl,
-  title,
-  singer,
-  // partId,
-  start,
-  end,
-}: LikePartItemProps) => {
+const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: LikePartItemProps) => {
   const { showToast } = useToastContext();
 
   const shareUrl = () => {
+    sendGAEvent({ action: GA_ACTIONS.COPY_URL, category: GA_CATEGORIES.MY_PAGE });
+
     copyClipboard(`${BASE_URL?.replace('/api', '')}/songs/${songId}`);
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };

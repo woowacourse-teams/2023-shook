@@ -9,6 +9,7 @@ import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContex
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -51,8 +52,8 @@ const KillingPartTrack = ({
 
   const copyKillingPartUrl = async () => {
     sendGAEvent({
-      action: 'click_copy',
-      category: 'song_playing',
+      action: GA_ACTIONS.COPY_URL,
+      category: GA_CATEGORIES.SONG_DETAIL,
       memberId: user?.memberId,
     });
 
@@ -88,8 +89,8 @@ const KillingPartTrack = ({
 
   const toggleTrackPlayAndStop = () => {
     sendGAEvent({
-      action: 'click_play',
-      category: 'song_playing',
+      action: GA_ACTIONS.PLAY,
+      category: GA_CATEGORIES.SONG_DETAIL,
       memberId: user?.memberId,
     });
 
@@ -100,10 +101,10 @@ const KillingPartTrack = ({
     }
   };
 
-  const onLikeButton = () => {
+  const toggleLike = () => {
     sendGAEvent({
-      action: 'click_like',
-      category: 'song_playing',
+      action: GA_ACTIONS.LIKE,
+      category: GA_CATEGORIES.SONG_DETAIL,
       memberId: user?.memberId,
     });
 
@@ -133,7 +134,7 @@ const KillingPartTrack = ({
       </FLexContainer>
       <ButtonContainer>
         <LikeButton
-          onClick={isLoggedIn ? onLikeButton : openModal}
+          onClick={isLoggedIn ? toggleLike : openModal}
           aria-label={`${rank}등 킬링파트 좋아요 하기`}
         >
           <ButtonIcon src={heartIcon} alt="" />
