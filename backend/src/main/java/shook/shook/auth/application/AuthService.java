@@ -35,7 +35,8 @@ public class AuthService {
         return new TokenPair(accessToken, refreshToken);
     }
 
-    public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken, final String accessToken) {
+    public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken,
+                                                                       final String accessToken) {
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
