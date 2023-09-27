@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import emptyPlay from '@/assets/icon/empty-play.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
+import Thumbnail from '@/features/songs/components/Thumbnail';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
@@ -35,13 +36,13 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
       />
 
       <CollectingLink onClick={isLoggedIn ? goToPartCollectingPage : openModal}>
-        <Album src={albumCoverUrl} />
+        <Thumbnail src={albumCoverUrl} size="xl" borderRadius={4} />
         <Spacing direction={'horizontal'} size={24} />
         <Contents>
           <Title>{title}</Title>
           <Singer>{singer}</Singer>
           <PlayingTime>
-            <img src={emptyPlay} />
+            <PlayIcon src={emptyPlay} />
             <PlayingTimeText>{toMinSecText(videoLength)}</PlayingTimeText>
           </PlayingTime>
         </Contents>
@@ -61,12 +62,6 @@ const CollectingLink = styled.a`
   display: flex;
   justify-content: center;
   padding: 10px;
-`;
-
-const Album = styled.img`
-  max-width: 120px;
-  background-color: white;
-  border-radius: 4px;
 `;
 
 const Contents = styled.div`
@@ -109,4 +104,10 @@ const PlayingTime = styled.div`
 
 const PlayingTimeText = styled.p`
   padding-top: 2px;
+`;
+
+const PlayIcon = styled.img`
+  width: 16px;
+  height: 16px;
+  margin: auto;
 `;
