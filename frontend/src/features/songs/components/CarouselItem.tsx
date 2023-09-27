@@ -26,15 +26,13 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
 
   return (
     <Wrapper>
-      {!isLoggedIn && (
-        <LoginModal
-          message={
-            '슉에서 당신만의 킬링파트를 등록해보세요!\n당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!'
-          }
-          isOpen={isOpen}
-          closeModal={closeModal}
-        />
-      )}
+      <LoginModal
+        message={
+          '슉에서 당신만의 킬링파트를 등록해보세요!\n당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!'
+        }
+        isOpen={isOpen}
+        closeModal={closeModal}
+      />
 
       <CollectingLink onClick={isLoggedIn ? goToPartCollectingPage : openModal}>
         <Album src={albumCoverUrl} />
