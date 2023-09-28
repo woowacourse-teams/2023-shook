@@ -103,6 +103,7 @@ const Register = styled.button`
 
   font-weight: 700;
   color: ${({ theme: { color }, disabled }) => (disabled ? color.disabled : color.white)};
+
   background-color: ${({ theme: { color }, disabled }) =>
     disabled ? color.disabledBackground : color.primary};
   border: none;
