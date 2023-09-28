@@ -43,6 +43,7 @@ export const VoteInterfaceProvider = ({
       setPartStartTime(partStartTime - overflowedSeconds);
     }
 
+    videoPlayer.current?.seekTo(partStartTime, true);
     setInterval(newInterval);
   };
 
