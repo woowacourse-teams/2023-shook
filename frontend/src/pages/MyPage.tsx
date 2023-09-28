@@ -241,7 +241,7 @@ const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: Like
   );
 };
 
-const Grid = styled.div`
+const Grid = styled.button`
   display: grid;
   grid-template:
     'thumbnail title _' 26px
@@ -250,9 +250,11 @@ const Grid = styled.div`
     / 70px auto 26px;
   column-gap: 8px;
 
+  width: 100%;
   padding: 6px 0;
 
   color: ${({ theme: { color } }) => color.white};
+  text-align: start;
 `;
 
 const SongTitle = styled.div`
