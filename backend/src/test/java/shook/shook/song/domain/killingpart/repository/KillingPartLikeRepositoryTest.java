@@ -1,9 +1,11 @@
 package shook.shook.song.domain.killingpart.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,12 +17,14 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
+import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartKillingPartLikeCreatedAtDto;
 import shook.shook.support.UsingJpaTest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 class KillingPartLikeRepositoryTest extends UsingJpaTest {
 
-    private static KillingPart SAVED_KILLING_PART;
+    private static KillingPart FIRST_SAVED_KILLING_PART;
+    private static KillingPart SECOND_SAVED_KILLING_PART;
     private static Member SAVED_MEMBER;
 
     @Autowired
@@ -34,7 +38,8 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
-        SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
+        FIRST_SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
+        SECOND_SAVED_KILLING_PART = killingPartRepository.findById(2L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
     }
 
@@ -42,7 +47,7 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART,
             SAVED_MEMBER);
 
         //when
@@ -57,7 +62,7 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART,
             SAVED_MEMBER);
 
         //when
@@ -74,14 +79,14 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void findByKillingPartAndMember_isDeleted() {
         // given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART,
             SAVED_MEMBER);
         killingPartLikeRepository.save(killingPartLike);
         saveAndClearEntityManager();
 
         // when
         final Optional<KillingPartLike> foundLike = killingPartLikeRepository.findByKillingPartAndMember(
-            SAVED_KILLING_PART, SAVED_MEMBER);
+            FIRST_SAVED_KILLING_PART, SAVED_MEMBER);
 
         // then
         assertThat(foundLike).isPresent();
@@ -91,7 +96,7 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
     @Test
     void findAllByMemberAndDeleted() {
         // given
-        final KillingPartLike killingPartLike = new KillingPartLike(SAVED_KILLING_PART,
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART,
             SAVED_MEMBER);
 
         killingPartLikeRepository.save(killingPartLike);
@@ -105,5 +110,86 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
         assertThat(allByMemberAndDeleted).usingRecursiveComparison()
             .comparingOnlyFields("id")
             .isEqualTo(List.of(killingPartLike));
+    }
+
+    @DisplayName("좋아요한 노래와 킬링파트 정보를 조회한다.")
+    @Test
+    void findLikedKillingPartAndSongByMember() {
+        //given
+        final KillingPartLike firstKillingPartLike = new KillingPartLike(
+            FIRST_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+        final KillingPartLike secondKillingPartLike = new KillingPartLike(
+            SECOND_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+
+        firstKillingPartLike.updateDeletion();
+        secondKillingPartLike.updateDeletion();
+
+        final KillingPartLike savedFirstKillingPartLike = killingPartLikeRepository.save(firstKillingPartLike);
+        final KillingPartLike savedSecondKillingPartLIke = killingPartLikeRepository.save(secondKillingPartLike);
+
+        saveAndClearEntityManager();
+
+        //when
+        final List<SongKillingPartKillingPartLikeCreatedAtDto> likedKillingPartAndSongByMember =
+            killingPartLikeRepository.findLikedKillingPartAndSongByMember(SAVED_MEMBER);
+
+        //then
+        //interface dto projection 으로 인해 필드 비교가 불가하여 정렬하여 값을 검증합니다.
+        likedKillingPartAndSongByMember.sort(
+            Comparator.comparing(SongKillingPartKillingPartLikeCreatedAtDto::getKillingPartLikeCreatedAt)
+        );
+
+        assertAll(
+            () -> assertThat(likedKillingPartAndSongByMember).hasSize(2),
+            () -> {
+                final SongKillingPartKillingPartLikeCreatedAtDto firstDto = likedKillingPartAndSongByMember.get(0);
+                assertThat(firstDto.getKillingPart()).isEqualTo(FIRST_SAVED_KILLING_PART);
+                assertThat(firstDto.getSong().getId()).isEqualTo(FIRST_SAVED_KILLING_PART.getSong().getId());
+                assertThat(firstDto.getKillingPartLikeCreatedAt()).isEqualTo(savedFirstKillingPartLike.getCreatedAt());
+            },
+            () -> {
+                final SongKillingPartKillingPartLikeCreatedAtDto secondDto = likedKillingPartAndSongByMember.get(1);
+                assertThat(secondDto.getKillingPart()).isEqualTo(SECOND_SAVED_KILLING_PART);
+                assertThat(secondDto.getSong().getId()).isEqualTo(SECOND_SAVED_KILLING_PART.getSong().getId());
+                assertThat(secondDto.getKillingPartLikeCreatedAt()).isEqualTo(
+                    savedSecondKillingPartLIke.getCreatedAt());
+            }
+        );
+    }
+
+    @DisplayName("멤버가 좋아요한 킬링파트 아이디 목록을 반환한다.")
+    @Test
+    void findLikedKillingPartIdsByMember() {
+        //given
+        final KillingPartLike firstKillingPartLike = new KillingPartLike(
+            FIRST_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+        final KillingPartLike secondKillingPartLike = new KillingPartLike(
+            SECOND_SAVED_KILLING_PART,
+            SAVED_MEMBER
+        );
+
+        firstKillingPartLike.updateDeletion();
+        secondKillingPartLike.updateDeletion();
+
+        killingPartLikeRepository.save(firstKillingPartLike);
+        killingPartLikeRepository.save(secondKillingPartLike);
+
+        saveAndClearEntityManager();
+
+        //when
+        final List<Long> likedKillingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(
+            SAVED_MEMBER);
+
+        //then
+        assertThat(likedKillingPartIds).containsExactly(
+            FIRST_SAVED_KILLING_PART.getId(),
+            SECOND_SAVED_KILLING_PART.getId()
+        );
     }
 }

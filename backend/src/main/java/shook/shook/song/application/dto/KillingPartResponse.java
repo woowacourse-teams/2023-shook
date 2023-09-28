@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.member.domain.Member;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 
@@ -41,7 +40,7 @@ public class KillingPartResponse {
         final Song song,
         final KillingPart killingPart,
         final int rank,
-        final Member member
+        final boolean isLiked
     ) {
         return new KillingPartResponse(
             killingPart.getId(),
@@ -51,7 +50,7 @@ public class KillingPartResponse {
             killingPart.getEndSecond(),
             song.getPartVideoUrl(killingPart),
             killingPart.getLength(),
-            killingPart.isLikedByMember(member)
+            isLiked
         );
     }
 }

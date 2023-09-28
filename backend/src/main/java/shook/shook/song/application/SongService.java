@@ -19,6 +19,7 @@ import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
+import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
@@ -34,6 +35,7 @@ public class SongService {
 
     private final SongRepository songRepository;
     private final KillingPartRepository killingPartRepository;
+    private final KillingPartLikeRepository killingPartLikeRepository;
     private final MemberRepository memberRepository;
     private final InMemorySongs inMemorySongs;
     private final SongDataExcelReader songDataExcelReader;
@@ -85,8 +87,8 @@ public class SongService {
         }
 
         final Member member = findMemberById(memberInfo.getMemberId());
-
-        return SongSwipeResponse.of(member, currentSong, beforeSongs, afterSongs);
+        final List<Long> killingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
+        return SongSwipeResponse.of(currentSong, beforeSongs, afterSongs, killingPartIds);
     }
 
     private Member findMemberById(final Long memberId) {
@@ -121,9 +123,11 @@ public class SongService {
         }
 
         final Member member = findMemberById(memberInfo.getMemberId());
+        final List<Long> likedKillingPartIds =
+            killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
 
         return songs.stream()
-            .map(song -> SongResponse.of(song, member))
+            .map(song -> SongResponse.of(song, likedKillingPartIds))
             .toList();
     }
 
@@ -168,7 +172,9 @@ public class SongService {
         }
 
         final Member member = findMemberById(memberInfo.getMemberId());
-        return SongSwipeResponse.of(member, currentSong, prevSongs, nextSongs);
+        final List<Long> likedKillingPartIds =
+            killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
+        return SongSwipeResponse.of(currentSong, prevSongs, nextSongs, likedKillingPartIds);
     }
 
     public List<SongResponse> findPrevSongsByGenre(

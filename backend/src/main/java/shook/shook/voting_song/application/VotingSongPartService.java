@@ -69,14 +69,14 @@ public class VotingSongPartService {
     private boolean voteToExistVotingSongPartAndReturnVoteDuplication(final Member member,
                                                                       final VotingSong votingSong,
                                                                       final VotingSongPart votingSongPart) {
-        if (existSameVoteByMember(member, votingSongPart)) {
+        if (isMemberSameVoteExist(member, votingSongPart)) {
             return true;
         }
         voteToExistPart(member, votingSong, votingSongPart);
         return false;
     }
 
-    private boolean existSameVoteByMember(final Member member, final VotingSongPart votingSongPart) {
+    private boolean isMemberSameVoteExist(final Member member, final VotingSongPart votingSongPart) {
         return voteRepository.existsByMemberAndVotingSongPart(member, votingSongPart);
     }
 
