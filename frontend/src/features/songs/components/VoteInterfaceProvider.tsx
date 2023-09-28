@@ -5,7 +5,7 @@ import type { PropsWithChildren } from 'react';
 
 interface VoteInterfaceContextProps extends VoteInterfaceProviderProps {
   partStartTime: number;
-  interval: KillingPartInterval;
+  interval: KillingPartInterval | null;
   // NOTE: Why both setState and eventHandler have same naming convention?
   updatePartStartTime: (timeUnit: string, value: number) => void;
   updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
@@ -25,12 +25,17 @@ export const VoteInterfaceProvider = ({
   songId,
   songVideoId,
 }: PropsWithChildren<VoteInterfaceProviderProps>) => {
-  const [interval, setInterval] = useState<KillingPartInterval>(10);
+  const [interval, setInterval] = useState<KillingPartInterval | null>(10);
   const [partStartTime, setPartStartTime] = useState(0);
   const { videoPlayer } = useVideoPlayerContext();
 
   const updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const newInterval = Number(e.currentTarget.dataset['interval']) as KillingPartInterval;
+    if (newInterval === interval) {
+      setInterval(null);
+      return;
+    }
+
     const partEndTime = partStartTime + newInterval;
 
     if (partEndTime > videoLength) {
@@ -62,6 +67,7 @@ export const VoteInterfaceProvider = ({
   };
 
   useEffect(() => {
+    if (!interval) return;
     const timer = window.setInterval(() => {
       videoPlayer.current?.seekTo(partStartTime, true);
     }, interval * 1000);

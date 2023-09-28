@@ -8,9 +8,12 @@ const VideoSlider = () => {
   const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
 
-  const partEndTime = partStartTime + interval;
-  const partStartTimeText = toMinSecText(partStartTime);
-  const partEndTimeText = toMinSecText(partEndTime);
+  const partStartTimeText = interval ? toMinSecText(partStartTime) : toMinSecText(0);
+  const partEndTimeText = interval
+    ? toMinSecText(partStartTime + interval)
+    : toMinSecText(videoLength);
+
+  const maxPlayingTime = interval ? videoLength - interval : videoLength;
 
   const changeTime: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { valueAsNumber: currentSelectedTime },
@@ -40,7 +43,7 @@ const VideoSlider = () => {
           onTouchEnd={seekToTime}
           onMouseUp={seekToTime}
           min={0}
-          max={videoLength - interval}
+          max={maxPlayingTime}
           step={1}
           interval={interval}
         />
@@ -86,7 +89,7 @@ export const PartEndTime = styled.span`
   font-weight: 700;
 `;
 
-const Slider = styled.input<{ interval: number }>`
+const Slider = styled.input<{ interval: number | null }>`
   cursor: pointer;
 
   width: 100%;
@@ -99,7 +102,7 @@ const Slider = styled.input<{ interval: number }>`
     position: relative;
     top: -4px;
 
-    width: ${({ interval }) => interval * 6}px;
+    width: ${({ interval }) => (interval ? interval * 6 : 6)}px;
     height: 16px;
 
     -webkit-appearance: none;
