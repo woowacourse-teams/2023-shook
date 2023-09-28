@@ -102,7 +102,7 @@ const Slider = styled.input<{ interval: number | null }>`
     position: relative;
     top: -4px;
 
-    width: ${({ interval }) => (interval ? interval * 6 : 6)}px;
+    width: ${({ interval }) => (interval ? interval * 6 : 2)}px;
     height: 16px;
 
     -webkit-appearance: none;

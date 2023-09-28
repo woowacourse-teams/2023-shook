@@ -16,14 +16,12 @@ const VoteInterface = () => {
   const { showToast } = useToastContext();
   const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
   const { videoPlayer } = useVideoPlayerContext();
-
   const { createKillingPart } = usePostKillingPart();
   const { isOpen, openModal, closeModal } = useModal();
-
   const { user } = useAuthContext();
 
   const voteTimeText = interval ? toPlayingTimeText(partStartTime, partStartTime + interval) : '';
-
+  const isDisabledSummit = interval === null;
   const submitKillingPart = async () => {
     if (!interval) return;
     videoPlayer.current?.pauseVideo();
@@ -48,9 +46,15 @@ const VoteInterface = () => {
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
       <Spacing direction="vertical" size={16} />
-      <Register type="button" onClick={submitKillingPart}>
+      <Register type="button" onClick={submitKillingPart} disabled={isDisabledSummit}>
         등록
       </Register>
+      {isDisabledSummit && (
+        <>
+          <Spacing direction="vertical" size={8} />
+          <Information>킬링파트 구간 선택 후 등록이 가능합니다.</Information>
+        </>
+      )}
 
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>
@@ -92,15 +96,15 @@ const RegisterTitle = styled.p`
 `;
 
 const Register = styled.button`
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   width: 100%;
   height: 36px;
 
   font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-
-  background-color: ${({ theme: { color } }) => color.primary};
+  color: ${({ theme: { color }, disabled }) => (disabled ? color.disabled : color.white)};
+  background-color: ${({ theme: { color }, disabled }) =>
+    disabled ? color.disabledBackground : color.primary};
   border: none;
   border-radius: 10px;
 `;
@@ -151,4 +155,8 @@ const ButtonContainer = styled.div`
 
 const Warning = styled.div`
   color: ${({ theme: { color } }) => color.subText};
+`;
+
+const Information = styled.p`
+  color: ${({ theme: { color } }) => color.primary};
 `;
