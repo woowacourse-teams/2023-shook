@@ -47,7 +47,7 @@ public class SongResponse {
             song.getLength(),
             song.getVideoId(),
             song.getAlbumCoverUrl(),
-            song.getGenre().getValue(),
+            song.getGenre().name(),
             toKillingPartResponses(song, likedKillingPartIds)
         );
     }
