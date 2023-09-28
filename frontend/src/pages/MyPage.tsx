@@ -197,8 +197,10 @@ type LikePartItemProps = LikeKillingPart & {
 const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: LikePartItemProps) => {
   const { showToast } = useToastContext();
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
-  const shareUrl = () => {
+  const shareUrl: React.MouseEventHandler = (e) => {
+    e.stopPropagation();
     sendGAEvent({
       action: GA_ACTIONS.COPY_URL,
       category: GA_CATEGORIES.MY_PAGE,
@@ -209,11 +211,15 @@ const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: Like
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
+  const goToListenSong = () => {
+    navigate(`/songs/${songId}/ALL`);
+  };
+
   const { minute: startMin, second: startSec } = secondsToMinSec(start);
   const { minute: endMin, second: endSec } = secondsToMinSec(end);
 
   return (
-    <Grid>
+    <Grid onClick={goToListenSong}>
       <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
@@ -235,7 +241,7 @@ const LikePartItem = ({ songId, albumCoverUrl, title, singer, start, end }: Like
   );
 };
 
-const Grid = styled.div`
+const Grid = styled.button`
   display: grid;
   grid-template:
     'thumbnail title _' 26px
@@ -244,9 +250,11 @@ const Grid = styled.div`
     / 70px auto 26px;
   column-gap: 8px;
 
+  width: 100%;
   padding: 6px 0;
 
   color: ${({ theme: { color } }) => color.white};
+  text-align: start;
 `;
 
 const SongTitle = styled.div`
