@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import shook.shook.member.domain.Member;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
-import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartDto;
+import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartKillingPartLikeCreatedAtDto;
 
 @Repository
 public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike, Long> {
@@ -19,12 +19,12 @@ public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike
 
     List<KillingPartLike> findAllByMemberAndIsDeleted(final Member member, final boolean isDeleted);
 
-    @Query("SELECT s as song, kp as killingPart "
+    @Query("SELECT s as song, kp as killingPart, kp_like.createdAt as killingPartLikeCreatedAt "
         + "FROM Song s "
         + "LEFT JOIN KillingPart kp ON s = kp.song "
         + "LEFT JOIN KillingPartLike kp_like ON kp = kp_like.killingPart "
         + "WHERE kp_like.member = :member and kp_like.isDeleted = false")
-    List<SongKillingPartDto> findLikedKillingPartAndSongByMember(
+    List<SongKillingPartKillingPartLikeCreatedAtDto> findLikedKillingPartAndSongByMember(
         @Param("member") final Member member
     );
 

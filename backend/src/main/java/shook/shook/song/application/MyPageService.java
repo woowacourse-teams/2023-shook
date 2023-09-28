@@ -12,12 +12,12 @@ import shook.shook.member.exception.MemberException;
 import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
-import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartDto;
+import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartKillingPartLikeCreatedAtDto;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class KillingPartService {
+public class MyPageService {
 
     private final KillingPartLikeRepository killingPartLikeRepository;
     private final MemberRepository memberRepository;
@@ -32,12 +32,12 @@ public class KillingPartService {
         final Member member = memberRepository.findById(memberInfo.getMemberId())
             .orElseThrow(MemberNotExistException::new);
 
-        final List<SongKillingPartDto> likedKillingPartAndSongByMember =
+        final List<SongKillingPartKillingPartLikeCreatedAtDto> likedKillingPartAndSongByMember =
             killingPartLikeRepository.findLikedKillingPartAndSongByMember(member);
 
         return likedKillingPartAndSongByMember.stream()
             .sorted(Comparator.comparing(
-                songKillingPart -> songKillingPart.getKillingPart().getCreatedAt(),
+                SongKillingPartKillingPartLikeCreatedAtDto::getKillingPartLikeCreatedAt,
                 Comparator.reverseOrder()
             ))
             .map(songKillingPart -> LikedKillingPartResponse.of(

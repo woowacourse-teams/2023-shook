@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
-import shook.shook.song.application.KillingPartService;
+import shook.shook.song.application.MyPageService;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
 import shook.shook.song.ui.openapi.MyPageApi;
 
@@ -17,12 +17,12 @@ import shook.shook.song.ui.openapi.MyPageApi;
 @RequestMapping("/my-page")
 public class MyPageController implements MyPageApi {
 
-    private final KillingPartService killingPartService;
+    private final MyPageService myPageService;
 
     @GetMapping
     public ResponseEntity<List<LikedKillingPartResponse>> getMemberLikedKillingParts(
         @Authenticated final MemberInfo memberInfo
     ) {
-        return ResponseEntity.ok(killingPartService.findLikedKillingPartByMemberId(memberInfo));
+        return ResponseEntity.ok(myPageService.findLikedKillingPartByMemberId(memberInfo));
     }
 }
