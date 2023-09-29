@@ -121,7 +121,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
   }, [pause]);
 
   return (
-    <Flex direction="column">
+    <Flex $direction="column">
       <FlexContainer ref={observingTargetRef}>
         <TitleWrapper aria-label="Top 3 킬링파트 듣기">
           <ItalicTitle aria-hidden="true">Top 3</ItalicTitle>
