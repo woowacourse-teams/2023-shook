@@ -68,6 +68,7 @@ export const VoteInterfaceProvider = ({
   };
 
   useEffect(() => {
+    if (interval === 0) return;
     const timer = window.setInterval(() => {
       videoPlayer.current?.seekTo(partStartTime, true);
     }, interval * 1000);
