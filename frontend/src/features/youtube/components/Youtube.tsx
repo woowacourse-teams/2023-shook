@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import { useCallback, useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import Flex from '@/shared/components/Flex/Flex';
 import createObserver from '@/shared/utils/createObserver';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
@@ -46,16 +47,18 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
   }, []);
 
   return (
-    <YoutubeWrapper>
-      {loading && (
-        <Preview
-          src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-          ref={createPlayerOnObserve}
-          loading="lazy"
-        />
-      )}
-      <YoutubeIframe id={`yt-player-${videoId}`} />
-    </YoutubeWrapper>
+    <Flex align="center" justify="center">
+      <YoutubeWrapper>
+        {loading && (
+          <Preview
+            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+            ref={createPlayerOnObserve}
+            loading="lazy"
+          />
+        )}
+        <YoutubeIframe id={`yt-player-${videoId}`} />
+      </YoutubeWrapper>
+    </Flex>
   );
 };
 

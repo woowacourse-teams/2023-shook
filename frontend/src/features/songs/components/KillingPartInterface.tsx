@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';
@@ -120,7 +121,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
   }, [pause]);
 
   return (
-    <>
+    <Flex direction="column">
       <FlexContainer ref={observingTargetRef}>
         <TitleWrapper aria-label="Top 3 킬링파트 듣기">
           <ItalicTitle aria-hidden="true">Top 3</ItalicTitle>
@@ -147,7 +148,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
       {commentsPartId !== DEFAULT_PART_ID && (
         <CommentList songId={songId} partId={commentsPartId} />
       )}
-    </>
+    </Flex>
   );
 };
 
