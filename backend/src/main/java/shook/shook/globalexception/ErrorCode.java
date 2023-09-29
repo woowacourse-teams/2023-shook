@@ -23,6 +23,7 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(1011, "존재하지 않는 refreshToken 입니다."),
     TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1012, "올바르지 않은 TokenPair 입니다."),
     DUPLICATE_NICKNAME(1013, "중복되는 닉네임입니다."),
+    TOO_SHORT_NICKNAME(1014, "닉네임은 2자 이상이어야 합니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 

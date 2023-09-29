@@ -104,4 +104,15 @@ public class MemberException extends CustomException {
             super(ErrorCode.DUPLICATE_NICKNAME, inputValuesByProperty);
         }
     }
+
+    public static class TooShortNicknameException extends MemberException {
+
+        public TooShortNicknameException() {
+            super(ErrorCode.TOO_SHORT_NICKNAME);
+        }
+
+        public TooShortNicknameException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.TOO_SHORT_NICKNAME, inputValuesByProperty);
+        }
+    }
 }
