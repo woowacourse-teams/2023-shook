@@ -21,9 +21,8 @@ const VoteInterface = () => {
   const { user } = useAuthContext();
 
   const voteTimeText = interval ? toPlayingTimeText(partStartTime, partStartTime + interval) : '';
-  const isDisabledSummit = interval === null;
+  const isDisabledSummit = interval === 0;
   const submitKillingPart = async () => {
-    if (!interval) return;
     videoPlayer.current?.pauseVideo();
 
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
