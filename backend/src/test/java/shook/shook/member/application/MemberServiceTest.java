@@ -12,7 +12,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.auth.ui.Authority;
@@ -215,18 +214,13 @@ class MemberServiceTest extends UsingJpaTest {
             final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
 
             // when
-            final TokenPair tokenPair = memberService.updateNickname(savedMember.getId(),
-                                                                     new MemberInfo(savedMember.getId(),
-                                                                                    Authority.MEMBER),
-                                                                     request);
+            final String updatedNickname = memberService.updateNickname(savedMember.getId(),
+                                                                        savedMember.getId(),
+                                                                        request);
 
             // then
             assertThat(memberRepository.findById(savedMember.getId()).get().getNickname())
-                .isEqualTo(newNickname);
-            assertThat(tokenProvider.parseClaims(tokenPair.getAccessToken()))
-                .usingRecursiveComparison()
-                .ignoringFields("exp")
-                .isEqualTo(tokenProvider.parseClaims(tokenPair.getRefreshToken()));
+                .isEqualTo(updatedNickname);
         }
 
         @DisplayName("기존 닉네임과 동일한 닉네임으로 변경하는 경우, null 을 리턴한다.")
@@ -238,9 +232,7 @@ class MemberServiceTest extends UsingJpaTest {
             // when
             // then
             assertThat(
-                memberService.updateNickname(savedMember.getId(),
-                                             new MemberInfo(savedMember.getId(), Authority.MEMBER),
-                                             request)).isNull();
+                memberService.updateNickname(savedMember.getId(), savedMember.getId(), request)).isNull();
         }
 
         @DisplayName("변경할 닉네임이 중복되면 예외를 던진다.")
@@ -254,7 +246,7 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThatThrownBy(() -> memberService.updateNickname(newMember.getId(), newMemberInfo, request))
+            assertThatThrownBy(() -> memberService.updateNickname(newMember.getId(), newMember.getId(), request))
                 .isInstanceOf(MemberException.ExistNicknameException.class);
         }
 
@@ -267,9 +259,7 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
-                                                                  new MemberInfo(savedMember.getId(), Authority.MEMBER),
-                                                                  request))
+            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(), savedMember.getId(), request))
                 .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
         }
 
@@ -282,9 +272,7 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(),
-                                                                  new MemberInfo(savedMember.getId(), Authority.MEMBER),
-                                                                  request))
+            assertThatThrownBy(() -> memberService.updateNickname(savedMember.getId(), savedMember.getId(), request))
                 .isInstanceOf(MemberException.TooLongNicknameException.class);
         }
     }

@@ -39,9 +39,9 @@ class TokenPairSchedulerTest {
     @Test
     void renewInMemoryTokenPairRepository() {
         // given
-        final String refreshToken = tokenProvider.createRefreshToken(1L, "shook");
+        final String refreshToken = tokenProvider.createRefreshToken(1L);
         final String accessToken = tokenProvider.createAccessToken(1L, "shook");
-        final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L, "expiredShook");
+        final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L);
         final String expiredAccessToken = expiredTokenProvider.createAccessToken(2L, "expiredShook");
 
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
@@ -64,9 +64,9 @@ class TokenPairSchedulerTest {
     @DisplayName("1초마다 동작하는 scheduler로 inMemoryTokenPairRepository를 갱신한다.")
     void renewInMemoryTokenPairRepositoryWithScheduler() {
         // given
-        final String refreshToken = tokenProvider.createRefreshToken(1L, "shook");
+        final String refreshToken = tokenProvider.createRefreshToken(1L);
         final String accessToken = tokenProvider.createAccessToken(1L, "shook");
-        final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L, "expiredShook");
+        final String expiredRefreshToken = expiredTokenProvider.createRefreshToken(2L);
         final String expiredAccessToken = expiredTokenProvider.createAccessToken(2L, "expiredShook");
 
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);

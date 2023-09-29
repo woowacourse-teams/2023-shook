@@ -1,24 +1,28 @@
 package shook.shook.member.ui;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import static shook.shook.auth.application.TokenService.EMPTY_REFRESH_TOKEN;
+import static shook.shook.auth.application.TokenService.REFRESH_TOKEN_KEY;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import shook.shook.auth.application.TokenService;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
-import shook.shook.auth.application.dto.TokenPair;
-import shook.shook.auth.ui.CookieProvider;
 import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.application.dto.NicknameUpdateRequest;
+import shook.shook.member.application.dto.NicknameUpdateResponse;
 import shook.shook.member.ui.openapi.MemberApi;
 
 @RequiredArgsConstructor
@@ -27,7 +31,7 @@ import shook.shook.member.ui.openapi.MemberApi;
 public class MemberController implements MemberApi {
 
     private final MemberService memberService;
-    private final CookieProvider cookieProvider;
+    private final TokenService tokenService;
 
     @DeleteMapping
     public ResponseEntity<Void> deleteMember(
@@ -40,23 +44,24 @@ public class MemberController implements MemberApi {
     }
 
     @PatchMapping("/nickname")
-    public ResponseEntity<ReissueAccessTokenResponse> updateNickname(
+    public ResponseEntity<NicknameUpdateResponse> updateNickname(
+        @CookieValue(value = REFRESH_TOKEN_KEY, defaultValue = EMPTY_REFRESH_TOKEN) final String refreshToken,
+        @RequestHeader(HttpHeaders.AUTHORIZATION) final String authorization,
         @PathVariable(name = "member_id") final Long memberId,
-        @Authenticated final MemberInfo memberInfo,
-        @Valid @RequestBody final NicknameUpdateRequest request,
-        final HttpServletResponse response
+        @Valid @RequestBody final NicknameUpdateRequest request
     ) {
-        final TokenPair tokenPair = memberService.updateNickname(memberId, memberInfo, request);
-
-        if (tokenPair == null) {
+        tokenService.validateRefreshToken(refreshToken);
+        final Long requestMemberId = tokenService.extractMemberId(authorization);
+        final String accessToken = tokenService.extractAccessToken(authorization);
+        final String updatedNickname = memberService.updateNickname(memberId, requestMemberId, request);
+        if (updatedNickname == null) {
             return ResponseEntity.noContent().build();
         }
 
-        final Cookie cookie = cookieProvider.createRefreshTokenCookie(tokenPair.getRefreshToken());
-        response.addCookie(cookie);
-        final ReissueAccessTokenResponse reissueResponse = new ReissueAccessTokenResponse(
-            tokenPair.getAccessToken());
-
-        return ResponseEntity.ok(reissueResponse);
+        final ReissueAccessTokenResponse tokenResponse = tokenService.reissueAccessTokenByRefreshTokenByNickname(
+            refreshToken, accessToken, updatedNickname);
+        final NicknameUpdateResponse response = new NicknameUpdateResponse(tokenResponse.getAccessToken(),
+                                                                           updatedNickname);
+        return ResponseEntity.ok(response);
     }
 }

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.application.dto.TokenPair;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
@@ -62,7 +61,7 @@ public class MemberService {
 
     @Transactional
     public void deleteById(final Long id, final MemberInfo memberInfo) {
-        final Member member = getMemberIfValidRequest(id, memberInfo);
+        final Member member = getMemberIfValidRequest(id, memberInfo.getMemberId());
 
         final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(member, false);
 
@@ -71,8 +70,7 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    private Member getMemberIfValidRequest(final Long memberId, final MemberInfo memberInfo) {
-        final long requestMemberId = memberInfo.getMemberId();
+    private Member getMemberIfValidRequest(final Long memberId, final Long requestMemberId) {
         final Member requestMember = findById(requestMemberId);
         final Member targetMember = findById(memberId);
         validateMemberAuthentication(requestMember, targetMember);
@@ -99,9 +97,9 @@ public class MemberService {
     }
 
     @Transactional
-    public TokenPair updateNickname(final Long memberId, final MemberInfo memberInfo,
-                                    final NicknameUpdateRequest request) {
-        final Member member = getMemberIfValidRequest(memberId, memberInfo);
+    public String updateNickname(final Long memberId, final Long requestMemberId,
+                                 final NicknameUpdateRequest request) {
+        final Member member = getMemberIfValidRequest(memberId, requestMemberId);
         final Nickname nickname = new Nickname(request.getNickname());
 
         if (member.hasSameNickname(nickname)) {
@@ -112,15 +110,7 @@ public class MemberService {
         member.updateNickname(nickname.getValue());
         memberRepository.save(member);
 
-        return reissueTokenPair(member.getId(), member.getNickname());
-    }
-
-    private TokenPair reissueTokenPair(final Long memberId, final String nickname) {
-        final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);
-        final String reissuedRefreshToken = tokenProvider.createRefreshToken(memberId, nickname);
-        inMemoryTokenPairRepository.addOrUpdateTokenPair(reissuedRefreshToken, reissuedAccessToken);
-
-        return new TokenPair(reissuedAccessToken, reissuedRefreshToken);
+        return nickname.getValue();
     }
 
     private void validateDuplicateNickname(final Nickname nickname) {

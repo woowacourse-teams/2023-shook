@@ -48,7 +48,7 @@ class AccessTokenReissueControllerTest {
         RestAssured.port = port;
         dataCleaner.clear();
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
-        refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
+        refreshToken = tokenProvider.createRefreshToken(savedMember.getId());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
     }
@@ -75,7 +75,6 @@ class AccessTokenReissueControllerTest {
         //then
         final Claims claims = tokenProvider.parseClaims(response.getAccessToken());
         assertThat(claims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
-        assertThat(claims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
     }
 
     @DisplayName("refreshToken이 없이 accessToken을 재발급 받으려면 예외를 던잔디.")

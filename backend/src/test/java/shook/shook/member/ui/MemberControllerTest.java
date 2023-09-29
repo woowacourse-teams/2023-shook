@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.member.application.dto.NicknameUpdateRequest;
+import shook.shook.member.application.dto.NicknameUpdateResponse;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.support.AcceptanceTest;
@@ -26,6 +27,9 @@ class MemberControllerTest extends AcceptanceTest {
 
     @Autowired
     private TokenProvider tokenProvider;
+
+    @Autowired
+    private InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
     @DisplayName("회원 삭제시 204 상태코드와 함께 비어있는 body 응답이 반환된다.")
     @Test
@@ -68,19 +72,23 @@ class MemberControllerTest extends AcceptanceTest {
         // given
         final Member member = memberRepository.save(new Member("hi@naver.com", "hi"));
         final String accessToken = tokenProvider.createAccessToken(member.getId(), member.getNickname());
+        final String refreshToken = tokenProvider.createRefreshToken(member.getId());
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
+
         final NicknameUpdateRequest request = new NicknameUpdateRequest("newNickname");
 
         // when
         // then
-        final ReissueAccessTokenResponse response = RestAssured.given().log().all()
+        final NicknameUpdateResponse response = RestAssured.given().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
+            .cookie("refreshToken", refreshToken)
             .body(request)
             .when().log().all()
             .patch("/members/{member_id}/nickname", member.getId())
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().as(ReissueAccessTokenResponse.class);
+            .extract().as(NicknameUpdateResponse.class);
 
         final Claims claims = tokenProvider.parseClaims(response.getAccessToken());
         assertThat(claims.get("memberId", Long.class)).isEqualTo(member.getId());
@@ -94,6 +102,8 @@ class MemberControllerTest extends AcceptanceTest {
         final Member member = memberRepository.save(new Member("hi@naver.com", "nickname"));
         final String accessToken = tokenProvider.createAccessToken(member.getId(),
                                                                    member.getNickname());
+        final String refreshToken = tokenProvider.createRefreshToken(member.getId());
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
 
         final NicknameUpdateRequest request = new NicknameUpdateRequest("nickname");
 
@@ -102,6 +112,7 @@ class MemberControllerTest extends AcceptanceTest {
         RestAssured.given().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
+            .cookie("refreshToken", refreshToken)
             .body(request)
             .when().log().all()
             .patch("/members/{member_id}/nickname", member.getId())
@@ -118,6 +129,7 @@ class MemberControllerTest extends AcceptanceTest {
         final Member newMember = memberRepository.save(new Member("new@naver.com", "new"));
         final String accessToken = tokenProvider.createAccessToken(newMember.getId(),
                                                                    newMember.getNickname());
+        final String refreshToken = tokenProvider.createRefreshToken(newMember.getId());
 
         final NicknameUpdateRequest request = new NicknameUpdateRequest(invalidNickname);
 
@@ -126,6 +138,7 @@ class MemberControllerTest extends AcceptanceTest {
         RestAssured.given().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .contentType(ContentType.JSON)
+            .cookie("refreshToken", refreshToken)
             .body(request)
             .when().log().all()
             .patch("/members/{member_id}/nickname", newMember.getId())
