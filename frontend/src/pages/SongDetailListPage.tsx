@@ -146,19 +146,25 @@ export const ObservingTrigger = styled.div`
 export const ItemContainer = styled.div`
   width: 100%;
 
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: calc(
+    ${({ theme: { mainTopBottomPadding } }) => {
+      return `100vh - ${mainTopBottomPadding.desktop} * 2`;
+    }}
+  );
+
+  & > div[role='article'] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
     height: calc(
       ${({ theme: { mainTopBottomPadding } }) => {
-        return `100vh - ${mainTopBottomPadding.tablet} * 2`;
+        return `100vh -  ${mainTopBottomPadding.tablet} * 2`;
       }}
     );
-
-    & > div[role='article'] {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-    }
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
@@ -167,11 +173,6 @@ export const ItemContainer = styled.div`
         return `100vh -  ${mainTopBottomPadding.xxs} * 2`;
       }}
     );
-
-    & > div[role='article'] {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-    }
   }
 `;
 
