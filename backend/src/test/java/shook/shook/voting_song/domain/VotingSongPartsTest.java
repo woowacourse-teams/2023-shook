@@ -4,10 +4,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
 
 class VotingSongPartsTest {
+
+    private static Member MEMBER = new Member("a@a.com", "nickname");
 
     @DisplayName("VotingSongParts 를 생성할 때 중복된 파트가 존재하면 예외를 던진다.")
     @Test

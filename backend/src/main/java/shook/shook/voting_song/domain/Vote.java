@@ -17,6 +17,7 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.member.domain.Member;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -32,20 +33,25 @@ public class Vote {
     @JoinColumn(name = "voting_song_part_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     private VotingSongPart votingSongPart;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    private Member member;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
-    private Vote(final Long id, final VotingSongPart votingSongPart) {
+    private Vote(final Long id, final Member member, final VotingSongPart votingSongPart) {
         this.id = id;
+        this.member = member;
         this.votingSongPart = votingSongPart;
     }
 
-    public static Vote saved(final Long id, final VotingSongPart votingSongPart) {
-        return new Vote(id, votingSongPart);
+    public static Vote saved(final Long id, final Member member, final VotingSongPart votingSongPart) {
+        return new Vote(id, member, votingSongPart);
     }
 
-    public static Vote forSave(final VotingSongPart votingSongPart) {
-        return new Vote(null, votingSongPart);
+    public static Vote forSave(final Member member, final VotingSongPart votingSongPart) {
+        return new Vote(null, member, votingSongPart);
     }
 
     @PrePersist

@@ -79,6 +79,7 @@ create table if not exists vote
 (
     id                  bigint auto_increment,
     voting_song_part_id bigint       not null,
+    member_id           bigint       not null,
     created_at          timestamp(6) not null,
     primary key (id)
 );

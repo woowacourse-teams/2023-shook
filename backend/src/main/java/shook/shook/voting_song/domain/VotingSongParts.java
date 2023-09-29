@@ -37,9 +37,7 @@ public class VotingSongParts {
 
     public boolean isUniquePart(final VotingSongPart newVotingSongPart) {
         return votingSongParts.stream()
-            .noneMatch(
-                (votingSongPart) -> votingSongPart.hasEqualStartAndLength(newVotingSongPart)
-            );
+            .noneMatch(votingSongPart -> votingSongPart.hasEqualStartAndLength(newVotingSongPart));
     }
 
     public Optional<VotingSongPart> getSameLengthPartStartAt(final VotingSongPart other) {
