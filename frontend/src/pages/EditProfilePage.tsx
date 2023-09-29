@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import NicknameChangingModal from '@/features/member/components/NicknameChangingModal';
 import WithdrawalModal from '@/features/member/components/WithdrawalModal';
 import { deleteMember } from '@/features/member/remotes/member';
 import { updateNickname } from '@/features/member/remotes/nickname';
@@ -13,12 +14,16 @@ import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
   const { user, logout, login } = useAuthContext();
-
   const [nickname, setNickname] = useState(user?.nickname);
   const {
     isOpen: isWithdrawalModalOpen,
     openModal: openWithdrawalModal,
     closeModal: closeWithdrawalModal,
+  } = useModal();
+  const {
+    isOpen: isNicknameModalOpen,
+    openModal: openNicknameModal,
+    closeModal: closeNicknameModal,
   } = useModal();
   const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
   const updateNicknameCallback = useMemo(() => {
@@ -46,7 +51,7 @@ const EditProfilePage = () => {
   const submitNicknameChanged = async () => {
     const { accessToken } = await changeNickname();
     login(accessToken);
-    //TODO: 성공 모달
+    navigate('/my-page');
   };
 
   return (
@@ -63,13 +68,19 @@ const EditProfilePage = () => {
       <TextArea id="introduction" value={''} disabled maxLength={100} />
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openWithdrawalModal}>회원 탈퇴</WithdrawalButton>
-      <SubmitButton onClick={submitNicknameChanged} disabled={false}>
+      <SubmitButton onClick={openNicknameModal} disabled={false}>
         제출
       </SubmitButton>
       <WithdrawalModal
         isOpen={isWithdrawalModalOpen}
         closeModal={closeWithdrawalModal}
         onWithdraw={handleWithdrawal}
+      />
+      <NicknameChangingModal
+        isOpen={isNicknameModalOpen}
+        closeModal={closeNicknameModal}
+        onChangeNickname={submitNicknameChanged}
+        nickname={nickname}
       />
     </Container>
   );
@@ -117,9 +128,9 @@ const Label = styled.label`
 `;
 
 const disabledStyle = css<{ disabled: boolean }>`
-  color: ${({ disabled, theme }) => (disabled ? theme.color.black400 : theme.color.black)};
+  color: ${({ disabled, theme }) => (disabled ? theme.color.black400 : theme.color.white)};
   background-color: ${({ disabled, theme }) =>
-    disabled ? theme.color.disabledBackground : theme.color.white};
+    disabled ? theme.color.disabledBackground : theme.color.primary};
 `;
 
 const Input = styled.input`
