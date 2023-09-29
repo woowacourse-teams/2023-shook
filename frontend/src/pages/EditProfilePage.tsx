@@ -15,7 +15,11 @@ const EditProfilePage = () => {
   const { user, logout, login } = useAuthContext();
 
   const [nickname, setNickname] = useState(user?.nickname);
-  const { isOpen, openModal, closeModal } = useModal();
+  const {
+    isOpen: isWithdrawalModalOpen,
+    openModal: openWithdrawalModal,
+    closeModal: closeWithdrawalModal,
+  } = useModal();
   const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
   const updateNicknameCallback = useMemo(() => {
     return updateNickname(user?.memberId, nickname);
@@ -58,11 +62,15 @@ const EditProfilePage = () => {
       <Spacing direction={'vertical'} size={4} />
       <TextArea id="introduction" value={''} disabled maxLength={100} />
       <Spacing direction={'vertical'} size={16} />
-      <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
+      <WithdrawalButton onClick={openWithdrawalModal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton onClick={submitNicknameChanged} disabled={false}>
         제출
       </SubmitButton>
-      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} onWithdraw={handleWithdrawal} />
+      <WithdrawalModal
+        isOpen={isWithdrawalModalOpen}
+        closeModal={closeWithdrawalModal}
+        onWithdraw={handleWithdrawal}
+      />
     </Container>
   );
 };
