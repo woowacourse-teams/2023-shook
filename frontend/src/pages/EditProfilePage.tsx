@@ -1,18 +1,27 @@
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import WithdrawalModal from '@/features/member/components/WithdrawalModal';
 import { deleteMember } from '@/features/member/remotes/member';
+import { updateNickname } from '@/features/member/remotes/nickname';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
-  const { user, logout } = useAuthContext();
+  const { user, logout, login } = useAuthContext();
+
+  const [nickname, setNickname] = useState(user?.nickname);
   const { isOpen, openModal, closeModal } = useModal();
-  const { mutateData } = useMutation(deleteMember(user?.memberId));
+  const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
+  const updateNicknameCallback = useMemo(() => {
+    return updateNickname(user?.memberId, nickname);
+  }, [nickname]);
+  const { mutateData: changeNickname } = useMutation(updateNicknameCallback);
+
   const navigate = useNavigate();
 
   if (!user) {
@@ -21,9 +30,19 @@ const EditProfilePage = () => {
   }
 
   const handleWithdrawal = async () => {
-    await mutateData();
+    await withdrawMember();
     logout();
     navigate(ROUTE_PATH.ROOT);
+  };
+
+  const changeNicknameInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setNickname(event.currentTarget.value);
+  };
+
+  const submitNicknameChanged = async () => {
+    const { accessToken } = await changeNickname();
+    login(accessToken);
+    //TODO: 성공 모달
   };
 
   return (
@@ -33,14 +52,16 @@ const EditProfilePage = () => {
       <Avatar src={shookshook} />
       <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input id="nickname" value={user.nickname} disabled />
+      <Input id="nickname" value={nickname} onChange={changeNicknameInput} />
       <Spacing direction={'vertical'} size={16} />
       <Label htmlFor="introduction">소개</Label>
       <Spacing direction={'vertical'} size={4} />
       <TextArea id="introduction" value={''} disabled maxLength={100} />
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
-      <SubmitButton disabled>제출</SubmitButton>
+      <SubmitButton onClick={submitNicknameChanged} disabled={false}>
+        제출
+      </SubmitButton>
       <WithdrawalModal isOpen={isOpen} closeModal={closeModal} onWithdraw={handleWithdrawal} />
     </Container>
   );
@@ -93,10 +114,10 @@ const disabledStyle = css<{ disabled: boolean }>`
     disabled ? theme.color.disabledBackground : theme.color.white};
 `;
 
-const Input = styled.input<{ disabled: boolean }>`
-  ${disabledStyle};
+const Input = styled.input`
   font-size: 16px;
   padding: 0 8px;
+  color: ${({ theme }) => theme.color.black};
 `;
 
 const TextArea = styled.textarea<{ disabled: boolean }>`
