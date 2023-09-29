@@ -62,7 +62,7 @@ class AuthControllerTest {
                 expectResponseBody.getAccessToken()),
             () -> assertThat(cookie.contains("refreshToken=asdfsg5")).isTrue(),
             () -> assertThat(cookie.contains("Max-Age=" + cookieAge)).isTrue(),
-            () -> assertThat(cookie.contains("Path=/api/reissue")).isTrue(),
+            () -> assertThat(cookie.contains("Path=/api")).isTrue(),
             () -> assertThat(cookie.contains("HttpOnly")).isTrue()
         );
     }
