@@ -18,7 +18,11 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
       <Container ref={ref} role="article" data-song-id={id}>
         <SRHeading>킬링파트 듣기 페이지</SRHeading>
         <VideoPlayerProvider>
-          <Flex $gap={16} $md={{ $direction: 'column' }}>
+          <Flex
+            $gap={16}
+            $md={{ $direction: 'column' }}
+            $css={{ padding: '16px', background: '#121212c8', borderRadius: '8px' }}
+          >
             <Flex $direction="column" $css={{ flex: '3 1 0' }}>
               <SongInfoContainer>
                 <Thumbnail src={albumCoverUrl} size="md" />
