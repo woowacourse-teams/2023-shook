@@ -18,8 +18,8 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
       <Container ref={ref} role="article" data-song-id={id}>
         <SRHeading>킬링파트 듣기 페이지</SRHeading>
         <VideoPlayerProvider>
-          <ResponsiveContainer gap={12}>
-            <Flex direction="column">
+          <Flex $gap={12} $md={{ $direction: 'column' }}>
+            <Flex $direction="column" $css={{ flex: '3 1 0' }}>
               <SongInfoContainer>
                 <Thumbnail src={albumCoverUrl} size="md" />
                 <Info>
@@ -30,11 +30,10 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
               <Spacing direction="vertical" size={16} />
               <Youtube videoId={songVideoId} />
             </Flex>
-
             <TimerProvider time={15}>
               <KillingPartInterface killingParts={killingParts} songId={id} />
             </TimerProvider>
-          </ResponsiveContainer>
+          </Flex>
         </VideoPlayerProvider>
       </Container>
     );
@@ -45,15 +44,10 @@ SongDetailItem.displayName = 'SongDetailItem';
 
 export default SongDetailItem;
 
-const ResponsiveContainer = styled(Flex)`
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    flex-direction: column;
-  }
-`;
-
-const Container = styled(Flex)`
+const Container = styled.div`
+  display: flex;
   flex-direction: column;
-  height: 100%;
+
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
