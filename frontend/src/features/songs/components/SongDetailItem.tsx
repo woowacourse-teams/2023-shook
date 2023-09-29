@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
@@ -9,6 +9,7 @@ import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import TimerProvider from '@/shared/components/Timer/TimerProvider';
+import ROUTE_PATH from '@/shared/constants/path';
 import createObserver from '@/shared/utils/createObserver';
 import type { SongDetail } from '@/shared/types/song';
 
@@ -17,13 +18,13 @@ interface SongDetailItemProps extends SongDetail {}
 const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
   ({ id, killingParts, singer, title, songVideoId, albumCoverUrl }, ref) => {
     const navigate = useNavigate();
+    const { genre } = useParams();
+
     const observerRef = useRef<IntersectionObserver | null>(null);
 
     const navigateToCurrentSongId: React.RefCallback<HTMLDivElement> = useCallback((domNode) => {
       const navigateToCurrentSong = () => {
-        const [, songs, , genre] = location.pathname.split('/');
-
-        navigate(`/${songs}/${id}/${genre}`, {
+        navigate(`/${ROUTE_PATH.SONG_DETAILS}/${id}/${genre}`, {
           replace: true,
           preventScrollReset: true,
         });
