@@ -51,16 +51,14 @@ export default SongDetailItem;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.desktop});
+  height: 100vh;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.mobile});
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.xxs});
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
   }
 `;

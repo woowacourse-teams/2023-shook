@@ -37,13 +37,6 @@ const theme = {
     tablet: '80px',
     desktop: '80px',
   },
-
-  mainTopBottomPadding: {
-    xxs: '8px',
-    mobile: '16px',
-    tablet: '16px',
-    desktop: '36px',
-  },
 } as const;
 
 export default theme;
