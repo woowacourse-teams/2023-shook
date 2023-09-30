@@ -14,7 +14,10 @@ import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
   const { user, logout, login } = useAuthContext();
-  const [nickname, setNickname] = useState(user?.nickname);
+  const [nicknameEntered, setNicknameEntered] = useState(user?.nickname);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+  // modal hooks
   const {
     isOpen: isWithdrawalModalOpen,
     openModal: openWithdrawalModal,
@@ -25,13 +28,16 @@ const EditProfilePage = () => {
     openModal: openNicknameModal,
     closeModal: closeNicknameModal,
   } = useModal();
-  const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
-  const updateNicknameCallback = useMemo(() => {
-    return updateNickname(user?.memberId, nickname);
-  }, [nickname]);
-  const { mutateData: changeNickname } = useMutation(updateNicknameCallback);
 
-  const navigate = useNavigate();
+  // 회원탈퇴 API
+  const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
+
+  // 닉네임변경 API
+  const mutateNickname = useMemo(
+    () => updateNickname(user?.memberId, nicknameEntered),
+    [nicknameEntered, user?.memberId]
+  );
+  const { mutateData: changeNickname } = useMutation(mutateNickname);
 
   if (!user) {
     navigate(ROUTE_PATH.LOGIN);
@@ -44,14 +50,22 @@ const EditProfilePage = () => {
     navigate(ROUTE_PATH.ROOT);
   };
 
-  const changeNicknameInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setNickname(event.currentTarget.value);
+  const handleChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setNicknameEntered(event.currentTarget.value);
   };
 
   const submitNicknameChanged = async () => {
-    const { accessToken } = await changeNickname();
-    login(accessToken);
-    navigate('/my-page');
+    if (nicknameEntered === user?.nickname) {
+      setErrorMessage('이전과 다른 닉네임을 사용해주세요.');
+      closeNicknameModal();
+      return;
+    }
+
+    const accessToken = (await changeNickname())?.accessToken;
+    if (accessToken) {
+      login(accessToken);
+      navigate('/my-page');
+    }
   };
 
   return (
@@ -61,15 +75,13 @@ const EditProfilePage = () => {
       <Avatar src={shookshook} />
       <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input id="nickname" value={nickname} onChange={changeNicknameInput} />
-      <Spacing direction={'vertical'} size={16} />
-      <Label htmlFor="introduction">소개</Label>
-      <Spacing direction={'vertical'} size={4} />
-      <TextArea id="introduction" value={''} disabled maxLength={100} />
+      <Input id="nickname" value={nicknameEntered} onChange={handleChangeNickname} />
+      <Spacing direction={'vertical'} size={8} />
+      <p>{errorMessage}</p>
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openWithdrawalModal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton onClick={openNicknameModal} disabled={false}>
-        제출
+        변경 하기
       </SubmitButton>
       <WithdrawalModal
         isOpen={isWithdrawalModalOpen}
@@ -79,8 +91,8 @@ const EditProfilePage = () => {
       <NicknameChangingModal
         isOpen={isNicknameModalOpen}
         closeModal={closeNicknameModal}
-        onChangeNickname={submitNicknameChanged}
-        nickname={nickname}
+        onSubmitNickname={submitNicknameChanged}
+        nickname={nicknameEntered}
       />
     </Container>
   );
@@ -137,11 +149,6 @@ const Input = styled.input`
   font-size: 16px;
   padding: 0 8px;
   color: ${({ theme }) => theme.color.black};
-`;
-
-const TextArea = styled.textarea<{ disabled: boolean }>`
-  ${disabledStyle};
-  resize: none;
 `;
 
 const WithdrawalButton = styled.button`

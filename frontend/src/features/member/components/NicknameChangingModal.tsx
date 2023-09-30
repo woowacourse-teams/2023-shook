@@ -6,14 +6,14 @@ interface NicknameChangingModalProps {
   isOpen: boolean;
   nickname: string | undefined;
   closeModal: () => void;
-  onChangeNickname: () => void;
+  onSubmitNickname: () => void;
 }
 
 const NicknameChangingModal = ({
   isOpen,
   nickname,
   closeModal,
-  onChangeNickname,
+  onSubmitNickname,
 }: NicknameChangingModalProps) => {
   if (!nickname) return;
 
@@ -26,7 +26,7 @@ const NicknameChangingModal = ({
           <CancelButton onClick={closeModal} type="button">
             취소
           </CancelButton>
-          <ConfirmButton type="button" onClick={onChangeNickname}>
+          <ConfirmButton type="button" onClick={onSubmitNickname}>
             변경
           </ConfirmButton>
         </ButtonContainer>
