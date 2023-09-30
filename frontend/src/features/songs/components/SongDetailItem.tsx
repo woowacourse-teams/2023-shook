@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
@@ -10,6 +10,7 @@ import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import ROUTE_PATH from '@/shared/constants/path';
+import useValidParams from '@/shared/hooks/useValidParams';
 import createObserver from '@/shared/utils/createObserver';
 import type { SongDetail } from '@/shared/types/song';
 
@@ -18,7 +19,7 @@ interface SongDetailItemProps extends SongDetail {}
 const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
   ({ id, killingParts, singer, title, songVideoId, albumCoverUrl }, ref) => {
     const navigate = useNavigate();
-    const { genre } = useParams();
+    const { genre } = useValidParams();
 
     const observerRef = useRef<IntersectionObserver | null>(null);
 
