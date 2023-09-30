@@ -28,15 +28,11 @@ const LayoutContainer = styled.main`
 
   background-color: ${({ theme: { color } }) => color.black};
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
     padding: 0 8.33%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 0 4.16%;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     padding: 0 4.16%;
   }
 
