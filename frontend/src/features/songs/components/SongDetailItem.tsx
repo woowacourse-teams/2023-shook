@@ -43,24 +43,23 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
 
     return (
       <Container ref={ref} role="article" data-song-id={id}>
-        <div ref={navigateToCurrentSongId}>
-          <SRHeading>킬링파트 듣기 페이지</SRHeading>
-          <SongInfoContainer>
-            <Thumbnail src={albumCoverUrl} size="md" />
-            <Info>
-              <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
-              <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
-            </Info>
-          </SongInfoContainer>
-          <Spacing direction="vertical" size={16} />
-          <VideoPlayerProvider>
-            <Youtube videoId={songVideoId} />
-            <Spacing direction="vertical" size={12} />
-            <TimerProvider time={15}>
-              <KillingPartInterface killingParts={killingParts} songId={id} />
-            </TimerProvider>
-          </VideoPlayerProvider>
-        </div>
+        <SRHeading>킬링파트 듣기 페이지</SRHeading>
+        <SongInfoContainer>
+          <Thumbnail src={albumCoverUrl} size="md" />
+          <Info>
+            <SongTitle aria-label={`노래 ${title}`}>{title}</SongTitle>
+            <Singer aria-label={`가수 ${singer}`}>{singer}</Singer>
+          </Info>
+        </SongInfoContainer>
+        <Spacing direction="vertical" size={16} />
+        <VideoPlayerProvider>
+          <Youtube videoId={songVideoId} />
+          <Spacing direction="vertical" size={12} />
+          <TimerProvider time={15}>
+            <KillingPartInterface killingParts={killingParts} songId={id} />
+          </TimerProvider>
+        </VideoPlayerProvider>
+        <div ref={navigateToCurrentSongId} />
       </Container>
     );
   }
