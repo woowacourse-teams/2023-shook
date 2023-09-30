@@ -40,7 +40,7 @@ const Container = styled.header`
 
   width: 100%;
   height: ${({ theme }) => theme.headerHeight.desktop};
-  padding: 0 16.66%;
+  padding: 0 12.33%;
 
   background-color: ${({ theme: { color } }) => color.black};
 

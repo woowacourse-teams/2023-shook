@@ -22,7 +22,7 @@ const LayoutContainer = styled.main`
 
   width: 100%;
   min-height: 100vh;
-  padding: 0 16.66%;
+  padding: 0 12.33%;
 
   color: ${({ theme: { color } }) => color.white};
 
