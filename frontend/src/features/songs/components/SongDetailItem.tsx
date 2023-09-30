@@ -27,7 +27,6 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
       const navigateToCurrentSong = () => {
         navigate(`/${ROUTE_PATH.SONG_DETAILS}/${id}/${genre}`, {
           replace: true,
-          preventScrollReset: true,
         });
       };
 
