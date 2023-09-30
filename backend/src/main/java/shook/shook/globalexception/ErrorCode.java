@@ -22,8 +22,6 @@ public enum ErrorCode {
     NOT_FOUND_OAUTH(1010, "현재 지원하지 않는 OAuth 요청입니다."),
     INVALID_REFRESH_TOKEN(1011, "존재하지 않는 refreshToken 입니다."),
     TOKEN_PAIR_NOT_MATCHING_EXCEPTION(1012, "올바르지 않은 TokenPair 입니다."),
-    DUPLICATE_NICKNAME(1013, "중복되는 닉네임입니다."),
-    TOO_SHORT_NICKNAME(1014, "닉네임은 2자 이상이어야 합니다."),
 
     // 2000: 킬링파트 - 좋아요, 댓글
 
@@ -69,15 +67,17 @@ public enum ErrorCode {
     VOTING_SONG_NOT_EXIST(4008, "존재하지 않는 투표 노래입니다."),
     VOTE_FOR_OTHER_PART(4009, "해당 투표는 다른 파트에 대한 투표입니다."),
     DUPLICATE_VOTE_EXIST(4010, "중복된 투표입니다."),
-    // 5000: 사용자
 
+    // 5000: 사용자
     EMPTY_EMAIL(5001, "이메일은 비어있을 수 없습니다."),
     TOO_LONG_EMAIL(5002, "이메일은 100자를 초과할 수 없습니다."),
     INVALID_EMAIL_FORM(5003, "이메일 형식에 맞지 않습니다."),
     EMPTY_NICKNAME(5004, "닉네임은 비어있을 수 없습니다."),
-    TOO_LONG_NICKNAME(5005, "닉네임은 100자를 초과할 수 없습니다."),
+    TOO_LONG_NICKNAME(5005, "닉네임은 20자를 초과할 수 없습니다."),
     EXIST_MEMBER(5006, "이미 회원가입 된 멤버입니다."),
     MEMBER_NOT_EXIST(5007, "존재하지 않는 멤버입니다."),
+    DUPLICATE_NICKNAME(5008, "중복되는 닉네임입니다."),
+    TOO_SHORT_NICKNAME(5009, "닉네임은 2자 이상이어야 합니다."),
 
     REQUEST_BODY_VALIDATION_FAIL(10001, ""),
     WRONG_REQUEST_URL(10002, "URL의 pathVariable 은 비어있을 수 없습니다."),

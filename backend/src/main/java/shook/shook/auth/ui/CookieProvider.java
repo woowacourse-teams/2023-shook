@@ -19,6 +19,7 @@ public class CookieProvider {
         cookie.setPath("/api");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
+
         return cookie;
     }
 }
