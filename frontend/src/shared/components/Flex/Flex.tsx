@@ -14,7 +14,7 @@ interface FlexBox {
 type ResponsiveFlexBox = Partial<Record<`$${BreakPoints}`, FlexBox>>;
 
 type FlexProps<C extends React.ElementType> = {
-  $as?: C;
+  as?: C;
   $css?: CSSProp;
 } & FlexBox &
   ResponsiveFlexBox;
@@ -22,8 +22,8 @@ type FlexProps<C extends React.ElementType> = {
 type Props<C extends React.ElementType> = PropsWithChildren<FlexProps<C>> &
   Omit<React.ComponentPropsWithoutRef<C>, keyof FlexProps<C>>;
 
-const Flex = <C extends React.ElementType = 'div'>({ $as, children, ...props }: Props<C>) => {
-  const tag = $as || 'div';
+const Flex = <C extends React.ElementType = 'div'>({ as, children, ...props }: Props<C>) => {
+  const tag = as || 'div';
 
   return (
     <Container as={tag} {...props}>
@@ -36,11 +36,11 @@ export default Flex;
 
 const Container = styled.div<Omit<FlexProps<'div'>, 'as'>>`
   display: flex;
-  flex-direction: ${({ $direction }) => $direction ?? 'row'};
-  flex-wrap: ${({ $wrap }) => $wrap ?? 'nowrap'};
-  gap: ${({ $gap }) => $gap && `${$gap}px`};
-  align-items: ${({ $align }) => $align ?? 'stretch'};
-  justify-content: ${({ $justify }) => $justify ?? 'flex-start'};
+  flex-direction: ${({ $direction = 'row' }) => $direction};
+  flex-wrap: ${({ $wrap = 'nowrap' }) => $wrap};
+  gap: ${({ $gap = 0 }) => `${$gap}px`};
+  align-items: ${({ $align = 'stretch' }) => $align};
+  justify-content: ${({ $justify = 'flex-start' }) => $justify};
   ${({ $css }) => $css}
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
@@ -73,11 +73,14 @@ const Container = styled.div<Omit<FlexProps<'div'>, 'as'>>`
 `;
 
 const flexCss = (flexBox?: FlexBox) => {
+  if (!flexBox) return;
+  const { $align, $direction, $gap, $justify, $wrap } = flexBox;
+
   return css`
-    flex-direction: ${flexBox?.$direction};
-    flex-wrap: ${flexBox?.$wrap};
-    gap: ${flexBox?.$gap && `${flexBox?.$gap}px`};
-    align-items: ${flexBox?.$align};
-    justify-content: ${flexBox?.$justify};
+    flex-direction: ${$direction};
+    flex-wrap: ${$wrap};
+    gap: ${$gap && `${$gap}px`};
+    align-items: ${$align};
+    justify-content: ${$justify};
   `;
 };
