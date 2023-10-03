@@ -51,6 +51,10 @@ const GlobalStyles = createGlobalStyle`
     cursor: pointer;
     background: none;
     border: 0;
+    
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
   a {
     text-decoration: none;
