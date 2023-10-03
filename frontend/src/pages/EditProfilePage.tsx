@@ -80,16 +80,21 @@ const EditProfilePage = () => {
   return (
     <Container>
       <Title>프로필 수정</Title>
-      <Spacing direction={'vertical'} size={16} />
+      <Spacing direction={'vertical'} size={100} />
       <Avatar src={shookshook} />
       <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input id="nickname" value={nicknameEntered} onChange={handleChangeNickname} />
+      <Input
+        id="nickname"
+        value={nicknameEntered}
+        onChange={handleChangeNickname}
+        autoComplete="off"
+      />
       <Spacing direction={'vertical'} size={8} />
-      <p>{errorMessage}</p>
+      {hasError && <BottomError>{errorMessage}</BottomError>}
       <Spacing direction={'vertical'} size={16} />
       <WithdrawalButton onClick={openWithdrawalModal}>회원 탈퇴</WithdrawalButton>
-      <SubmitButton onClick={openNicknameModal} disabled={false}>
+      <SubmitButton onClick={openNicknameModal} disabled={hasError}>
         변경 하기
       </SubmitButton>
       <WithdrawalModal
@@ -116,7 +121,10 @@ const Container = styled.div`
   flex-direction: column;
 
   width: 100%;
+  min-width: 300px;
+  max-width: 800px;
   height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.desktop});
+  margin: auto 0;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
@@ -144,20 +152,33 @@ const Avatar = styled.img`
 `;
 
 const Label = styled.label`
-  font-size: 16px;
+  margin-top: 16px;
+  font-size: 18px;
   font-weight: 700;
 `;
 
-const disabledStyle = css<{ disabled: boolean }>`
-  color: ${({ disabled, theme }) => (disabled ? theme.color.black400 : theme.color.white)};
-  background-color: ${({ disabled, theme }) =>
-    disabled ? theme.color.disabledBackground : theme.color.primary};
+const Input = styled.input`
+  padding: 0 8px;
+
+  font-size: 18px;
+  line-height: 2.4;
+  color: ${({ theme }) => theme.color.black};
+
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: 0 0 0 1px inset ${({ theme }) => theme.color.black200};
+
+  transition: box-shadow 0.3s ease;
+
+  &:focus {
+    box-shadow: 0 0 0 2px inset ${({ theme }) => theme.color.primary};
+  }
 `;
 
-const Input = styled.input`
-  font-size: 16px;
-  padding: 0 8px;
-  color: ${({ theme }) => theme.color.black};
+const BottomError = styled.p`
+  font-size: 14px;
+  color: ${({ theme }) => theme.color.error};
 `;
 
 const WithdrawalButton = styled.button`
@@ -174,11 +195,18 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   align-self: flex-end;
 
   width: 100%;
-  height: 36px;
+  padding: 11px 20px;
 
+  font-size: 18px;
   font-weight: 700;
+  line-height: 1.6;
 
-  ${disabledStyle};
+  background-color: ${({ theme }) => theme.color.primary};
   border: none;
   border-radius: 10px;
+
+  &:disabled {
+    color: ${({ theme }) => theme.color.disabled};
+    background-color: ${({ theme }) => theme.color.disabledBackground};
+  }
 `;
