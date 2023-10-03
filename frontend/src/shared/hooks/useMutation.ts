@@ -24,9 +24,6 @@ export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Prom
       try {
         const responseBody = await mutateFn(...params);
         setData(responseBody);
-
-        //event handler에서 바로 처리하기 위해서 response를 return한다.
-        return responseBody;
       } catch (error) {
         if (error instanceof AuthError) {
           logout();
