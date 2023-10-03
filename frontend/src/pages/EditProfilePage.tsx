@@ -17,6 +17,9 @@ const EditProfilePage = () => {
   const [nicknameEntered, setNicknameEntered] = useState(user?.nickname);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  // error Message
+  const hasError = errorMessage.length !== 0;
+
   // modal hooks
   const {
     isOpen: isWithdrawalModalOpen,
@@ -51,7 +54,13 @@ const EditProfilePage = () => {
   };
 
   const handleChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setNicknameEntered(event.currentTarget.value);
+    const nickmaneEntered = event.currentTarget.value;
+    setNicknameEntered(nickmaneEntered);
+    if (nickmaneEntered.length < 2 || nickmaneEntered.length > 10) {
+      setErrorMessage('2글자 이상 10글자 이하 문자만 가능합니다.');
+    } else {
+      setErrorMessage('');
+    }
   };
 
   const submitNicknameChanged = async () => {
