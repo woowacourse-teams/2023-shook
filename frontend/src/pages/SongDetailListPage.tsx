@@ -144,11 +144,10 @@ export const ObservingTrigger = styled.div`
 `;
 
 export const ItemContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
+  width: 100%;
+  height: 100vh;
 
   & > div[role='article'] {
     scroll-snap-align: start;

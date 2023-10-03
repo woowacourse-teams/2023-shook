@@ -18,9 +18,9 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     &::-webkit-scrollbar { 
       display: none;
-      background: transparent;
       width: 0;
       height: 0;
+      background: transparent;
     }
   }
   *,

@@ -95,8 +95,8 @@ const disabledStyle = css<{ disabled: boolean }>`
 
 const Input = styled.input<{ disabled: boolean }>`
   ${disabledStyle};
-  font-size: 16px;
   padding: 0 8px;
+  font-size: 16px;
 `;
 
 const TextArea = styled.textarea<{ disabled: boolean }>`

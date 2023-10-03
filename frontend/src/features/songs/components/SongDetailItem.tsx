@@ -86,10 +86,10 @@ const SongTitle = styled.div`
     width: 220px;
     font-size: 18px;
   }
-  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    font-size: 16px;
-    overflow: hidden;
 
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    overflow: hidden;
+    font-size: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
