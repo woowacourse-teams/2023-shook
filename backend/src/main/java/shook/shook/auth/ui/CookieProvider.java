@@ -16,7 +16,7 @@ public class CookieProvider {
     public Cookie createRefreshTokenCookie(final String refreshToken) {
         final Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setMaxAge(cookieAge);
-        cookie.setPath("/api");
+        cookie.setPath("/api/reissue");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
 

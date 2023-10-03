@@ -14,7 +14,6 @@ import shook.shook.auth.repository.InMemoryTokenPairRepository;
 public class TokenService {
 
     public static final String EMPTY_REFRESH_TOKEN = "none";
-    public static final String REFRESH_TOKEN_KEY = "refreshToken";
     public static final String TOKEN_PREFIX = "Bearer ";
 
     private final TokenProvider tokenProvider;
@@ -26,13 +25,6 @@ public class TokenService {
         }
     }
 
-    public Long extractMemberId(final String authorization) {
-        final String accessToken = extractAccessToken(authorization);
-        final Claims claims = tokenProvider.parseClaims(accessToken);
-
-        return claims.get("memberId", Long.class);
-    }
-
     public String extractAccessToken(final String authorization) {
         return authorization.substring(TOKEN_PREFIX.length());
     }
@@ -42,19 +34,6 @@ public class TokenService {
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
-
-        inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken);
-        final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);
-        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, reissuedAccessToken);
-
-        return new ReissueAccessTokenResponse(reissuedAccessToken);
-    }
-
-    public ReissueAccessTokenResponse reissueAccessTokenByRefreshTokenByNickname(final String refreshToken,
-                                                                                 final String accessToken,
-                                                                                 final String nickname) {
-        final Claims claims = tokenProvider.parseClaims(refreshToken);
-        final Long memberId = claims.get("memberId", Long.class);
 
         inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken);
         final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);

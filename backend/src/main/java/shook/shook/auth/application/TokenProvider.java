@@ -41,17 +41,8 @@ public class TokenProvider {
         return createToken(memberId, nickname, accessTokenValidTime);
     }
 
-    public String createRefreshToken(final long memberId) {
-        final Claims claims = Jwts.claims().setSubject("user");
-        claims.put("memberId", memberId);
-        final Date now = new Date();
-
-        return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
-            .signWith(secretKey, SignatureAlgorithm.HS256)
-            .compact();
+    public String createRefreshToken(final long memberId, final String nickname) {
+        return createToken(memberId, nickname, refreshTokenValidTime);
     }
 
     private String createToken(final long memberId, final String nickname, final long validTime) {

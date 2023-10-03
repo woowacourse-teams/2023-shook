@@ -28,7 +28,7 @@ public class AuthService {
         final Long memberId = member.getId();
         final String nickname = member.getNickname();
         final String accessToken = tokenProvider.createAccessToken(memberId, nickname);
-        final String refreshToken = tokenProvider.createRefreshToken(memberId);
+        final String refreshToken = tokenProvider.createRefreshToken(memberId, nickname);
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
         return new TokenPair(accessToken, refreshToken);
     }

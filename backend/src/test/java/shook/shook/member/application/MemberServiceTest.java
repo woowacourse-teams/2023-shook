@@ -214,16 +214,14 @@ class MemberServiceTest extends UsingJpaTest {
             final NicknameUpdateRequest request = new NicknameUpdateRequest(newNickname);
 
             // when
-            final String updatedNickname = memberService.updateNickname(savedMember.getId(),
-                                                                        savedMember.getId(),
-                                                                        request);
+            memberService.updateNickname(savedMember.getId(), savedMember.getId(), request);
 
             // then
             assertThat(memberRepository.findById(savedMember.getId()).get().getNickname())
-                .isEqualTo(updatedNickname);
+                .isEqualTo(newNickname);
         }
 
-        @DisplayName("기존 닉네임과 동일한 닉네임으로 변경하는 경우, null 을 리턴한다.")
+        @DisplayName("기존 닉네임과 동일한 닉네임으로 변경하는 경우, false 를 리턴한다.")
         @Test
         void success_updateNickname_same_nickname_before() {
             // given
@@ -231,8 +229,7 @@ class MemberServiceTest extends UsingJpaTest {
 
             // when
             // then
-            assertThat(
-                memberService.updateNickname(savedMember.getId(), savedMember.getId(), request)).isNull();
+            assertThat(memberService.updateNickname(savedMember.getId(), savedMember.getId(), request)).isFalse();
         }
 
         @DisplayName("변경할 닉네임이 중복되면 예외를 던진다.")
@@ -242,7 +239,6 @@ class MemberServiceTest extends UsingJpaTest {
             final Member newMember = memberRepository.save(new Member("temp@email", "shook2"));
             final String duplicateNickname = "shook";
             final NicknameUpdateRequest request = new NicknameUpdateRequest(duplicateNickname);
-            final MemberInfo newMemberInfo = new MemberInfo(newMember.getId(), Authority.MEMBER);
 
             // when
             // then

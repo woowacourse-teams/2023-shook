@@ -43,11 +43,12 @@ class TokenProviderTest {
     void createRefreshToken() {
         //given
         // when
-        final String refreshToken = tokenProvider.createRefreshToken(1L);
+        final String refreshToken = tokenProvider.createRefreshToken(1L, "shook");
         final Claims result = tokenProvider.parseClaims(refreshToken);
 
         // then
         assertThat(result.get("memberId")).isEqualTo(1);
+        assertThat(result.get("nickname")).isEqualTo("shook");
         assertThat(result.getExpiration().getTime() - result.getIssuedAt().getTime())
             .isEqualTo(REFRESH_TOKEN_VALID_TIME);
     }

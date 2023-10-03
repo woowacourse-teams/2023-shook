@@ -54,7 +54,7 @@ class AuthServiceTest {
             "asdfsdsvsdf2esvsdvsdvs23");
         authService = new AuthService(memberService, oauthProviderFinder, tokenProvider, inMemoryTokenPairRepository);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
-        refreshToken = tokenProvider.createRefreshToken(savedMember.getId());
+        refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
     }

@@ -97,20 +97,20 @@ public class MemberService {
     }
 
     @Transactional
-    public String updateNickname(final Long memberId, final Long requestMemberId,
-                                 final NicknameUpdateRequest request) {
+    public boolean updateNickname(final Long memberId, final Long requestMemberId,
+                                  final NicknameUpdateRequest request) {
         final Member member = getMemberIfValidRequest(memberId, requestMemberId);
         final Nickname nickname = new Nickname(request.getNickname());
 
         if (member.hasSameNickname(nickname)) {
-            return null;
+            return false;
         }
 
         validateDuplicateNickname(nickname);
         member.updateNickname(nickname.getValue());
         memberRepository.save(member);
 
-        return nickname.getValue();
+        return true;
     }
 
     private void validateDuplicateNickname(final Nickname nickname) {

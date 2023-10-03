@@ -3,6 +3,7 @@ package shook.shook.auth.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class TokenServiceTest {
             "asdfsdsvsdf2esvsdvsdvs23");
         tokenService = new TokenService(tokenProvider, inMemoryTokenPairRepository);
         savedMember = memberRepository.save(new Member("shook@wooteco.com", "shook"));
-        refreshToken = tokenProvider.createRefreshToken(savedMember.getId());
+        refreshToken = tokenProvider.createRefreshToken(savedMember.getId(), savedMember.getNickname());
         accessToken = tokenProvider.createAccessToken(savedMember.getId(), savedMember.getNickname());
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
     }
@@ -52,11 +53,12 @@ class TokenServiceTest {
                                                                                                 accessToken);
 
         //then
-        final String accessToken = tokenProvider.createAccessToken(
-            savedMember.getId(),
-            savedMember.getNickname());
+        final String newAccessToken = result.getAccessToken();
+        final Claims accessTokenClaimsBeforeCreation = tokenProvider.parseClaims(accessToken);
+        final Claims newAccessTokenClaims = tokenProvider.parseClaims(newAccessToken);
 
-        assertThat(result.getAccessToken()).isNotEqualTo(accessToken);
+        assertThat(newAccessTokenClaims.get("memberId")).isEqualTo(accessTokenClaimsBeforeCreation.get("memberId"));
+        assertThat(newAccessTokenClaims.get("nickname")).isEqualTo(accessTokenClaimsBeforeCreation.get("nickname"));
     }
 
     @DisplayName("잘못된 refresh 토큰(secret Key가 다른)이 들어오면 예외를 던진다.")
@@ -68,7 +70,8 @@ class TokenServiceTest {
             100L,
             "asdzzxcwetg2adfvssd3xZcZXCZvzx");
 
-        final String wrongRefreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId());
+        final String wrongRefreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId(),
+                                                                                 savedMember.getNickname());
 
         //when
         //then
@@ -85,7 +88,8 @@ class TokenServiceTest {
             0,
             "asdfsdsvsdf2esvsdvsdvs23");
 
-        final String refreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId());
+        final String refreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId(),
+                                                                            savedMember.getNickname());
 
         //when
         //then
