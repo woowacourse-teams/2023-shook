@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import NicknameChangingModal from '@/features/member/components/NicknameChangingModal';
@@ -13,14 +13,10 @@ import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
-  const { user, logout, login } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const [nicknameEntered, setNicknameEntered] = useState(user?.nickname);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('이전과 다른 닉네임으로 변경해주세요.');
   const navigate = useNavigate();
-  // error Message
-  const hasError = errorMessage.length !== 0;
-
-  // modal hooks
   const {
     isOpen: isWithdrawalModalOpen,
     openModal: openWithdrawalModal,
@@ -32,8 +28,16 @@ const EditProfilePage = () => {
     closeModal: closeNicknameModal,
   } = useModal();
 
+  const hasError = errorMessage.length !== 0;
+
   // 회원탈퇴 API
   const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
+
+  const handleWithdrawal = async () => {
+    await withdrawMember();
+    logout();
+    navigate(ROUTE_PATH.ROOT);
+  };
 
   // 닉네임변경 API
   const mutateNickname = useMemo(
@@ -46,35 +50,22 @@ const EditProfilePage = () => {
     navigate(ROUTE_PATH.LOGIN);
     return;
   }
-
-  const handleWithdrawal = async () => {
-    await withdrawMember();
-    logout();
-    navigate(ROUTE_PATH.ROOT);
-  };
-
   const handleChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const nickmaneEntered = event.currentTarget.value;
-    setNicknameEntered(nickmaneEntered);
-    if (nickmaneEntered.length < 2 || nickmaneEntered.length > 10) {
+    const currentNickname = event.currentTarget.value;
+    setNicknameEntered(currentNickname);
+    if (currentNickname.length < 2 || currentNickname.length > 10) {
       setErrorMessage('2글자 이상 10글자 이하 문자만 가능합니다.');
+    } else if (currentNickname === user.nickname) {
+      setErrorMessage('이전과 다른 닉네임으로 변경해주세요.');
     } else {
       setErrorMessage('');
     }
   };
 
   const submitNicknameChanged = async () => {
-    if (nicknameEntered === user?.nickname) {
-      setErrorMessage('이전과 다른 닉네임을 사용해주세요.');
-      closeNicknameModal();
-      return;
-    }
-
-    const accessToken = (await changeNickname())?.accessToken;
-    if (accessToken) {
-      login(accessToken);
-      navigate('/my-page');
-    }
+    await changeNickname();
+    logout();
+    navigate(ROUTE_PATH.LOGIN);
   };
 
   return (
@@ -186,8 +177,8 @@ const WithdrawalButton = styled.button`
   text-decoration: underline;
 `;
 
-const SubmitButton = styled.button<{ disabled: boolean }>`
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+const SubmitButton = styled.button`
+  cursor: pointer;
 
   position: absolute;
   bottom: 0;
