@@ -11,14 +11,13 @@ import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.member.exception.MemberException.MemberNotExistException;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
-import shook.shook.song.domain.killingpart.KillingPart;
-import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
+import shook.shook.song.domain.killingpart.repository.dto.SongKillingPartKillingPartLikeCreatedAtDto;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class KillingPartService {
+public class MyPageService {
 
     private final KillingPartLikeRepository killingPartLikeRepository;
     private final MemberRepository memberRepository;
@@ -33,14 +32,18 @@ public class KillingPartService {
         final Member member = memberRepository.findById(memberInfo.getMemberId())
             .orElseThrow(MemberNotExistException::new);
 
-        final List<KillingPartLike> likes =
-            killingPartLikeRepository.findAllByMemberAndIsDeleted(member, false);
+        final List<SongKillingPartKillingPartLikeCreatedAtDto> likedKillingPartAndSongByMember =
+            killingPartLikeRepository.findLikedKillingPartAndSongByMember(member);
 
-        return likes.stream()
-            .sorted(Comparator.comparing(KillingPartLike::getUpdatedAt).reversed())
-            .map(killingPartLike -> {
-                final KillingPart killingPart = killingPartLike.getKillingPart();
-                return LikedKillingPartResponse.of(killingPart.getSong(), killingPart);
-            }).toList();
+        return likedKillingPartAndSongByMember.stream()
+            .sorted(Comparator.comparing(
+                SongKillingPartKillingPartLikeCreatedAtDto::getKillingPartLikeCreatedAt,
+                Comparator.reverseOrder()
+            ))
+            .map(songKillingPart -> LikedKillingPartResponse.of(
+                songKillingPart.getSong(),
+                songKillingPart.getKillingPart()
+            ))
+            .toList();
     }
 }

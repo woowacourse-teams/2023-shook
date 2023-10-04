@@ -38,7 +38,7 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
         </CarouselWrapper>
         <IndicatorWrapper aria-hidden>
           {Array.from({ length: numberOfItems }, (_, idx) => (
-            <Dot key={idx} isActive={idx === currentIndex} />
+            <Dot key={idx} $isActive={idx === currentIndex} />
           ))}
         </IndicatorWrapper>
       </Wrapper>
@@ -91,10 +91,10 @@ const IndicatorWrapper = styled.div`
   background-color: transparent;
 `;
 
-const Dot = styled.div<{ isActive: boolean }>`
+const Dot = styled.div<{ $isActive: boolean }>`
   width: 8px;
   height: 8px;
-  background-color: ${({ isActive, theme: { color } }) =>
-    isActive ? color.primary : color.secondary};
+  background-color: ${({ $isActive, theme: { color } }) =>
+    $isActive ? color.primary : color.secondary};
   border-radius: 50%;
 `;

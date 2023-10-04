@@ -1,4 +1,5 @@
-import { forwardRef } from 'react';
+import { forwardRef, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
@@ -8,12 +9,37 @@ import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import TimerProvider from '@/shared/components/Timer/TimerProvider';
+import ROUTE_PATH from '@/shared/constants/path';
+import useValidParams from '@/shared/hooks/useValidParams';
+import createObserver from '@/shared/utils/createObserver';
 import type { SongDetail } from '@/shared/types/song';
 
 interface SongDetailItemProps extends SongDetail {}
 
 const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
   ({ id, killingParts, singer, title, songVideoId, albumCoverUrl }, ref) => {
+    const navigate = useNavigate();
+    const { genre } = useValidParams();
+
+    const observerRef = useRef<IntersectionObserver | null>(null);
+
+    const navigateToCurrentSongId: React.RefCallback<HTMLDivElement> = useCallback((domNode) => {
+      const navigateToCurrentSong = () => {
+        navigate(`/${ROUTE_PATH.SONG_DETAILS}/${id}/${genre}`, {
+          replace: true,
+        });
+      };
+
+      if (domNode !== null) {
+        observerRef.current = createObserver(navigateToCurrentSong);
+        observerRef.current.observe(domNode);
+
+        return;
+      }
+
+      observerRef.current?.disconnect();
+    }, []);
+
     return (
       <Container ref={ref} role="article" data-song-id={id}>
         <SRHeading>킬링파트 듣기 페이지</SRHeading>
@@ -39,6 +65,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
             </TimerProvider>
           </Flex>
         </VideoPlayerProvider>
+        <div ref={navigateToCurrentSongId} />
       </Container>
     );
   }

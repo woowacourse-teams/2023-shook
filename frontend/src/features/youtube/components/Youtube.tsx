@@ -5,13 +5,14 @@ import createObserver from '@/shared/utils/createObserver';
 import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 
 interface YoutubeProps {
-  videoId: string;
   start?: number;
+  videoId: string;
 }
 
-const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
+const Youtube = ({ start = 0, videoId }: YoutubeProps) => {
   const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
   const [loading, setLoading] = useState(true);
+
   const observerRef = useRef<IntersectionObserver | null>();
 
   const createPlayerOnObserve: React.RefCallback<HTMLImageElement> = useCallback((domNode) => {
@@ -39,6 +40,7 @@ const Youtube = ({ videoId, start = 0 }: YoutubeProps) => {
     if (domNode !== null) {
       observerRef.current = createObserver(createYoutubePlayer);
       observerRef.current.observe(domNode);
+
       return;
     }
 

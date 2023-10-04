@@ -35,8 +35,8 @@ oauth2:
 
 jwt:
   secret-code: asdkfwofk23ksdfowsrk4sdkf
-  access-token-valid-time: 12000
-  refresh-token-valid-time: 634000
+  access-token-valid-time: 1200000
+  refresh-token-valid-time: 6340000
 
 cookie:
   valid-time: 634000

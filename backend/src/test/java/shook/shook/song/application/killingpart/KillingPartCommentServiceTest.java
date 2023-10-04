@@ -51,8 +51,7 @@ class KillingPartCommentServiceTest extends UsingJpaTest {
     @Test
     void register() {
         //given
-        final KillingPartCommentRegisterRequest request = new KillingPartCommentRegisterRequest(
-            "댓글 내용");
+        final KillingPartCommentRegisterRequest request = new KillingPartCommentRegisterRequest("댓글 내용");
 
         //when
         killingPartCommentService.register(SAVED_PART.getId(), request, MEMBER_ID);

@@ -57,7 +57,7 @@ class MyPageControllerTest {
     @Nested
     class GetLikedKillingParts {
 
-        @DisplayName("좋요한 킬링파트가 존재할 때. ( 취소한 좋아요가 존재할 때 )")
+        @DisplayName("좋아요한 킬링파트가 존재할 때. ( 취소한 좋아요가 존재할 때 )")
         @Test
         void likedKillingPartExistWithOneDeletedLikeExist() {
             //given

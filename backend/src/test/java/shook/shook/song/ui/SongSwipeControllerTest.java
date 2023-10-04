@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
@@ -39,6 +41,9 @@ class SongSwipeControllerTest {
     }
 
     @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
     private KillingPartLikeService likeService;
 
     @Autowired
@@ -48,6 +53,8 @@ class SongSwipeControllerTest {
     @Test
     void showSongById() {
         //given
+        final String accessToken = tokenProvider.createAccessToken(1L, "nickname");
+
         final Long songId = 2L;
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
@@ -56,12 +63,11 @@ class SongSwipeControllerTest {
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
             new KillingPartLikeRequest(true));
 
-        // 정렬 순서: 1L, 2L, 4L, 3L
         inMemorySongsScheduler.recreateCachedSong();
-
+        // 정렬 순서: 1L, 2L, 4L, 3L
         //when
         final SongSwipeResponse response = RestAssured.given().log().all()
-            .param("memberId", MEMBER_ID)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
             .when().log().all()
             .get("/songs/high-liked/{song_id}", songId)
             .then().log().all()
