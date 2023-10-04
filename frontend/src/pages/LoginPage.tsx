@@ -109,10 +109,11 @@ const PlatformName = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
 
   width: 400px;
   height: 60px;
+
+  text-align: center;
 
   border-radius: 12px;
 

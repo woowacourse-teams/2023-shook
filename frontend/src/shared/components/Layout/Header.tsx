@@ -40,11 +40,11 @@ const Container = styled.header`
 
   width: 100%;
   height: ${({ theme }) => theme.headerHeight.desktop};
-  padding: 0 16.66%;
+  padding: 0 12.33%;
 
   background-color: ${({ theme: { color } }) => color.black};
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.xl}) {
+  @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
     padding: 0 8.33%;
   }
 
@@ -59,7 +59,6 @@ const Container = styled.header`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     height: ${({ theme }) => theme.headerHeight.xxs};
-    padding: 0 16px;
   }
 `;
 

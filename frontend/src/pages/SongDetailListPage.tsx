@@ -144,34 +144,14 @@ export const ObservingTrigger = styled.div`
 `;
 
 export const ItemContainer = styled.div`
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
   width: 100%;
+  height: 100vh;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    height: calc(
-      ${({ theme: { mainTopBottomPadding } }) => {
-        return `100vh - ${mainTopBottomPadding.tablet} * 2`;
-      }}
-    );
-
-    & > div[role='article'] {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-    }
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    height: calc(
-      ${({ theme: { mainTopBottomPadding } }) => {
-        return `100vh -  ${mainTopBottomPadding.xxs} * 2`;
-      }}
-    );
-
-    & > div[role='article'] {
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-    }
+  & > div[role='article'] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 `;
 
