@@ -28,7 +28,7 @@ public class MemberController implements MemberApi {
         @PathVariable(name = "member_id") final Long memberId,
         @Authenticated final MemberInfo memberInfo
     ) {
-        memberService.deleteById(memberId, memberInfo);
+        memberService.deleteById(memberId, memberInfo.getMemberId());
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

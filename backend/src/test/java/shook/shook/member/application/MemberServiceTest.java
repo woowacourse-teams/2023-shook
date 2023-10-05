@@ -14,8 +14,6 @@ import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
-import shook.shook.auth.ui.Authority;
-import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.application.dto.NicknameUpdateRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
@@ -167,7 +165,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         saveAndClearEntityManager();
         // when
-        memberService.deleteById(targetId, new MemberInfo(targetId, Authority.MEMBER));
+        memberService.deleteById(targetId, targetId);
 
         // then
         assertThat(likeRepository.findAllByMemberAndIsDeleted(savedMember, false)).isEmpty();
@@ -184,7 +182,7 @@ class MemberServiceTest extends UsingJpaTest {
 
         // when, then
         assertThatThrownBy(() ->
-                               memberService.deleteById(targetId, new MemberInfo(unsavedMemberId, Authority.MEMBER))
+                               memberService.deleteById(targetId, targetId)
         ).isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
@@ -198,7 +196,7 @@ class MemberServiceTest extends UsingJpaTest {
         // when, then
         assertThatThrownBy(() ->
                                memberService.deleteById(targetMember.getId(),
-                                                        new MemberInfo(requestMember.getId(), Authority.MEMBER))
+                                                        requestMember.getId())
         ).isInstanceOf(AuthorizationException.UnauthenticatedException.class);
     }
 

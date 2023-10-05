@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
-import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.application.dto.NicknameUpdateRequest;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
@@ -60,8 +59,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteById(final Long id, final MemberInfo memberInfo) {
-        final Member member = getMemberIfValidRequest(id, memberInfo.getMemberId());
+    public void deleteById(final Long id, final Long requestMemberId) {
+        final Member member = getMemberIfValidRequest(id, requestMemberId);
 
         final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(member, false);
 
