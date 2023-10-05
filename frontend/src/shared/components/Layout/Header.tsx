@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import logo from '@/assets/image/logo.png';
+import SearchBar from '@/features/artistSearch/components/SearchBar';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
+import Flex from '../Flex/Flex';
 
 const Header = () => {
   const { user } = useAuthContext();
@@ -14,15 +16,18 @@ const Header = () => {
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
-      {user ? (
-        <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
-          <ProfileAvatar src={shookshook} />
-        </Link>
-      ) : (
-        <Link to={ROUTE_PATH.LOGIN}>
-          <LoginButton>로그인</LoginButton>
-        </Link>
-      )}
+      <Flex $align="center" $gap={12}>
+        <SearchBar />
+        {user ? (
+          <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
+            <ProfileAvatar src={shookshook} />
+          </Link>
+        ) : (
+          <Link to={ROUTE_PATH.LOGIN}>
+            <LoginButton>로그인</LoginButton>
+          </Link>
+        )}
+      </Flex>
     </Container>
   );
 };
