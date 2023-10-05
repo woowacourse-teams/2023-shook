@@ -18,7 +18,6 @@ import shook.shook.member.domain.repository.MemberRepository;
 @SpringBootTest
 class TokenServiceTest {
 
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -95,16 +94,5 @@ class TokenServiceTest {
         //then
         assertThatThrownBy(() -> tokenService.reissueAccessTokenByRefreshToken(refreshToken, accessToken))
             .isInstanceOf(TokenException.ExpiredTokenException.class);
-    }
-
-    @DisplayName("Bearer 를 제외하고 액세스 토큰을 추출한다.")
-    @Test
-    void extractAccessToken() {
-        // given
-        // when
-        final String resultAccessToken = tokenService.extractAccessToken("Bearer " + accessToken);
-
-        // then
-        assertThat(resultAccessToken).isEqualTo(accessToken);
     }
 }

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
-import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
 
 @Transactional(readOnly = true)
@@ -13,21 +12,11 @@ import shook.shook.auth.repository.InMemoryTokenPairRepository;
 @Service
 public class TokenService {
 
-    public static final String EMPTY_REFRESH_TOKEN = "none";
     public static final String TOKEN_PREFIX = "Bearer ";
 
     private final TokenProvider tokenProvider;
     private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
-    public void validateRefreshToken(final String refreshToken) {
-        if (refreshToken.equals(EMPTY_REFRESH_TOKEN)) {
-            throw new AuthorizationException.RefreshTokenNotFoundException();
-        }
-    }
-
-    public String extractAccessToken(final String authorization) {
-        return authorization.substring(TOKEN_PREFIX.length());
-    }
 
     public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken,
                                                                        final String accessToken) {

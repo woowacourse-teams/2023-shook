@@ -1,5 +1,7 @@
 package shook.shook.auth.ui;
 
+import static shook.shook.auth.application.TokenService.TOKEN_PREFIX;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.application.TokenService;
 import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.ui.openapi.AccessTokenReissueApi;
 
 @RequiredArgsConstructor
@@ -25,11 +28,21 @@ public class AccessTokenReissueController implements AccessTokenReissueApi {
         @CookieValue(value = REFRESH_TOKEN_KEY, defaultValue = EMPTY_REFRESH_TOKEN) final String refreshToken,
         @RequestHeader(HttpHeaders.AUTHORIZATION) final String authorization
     ) {
-        tokenService.validateRefreshToken(refreshToken);
-        final String accessToken = tokenService.extractAccessToken(authorization);
+        validateRefreshToken(refreshToken);
+        final String accessToken = extractAccessToken(authorization);
         final ReissueAccessTokenResponse response = tokenService.reissueAccessTokenByRefreshToken(refreshToken,
                                                                                                   accessToken);
 
         return ResponseEntity.ok(response);
+    }
+
+    private void validateRefreshToken(final String refreshToken) {
+        if (refreshToken.equals(EMPTY_REFRESH_TOKEN)) {
+            throw new AuthorizationException.RefreshTokenNotFoundException();
+        }
+    }
+
+    private String extractAccessToken(final String authorization) {
+        return authorization.substring(TOKEN_PREFIX.length());
     }
 }
