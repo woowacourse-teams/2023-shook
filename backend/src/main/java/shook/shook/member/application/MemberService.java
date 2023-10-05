@@ -2,6 +2,7 @@ package shook.shook.member.application;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -70,22 +71,16 @@ public class MemberService {
     }
 
     private Member getMemberIfValidRequest(final Long memberId, final Long requestMemberId) {
-        final Member requestMember = findById(requestMemberId);
-        final Member targetMember = findById(memberId);
-        validateMemberAuthentication(requestMember, targetMember);
-
-        return targetMember;
-    }
-
-    private void validateMemberAuthentication(final Member requestMember, final Member targetMember) {
-        if (!requestMember.equals(targetMember)) {
-            throw new AuthorizationException.UnauthenticatedException(
-                Map.of(
-                    "tokenMemberId", String.valueOf(requestMember.getId()),
-                    "pathMemberId", String.valueOf(targetMember.getId())
-                )
-            );
+        if (Objects.equals(memberId, requestMemberId)) {
+            return findById(memberId);
         }
+
+        throw new AuthorizationException.UnauthenticatedException(
+            Map.of(
+                "tokenMemberId", String.valueOf(requestMemberId),
+                "pathMemberId", String.valueOf(memberId)
+            )
+        );
     }
 
     private Member findById(final Long id) {
