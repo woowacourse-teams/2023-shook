@@ -102,7 +102,6 @@ public class MemberService {
 
         validateDuplicateNickname(nickname);
         member.updateNickname(nickname.getValue());
-        memberRepository.save(member);
 
         return true;
     }
