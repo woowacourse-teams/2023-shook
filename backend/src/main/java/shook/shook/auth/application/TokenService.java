@@ -20,11 +20,11 @@ public class TokenService {
 
     public ReissueAccessTokenResponse reissueAccessTokenByRefreshToken(final String refreshToken,
                                                                        final String accessToken) {
+        inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken);
         final Claims claims = tokenProvider.parseClaims(refreshToken);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);
 
-        inMemoryTokenPairRepository.validateTokenPair(refreshToken, accessToken);
         final String reissuedAccessToken = tokenProvider.createAccessToken(memberId, nickname);
         inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, reissuedAccessToken);
 

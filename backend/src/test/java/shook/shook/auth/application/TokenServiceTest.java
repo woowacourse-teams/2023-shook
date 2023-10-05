@@ -75,7 +75,7 @@ class TokenServiceTest {
         //when
         //then
         assertThatThrownBy(() -> tokenService.reissueAccessTokenByRefreshToken(wrongRefreshToken, accessToken))
-            .isInstanceOf(TokenException.NotIssuedTokenException.class);
+            .isInstanceOf(TokenException.RefreshTokenNotFoundException.class);
     }
 
     @DisplayName("기간이 만료된 refresh 토큰이면 예외를 던진다.")
@@ -89,6 +89,7 @@ class TokenServiceTest {
 
         final String refreshToken = inValidTokenProvider.createRefreshToken(savedMember.getId(),
                                                                             savedMember.getNickname());
+        inMemoryTokenPairRepository.addOrUpdateTokenPair(refreshToken, accessToken);
 
         //when
         //then
