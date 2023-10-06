@@ -14,7 +14,9 @@ const SearchBar = () => {
     setSearch(true);
   };
 
-  const closeSearchBar: React.FocusEventHandler = () => {
+  const closeSearchBar: React.FocusEventHandler = (e) => {
+    if (e.relatedTarget?.id === 'query-reset-button') return;
+
     setSearch(false);
   };
 
@@ -42,7 +44,9 @@ const SearchBar = () => {
             onChange={changeQuery}
             onBlur={closeSearchBar}
           />
-          {isQueryFilled && <ResetQueryButton type="button" onClick={resetQuery} />}
+          {isQueryFilled && (
+            <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
+          )}
           <ResultSheet />
         </>
       ) : (
@@ -55,8 +59,11 @@ const SearchBar = () => {
 export default SearchBar;
 
 const SearchBox = styled(Flex)`
+  position: relative;
+
   height: 30px;
   padding: 0 10px;
+
   background-color: ${({ theme }) => theme.color.black200};
   border-radius: 16px;
 `;
@@ -74,8 +81,14 @@ const SearchButton = styled.button`
 `;
 
 const ResetQueryButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translate(0, -50%);
+
   width: 26px;
   height: 26px;
+
   background: url(${cancelIcon}) transparent no-repeat;
   background-size: contain;
 
@@ -86,9 +99,8 @@ const ResetQueryButton = styled.button`
 `;
 
 const SearchInput = styled.input`
-  padding: 0 10px;
+  padding: 0 24px 0 10px;
 
-  line-height: 1.6;
   color: white;
 
   background-color: ${({ theme }) => theme.color.black200};
