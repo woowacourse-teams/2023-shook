@@ -1,6 +1,7 @@
 import convertRelativeTimeString from './convertRelativeTimeString';
 
 describe('ISO-8601 형식의 string을 받아 현재 시간과 비교해서 상대시간을 반환한다.', () => {
+  // 상대 시간 기준은 n <= 상대 시간 < n + 1 입니다.
   test('차이가 없을 경우 방금 전을 반환한다.', () => {
     const now = new Date().toISOString();
 
@@ -43,14 +44,16 @@ describe('ISO-8601 형식의 string을 받아 현재 시간과 비교해서 상�
   });
 
   test('차이가 1년 미만인 경우 n개월 전을 반환한다.', () => {
-    const createdAt = '2023-08-06T10:00:00';
+    // 1달을 30일로 계산하기 때문에 오차가 약간 있습니다.
+    const createdAt = '2023-06-08T10:00:00';
     const now = '2023-10-06T10:00:00';
 
-    expect(convertRelativeTimeString(createdAt, now)).toBe('2개월 전');
+    expect(convertRelativeTimeString(createdAt, now)).toBe('4개월 전');
   });
 
   test('차이가 1년 이상인 경우 n년 전을 반환한다.', () => {
-    const createdAt = '2021-08-06T10:00:00';
+    // 3년이 되기 직전 값으로 최대값으로 볼 수 있습니다.
+    const createdAt = '2020-10-06T10:00:00.001';
     const now = '2023-10-06T10:00:00';
 
     expect(convertRelativeTimeString(createdAt, now)).toBe('2년 전');
