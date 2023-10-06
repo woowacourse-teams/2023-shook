@@ -57,7 +57,7 @@ export default Flex;
 
 const flexCss = (flexBox?: FlexBox) => {
   if (!flexBox) return;
-  const { $align, $direction, $gap, $justify, $wrap } = flexBox;
+  const { $align, $direction, $gap, $justify, $wrap, $css } = flexBox;
 
   return css`
     flex-direction: ${$direction};
@@ -65,5 +65,6 @@ const flexCss = (flexBox?: FlexBox) => {
     gap: ${$gap && `${$gap}px`};
     align-items: ${$align};
     justify-content: ${$justify};
+    ${$css}
   `;
 };
