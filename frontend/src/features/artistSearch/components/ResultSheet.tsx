@@ -36,7 +36,7 @@ const SheetContainer = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    right: 4.33%;
+    right: 4.16%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
