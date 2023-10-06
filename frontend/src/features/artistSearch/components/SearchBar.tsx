@@ -32,9 +32,10 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox $align="center">
+    <SearchBox $align="center" $isOpen={search}>
       {search ? (
         <>
+          <SearchButton type="submit" />
           <SearchInput
             type="text"
             placeholder="아티스트 검색"
@@ -42,11 +43,12 @@ const SearchBar = () => {
             ref={inputRef}
             value={searchQuery}
             onChange={changeQuery}
-            onBlur={closeSearchBar}
+            // onBlur={closeSearchBar}
           />
           {isQueryFilled && (
             <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
           )}
+
           <ResultSheet />
         </>
       ) : (
@@ -58,26 +60,25 @@ const SearchBar = () => {
 
 export default SearchBar;
 
-const SearchBox = styled(Flex)`
+const SearchBox = styled(Flex)<{ $isOpen: boolean }>`
   position: relative;
 
-  height: 30px;
+  height: 34px;
   padding: 0 10px;
 
   background-color: ${({ theme }) => theme.color.black200};
   border-radius: 16px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    flex: ${({ $isOpen }) => $isOpen && 1};
+  }
 `;
 
 const SearchButton = styled.button`
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   background: url(${searchIcon}) transparent no-repeat;
   background-size: contain;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 20px;
-    height: 20px;
-  }
 `;
 
 const ResetQueryButton = styled.button`
@@ -99,7 +100,8 @@ const ResetQueryButton = styled.button`
 `;
 
 const SearchInput = styled.input`
-  padding: 0 24px 0 10px;
+  max-width: 100%;
+  padding: 0 26px 0 10px;
 
   color: white;
 

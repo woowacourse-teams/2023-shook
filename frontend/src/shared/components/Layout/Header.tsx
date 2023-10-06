@@ -16,7 +16,7 @@ const Header = () => {
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
-      <Flex $align="center" $gap={12}>
+      <Flex $align="center" $gap={12} $xs={{ $justify: 'flex-end', $css: { width: '100%' } }}>
         <SearchBar />
         {user ? (
           <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
@@ -72,7 +72,16 @@ const Logo = styled.img`
   width: 180px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    position: absolute;
+    top: 50%;
+    left: 4.16%;
+    transform: translate(0, -50%);
+
     width: 140px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    left: 16px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
