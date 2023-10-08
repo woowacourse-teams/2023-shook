@@ -52,7 +52,12 @@ const SearchBar = () => {
       <SearchButton $isSearching={isSearching} />
       <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isQueryFilled && (
-        <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
+        <ResetQueryButton
+          id="query-reset-button"
+          type="button"
+          onClick={resetQuery}
+          $isSearching={isSearching}
+        />
       )}
       {isSearching && <ResultSheet />}
     </SearchBox>
@@ -127,7 +132,7 @@ const SearchBarExpendButton = styled.button<{ $isSearching: boolean }>`
   }
 `;
 
-const ResetQueryButton = styled.button`
+const ResetQueryButton = styled.button<{ $isSearching: boolean }>`
   position: absolute;
   top: 50%;
   right: 40px;
@@ -138,6 +143,10 @@ const ResetQueryButton = styled.button`
 
   background: url(${cancelIcon}) transparent no-repeat;
   background-size: contain;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: ${({ $isSearching }) => !$isSearching && 'none'};
+  }
 `;
 
 const SearchInput = styled.input<{ $isSearching: boolean }>`
