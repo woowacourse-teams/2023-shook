@@ -37,7 +37,7 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox $align="center" $isSearching={isSearching}>
+    <SearchBox $align="center" $justify="space-between" $isSearching={isSearching}>
       <BackwardButton type="button" onClick={endSearchOnClick} $isSearching={isSearching} />
       <SearchInput
         type="text"
@@ -87,6 +87,8 @@ const SearchBox = styled(Flex)<{ $isSearching: boolean }>`
   background-color: ${({ theme }) => theme.color.black200};
   border-radius: 16px;
 
+  transition: flex 0.2s ease;
+
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     flex: ${({ $isSearching }) => $isSearching && 1};
   }
@@ -113,10 +115,6 @@ const BackwardButton = styled.button<{ $isSearching: boolean }>`
 
 const SearchButton = styled.button<{ $isSearching: boolean }>`
   ${searchButtonStyles}
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translate(0, -50%);
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     display: ${({ $isSearching }) => !$isSearching && 'none'};
@@ -150,8 +148,8 @@ const ResetQueryButton = styled.button<{ $isSearching: boolean }>`
 `;
 
 const SearchInput = styled.input<{ $isSearching: boolean }>`
-  width: 240px;
-  padding: 0 68px 0 8px;
+  width: 220px;
+  padding: 0 40px 0 8px;
 
   color: white;
 
@@ -162,7 +160,7 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
   transition: all 0.2s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 0 68px 0 28px;
+    padding: 0 40px 0 28px;
     ${({ $isSearching }) => !$isSearching && inputCloseStyles}
   }
 `;
