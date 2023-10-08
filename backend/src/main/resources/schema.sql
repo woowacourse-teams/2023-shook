@@ -117,7 +117,7 @@ set temp_length = CASE
 alter table killing_part
     modify temp_length integer not null;
 alter table killing_part
-    change column length legacy_length varchar(255) not null;
+    change column length legacy_length varchar(255) null;
 alter table killing_part
     change column temp_length length integer not null;
 */
