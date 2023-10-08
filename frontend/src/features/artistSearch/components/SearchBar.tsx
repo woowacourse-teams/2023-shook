@@ -6,18 +6,18 @@ import Flex from '@/shared/components/Flex/Flex';
 import ResultSheet from './ResultSheet';
 
 const SearchBar = () => {
-  const [search, setSearch] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const openSearchBar: React.MouseEventHandler & React.FocusEventHandler = () => {
-    setSearch(true);
+  const startSearch: React.MouseEventHandler & React.FocusEventHandler = () => {
+    setIsSearching(true);
   };
 
-  const closeSearchBar: React.FocusEventHandler = (e) => {
+  const endSearch: React.FocusEventHandler = (e) => {
     if (e.relatedTarget?.id === 'query-reset-button') return;
 
-    setSearch(false);
+    setIsSearching(false);
   };
 
   const changeQuery: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
@@ -32,22 +32,22 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox $align="center" $isSearching={search}>
+    <SearchBox $align="center" $isSearching={isSearching}>
       <SearchInput
         type="text"
         placeholder="아티스트 검색"
         ref={inputRef}
         value={searchQuery}
         onChange={changeQuery}
-        onFocus={openSearchBar}
-        $isSearching={search}
+        onFocus={startSearch}
+        $isSearching={isSearching}
       />
-      <SearchButton $isSearching={search} />
-      <SearchBarExpendButton type="button" onClick={openSearchBar} $isSearching={search} />
+      <SearchButton $isSearching={isSearching} />
+      <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isQueryFilled && (
         <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
       )}
-      {search && <ResultSheet />}
+      {isSearching && <ResultSheet />}
     </SearchBox>
   );
 };
