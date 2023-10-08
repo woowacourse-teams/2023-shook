@@ -61,6 +61,17 @@ create table if not exists killing_part_comment
     primary key (id)
 );
 
+create table if not exists member_part
+(
+    id           bigint auto_increment,
+    start_second integer      not null,
+    length       integer      not null,
+    song_id      bigint       not null,
+    member_id    bigint       not null,
+    created_at   timestamp(6) not null,
+    primary key (id)
+);
+
 INSERT INTO song (title, singer, length, video_id, album_cover_url, created_at, genre)
 VALUES ('Super Shy', 'NewJeans', 200, 'ArmDp-zijuc',
         'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now(), 'DANCE');
