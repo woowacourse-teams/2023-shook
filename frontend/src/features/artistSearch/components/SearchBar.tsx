@@ -37,7 +37,7 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox $align="center" $justify="space-between" $isSearching={isSearching}>
+    <SearchBox as="form" $align="center" $justify="space-between" $isSearching={isSearching}>
       <BackwardButton type="button" onClick={endSearchOnClick} $isSearching={isSearching} />
       <SearchInput
         type="text"
@@ -48,8 +48,9 @@ const SearchBar = () => {
         onFocus={startSearch}
         onBlur={endSearchOnBlur}
         $isSearching={isSearching}
+        disabled={!isSearching}
       />
-      <SearchButton $isSearching={isSearching} />
+      <SearchButton type="submit" $isSearching={isSearching} />
       <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isQueryFilled && (
         <ResetQueryButton
