@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
+import backwardIcon from '@/assets/icon/left-arrow.svg';
 import searchIcon from '@/assets/icon/search.svg';
 import Flex from '@/shared/components/Flex/Flex';
 import ResultSheet from './ResultSheet';
@@ -14,9 +15,13 @@ const SearchBar = () => {
     setIsSearching(true);
   };
 
-  const endSearch: React.FocusEventHandler = (e) => {
+  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
     if (e.relatedTarget?.id === 'query-reset-button') return;
 
+    setIsSearching(false);
+  };
+
+  const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     setIsSearching(false);
   };
 
@@ -33,6 +38,7 @@ const SearchBar = () => {
 
   return (
     <SearchBox $align="center" $isSearching={isSearching}>
+      <BackwardButton type="button" onClick={endSearchOnClick} $isSearching={isSearching} />
       <SearchInput
         type="text"
         placeholder="아티스트 검색"
@@ -40,6 +46,7 @@ const SearchBar = () => {
         value={searchQuery}
         onChange={changeQuery}
         onFocus={startSearch}
+        onBlur={endSearchOnBlur}
         $isSearching={isSearching}
       />
       <SearchButton $isSearching={isSearching} />
@@ -80,6 +87,25 @@ const SearchBox = styled(Flex)<{ $isSearching: boolean }>`
   }
 `;
 
+const BackwardButton = styled.button<{ $isSearching: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translate(0, -50%);
+
+  display: none;
+
+  width: 20px;
+  height: 20px;
+
+  background: url(${backwardIcon}) transparent no-repeat;
+  background-size: contain;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: ${({ $isSearching }) => $isSearching && 'block'};
+  }
+`;
+
 const SearchButton = styled.button<{ $isSearching: boolean }>`
   ${searchButtonStyles}
   position: absolute;
@@ -115,8 +141,8 @@ const ResetQueryButton = styled.button`
 `;
 
 const SearchInput = styled.input<{ $isSearching: boolean }>`
-  max-width: 100%;
-  padding: 0 60px 0 10px;
+  width: 240px;
+  padding: 0 68px 0 8px;
 
   color: white;
 
@@ -127,6 +153,7 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
   transition: all 0.2s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    padding: 0 68px 0 28px;
     ${({ $isSearching }) => !$isSearching && inputCloseStyles}
   }
 `;
