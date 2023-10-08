@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
-import shook.shook.part.domain.PartLength;
 
 class KillingPartLikesTest {
 
@@ -19,7 +18,7 @@ class KillingPartLikesTest {
     @BeforeEach
     void setUp() {
         MEMBER = new Member("email@naver.com", "nickname");
-        KILLING_PART = KillingPart.forSave(10, PartLength.STANDARD);
+        KILLING_PART = KillingPart.forSave(10, 10);
         LIKES = new KillingPartLikes();
     }
 

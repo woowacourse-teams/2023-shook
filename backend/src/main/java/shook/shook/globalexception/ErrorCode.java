@@ -58,9 +58,9 @@ public enum ErrorCode {
     VOTING_PART_START_LESS_THAN_ZERO(4001, "파트의 시작 초는 0보다 작을 수 없습니다."),
     VOTING_PART_START_OVER_SONG_LENGTH(4002, "파트의 시작 초는 노래 길이를 초과할 수 없습니다."),
     VOTING_PART_END_OVER_SONG_LENGTH(4003, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
-    INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5, 10, 15초 중 하나여야합니다."),
+    INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5초 이상, 15초 이하여야 합니다."),
     VOTING_PART_DUPLICATE_START_AND_LENGTH_EXCEPTION(4005,
-        "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
+                                                     "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
     VOTING_SONG_PART_NOT_EXIST(4006, "투표 대상 파트가 존재하지 않습니다."),
 
     VOTING_SONG_PART_FOR_OTHER_SONG(4007, "해당 파트는 다른 노래의 파트입니다."),

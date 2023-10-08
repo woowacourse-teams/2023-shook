@@ -24,7 +24,7 @@ create table if not exists killing_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    length       integer      not null,
     song_id      bigint       not null,
     like_count   integer      not null default 0,
     created_at   timestamp(6) not null,
@@ -75,25 +75,25 @@ VALUES ('Seven (feat. Latto) - Clean Ver.', '정국', 186, 'UUSbUBYqU_8',
         'http://i.maniadb.com/images/album/1000/000246_1_f.jpg', now(), 'DANCE');
 
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (10, 'SHORT', 1, 0, now());
+VALUES (10, 5, 1, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (15, 'LONG', 1, 0, now());
+VALUES (15, 15, 1, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (20, 'STANDARD', 1, 0, now());
+VALUES (20, 10, 1, 0, now());
 
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (10, 'SHORT', 2, 0, now());
+VALUES (10, 5, 2, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (15, 'LONG', 2, 0, now());
+VALUES (15, 15, 2, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (20, 'STANDARD', 2, 0, now());
+VALUES (20, 10, 2, 0, now());
 
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (10, 'SHORT', 3, 0, now());
+VALUES (10, 5, 3, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (15, 'LONG', 3, 0, now());
+VALUES (15, 15, 3, 0, now());
 INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
-VALUES (20, 'STANDARD', 3, 0, now());
+VALUES (20, 10, 3, 0, now());
 
 INSERT INTO member (email, nickname, created_at)
 VALUES ('email@naver.com', 'nickname', now());

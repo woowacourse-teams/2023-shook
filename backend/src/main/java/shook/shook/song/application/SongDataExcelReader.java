@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
@@ -92,7 +91,7 @@ public class SongDataExcelReader {
 
         return killingParts.map(
             parts -> new Song(title, videoId, albumCoverUrl, singer, length, Genre.from(genre),
-                parts));
+                              parts));
     }
 
     private String getString(final Iterator<Cell> iterator) {
@@ -145,6 +144,6 @@ public class SongDataExcelReader {
         }
         final int length = Integer.parseInt(songLength.split(songLengthSuffix)[0]);
 
-        return Optional.of(KillingPart.forSave(start, PartLength.findBySecond(length)));
+        return Optional.of(KillingPart.forSave(start, length));
     }
 }
