@@ -48,7 +48,6 @@ const SearchBar = () => {
         onFocus={startSearch}
         onBlur={endSearchOnBlur}
         $isSearching={isSearching}
-        disabled={!isSearching}
       />
       <SearchButton type="submit" $isSearching={isSearching} />
       <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
@@ -158,5 +157,6 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     width: ${({ $isSearching }) => !$isSearching && '0px'};
     padding: ${({ $isSearching }) => ($isSearching ? '0 40px 0 28px' : 0)};
+    visibility: ${({ $isSearching }) => !$isSearching && 'hidden'};
   }
 `;
