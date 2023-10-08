@@ -162,19 +162,10 @@ public class SongService {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
         final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
-            BEFORE_SONGS_COUNT);
+                                                                           BEFORE_SONGS_COUNT);
         final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
 
-        final Authority authority = memberInfo.getAuthority();
-
-        if (authority.isAnonymous()) {
-            return SongSwipeResponse.ofUnauthorizedUser(currentSong, prevSongs, nextSongs);
-        }
-
-        final Member member = findMemberById(memberInfo.getMemberId());
-        final List<Long> likedKillingPartIds =
-            killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
-        return SongSwipeResponse.of(currentSong, prevSongs, nextSongs, likedKillingPartIds);
+        return convertToSongSwipeResponse(memberInfo, currentSong, prevSongs, nextSongs);
     }
 
     public List<SongResponse> findPrevSongsByGenre(
@@ -185,7 +176,7 @@ public class SongService {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
         final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
-            BEFORE_SONGS_COUNT);
+                                                                           BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, prevSongs);
     }
