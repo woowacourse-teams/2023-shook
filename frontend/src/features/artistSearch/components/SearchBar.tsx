@@ -67,11 +67,6 @@ const SearchBar = () => {
 
 export default SearchBar;
 
-const inputCloseStyles = css`
-  width: 0px;
-  padding: 0;
-`;
-
 const searchButtonStyles = css`
   width: 20px;
   height: 20px;
@@ -161,7 +156,7 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
   transition: all 0.2s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 0 40px 0 28px;
-    ${({ $isSearching }) => !$isSearching && inputCloseStyles}
+    width: ${({ $isSearching }) => !$isSearching && '0px'};
+    padding: ${({ $isSearching }) => ($isSearching ? '0 40px 0 28px' : 0)};
   }
 `;
