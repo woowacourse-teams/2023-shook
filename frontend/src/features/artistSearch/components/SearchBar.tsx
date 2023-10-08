@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import searchIcon from '@/assets/icon/search.svg';
 import Flex from '@/shared/components/Flex/Flex';
@@ -10,7 +10,7 @@ const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const openSearchBar: React.MouseEventHandler = () => {
+  const openSearchBar: React.MouseEventHandler & React.FocusEventHandler = () => {
     setSearch(true);
   };
 
@@ -32,35 +32,41 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox $align="center" $isOpen={search}>
-      {search ? (
-        <>
-          <SearchButton type="submit" />
-          <SearchInput
-            type="text"
-            placeholder="아티스트 검색"
-            autoFocus
-            ref={inputRef}
-            value={searchQuery}
-            onChange={changeQuery}
-            // onBlur={closeSearchBar}
-          />
-          {isQueryFilled && (
-            <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
-          )}
-
-          <ResultSheet />
-        </>
-      ) : (
-        <SearchButton type="button" onClick={openSearchBar} />
+    <SearchBox $align="center" $isSearching={search}>
+      <SearchInput
+        type="text"
+        placeholder="아티스트 검색"
+        ref={inputRef}
+        value={searchQuery}
+        onChange={changeQuery}
+        onFocus={openSearchBar}
+        $isSearching={search}
+      />
+      <SearchButton $isSearching={search} />
+      <SearchBarExpendButton type="button" onClick={openSearchBar} $isSearching={search} />
+      {isQueryFilled && (
+        <ResetQueryButton id="query-reset-button" type="button" onClick={resetQuery} />
       )}
+      {search && <ResultSheet />}
     </SearchBox>
   );
 };
 
 export default SearchBar;
 
-const SearchBox = styled(Flex)<{ $isOpen: boolean }>`
+const inputCloseStyles = css`
+  width: 0px;
+  padding: 0;
+`;
+
+const searchButtonStyles = css`
+  width: 20px;
+  height: 20px;
+  background: url(${searchIcon}) transparent no-repeat;
+  background-size: contain;
+`;
+
+const SearchBox = styled(Flex)<{ $isSearching: boolean }>`
   position: relative;
 
   height: 34px;
@@ -70,21 +76,35 @@ const SearchBox = styled(Flex)<{ $isOpen: boolean }>`
   border-radius: 16px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    flex: ${({ $isOpen }) => $isOpen && 1};
+    flex: ${({ $isSearching }) => $isSearching && 1};
   }
 `;
 
-const SearchButton = styled.button`
-  width: 20px;
-  height: 20px;
-  background: url(${searchIcon}) transparent no-repeat;
-  background-size: contain;
+const SearchButton = styled.button<{ $isSearching: boolean }>`
+  ${searchButtonStyles}
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(0, -50%);
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: ${({ $isSearching }) => !$isSearching && 'none'};
+  }
+`;
+
+const SearchBarExpendButton = styled.button<{ $isSearching: boolean }>`
+  ${searchButtonStyles}
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: ${({ $isSearching }) => !$isSearching && 'block'};
+  }
 `;
 
 const ResetQueryButton = styled.button`
   position: absolute;
   top: 50%;
-  right: 5px;
+  right: 40px;
   transform: translate(0, -50%);
 
   width: 26px;
@@ -92,20 +112,21 @@ const ResetQueryButton = styled.button`
 
   background: url(${cancelIcon}) transparent no-repeat;
   background-size: contain;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 20px;
-    height: 20px;
-  }
 `;
 
-const SearchInput = styled.input`
+const SearchInput = styled.input<{ $isSearching: boolean }>`
   max-width: 100%;
-  padding: 0 26px 0 10px;
+  padding: 0 60px 0 10px;
 
   color: white;
 
   background-color: ${({ theme }) => theme.color.black200};
   border: none;
   outline: none;
+
+  transition: all 0.2s ease;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    ${({ $isSearching }) => !$isSearching && inputCloseStyles}
+  }
 `;
