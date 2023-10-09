@@ -1,45 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import backwardIcon from '@/assets/icon/left-arrow.svg';
 import searchIcon from '@/assets/icon/search.svg';
 import Flex from '@/shared/components/Flex/Flex';
+import useSearchBar from '../hooks/useSearchBar';
 import ResultSheet from './ResultSheet';
 
 const SearchBar = () => {
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const startSearch: React.MouseEventHandler & React.FocusEventHandler = () => {
-    setIsSearching(true);
-  };
-
-  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    if (e.relatedTarget?.id === 'query-reset-button') return;
-
-    setIsSearching(false);
-  };
-
-  const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setIsSearching(false);
-  };
-
-  const changeQuery: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    setSearchQuery(currentTarget.value);
-  };
-
-  const resetQuery: React.MouseEventHandler = () => {
-    setSearchQuery('');
-    inputRef.current?.focus();
-  };
+  const {
+    isSearching,
+    searchQuery,
+    inputRef,
+    startSearch,
+    endSearchOnBlur,
+    endSearchOnClick,
+    changeQuery,
+    resetQuery,
+  } = useSearchBar();
 
   const isQueryFilled = searchQuery.length !== 0;
-
-  useEffect(() => {
-    if (!isSearching) return;
-    inputRef.current?.focus();
-  }, [isSearching]);
 
   return (
     <SearchBox as="form" $align="center" $justify="space-between" $isSearching={isSearching}>
