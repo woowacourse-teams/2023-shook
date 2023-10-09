@@ -92,20 +92,22 @@ const BackwardButton = styled.button<{ $isSearching: boolean }>`
   }
 `;
 
-const SearchButton = styled.button<{ $isSearching: boolean }>`
-  ${searchButtonStyles}
+const SearchInput = styled.input<{ $isSearching: boolean }>`
+  width: 220px;
+  padding: 0 40px 0 8px;
+
+  color: white;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  transition: width 0.3s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    display: ${({ $isSearching }) => !$isSearching && 'none'};
-  }
-`;
-
-const SearchBarExpendButton = styled.button<{ $isSearching: boolean }>`
-  ${searchButtonStyles}
-  display: none;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    display: ${({ $isSearching }) => !$isSearching && 'block'};
+    width: ${({ $isSearching }) => !$isSearching && '0px'};
+    padding: ${({ $isSearching }) => ($isSearching ? '0 40px 0 28px' : 0)};
+    visibility: ${({ $isSearching }) => !$isSearching && 'hidden'};
   }
 `;
 
@@ -126,21 +128,19 @@ const ResetQueryButton = styled.button<{ $isSearching: boolean }>`
   }
 `;
 
-const SearchInput = styled.input<{ $isSearching: boolean }>`
-  width: 220px;
-  padding: 0 40px 0 8px;
-
-  color: white;
-
-  background-color: transparent;
-  border: none;
-  outline: none;
-
-  transition: width 0.3s ease;
+const SearchButton = styled.button<{ $isSearching: boolean }>`
+  ${searchButtonStyles}
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: ${({ $isSearching }) => !$isSearching && '0px'};
-    padding: ${({ $isSearching }) => ($isSearching ? '0 40px 0 28px' : 0)};
-    visibility: ${({ $isSearching }) => !$isSearching && 'hidden'};
+    display: ${({ $isSearching }) => !$isSearching && 'none'};
+  }
+`;
+
+const SearchBarExpendButton = styled.button<{ $isSearching: boolean }>`
+  ${searchButtonStyles}
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: ${({ $isSearching }) => !$isSearching && 'block'};
   }
 `;
