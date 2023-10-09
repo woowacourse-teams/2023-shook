@@ -49,8 +49,6 @@ const SearchBar = () => {
         onBlur={endSearchOnBlur}
         $isSearching={isSearching}
       />
-      <SearchButton type="submit" $isSearching={isSearching} />
-      <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isQueryFilled && (
         <ResetQueryButton
           id="query-reset-button"
@@ -59,6 +57,8 @@ const SearchBar = () => {
           $isSearching={isSearching}
         />
       )}
+      <SearchButton type="submit" $isSearching={isSearching} />
+      <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isSearching && <ResultSheet />}
     </SearchBox>
   );
