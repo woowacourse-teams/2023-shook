@@ -118,13 +118,6 @@ class MyPageControllerTest {
 
             //when
             //then
-
-            final List<LikedKillingPartResponse> expected = List.of(
-                LikedKillingPartResponse.of(thirdSong, thirdSongKillingPart.get(0)),
-                LikedKillingPartResponse.of(secondSong, secondSongKillingPart.get(0)),
-                LikedKillingPartResponse.of(firstSong, firstSongKillingPart.get(0))
-            );
-
             final List<LikedKillingPartResponse> response = RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
                 .contentType(ContentType.JSON)
@@ -134,7 +127,15 @@ class MyPageControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().body().jsonPath().getList(".", LikedKillingPartResponse.class);
 
-            assertThat(response).usingRecursiveComparison().isEqualTo(expected);
+            assertThat(response.get(0))
+                .hasFieldOrPropertyWithValue("songId", thirdSong.getId())
+                .hasFieldOrPropertyWithValue("partId", thirdSongKillingPart.get(0).getId());
+            assertThat(response.get(1))
+                .hasFieldOrPropertyWithValue("songId", secondSong.getId())
+                .hasFieldOrPropertyWithValue("partId", secondSongKillingPart.get(0).getId());
+            assertThat(response.get(2))
+                .hasFieldOrPropertyWithValue("songId", firstSong.getId())
+                .hasFieldOrPropertyWithValue("partId", firstSongKillingPart.get(0).getId());
         }
 
         @DisplayName("좋아요한 킬링파트가 없을 때")

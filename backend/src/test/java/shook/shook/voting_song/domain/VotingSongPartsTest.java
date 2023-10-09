@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.ArtistName;
+import shook.shook.song.domain.ProfileImageUrl;
 
 class VotingSongPartsTest {
 
@@ -16,7 +19,14 @@ class VotingSongPartsTest {
     @Test
     void create_fail_duplicatePartExist() {
         //given
-        final VotingSong votingSong = new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30);
+        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final VotingSong votingSong = new VotingSong(
+            "제목",
+            "비디오ID는 11글자",
+            "이미지URL",
+            artist,
+            30
+        );
         final VotingSongPart firstPart = VotingSongPart.saved(1L, 5, new PartLength(5), votingSong);
         final VotingSongPart secondPart = VotingSongPart.forSave(5, new PartLength(5), votingSong);
 

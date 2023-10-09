@@ -10,8 +10,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
+import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 
 @Schema(description = "노래와 킬링파트 등록 요청")
@@ -34,7 +37,11 @@ public class SongWithKillingPartsRegisterRequest {
 
     @Schema(description = "가수 이름", example = "가수")
     @NotBlank
-    private String singer;
+    private String artistName;
+
+    @Schema(description = "가수 프로필 이미지", example = "https://image.com/singer-profile.jpg")
+    @NotBlank
+    private String profileImageUrl;
 
     @Schema(description = "노래 길이", example = "247")
     @NotNull
@@ -50,8 +57,15 @@ public class SongWithKillingPartsRegisterRequest {
     private List<KillingPartRegisterRequest> killingParts;
 
     public Song convertToSong() {
-        return new Song(title, videoId, imageUrl, singer, length, Genre.from(genre),
-            convertToKillingParts());
+        return new Song(
+            title,
+            videoId,
+            imageUrl,
+            new Artist(new ProfileImageUrl(profileImageUrl), new ArtistName(artistName)),
+            length,
+            Genre.from(genre),
+            convertToKillingParts()
+        );
     }
 
     private KillingParts convertToKillingParts() {

@@ -29,6 +29,7 @@ import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
 import shook.shook.support.UsingJpaTest;
@@ -51,6 +52,9 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private MemberPartRepository memberPartRepository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     private final InMemorySongs inMemorySongs = new InMemorySongs();
 
     private SongService songService;
@@ -64,6 +68,7 @@ class SongServiceTest extends UsingJpaTest {
             memberRepository,
             memberPartRepository,
             inMemorySongs,
+            artistRepository,
             new SongDataExcelReader(" ", " ", " ")
         );
     }
@@ -73,7 +78,13 @@ class SongServiceTest extends UsingJpaTest {
     void register() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title", "elevenVideo", "imageUrl", "singer", 300, "댄스",
+            "title",
+            "elevenVideo",
+            "imageUrl",
+            "singer",
+            "image",
+            300,
+            "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -93,7 +104,7 @@ class SongServiceTest extends UsingJpaTest {
             () -> assertThat(foundSong.getTitle()).isEqualTo("title"),
             () -> assertThat(foundSong.getVideoId()).isEqualTo("elevenVideo"),
             () -> assertThat(foundSong.getAlbumCoverUrl()).isEqualTo("imageUrl"),
-            () -> assertThat(foundSong.getSinger()).isEqualTo("singer"),
+            () -> assertThat(foundSong.getArtistName()).isEqualTo("singer"),
             () -> assertThat(foundSong.getCreatedAt()).isNotNull(),
             () -> assertThat(foundSong.getKillingParts()).hasSize(3)
         );
@@ -241,7 +252,13 @@ class SongServiceTest extends UsingJpaTest {
 
     private Song registerNewSong(final String title) {
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            title, "elevenVideo", "imageUrl", "singer", 300, "댄스",
+            "title",
+            "elevenVideo",
+            "imageUrl",
+            "singer",
+            "image",
+            300,
+            "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),

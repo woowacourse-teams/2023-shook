@@ -15,6 +15,7 @@ import shook.shook.globalexception.CustomException;
 import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.application.SongService;
+import shook.shook.song.exception.ArtistException;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
@@ -96,9 +97,13 @@ class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(
                 new SongException.TooLongImageUrlException(), 400),
             new ExceptionTestData(
-                new SongException.NullOrEmptySingerNameException(), 400),
+                new ArtistException.NullOrEmptyNameException(), 400),
             new ExceptionTestData(
-                new SongException.TooLongSingerNameException(), 400),
+                new ArtistException.TooLongNameException(), 400),
+            new ExceptionTestData(
+                new ArtistException.NullOrEmptyProfileUrlException(), 400),
+            new ExceptionTestData(
+                new ArtistException.TooLongProfileUrlException(), 400),
 
             new ExceptionTestData(new PartException.StartLessThanZeroException(), 400),
             new ExceptionTestData(new PartException.StartOverSongLengthException(), 400),

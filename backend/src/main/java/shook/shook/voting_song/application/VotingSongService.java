@@ -6,6 +6,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.voting_song.application.dto.VotingSongRegisterRequest;
 import shook.shook.voting_song.application.dto.VotingSongResponse;
 import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
@@ -22,10 +23,13 @@ public class VotingSongService {
     private static final int AFTER_SONG_COUNT = 4;
 
     private final VotingSongRepository votingSongRepository;
+    private final ArtistRepository artistRepository;
 
     @Transactional
     public void register(final VotingSongRegisterRequest request) {
-        votingSongRepository.save(request.getVotingSong());
+        final VotingSong votingSong = request.getVotingSong();
+        artistRepository.save(votingSong.getArtist());
+        votingSongRepository.save(votingSong);
     }
 
     public VotingSongSwipeResponse findAllForSwipeById(final Long id) {

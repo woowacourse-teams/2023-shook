@@ -22,11 +22,10 @@ import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
-import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
-import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,6 +42,7 @@ public class SongService {
     private final MemberRepository memberRepository;
     private final MemberPartRepository memberPartRepository;
     private final InMemorySongs inMemorySongs;
+    private final ArtistRepository artistRepository;
     private final SongDataExcelReader songDataExcelReader;
 
     @Transactional
@@ -53,9 +53,7 @@ public class SongService {
     }
 
     private Song saveSong(final Song song) {
-        if (songRepository.existsSongByTitle(new SongTitle(song.getTitle()))) {
-            throw new SongException.SongAlreadyExistException(Map.of("Song-Name", song.getTitle()));
-        }
+        artistRepository.save(song.getArtist());
         final Song savedSong = songRepository.save(song);
         killingPartRepository.saveAll(song.getKillingParts());
         return savedSong;

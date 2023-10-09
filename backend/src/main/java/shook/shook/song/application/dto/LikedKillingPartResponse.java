@@ -37,7 +37,7 @@ public class LikedKillingPartResponse {
         return new LikedKillingPartResponse(
             song.getId(),
             song.getTitle(),
-            song.getSinger(),
+            song.getArtistName(),
             song.getAlbumCoverUrl(),
             killingPart.getId(),
             killingPart.getStartSecond(),
