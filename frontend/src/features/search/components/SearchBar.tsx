@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import backwardIcon from '@/assets/icon/left-arrow.svg';
@@ -35,6 +35,11 @@ const SearchBar = () => {
   };
 
   const isQueryFilled = searchQuery.length !== 0;
+
+  useEffect(() => {
+    if (!isSearching) return;
+    inputRef.current?.focus();
+  }, [isSearching]);
 
   return (
     <SearchBox as="form" $align="center" $justify="space-between" $isSearching={isSearching}>
@@ -148,11 +153,11 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
 
   color: white;
 
-  background-color: ${({ theme }) => theme.color.black200};
+  background-color: transparent;
   border: none;
   outline: none;
 
-  transition: all 0.2s ease;
+  transition: width 0.3s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     width: ${({ $isSearching }) => !$isSearching && '0px'};
