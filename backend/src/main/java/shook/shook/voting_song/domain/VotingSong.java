@@ -3,9 +3,13 @@ package shook.shook.voting_song.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -17,7 +21,7 @@ import java.util.Optional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.song.domain.AlbumCoverUrl;
-import shook.shook.song.domain.Singer;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.SongLength;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.SongVideoId;
@@ -42,8 +46,9 @@ public class VotingSong {
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
 
-    @Embedded
-    private Singer singer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    private Artist artist;
 
     @Embedded
     private SongLength length;
@@ -58,14 +63,14 @@ public class VotingSong {
         final String title,
         final String videoId,
         final String albumCoverUrl,
-        final String singer,
+        final Artist artist,
         final int length
     ) {
         this.id = null;
         this.title = new SongTitle(title);
         this.videoId = new SongVideoId(videoId);
         this.albumCoverUrl = new AlbumCoverUrl(albumCoverUrl);
-        this.singer = new Singer(singer);
+        this.artist = artist;
         this.length = new SongLength(length);
     }
 
@@ -110,8 +115,8 @@ public class VotingSong {
         return albumCoverUrl.getValue();
     }
 
-    public String getSinger() {
-        return singer.getName();
+    public String getArtistName() {
+        return artist.getArtistName();
     }
 
     public int getLength() {

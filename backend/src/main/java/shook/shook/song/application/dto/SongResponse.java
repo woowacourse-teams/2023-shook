@@ -43,7 +43,7 @@ public class SongResponse {
         return new SongResponse(
             song.getId(),
             song.getTitle(),
-            song.getSinger(),
+            song.getArtistName(),
             song.getLength(),
             song.getVideoId(),
             song.getAlbumCoverUrl(),

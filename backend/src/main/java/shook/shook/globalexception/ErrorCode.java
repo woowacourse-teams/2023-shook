@@ -53,6 +53,9 @@ public enum ErrorCode {
     CAN_NOT_READ_SONG_DATA_FILE(3011, "노래 데이터 파일을 읽을 수 없습니다."),
     SONG_ALREADY_EXIST(3012, "등록하려는 노래가 이미 존재합니다."),
     WRONG_GENRE_TYPE(3013, "잘못된 장르 타입입니다."),
+    EMPTY_ARTIST_PROFILE_URL(3014, "가수 프로필 이미지는 비어있을 수 없습니다."),
+    TOO_LONG_ARTIST_PROFILE_URL(3015, "가수 프로필 이미지URL은 65,356자를 넘길 수 없습니다."),
+
 
     // 4000: 투표
     VOTING_PART_START_LESS_THAN_ZERO(4001, "파트의 시작 초는 0보다 작을 수 없습니다."),

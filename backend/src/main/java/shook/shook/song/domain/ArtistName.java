@@ -14,26 +14,25 @@ import shook.shook.util.StringChecker;
 @Getter
 @EqualsAndHashCode
 @Embeddable
-public class Singer {
-    // TODO: 2023-10-09 데이터 옮긴 후 Song에 있는 해당 컬럼을,, 날려야 하나..?
+public class ArtistName {
 
     private static final int NAME_MAXIMUM_LENGTH = 50;
 
-    @Column(name = "singer", length = 50, nullable = false)
-    private String name;
+    @Column(name = "name", length = 50, nullable = false)
+    private String value;
 
-    public Singer(final String name) {
-        validateName(name);
-        this.name = name;
+    public ArtistName(final String value) {
+        validateName(value);
+        this.value = value;
     }
 
-    private void validateName(final String name) {
-        if (StringChecker.isNullOrBlank(name)) {
+    private void validateName(final String value) {
+        if (StringChecker.isNullOrBlank(value)) {
             throw new ArtistException.NullOrEmptyNameException();
         }
-        if (name.length() > NAME_MAXIMUM_LENGTH) {
+        if (value.length() > NAME_MAXIMUM_LENGTH) {
             throw new ArtistException.TooLongNameException(
-                Map.of("Singer", name)
+                Map.of("Singer", value)
             );
         }
     }

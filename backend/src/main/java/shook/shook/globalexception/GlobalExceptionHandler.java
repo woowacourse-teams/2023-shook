@@ -14,6 +14,7 @@ import shook.shook.auth.exception.OAuthException;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.member.exception.MemberException;
 import shook.shook.part.exception.PartException;
+import shook.shook.song.exception.ArtistException;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 import shook.shook.song.exception.killingpart.KillingPartException;
@@ -55,7 +56,8 @@ public class GlobalExceptionHandler {
         MemberException.class,
         VotingSongException.class,
         VotingSongPartException.PartNotExistException.class,
-        PartException.class
+        PartException.class,
+        ArtistException.class
     })
     public ResponseEntity<ErrorResponse> handleGlobalBadRequestException(final CustomException e) {
         log.error(e.getErrorInfoLog());

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.song.exception.SongException;
+import shook.shook.song.exception.ArtistException;
 
-class SingerTest {
+class ArtistNameTest {
 
     @DisplayName("가수을 뜻하는 객체를 생성한다.")
     @Test
@@ -18,7 +18,7 @@ class SingerTest {
         //given
         //when
         //then
-        Assertions.assertDoesNotThrow(() -> new Singer("이름"));
+        Assertions.assertDoesNotThrow(() -> new ArtistName("이름"));
     }
 
     @DisplayName("가수 이름이 유효하지 않으면 예외를 던진다.")
@@ -29,19 +29,19 @@ class SingerTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new Singer(name))
-            .isInstanceOf(SongException.NullOrEmptySingerNameException.class);
+        assertThatThrownBy(() -> new ArtistName(name))
+            .isInstanceOf(ArtistException.NullOrEmptyNameException.class);
     }
 
-    @DisplayName("가수 이름의 길이가 100을 넘을 경우 예외를 던진다.")
+    @DisplayName("가수 이름의 길이가 50을 넘을 경우 예외를 던진다.")
     @Test
-    void create_fail_lengthOver100() {
+    void create_fail_lengthOver50() {
         //given
-        final String name = ".".repeat(101);
+        final String name = ".".repeat(51);
 
         //when
         //then
-        assertThatThrownBy(() -> new Singer(name))
-            .isInstanceOf(SongException.TooLongSingerNameException.class);
+        assertThatThrownBy(() -> new ArtistName(name))
+            .isInstanceOf(ArtistException.TooLongNameException.class);
     }
 }

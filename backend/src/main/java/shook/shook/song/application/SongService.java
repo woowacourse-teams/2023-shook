@@ -18,11 +18,10 @@ import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
-import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
-import shook.shook.song.exception.SongException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,6 +37,7 @@ public class SongService {
     private final KillingPartLikeRepository killingPartLikeRepository;
     private final MemberRepository memberRepository;
     private final InMemorySongs inMemorySongs;
+    private final ArtistRepository artistRepository;
     private final SongDataExcelReader songDataExcelReader;
 
     @Transactional
@@ -48,9 +48,7 @@ public class SongService {
     }
 
     private Song saveSong(final Song song) {
-        if (songRepository.existsSongByTitle(new SongTitle(song.getTitle()))) {
-            throw new SongException.SongAlreadyExistException(Map.of("Song-Name", song.getTitle()));
-        }
+        artistRepository.save(song.getArtist());
         final Song savedSong = songRepository.save(song);
         killingPartRepository.saveAll(song.getKillingParts());
         return savedSong;
@@ -68,8 +66,10 @@ public class SongService {
     ) {
         final Song currentSong = inMemorySongs.getSongById(songId);
 
-        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
-        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong,
+            BEFORE_SONGS_COUNT);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong,
+            AFTER_SONGS_COUNT);
 
         return convertToSongSwipeResponse(memberInfo, currentSong, beforeSongs, afterSongs);
     }
@@ -87,7 +87,8 @@ public class SongService {
         }
 
         final Member member = findMemberById(memberInfo.getMemberId());
-        final List<Long> killingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
+        final List<Long> killingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(
+            member);
         return SongSwipeResponse.of(currentSong, beforeSongs, afterSongs, killingPartIds);
     }
 
@@ -105,7 +106,8 @@ public class SongService {
         final MemberInfo memberInfo
     ) {
         final Song currentSong = inMemorySongs.getSongById(songId);
-        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong, BEFORE_SONGS_COUNT);
+        final List<Song> beforeSongs = inMemorySongs.getPrevLikedSongs(currentSong,
+            BEFORE_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, beforeSongs);
     }
@@ -136,7 +138,8 @@ public class SongService {
         final MemberInfo memberInfo
     ) {
         final Song currentSong = inMemorySongs.getSongById(songId);
-        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong, AFTER_SONGS_COUNT);
+        final List<Song> afterSongs = inMemorySongs.getNextLikedSongs(currentSong,
+            AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, afterSongs);
     }
@@ -163,7 +166,8 @@ public class SongService {
         final Song currentSong = inMemorySongs.getSongById(songId);
         final List<Song> prevSongs = inMemorySongs.getPrevLikedSongByGenre(currentSong, genre,
             BEFORE_SONGS_COUNT);
-        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre,
+            AFTER_SONGS_COUNT);
 
         final Authority authority = memberInfo.getAuthority();
 
@@ -197,7 +201,8 @@ public class SongService {
     ) {
         final Genre genre = Genre.findByName(genreName);
         final Song currentSong = inMemorySongs.getSongById(songId);
-        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
+        final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre,
+            AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, nextSongs);
     }

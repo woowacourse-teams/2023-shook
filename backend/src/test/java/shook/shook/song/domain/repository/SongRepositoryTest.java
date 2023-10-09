@@ -13,8 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
+import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
@@ -37,14 +40,24 @@ class SongRepositoryTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     private Song createNewSongWithKillingParts() {
         final KillingPart firstKillingPart = KillingPart.forSave(10, PartLength.SHORT);
         final KillingPart secondKillingPart = KillingPart.forSave(15, PartLength.SHORT);
         final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
 
+        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
         return new Song(
-            "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, Genre.from("댄스"),
-            new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart)));
+            "title",
+            "3rUPND6FG8A",
+            "image_url",
+            artist,
+            230,
+            Genre.from("댄스"),
+            new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart))
+        );
     }
 
     private Member createAndSaveMember(final String email, final String name) {
@@ -59,11 +72,16 @@ class SongRepositoryTest extends UsingJpaTest {
         final Song song = createNewSongWithKillingParts();
 
         //when
-        final Song savedSong = songRepository.save(song);
+        final Song savedSong = saveSong(song);
 
         //then
         assertThat(song).isSameAs(savedSong);
         assertThat(savedSong.getId()).isNotNull();
+    }
+
+    private Song saveSong(final Song song) {
+        artistRepository.save(song.getArtist());
+        return songRepository.save(song);
     }
 
     @DisplayName("Id로 Song 을 조회한다.")
@@ -71,7 +89,7 @@ class SongRepositoryTest extends UsingJpaTest {
     void findById() {
         //given
         final Song song = createNewSongWithKillingParts();
-        songRepository.save(song);
+        saveSong(song);
         killingPartRepository.saveAll(song.getKillingParts());
 
         //when
@@ -80,8 +98,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         //then
         assertThat(findSong).isPresent();
-        assertThat(findSong.get()).usingRecursiveComparison()
-            .isEqualTo(song);
+        assertThat(findSong.get()).isEqualTo(song);
     }
 
     @DisplayName("Song 을 저장할 때의 시간 정보로 createAt이 자동 생성된다.")
@@ -92,7 +109,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
-        final Song saved = songRepository.save(song);
+        final Song saved = saveSong(song);
         final LocalDateTime after = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
         //then
@@ -106,9 +123,9 @@ class SongRepositoryTest extends UsingJpaTest {
         // given
         final Member firstMember = createAndSaveMember("first@naver.com", "first");
         final Member secondMember = createAndSaveMember("second@naver.com", "second");
-        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
-        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
-        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
+        final Song firstSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
 
         killingPartRepository.saveAll(firstSong.getKillingParts());
         killingPartRepository.saveAll(secondSong.getKillingParts());
@@ -142,17 +159,17 @@ class SongRepositoryTest extends UsingJpaTest {
     void findSongsWithLessLikeCountThanSongWithId() {
         // given
         final Member member = createAndSaveMember("first@naver.com", "first");
-        final Song eleventhSong = songRepository.save(createNewSongWithKillingParts());
-        final Song tenthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song ninthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song eighthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song seventhSong = songRepository.save(createNewSongWithKillingParts());
-        final Song sixthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
-        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
-        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+        final Song eleventhSong = saveSong(createNewSongWithKillingParts());
+        final Song tenthSong = saveSong(createNewSongWithKillingParts());
+        final Song ninthSong = saveSong(createNewSongWithKillingParts());
+        final Song eighthSong = saveSong(createNewSongWithKillingParts());
+        final Song seventhSong = saveSong(createNewSongWithKillingParts());
+        final Song sixthSong = saveSong(createNewSongWithKillingParts());
+        final Song fifthSong = saveSong(createNewSongWithKillingParts());
+        final Song fourthSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song standardSong = saveSong(createNewSongWithKillingParts());
 
         killingPartRepository.saveAll(standardSong.getKillingParts());
         killingPartRepository.saveAll(secondSong.getKillingParts());
@@ -185,7 +202,7 @@ class SongRepositoryTest extends UsingJpaTest {
         addLikeToKillingPart(fifthSong.getKillingParts().get(1), member);
 
         // when
-        saveAndClearEntityManager();
+        saveAndClearEntityManager(); // artist, song, killingPart 다 떼어버림
         final List<Song> songs = songRepository.findSongsWithLessLikeCountThanSongWithId(
             standardSong.getId(),
             PageRequest.of(0, 10)
@@ -194,9 +211,23 @@ class SongRepositoryTest extends UsingJpaTest {
         // then
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
-            .isEqualTo(List.of(secondSong, thirdSong, fourthSong, fifthSong, sixthSong, seventhSong,
-                eighthSong, ninthSong, tenthSong, eleventhSong)
+            .isEqualTo(List.of(
+                    findSavedSong(secondSong),
+                    findSavedSong(thirdSong),
+                    findSavedSong(fourthSong),
+                    findSavedSong(fifthSong),
+                    findSavedSong(sixthSong),
+                    findSavedSong(seventhSong),
+                    findSavedSong(eighthSong),
+                    findSavedSong(ninthSong),
+                    findSavedSong(tenthSong),
+                    findSavedSong(eleventhSong)
+                )
             );
+    }
+
+    private Song findSavedSong(final Song song) {
+        return songRepository.findById(song.getId()).get();
     }
 
     @DisplayName("주어진 id보다 좋아요가 적은 노래 10개를 조회한다. (데이터가 기준보다 적을 때)")
@@ -205,11 +236,11 @@ class SongRepositoryTest extends UsingJpaTest {
         // given
         final Member firstMember = createAndSaveMember("first@naver.com", "first");
 
-        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
-        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
-        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
-        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
+        final Song firstSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
+        final Song standardSong = saveSong(createNewSongWithKillingParts());
+        final Song fifthSong = saveSong(createNewSongWithKillingParts());
 
         killingPartRepository.saveAll(firstSong.getKillingParts());
         killingPartRepository.saveAll(secondSong.getKillingParts());
@@ -244,7 +275,7 @@ class SongRepositoryTest extends UsingJpaTest {
         // then
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
-            .isEqualTo(List.of(thirdSong));
+            .isEqualTo(List.of(findSavedSong(thirdSong)));
     }
 
     @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 총 좋아요 오름차순, id 오름차순으로 조회한다. (데이터가 충분할 때)")
@@ -252,17 +283,17 @@ class SongRepositoryTest extends UsingJpaTest {
     void findSongsWithMoreLikeCountThanSongWithId() {
         // given
         final Member member = createAndSaveMember("first@naver.com", "first");
-        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
-        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
-        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
-        final Song seventhSong = songRepository.save(createNewSongWithKillingParts());
-        final Song eighthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song ninthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song tenthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song eleventhSong = songRepository.save(createNewSongWithKillingParts());
+        final Song firstSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
+        final Song fourthSong = saveSong(createNewSongWithKillingParts());
+        final Song fifthSong = saveSong(createNewSongWithKillingParts());
+        final Song standardSong = saveSong(createNewSongWithKillingParts());
+        final Song seventhSong = saveSong(createNewSongWithKillingParts());
+        final Song eighthSong = saveSong(createNewSongWithKillingParts());
+        final Song ninthSong = saveSong(createNewSongWithKillingParts());
+        final Song tenthSong = saveSong(createNewSongWithKillingParts());
+        final Song eleventhSong = saveSong(createNewSongWithKillingParts());
 
         killingPartRepository.saveAll(firstSong.getKillingParts());
         killingPartRepository.saveAll(secondSong.getKillingParts());
@@ -296,6 +327,7 @@ class SongRepositoryTest extends UsingJpaTest {
 
         // when
         saveAndClearEntityManager();
+
         final List<Song> songs = songRepository.findSongsWithMoreLikeCountThanSongWithId(
             standardSong.getId(),
             PageRequest.of(0, 10)
@@ -304,9 +336,18 @@ class SongRepositoryTest extends UsingJpaTest {
         // then
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
-            .isEqualTo(
-                List.of(seventhSong, eighthSong, ninthSong, tenthSong, eleventhSong, fourthSong,
-                    fifthSong, firstSong, secondSong, thirdSong));
+            .isEqualTo(List.of(
+                findSavedSong(seventhSong),
+                findSavedSong(eighthSong),
+                findSavedSong(ninthSong),
+                findSavedSong(tenthSong),
+                findSavedSong(eleventhSong),
+                findSavedSong(fourthSong),
+                findSavedSong(fifthSong),
+                findSavedSong(firstSong),
+                findSavedSong(secondSong),
+                findSavedSong(thirdSong)
+            ));
     }
 
     @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 총 좋아요 오름차순, id 오름차순으로 조회한다. (데이터가 기준보다 부족할 때)")
@@ -314,12 +355,12 @@ class SongRepositoryTest extends UsingJpaTest {
     void findSongsWithMoreLikeCountThanSongWithId_smallData() {
         // given
         final Member member = createAndSaveMember("first@naver.com", "first");
-        final Song firstSong = songRepository.save(createNewSongWithKillingParts());
-        final Song secondSong = songRepository.save(createNewSongWithKillingParts());
-        final Song thirdSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fourthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song fifthSong = songRepository.save(createNewSongWithKillingParts());
-        final Song standardSong = songRepository.save(createNewSongWithKillingParts());
+        final Song firstSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
+        final Song fourthSong = saveSong(createNewSongWithKillingParts());
+        final Song fifthSong = saveSong(createNewSongWithKillingParts());
+        final Song standardSong = saveSong(createNewSongWithKillingParts());
 
         killingPartRepository.saveAll(firstSong.getKillingParts());
         killingPartRepository.saveAll(secondSong.getKillingParts());
@@ -356,7 +397,12 @@ class SongRepositoryTest extends UsingJpaTest {
         // then
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
-            .isEqualTo(
-                List.of(fourthSong, fifthSong, firstSong, secondSong, thirdSong));
+            .isEqualTo(List.of(
+                findSavedSong(fourthSong),
+                findSavedSong(fifthSong),
+                findSavedSong(firstSong),
+                findSavedSong(secondSong),
+                findSavedSong(thirdSong))
+            );
     }
 }

@@ -10,10 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
+import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.support.UsingJpaTest;
 
@@ -27,6 +31,9 @@ class KillingPartRepositoryTest extends UsingJpaTest {
 
     @Autowired
     private KillingPartRepository killingPartRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
 
     @Autowired
     private SongRepository songRepository;
@@ -43,8 +50,18 @@ class KillingPartRepositoryTest extends UsingJpaTest {
                 THIRD_KILLING_PART
             )
         );
-        SAVED_SONG = songRepository.save(
-            new Song("제목", "비디오ID는 11글자", "이미지URL", "가수", 30, Genre.from("댄스"), KILLING_PARTS));
+        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+        final Song song = new Song(
+            "title",
+            "3rUPND6FG8A",
+            "image_url",
+            artist,
+            230,
+            Genre.from("댄스"),
+            KILLING_PARTS
+        );
+        artistRepository.save(song.getArtist());
+        SAVED_SONG = songRepository.save(song);
     }
 
     @DisplayName("KillingPart 를 모두 저장한다.")

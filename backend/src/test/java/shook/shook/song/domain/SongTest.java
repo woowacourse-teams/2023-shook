@@ -18,8 +18,16 @@ class SongTest {
         // given
         // when, then
         assertThatThrownBy(
-            () -> new Song("title", "videoId", "imageUrl", "singer", 300, Genre.from("댄스"), null))
-            .isInstanceOf(KillingPartsException.EmptyKillingPartsException.class);
+            () -> new Song(
+                "title",
+                "videoId",
+                "imageUrl",
+                new Artist(new ProfileImageUrl("image"), new ArtistName("name")),
+                300,
+                Genre.from("댄스"),
+                null
+            )
+        ).isInstanceOf(KillingPartsException.EmptyKillingPartsException.class);
     }
 
     @DisplayName("Song 의 KillingPart 시작 시간, 종료 시간이 지정된 재생 가능한 URL 을 반환한다.")
@@ -32,9 +40,17 @@ class SongTest {
         final KillingParts killingParts = new KillingParts(
             List.of(killingPart1, killingPart2, killingPart3)
         );
-        final Song song = new Song("title", "3rUPND6FG8A", "image_url", "singer", 230,
+
+        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+        final Song song = new Song(
+            "title",
+            "3rUPND6FG8A",
+            "image_url",
+            artist,
+            230,
             Genre.from("댄스"),
-            killingParts);
+            killingParts
+        );
 
         // when
         final String killingPart1VideoUrl = song.getPartVideoUrl(killingPart1);
