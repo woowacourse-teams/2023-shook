@@ -17,10 +17,10 @@ export default SoundWave;
 
 const LongBar = styled.div`
   z-index: 2;
-  height: 20px;
+  height: 24px;
   width: 4px;
   border-radius: 5px;
-  background-color: grey;
+  background-color: ${({ theme: { color } }) => color.white};
   left: calc(50%);
 `;
 
@@ -29,5 +29,5 @@ const ShortBar = styled.div`
   height: 15px;
   width: 4px;
   border-radius: 5px;
-  background-color: grey;
+  background-color: ${({ theme: { color } }) => color.white};
 `;

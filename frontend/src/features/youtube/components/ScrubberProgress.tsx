@@ -31,7 +31,7 @@ const PlayingBoxBackground = styled.div<{ prevTime: number; interval: number; is
   left: 50%; // 뷰포트의 중앙에 위치
   transform: translateX(-50%); // 뷰포트 중앙
 
-  background: linear-gradient(to left, transparent 50%, pink 50%) right;
+  background: linear-gradient(to left, transparent 50%, pink 50%);
   background-size: ${({ interval }) => 200 + (30 - interval)}%;
   transition: 10s linear;
   animation: ${fillAnimation} ${({ interval }) => interval}s linear infinite;

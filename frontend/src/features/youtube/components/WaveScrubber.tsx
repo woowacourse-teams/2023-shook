@@ -62,8 +62,6 @@ const Flex = styled.div`
   width: 100%;
   height: 100px;
 
-  border: 1px solid darkorange;
-
   padding: 0 calc((100% - 150px) / 2);
 `;
 
@@ -72,10 +70,10 @@ const PlayingBox = styled.div`
   width: 150px;
   height: 50px;
 
-  border: none;
+  border: transparent;
   border-radius: 4px;
 
-  box-shadow: 0 0 0 3px inset grey;
+  box-shadow: 0 0 0 2px inset ${({ theme: { color } }) => color.white};
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -85,9 +83,10 @@ const PlayingBox = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  background-color: black;
-  border: 2px solid greenyellow;
+  background-color: ${({ theme: { color } }) => color.secondary};
+
   margin: auto;
+  border-radius: 8px;
 
   display: flex;
   flex-direction: column;
