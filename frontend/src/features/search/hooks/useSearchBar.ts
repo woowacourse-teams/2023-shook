@@ -1,9 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
+import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
+import useFetch from '@/shared/hooks/useFetch';
+import { getArtistSearchPreview } from '../remotes/search';
 
 const useSearchBar = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const { data: artistSearchPreview, fetchData: fetchArtistSearchPreview } = useFetch(
+    () => getArtistSearchPreview(searchQuery),
+    false
+  );
+
+  useDebounceEffect(fetchArtistSearchPreview, searchQuery, 300);
 
   const startSearch: React.MouseEventHandler & React.FocusEventHandler = () => {
     setIsSearching(true);
@@ -37,6 +47,7 @@ const useSearchBar = () => {
     isSearching,
     searchQuery,
     inputRef,
+    artistSearchPreview,
     startSearch,
     endSearchOnBlur,
     endSearchOnClick,

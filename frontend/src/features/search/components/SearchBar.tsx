@@ -11,6 +11,7 @@ const SearchBar = () => {
     isSearching,
     searchQuery,
     inputRef,
+    artistSearchPreview,
     startSearch,
     endSearchOnBlur,
     endSearchOnClick,
@@ -43,7 +44,7 @@ const SearchBar = () => {
       )}
       <SearchButton type="submit" $isSearching={isSearching} />
       <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
-      {isSearching && <ResultSheet />}
+      {isSearching && <ResultSheet result={artistSearchPreview ?? []} />}
     </SearchBox>
   );
 };
