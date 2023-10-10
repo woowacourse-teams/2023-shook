@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import PartIntervalController from '@/features/songs/components/PartIntervalController';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
 import WaveScrubber from '@/features/youtube/components/WaveScrubber';
@@ -11,7 +12,6 @@ import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import { usePostKillingPart } from '../remotes/usePostKillingPart';
-import KillingPartToggleGroup from './KillingPartToggleGroup';
 
 const VoteInterface = () => {
   const { showToast } = useToastContext();
@@ -43,7 +43,8 @@ const VoteInterface = () => {
       <Spacing direction="vertical" size={4} />
       <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={16} />
-      <KillingPartToggleGroup />
+      <PartIntervalController />
+
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
       <WaveScrubber />

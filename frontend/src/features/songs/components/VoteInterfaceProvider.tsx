@@ -1,14 +1,16 @@
 import { createContext, useEffect, useState } from 'react';
+import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import type { KillingPartInterval } from '../types/KillingPartToggleGroup.type';
 import type { PropsWithChildren } from 'react';
 
 interface VoteInterfaceContextProps extends VoteInterfaceProviderProps {
   partStartTime: number;
-  interval: KillingPartInterval;
+  interval: number;
   // NOTE: Why both setState and eventHandler have same naming convention?
   updatePartStartTime: (timeUnit: string, value: number) => void;
   updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
+  plusPartInterval: () => void;
+  minusPartInterval: () => void;
 }
 
 export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | null>(null);
@@ -25,12 +27,12 @@ export const VoteInterfaceProvider = ({
   songId,
   songVideoId,
 }: PropsWithChildren<VoteInterfaceProviderProps>) => {
-  const [interval, setInterval] = useState<KillingPartInterval>(10);
+  const [interval, setInterval] = useState(10);
   const [partStartTime, setPartStartTime] = useState(0);
   const { videoPlayer } = useVideoPlayerContext();
 
   const updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    const newInterval = Number(e.currentTarget.dataset['interval']) as KillingPartInterval;
+    const newInterval = Number(e.currentTarget.dataset['interval']) as number;
     const partEndTime = partStartTime + newInterval;
 
     if (partEndTime > videoLength) {
@@ -39,6 +41,26 @@ export const VoteInterfaceProvider = ({
     }
 
     setInterval(newInterval);
+  };
+
+  const plusPartInterval = () => {
+    setInterval((prevInterval) => {
+      const currentInterval = prevInterval + 1;
+      if (currentInterval >= MIN_PART_INTERVAL && currentInterval <= MAX_PART_INTERVAL) {
+        return currentInterval;
+      }
+      return prevInterval;
+    });
+  };
+
+  const minusPartInterval = () => {
+    setInterval((prevInterval) => {
+      const currentInterval = prevInterval - 1;
+      if (currentInterval >= MIN_PART_INTERVAL && currentInterval <= MAX_PART_INTERVAL) {
+        return currentInterval;
+      }
+      return prevInterval;
+    });
   };
 
   const updatePartStartTime = (timeUnit: string, value: number) => {
@@ -79,6 +101,8 @@ export const VoteInterfaceProvider = ({
         songVideoId,
         updatePartStartTime,
         updateKillingPartInterval,
+        plusPartInterval,
+        minusPartInterval,
       }}
     >
       {children}
