@@ -6,7 +6,6 @@ import SoundWave from '@/features/youtube/components/SoundWave';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import { secondsToMinSec } from '@/shared/utils/convertTime';
-import PlayerState = YT.PlayerState;
 
 const PROGRESS_WIDTH = 350;
 const WaveScrubber = () => {
@@ -39,7 +38,7 @@ const WaveScrubber = () => {
         <SoundWave waveLength={maxPartStartTime} />
       </Flex>
       <PlayingBox />
-      {playerState === PlayerState.PLAYING && (
+      {playerState === 1 && (
         <ScrubberProgress
           key={temptKey.current}
           prevTime={0}
