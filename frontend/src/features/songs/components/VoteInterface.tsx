@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import VideoSlider from '@/features/youtube/components/VideoSlider';
+import WaveScrubber from '@/features/youtube/components/WaveScrubber';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
@@ -45,6 +46,7 @@ const VoteInterface = () => {
       <KillingPartToggleGroup />
       <Spacing direction="vertical" size={24} />
       <VideoSlider />
+      <WaveScrubber />
       <Spacing direction="vertical" size={16} />
       <Register type="button" onClick={submitKillingPart}>
         등록
