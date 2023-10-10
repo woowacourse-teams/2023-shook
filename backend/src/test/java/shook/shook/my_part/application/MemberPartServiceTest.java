@@ -7,10 +7,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.my_part.domain.MemberPart;
 import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;
 import shook.shook.support.UsingJpaTest;
@@ -34,7 +38,7 @@ class MemberPartServiceTest extends UsingJpaTest {
         memberPartService = new MemberPartService(songRepository, memberRepository, memberPartRepository);
     }
 
-    @DisplayName("존재하지 않는 노래에 멤버 파트를 등록하면 예외가 발생한다")
+    @DisplayName("존재하지 않는 노래에 멤버 파트를 등록하면 예외가 발생한다.")
     @Test
     void register_failNotExistSong() {
         // given
@@ -47,7 +51,7 @@ class MemberPartServiceTest extends UsingJpaTest {
             .isInstanceOf(SongException.SongNotExistException.class);
     }
 
-    @DisplayName("존재하지 않는 멤버로 멤버 파트를 등록하면 예외가 발생한다")
+    @DisplayName("존재하지 않는 멤버로 멤버 파트를 등록하면 예외가 발생한다.")
     @Test
     void register_failNotExist() {
         // given
@@ -58,5 +62,20 @@ class MemberPartServiceTest extends UsingJpaTest {
         // then
         assertThatThrownBy(() -> memberPartService.register(1L, notExistMemberId, request))
             .isInstanceOf(MemberException.MemberNotExistException.class);
+    }
+
+    @DisplayName("존재하지 않는 멤버로 멤버 파트를 삭제하면 예외가 발생한다.")
+    @Test
+    void delete_failUnauthenticatedMember() {
+        // given
+        final Song song = songRepository.findById(1L).get();
+        final Member member = memberRepository.findById(1L).get();
+        final MemberPart memberPart = memberPartRepository.save(MemberPart.forSave(20, 10, song, member));
+        final Long notExistMemberId = 0L;
+
+        // when
+        // then
+        assertThatThrownBy(() -> memberPartService.delete(notExistMemberId, memberPart.getId()))
+            .isInstanceOf(AuthorizationException.UnauthenticatedException.class);
     }
 }

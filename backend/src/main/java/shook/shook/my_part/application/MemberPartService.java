@@ -4,6 +4,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
@@ -43,5 +44,15 @@ public class MemberPartService {
             .orElseThrow(() -> new SongNotExistException(
                 Map.of("songId", String.valueOf(songId))
             ));
+    }
+
+    @Transactional
+    public void delete(final Long memberId, final Long memberPartId) {
+        final MemberPart memberPart = memberPartRepository.findByMemberIdAndId(memberId, memberPartId)
+            .orElseThrow(() -> new AuthorizationException.UnauthenticatedException(
+                Map.of("memberId", String.valueOf(memberId), "memberPartId", String.valueOf(memberPartId))
+            ));
+
+        memberPartRepository.delete(memberPart);
     }
 }
