@@ -108,3 +108,11 @@ ALTER TABLE song ADD COLUMN artist_id BIGINT NOT NULL;
 ALTER TABLE song DROP COLUMN singer;
 ALTER TABLE voting_song ADD COLUMN artist_id BIGINT NOT NULL;
 ALTER TABLE voting_song DROP COLUMN singer;
+
+create table if not exists artist_synonym
+(
+    id        bigint auto_increment,
+    artist_id bigint       not null,
+    synonym   varchar(255) not null,
+    primary key (id)
+);

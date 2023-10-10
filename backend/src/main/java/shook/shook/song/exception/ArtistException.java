@@ -60,4 +60,26 @@ public class ArtistException extends CustomException {
             super(ErrorCode.TOO_LONG_SINGER_NAME, inputValuesByProperty);
         }
     }
+
+    public static class NullOrEmptySynonymException extends ArtistException {
+
+        public NullOrEmptySynonymException() {
+            super(ErrorCode.EMPTY_ARTIST_SYNONYM);
+        }
+
+        public NullOrEmptySynonymException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.EMPTY_ARTIST_SYNONYM, inputValuesByProperty);
+        }
+    }
+
+    public static class TooLongSynonymException extends ArtistException {
+
+        public TooLongSynonymException() {
+            super(ErrorCode.TOO_LONG_ARTIST_SYNONYM);
+        }
+
+        public TooLongSynonymException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.TOO_LONG_ARTIST_SYNONYM, inputValuesByProperty);
+        }
+    }
 }

@@ -12,7 +12,7 @@ import shook.shook.song.exception.ArtistException;
 
 class ArtistNameTest {
 
-    @DisplayName("가수을 뜻하는 객체를 생성한다.")
+    @DisplayName("가수 이름을 뜻하는 객체를 생성한다.")
     @Test
     void create_success() {
         //given
