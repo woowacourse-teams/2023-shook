@@ -28,6 +28,10 @@ const Wrapper = styled.div<{ $size: Size; $borderRadius: number }>`
 `;
 
 const SIZE_VARIANTS = {
+  sm: css`
+    width: 50px;
+    height: 50px;
+  `,
   md: css`
     width: 60px;
     height: 60px;
