@@ -5,6 +5,7 @@ import VoteInterface from '@/features/songs/components/VoteInterface';
 import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
+import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 import type { VotingSongList } from '@/shared/types/song';
@@ -20,19 +21,24 @@ const PartCollectingPage = () => {
 
   return (
     <Container>
-      <SongInfoContainer>
-        <Thumbnail src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
-        <Info>
-          <SongTitle>{title}</SongTitle>
-          <Singer>{singer}</Singer>
-        </Info>
-      </SongInfoContainer>
-      <VideoPlayerProvider>
-        <Youtube videoId={songVideoId} />
-        <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-          <VoteInterface />
-        </VoteInterfaceProvider>
-      </VideoPlayerProvider>
+      <Wrapper>
+        <SongInfoContainer>
+          <Thumbnail size="sm" src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
+
+          <Info>
+            <SongTitle>{title}</SongTitle>
+            <Singer>{singer}</Singer>
+          </Info>
+        </SongInfoContainer>
+        <Spacing direction="vertical" size={10} />
+        <VideoPlayerProvider>
+          <Youtube videoId={songVideoId} />
+          <Spacing direction="vertical" size={10} />
+          <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
+            <VoteInterface />
+          </VoteInterfaceProvider>
+        </VideoPlayerProvider>
+      </Wrapper>
     </Container>
   );
 };
@@ -42,17 +48,20 @@ export default PartCollectingPage;
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  background-color: ${({ theme: { color } }) => color.black300};
 
+  border-radius: 8px;
   width: 100%;
-  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+
+  padding: 10px;
+  margin-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
+    margin-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
+    margin-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
   }
 `;
 
@@ -70,27 +79,31 @@ const Info = styled.div`
 const SongTitle = styled.p`
   overflow: hidden;
 
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
 
 const Singer = styled.p`
   overflow: hidden;
 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.subText};
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 16px;
+    font-size: 14px;
   }
+`;
+
+const Wrapper = styled.div`
+  position: relative;
 `;

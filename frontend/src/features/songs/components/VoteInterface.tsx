@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import PartIntervalController from '@/features/songs/components/PartIntervalController';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
-import VideoSlider from '@/features/youtube/components/VideoSlider';
 import WaveScrubber from '@/features/youtube/components/WaveScrubber';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
@@ -39,14 +38,13 @@ const VoteInterface = () => {
 
   return (
     <Container>
-      <RegisterTitle>당신의 킬링파트를 등록하세요</RegisterTitle>
+      <RegisterTitle>나만의 파트 저장하기</RegisterTitle>
       <Spacing direction="vertical" size={4} />
       <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={16} />
       <PartIntervalController />
-
       <Spacing direction="vertical" size={24} />
-      <VideoSlider />
+
       <WaveScrubber />
       <Spacing direction="vertical" size={16} />
       <Register type="button" onClick={submitKillingPart}>
@@ -83,7 +81,7 @@ const Container = styled.div`
 `;
 
 const RegisterTitle = styled.p`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
@@ -93,16 +91,17 @@ const RegisterTitle = styled.p`
 `;
 
 const Register = styled.button`
-  cursor: pointer;
-
   width: 100%;
-  height: 36px;
 
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.primary};
-  border: none;
+  border: 2px solid ${({ theme: { color } }) => color.primary};
+  padding: 4px 11px;
+
+  letter-spacing: 6px;
+
   border-radius: 10px;
 `;
 
@@ -151,5 +150,6 @@ const ButtonContainer = styled.div`
 `;
 
 const Warning = styled.div`
+  font-size: 14px;
   color: ${({ theme: { color } }) => color.subText};
 `;

@@ -60,7 +60,7 @@ const Flex = styled.div`
   align-items: center;
   overflow-x: scroll;
   width: 100%;
-  height: 100px;
+  height: 80px;
 
   padding: 0 calc((100% - 150px) / 2);
 `;

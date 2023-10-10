@@ -7,7 +7,7 @@ const PartIntervalController = () => {
   return (
     <Container>
       <ControlButton onClick={minusPartInterval}>-</ControlButton>
-      <IntervalItem>{`${interval}초`}</IntervalItem>
+      <IntervalItem>{`${interval} 초`}</IntervalItem>
       <ControlButton onClick={plusPartInterval}>+</ControlButton>
     </Container>
   );
@@ -30,9 +30,8 @@ const ControlButton = styled.button`
   min-width: 50px;
 
   margin: 0;
-  padding: 0;
-
-  font-weight: '500';
+  padding: 4px 11px;
+  font-weight: '700';
   color: ${({ theme: { color } }) => color.white};
   text-align: center;
   line-height: 1.8;
@@ -46,7 +45,7 @@ const IntervalItem = styled.p`
   flex: 1;
 
   min-width: 50px;
-
+  padding: 4px 11px;
   margin: 0;
 
   text-align: center;
