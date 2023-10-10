@@ -1,3 +1,5 @@
+-- 사용 불가한 data.sql
+
 TRUNCATE TABLE song;
 TRUNCATE TABLE voting_song;
 
