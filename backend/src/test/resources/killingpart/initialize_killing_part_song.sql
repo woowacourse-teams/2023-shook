@@ -3,6 +3,7 @@ drop table killing_part;
 drop table member;
 drop table killing_part_like;
 drop table killing_part_comment;
+drop table member_part;
 
 create table if not exists song
 (

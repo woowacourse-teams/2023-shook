@@ -14,11 +14,13 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.member.domain.Member;
+import shook.shook.my_part.exception.MemberPartException;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 
@@ -27,6 +29,8 @@ import shook.shook.song.domain.Song;
 @Table(name = "member_part")
 @Entity
 public class MemberPart {
+
+    private static final int MINIMUM_START = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,13 +61,13 @@ public class MemberPart {
     private MemberPart(
         final Long id,
         final int startSecond,
-        final int length,
+        final PartLength length,
         final Song song,
         final Member member
     ) {
         this.id = id;
         this.startSecond = startSecond;
-        this.length = new PartLength(length);
+        this.length = length;
         this.song = song;
         this.member = member;
     }
@@ -71,7 +75,7 @@ public class MemberPart {
     public static MemberPart saved(
         final Long id,
         final int startSecond,
-        final int length,
+        final PartLength length,
         final Song song,
         final Member member
     ) {
@@ -79,7 +83,24 @@ public class MemberPart {
     }
 
     public static MemberPart forSave(final int startSecond, final int length, final Song song, final Member member) {
-        return new MemberPart(null, startSecond, length, song, member);
+        final PartLength partLength = new PartLength(length);
+        validateStartSecond(startSecond, partLength, song.getLength());
+        return new MemberPart(null, startSecond, partLength, song, member);
+    }
+
+    private static void validateStartSecond(final int startSecond, final PartLength length, final int songLength) {
+        if (startSecond < MINIMUM_START) {
+            throw new MemberPartException.MemberPartStartSecondNegativeException(
+                Map.of("startSecond", String.valueOf(startSecond))
+            );
+        }
+        if (length.getEndSecond(startSecond) > songLength) {
+            throw new MemberPartException.MemberPartEndOverSongLengthException(
+                Map.of("startSecond", String.valueOf(startSecond),
+                       "EndSecond", String.valueOf(length.getEndSecond(startSecond))
+                )
+            );
+        }
     }
 
     @Override
