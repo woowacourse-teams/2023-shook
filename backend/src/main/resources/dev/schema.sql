@@ -8,6 +8,7 @@ drop table if exists vote;
 drop table if exists member;
 drop table if exists artist;
 drop table if exists member_part;
+drop table if exists artist_synonym;
 
 create table if not exists song
 (
@@ -112,5 +113,13 @@ create table if not exists member_part
     song_id      bigint       not null,
     member_id    bigint       not null,
     created_at   timestamp(6) not null,
+    primary key (id)
+);
+
+create table if not exists artist_synonym
+(
+    id        bigint auto_increment,
+    artist_id bigint       not null,
+    synonym   varchar(255) not null,
     primary key (id)
 );
