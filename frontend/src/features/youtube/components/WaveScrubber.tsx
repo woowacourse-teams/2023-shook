@@ -1,59 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import ScrubberProgress from '@/features/youtube/components/ScrubberProgress';
 import SoundWave from '@/features/youtube/components/SoundWave';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import { secondsToMinSec } from '@/shared/utils/convertTime';
+import PlayerState = YT.PlayerState;
 
-export function useDebounce<T>(value: T, delay?: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
+const PROGRESS_WIDTH = 350;
 const WaveScrubber = () => {
   const { interval, partStartTime, videoLength, updatePartStartTime } = useVoteInterfaceContext();
-  const { videoPlayer, playerState } = useVideoPlayerContext();
-
+  const { playerState, seekTo } = useVideoPlayerContext();
   const temptKey = useRef(0);
-  const debouncedValue = useDebounce<number>(partStartTime, 1000);
-
   const maxPartStartTime = videoLength - interval;
+  const seekAndPlay = () => {
+    seekTo(partStartTime);
+  };
 
-  useEffect(() => {
-    videoPlayer.current?.seekTo(partStartTime, true);
-    videoPlayer.current?.playVideo();
-  }, [debouncedValue]);
+  const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
+    const { scrollWidth, scrollLeft } = e.currentTarget;
+    const unit = (scrollWidth - PROGRESS_WIDTH) / maxPartStartTime;
+    const partStartTimeToChange = Math.floor(scrollLeft / unit);
+
+    if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
+      const { minute, second } = secondsToMinSec(partStartTimeToChange);
+      updatePartStartTime('minute', minute);
+      updatePartStartTime('second', second);
+      temptKey.current += temptKey.current + 1;
+    }
+  };
+
+  useDebounceEffect<[number, number]>(seekAndPlay, [partStartTime, interval], 300);
 
   return (
     <Container>
-      <Flex
-        onScroll={(e) => {
-          const { scrollWidth, scrollLeft } = e.currentTarget;
-          const unit = (scrollWidth - 350) / maxPartStartTime; //350: 전체 width
-          const timeScrolled = Math.floor(scrollLeft / unit);
-
-          if (timeScrolled >= 0 && timeScrolled <= maxPartStartTime) {
-            const { minute, second } = secondsToMinSec(timeScrolled);
-            updatePartStartTime('minute', minute);
-            updatePartStartTime('second', second);
-            temptKey.current += temptKey.current + 1;
-          }
-        }}
-      >
+      <Flex onScroll={changePartStartTime}>
         <SoundWave waveLength={maxPartStartTime} />
       </Flex>
       <PlayingBox />
-      {playerState === 1 && (
+      {playerState === PlayerState.PLAYING && (
         <ScrubberProgress
           key={temptKey.current}
           prevTime={0}
