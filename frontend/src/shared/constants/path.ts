@@ -8,6 +8,7 @@ const ROUTE_PATH = {
   MY_PAGE: 'my-page',
   EDIT_PROFILE: 'my-page/edit',
   SEARCH_RESULT: 'search',
+  SINGER_DETAIL: 'singer',
 } as const;
 
 export default ROUTE_PATH;
