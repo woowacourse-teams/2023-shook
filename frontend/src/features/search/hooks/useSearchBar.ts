@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@/shared/constants/path';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
@@ -18,34 +18,40 @@ const useSearchBar = () => {
 
   useDebounceEffect(fetchSingerSearchPreview, searchQuery, 300);
 
-  const search: React.FormEventHandler = (e) => {
-    e.preventDefault();
-    setIsSearching(false);
-    navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
-  };
+  const search: React.FormEventHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setIsSearching(false);
+      navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
+    },
+    [searchQuery, navigate]
+  );
 
-  const startSearch: React.MouseEventHandler & React.FocusEventHandler = () => {
+  const startSearch: React.MouseEventHandler & React.FocusEventHandler = useCallback(() => {
     setIsSearching(true);
-  };
+  }, []);
 
-  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
+  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = useCallback((e) => {
     if (e.relatedTarget?.id === 'query-reset-button') return;
 
     setIsSearching(false);
-  };
+  }, []);
 
-  const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     setIsSearching(false);
-  };
+  }, []);
 
-  const changeQuery: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    setSearchQuery(currentTarget.value);
-  };
+  const changeQuery: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+    ({ currentTarget }) => {
+      setSearchQuery(currentTarget.value);
+    },
+    []
+  );
 
-  const resetQuery: React.MouseEventHandler = () => {
+  const resetQuery: React.MouseEventHandler = useCallback(() => {
     setSearchQuery('');
     inputRef.current?.focus();
-  };
+  }, []);
 
   useEffect(() => {
     if (isSearching) {
