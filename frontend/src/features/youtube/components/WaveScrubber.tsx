@@ -47,7 +47,7 @@ const WaveScrubber = () => {
   };
 
   const playWhenTouch = () => {
-    if (isVideoStatePlaying) {
+    if (!isVideoStatePlaying) {
       videoPlayer.current?.playVideo();
     }
   };
@@ -60,7 +60,11 @@ const WaveScrubber = () => {
         <PlayerBadge>{partStartTimeText}</PlayerBadge>
         <PlayerBadge>
           {isVideoStatePlaying ? (
-            <Button onClick={videoPlayer.current?.pauseVideo}>
+            <Button
+              onClick={() => {
+                videoPlayer.current?.pauseVideo();
+              }}
+            >
               <img src={pauseIcon} alt={'노래 정지'} />
             </Button>
           ) : (
