@@ -11,6 +11,9 @@ interface VoteInterfaceContextProps extends VoteInterfaceProviderProps {
   updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement>;
   plusPartInterval: () => void;
   minusPartInterval: () => void;
+  toggleAllPlay: () => void;
+  isAllPlay: boolean;
+  isVideoStatePlaying: boolean;
 }
 
 export const VoteInterfaceContext = createContext<VoteInterfaceContextProps | null>(null);
@@ -29,7 +32,10 @@ export const VoteInterfaceProvider = ({
 }: PropsWithChildren<VoteInterfaceProviderProps>) => {
   const [interval, setInterval] = useState(10);
   const [partStartTime, setPartStartTime] = useState(0);
-  const { videoPlayer } = useVideoPlayerContext();
+  const [isAllPlay, setIsAllPlay] = useState(false);
+  const { videoPlayer, playerState } = useVideoPlayerContext();
+
+  const isVideoStatePlaying = playerState === 1;
 
   const updateKillingPartInterval: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const newInterval = Number(e.currentTarget.dataset['interval']) as number;
@@ -41,6 +47,11 @@ export const VoteInterfaceProvider = ({
     }
 
     setInterval(newInterval);
+  };
+
+  const toggleAllPlay = () => {
+    setIsAllPlay((prev) => !prev);
+    videoPlayer.current?.playVideo();
   };
 
   const plusPartInterval = () => {
@@ -84,12 +95,16 @@ export const VoteInterfaceProvider = ({
   };
 
   useEffect(() => {
+    if (isAllPlay) return;
+
     const timer = window.setInterval(() => {
       videoPlayer.current?.seekTo(partStartTime, true);
     }, interval * 1000);
 
-    return () => window.clearInterval(timer);
-  }, [videoPlayer.current, partStartTime, interval]);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [partStartTime, interval, isAllPlay]);
 
   return (
     <VoteInterfaceContext.Provider
@@ -99,10 +114,13 @@ export const VoteInterfaceProvider = ({
         videoLength,
         songId,
         songVideoId,
+        isAllPlay,
+        isVideoStatePlaying,
         updatePartStartTime,
         updateKillingPartInterval,
         plusPartInterval,
         minusPartInterval,
+        toggleAllPlay,
       }}
     >
       {children}
