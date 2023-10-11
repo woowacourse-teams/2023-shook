@@ -20,6 +20,7 @@ const useSearchBar = () => {
 
   const search: React.FormEventHandler = (e) => {
     e.preventDefault();
+    setIsSearching(false);
     navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
   };
 
@@ -47,8 +48,11 @@ const useSearchBar = () => {
   };
 
   useEffect(() => {
-    if (!isSearching) return;
-    inputRef.current?.focus();
+    if (isSearching) {
+      inputRef.current?.focus();
+    } else {
+      inputRef.current?.blur();
+    }
   }, [isSearching]);
 
   return {
