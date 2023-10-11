@@ -1,5 +1,4 @@
-import { createPortal } from 'react-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex/Flex';
@@ -15,35 +14,36 @@ const ResultSheet = ({ result }: ResultSheetProps) => {
 
   const hasResult = result.length > 0;
 
-  return createPortal(
-    <SheetContainer>
-      <SheetTitle $align="center" aria-disabled>
+  return (
+    <SheetContainer aria-label="아티스트 검색 결과 미리보기">
+      <SheetTitle $align="center" aria-hidden>
         아티스트
       </SheetTitle>
-      <PreviewItemList as="ul" $direction="column" $gap={16} aria-label="아티스트 검색 결과">
+      <PreviewItemList as="ul" $direction="column" $gap={16}>
         {result.map(({ id, singer, profileImageUrl }) => (
-          <PreviewItem
-            key={id}
-            onMouseDown={() => navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`)}
-            aria-label={`${singer} 상세 페이지 바로가기`}
-            as="li"
-            $align="center"
-            $gap={16}
-          >
-            <Thumbnail src={profileImageUrl} alt="" size="sm" />
-            <Singer aria-disabled>{singer}</Singer>
+          <PreviewItem key={id} as="li">
+            <GoToDetail
+              as="button"
+              type="button"
+              onMouseDown={() => navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`)}
+              aria-label={`${singer} 상세 페이지 바로가기`}
+              $gap={16}
+              $align="center"
+            >
+              <Thumbnail src={profileImageUrl} alt="" size="sm" />
+              <Singer aria-hidden>{singer}</Singer>
+            </GoToDetail>
           </PreviewItem>
         ))}
       </PreviewItemList>
       {!hasResult && <DefaultMessage>검색 결과가 없습니다</DefaultMessage>}
-    </SheetContainer>,
-    document.body
+    </SheetContainer>
   );
 };
 
 export default ResultSheet;
 
-const SheetContainer = styled.div`
+const SheetContainer = styled.section`
   position: fixed;
   z-index: 2000;
   top: 70px;
@@ -116,3 +116,7 @@ const Singer = styled.p`
   letter-spacing: 1px;
 `;
 const DefaultMessage = styled.p``;
+
+const GoToDetail = styled(Flex)`
+  width: 100%;
+`;
