@@ -11,17 +11,17 @@ const useSearchBar = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
-  const search: React.FormEventHandler = (e) => {
-    e.preventDefault();
-    navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
-  };
-
   const { data: artistSearchPreview, fetchData: fetchArtistSearchPreview } = useFetch(
     () => getArtistSearchPreview(searchQuery),
     false
   );
 
   useDebounceEffect(fetchArtistSearchPreview, searchQuery, 300);
+
+  const search: React.FormEventHandler = (e) => {
+    e.preventDefault();
+    navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
+  };
 
   const startSearch: React.MouseEventHandler & React.FocusEventHandler = () => {
     setIsSearching(true);
