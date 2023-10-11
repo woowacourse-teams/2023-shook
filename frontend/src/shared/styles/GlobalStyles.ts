@@ -67,6 +67,7 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard';
+    background-color: black;
   }
 `;
 
