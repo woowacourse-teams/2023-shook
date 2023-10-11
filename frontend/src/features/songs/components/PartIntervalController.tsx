@@ -39,6 +39,11 @@ const ControlButton = styled.button`
   background-color: ${({ theme: { color } }) => color.secondary};
   border: none;
   border-radius: 10px;
+
+  &:active {
+    transition: box-shadow 0.2s ease;
+    background-color: ${({ theme: { color } }) => color.disabled};
+  }
 `;
 
 const IntervalItem = styled.p`
@@ -57,4 +62,8 @@ const IntervalItem = styled.p`
   background-color: ${({ theme: { color } }) => color.white};
   border: none;
   border-radius: 10px;
+  &:active {
+    transition: box-shadow 0.1s ease;
+    box-shadow: 0 0 0 1px inset pink;
+  }
 `;
