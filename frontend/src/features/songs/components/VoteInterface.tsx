@@ -39,13 +39,12 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>나만의 파트 저장하기</RegisterTitle>
-      <Spacing direction="vertical" size={2} />
-      <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
+      <Spacing direction="vertical" size={4} />
+      <Warning>같은 파트에 대한 중복 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={4} />
       <PartIntervalController />
       <Spacing direction="vertical" size={12} />
       <WaveScrubber />
-      <Spacing direction="vertical" size={16} />
       <Register type="button" onClick={submitKillingPart}>
         등록
       </Register>
@@ -89,18 +88,24 @@ const RegisterTitle = styled.p`
 `;
 
 const Register = styled.button`
-  width: 100%;
+  width: 92%;
 
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.primary};
   border: 2px solid ${({ theme: { color } }) => color.primary};
-  padding: 4px 11px;
+  padding: 6px 11px;
 
   letter-spacing: 6px;
 
   border-radius: 10px;
+
+  margin-top: 8px;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 8px;
 `;
 
 const ModalTitle = styled.h3``;

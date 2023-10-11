@@ -45,14 +45,12 @@ const PartCollectingPage = () => {
 export default PartCollectingPage;
 
 const Container = styled.section`
+  flex: 0.4;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  background-color: ${({ theme: { color } }) => color.black300};
-
-  border-radius: 8px;
   width: 100%;
 
-  padding: 10px;
   margin-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
@@ -104,5 +102,9 @@ const Singer = styled.p`
 `;
 
 const Wrapper = styled.div`
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme: { color } }) => color.black300};
+  border-radius: 8px;
+  padding: 10px;
 `;
