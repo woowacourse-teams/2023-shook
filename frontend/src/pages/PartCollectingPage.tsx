@@ -24,16 +24,15 @@ const PartCollectingPage = () => {
       <Wrapper>
         <SongInfoContainer>
           <Thumbnail size="sm" src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
-
           <Info>
             <SongTitle>{title}</SongTitle>
             <Singer>{singer}</Singer>
           </Info>
         </SongInfoContainer>
-        <Spacing direction="vertical" size={10} />
+        <Spacing direction="vertical" size={8} />
         <VideoPlayerProvider>
           <Youtube videoId={songVideoId} />
-          <Spacing direction="vertical" size={10} />
+          <Spacing direction="vertical" size={8} />
           <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
             <VoteInterface />
           </VoteInterfaceProvider>
