@@ -1,20 +1,20 @@
-interface ArtistsSong {
+interface SingersSong {
   id: number;
   title: string;
   albumCoverUrl: string;
   videoLength: number;
 }
 
-export interface ArtistSearchPreview {
+export interface SingerSearchPreview {
   id: number;
   singer: string;
   profileImageUrl: string;
 }
 
-export interface ArtistSearchResult {
+export interface SingerSearchResult {
   id: number;
   singer: string;
   profileImageUrl: string;
   totalSongCount: number;
-  songs: ArtistsSong[];
+  songs: SingersSong[];
 }
