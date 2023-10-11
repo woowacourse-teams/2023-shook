@@ -17,12 +17,19 @@ const SearchBar = () => {
     endSearchOnClick,
     changeQuery,
     resetQuery,
+    search,
   } = useSearchBar();
 
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox as="form" $align="center" $justify="space-between" $isSearching={isSearching}>
+    <SearchBox
+      as="form"
+      $align="center"
+      $justify="space-between"
+      onSubmit={search}
+      $isSearching={isSearching}
+    >
       <BackwardButton type="button" onClick={endSearchOnClick} $isSearching={isSearching} />
       <SearchInput
         type="text"
