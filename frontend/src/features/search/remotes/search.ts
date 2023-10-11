@@ -1,12 +1,12 @@
 import fetcher from '@/shared/remotes';
-import type { ArtistSearchPreview, ArtistSearchResult } from '../types/search';
+import type { SingerSearchPreview, SingerSearchResult } from '../types/search';
 
-export const getArtistSearchPreview = async (query: string): Promise<ArtistSearchPreview[]> => {
+export const getSingerSearchPreview = async (query: string): Promise<SingerSearchPreview[]> => {
   const encodedQuery = encodeURIComponent(query);
   return await fetcher(`/singers?name=${encodedQuery}&search=singer`, 'GET');
 };
 
-export const getArtistSearch = async (query: string): Promise<ArtistSearchResult[]> => {
+export const getSingerSearch = async (query: string): Promise<SingerSearchResult[]> => {
   const encodedQuery = encodeURIComponent(query);
   return await fetcher(`/singers?name=${encodedQuery}&search=singer,song`, 'GET');
 };

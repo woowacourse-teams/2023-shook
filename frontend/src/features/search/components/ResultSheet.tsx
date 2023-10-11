@@ -2,10 +2,10 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex/Flex';
-import type { ArtistSearchPreview } from '../types/search';
+import type { SingerSearchPreview } from '../types/search';
 
 interface ResultSheetProps {
-  result: ArtistSearchPreview[];
+  result: SingerSearchPreview[];
 }
 
 const ResultSheet = ({ result }: ResultSheetProps) => {

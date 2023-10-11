@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ROUTE_PATH from '@/shared/constants/path';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import useFetch from '@/shared/hooks/useFetch';
-import { getArtistSearchPreview } from '../remotes/search';
+import { getSingerSearchPreview } from '../remotes/search';
 
 const useSearchBar = () => {
   const [isSearching, setIsSearching] = useState(false);
@@ -11,12 +11,12 @@ const useSearchBar = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
-  const { data: artistSearchPreview, fetchData: fetchArtistSearchPreview } = useFetch(
-    () => getArtistSearchPreview(searchQuery),
+  const { data: singerSearchPreview, fetchData: fetchSingerSearchPreview } = useFetch(
+    () => getSingerSearchPreview(searchQuery),
     false
   );
 
-  useDebounceEffect(fetchArtistSearchPreview, searchQuery, 300);
+  useDebounceEffect(fetchSingerSearchPreview, searchQuery, 300);
 
   const search: React.FormEventHandler = (e) => {
     e.preventDefault();
@@ -59,7 +59,7 @@ const useSearchBar = () => {
     isSearching,
     searchQuery,
     inputRef,
-    artistSearchPreview,
+    singerSearchPreview,
     startSearch,
     endSearchOnBlur,
     endSearchOnClick,
