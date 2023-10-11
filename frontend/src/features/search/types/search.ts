@@ -1,4 +1,5 @@
 export interface ArtistSearchPreview {
+  id: number;
   singer: string;
   singerImageUrl: string;
 }
