@@ -10,3 +10,7 @@ export const getSingerSearch = async (query: string): Promise<SingerSearchResult
   const encodedQuery = encodeURIComponent(query);
   return await fetcher(`/singers?name=${encodedQuery}&search=singer,song`, 'GET');
 };
+
+export const getSingerDetail = async (singerId: number): Promise<SingerSearchResult> => {
+  return await fetcher(`/singers/${singerId}`, 'GET');
+};
