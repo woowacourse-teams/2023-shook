@@ -4,12 +4,12 @@ import searchedArtistPreview from '@/mocks/fixtures/searchedArtistPreview.json';
 const { BASE_URL } = process.env;
 
 export const searchHandlers = [
-  rest.get(`${BASE_URL}/artists`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/singers`, (req, res, ctx) => {
     const query = req.url.searchParams.get('name') ?? '';
     const search = req.url.searchParams.get('search');
     const testQueries = ['악동뮤지션', '악동', '뮤지션'];
 
-    const isPreviewRequest = search === 'artist';
+    const isPreviewRequest = search === 'singer';
     const isInTestQueries = testQueries.some(
       (testQuery) => encodeURIComponent(testQuery) === encodeURIComponent(query)
     );

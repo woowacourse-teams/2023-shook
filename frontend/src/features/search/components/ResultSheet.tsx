@@ -15,9 +15,9 @@ const ResultSheet = ({ result }: ResultSheetProps) => {
     <SheetContainer>
       <SheetTitle $align="center">아티스트</SheetTitle>
       <PreviewItemList as="ul" $direction="column" $gap={16} aria-label="검색 결과 미리보기">
-        {result.map(({ id, singer, singerImageUrl }, idx) => (
+        {result.map(({ id, singer, profileImageUrl }, idx) => (
           <PreviewItem key={id} as="li" $align="center" $gap={16} aria-label={`${idx}번 ${singer}`}>
-            <Thumbnail src={singerImageUrl} alt="" size="sm" />
+            <Thumbnail src={profileImageUrl} alt="" size="sm" />
             <Singer aria-disabled>{singer}</Singer>
           </PreviewItem>
         ))}
