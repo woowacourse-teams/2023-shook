@@ -3,11 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 const useValidSearchParams = (...params: string[]) => {
   const [searchParams] = useSearchParams();
 
-  const validParams = params.map((param) => {
+  const validParams: Record<string, string> = {};
+
+  params.forEach((param) => {
     const validParam = searchParams.get(param);
     if (validParam === null) throw new Error('Invalid search parameters');
 
-    return validParam;
+    validParams[param] = validParam;
   });
 
   return validParams;
