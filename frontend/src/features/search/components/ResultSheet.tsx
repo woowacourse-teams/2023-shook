@@ -1,7 +1,9 @@
 import { createPortal } from 'react-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex/Flex';
+import ROUTE_PATH from '@/shared/constants/path';
 import type { SingerSearchPreview } from '../types/search';
 
 interface ResultSheetProps {
@@ -9,14 +11,25 @@ interface ResultSheetProps {
 }
 
 const ResultSheet = ({ result }: ResultSheetProps) => {
+  const navigate = useNavigate();
+
   const hasResult = result.length > 0;
 
   return createPortal(
     <SheetContainer>
-      <SheetTitle $align="center">아티스트</SheetTitle>
-      <PreviewItemList as="ul" $direction="column" $gap={16} aria-label="검색 결과 미리보기">
-        {result.map(({ id, singer, profileImageUrl }, idx) => (
-          <PreviewItem key={id} as="li" $align="center" $gap={16} aria-label={`${idx}번 ${singer}`}>
+      <SheetTitle $align="center" aria-disabled>
+        아티스트
+      </SheetTitle>
+      <PreviewItemList as="ul" $direction="column" $gap={16} aria-label="아티스트 검색 결과">
+        {result.map(({ id, singer, profileImageUrl }) => (
+          <PreviewItem
+            key={id}
+            onMouseDown={() => navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`)}
+            aria-label={`${singer} 상세 페이지 바로가기`}
+            as="li"
+            $align="center"
+            $gap={16}
+          >
             <Thumbnail src={profileImageUrl} alt="" size="sm" />
             <Singer aria-disabled>{singer}</Singer>
           </PreviewItem>
@@ -87,7 +100,7 @@ const PreviewItem = styled(Flex)`
   cursor: pointer;
 
   width: 100%;
-  height: 64px;
+  height: 66px;
   padding: 8px;
 
   background-color: ${({ theme: { color } }) => color.black400};
