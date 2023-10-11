@@ -7,6 +7,7 @@ const ROUTE_PATH = {
   KAKAO_REDIRECT: 'kakao/redirect',
   MY_PAGE: 'my-page',
   EDIT_PROFILE: 'my-page/edit',
+  SEARCH_RESULT: 'search',
 } as const;
 
 export default ROUTE_PATH;
