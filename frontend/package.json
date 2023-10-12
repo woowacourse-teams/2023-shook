@@ -63,6 +63,7 @@
     "prettier": "^3.0.0",
     "react-refresh": "^0.14.0",
     "storybook": "^7.0.27",
+    "storybook-addon-react-router-v6": "^2.0.7",
     "stylelint": "^15.10.2",
     "stylelint-config-clean-order": "^5.0.1",
     "ts-jest": "^29.1.1",
