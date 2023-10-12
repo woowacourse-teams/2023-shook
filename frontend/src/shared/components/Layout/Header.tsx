@@ -37,7 +37,8 @@ export default Header;
 const Container = styled.header`
   position: fixed;
   z-index: 1000;
-  top: 0px;
+  top: 0;
+  left: 0;
 
   display: flex;
   align-items: center;
