@@ -17,6 +17,7 @@ import shook.shook.util.StringChecker;
 public class ArtistName {
 
     private static final int NAME_MAXIMUM_LENGTH = 50;
+    private static final String BLANK = "\\s";
 
     @Column(name = "name", length = 50, nullable = false)
     private String value;
@@ -35,5 +36,33 @@ public class ArtistName {
                 Map.of("Singer", value)
             );
         }
+    }
+
+    public boolean startsWithIgnoringCaseAndWhiteSpace(final String keyword) {
+        final String targetKeyword = toLowerCaseRemovingWhiteSpace(keyword);
+        if (StringChecker.isNullOrBlank(targetKeyword)) {
+            return false;
+        }
+
+        return toLowerCaseRemovingWhiteSpace(value)
+            .startsWith(toLowerCaseRemovingWhiteSpace(keyword));
+    }
+
+    public boolean endsWithIgnoringCaseAndWhiteSpace(final String keyword) {
+        final String targetKeyword = toLowerCaseRemovingWhiteSpace(keyword);
+        if (StringChecker.isNullOrBlank(targetKeyword)) {
+            return false;
+        }
+
+        return toLowerCaseRemovingWhiteSpace(value)
+            .endsWith(toLowerCaseRemovingWhiteSpace(keyword));
+    }
+
+    private String toLowerCaseRemovingWhiteSpace(final String word) {
+        return removeAllWhiteSpace(word).toLowerCase();
+    }
+
+    private String removeAllWhiteSpace(final String word) {
+        return word.replaceAll(BLANK, "");
     }
 }

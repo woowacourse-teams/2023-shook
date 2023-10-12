@@ -1,6 +1,7 @@
 package shook.shook.song.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -404,5 +405,40 @@ class SongRepositoryTest extends UsingJpaTest {
                 findSavedSong(secondSong),
                 findSavedSong(thirdSong))
             );
+    }
+
+    @DisplayName("Artist 의 모든 노래를 좋아요 개수와 함께 조회한다.")
+    @Test
+    void findAllSongsWithTotalLikeCountByArtist() {
+        // given
+        final Member firstMember = createAndSaveMember("first@naver.com", "first");
+        final Member secondMember = createAndSaveMember("second@naver.com", "second");
+        final Song firstSong = saveSong(createNewSongWithKillingParts());
+        final Song secondSong = saveSong(createNewSongWithKillingParts());
+        final Song thirdSong = saveSong(createNewSongWithKillingParts());
+
+        killingPartRepository.saveAll(firstSong.getKillingParts());
+        killingPartRepository.saveAll(secondSong.getKillingParts());
+        killingPartRepository.saveAll(thirdSong.getKillingParts());
+
+        addLikeToKillingPart(firstSong.getKillingParts().get(0), firstMember);
+        addLikeToKillingPart(firstSong.getKillingParts().get(0), secondMember);
+        addLikeToKillingPart(firstSong.getKillingParts().get(1), firstMember);
+        addLikeToKillingPart(firstSong.getKillingParts().get(2), firstMember);
+
+        saveAndClearEntityManager();
+
+        // when
+        final Song songToFind = songRepository.findById(firstSong.getId()).get();
+        final Artist artistToFind = songToFind.getArtist();
+        final List<SongTotalLikeCountDto> result = songRepository.findAllSongsWithTotalLikeCountByArtist(
+            artistToFind);
+
+        // then
+        assertAll(
+            () -> assertThat(result).hasSize(1),
+            () -> assertThat(result.get(0).getSong()).isEqualTo(songToFind),
+            () -> assertThat(result.get(0).getTotalLikeCount()).isEqualTo(4)
+        );
     }
 }
