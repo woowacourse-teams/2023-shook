@@ -1,6 +1,4 @@
 import { setupWorker } from 'msw';
-import { memberHandlers } from './handlers/memberHandlers';
-import { searchHandlers } from './handlers/searchHandlers';
-import { songsHandlers } from './handlers/songsHandlers';
+import handlers from './handlers';
 
-export const worker = setupWorker(...songsHandlers, ...memberHandlers, ...searchHandlers);
+export const worker = setupWorker(...handlers);

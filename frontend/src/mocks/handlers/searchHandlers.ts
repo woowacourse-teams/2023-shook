@@ -3,7 +3,7 @@ import searchedArtistPreview from '@/mocks/fixtures/searchedArtistPreview.json';
 
 const { BASE_URL } = process.env;
 
-export const searchHandlers = [
+const searchHandlers = [
   rest.get(`${BASE_URL}/singers`, (req, res, ctx) => {
     const query = req.url.searchParams.get('name') ?? '';
     const search = req.url.searchParams.get('search');
@@ -21,3 +21,5 @@ export const searchHandlers = [
     return res(ctx.status(200), ctx.json([]));
   }),
 ];
+
+export default searchHandlers;

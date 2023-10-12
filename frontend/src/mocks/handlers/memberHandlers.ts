@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 const { BASE_URL } = process.env;
 
-export const memberHandlers = [
+const memberHandlers = [
   rest.get(`${BASE_URL}/my-page`, (req, res, ctx) => {
     return res(
       ctx.json([
@@ -72,3 +72,5 @@ export const memberHandlers = [
     );
   }),
 ];
+
+export default memberHandlers;
