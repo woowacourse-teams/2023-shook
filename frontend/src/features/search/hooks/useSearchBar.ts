@@ -31,11 +31,14 @@ const useSearchBar = () => {
     setIsSearching(true);
   }, []);
 
-  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = useCallback((e) => {
-    if (e.relatedTarget?.id === 'query-reset-button') return;
+  const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = useCallback(
+    ({ relatedTarget }) => {
+      if (relatedTarget?.id === 'query-reset-button') return;
 
-    setIsSearching(false);
-  }, []);
+      setIsSearching(false);
+    },
+    []
+  );
 
   const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     setIsSearching(false);
