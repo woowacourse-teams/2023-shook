@@ -44,8 +44,20 @@ public class Artist {
         this.artistName = artistName;
     }
 
+    public boolean nameStartsWith(final String keyword) {
+        return artistName.startsWithIgnoringCaseAndWhiteSpace(keyword);
+    }
+
+    public boolean nameEndsWith(final String keyword) {
+        return artistName.endsWithIgnoringCaseAndWhiteSpace(keyword);
+    }
+
     public String getArtistName() {
         return artistName.getValue();
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl.getValue();
     }
 
     @Override

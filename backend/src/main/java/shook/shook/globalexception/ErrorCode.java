@@ -57,7 +57,8 @@ public enum ErrorCode {
     EMPTY_ARTIST_PROFILE_URL(3014, "가수 프로필 이미지는 비어있을 수 없습니다."),
     TOO_LONG_ARTIST_PROFILE_URL(3015, "가수 프로필 이미지URL은 65,356자를 넘길 수 없습니다."),
     EMPTY_ARTIST_SYNONYM(3016, "가수 동의어는 비어있을 수 없습니다."),
-    TOO_LONG_ARTIST_SYNONYM(3017, "가수 동의어는 255자를 넘길 수 없습니다.."),
+    TOO_LONG_ARTIST_SYNONYM(3017, "가수 동의어는 255자를 넘길 수 없습니다."),
+    ARTIST_NOT_EXIST(3018, "존재하지 않는 가수입니다."),
 
 
     // 4000: 투표

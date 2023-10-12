@@ -82,4 +82,15 @@ public class ArtistException extends CustomException {
             super(ErrorCode.TOO_LONG_ARTIST_SYNONYM, inputValuesByProperty);
         }
     }
+
+    public static class NotExistException extends ArtistException {
+
+        public NotExistException() {
+            super(ErrorCode.ARTIST_NOT_EXIST);
+        }
+
+        public NotExistException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.ARTIST_NOT_EXIST, inputValuesByProperty);
+        }
+    }
 }

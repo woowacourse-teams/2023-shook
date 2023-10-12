@@ -25,19 +25,28 @@ public class ArtistSynonym {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
     private Artist artist;
 
     @Embedded
     private Synonym synonym;
 
-    public String getArtistName() {
-        return artist.getArtistName();
+    public ArtistSynonym(final Artist artist, final Synonym synonym) {
+        this.artist = artist;
+        this.synonym = synonym;
     }
 
-    public String getSynonym() {
-        return synonym.getValue();
+    public boolean startsWith(final String keyword) {
+        return synonym.startsWithIgnoringCaseAndWhiteSpace(keyword);
+    }
+
+    public boolean endsWith(final String keyword) {
+        return synonym.endsWithIgnoringCaseAndWhiteSpace(keyword);
+    }
+
+    public String getArtistName() {
+        return artist.getArtistName();
     }
 
     @Override
