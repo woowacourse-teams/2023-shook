@@ -1,3 +1,4 @@
+import { initialize, mswLoader } from 'msw-storybook-addon';
 import type { Preview } from '@storybook/react';
 import GlobalStyles from '../src/shared/styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
@@ -5,6 +6,7 @@ import theme from '../src/shared/styles/theme';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '@/features/auth/components/AuthProvider';
 import LoginPopupProvider from '@/features/auth/hooks/LoginPopUpContext';
+import handlers from '@/mocks/handlers';
 
 const customViewport = {
   xxl: {
@@ -64,6 +66,8 @@ const customViewport = {
   },
 };
 
+initialize();
+
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -74,7 +78,11 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    msw: {
+      handlers: [...handlers],
+    },
   },
+  loaders: [mswLoader],
 
   decorators: [
     (Story) => (
