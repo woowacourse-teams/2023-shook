@@ -64,6 +64,16 @@ const useSearchBar = () => {
     }
   }, [isSearching]);
 
+  useEffect(() => {
+    if (isSearching) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isSearching]);
+
   return {
     isSearching,
     searchQuery,
