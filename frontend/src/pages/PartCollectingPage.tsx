@@ -5,6 +5,7 @@ import VoteInterface from '@/features/songs/components/VoteInterface';
 import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
+import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
@@ -21,23 +22,25 @@ const PartCollectingPage = () => {
 
   return (
     <Container>
-      <Wrapper>
-        <SongInfoContainer>
-          <Thumbnail size="sm" src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
-          <Info>
-            <SongTitle>{title}</SongTitle>
-            <Singer>{singer}</Singer>
-          </Info>
-        </SongInfoContainer>
-        <Spacing direction="vertical" size={8} />
-        <VideoPlayerProvider>
-          <Youtube videoId={songVideoId} />
-          <Spacing direction="vertical" size={8} />
+      <VideoPlayerProvider>
+        <FlexWrapper $direction="row" $md={{ $direction: 'column' }}>
+          <Flex $direction="column" $css={{ flex: '1' }}>
+            <SongInfoContainer>
+              <Thumbnail size="sm" src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
+              <Info>
+                <SongTitle>{title}</SongTitle>
+                <Singer>{singer}</Singer>
+              </Info>
+            </SongInfoContainer>
+            <Spacing direction="vertical" size={8} />
+            <Youtube videoId={songVideoId} />
+            <Spacing direction="vertical" size={8} />
+          </Flex>
           <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
             <VoteInterface />
           </VoteInterfaceProvider>
-        </VideoPlayerProvider>
-      </Wrapper>
+        </FlexWrapper>
+      </VideoPlayerProvider>
     </Container>
   );
 };
@@ -45,7 +48,7 @@ const PartCollectingPage = () => {
 export default PartCollectingPage;
 
 const Container = styled.section`
-  flex: 0.4;
+  flex: 0.6;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -101,9 +104,7 @@ const Singer = styled.p`
   }
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const FlexWrapper = styled(Flex)`
   background-color: ${({ theme: { color } }) => color.black300};
   border-radius: 8px;
   padding: 10px;

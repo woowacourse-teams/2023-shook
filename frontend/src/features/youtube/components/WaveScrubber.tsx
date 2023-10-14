@@ -133,6 +133,7 @@ const Container = styled.div`
   border-radius: 8px;
 
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;

@@ -45,6 +45,7 @@ const VoteInterface = () => {
       <PartIntervalController />
       <Spacing direction="vertical" size={12} />
       <WaveScrubber />
+      <FlexibleSpacing />
       <Register type="button" onClick={submitKillingPart}>
         등록
       </Register>
@@ -75,15 +76,21 @@ export default VoteInterface;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 320px;
+    padding: 16px;
+  }
 `;
 
 const RegisterTitle = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 18px;
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 24px;
   }
 `;
 
@@ -106,6 +113,16 @@ const Register = styled.button`
   left: 50%;
   transform: translate(-50%, 0);
   bottom: 8px;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 100%;
+    left: unset;
+    transform: unset;
+    position: static;
+
+    padding: 11px 15px;
+    font-size: 18px;
+  }
 `;
 
 const ModalTitle = styled.h3``;
@@ -155,4 +172,13 @@ const ButtonContainer = styled.div`
 const Warning = styled.div`
   font-size: 14px;
   color: ${({ theme: { color } }) => color.subText};
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 18px;
+  }
+`;
+
+const FlexibleSpacing = styled.div`
+  margin: 8px 0;
+  flex: 1;
 `;
