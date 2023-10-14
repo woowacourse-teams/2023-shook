@@ -1,18 +1,20 @@
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import Thumbnail from '@/features/songs/components/Thumbnail';
-import VoteInterface from '@/features/songs/components/VoteInterface';
+import CollectingInformation from '@/features/killingParts/components/CollectingInformation';
+import RegisterPart from '@/features/killingParts/components/RegisterPart';
+import SongInformation from '@/features/songs/components/SongInformation';
 import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
+import VideoController from '@/features/youtube/components/VideoController';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
 import Flex from '@/shared/components/Flex/Flex';
-import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 import type { VotingSongList } from '@/shared/types/song';
 
 const PartCollectingPage = () => {
   const { id: songId } = useParams();
+  // TODO: 조회 API 만들어야함.
   const { data: votingSongs } = useFetch<VotingSongList>(() =>
     fetcher(`/voting-songs/${songId}`, 'GET')
   );
@@ -21,27 +23,23 @@ const PartCollectingPage = () => {
   const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = votingSongs.currentSong;
 
   return (
-    <Container>
-      <VideoPlayerProvider>
-        <FlexWrapper $direction="row" $md={{ $direction: 'column' }}>
-          <Flex $direction="column" $css={{ flex: '1' }}>
-            <SongInfoContainer>
-              <Thumbnail size="sm" src={albumCoverUrl} alt={`${title} 앨범 자켓`} />
-              <Info>
-                <SongTitle>{title}</SongTitle>
-                <Singer>{singer}</Singer>
-              </Info>
-            </SongInfoContainer>
-            <Spacing direction="vertical" size={8} />
-            <Youtube videoId={songVideoId} />
-            <Spacing direction="vertical" size={8} />
-          </Flex>
-          <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-            <VoteInterface />
-          </VoteInterfaceProvider>
-        </FlexWrapper>
-      </VideoPlayerProvider>
-    </Container>
+    <VideoPlayerProvider>
+      <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
+        <Container>
+          <FlexPage $gap={8} $direction="row" $md={{ $direction: 'column' }}>
+            <FlexPlayer $gap={8} $direction="column">
+              <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
+              <Youtube videoId={songVideoId} />
+            </FlexPlayer>
+            <FlexControlInterface $gap={8} $direction="column">
+              <CollectingInformation />
+              <VideoController />
+              <RegisterPart />
+            </FlexControlInterface>
+          </FlexPage>
+        </Container>
+      </VoteInterfaceProvider>
+    </VideoPlayerProvider>
   );
 };
 
@@ -65,47 +63,19 @@ const Container = styled.section`
   }
 `;
 
-const SongInfoContainer = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-`;
-
-const Info = styled.div`
-  overflow: hidden;
-  flex: 1;
-`;
-
-const SongTitle = styled.p`
-  overflow: hidden;
-
-  font-size: 22px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 18px;
+const FlexControlInterface = styled(Flex)`
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 320px;
+    padding: 16px;
   }
 `;
 
-const Singer = styled.p`
-  overflow: hidden;
-
-  font-size: 16px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.subText};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 14px;
-  }
-`;
-
-const FlexWrapper = styled(Flex)`
+const FlexPage = styled(Flex)`
   padding: 10px;
   background-color: ${({ theme: { color } }) => color.black300};
   border-radius: 8px;
+`;
+
+const FlexPlayer = styled(Flex)`
+  flex: 1;
 `;
