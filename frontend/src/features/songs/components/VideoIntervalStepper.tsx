@@ -1,44 +1,42 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import Flex from '@/shared/components/Flex/Flex';
 
-const PartIntervalController = () => {
+const VideoIntervalStepper = () => {
   const { interval, plusPartInterval, minusPartInterval } = useVoteInterfaceContext();
 
   return (
-    <Container>
+    <Flex $gap={20} $css={{ width: '100%' }}>
       <ControlButton onClick={minusPartInterval}>-</ControlButton>
-      <IntervalItem>{`${interval} 초`}</IntervalItem>
+      <CountText>{`${interval} 초`}</CountText>
       <ControlButton onClick={plusPartInterval}>+</ControlButton>
-    </Container>
+    </Flex>
   );
 };
 
-export default PartIntervalController;
+export default VideoIntervalStepper;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: center;
-
-  width: 100%;
-`;
-
-const ControlButton = styled.button`
+const StepperElementStyle = css`
   flex: 1;
 
   min-width: 50px;
   margin: 0;
   padding: 4px 11px;
 
-  font-weight: '700';
+  font-weight: 700;
   line-height: 1.8;
-  color: ${({ theme: { color } }) => color.white};
+
   text-align: center;
 
-  background-color: ${({ theme: { color } }) => color.secondary};
   border: none;
   border-radius: 10px;
+`;
+
+const ControlButton = styled.button`
+  ${StepperElementStyle};
+
+  color: ${({ theme: { color } }) => color.white};
+  background-color: ${({ theme: { color } }) => color.secondary};
 
   &:active {
     background-color: ${({ theme: { color } }) => color.disabled};
@@ -46,21 +44,12 @@ const ControlButton = styled.button`
   }
 `;
 
-const IntervalItem = styled.p`
-  flex: 1;
+const CountText = styled.p`
+  ${StepperElementStyle};
 
-  min-width: 50px;
-  margin: 0;
-  padding: 4px 11px;
-
-  font-weight: '700';
-  line-height: 1.8;
   color: ${({ theme: { color } }) => color.black};
-  text-align: center;
-
   background-color: ${({ theme: { color } }) => color.white};
-  border: none;
-  border-radius: 10px;
+
   &:active {
     box-shadow: 0 0 0 1px inset pink;
     transition: box-shadow 0.1s ease;
