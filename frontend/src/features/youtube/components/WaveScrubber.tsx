@@ -8,6 +8,7 @@ import ScrubberProgress, {
 } from '@/features/youtube/components/ScrubberProgress';
 import SoundWave from '@/features/youtube/components/SoundWave';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import { secondsToMinSec, toMinSecText } from '@/shared/utils/convertTime';
@@ -82,7 +83,20 @@ const WaveScrubber = () => {
       </BadgeContainer>
       <Spacing direction="vertical" size={12} />
       <Container>
-        <Flex onScroll={changePartStartTime} onTouchStart={playWhenTouch}>
+        <Flex
+          onScroll={changePartStartTime}
+          onTouchStart={playWhenTouch}
+          $gap={8}
+          $css={{
+            zIndex: 3,
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            overflowX: 'scroll',
+            width: '100%',
+            height: '80px',
+            padding: '0 calc((100% - 150px) / 2)',
+          }}
+        >
           <SoundWave waveLength={maxPartStartTime} />
         </Flex>
         <PlayingBox />
@@ -94,19 +108,6 @@ const WaveScrubber = () => {
 };
 
 export default WaveScrubber;
-
-const Flex = styled.div`
-  z-index: 3;
-  display: flex;
-  column-gap: 8px;
-  background-color: transparent;
-  align-items: center;
-  overflow-x: scroll;
-  width: 100%;
-  height: 80px;
-
-  padding: 0 calc((100% - 150px) / 2);
-`;
 
 const PlayingBox = styled.div`
   z-index: 1;
