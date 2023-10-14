@@ -39,11 +39,10 @@ const VoteInterface = () => {
   return (
     <Container>
       <RegisterTitle>나만의 파트 저장하기</RegisterTitle>
-      <Spacing direction="vertical" size={4} />
       <Warning>같은 파트에 대한 중복 등록은 한 번의 등록으로 처리됩니다.</Warning>
       <Spacing direction="vertical" size={4} />
       <PartIntervalController />
-      <Spacing direction="vertical" size={12} />
+      <Spacing direction="vertical" size={8} />
       <WaveScrubber />
       <FlexibleSpacing />
       <Register type="button" onClick={submitKillingPart}>
@@ -90,7 +89,7 @@ const RegisterTitle = styled.p`
   color: ${({ theme: { color } }) => color.white};
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 24px;
+    font-size: 22px;
   }
 `;
 
@@ -101,7 +100,6 @@ const Register = styled.button`
   color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.primary};
-  border: 2px solid ${({ theme: { color } }) => color.primary};
   padding: 6px 11px;
 
   letter-spacing: 6px;
@@ -143,13 +141,9 @@ const ModalContent = styled.div`
 const Message = styled.div``;
 
 const Button = styled.button`
-  cursor: pointer;
-
   height: 36px;
-
   color: ${({ theme: { color } }) => color.white};
 
-  border: none;
   border-radius: 10px;
 `;
 
@@ -179,6 +173,9 @@ const Warning = styled.div`
 `;
 
 const FlexibleSpacing = styled.div`
-  margin: 8px 0;
-  flex: 1;
+  
+  @media (min-width:  ${({theme}) => theme.breakPoints.md}) {
+    margin: 8px 0;
+    flex: 1;  
+  }
 `;

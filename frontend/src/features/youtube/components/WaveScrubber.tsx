@@ -78,10 +78,10 @@ const WaveScrubber = () => {
           />
         </PlayerBadge>
         <PlayerBadge isActive={isAllPlay}>
-          <Button onClick={toggleAllPlay}>all</Button>
+          <button onClick={toggleAllPlay}>전체 듣기</button>
         </PlayerBadge>
       </BadgeContainer>
-      <Spacing direction="vertical" size={12} />
+      <Spacing direction="vertical" size={8} />
       <Container>
         <Flex
           onScroll={changePartStartTime}
@@ -121,8 +121,6 @@ const PlayingBox = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
-  pointer-events: none;
 `;
 
 const Container = styled.div`
@@ -142,13 +140,6 @@ const Container = styled.div`
     transition: box-shadow 0.2s ease;
     box-shadow: 0 0 0 1px inset pink;
   }
-`;
-
-const Button = styled.button`
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const BadgeContainer = styled.div`

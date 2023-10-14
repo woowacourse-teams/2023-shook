@@ -17,14 +17,15 @@ const Badge = styled.span<{ $isActive: boolean }>`
   background-color: ${({ theme: { color }, $isActive }) => ($isActive ? 'pink' : color.disabled)};
   color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
   font-size: 13px;
-  padding: 0 8px;
-  line-height: 2.3;
+  padding: 0 10px;
   border-radius: 40px;
-  max-width: 50px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
 
   transition: background-color 0.2s ease-in;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 14px;
+  }
 `;
