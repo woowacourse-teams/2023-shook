@@ -104,7 +104,7 @@ export const VoteInterfaceProvider = ({
     return () => {
       window.clearInterval(timer);
     };
-  }, [partStartTime, interval, isAllPlay]);
+  }, [playerState, partStartTime, interval, isAllPlay]);
 
   return (
     <VoteInterfaceContext.Provider
