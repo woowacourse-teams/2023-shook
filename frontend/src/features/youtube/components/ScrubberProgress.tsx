@@ -20,21 +20,22 @@ const fillAnimation = keyframes`
 `;
 
 const PlayingBoxBackground = styled.div<{ interval: number }>`
-  z-index: 0;
-  width: 150px;
-  height: 50px;
-  border-radius: 5px;
+  pointer-events: none;
 
   position: absolute;
+  z-index: 0;
   left: 50%;
   transform: translateX(-50%);
 
+  width: 150px;
+  height: 50px;
+
   background: linear-gradient(to left, transparent 50%, pink 50%);
   background-size: ${({ interval }) => 200 + (30 - interval)}%;
+  border-radius: 5px;
+
   transition: 10s linear;
   animation: ${fillAnimation} ${({ interval }) => interval}s linear infinite;
-
-  pointer-events: none;
 `;
 
 export const ScrubberProgressAllPlaying = () => {
@@ -72,19 +73,19 @@ const animate = keyframes`
 `;
 
 const AllPlayingBackground = styled.div`
-  z-index: 0;
-  width: 150px;
-  height: 50px;
-  border-radius: 5px;
+  pointer-events: none;
 
   position: absolute;
+  z-index: 0;
   left: 50%;
   transform: translateX(-50%);
 
+  width: 150px;
+  height: 50px;
+
   background: linear-gradient(to left, deeppink, pink);
+  border-radius: 5px;
+
   transition: 10s linear;
-
   animation: ${animate} 4s ease-in-out infinite;
-
-  pointer-events: none;
 `;

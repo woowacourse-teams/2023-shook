@@ -28,21 +28,21 @@ const ControlButton = styled.button`
   flex: 1;
 
   min-width: 50px;
-
   margin: 0;
   padding: 4px 11px;
+
   font-weight: '700';
+  line-height: 1.8;
   color: ${({ theme: { color } }) => color.white};
   text-align: center;
-  line-height: 1.8;
 
   background-color: ${({ theme: { color } }) => color.secondary};
   border: none;
   border-radius: 10px;
 
   &:active {
-    transition: box-shadow 0.2s ease;
     background-color: ${({ theme: { color } }) => color.disabled};
+    transition: box-shadow 0.2s ease;
   }
 `;
 
@@ -50,20 +50,19 @@ const IntervalItem = styled.p`
   flex: 1;
 
   min-width: 50px;
-  padding: 4px 11px;
   margin: 0;
-
-  text-align: center;
-  line-height: 1.8;
+  padding: 4px 11px;
 
   font-weight: '700';
+  line-height: 1.8;
   color: ${({ theme: { color } }) => color.black};
+  text-align: center;
 
   background-color: ${({ theme: { color } }) => color.white};
   border: none;
   border-radius: 10px;
   &:active {
-    transition: box-shadow 0.1s ease;
     box-shadow: 0 0 0 1px inset pink;
+    transition: box-shadow 0.1s ease;
   }
 `;

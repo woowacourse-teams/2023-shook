@@ -48,12 +48,12 @@ const PartCollectingPage = () => {
 export default PartCollectingPage;
 
 const Container = styled.section`
-  flex: 0.6;
   display: flex;
-  justify-content: center;
+  flex: 0.6;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
 
+  width: 100%;
   margin-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
@@ -105,7 +105,7 @@ const Singer = styled.p`
 `;
 
 const FlexWrapper = styled(Flex)`
+  padding: 10px;
   background-color: ${({ theme: { color } }) => color.black300};
   border-radius: 8px;
-  padding: 10px;
 `;

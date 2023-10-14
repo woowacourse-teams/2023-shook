@@ -110,40 +110,41 @@ const WaveScrubber = () => {
 export default WaveScrubber;
 
 const PlayingBox = styled.div`
+  position: absolute;
   z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+
   width: 150px;
   height: 50px;
 
   border: transparent;
   border-radius: 4px;
-
   box-shadow: 0 0 0 2px inset ${({ theme: { color } }) => color.white};
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 `;
 
 const Container = styled.div`
-  width: 100%;
-  background-color: ${({ theme: { color } }) => color.secondary};
-
-  margin: auto;
-  border-radius: 8px;
+  position: relative;
 
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
+  width: 100%;
+  margin: auto;
+
+  background-color: ${({ theme: { color } }) => color.secondary};
+  border-radius: 8px;
+
   &:active {
-    transition: box-shadow 0.2s ease;
     box-shadow: 0 0 0 1px inset pink;
+    transition: box-shadow 0.2s ease;
   }
 `;
 
 const BadgeContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
   column-gap: 14px;
+  justify-content: flex-end;
 `;

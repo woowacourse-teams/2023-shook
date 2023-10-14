@@ -12,16 +12,18 @@ const PlayerBadge = ({ isActive = false, children }: PlayerBadge) => {
 export default PlayerBadge;
 
 const Badge = styled.span<{ $isActive: boolean }>`
-  text-align: center;
-  height: 30px;
-  background-color: ${({ theme: { color }, $isActive }) => ($isActive ? 'pink' : color.disabled)};
-  color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
-  font-size: 13px;
-  padding: 0 10px;
-  border-radius: 40px;
-
   display: flex;
   align-items: center;
+
+  height: 30px;
+  padding: 0 10px;
+
+  font-size: 13px;
+  color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
+  text-align: center;
+
+  background-color: ${({ theme: { color }, $isActive }) => ($isActive ? 'pink' : color.disabled)};
+  border-radius: 40px;
 
   transition: background-color 0.2s ease-in;
 

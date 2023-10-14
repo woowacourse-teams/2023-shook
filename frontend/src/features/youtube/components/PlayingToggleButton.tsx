@@ -27,8 +27,8 @@ const PlayingToggleButton = ({ pause, play, isPlaying }: PlayingToggleButtonProp
 export default PlayingToggleButton;
 
 const Button = styled.button`
-  width: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 20px;
 `;

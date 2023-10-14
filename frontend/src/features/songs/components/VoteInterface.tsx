@@ -94,31 +94,30 @@ const RegisterTitle = styled.p`
 `;
 
 const Register = styled.button`
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+
   width: 92%;
+  margin-top: 8px;
+  padding: 6px 11px;
 
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
-
-  background-color: ${({ theme: { color } }) => color.primary};
-  padding: 6px 11px;
-
   letter-spacing: 6px;
 
+  background-color: ${({ theme: { color } }) => color.primary};
   border-radius: 10px;
 
-  margin-top: 8px;
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0);
-  bottom: 8px;
-
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 100%;
+    position: static;
     left: unset;
     transform: unset;
-    position: static;
 
+    width: 100%;
     padding: 11px 15px;
+
     font-size: 18px;
   }
 `;
@@ -143,7 +142,6 @@ const Message = styled.div``;
 const Button = styled.button`
   height: 36px;
   color: ${({ theme: { color } }) => color.white};
-
   border-radius: 10px;
 `;
 
@@ -173,9 +171,8 @@ const Warning = styled.div`
 `;
 
 const FlexibleSpacing = styled.div`
-  
-  @media (min-width:  ${({theme}) => theme.breakPoints.md}) {
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    flex: 1;
     margin: 8px 0;
-    flex: 1;  
   }
 `;
