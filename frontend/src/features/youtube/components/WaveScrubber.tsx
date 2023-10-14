@@ -1,9 +1,8 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
-import fillPlayIcon from '@/assets/icon/fill-play.svg';
-import pauseIcon from '@/assets/icon/pause.svg';
 import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
 import PlayerBadge from '@/features/youtube/components/PlayerBadge';
+import PlayingToggleButton from '@/features/youtube/components/PlayingToggleButton';
 import ScrubberProgress, {
   ScrubberProgressAllPlaying,
 } from '@/features/youtube/components/ScrubberProgress';
@@ -46,6 +45,18 @@ const WaveScrubber = () => {
     }
   };
 
+  const clickPlay = () => {
+    if (isAllPlay) {
+      videoPlayer.current?.playVideo();
+    } else {
+      seekTo(partStartTime);
+    }
+  };
+
+  const clickPause = () => {
+    videoPlayer.current?.pauseVideo();
+  };
+
   const playWhenTouch = () => {
     if (!isVideoStatePlaying) {
       videoPlayer.current?.playVideo();
@@ -59,27 +70,11 @@ const WaveScrubber = () => {
       <BadgeContainer>
         <PlayerBadge>{partStartTimeText}</PlayerBadge>
         <PlayerBadge>
-          {isVideoStatePlaying ? (
-            <Button
-              onClick={() => {
-                videoPlayer.current?.pauseVideo();
-              }}
-            >
-              <img src={pauseIcon} alt={'노래 정지'} />
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                if (isAllPlay) {
-                  videoPlayer.current?.playVideo();
-                } else {
-                  seekTo(partStartTime);
-                }
-              }}
-            >
-              <img src={fillPlayIcon} alt={'노래 시작'} />
-            </Button>
-          )}
+          <PlayingToggleButton
+            pause={clickPause}
+            play={clickPlay}
+            isPlaying={isVideoStatePlaying}
+          />
         </PlayerBadge>
         <PlayerBadge isActive={isAllPlay}>
           <Button onClick={toggleAllPlay}>all</Button>
@@ -147,15 +142,15 @@ const Container = styled.div`
   }
 `;
 
-const BadgeContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  column-gap: 14px;
-`;
-
 const Button = styled.button`
   width: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const BadgeContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 14px;
 `;
