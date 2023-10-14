@@ -1,0 +1,59 @@
+import styled from 'styled-components';
+import playIcon from '@/assets/icon/fill-play.svg';
+import pauseIcon from '@/assets/icon/pause.svg';
+import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import Flex from '@/shared/components/Flex/Flex';
+import { toMinSecText } from '@/shared/utils/convertTime';
+
+const VideoBadges = () => {
+  const { partStartTime, isAllPlay, isVideoStatePlaying, toggleAllPlay } =
+    useVoteInterfaceContext();
+  const { videoPlayer, seekTo } = useVideoPlayerContext();
+  const partStartTimeText = toMinSecText(partStartTime);
+
+  const clickPlay = () => {
+    if (isAllPlay) {
+      videoPlayer.current?.playVideo();
+    } else {
+      seekTo(partStartTime);
+    }
+  };
+  const clickPause = () => {
+    videoPlayer.current?.pauseVideo();
+  };
+
+  return (
+    <Flex $gap={14} $justify="flex-end">
+      <Badge>{partStartTimeText}</Badge>
+      <Badge as="button" onClick={isVideoStatePlaying ? clickPause : clickPlay}>
+        <img src={isVideoStatePlaying ? pauseIcon : playIcon} />
+      </Badge>
+      <Badge as="button" $isActive={isAllPlay} onClick={toggleAllPlay}>
+        전체 듣기
+      </Badge>
+    </Flex>
+  );
+};
+export default VideoBadges;
+
+const Badge = styled.span<{ $isActive?: boolean }>`
+  display: flex;
+  align-items: center;
+
+  height: 30px;
+  padding: 0 10px;
+
+  font-size: 13px;
+  color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
+  text-align: center;
+
+  background-color: ${({ theme: { color }, $isActive }) => ($isActive ? 'pink' : color.disabled)};
+  border-radius: 40px;
+
+  transition: background-color 0.2s ease-in;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 14px;
+  }
+`;
