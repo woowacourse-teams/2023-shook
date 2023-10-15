@@ -17,6 +17,9 @@ const RegisterPart = () => {
   const video = useVideoPlayerContext();
   const { createKillingPart } = usePostKillingPart();
 
+  // 현재 useMutation 훅이 response 객체를 리턴하지 않고 내부적으로 처리합니다.
+  // 때문에 컴포넌트 단에서 createKillingPart 성공 여부에 따라 등록 완료 만료를 처리를 할 수 없어요!
+  // 현재 비로그인 시에 등록을 누르면 두 개의 모달이 뜹니다.
   const submitKillingPart = async () => {
     video.pause();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
@@ -26,7 +29,7 @@ const RegisterPart = () => {
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   const copyPartVideoUrl = async () => {
-    await copyClipboard(`https://www.youtube.com/watch?v=${songVideoId}`);
+    await copyClipboard(`https://www.youtube.com/watch?v=${songVideoId}&t=${partStartTime}s`);
     closeModal();
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
