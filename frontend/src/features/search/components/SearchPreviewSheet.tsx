@@ -9,20 +9,20 @@ interface ResultSheetProps {
   result: SingerSearchPreview[];
 }
 
-const ResultSheet = ({ result }: ResultSheetProps) => {
+const SearchPreviewSheet = ({ result }: ResultSheetProps) => {
   const navigate = useNavigate();
 
   const hasResult = result.length > 0;
 
   return (
     <SheetContainer aria-label="아티스트 검색 결과 미리보기">
-      <SheetTitle $align="center" aria-hidden>
+      <FlexSheetTitle $align="center" aria-hidden>
         아티스트
-      </SheetTitle>
-      <PreviewItemList as="ul" $direction="column" $gap={16}>
+      </FlexSheetTitle>
+      <FlexPreviewItemList as="ul" $direction="column" $gap={16}>
         {result.map(({ id, singer, profileImageUrl }) => (
-          <PreviewItem key={id} as="li">
-            <GoToDetail
+          <FlexPreviewItem key={id} as="li">
+            <FlexGoToDetail
               as="button"
               type="button"
               onMouseDown={() => navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`)}
@@ -32,16 +32,16 @@ const ResultSheet = ({ result }: ResultSheetProps) => {
             >
               <Thumbnail src={profileImageUrl} alt="" size="sm" />
               <Singer aria-hidden>{singer}</Singer>
-            </GoToDetail>
-          </PreviewItem>
+            </FlexGoToDetail>
+          </FlexPreviewItem>
         ))}
-      </PreviewItemList>
+      </FlexPreviewItemList>
       {!hasResult && <DefaultMessage>검색 결과가 없습니다</DefaultMessage>}
     </SheetContainer>
   );
 };
 
-export default ResultSheet;
+export default SearchPreviewSheet;
 
 const SheetContainer = styled.section`
   position: fixed;
@@ -81,7 +81,7 @@ const SheetContainer = styled.section`
   }
 `;
 
-const SheetTitle = styled(Flex)`
+const FlexSheetTitle = styled(Flex)`
   position: sticky;
   top: 0;
   left: 0;
@@ -94,9 +94,9 @@ const SheetTitle = styled(Flex)`
   background-color: #121212;
 `;
 
-const PreviewItemList = styled(Flex)``;
+const FlexPreviewItemList = styled(Flex)``;
 
-const PreviewItem = styled(Flex)`
+const FlexPreviewItem = styled(Flex)`
   cursor: pointer;
 
   width: 100%;
@@ -117,6 +117,6 @@ const Singer = styled.p`
 `;
 const DefaultMessage = styled.p``;
 
-const GoToDetail = styled(Flex)`
+const FlexGoToDetail = styled(Flex)`
   width: 100%;
 `;

@@ -4,7 +4,7 @@ import backwardIcon from '@/assets/icon/left-arrow.svg';
 import searchIcon from '@/assets/icon/search.svg';
 import Flex from '@/shared/components/Flex/Flex';
 import useSearchBar from '../hooks/useSearchBar';
-import ResultSheet from './ResultSheet';
+import SearchPreviewSheet from './SearchPreviewSheet';
 
 const SearchBar = () => {
   const {
@@ -23,7 +23,7 @@ const SearchBar = () => {
   const isQueryFilled = searchQuery.length !== 0;
 
   return (
-    <SearchBox
+    <FlexSearchBox
       as="form"
       $align="center"
       $justify="space-between"
@@ -51,8 +51,8 @@ const SearchBar = () => {
       )}
       <SearchButton id="search-button" type="submit" $isSearching={isSearching} />
       <SearchBarExpandButton type="button" onClick={startSearch} $isSearching={isSearching} />
-      {isSearching && <ResultSheet result={singerSearchPreview ?? []} />}
-    </SearchBox>
+      {isSearching && <SearchPreviewSheet result={singerSearchPreview ?? []} />}
+    </FlexSearchBox>
   );
 };
 
@@ -65,7 +65,7 @@ const searchButtonStyles = css`
   background-size: contain;
 `;
 
-const SearchBox = styled(Flex)<{ $isSearching: boolean }>`
+const FlexSearchBox = styled(Flex)<{ $isSearching: boolean }>`
   position: relative;
 
   height: 34px;
