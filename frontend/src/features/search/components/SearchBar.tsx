@@ -74,7 +74,7 @@ const FlexSearchBox = styled(Flex)<{ $isSearching: boolean }>`
   padding: 0 10px;
 
   background-color: ${({ theme }) => theme.color.black200};
-  border-radius: 16px;
+  border-radius: 14px;
 
   transition: flex 0.2s ease;
 
