@@ -11,12 +11,13 @@ import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartInterfaceProps {
   killingParts: SongDetail['killingParts'];
+  myPart: SongDetail['myPart'];
   songId: number;
 }
 
 const DEFAULT_PART_ID = -1;
 
-const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProps) => {
+const KillingPartInterface = ({ killingParts, songId, myPart }: KillingPartInterfaceProps) => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
@@ -140,6 +141,7 @@ const KillingPartInterface = ({ killingParts, songId }: KillingPartInterfaceProp
       <Spacing direction="vertical" size={16} />
       <KillingPartTrackList
         killingParts={killingParts}
+        myPart={myPart}
         songId={songId}
         nowPlayingTrack={nowPlayingTrack}
         setNowPlayingTrack={setNowPlayingTrack}

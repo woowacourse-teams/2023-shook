@@ -3,6 +3,7 @@ import { css, styled } from 'styled-components';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
+import trashIcon from '@/assets/icon/trash.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -11,10 +12,13 @@ import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
+import { useMutation } from '@/shared/hooks/useMutation';
+import fetcher from '@/shared/remotes';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
 import useKillingPartLikes from '../hooks/useKillingPartLikes';
+import MyPartModal from './MyPartModal';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
@@ -24,6 +28,7 @@ interface KillingPartTrackProps {
   isNowPlayingTrack: boolean;
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  isMyKillingPart?: boolean;
 }
 
 const KillingPartTrack = ({
@@ -32,6 +37,7 @@ const KillingPartTrack = ({
   isNowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
+  isMyKillingPart,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
@@ -42,7 +48,16 @@ const KillingPartTrack = ({
     partId,
   });
   const { countedTime: currentPlayTime } = useTimerContext();
-  const { isOpen, closeModal, openModal } = useModal();
+  const {
+    isOpen: isLoginModalOpen,
+    closeModal: closeLoginModal,
+    openModal: openLoginModal,
+  } = useModal();
+  const {
+    isOpen: isMyPartModal,
+    closeModal: closeMyPartModal,
+    openModal: openMyPartModal,
+  } = useModal();
   const { user } = useAuthContext();
   const isLoggedIn = user !== null;
 
@@ -111,6 +126,17 @@ const KillingPartTrack = ({
     toggleKillingPartLikes();
   };
 
+  const { mutateData: deleteMemberPart } = useMutation(() =>
+    fetcher(`/member-parts/${partId}`, 'DELETE')
+  );
+
+  const deleteMyPart = async () => {
+    await deleteMemberPart();
+
+    closeMyPartModal();
+    showToast('내 파트가 삭제되었습니다.');
+  };
+
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
@@ -120,7 +146,7 @@ const KillingPartTrack = ({
       aria-label={`${rank}등 킬링파트 재생하기`}
     >
       <FLexContainer>
-        <Rank>{ordinalRank}</Rank>
+        <Rank>{isMyKillingPart ? 'MY' : ordinalRank}</Rank>
         <PlayButton
           id={`play-${songId}-${partId}`}
           name="track"
@@ -133,30 +159,41 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton
-          onClick={isLoggedIn ? toggleLike : openModal}
-          aria-label={`${rank}등 킬링파트 좋아요 하기`}
-        >
-          <ButtonIcon src={heartIcon} alt="" />
-          <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
-        </LikeButton>
-        <ShareButton
-          aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
-          onClick={copyKillingPartUrl}
-        >
-          <ButtonIcon src={shareIcon} alt="" />
-          <ButtonTitle>Share</ButtonTitle>
-        </ShareButton>
+        {isMyKillingPart ? (
+          <DeleteButton type="button" onClick={openMyPartModal}>
+            <ButtonIcon src={trashIcon} />
+          </DeleteButton>
+        ) : (
+          <>
+            <LikeButton
+              onClick={isLoggedIn ? toggleLike : openLoginModal}
+              aria-label={`${rank}등 킬링파트 좋아요 하기`}
+            >
+              <ButtonIcon src={heartIcon} alt="" />
+              <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
+            </LikeButton>
+            <ShareButton
+              aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
+              onClick={copyKillingPartUrl}
+            >
+              <ButtonIcon src={shareIcon} alt="" />
+              <ButtonTitle>Share</ButtonTitle>
+            </ShareButton>
+          </>
+        )}
       </ButtonContainer>
       {isNowPlayingTrack && (
         <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
       )}
+
+      <MyPartModal isOpen={isMyPartModal} closeModal={closeMyPartModal} onDelete={deleteMyPart} />
+
       <LoginModal
-        isOpen={isOpen}
+        isOpen={isLoginModalOpen}
         message={
           '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!\n"좋아요!"한 노래는 마이페이지에 저장됩니다!'
         }
-        closeModal={closeModal}
+        closeModal={closeLoginModal}
       />
     </Container>
   );
@@ -218,6 +255,10 @@ const ButtonWithIcon = css`
   align-items: center;
 
   width: 44px;
+`;
+
+const DeleteButton = styled.button`
+  ${ButtonWithIcon}
 `;
 
 const LikeButton = styled.button`
