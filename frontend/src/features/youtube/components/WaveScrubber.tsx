@@ -71,7 +71,7 @@ const Container = styled.div`
   border-radius: 8px;
 
   &:active {
-    box-shadow: 0 0 0 1px inset pink;
+    box-shadow: 0 0 0 1px inset ${({ theme: { color } }) => color.magenta300};
     transition: box-shadow 0.2s ease;
   }
 `;
@@ -110,7 +110,9 @@ const ProgressFill = styled.div<{ $interval: number }>`
   width: 150px;
   height: 50px;
 
-  background: linear-gradient(to left, transparent 50%, pink 50%);
+  background: ${({ theme: { color } }) =>
+    `linear-gradient(to left, transparent 50%, ${color.magenta300} 50%)`};
+
   background-size: ${({ $interval }) => 200 + (30 - $interval)}%;
   border-radius: 5px;
 
@@ -159,7 +161,8 @@ const WaveFill = styled.div`
   width: 150px;
   height: 50px;
 
-  background: linear-gradient(to left, deeppink, pink);
+  background: ${({ theme: { color } }) =>
+    `linear-gradient(to left, ${color.magenta100}, ${color.magenta400})`};
   border-radius: 5px;
 
   transition: 10s linear;

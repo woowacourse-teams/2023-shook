@@ -47,7 +47,8 @@ const Badge = styled.span<{ $isActive?: boolean }>`
   color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
   text-align: center;
 
-  background-color: ${({ theme: { color }, $isActive }) => ($isActive ? 'pink' : color.disabled)};
+  background-color: ${({ theme: { color }, $isActive }) =>
+    $isActive ? color.magenta200 : color.disabled};
   border-radius: 40px;
 
   transition: background-color 0.2s ease-in;
