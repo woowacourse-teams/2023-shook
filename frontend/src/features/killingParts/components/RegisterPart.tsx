@@ -60,7 +60,7 @@ export default RegisterPart;
 
 const RegisterButton = styled.button`
   width: 100%;
-  margin-top: 8px;
+  margin-top: auto;
   padding: 8px 11px;
 
   font-weight: 700;
