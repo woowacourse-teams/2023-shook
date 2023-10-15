@@ -50,7 +50,7 @@ const SearchBar = () => {
         />
       )}
       <SearchButton id="search-button" type="submit" $isSearching={isSearching} />
-      <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
+      <SearchBarExpandButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isSearching && <ResultSheet result={singerSearchPreview ?? []} />}
     </SearchBox>
   );
@@ -144,7 +144,7 @@ const SearchButton = styled.button<{ $isSearching: boolean }>`
   }
 `;
 
-const SearchBarExpendButton = styled.button<{ $isSearching: boolean }>`
+const SearchBarExpandButton = styled.button<{ $isSearching: boolean }>`
   ${searchButtonStyles}
   display: none;
 
