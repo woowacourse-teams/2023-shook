@@ -2,8 +2,8 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import CollectingInformation from '@/features/killingParts/components/CollectingInformation';
 import RegisterPart from '@/features/killingParts/components/RegisterPart';
+import { CollectingPartProvider } from '@/features/songs/components/CollectingPartProvider';
 import SongInformation from '@/features/songs/components/SongInformation';
-import { VoteInterfaceProvider } from '@/features/songs/components/VoteInterfaceProvider';
 import VideoController from '@/features/youtube/components/VideoController';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
@@ -24,7 +24,7 @@ const PartCollectingPage = () => {
 
   return (
     <VideoPlayerProvider>
-      <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
+      <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
         <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
           <FlexPlayer $gap={8} $direction="column">
             <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
@@ -36,7 +36,7 @@ const PartCollectingPage = () => {
             <RegisterPart />
           </FlexControlInterface>
         </PageFlex>
-      </VoteInterfaceProvider>
+      </CollectingPartProvider>
     </VideoPlayerProvider>
   );
 };

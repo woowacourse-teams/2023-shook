@@ -1,9 +1,9 @@
 import { css, styled } from 'styled-components';
-import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
 import Flex from '@/shared/components/Flex/Flex';
 
 const VideoIntervalStepper = () => {
-  const { interval, plusPartInterval, minusPartInterval } = useVoteInterfaceContext();
+  const { interval, plusPartInterval, minusPartInterval } = useCollectingPartContext();
 
   return (
     <Flex $gap={20}>

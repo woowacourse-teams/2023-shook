@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
 import { usePostKillingPart } from '@/features/songs/remotes/usePostKillingPart';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
@@ -13,12 +13,12 @@ const RegisterPart = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { showToast } = useToastContext();
   const { user } = useAuthContext();
-  const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
+  const { interval, partStartTime, songId, songVideoId } = useCollectingPartContext();
+  const video = useVideoPlayerContext();
   const { createKillingPart } = usePostKillingPart();
-  const { videoPlayer } = useVideoPlayerContext();
 
   const submitKillingPart = async () => {
-    videoPlayer.current?.pauseVideo();
+    video.pause();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
     openModal();
   };

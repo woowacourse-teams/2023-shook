@@ -1,21 +1,14 @@
 import styled, { keyframes } from 'styled-components';
-import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
 import SoundWave from '@/features/youtube/components/SoundWave';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
-import { secondsToMinSec } from '@/shared/utils/convertTime';
 
 const WaveScrubber = () => {
-  const {
-    partStartTime,
-    interval,
-    videoLength,
-    isVideoStatePlaying,
-    isAllPlay,
-    updatePartStartTime,
-  } = useVoteInterfaceContext();
-  const { videoPlayer, seekTo } = useVideoPlayerContext();
+  const { partStartTime, interval, videoLength, setPartStartTime, isPlayingEntire } =
+    useCollectingPartContext();
+  const video = useVideoPlayerContext();
   const maxPartStartTime = videoLength - interval;
 
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
@@ -24,19 +17,21 @@ const WaveScrubber = () => {
     const partStartTimeToChange = Math.floor(scrollLeft / unit);
 
     if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
-      const { minute, second } = secondsToMinSec(partStartTimeToChange);
-      updatePartStartTime('minute', minute);
-      updatePartStartTime('second', second);
+      setPartStartTime(partStartTimeToChange);
     }
   };
 
   const playWhenTouch = () => {
-    if (!isVideoStatePlaying) {
-      videoPlayer.current?.playVideo();
+    if (video.playerState !== 1) {
+      video.play();
     }
   };
 
-  useDebounceEffect<[number, number]>(() => seekTo(partStartTime), [partStartTime, interval], 300);
+  useDebounceEffect<[number, number]>(
+    () => video.seekTo(partStartTime),
+    [partStartTime, interval],
+    300
+  );
 
   return (
     <Container>
@@ -49,8 +44,8 @@ const WaveScrubber = () => {
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
       <ProgressFrame />
-      {isVideoStatePlaying && !isAllPlay && <ProgressFill $interval={interval} />}
-      {isVideoStatePlaying && isAllPlay && <WaveFill />}
+      {video.playerState === 1 && !isPlayingEntire && <ProgressFill $interval={interval} />}
+      {video.playerState === 1 && isPlayingEntire && <WaveFill />}
     </Container>
   );
 };

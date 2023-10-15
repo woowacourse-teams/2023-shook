@@ -1,35 +1,34 @@
 import styled from 'styled-components';
 import playIcon from '@/assets/icon/fill-play.svg';
 import pauseIcon from '@/assets/icon/pause.svg';
-import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
+import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
 const VideoBadges = () => {
-  const { partStartTime, isAllPlay, isVideoStatePlaying, toggleAllPlay } =
-    useVoteInterfaceContext();
-  const { videoPlayer, seekTo } = useVideoPlayerContext();
+  const { partStartTime, isPlayingEntire, toggleEntirePlaying } = useCollectingPartContext();
+  const video = useVideoPlayerContext();
   const partStartTimeText = toMinSecText(partStartTime);
 
   const clickPlay = () => {
-    if (isAllPlay) {
-      videoPlayer.current?.playVideo();
+    if (isPlayingEntire) {
+      video.play();
     } else {
-      seekTo(partStartTime);
+      video.seekTo(partStartTime);
     }
   };
   const clickPause = () => {
-    videoPlayer.current?.pauseVideo();
+    video.pause();
   };
 
   return (
     <Flex $gap={14} $justify="flex-end">
       <Badge>{partStartTimeText}</Badge>
-      <Badge as="button" onClick={isVideoStatePlaying ? clickPause : clickPlay}>
-        <img src={isVideoStatePlaying ? pauseIcon : playIcon} />
+      <Badge as="button" onClick={video.playerState === 1 ? clickPause : clickPlay}>
+        <img src={video.playerState === 1 ? pauseIcon : playIcon} />
       </Badge>
-      <Badge as="button" $isActive={isAllPlay} onClick={toggleAllPlay}>
+      <Badge as="button" $isActive={isPlayingEntire} onClick={toggleEntirePlaying}>
         전체 듣기
       </Badge>
     </Flex>
