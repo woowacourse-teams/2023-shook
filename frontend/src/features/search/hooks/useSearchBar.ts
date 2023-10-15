@@ -21,6 +21,9 @@ const useSearchBar = () => {
   const search: React.FormEventHandler = useCallback(
     (e) => {
       e.preventDefault();
+
+      if (searchQuery.length === 0) return;
+
       setIsSearching(false);
       navigate(`${ROUTE_PATH.SEARCH_RESULT}?name=${searchQuery}`);
     },
