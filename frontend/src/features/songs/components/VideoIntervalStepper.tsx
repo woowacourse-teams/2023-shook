@@ -25,7 +25,6 @@ const StepperElementStyle = css`
 
   font-weight: 700;
   line-height: 1.8;
-
   text-align: center;
 
   border: none;
@@ -34,7 +33,6 @@ const StepperElementStyle = css`
 
 const ControlButton = styled.button`
   ${StepperElementStyle};
-
   color: ${({ theme: { color } }) => color.white};
   background-color: ${({ theme: { color } }) => color.secondary};
 
@@ -46,7 +44,6 @@ const ControlButton = styled.button`
 
 const CountText = styled.p`
   ${StepperElementStyle};
-
   color: ${({ theme: { color } }) => color.black};
   background-color: ${({ theme: { color } }) => color.white};
 

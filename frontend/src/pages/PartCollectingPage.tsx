@@ -48,17 +48,18 @@ const PartCollectingPage = () => {
 export default PartCollectingPage;
 
 const PageFlex = styled(Flex)`
-  padding: 10px;
-  background-color: ${({ theme: { color } }) => color.black300};
-  border-radius: 8px;
+  transform: translateY(30px);
 
   width: 100%;
   margin: auto;
-  transform: translateY(30px);
+  padding: 10px;
+
+  background-color: ${({ theme: { color } }) => color.black300};
+  border-radius: 8px;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 16px;
     transform: translateY(40px);
+    padding: 16px;
   }
 `;
 
@@ -71,6 +72,7 @@ const FlexControlInterface = styled(Flex)`
 
 const FlexPlayer = styled(Flex)`
   flex: 1;
+
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     max-width: calc(100% - 320px);
   }

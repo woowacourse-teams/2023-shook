@@ -51,11 +51,14 @@ const WaveScrubber = () => {
 export default WaveScrubber;
 const WaveWrapper = styled(Flex)`
   z-index: 3;
-  background-color: transparent;
+
   overflow-x: scroll;
+
   width: 100%;
   height: 75px;
   padding: 0 calc((100% - 150px) / 2);
+
+  background-color: transparent;
 `;
 
 const Container = styled.div`
@@ -114,7 +117,6 @@ const ProgressFill = styled.div<{ $interval: number }>`
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, transparent 50%, ${color.magenta300} 50%)`};
-
   background-size: ${({ $interval }) => 200 + (30 - $interval)}%;
   border-radius: 5px;
 

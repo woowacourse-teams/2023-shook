@@ -28,6 +28,7 @@ const SongTextContainer = styled.div`
 
 const SongTitle = styled.p`
   overflow: hidden;
+
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
@@ -41,6 +42,7 @@ const SongTitle = styled.p`
 
 const Singer = styled.p`
   overflow: hidden;
+
   font-size: 16px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.subText};
