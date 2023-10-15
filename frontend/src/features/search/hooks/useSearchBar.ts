@@ -61,6 +61,15 @@ const useSearchBar = () => {
     inputRef.current?.focus();
   }, []);
 
+  const endSearchByEsc = useCallback(
+    ({ key }: KeyboardEvent) => {
+      if (key === 'Escape') {
+        endSearch();
+      }
+    },
+    [endSearch]
+  );
+
   useEffect(() => {
     if (isSearching) {
       inputRef.current?.focus();
@@ -72,12 +81,14 @@ const useSearchBar = () => {
   useEffect(() => {
     if (isSearching) {
       document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', endSearchByEsc);
     }
 
     return () => {
       document.body.style.overflow = 'auto';
+      document.addEventListener('keydown', endSearchByEsc);
     };
-  }, [isSearching]);
+  }, [isSearching, endSearchByEsc]);
 
   return {
     isSearching,
