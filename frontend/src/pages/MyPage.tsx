@@ -2,16 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import PartItem from '@/features/member/components/PartItem';
+import MyPartList from '@/features/member/components/MyPartList';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import ROUTE_PATH from '@/shared/constants/path';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
-import useFetch from '@/shared/hooks/useFetch';
-import fetcher from '@/shared/remotes';
-import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 const introductions = [
   '아무 노래나 일단 틀어',
@@ -21,15 +18,8 @@ const introductions = [
   '우린 참 별나고 이상한 사이야',
 ];
 
-type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
-  Pick<KillingPart, 'start' | 'end'> & {
-    songId: number;
-    partId: number;
-  };
-
 const MyPage = () => {
   const { user, logout } = useAuthContext();
-  const { data: likes } = useFetch<LikeKillingPart[]>(() => fetcher('/my-page', 'get'));
   const navigate = useNavigate();
 
   const logoutRedirect = () => {
@@ -52,8 +42,6 @@ const MyPage = () => {
     navigate(`/${ROUTE_PATH.EDIT_PROFILE}`);
   };
 
-  if (!likes) return null;
-
   return (
     <Container>
       <SRHeading>마이 페이지</SRHeading>
@@ -74,30 +62,11 @@ const MyPage = () => {
         <Button onClick={logoutRedirect}>로그아웃</Button>
       </SpaceBetween>
 
+      <Spacing direction="vertical" size={12} />
+
+      <MyPartList />
+
       <Spacing direction="vertical" size={24} />
-
-      <Subtitle>좋아요한 킬링파트 {likes.length.toLocaleString('ko-KR')}개</Subtitle>
-
-      <Spacing direction="vertical" size={24} />
-
-      <PopularSongList>
-        {likes.map(({ songId, title, singer, albumCoverUrl, partId, start, end }, i) => {
-          return (
-            <Li key={partId}>
-              <PartItem
-                songId={songId}
-                partId={partId}
-                rank={i + 1}
-                albumCoverUrl={albumCoverUrl}
-                title={title}
-                singer={singer}
-                start={start}
-                end={end}
-              />
-            </Li>
-          );
-        })}
-      </PopularSongList>
     </Container>
   );
 };
@@ -124,30 +93,11 @@ const Box = styled.div`
   width: 100%;
 `;
 
-const Li = styled.li`
-  width: 100%;
-  padding: 0 10px;
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.color.secondary};
-  }
-`;
-
 const Title = styled.h2`
   align-self: flex-start;
   font-size: 20px;
   font-weight: 700;
   color: white;
-`;
-
-const PopularSongList = styled.ol`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-
-  width: 100%;
 `;
 
 const SpaceBetween = styled(Flex)`
@@ -168,11 +118,4 @@ const Button = styled.button`
 
   border: 1.6px solid ${({ theme }) => theme.color.secondary};
   border-radius: 12px;
-`;
-
-const Subtitle = styled.div`
-  width: 100%;
-  height: 36px;
-  font-size: 18px;
-  border-bottom: 1px solid ${({ theme }) => theme.color.white};
 `;
