@@ -39,21 +39,19 @@ const WaveScrubber = () => {
   useDebounceEffect<[number, number]>(() => seekTo(partStartTime), [partStartTime, interval], 300);
 
   return (
-    <>
-      <Container>
-        <WaveWrapper
-          onScroll={changePartStartTime}
-          onTouchStart={playWhenTouch}
-          $gap={8}
-          $align="center"
-        >
-          <SoundWave length={maxPartStartTime} />
-        </WaveWrapper>
-        <ProgressFrame />
-        {isVideoStatePlaying && !isAllPlay && <ProgressFill $interval={interval} />}
-        {isVideoStatePlaying && isAllPlay && <WaveFill />}
-      </Container>
-    </>
+    <Container>
+      <WaveWrapper
+        onScroll={changePartStartTime}
+        onTouchStart={playWhenTouch}
+        $gap={8}
+        $align="center"
+      >
+        <SoundWave length={maxPartStartTime} />
+      </WaveWrapper>
+      <ProgressFrame />
+      {isVideoStatePlaying && !isAllPlay && <ProgressFill $interval={interval} />}
+      {isVideoStatePlaying && isAllPlay && <WaveFill />}
+    </Container>
   );
 };
 

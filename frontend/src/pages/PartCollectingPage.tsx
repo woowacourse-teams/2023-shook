@@ -25,19 +25,17 @@ const PartCollectingPage = () => {
   return (
     <VideoPlayerProvider>
       <VoteInterfaceProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-        <Container>
-          <FlexPage $gap={8} $direction="row" $md={{ $direction: 'column' }}>
-            <FlexPlayer $gap={8} $direction="column">
-              <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
-              <Youtube videoId={songVideoId} />
-            </FlexPlayer>
-            <FlexControlInterface $gap={8} $direction="column">
-              <CollectingInformation />
-              <VideoController />
-              <RegisterPart />
-            </FlexControlInterface>
-          </FlexPage>
-        </Container>
+        <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
+          <FlexPlayer $gap={8} $direction="column">
+            <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
+            <Youtube videoId={songVideoId} />
+          </FlexPlayer>
+          <FlexControlInterface $gap={8} $direction="column">
+            <CollectingInformation />
+            <VideoController />
+            <RegisterPart />
+          </FlexControlInterface>
+        </PageFlex>
       </VoteInterfaceProvider>
     </VideoPlayerProvider>
   );
@@ -45,21 +43,18 @@ const PartCollectingPage = () => {
 
 export default PartCollectingPage;
 
-const Container = styled.section`
-  display: flex;
-  flex: 0.6;
-  flex-direction: column;
-  justify-content: center;
+const PageFlex = styled(Flex)`
+  padding: 10px;
+  background-color: ${({ theme: { color } }) => color.black300};
+  border-radius: 8px;
 
   width: 100%;
-  margin-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+  margin: auto;
+  transform: translateY(30px);
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    margin-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    margin-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    padding: 16px;
+    transform: translateY(40px);
   }
 `;
 
@@ -70,12 +65,9 @@ const FlexControlInterface = styled(Flex)`
   }
 `;
 
-const FlexPage = styled(Flex)`
-  padding: 10px;
-  background-color: ${({ theme: { color } }) => color.black300};
-  border-radius: 8px;
-`;
-
 const FlexPlayer = styled(Flex)`
   flex: 1;
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    max-width: calc(100% - 320px);
+  }
 `;

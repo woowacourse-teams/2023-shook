@@ -6,7 +6,7 @@ const VideoIntervalStepper = () => {
   const { interval, plusPartInterval, minusPartInterval } = useVoteInterfaceContext();
 
   return (
-    <Flex $gap={20} $css={{ width: '100%' }}>
+    <Flex $gap={20}>
       <ControlButton onClick={minusPartInterval}>-</ControlButton>
       <CountText>{`${interval} 초`}</CountText>
       <ControlButton onClick={plusPartInterval}>+</ControlButton>
