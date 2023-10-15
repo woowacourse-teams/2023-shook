@@ -33,7 +33,9 @@ const RegisterPart = () => {
 
   return (
     <>
-      <RegisterButton onClick={submitKillingPart}>등록</RegisterButton>
+      <RegisterButton type="submit" onClick={submitKillingPart}>
+        등록
+      </RegisterButton>
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>
           <TitleColumn>{user?.nickname}님의</TitleColumn>

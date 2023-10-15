@@ -25,10 +25,10 @@ const VideoBadges = () => {
   return (
     <Flex $gap={14} $justify="flex-end">
       <Badge>{partStartTimeText}</Badge>
-      <Badge as="button" onClick={video.playerState === 1 ? clickPause : clickPlay}>
-        <img src={video.playerState === 1 ? pauseIcon : playIcon} />
+      <Badge as="button" type="button" onClick={video.playerState === 1 ? clickPause : clickPlay}>
+        <img src={video.playerState === 1 ? pauseIcon : playIcon} alt={'재생 혹은 정지'} />
       </Badge>
-      <Badge as="button" $isActive={isPlayingEntire} onClick={toggleEntirePlaying}>
+      <Badge as="button" type="button" $isActive={isPlayingEntire} onClick={toggleEntirePlaying}>
         전체 듣기
       </Badge>
     </Flex>

@@ -8,6 +8,7 @@ import VideoController from '@/features/youtube/components/VideoController';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
 import Flex from '@/shared/components/Flex/Flex';
+import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
 import type { VotingSongList } from '@/shared/types/song';
@@ -23,21 +24,24 @@ const PartCollectingPage = () => {
   const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = votingSongs.currentSong;
 
   return (
-    <VideoPlayerProvider>
-      <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-        <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
-          <FlexPlayer $gap={8} $direction="column">
-            <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
-            <Youtube videoId={songVideoId} />
-          </FlexPlayer>
-          <FlexControlInterface $gap={8} $direction="column">
-            <CollectingInformation />
-            <VideoController />
-            <RegisterPart />
-          </FlexControlInterface>
-        </PageFlex>
-      </CollectingPartProvider>
-    </VideoPlayerProvider>
+    <>
+      <SRHeading>파트 등록 페이지</SRHeading>
+      <VideoPlayerProvider>
+        <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
+          <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
+            <FlexPlayer $gap={8} $direction="column">
+              <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
+              <Youtube videoId={songVideoId} />
+            </FlexPlayer>
+            <FlexControlInterface $gap={8} $direction="column">
+              <CollectingInformation />
+              <VideoController />
+              <RegisterPart />
+            </FlexControlInterface>
+          </PageFlex>
+        </CollectingPartProvider>
+      </VideoPlayerProvider>
+    </>
   );
 };
 

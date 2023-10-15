@@ -13,6 +13,7 @@ const WaveScrubber = () => {
 
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
     const { scrollWidth, scrollLeft } = e.currentTarget;
+    // ProgressFrame의 width: 350
     const unit = (scrollWidth - 350) / maxPartStartTime;
     const partStartTimeToChange = Math.floor(scrollLeft / unit);
 
@@ -21,7 +22,7 @@ const WaveScrubber = () => {
     }
   };
 
-  const playWhenTouch = () => {
+  const playVideo = () => {
     if (video.playerState !== 1) {
       video.play();
     }
@@ -35,12 +36,7 @@ const WaveScrubber = () => {
 
   return (
     <Container>
-      <WaveWrapper
-        onScroll={changePartStartTime}
-        onTouchStart={playWhenTouch}
-        $gap={8}
-        $align="center"
-      >
+      <WaveWrapper onScroll={changePartStartTime} onTouchStart={playVideo} $gap={8} $align="center">
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
       <ProgressFrame />

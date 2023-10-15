@@ -13,7 +13,7 @@ export default CollectingInformation;
 
 const Container = styled.div``;
 
-const RegisterTitle = styled.p`
+const RegisterTitle = styled.h2`
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
