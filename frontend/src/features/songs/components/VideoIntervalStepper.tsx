@@ -48,7 +48,7 @@ const CountText = styled.p`
   background-color: ${({ theme: { color } }) => color.white};
 
   &:active {
-    box-shadow: 0 0 0 1px inset pink;
+    box-shadow: 0 0 0 1px inset ${({ theme: { color } }) => color.magenta300};
     transition: box-shadow 0.1s ease;
   }
 `;
