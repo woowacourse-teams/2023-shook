@@ -49,7 +49,7 @@ const SearchBar = () => {
           $isSearching={isSearching}
         />
       )}
-      <SearchButton type="submit" $isSearching={isSearching} />
+      <SearchButton id="search-button" type="submit" $isSearching={isSearching} />
       <SearchBarExpendButton type="button" onClick={startSearch} $isSearching={isSearching} />
       {isSearching && <ResultSheet result={singerSearchPreview ?? []} />}
     </SearchBox>

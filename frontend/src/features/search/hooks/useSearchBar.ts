@@ -37,6 +37,7 @@ const useSearchBar = () => {
   const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = useCallback(
     ({ relatedTarget }) => {
       if (relatedTarget?.id === 'query-reset-button') return;
+      if (relatedTarget?.id === 'search-button') return;
 
       setIsSearching(false);
     },
