@@ -43,7 +43,7 @@ const MyPage = () => {
         <Box>
           <Title>{user?.nickname}</Title>
           <Spacing direction="vertical" size={6} />
-          <Box>{getRandomIntroduction()}</Box>
+          <Introduction>{getRandomIntroduction()}</Introduction>
         </Box>
         <Avatar src={shookshook} alt="" />
       </SpaceBetween>
@@ -91,6 +91,17 @@ const Title = styled.h2`
   font-size: 20px;
   font-weight: 700;
   color: white;
+`;
+
+const Introduction = styled(Box)`
+  overflow: hidden;
+  display: -webkit-box;
+
+  text-overflow: ellipsis;
+  word-break: break-word;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 `;
 
 const SpaceBetween = styled(Flex)`
