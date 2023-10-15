@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
-import fetcher from '@/shared/remotes';
+import { getLikeParts, getMyParts } from '../remotes/myPage';
 import PartList from './PartList';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
@@ -15,10 +15,8 @@ export type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverU
 const MyPartList = () => {
   const [tab, setTab] = useState<'Like' | 'MyKillingPart'>('Like');
 
-  const { data: likes } = useFetch<LikeKillingPart[]>(() => fetcher('/my-page/like-parts', 'get'));
-  const { data: myParts } = useFetch<LikeKillingPart[]>(() =>
-    fetcher('/my-page/member-parts', 'get')
-  );
+  const { data: likes } = useFetch<LikeKillingPart[]>(getLikeParts);
+  const { data: myParts } = useFetch<LikeKillingPart[]>(getMyParts);
 
   if (!likes || !myParts) return null;
 
