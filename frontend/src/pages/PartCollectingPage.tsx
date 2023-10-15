@@ -29,15 +29,15 @@ const PartCollectingPage = () => {
       <VideoPlayerProvider>
         <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
           <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
-            <FlexPlayer $gap={8} $direction="column">
+            <SongPlayerFlex $gap={8} $direction="column">
               <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
               <Youtube videoId={songVideoId} />
-            </FlexPlayer>
-            <FlexControlInterface $gap={8} $direction="column">
+            </SongPlayerFlex>
+            <ControllerFlex $gap={8} $direction="column">
               <CollectingInformation />
               <VideoController />
               <RegisterPart />
-            </FlexControlInterface>
+            </ControllerFlex>
           </PageFlex>
         </CollectingPartProvider>
       </VideoPlayerProvider>
@@ -63,14 +63,14 @@ const PageFlex = styled(Flex)`
   }
 `;
 
-const FlexControlInterface = styled(Flex)`
+const SongPlayerFlex = styled(Flex)`
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     width: 320px;
     padding: 16px;
   }
 `;
 
-const FlexPlayer = styled(Flex)`
+const ControllerFlex = styled(Flex)`
   flex: 1;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
