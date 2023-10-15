@@ -3,20 +3,13 @@ import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import MyPartList from '@/features/member/components/MyPartList';
+import getRandomIntroduction from '@/features/member/utils/getRandomIntroduction';
 import Flex from '@/shared/components/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import ROUTE_PATH from '@/shared/constants/path';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
-
-const introductions = [
-  '아무 노래나 일단 틀어',
-  '또 물보라를 일으켜',
-  '난 내가 말야, 스무살쯤엔 요절할 천재일줄만 알고',
-  'You make me feel special',
-  '우린 참 별나고 이상한 사이야',
-];
 
 const MyPage = () => {
   const { user, logout } = useAuthContext();
@@ -50,7 +43,7 @@ const MyPage = () => {
         <Box>
           <Title>{user?.nickname}</Title>
           <Spacing direction="vertical" size={6} />
-          <Box>{introductions[Math.floor(Math.random() * introductions.length)]}</Box>
+          <Box>{getRandomIntroduction()}</Box>
         </Box>
         <Avatar src={shookshook} alt="" />
       </SpaceBetween>
