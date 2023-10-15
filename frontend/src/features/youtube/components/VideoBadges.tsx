@@ -11,22 +11,24 @@ const VideoBadges = () => {
   const video = useVideoPlayerContext();
   const partStartTimeText = toMinSecText(partStartTime);
 
-  const clickPlay = () => {
+  const isPlaying = video.playerState === YT.PlayerState.PLAYING;
+
+  const videoPlay = () => {
     if (isPlayingEntire) {
       video.play();
     } else {
       video.seekTo(partStartTime);
     }
   };
-  const clickPause = () => {
+  const videoPause = () => {
     video.pause();
   };
 
   return (
     <Flex $gap={14} $justify="flex-end">
       <Badge>{partStartTimeText}</Badge>
-      <Badge as="button" type="button" onClick={video.playerState === 1 ? clickPause : clickPlay}>
-        <img src={video.playerState === 1 ? pauseIcon : playIcon} alt={'재생 혹은 정지'} />
+      <Badge as="button" type="button" onClick={isPlaying ? videoPause : videoPlay}>
+        <img src={isPlaying ? pauseIcon : playIcon} alt={'재생 혹은 정지'} />
       </Badge>
       <Badge as="button" type="button" $isActive={isPlayingEntire} onClick={toggleEntirePlaying}>
         전체 듣기

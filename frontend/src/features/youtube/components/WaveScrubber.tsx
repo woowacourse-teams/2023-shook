@@ -9,8 +9,10 @@ const WaveScrubber = () => {
   const { partStartTime, interval, videoLength, setPartStartTime, isPlayingEntire } =
     useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const maxPartStartTime = videoLength - interval;
 
+  const maxPartStartTime = videoLength - interval;
+  const isInterval = video.playerState === YT.PlayerState.PLAYING && !isPlayingEntire;
+  const isEntire = video.playerState === YT.PlayerState.PLAYING && isPlayingEntire;
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
     const { scrollWidth, scrollLeft } = e.currentTarget;
     // ProgressFrame의 width: 350
@@ -23,7 +25,7 @@ const WaveScrubber = () => {
   };
 
   const playVideo = () => {
-    if (video.playerState !== 1) {
+    if (video.playerState === YT.PlayerState.PLAYING) {
       video.play();
     }
   };
@@ -40,8 +42,8 @@ const WaveScrubber = () => {
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
       <ProgressFrame />
-      {video.playerState === 1 && !isPlayingEntire && <ProgressFill $interval={interval} />}
-      {video.playerState === 1 && isPlayingEntire && <WaveFill />}
+      {isInterval && <ProgressFill $interval={interval} />}
+      {isEntire && <WaveFill />}
     </Container>
   );
 };

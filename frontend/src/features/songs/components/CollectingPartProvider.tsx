@@ -56,7 +56,7 @@ export const CollectingPartProvider = ({
   };
 
   useEffect(() => {
-    if (isPlayingEntire || playerState === 2) return;
+    if (isPlayingEntire || playerState === YT.PlayerState.PAUSED) return;
 
     const timer = window.setInterval(() => {
       seekTo(partStartTime);
