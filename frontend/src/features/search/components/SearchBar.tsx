@@ -14,7 +14,7 @@ const SearchBar = () => {
     singerSearchPreview,
     startSearch,
     endSearchOnBlur,
-    endSearchOnClick,
+    endSearch,
     changeQuery,
     resetQuery,
     search,
@@ -30,7 +30,7 @@ const SearchBar = () => {
       onSubmit={search}
       $isSearching={isSearching}
     >
-      <BackwardButton type="button" onClick={endSearchOnClick} $isSearching={isSearching} />
+      <BackwardButton type="button" onClick={endSearch} $isSearching={isSearching} />
       <SearchInput
         type="text"
         placeholder="아티스트 검색"
@@ -51,7 +51,9 @@ const SearchBar = () => {
       )}
       <SearchButton id="search-button" type="submit" $isSearching={isSearching} />
       <SearchBarExpandButton type="button" onClick={startSearch} $isSearching={isSearching} />
-      {isSearching && <SearchPreviewSheet result={singerSearchPreview ?? []} />}
+      {isSearching && (
+        <SearchPreviewSheet result={singerSearchPreview ?? []} endSearch={endSearch} />
+      )}
     </FlexSearchBox>
   );
 };

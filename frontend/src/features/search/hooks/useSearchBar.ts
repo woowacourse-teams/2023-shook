@@ -30,12 +30,13 @@ const useSearchBar = () => {
     [searchQuery, navigate]
   );
 
-  const startSearch: React.MouseEventHandler & React.FocusEventHandler = useCallback(() => {
+  const startSearch = useCallback(() => {
     setIsSearching(true);
   }, []);
 
   const endSearchOnBlur: React.FocusEventHandler<HTMLInputElement> = useCallback(
     ({ relatedTarget }) => {
+      if (relatedTarget?.id === 'search-preview-sheet') return;
       if (relatedTarget?.id === 'query-reset-button') return;
       if (relatedTarget?.id === 'search-button') return;
 
@@ -44,7 +45,7 @@ const useSearchBar = () => {
     []
   );
 
-  const endSearchOnClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+  const endSearch = useCallback(() => {
     setIsSearching(false);
   }, []);
 
@@ -85,7 +86,7 @@ const useSearchBar = () => {
     singerSearchPreview,
     startSearch,
     endSearchOnBlur,
-    endSearchOnClick,
+    endSearch,
     changeQuery,
     resetQuery,
     search,

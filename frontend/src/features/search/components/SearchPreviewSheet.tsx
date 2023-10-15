@@ -7,15 +7,25 @@ import type { SingerSearchPreview } from '../types/search';
 
 interface ResultSheetProps {
   result: SingerSearchPreview[];
+  endSearch: () => void;
 }
 
-const SearchPreviewSheet = ({ result }: ResultSheetProps) => {
+const SearchPreviewSheet = ({ result, endSearch }: ResultSheetProps) => {
   const navigate = useNavigate();
 
   const hasResult = result.length > 0;
 
+  const goToSingerDetailPage = (id: number) => {
+    endSearch();
+    navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`);
+  };
+
   return (
-    <SheetContainer aria-label="아티스트 검색 결과 미리보기">
+    <SheetContainer
+      id="search-preview-sheet"
+      tabIndex={-1}
+      aria-label="아티스트 검색 결과 미리보기"
+    >
       <FlexSheetTitle $align="center" aria-hidden>
         아티스트
       </FlexSheetTitle>
@@ -25,7 +35,7 @@ const SearchPreviewSheet = ({ result }: ResultSheetProps) => {
             <FlexGoToDetail
               as="button"
               type="button"
-              onMouseDown={() => navigate(`${ROUTE_PATH.SINGER_DETAIL}/${id}`)}
+              onMouseDown={() => goToSingerDetailPage(id)}
               aria-label={`${singer} 상세 페이지 바로가기`}
               $gap={16}
               $align="center"
