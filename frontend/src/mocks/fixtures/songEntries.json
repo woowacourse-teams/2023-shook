@@ -439,7 +439,17 @@
         "partLength": 10,
         "likeStatus": false
       }
-    ]
+    ],
+    "myPart": {
+      "id": 70,
+      "rank": 1,
+      "likeCount": 0,
+      "start": 22,
+      "end": 32,
+      "partVideoUrl": "https://youtu.be/haCpjUXIhrI?start=30&end=40",
+      "partLength": 10,
+      "likeStatus": true
+    }
   },
   "nextSongs": [
     {
