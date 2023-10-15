@@ -6,6 +6,7 @@ import shareIcon from '@/assets/icon/share.svg';
 import trashIcon from '@/assets/icon/trash.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
+import { deleteMemberParts } from '@/features/member/remotes/memberParts';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
@@ -13,7 +14,6 @@ import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { useMutation } from '@/shared/hooks/useMutation';
-import fetcher from '@/shared/remotes';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
@@ -126,9 +126,7 @@ const KillingPartTrack = ({
     toggleKillingPartLikes();
   };
 
-  const { mutateData: deleteMemberPart } = useMutation(() =>
-    fetcher(`/member-parts/${partId}`, 'DELETE')
-  );
+  const { mutateData: deleteMemberPart } = useMutation(() => deleteMemberParts(partId));
 
   const deleteMyPart = async () => {
     await deleteMemberPart();
