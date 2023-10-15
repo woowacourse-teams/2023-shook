@@ -113,7 +113,7 @@ const SearchInput = styled.input<{ $isSearching: boolean }>`
   transition: width 0.3s ease;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: ${({ $isSearching }) => !$isSearching && '0px'};
+    width: ${({ $isSearching }) => !$isSearching && 0};
     padding: ${({ $isSearching }) => ($isSearching ? '0 40px 0 28px' : 0)};
     visibility: ${({ $isSearching }) => !$isSearching && 'hidden'};
   }

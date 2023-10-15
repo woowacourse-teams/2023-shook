@@ -60,14 +60,14 @@ const SheetContainer = styled.section`
 
   background-color: #121212;
   border-radius: 8px;
-  box-shadow: 0px 0px 10px #ffffff49;
+  box-shadow: 0 0 10px #ffffff49;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxl}) {
     right: 8.33%;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    right: 0%;
+    right: 0;
     width: 100%;
     min-height: 100%;
   }
@@ -88,8 +88,8 @@ const SheetTitle = styled(Flex)`
 
   height: 50px;
 
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 2px;
 
   background-color: #121212;
 `;
