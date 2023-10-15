@@ -23,27 +23,24 @@ const SongInformation = ({ albumCoverUrl, title, singer }: SongInformationProps)
 export default SongInformation;
 
 const SongTextContainer = styled.div`
-  overflow: hidden;
-  max-width: 100%;
+  max-width: calc(100% - 60px);
 `;
 
 const SongTitle = styled.p`
   overflow: hidden;
-
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 18px;
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 22px;
   }
 `;
 
 const Singer = styled.p`
   overflow: hidden;
-
   font-size: 16px;
   font-weight: 700;
   color: ${({ theme: { color } }) => color.subText};
