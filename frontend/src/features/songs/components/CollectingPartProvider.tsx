@@ -33,7 +33,10 @@ export const CollectingPartProvider = ({
   const { playerState, seekTo } = useVideoPlayerContext();
 
   const toggleEntirePlaying = () => {
-    setIsPlayingEntire((prev) => !prev);
+    if (isPlayingEntire) {
+      seekTo(partStartTime);
+    }
+    setIsPlayingEntire(!isPlayingEntire);
   };
 
   const increasePartInterval = () => {
@@ -48,7 +51,7 @@ export const CollectingPartProvider = ({
     setInterval(interval - 1);
   };
 
-  useDebounceEffect(() => seekTo(partStartTime), [partStartTime, interval, isPlayingEntire], 300);
+  useDebounceEffect(() => seekTo(partStartTime), [partStartTime, interval], 300);
 
   useEffect(() => {
     if (isPlayingEntire || playerState === YT.PlayerState.PAUSED) return;
