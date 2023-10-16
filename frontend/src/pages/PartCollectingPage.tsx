@@ -64,7 +64,6 @@ const PageFlex = styled(Flex)`
   border-radius: 8px;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    transform: translateY(40px);
     gap: 16px;
     padding: 16px;
   }
