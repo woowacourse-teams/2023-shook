@@ -43,7 +43,7 @@ const WaveScrubber = () => {
       </WaveWrapper>
       <ProgressFrame />
       {isInterval && <ProgressFill $interval={interval} />}
-      {isEntire && <WaveFill />}
+      {isPlayingEntire && <WaveFill $isRunning={isEntire} />}
     </Container>
   );
 };
@@ -117,10 +117,9 @@ const ProgressFill = styled.div<{ $interval: number }>`
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, transparent 50%, ${color.magenta300} 50%)`};
-  background-size: ${({ $interval }) => 200 + (30 - $interval)}%;
+  background-size: 200%;
   border-radius: 5px;
 
-  transition: 10s linear;
   animation: ${fillAnimation} ${({ $interval }) => $interval}s linear infinite;
 `;
 
@@ -154,7 +153,7 @@ const waveFillAnimate = keyframes`
   }
 `;
 
-const WaveFill = styled.div`
+const WaveFill = styled.div<{ $isRunning: boolean }>`
   pointer-events: none;
 
   position: absolute;
@@ -169,6 +168,6 @@ const WaveFill = styled.div`
     `linear-gradient(to left, ${color.magenta100}, ${color.magenta400})`};
   border-radius: 5px;
 
-  transition: 10s linear;
   animation: ${waveFillAnimate} 4s ease-in-out infinite;
+  animation-play-state: ${({ $isRunning }) => ($isRunning ? 'running' : 'paused')};
 `;
