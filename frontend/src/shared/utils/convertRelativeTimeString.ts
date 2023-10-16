@@ -27,8 +27,10 @@ const convertRelativeTimeString = (createdAt: string, now = new Date().toISOStri
     'month',
     'year',
   ];
+  // NOTE: 상대 시간 기준을 초과하는지 오름차순으로 확인하기 위한 배열입니다.
   const cutoffs = [LESS_THAN_MINUTE, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, MORE_THAN_YEAR];
 
+  // NOTE: 기준을 초과하는 요소 바로 전 요소가 상대 시간의 기준이 되는 요소입니다.
   const unitIndex = cutoffs.findIndex((cutoff) => cutoff > Math.abs(deltaTime)) - 1;
   const divisor = cutoffs[unitIndex];
 
