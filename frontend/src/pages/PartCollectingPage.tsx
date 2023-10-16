@@ -63,14 +63,14 @@ const PageFlex = styled(Flex)`
   }
 `;
 
-const SongPlayerFlex = styled(Flex)`
+const ControllerFlex = styled(Flex)`
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     width: 320px;
     padding: 16px;
   }
 `;
 
-const ControllerFlex = styled(Flex)`
+const SongPlayerFlex = styled(Flex)`
   flex: 1;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
