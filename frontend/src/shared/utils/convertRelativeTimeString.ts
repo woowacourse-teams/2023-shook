@@ -29,13 +29,13 @@ const convertRelativeTimeString = (createdAt: string, now = new Date().toISOStri
   ];
   const cutoffs = [LESS_THAN_MINUTE, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, MORE_THAN_YEAR];
 
-  const unitIndex = cutoffs.findIndex((cutoff) => cutoff > Math.abs(deltaTime));
-  const divisor = cutoffs[unitIndex - 1];
+  const unitIndex = cutoffs.findIndex((cutoff) => cutoff > Math.abs(deltaTime)) - 1;
+  const divisor = cutoffs[unitIndex];
 
   if (divisor === LESS_THAN_MINUTE) {
     return '방금 전';
   }
-  return rtf.format(Math.ceil(deltaTime / divisor), units[unitIndex - 1]);
+  return rtf.format(Math.ceil(deltaTime / divisor), units[unitIndex]);
 };
 
 export default convertRelativeTimeString;
