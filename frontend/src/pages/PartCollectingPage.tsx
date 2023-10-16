@@ -8,6 +8,7 @@ import VideoController from '@/features/youtube/components/VideoController';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
 import Flex from '@/shared/components/Flex/Flex';
+import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
@@ -26,6 +27,7 @@ const PartCollectingPage = () => {
   return (
     <>
       <SRHeading>파트 등록 페이지</SRHeading>
+      <HeaderSpacing direction={'vertical'} size={50} />
       <VideoPlayerProvider>
         <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
           <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
@@ -47,9 +49,13 @@ const PartCollectingPage = () => {
 
 export default PartCollectingPage;
 
-const PageFlex = styled(Flex)`
-  transform: translateY(30px);
+const HeaderSpacing = styled(Spacing)`
+  @media (min-width: ${({ theme }) => theme.breakPoints.xs}) {
+    min-height: 80px;
+  }
+`;
 
+const PageFlex = styled(Flex)`
   width: 100%;
   margin: auto;
   padding: 10px;
@@ -59,14 +65,13 @@ const PageFlex = styled(Flex)`
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     transform: translateY(40px);
-    padding: 16px;
+    gap: 16px;
   }
 `;
 
 const ControllerFlex = styled(Flex)`
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     width: 320px;
-    padding: 16px;
   }
 `;
 
