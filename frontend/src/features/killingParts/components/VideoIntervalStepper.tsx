@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
+import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import Flex from '@/shared/components/Flex/Flex';
 
 const VideoIntervalStepper = () => {

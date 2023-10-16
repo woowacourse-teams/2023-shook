@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
-import { usePostKillingPart } from '@/features/songs/remotes/usePostKillingPart';
+import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
+import { usePostKillingPart } from '@/features/killingParts/remotes/usePostKillingPart';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';

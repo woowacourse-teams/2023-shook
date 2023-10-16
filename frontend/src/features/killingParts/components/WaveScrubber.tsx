@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
-import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
-import SoundWave from '@/features/youtube/components/SoundWave';
+import SoundWave from '@/features/killingParts/components/SoundWave';
+import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';

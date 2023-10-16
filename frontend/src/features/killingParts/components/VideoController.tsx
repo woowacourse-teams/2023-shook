@@ -1,6 +1,6 @@
-import VideoIntervalStepper from '@/features/songs/components/VideoIntervalStepper';
-import VideoBadges from '@/features/youtube/components/VideoBadges';
-import WaveScrubber from '@/features/youtube/components/WaveScrubber';
+import VideoBadges from '@/features/killingParts/components/VideoBadges';
+import VideoIntervalStepper from '@/features/killingParts/components/VideoIntervalStepper';
+import WaveScrubber from '@/features/killingParts/components/WaveScrubber';
 import Flex from '@/shared/components/Flex/Flex';
 
 const VideoController = () => {

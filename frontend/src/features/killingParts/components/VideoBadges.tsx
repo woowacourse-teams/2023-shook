@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import playIcon from '@/assets/icon/fill-play.svg';
 import pauseIcon from '@/assets/icon/pause.svg';
-import useCollectingPartContext from '@/features/songs/hooks/useCollectingPartContext';
+import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import { toMinSecText } from '@/shared/utils/convertTime';

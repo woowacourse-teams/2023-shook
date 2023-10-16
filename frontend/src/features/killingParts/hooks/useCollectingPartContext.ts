@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { CollectingPartContext } from '../components/CollectingPartProvider';
+import { CollectingPartContext } from '../../songs/components/CollectingPartProvider';
 
 const useCollectingPartContext = () => {
   const collectingPartValues = useContext(CollectingPartContext);
