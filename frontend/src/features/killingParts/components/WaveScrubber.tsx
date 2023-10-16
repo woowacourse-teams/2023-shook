@@ -3,11 +3,9 @@ import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
-import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 
 const WaveScrubber = () => {
-  const { partStartTime, interval, videoLength, setPartStartTime, isPlayingEntire } =
-    useCollectingPartContext();
+  const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
 
   const maxPartStartTime = videoLength - interval;
@@ -29,12 +27,6 @@ const WaveScrubber = () => {
       video.play();
     }
   };
-
-  useDebounceEffect<[number, number]>(
-    () => video.seekTo(partStartTime),
-    [partStartTime, interval],
-    300
-  );
 
   return (
     <Container>

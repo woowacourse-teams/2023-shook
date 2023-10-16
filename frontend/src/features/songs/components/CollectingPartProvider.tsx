@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import type { PropsWithChildren } from 'react';
 
 interface CollectingPartProviderProps {
@@ -46,6 +47,8 @@ export const CollectingPartProvider = ({
 
     setInterval(interval - 1);
   };
+
+  useDebounceEffect(() => seekTo(partStartTime), [partStartTime, interval, isPlayingEntire], 300);
 
   useEffect(() => {
     if (isPlayingEntire || playerState === YT.PlayerState.PAUSED) return;
