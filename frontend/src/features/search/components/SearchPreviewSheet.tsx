@@ -22,7 +22,7 @@ const SearchPreviewSheet = ({ result, endSearch }: ResultSheetProps) => {
 
   return (
     <>
-      <Backdrop />
+      <Backdrop onClick={endSearch} />
       <SheetContainer
         id="search-preview-sheet"
         tabIndex={-1}
