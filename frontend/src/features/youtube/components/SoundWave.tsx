@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 interface SoundWaveProps {
@@ -6,10 +7,10 @@ interface SoundWaveProps {
 const SoundWave = ({ length }: SoundWaveProps) => {
   return Array.from({ length }, (_, index) => {
     return (
-      <>
-        <LongBar key={`long${index}`} />
-        <ShortBar key={`short${index}`} />
-      </>
+      <React.Fragment key={index}>
+        <LongBar />
+        <ShortBar />
+      </React.Fragment>
     );
   });
 };
