@@ -3,13 +3,13 @@ import useCollectingPartContext from '@/features/killingParts/hooks/useCollectin
 import Flex from '@/shared/components/Flex/Flex';
 
 const VideoIntervalStepper = () => {
-  const { interval, plusPartInterval, minusPartInterval } = useCollectingPartContext();
+  const { interval, increasePartInterval, decreasePartInterval } = useCollectingPartContext();
 
   return (
     <Flex $gap={20}>
-      <ControlButton onClick={minusPartInterval}>-</ControlButton>
+      <ControlButton onClick={decreasePartInterval}>-</ControlButton>
       <CountText>{`${interval} 초`}</CountText>
-      <ControlButton onClick={plusPartInterval}>+</ControlButton>
+      <ControlButton onClick={increasePartInterval}>+</ControlButton>
     </Flex>
   );
 };

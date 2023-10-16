@@ -14,8 +14,8 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   interval: number;
   isPlayingEntire: boolean;
   setPartStartTime: React.Dispatch<React.SetStateAction<number>>;
-  plusPartInterval: () => void;
-  minusPartInterval: () => void;
+  increasePartInterval: () => void;
+  decreasePartInterval: () => void;
   toggleEntirePlaying: () => void;
 }
 
@@ -35,24 +35,16 @@ export const CollectingPartProvider = ({
     setIsPlayingEntire((prev) => !prev);
   };
 
-  const plusPartInterval = () => {
-    setInterval((prevInterval) => {
-      const currentInterval = prevInterval + 1;
-      if (currentInterval >= MIN_PART_INTERVAL && currentInterval <= MAX_PART_INTERVAL) {
-        return currentInterval;
-      }
-      return prevInterval;
-    });
+  const increasePartInterval = () => {
+    if (interval === MAX_PART_INTERVAL) return;
+
+    setInterval(interval + 1);
   };
 
-  const minusPartInterval = () => {
-    setInterval((prevInterval) => {
-      const currentInterval = prevInterval - 1;
-      if (currentInterval >= MIN_PART_INTERVAL && currentInterval <= MAX_PART_INTERVAL) {
-        return currentInterval;
-      }
-      return prevInterval;
-    });
+  const decreasePartInterval = () => {
+    if (interval === MIN_PART_INTERVAL) return;
+
+    setInterval(interval - 1);
   };
 
   useEffect(() => {
@@ -77,8 +69,8 @@ export const CollectingPartProvider = ({
         songVideoId,
         isPlayingEntire,
         setPartStartTime,
-        plusPartInterval,
-        minusPartInterval,
+        increasePartInterval,
+        decreasePartInterval,
         toggleEntirePlaying,
       }}
     >
