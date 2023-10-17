@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
@@ -7,6 +8,7 @@ import Flex from '@/shared/components/Flex/Flex';
 const WaveScrubber = () => {
   const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const maxPartStartTime = videoLength - interval;
   const isInterval = video.playerState === YT.PlayerState.PLAYING && !isPlayingEntire;
@@ -16,21 +18,38 @@ const WaveScrubber = () => {
     // ProgressFrame의 width: 350
     const unit = (scrollWidth - 350) / maxPartStartTime;
     const partStartTimeToChange = Math.floor(scrollLeft / unit);
-
     if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
       setPartStartTime(partStartTimeToChange);
     }
   };
 
+  const wheelPartStartTime: React.WheelEventHandler<HTMLDivElement> = (e) => {
+    if (!ref.current) return;
+
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+      e.currentTarget?.scrollTo({
+        left: e.deltaY / 1.2 + ref.current?.scrollLeft,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const playVideo = () => {
-    if (video.playerState === YT.PlayerState.PLAYING) {
+    if (video.playerState !== YT.PlayerState.PLAYING) {
       video.play();
     }
   };
 
   return (
     <Container>
-      <WaveWrapper onScroll={changePartStartTime} onTouchStart={playVideo} $gap={8} $align="center">
+      <WaveWrapper
+        onScroll={changePartStartTime}
+        onWheel={wheelPartStartTime}
+        onTouchStart={playVideo}
+        ref={ref}
+        $gap={8}
+        $align="center"
+      >
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
       <ProgressFrame />
