@@ -2,7 +2,7 @@
 <configuration>
   <include resource="logback/appender/console-appender.xml"/>
   <include resource="logback/appender/file-appender.xml"/>
-  <include resource="logback/appender/slack-appender.xml"/>
+  <!--  <include resource="logback/appender/slack-appender.xml"/>-->
 
   <root level="INFO">
     <appender-ref ref="console"/>
