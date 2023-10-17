@@ -34,7 +34,7 @@ const searchHandlers = [
     const { singerId } = req.params;
 
     const numberSingerId = Number(singerId as string);
-    const searchedSinger = searchedSingers[numberSingerId];
+    const searchedSinger = searchedSingers[numberSingerId - 1];
 
     if (searchedSinger !== undefined) {
       return res(ctx.status(200), ctx.json(searchedSinger));
