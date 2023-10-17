@@ -39,7 +39,7 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
-  const goToListenSong = () => {
+  const goToSongDetailListPage = () => {
     navigate(`/${ROUTE_PATH.SONG_DETAILS}${songId}/${GENRES.ALL}`);
   };
 
@@ -47,7 +47,7 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
   const { minute: endMin, second: endSec } = secondsToMinSec(end);
 
   return (
-    <Grid onClick={goToListenSong}>
+    <PartItemGrid onClick={goToSongDetailListPage}>
       <Thumbnail src={albumCoverUrl} alt={`${title}-${singer}`} />
       <SongTitle>{title}</SongTitle>
       <Singer>{singer}</Singer>
@@ -65,11 +65,11 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
       <ShareButton onClick={shareUrl}>
         <Share src={link} alt="영상 링크 공유하기" />
       </ShareButton>
-    </Grid>
+    </PartItemGrid>
   );
 };
 
-const Grid = styled.li`
+const PartItemGrid = styled.li`
   cursor: pointer;
 
   display: grid;
