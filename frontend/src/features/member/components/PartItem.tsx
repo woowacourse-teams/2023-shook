@@ -69,7 +69,9 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
   );
 };
 
-const Grid = styled.button`
+const Grid = styled.li`
+  cursor: pointer;
+
   display: grid;
   grid-template:
     'thumbnail title _' 26px
@@ -79,10 +81,15 @@ const Grid = styled.button`
   column-gap: 8px;
 
   width: 100%;
-  padding: 6px 0;
+  padding: 6px 10px;
 
   color: ${({ theme: { color } }) => color.white};
   text-align: start;
+
+  &:hover,
+  &:focus {
+    background-color: ${({ theme }) => theme.color.secondary};
+  }
 `;
 
 const SongTitle = styled.div`

@@ -17,35 +17,21 @@ const PartList = ({ parts }: PartListProps) => {
   }, [parts]);
 
   return (
-    <PopularSongList>
-      {parts.map((part, i) => {
-        return (
-          <Li key={part.partId}>
-            <PartItem {...part} rank={i + 1} />
-          </Li>
-        );
-      })}
-    </PopularSongList>
+    <PartListContainer>
+      {parts.map((part, i) => (
+        <PartItem key={part.partId} rank={i + 1} {...part} />
+      ))}
+    </PartListContainer>
   );
 };
 
 export default PartList;
 
-const PopularSongList = styled.ol`
+const PartListContainer = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: flex-start;
 
   width: 100%;
-`;
-
-const Li = styled.li`
-  width: 100%;
-  padding: 0 10px;
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.color.secondary};
-  }
 `;
