@@ -2,13 +2,13 @@
 <configuration>
   <include resource="logback/appender/console-appender.xml"/>
   <include resource="logback/appender/file-appender.xml"/>
-  <!--  <include resource="logback/appender/slack-appender.xml"/>-->
+<!--  <include resource="logback/appender/slack-appender.xml"/>-->
 
   <root level="INFO">
     <appender-ref ref="console"/>
     <appender-ref ref="file-application"/>
     <appender-ref ref="file-warn"/>
     <appender-ref ref="file-error"/>
-    <appender-ref ref="async_slack"/>
+<!--    <appender-ref ref="async_slack"/>-->
   </root>
 </configuration>
