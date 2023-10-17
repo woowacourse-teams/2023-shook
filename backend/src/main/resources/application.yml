@@ -70,3 +70,11 @@ schedules:
     cron: "0 0 0/1 * * *"
   in-memory-song:
     cron: "0 0 0/1 * * *" #1시간
+
+# Actuator
+management:
+  endpoints:
+    web:
+      base-path: /status
+    exposure:
+      include: health
