@@ -33,7 +33,7 @@ const PartCollectingPage = () => {
           <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
             <SongPlayerFlex $gap={8} $direction="column">
               <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
-              <Youtube videoId={songVideoId} />
+              <Youtube videoId={songVideoId} controls={0} />
             </SongPlayerFlex>
             <ControllerFlex $gap={8} $direction="column">
               <CollectingInformation />
