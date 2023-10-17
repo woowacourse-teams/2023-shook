@@ -7,4 +7,4 @@ export const introductions = [
   '난 차라리 꽉 눌러붙을래, 날 재촉한다면',
   'So lovely day so lovely Errday with you so lovely',
   'Weight of the world on your shoulders',
-];
+] as const;
