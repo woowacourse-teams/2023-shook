@@ -51,7 +51,8 @@ export const CollectingPartProvider = ({
     setInterval(interval - 1);
   };
 
-  useDebounceEffect(() => seekTo(partStartTime), [partStartTime, interval], 300);
+  useDebounceEffect(() => seekTo(partStartTime), [partStartTime], 150);
+  useDebounceEffect(() => seekTo(partStartTime), [interval], 300);
 
   useEffect(() => {
     if (isPlayingEntire || playerState !== YT.PlayerState.PLAYING) return;

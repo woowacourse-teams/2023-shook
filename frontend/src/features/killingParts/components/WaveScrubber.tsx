@@ -8,8 +8,10 @@ import Flex from '@/shared/components/Flex/Flex';
 const WaveScrubber = () => {
   const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const boxRef = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
+
+  console.log('box scroll', boxRef.current?.scrollLeft);
 
   const maxPartStartTime = videoLength - interval;
   const progressWidth = 100 + (interval - 5) * 5;
@@ -83,7 +85,7 @@ const WaveScrubber = () => {
           setXPos(null);
         }}
       >
-        <SoundWave length={maxPartStartTime} />
+        <SoundWave ref={boxRef} length={maxPartStartTime} progressWidth={progressWidth} />
       </WaveWrapper>
       <ProgressFrame $progressWidth={progressWidth} />
       {isInterval && <ProgressFill $progressWidth={progressWidth} $interval={interval} />}
