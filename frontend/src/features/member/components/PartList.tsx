@@ -7,7 +7,7 @@ interface PartListProps {
   parts: LikeKillingPart[];
 }
 
-const PART_LIST_SCROLL_TOP = 148;
+const PART_LIST_SCROLL_TOP = 180;
 
 const PartList = ({ parts }: PartListProps) => {
   useEffect(() => {

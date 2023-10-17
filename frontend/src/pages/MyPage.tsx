@@ -4,7 +4,7 @@ import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import MyPartList from '@/features/member/components/MyPartList';
 import getRandomIntroduction from '@/features/member/utils/getRandomIntroduction';
-import Flex from '@/shared/components/Flex';
+import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
@@ -39,21 +39,24 @@ const MyPage = () => {
     <Container>
       <SRHeading>마이 페이지</SRHeading>
 
-      <SpaceBetween>
+      <ProfileFlex $justify="space-between">
         <Box>
-          <Title>{user?.nickname}</Title>
+          <Title>{user?.nickname ?? 'shook'}</Title>
           <Spacing direction="vertical" size={6} />
           <Introduction>{getRandomIntroduction()}</Introduction>
         </Box>
-        <Avatar src={shookshook} alt="" />
-      </SpaceBetween>
+        <Flex $direction="column">
+          <Spacing direction="vertical" size={10} />
+          <Avatar src={shookshook} alt="" />
+        </Flex>
+      </ProfileFlex>
 
-      <Spacing direction="vertical" size={24} />
+      <Spacing direction="vertical" size={16} />
 
-      <SpaceBetween>
+      <Flex $justify="space-between">
         <Button onClick={goEditPage}>프로필 편집</Button>
         <Button onClick={logoutRedirect}>로그아웃</Button>
-      </SpaceBetween>
+      </Flex>
 
       <Spacing direction="vertical" size={12} />
 
@@ -86,6 +89,10 @@ const Box = styled.div`
   width: 100%;
 `;
 
+const ProfileFlex = styled(Flex)`
+  height: 108px;
+`;
+
 const Title = styled.h2`
   align-self: flex-start;
   font-size: 20px;
@@ -102,10 +109,6 @@ const Introduction = styled(Box)`
 
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-`;
-
-const SpaceBetween = styled(Flex)`
-  justify-content: space-between;
 `;
 
 const Avatar = styled.img`
