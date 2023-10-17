@@ -4,13 +4,17 @@ import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import Thumbnail from '@/features/songs/components/Thumbnail';
+import GENRES from '@/features/songs/constants/genres';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
+import ROUTE_PATH from '@/shared/constants/path';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import type { LikeKillingPart } from './MyPartList';
+
+const { BASE_URL } = process.env;
 
 type PartItemProps = LikeKillingPart & {
   rank: number;
@@ -29,12 +33,14 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
       memberId: user?.memberId,
     });
 
-    copyClipboard(`${process.env.BASE_URL?.replace('/api', '')}/songs/${songId}/ALL`);
+    copyClipboard(
+      `${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/${GENRES.ALL}`
+    );
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
   const goToListenSong = () => {
-    navigate(`/songs/${songId}/ALL`);
+    navigate(`/${ROUTE_PATH.SONG_DETAILS}${songId}/${GENRES.ALL}`);
   };
 
   const { minute: startMin, second: startSec } = secondsToMinSec(start);
