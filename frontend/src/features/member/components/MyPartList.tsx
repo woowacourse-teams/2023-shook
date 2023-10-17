@@ -70,7 +70,8 @@ const TabItem = styled.li<{ $isActive?: boolean }>`
   width: 100%;
   padding: 15px 20px;
 
-  color: ${({ $isActive, theme: { color } }) => ($isActive ? color.white : color.disabled)};
+  color: ${({ $isActive, theme: { color } }) =>
+    $isActive ? color.white : color.disabledBackground};
   text-align: center;
 
   border-bottom: 2px solid
