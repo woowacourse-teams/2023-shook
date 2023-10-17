@@ -4,6 +4,7 @@ import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import { getLikeParts, getMyParts } from '../remotes/myPage';
 import PartList from './PartList';
+import type { MyPageTab } from '../types/myPage';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 export type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
@@ -13,14 +14,14 @@ export type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverU
   };
 
 const MyPartList = () => {
-  const [tab, setTab] = useState<'Like' | 'MyKillingPart'>('Like');
+  const [tab, setTab] = useState<MyPageTab>('Like');
 
   const { data: likes } = useFetch<LikeKillingPart[]>(getLikeParts);
   const { data: myParts } = useFetch<LikeKillingPart[]>(getMyParts);
 
   if (!likes || !myParts) return null;
 
-  const partList: { tab: 'Like' | 'MyKillingPart'; parts: LikeKillingPart[] }[] = [
+  const partList: { tab: MyPageTab; parts: LikeKillingPart[] }[] = [
     { tab: 'Like', parts: likes },
     { tab: 'MyKillingPart', parts: myParts },
   ];
