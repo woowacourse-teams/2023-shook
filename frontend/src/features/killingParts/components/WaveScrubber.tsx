@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useEffect, useRef } from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -9,14 +9,22 @@ const WaveScrubber = () => {
   const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
   const ref = useRef<HTMLDivElement | null>(null);
+  // const progressWidth = 100 + (interval - 5) * 5;
+  // const [, set] = useState();
 
   const maxPartStartTime = videoLength - interval;
   const isInterval = video.playerState === YT.PlayerState.PLAYING && !isPlayingEntire;
   const isEntire = video.playerState === YT.PlayerState.PLAYING && isPlayingEntire;
+
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
     const { scrollWidth, scrollLeft } = e.currentTarget;
-    // ProgressFrame의 width: 350
-    const unit = (scrollWidth - 350) / maxPartStartTime;
+    // WaverScrubber: 350
+    // Frame: 100
+    // calc((100% - 150px) / 2)
+    // Padding: WaverScrubber - 150
+    if (!ref.current) return;
+    const clientWidth = ref.current?.clientWidth;
+    const unit = (scrollWidth - clientWidth) / maxPartStartTime;
     const partStartTimeToChange = Math.floor(scrollLeft / unit);
     if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
       setPartStartTime(partStartTimeToChange);
@@ -40,6 +48,11 @@ const WaveScrubber = () => {
     }
   };
 
+  // TODO: remove
+  useEffect(() => {
+    console.log(ref.current?.clientWidth);
+  }, []);
+
   return (
     <Container>
       <WaveWrapper
@@ -60,6 +73,10 @@ const WaveScrubber = () => {
 };
 
 export default WaveScrubber;
+
+const ProgressWidth = css`
+  width: 50px;
+`;
 const WaveWrapper = styled(Flex)`
   z-index: 3;
 
@@ -67,7 +84,7 @@ const WaveWrapper = styled(Flex)`
 
   width: 100%;
   height: 75px;
-  padding: 0 calc((100% - 150px) / 2);
+  padding: 0 calc((100% - 50px) / 2);
 
   background-color: transparent;
 `;
@@ -93,12 +110,12 @@ const Container = styled.div`
 `;
 
 const ProgressFrame = styled.div`
+  ${ProgressWidth};
   position: absolute;
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
 
-  width: 150px;
   height: 50px;
 
   border: transparent;
@@ -116,6 +133,7 @@ const fillAnimation = keyframes`
 `;
 
 const ProgressFill = styled.div<{ $interval: number }>`
+  ${ProgressWidth};
   pointer-events: none;
 
   position: absolute;
@@ -123,7 +141,6 @@ const ProgressFill = styled.div<{ $interval: number }>`
   left: 50%;
   transform: translateX(-50%);
 
-  width: 150px;
   height: 50px;
 
   background: ${({ theme: { color } }) =>
@@ -165,6 +182,7 @@ const waveFillAnimate = keyframes`
 `;
 
 const WaveFill = styled.div<{ $isRunning: boolean }>`
+  ${ProgressWidth};
   pointer-events: none;
 
   position: absolute;
@@ -172,7 +190,6 @@ const WaveFill = styled.div<{ $isRunning: boolean }>`
   left: 50%;
   transform: translateX(-50%);
 
-  width: 150px;
   height: 50px;
 
   background: ${({ theme: { color } }) =>
