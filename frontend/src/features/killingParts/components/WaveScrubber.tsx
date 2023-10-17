@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
@@ -6,9 +6,10 @@ import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContex
 import Flex from '@/shared/components/Flex/Flex';
 
 const WaveScrubber = () => {
-  const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
+  const { boxRef, interval, videoLength, setPartStartTime, isPlayingEntire } =
+    useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const boxRef = useRef<HTMLDivElement>(null);
+
   const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
 
   console.log('box scroll', boxRef.current?.scrollLeft);
