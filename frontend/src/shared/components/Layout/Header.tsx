@@ -3,8 +3,10 @@ import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import logo from '@/assets/image/logo.png';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import SearchBar from '@/features/search/components/SearchBar';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
+import Flex from '../Flex/Flex';
 
 const Header = () => {
   const { user } = useAuthContext();
@@ -14,15 +16,18 @@ const Header = () => {
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
-      {user ? (
-        <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
-          <ProfileAvatar src={shookshook} />
-        </Link>
-      ) : (
-        <Link to={ROUTE_PATH.LOGIN}>
-          <LoginButton>로그인</LoginButton>
-        </Link>
-      )}
+      <Flex $align="center" $gap={12} $xs={{ $justify: 'flex-end', $css: { width: '100%' } }}>
+        <SearchBar />
+        {user ? (
+          <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
+            <ProfileAvatar src={shookshook} />
+          </Link>
+        ) : (
+          <Link to={ROUTE_PATH.LOGIN}>
+            <LoginButton>로그인</LoginButton>
+          </Link>
+        )}
+      </Flex>
     </Container>
   );
 };
@@ -32,7 +37,8 @@ export default Header;
 const Container = styled.header`
   position: fixed;
   z-index: 1000;
-  top: 0px;
+  top: 0;
+  left: 0;
 
   display: flex;
   align-items: center;
@@ -67,7 +73,16 @@ const Logo = styled.img`
   width: 180px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    position: absolute;
+    top: 50%;
+    left: 4.16%;
+    transform: translate(0, -50%);
+
     width: 140px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    left: 16px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {

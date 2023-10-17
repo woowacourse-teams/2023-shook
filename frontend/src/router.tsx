@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import MyPage from './pages/MyPage';
 import PartCollectingPage from './pages/PartCollectingPage';
+import SearchResultPage from './pages/SearchResultPage';
+import SingerDetailPage from './pages/SingerDetailPage';
 import SongDetailListPage from './pages/SongDetailListPage';
 import AuthLayout from './shared/components/Layout/AuthLayout';
 import Layout from './shared/components/Layout/Layout';
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
             <EditProfilePage />
           </AuthLayout>
         ),
+      },
+      {
+        path: `${ROUTE_PATH.SEARCH_RESULT}`,
+        element: <SearchResultPage />,
+      },
+      {
+        path: `${ROUTE_PATH.SINGER_DETAIL}/:singerId`,
+        element: <SingerDetailPage />,
       },
     ],
   },
