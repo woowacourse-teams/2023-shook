@@ -31,11 +31,13 @@ const SingerDetailPage = () => {
       <Spacing direction="vertical" size={50} />
       <Title>곡</Title>
       <Spacing direction="vertical" size={18} />
-      <SongsInfoContainer as="ol" $direction="column" $gap={12} $align="center">
+      <SongsItemList as="ol" $direction="column" $gap={12} $align="center">
         {songs.map(({ id, albumCoverUrl, title, videoLength }) => (
-          <SongListItem as="li" key={id} $gap={16} $justify="center">
-            <Thumbnail size="md" borderRadius={0} src={albumCoverUrl} />
-            <FlexInfo $direction="column" $gap={8}>
+          <SongListItem as="li" key={id} $gap={16} $justify="center" $xs={{ $align: 'center' }}>
+            <AlbumCoverWrapper>
+              <AlbumCover src={albumCoverUrl} />
+            </AlbumCoverWrapper>
+            <FlexInfo $direction="column" $gap={8} $xs={{ $gap: 4 }}>
               <SongTitle>{title}</SongTitle>
               <Singer>{singer}</Singer>
             </FlexInfo>
@@ -44,7 +46,7 @@ const SingerDetailPage = () => {
             </VideoLength>
           </SongListItem>
         ))}
-      </SongsInfoContainer>
+      </SongsItemList>
     </Container>
   );
 };
@@ -65,15 +67,22 @@ const ProfileImage = styled.img`
 const Name = styled.div`
   font-size: 36px;
   font-weight: 700;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 20px;
+  }
 `;
 
 const SongCount = styled.p`
   font-size: 18px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 14px;
+  }
 `;
 
 const Container = styled(Flex)`
   width: 100%;
-  height: 100vh;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
   color: white;
 
@@ -100,6 +109,7 @@ const SingerInfoContainer = styled(Flex)`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     width: 100%;
+    height: 180px;
   }
 `;
 
@@ -113,13 +123,37 @@ const SongListItem = styled(Flex)`
   }
 `;
 
-const SongsInfoContainer = styled(Flex)`
+const SongsItemList = styled(Flex)`
+  overflow-y: scroll;
   width: 100%;
   border-radius: 8px;
 `;
 
 const FlexInfo = styled(Flex)`
-  width: 80%;
+  overflow: hidden;
+  flex: 3 1 0;
+
+  padding: 8px 0;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    padding: 6px 0;
+  }
+`;
+
+const AlbumCover = styled.img`
+  width: 100%;
+`;
+
+const AlbumCoverWrapper = styled.div`
+  aspect-ratio: 1 / 1;
+  width: 100px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 70px;
+  }
 `;
 
 const SongTitle = styled.div`
@@ -133,7 +167,9 @@ const SongTitle = styled.div`
 
 const Singer = styled.div`
   overflow: hidden;
+
   font-size: 14px;
+  color: ${({ theme: { color } }) => color.subText};
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -141,4 +177,8 @@ const Singer = styled.div`
 const VideoLength = styled(Flex)`
   flex: 1 0 0;
   font-size: 16px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 14px;
+  }
 `;
