@@ -18,8 +18,6 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.voting_song.application.VotingSongPartService;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
@@ -96,7 +94,7 @@ class VotingSongPartControllerTest {
     }
 
     private VotingSong getSavedSong() {
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         artistRepository.save(artist);
         return votingSongRepository.save(new VotingSong(
             "title",

@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
@@ -144,7 +142,7 @@ class KillingPartTest {
             final KillingPart dummyKillingPart1 = KillingPart.forSave(0, PartLength.STANDARD);
             final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
             final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
-            final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+            final Artist artist = new Artist("image", "name");
             final Song song = new Song(
                 "title",
                 "3rUPND6FG8A",

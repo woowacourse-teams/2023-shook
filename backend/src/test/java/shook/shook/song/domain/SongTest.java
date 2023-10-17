@@ -22,7 +22,7 @@ class SongTest {
                 "title",
                 "videoId",
                 "imageUrl",
-                new Artist(new ProfileImageUrl("image"), new ArtistName("name")),
+                new Artist("image", "name"),
                 300,
                 Genre.from("댄스"),
                 null
@@ -41,7 +41,7 @@ class SongTest {
             List.of(killingPart1, killingPart2, killingPart3)
         );
 
-        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+        final Artist artist = new Artist("image", "name");
         final Song song = new Song(
             "title",
             "3rUPND6FG8A",

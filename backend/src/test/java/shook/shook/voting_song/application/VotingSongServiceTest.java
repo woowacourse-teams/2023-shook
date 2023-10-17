@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
@@ -26,7 +24,8 @@ import shook.shook.voting_song.exception.VotingSongException;
 
 class VotingSongServiceTest extends UsingJpaTest {
 
-    public static final String VIDEO_ID = "비디오ID는 11글자";
+    private static final String VIDEO_ID = "비디오ID는 11글자";
+    
     @Autowired
     private VotingSongRepository votingSongRepository;
 
@@ -41,7 +40,7 @@ class VotingSongServiceTest extends UsingJpaTest {
     }
 
     private VotingSong saveVotingSongWithTitle(final String votingSongTitle) {
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         final VotingSong votingSong = new VotingSong(
             votingSongTitle,
             VIDEO_ID,
@@ -93,7 +92,7 @@ class VotingSongServiceTest extends UsingJpaTest {
         @Test
         void findAllVotingSongs() {
             // given
-            final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+            final Artist artist = new Artist("profile", "가수");
             final VotingSong firstSong = saveVotingSongWithTitle("노래1");
             final VotingSong secondSong = saveVotingSongWithTitle("노래2");
             final VotingSong thirdSong = saveVotingSongWithTitle("노래3");

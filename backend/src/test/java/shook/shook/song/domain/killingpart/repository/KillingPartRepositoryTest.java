@@ -11,10 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.repository.ArtistRepository;
@@ -50,7 +48,7 @@ class KillingPartRepositoryTest extends UsingJpaTest {
                 THIRD_KILLING_PART
             )
         );
-        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+        final Artist artist = new Artist("image", "name");
         final Song song = new Song(
             "title",
             "3rUPND6FG8A",
@@ -73,13 +71,12 @@ class KillingPartRepositoryTest extends UsingJpaTest {
             KILLING_PARTS.getKillingParts());
 
         //then
-        assertThat(savedKillingParts).hasSize(3);
-        assertThat(savedKillingParts).containsExactly(
-            FIRST_KILLING_PART,
-            SECOND_KILLING_PART,
-            THIRD_KILLING_PART
-        );
-        assertThat(savedKillingParts).usingRecursiveComparison()
+        assertThat(savedKillingParts).hasSize(3)
+            .containsExactly(
+                FIRST_KILLING_PART,
+                SECOND_KILLING_PART,
+                THIRD_KILLING_PART
+            ).usingRecursiveComparison()
             .comparingOnlyFields("id")
             .isNotNull();
     }

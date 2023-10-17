@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.domain.VotingSong;
@@ -23,7 +21,7 @@ class VotingSongRepositoryTest extends UsingJpaTest {
     private ArtistRepository artistRepository;
 
     private VotingSong saveVotingSongWithTitle(final String votingSongTitle) {
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         final VotingSong votingSong = new VotingSong(
             votingSongTitle,
             "12345678901",

@@ -39,9 +39,9 @@ public class Artist {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
-    public Artist(final ProfileImageUrl profileImageUrl, final ArtistName artistName) {
-        this.profileImageUrl = profileImageUrl;
-        this.artistName = artistName;
+    public Artist(final String profileImageUrl, final String artistName) {
+        this.profileImageUrl = new ProfileImageUrl(profileImageUrl);
+        this.artistName = new ArtistName(artistName);
     }
 
     public boolean nameStartsWith(final String keyword) {

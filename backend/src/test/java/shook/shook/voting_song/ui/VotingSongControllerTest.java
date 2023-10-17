@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.AcceptanceTest;
 import shook.shook.voting_song.application.dto.VotingSongResponse;
@@ -29,7 +27,7 @@ class VotingSongControllerTest extends AcceptanceTest {
     private ArtistRepository artistRepository;
 
     private VotingSong saveVotingSongWithTitle(final String votingSongTitle) {
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         final VotingSong votingSong = new VotingSong(
             votingSongTitle,
             "12345678901",

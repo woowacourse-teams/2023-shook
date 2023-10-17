@@ -10,8 +10,6 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.domain.Vote;
@@ -41,7 +39,7 @@ class VoteRepositoryTest extends UsingJpaTest {
     void existsByMemberAndVotingSongPart() {
         //given
         final Member member = memberRepository.findById(1L).get();
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         artistRepository.save(artist);
         final VotingSong votingSong = votingSongRepository.save(
             new VotingSong(

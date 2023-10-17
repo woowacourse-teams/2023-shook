@@ -2,8 +2,8 @@ package shook.shook.song.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class ArtistNameTest {
         //given
         //when
         //then
-        Assertions.assertDoesNotThrow(() -> new ArtistName("이름"));
+        assertDoesNotThrow(() -> new ArtistName("이름"));
     }
 
     @DisplayName("가수 이름이 유효하지 않으면 예외를 던진다.")
