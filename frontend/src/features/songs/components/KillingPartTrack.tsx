@@ -141,7 +141,7 @@ const KillingPartTrack = ({
       htmlFor={`play-${songId}-${partId}`}
       tabIndex={0}
       role="radio"
-      aria-label={`${rank}등 킬링파트 재생하기`}
+      aria-label={isMyKillingPart ? '나의 킬링파트 재생하기' : `${rank}등 킬링파트 재생하기`}
     >
       <FLexContainer>
         <Rank>{isMyKillingPart ? 'MY' : ordinalRank}</Rank>
@@ -158,8 +158,8 @@ const KillingPartTrack = ({
       </FLexContainer>
       <ButtonContainer>
         {isMyKillingPart ? (
-          <DeleteButton type="button" onClick={openMyPartModal}>
-            <ButtonIcon src={trashIcon} />
+          <DeleteButton type="button" onClick={openMyPartModal} aria-label="나의 킬링파트 삭제하기">
+            <ButtonIcon src={trashIcon} alt="" />
           </DeleteButton>
         ) : (
           <>

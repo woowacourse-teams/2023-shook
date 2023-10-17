@@ -28,14 +28,24 @@ const MyPartList = () => {
     { tab: 'MyKillingPart', title: '내 킬링파트', parts: myParts },
   ];
 
+  const pressEnterChangeTab = (tab: MyPageTab) => (event: React.KeyboardEvent<HTMLLIElement>) => {
+    if (event.key === 'Enter') {
+      setTab(tab);
+    }
+  };
+
   return (
     <>
       <Tabs role="tablist">
         {partTabItems.map((option) => (
           <TabItem
             key={option.tab}
+            role="tab"
+            aria-selected={tab === option.tab}
             $isActive={tab === option.tab}
             onClick={() => setTab(option.tab)}
+            onKeyDown={pressEnterChangeTab(option.tab)}
+            tabIndex={0}
           >
             {option.title}
           </TabItem>
