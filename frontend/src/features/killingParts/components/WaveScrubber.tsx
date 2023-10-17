@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
@@ -8,7 +8,8 @@ import Flex from '@/shared/components/Flex/Flex';
 const WaveScrubber = () => {
   const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const ref = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
 
   const maxPartStartTime = videoLength - interval;
   const progressWidth = 100 + (interval - 5) * 5;
@@ -18,8 +19,8 @@ const WaveScrubber = () => {
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
     const { scrollWidth, scrollLeft } = e.currentTarget;
 
-    if (!ref.current) return;
-    const clientWidth = ref.current?.clientWidth;
+    if (!boxRef.current) return;
+    const clientWidth = boxRef.current?.clientWidth;
     const unit = (scrollWidth - clientWidth) / maxPartStartTime;
     const partStartTimeToChange = Math.floor(scrollLeft / unit);
     if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
@@ -28,11 +29,12 @@ const WaveScrubber = () => {
   };
 
   const wheelPartStartTime: React.WheelEventHandler<HTMLDivElement> = (e) => {
-    if (!ref.current) return;
+    console.log('[wheel]');
+    if (!boxRef.current) return;
 
     if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
       e.currentTarget?.scrollTo({
-        left: e.deltaY / 1.2 + ref.current?.scrollLeft,
+        left: e.deltaY / 1.2 + boxRef.current?.scrollLeft,
         behavior: 'smooth',
       });
     }
@@ -51,9 +53,35 @@ const WaveScrubber = () => {
         onWheel={wheelPartStartTime}
         onTouchStart={playVideo}
         $progressWidth={progressWidth}
-        ref={ref}
+        ref={boxRef}
         $gap={8}
         $align="center"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          if (boxRef.current) {
+            setXPos({
+              initial: e.screenX,
+              scroll: boxRef.current?.scrollLeft,
+            });
+          }
+        }}
+        onMouseMove={({ screenX }) => {
+          if (!xPos) return;
+          console.log('[mouse move]');
+
+          boxRef.current?.scrollTo({
+            left: xPos.scroll + (xPos.initial - screenX) / 0.5,
+            behavior: 'instant',
+          });
+        }}
+        onMouseUp={() => {
+          console.log('[mouse up]');
+          setXPos(null);
+        }}
+        onMouseLeave={() => {
+          console.log('[mouse leave]');
+          setXPos(null);
+        }}
       >
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
@@ -68,6 +96,7 @@ export default WaveScrubber;
 
 const WaveWrapper = styled(Flex)<{ $progressWidth: number }>`
   z-index: 3;
+  cursor: grab;
 
   overflow-x: scroll;
 
