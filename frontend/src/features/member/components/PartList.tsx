@@ -18,8 +18,8 @@ const PartList = ({ parts }: PartListProps) => {
 
   return (
     <PartListContainer>
-      {parts.map((part, i) => (
-        <PartItem key={part.partId} rank={i + 1} {...part} />
+      {parts.map((part) => (
+        <PartItem key={part.partId} {...part} />
       ))}
     </PartListContainer>
   );

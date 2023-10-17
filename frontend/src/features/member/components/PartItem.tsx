@@ -16,9 +16,7 @@ import type { LikeKillingPart } from './MyPartList';
 
 const { BASE_URL } = process.env;
 
-type PartItemProps = LikeKillingPart & {
-  rank: number;
-};
+type PartItemProps = LikeKillingPart;
 
 const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItemProps) => {
   const { showToast } = useToastContext();
