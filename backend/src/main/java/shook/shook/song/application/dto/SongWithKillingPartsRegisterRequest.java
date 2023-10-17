@@ -11,10 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 
 @Schema(description = "노래와 킬링파트 등록 요청")
@@ -61,7 +59,7 @@ public class SongWithKillingPartsRegisterRequest {
             title,
             videoId,
             imageUrl,
-            new Artist(new ProfileImageUrl(profileImageUrl), new ArtistName(artistName)),
+            new Artist(profileImageUrl, artistName),
             length,
             Genre.from(genre),
             convertToKillingParts()

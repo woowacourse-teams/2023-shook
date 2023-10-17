@@ -48,6 +48,10 @@ public class ArtistName {
             .startsWith(toLowerCaseRemovingWhiteSpace(keyword));
     }
 
+    private String toLowerCaseRemovingWhiteSpace(final String word) {
+        return removeAllWhiteSpace(word).toLowerCase();
+    }
+
     public boolean endsWithIgnoringCaseAndWhiteSpace(final String keyword) {
         final String targetKeyword = toLowerCaseRemovingWhiteSpace(keyword);
         if (StringChecker.isNullOrBlank(targetKeyword)) {
@@ -56,10 +60,6 @@ public class ArtistName {
 
         return toLowerCaseRemovingWhiteSpace(value)
             .endsWith(toLowerCaseRemovingWhiteSpace(keyword));
-    }
-
-    private String toLowerCaseRemovingWhiteSpace(final String word) {
-        return removeAllWhiteSpace(word).toLowerCase();
     }
 
     private String removeAllWhiteSpace(final String word) {

@@ -2,7 +2,6 @@ package shook.shook.song.ui;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import shook.shook.song.ui.openapi.ArtistSongSearchApi;
 @RequiredArgsConstructor
 @RequestMapping("/singers")
 @RestController
-@Slf4j
 public class ArtistSongSearchController implements ArtistSongSearchApi {
 
     private final ArtistSearchService artistSearchService;

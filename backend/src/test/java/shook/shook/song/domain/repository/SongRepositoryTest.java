@@ -14,10 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
@@ -48,7 +46,7 @@ class SongRepositoryTest extends UsingJpaTest {
         final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
         final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
-        final Artist artist = new Artist(new ProfileImageUrl("image"), new ArtistName("name"));
+        final Artist artist = new Artist("image", "name");
         return new Song(
             "title",
             "3rUPND6FG8A",
@@ -97,8 +95,8 @@ class SongRepositoryTest extends UsingJpaTest {
         final Optional<Song> findSong = songRepository.findById(song.getId());
 
         //then
-        assertThat(findSong).isPresent();
-        assertThat(findSong.get()).isEqualTo(song);
+        assertThat(findSong).isPresent()
+            .get().isEqualTo(song);
     }
 
     @DisplayName("Song 을 저장할 때의 시간 정보로 createAt이 자동 생성된다.")

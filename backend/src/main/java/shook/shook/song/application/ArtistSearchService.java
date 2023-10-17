@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.song.application.dto.ArtistResponse;
@@ -21,7 +20,6 @@ import shook.shook.song.exception.ArtistException;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-@Slf4j
 public class ArtistSearchService {
 
     private static final int TOP_SONG_COUNT_OF_ARTIST = 3;
@@ -87,12 +85,9 @@ public class ArtistSearchService {
     }
 
     private List<Song> getSongsOfArtistSortedByLikeCount(final Artist artist) {
-        final List<Song> all = songRepository.findAll();
-        log.info("all song: {}", all);
         final List<SongTotalLikeCountDto> songsWithTotalLikeCount = songRepository.findAllSongsWithTotalLikeCountByArtist(
             artist);
 
-        log.info("found song of artist: {}", songsWithTotalLikeCount);
         return songsWithTotalLikeCount.stream()
             .sorted(Comparator.comparing(SongTotalLikeCountDto::getTotalLikeCount,
                     Comparator.reverseOrder())

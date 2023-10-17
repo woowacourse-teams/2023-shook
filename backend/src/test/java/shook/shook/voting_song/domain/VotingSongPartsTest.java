@@ -8,8 +8,6 @@ import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 
 class VotingSongPartsTest {
 
@@ -19,7 +17,7 @@ class VotingSongPartsTest {
     @Test
     void create_fail_duplicatePartExist() {
         //given
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         final VotingSong votingSong = new VotingSong(
             "제목",
             "비디오ID는 11글자",

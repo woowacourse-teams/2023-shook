@@ -36,8 +36,8 @@ class InMemoryArtistSynonymsTest {
 
     @BeforeEach
     void setUp() {
-        artist1 = new Artist(new ProfileImageUrl("image"), new ArtistName("name1"));
-        artist2 = new Artist(new ProfileImageUrl("image"), new ArtistName("name2"));
+        artist1 = new Artist("image", "name1");
+        artist2 = new Artist("image", "name2");
         artistRepository.saveAll(List.of(artist1, artist2));
 
         synonym1 = new ArtistSynonym(artist1, new Synonym("synonym1"));
@@ -62,8 +62,7 @@ class InMemoryArtistSynonymsTest {
     @Test
     void findAllArtistsHavingSynonymStartsOrEndsWith() {
         // given
-        final Artist newArtist = new Artist(new ProfileImageUrl("image"),
-            new ArtistName("newName"));
+        final Artist newArtist = new Artist("image", "newName");
         final ArtistSynonym newSynonym = new ArtistSynonym(newArtist, new Synonym("newTestSy"));
         artistRepository.save(newArtist);
         artistSynonymRepository.save(newSynonym);
@@ -82,8 +81,7 @@ class InMemoryArtistSynonymsTest {
     @Test
     void findAllArtistsHavingSynonymStartsWith() {
         // given
-        final Artist newArtist = new Artist(new ProfileImageUrl("image"),
-            new ArtistName("newName"));
+        final Artist newArtist = new Artist("image", "newName");
         final ArtistSynonym newSynonym = new ArtistSynonym(newArtist, new Synonym("newTestSy"));
         artistRepository.save(newArtist);
         artistSynonymRepository.save(newSynonym);
@@ -114,8 +112,7 @@ class InMemoryArtistSynonymsTest {
     @Test
     void findAllArtistsNameStartsOrEndsWith() {
         // given
-        final Artist newArtist = new Artist(new ProfileImageUrl("image"),
-            new ArtistName("newName"));
+        final Artist newArtist = new Artist("image", "newName");
         final ArtistSynonym newSynonym = new ArtistSynonym(newArtist, new Synonym("newSynonym"));
         artistRepository.save(newArtist);
         artistSynonymRepository.save(newSynonym);
@@ -134,8 +131,7 @@ class InMemoryArtistSynonymsTest {
     @Test
     void findAllArtistsNameStartsWith() {
         // given
-        final Artist newArtist = new Artist(new ProfileImageUrl("image"),
-            new ArtistName("newName"));
+        final Artist newArtist = new Artist("image", "newName");
         final ArtistSynonym newSynonym = new ArtistSynonym(newArtist, new Synonym("newSynonym"));
         artistRepository.save(newArtist);
         artistSynonymRepository.save(newSynonym);

@@ -7,13 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.voting_song.exception.VotingSongPartException;
 
 class VotingSongTest {
 
-    private final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+    private final Artist artist = new Artist("profile", "가수");
 
     @DisplayName("파트 수집 중인 노래에 파트를 등록한다. ( 노래에 해당하는 파트일 때 )")
     @Test

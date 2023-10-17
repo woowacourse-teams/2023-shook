@@ -15,8 +15,6 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
@@ -61,7 +59,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         );
         FIRST_MEMBER = memberRepository.save(new Member("a@a.com", "nickname"));
         SECOND_MEMBER = memberRepository.save(new Member("b@b.com", "nickname"));
-        final Artist artist = new Artist(new ProfileImageUrl("profile"), new ArtistName("가수"));
+        final Artist artist = new Artist("profile", "가수");
         artistRepository.save(artist);
         SAVED_SONG = votingSongRepository.save(new VotingSong(
             "노래제목",

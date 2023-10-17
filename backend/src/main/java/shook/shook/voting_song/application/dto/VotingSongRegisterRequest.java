@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.song.domain.Artist;
-import shook.shook.song.domain.ArtistName;
-import shook.shook.song.domain.ProfileImageUrl;
 import shook.shook.voting_song.domain.VotingSong;
 
 @Schema(description = "파트 수집 중인 노래 등록 요청")
@@ -45,11 +43,8 @@ public class VotingSongRegisterRequest {
     private Integer length;
 
     public VotingSong getVotingSong() {
-        final Artist artist = new Artist(
-            new ProfileImageUrl(profileImageUrl),
-            new ArtistName(artistName)
-        );
-        
+        final Artist artist = new Artist(profileImageUrl, artistName);
+
         return new VotingSong(title, videoId, imageUrl, artist, length);
     }
 }
