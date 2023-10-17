@@ -1,6 +1,6 @@
 import { rest } from 'msw';
-import searchedSinger from '@/mocks/fixtures/searchedSinger.json';
 import searchedSingerPreview from '@/mocks/fixtures/searchedSingerPreview.json';
+import searchedSingers from '@/mocks/fixtures/searchedSingers.json';
 
 const { BASE_URL } = process.env;
 
@@ -22,12 +22,25 @@ const searchHandlers = [
     }
 
     if (isSearchRequest && isInTestQueries) {
-      return res(ctx.status(200), ctx.json(searchedSinger));
+      return res(ctx.status(200), ctx.json(searchedSingers));
     }
 
     if (!isInTestQueries) {
       return res(ctx.status(200), ctx.json([]));
     }
+  }),
+
+  rest.get(`${BASE_URL}/singers/:singerId`, (req, res, ctx) => {
+    const { singerId } = req.params;
+
+    const numberSingerId = Number(singerId as string);
+    const searchedSinger = searchedSingers[numberSingerId];
+
+    if (searchedSinger !== undefined) {
+      return res(ctx.status(200), ctx.json(searchedSinger));
+    }
+
+    return res(ctx.status(400), ctx.json({}));
   }),
 ];
 
