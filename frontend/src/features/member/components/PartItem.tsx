@@ -97,7 +97,7 @@ const SongTitle = styled.div`
   grid-area: title;
 
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
