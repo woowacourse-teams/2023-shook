@@ -8,7 +8,7 @@ export const getSingerSearchPreview = async (query: string): Promise<SingerSearc
 
 export const getSingerSearch = async (query: string): Promise<SingerSearchResult[]> => {
   const encodedQuery = encodeURIComponent(query);
-  return await fetcher(`/singers?name=${encodedQuery}&search=singer,song`, 'GET');
+  return await fetcher(`/singers?name=${encodedQuery}&search=singer&search=song`, 'GET');
 };
 
 export const getSingerDetail = async (singerId: number): Promise<SingerSearchResult> => {
