@@ -3,7 +3,6 @@ package shook.shook.auth.ui.interceptor;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import shook.shook.auth.application.TokenProvider;
@@ -11,6 +10,8 @@ import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.ui.AuthContext;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Nickname;
+
+import java.util.Map;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -20,9 +21,9 @@ public class TokenInterceptor implements HandlerInterceptor {
     private final MemberService memberService;
 
     public TokenInterceptor(
-        final TokenProvider tokenProvider,
-        final AuthContext authContext,
-        final MemberService memberService
+            final TokenProvider tokenProvider,
+            final AuthContext authContext,
+            final MemberService memberService
     ) {
         this.tokenProvider = tokenProvider;
         this.authContext = authContext;
@@ -31,14 +32,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-        final HttpServletRequest request,
-        final HttpServletResponse response,
-        final Object handler
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final Object handler
     ) {
         final String token = TokenHeaderExtractor.extractToken(request)
-            .orElseThrow(() -> new AuthorizationException.AccessTokenNotFoundException(
-                Map.of("RequestURL", request.getRequestURL().toString())
-            ));
+                .orElseThrow(() -> new AuthorizationException.AccessTokenNotFoundException(
+                        Map.of("RequestURL", request.getRequestURL().toString())
+                ));
         final Claims claims = tokenProvider.parseClaims(token);
         final Long memberId = claims.get("memberId", Long.class);
         final String nickname = claims.get("nickname", String.class);

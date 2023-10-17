@@ -1,21 +1,6 @@
 package shook.shook.my_part.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
-import java.util.Objects;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +8,11 @@ import shook.shook.member.domain.Member;
 import shook.shook.my_part.exception.MemberPartException;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Map;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -59,11 +49,11 @@ public class MemberPart {
     }
 
     private MemberPart(
-        final Long id,
-        final int startSecond,
-        final PartLength length,
-        final Song song,
-        final Member member
+            final Long id,
+            final int startSecond,
+            final PartLength length,
+            final Song song,
+            final Member member
     ) {
         this.id = id;
         this.startSecond = startSecond;
@@ -73,11 +63,11 @@ public class MemberPart {
     }
 
     public static MemberPart saved(
-        final Long id,
-        final int startSecond,
-        final PartLength length,
-        final Song song,
-        final Member member
+            final Long id,
+            final int startSecond,
+            final PartLength length,
+            final Song song,
+            final Member member
     ) {
         return new MemberPart(id, startSecond, length, song, member);
     }
@@ -91,16 +81,20 @@ public class MemberPart {
     private static void validateStartSecond(final int startSecond, final PartLength length, final int songLength) {
         if (startSecond < MINIMUM_START) {
             throw new MemberPartException.MemberPartStartSecondNegativeException(
-                Map.of("startSecond", String.valueOf(startSecond))
+                    Map.of("startSecond", String.valueOf(startSecond))
             );
         }
         if (length.getEndSecond(startSecond) > songLength) {
             throw new MemberPartException.MemberPartEndOverSongLengthException(
-                Map.of("startSecond", String.valueOf(startSecond),
-                       "EndSecond", String.valueOf(length.getEndSecond(startSecond))
-                )
+                    Map.of("startSecond", String.valueOf(startSecond),
+                            "EndSecond", String.valueOf(length.getEndSecond(startSecond))
+                    )
             );
         }
+    }
+
+    public int getLength() {
+        return this.length.getValue();
     }
 
     @Override
