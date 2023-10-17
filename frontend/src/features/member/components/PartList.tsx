@@ -5,16 +5,21 @@ import type { LikeKillingPart } from './MyPartList';
 
 interface PartListProps {
   parts: LikeKillingPart[];
+  isShow: boolean;
 }
 
 const PART_LIST_SCROLL_TOP = 180;
 
-const PartList = ({ parts }: PartListProps) => {
+const PartList = ({ parts, isShow }: PartListProps) => {
   useEffect(() => {
     if (window.scrollY > PART_LIST_SCROLL_TOP) {
       window.scrollTo({ top: PART_LIST_SCROLL_TOP, behavior: 'smooth' });
     }
-  }, [parts]);
+  }, [isShow]);
+
+  if (!isShow) {
+    return null;
+  }
 
   return (
     <PartListContainer>

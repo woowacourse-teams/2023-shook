@@ -19,29 +19,34 @@ const MyPartList = () => {
   const { data: likes } = useFetch<LikeKillingPart[]>(getLikeParts);
   const { data: myParts } = useFetch<LikeKillingPart[]>(getMyParts);
 
-  if (!likes || !myParts) return null;
+  if (!likes || !myParts) {
+    return null;
+  }
 
-  const partList: { tab: MyPageTab; parts: LikeKillingPart[] }[] = [
-    { tab: 'Like', parts: likes },
-    { tab: 'MyKillingPart', parts: myParts },
+  const partTabItems: { tab: MyPageTab; title: string; parts: LikeKillingPart[] }[] = [
+    { tab: 'Like', title: '좋아요 한 킬링파트', parts: likes },
+    { tab: 'MyKillingPart', title: '내 킬링파트', parts: myParts },
   ];
-
-  const [selectedParts] = partList.filter((p) => p.tab === tab);
 
   return (
     <>
-      <Tabs>
-        <TabItem $isActive={tab === 'Like'} onClick={() => setTab('Like')}>
-          좋아요 한 킬링파트
-        </TabItem>
-        <TabItem $isActive={tab === 'MyKillingPart'} onClick={() => setTab('MyKillingPart')}>
-          내 킬링파트
-        </TabItem>
+      <Tabs role="tablist">
+        {partTabItems.map((option) => (
+          <TabItem
+            key={option.tab}
+            $isActive={tab === option.tab}
+            onClick={() => setTab(option.tab)}
+          >
+            {option.title}
+          </TabItem>
+        ))}
       </Tabs>
 
       <Spacing direction="vertical" size={24} />
 
-      <PartList parts={selectedParts.parts} />
+      {partTabItems.map((option) => (
+        <PartList key={option.tab} parts={option.parts} isShow={tab === option.tab} />
+      ))}
     </>
   );
 };
