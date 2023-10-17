@@ -18,19 +18,10 @@ const PartList = ({ parts }: PartListProps) => {
 
   return (
     <PopularSongList>
-      {parts.map(({ songId, title, singer, albumCoverUrl, partId, start, end }, i) => {
+      {parts.map((part, i) => {
         return (
-          <Li key={partId}>
-            <PartItem
-              songId={songId}
-              partId={partId}
-              rank={i + 1}
-              albumCoverUrl={albumCoverUrl}
-              title={title}
-              singer={singer}
-              start={start}
-              end={end}
-            />
+          <Li key={part.partId}>
+            <PartItem {...part} rank={i + 1} />
           </Li>
         );
       })}
