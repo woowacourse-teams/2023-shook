@@ -1,7 +1,9 @@
 package shook.shook.song.application;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,8 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.my_part.domain.MemberPart;
+import shook.shook.my_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -37,6 +41,7 @@ public class SongService {
     private final KillingPartRepository killingPartRepository;
     private final KillingPartLikeRepository killingPartLikeRepository;
     private final MemberRepository memberRepository;
+    private final MemberPartRepository memberPartRepository;
     private final InMemorySongs inMemorySongs;
     private final SongDataExcelReader songDataExcelReader;
 
@@ -88,7 +93,14 @@ public class SongService {
 
         final Member member = findMemberById(memberInfo.getMemberId());
         final List<Long> killingPartIds = killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
-        return SongSwipeResponse.of(currentSong, beforeSongs, afterSongs, killingPartIds);
+
+        final List<Song> allSongs = new ArrayList<>(beforeSongs);
+        allSongs.add(currentSong);
+        allSongs.addAll(afterSongs);
+
+        final Map<Long, MemberPart> memberPartsGroupBySong = makeMemberPartsGroupBySongId(member, allSongs);
+
+        return SongSwipeResponse.of(currentSong, beforeSongs, afterSongs, killingPartIds, memberPartsGroupBySong);
     }
 
     private Member findMemberById(final Long memberId) {
@@ -125,10 +137,23 @@ public class SongService {
         final Member member = findMemberById(memberInfo.getMemberId());
         final List<Long> likedKillingPartIds =
             killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
+        final Map<Long, MemberPart> memberPartsGroupBySongId = makeMemberPartsGroupBySongId(member, songs);
 
         return songs.stream()
-            .map(song -> SongResponse.of(song, likedKillingPartIds))
+            .map(song -> SongResponse.of(song, likedKillingPartIds,
+                                         memberPartsGroupBySongId.getOrDefault(song.getId(), null)))
             .toList();
+    }
+
+    private Map<Long, MemberPart> makeMemberPartsGroupBySongId(final Member member, final List<Song> songs) {
+        final List<Long> songIds = songs.stream()
+            .map(Song::getId)
+            .collect(Collectors.toList());
+        final List<MemberPart> memberParts = memberPartRepository.findByMemberAndSongIdIn(member, songIds);
+
+        return memberParts.stream()
+            .collect(Collectors.toMap(memberPart -> memberPart.getSong().getId(),
+                                      memberPart -> memberPart));
     }
 
     public List<SongResponse> findSongByIdForAfterSwipe(
