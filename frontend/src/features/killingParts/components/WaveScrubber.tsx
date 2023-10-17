@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import { useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
@@ -9,19 +9,15 @@ const WaveScrubber = () => {
   const { interval, videoLength, setPartStartTime, isPlayingEntire } = useCollectingPartContext();
   const video = useVideoPlayerContext();
   const ref = useRef<HTMLDivElement | null>(null);
-  // const progressWidth = 100 + (interval - 5) * 5;
-  // const [, set] = useState();
 
   const maxPartStartTime = videoLength - interval;
+  const progressWidth = 100 + (interval - 5) * 5;
   const isInterval = video.playerState === YT.PlayerState.PLAYING && !isPlayingEntire;
   const isEntire = video.playerState === YT.PlayerState.PLAYING && isPlayingEntire;
 
   const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
     const { scrollWidth, scrollLeft } = e.currentTarget;
-    // WaverScrubber: 350
-    // Frame: 100
-    // calc((100% - 150px) / 2)
-    // Padding: WaverScrubber - 150
+
     if (!ref.current) return;
     const clientWidth = ref.current?.clientWidth;
     const unit = (scrollWidth - clientWidth) / maxPartStartTime;
@@ -48,43 +44,36 @@ const WaveScrubber = () => {
     }
   };
 
-  // TODO: remove
-  useEffect(() => {
-    console.log(ref.current?.clientWidth);
-  }, []);
-
   return (
     <Container>
       <WaveWrapper
         onScroll={changePartStartTime}
         onWheel={wheelPartStartTime}
         onTouchStart={playVideo}
+        $progressWidth={progressWidth}
         ref={ref}
         $gap={8}
         $align="center"
       >
         <SoundWave length={maxPartStartTime} />
       </WaveWrapper>
-      <ProgressFrame />
-      {isInterval && <ProgressFill $interval={interval} />}
-      {isPlayingEntire && <WaveFill $isRunning={isEntire} />}
+      <ProgressFrame $progressWidth={progressWidth} />
+      {isInterval && <ProgressFill $progressWidth={progressWidth} $interval={interval} />}
+      {isPlayingEntire && <WaveFill $progressWidth={progressWidth} $isRunning={isEntire} />}
     </Container>
   );
 };
 
 export default WaveScrubber;
 
-const ProgressWidth = css`
-  width: 50px;
-`;
-const WaveWrapper = styled(Flex)`
+const WaveWrapper = styled(Flex)<{ $progressWidth: number }>`
   z-index: 3;
 
   overflow-x: scroll;
 
   width: 100%;
   height: 75px;
-  padding: 0 calc((100% - 50px) / 2);
+  padding: ${({ $progressWidth }) => `0 calc((100% - ${$progressWidth}px) / 2)`};
 
   background-color: transparent;
 `;
@@ -109,14 +98,14 @@ const Container = styled.div`
   }
 `;
 
-const ProgressFrame = styled.div`
-  ${ProgressWidth};
+const ProgressFrame = styled.div<{ $progressWidth: number }>`
   position: absolute;
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
 
   height: 50px;
+  width: ${({ $progressWidth }) => $progressWidth}px;
 
   border: transparent;
   border-radius: 4px;
@@ -132,8 +121,7 @@ const fillAnimation = keyframes`
   }
 `;
 
-const ProgressFill = styled.div<{ $interval: number }>`
-  ${ProgressWidth};
+const ProgressFill = styled.div<{ $progressWidth: number; $interval: number }>`
   pointer-events: none;
 
   position: absolute;
@@ -142,6 +130,7 @@ const ProgressFill = styled.div<{ $interval: number }>`
   transform: translateX(-50%);
 
   height: 50px;
+  width: ${({ $progressWidth }) => $progressWidth}px;
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, transparent 50%, ${color.magenta300} 50%)`};
@@ -181,8 +170,7 @@ const waveFillAnimate = keyframes`
   }
 `;
 
-const WaveFill = styled.div<{ $isRunning: boolean }>`
-  ${ProgressWidth};
+const WaveFill = styled.div<{ $progressWidth: number; $isRunning: boolean }>`
   pointer-events: none;
 
   position: absolute;
@@ -191,6 +179,7 @@ const WaveFill = styled.div<{ $isRunning: boolean }>`
   transform: translateX(-50%);
 
   height: 50px;
+  width: ${({ $progressWidth }) => $progressWidth}px;
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, ${color.magenta100}, ${color.magenta400})`};
