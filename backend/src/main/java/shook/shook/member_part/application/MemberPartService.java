@@ -28,8 +28,21 @@ public class MemberPartService {
     public void register(final Long songId, final Long memberId, final MemberPartRegisterRequest request) {
         final Song song = getSong(songId);
         final Member member = getMember(memberId);
+        validateAlreadyExistMemberPart(song, member);
+
         final MemberPart memberPart = MemberPart.forSave(request.getStartSecond(), request.getLength(), song, member);
         memberPartRepository.save(memberPart);
+    }
+
+    private void validateAlreadyExistMemberPart(final Song song, final Member member) {
+        final boolean existsMemberPart = memberPartRepository.existsByMemberAndSong(member, song);
+
+        if (existsMemberPart) {
+            throw new MemberException.MemberPartAlreadyExistException(
+                Map.of("songId", String.valueOf(song.getId()),
+                       "memberId", String.valueOf(member.getId()))
+            );
+        }
     }
 
     private Member getMember(final Long memberId) {

@@ -25,4 +25,6 @@ public interface MemberPartRepository extends JpaRepository<MemberPart, Long> {
     );
 
     Optional<MemberPart> findByMemberAndSong(final Member member, final Song song);
+
+    boolean existsByMemberAndSong(final Member member, final Song song);
 }

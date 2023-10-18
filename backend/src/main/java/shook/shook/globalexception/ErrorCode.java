@@ -88,7 +88,9 @@ public enum ErrorCode {
     // 6000: 멤버 파트
 
     NEGATIVE_START_SECOND(6001, "멤버 파트의 시작 초는 0보다 작을 수 없습니다."),
-    MEMBER_PART_END_OVER_SONG_LENGTH(6002, "파트의 끝 초는 노래 길이를 초과할 수 없습니다.");
+    MEMBER_PART_END_OVER_SONG_LENGTH(6002, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
+    MEMBER_PART_ALREADY_EXIST(6003, "멤버 파트가 이미 존재합니다."),
+    ;
 
     private final int code;
     private final String message;

@@ -64,6 +64,20 @@ class MemberPartServiceTest extends UsingJpaTest {
             .isInstanceOf(MemberException.MemberNotExistException.class);
     }
 
+    @DisplayName("해당 노래에 이미 멤버 파트가 존재하면 예외가 발생한다.")
+    @Test
+    void register_failAlreadyExistMemberPart() {
+        // given
+        final long songId = 1L;
+        final long memberId = 1L;
+        memberPartService.register(songId, memberId, new MemberPartRegisterRequest(5, 5));
+
+        // when
+        // then
+        assertThatThrownBy(() -> memberPartService.register(songId, memberId, new MemberPartRegisterRequest(10, 10)))
+            .isInstanceOf(MemberException.MemberPartAlreadyExistException.class);
+    }
+
     @DisplayName("존재하지 않는 멤버로 멤버 파트를 삭제하면 예외가 발생한다.")
     @Test
     void delete_failUnauthenticatedMember() {
