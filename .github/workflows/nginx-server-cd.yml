@@ -30,4 +30,4 @@ jobs:
         run: cp backend/build/libs/shook-0.0.1-SNAPSHOT.jar /home/ubuntu/application-jar
       - name: Backend Deploy
         shell: bash
-        run: bash /home/ubuntu/backend-deploy.sh
+        run: bash /home/ubuntu/blue-green.sh
