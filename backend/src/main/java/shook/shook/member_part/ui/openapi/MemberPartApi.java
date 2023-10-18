@@ -1,4 +1,4 @@
-package shook.shook.my_part.ui.openapi;
+package shook.shook.member_part.ui.openapi;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
-import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.member_part.application.dto.MemberPartRegisterRequest;
 
 @Tag(name = "Member Part", description = "멤버 파트 API")
 public interface MemberPartApi {

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.my_part.domain.MemberPart;
+import shook.shook.member_part.domain.MemberPart;
 
 @Schema(description = "멤버 파트 응답")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

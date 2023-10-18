@@ -13,7 +13,7 @@ import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.exception.OAuthException;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.member.exception.MemberException;
-import shook.shook.my_part.exception.MemberPartException;
+import shook.shook.member_part.exception.MemberPartException;
 import shook.shook.part.exception.PartException;
 import shook.shook.song.exception.SongException;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;

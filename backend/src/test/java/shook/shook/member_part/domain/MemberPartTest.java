@@ -1,4 +1,4 @@
-package shook.shook.my_part.domain;
+package shook.shook.member_part.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
-import shook.shook.my_part.exception.MemberPartException;
+import shook.shook.member_part.exception.MemberPartException;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;

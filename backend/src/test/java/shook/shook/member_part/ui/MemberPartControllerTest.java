@@ -1,4 +1,4 @@
-package shook.shook.my_part.ui;
+package shook.shook.member_part.ui;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -17,9 +17,9 @@ import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.member_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
 

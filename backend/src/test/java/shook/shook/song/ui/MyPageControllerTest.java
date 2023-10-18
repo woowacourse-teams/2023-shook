@@ -1,7 +1,10 @@
 package shook.shook.song.ui;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,10 +17,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.application.TokenProvider;
-import shook.shook.my_part.application.MemberPartService;
-import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.member_part.application.MemberPartService;
+import shook.shook.member_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
 import shook.shook.song.application.dto.MyPartsResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
@@ -26,10 +29,6 @@ import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -75,65 +74,65 @@ class MyPageControllerTest {
         void likedKillingPartExistWithOneDeletedLikeExist() {
             //given
             final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID,
-                    SAVED_MEMBER_NICKNAME);
+                                                                       SAVED_MEMBER_NICKNAME);
 
             final Song firstSong = songRepository.findById(1L).get();
             final Song secondSong = songRepository.findById(2L).get();
             final Song thirdSong = songRepository.findById(3L).get();
 
             final List<KillingPart> firstSongKillingPart = killingPartRepository.findAllBySong(
-                    firstSong);
+                firstSong);
             final List<KillingPart> secondSongKillingPart = killingPartRepository.findAllBySong(
-                    secondSong);
+                secondSong);
             final List<KillingPart> thirdSongKillingPart = killingPartRepository.findAllBySong(
-                    thirdSong);
+                thirdSong);
 
             final KillingPartLikeRequest likeCreateRequest = new KillingPartLikeRequest(true);
             final KillingPartLikeRequest likeDeleteRequest = new KillingPartLikeRequest(false);
 
             killingPartLikeService.updateLikeStatus(
-                    firstSongKillingPart.get(0).getId(),
-                    1L,
-                    likeCreateRequest
+                firstSongKillingPart.get(0).getId(),
+                1L,
+                likeCreateRequest
             );
             killingPartLikeService.updateLikeStatus(
-                    firstSongKillingPart.get(2).getId(),
-                    1L,
-                    likeCreateRequest
+                firstSongKillingPart.get(2).getId(),
+                1L,
+                likeCreateRequest
             );
             killingPartLikeService.updateLikeStatus(
-                    firstSongKillingPart.get(2).getId(),
-                    1L,
-                    likeDeleteRequest
+                firstSongKillingPart.get(2).getId(),
+                1L,
+                likeDeleteRequest
             );
             killingPartLikeService.updateLikeStatus(
-                    secondSongKillingPart.get(0).getId(),
-                    1L,
-                    likeCreateRequest
+                secondSongKillingPart.get(0).getId(),
+                1L,
+                likeCreateRequest
             );
             killingPartLikeService.updateLikeStatus(
-                    thirdSongKillingPart.get(0).getId(),
-                    1L,
-                    likeCreateRequest
+                thirdSongKillingPart.get(0).getId(),
+                1L,
+                likeCreateRequest
             );
 
             //when
             //then
 
             final List<LikedKillingPartResponse> expected = List.of(
-                    LikedKillingPartResponse.of(thirdSong, thirdSongKillingPart.get(0)),
-                    LikedKillingPartResponse.of(secondSong, secondSongKillingPart.get(0)),
-                    LikedKillingPartResponse.of(firstSong, firstSongKillingPart.get(0))
+                LikedKillingPartResponse.of(thirdSong, thirdSongKillingPart.get(0)),
+                LikedKillingPartResponse.of(secondSong, secondSongKillingPart.get(0)),
+                LikedKillingPartResponse.of(firstSong, firstSongKillingPart.get(0))
             );
 
             final List<LikedKillingPartResponse> response = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
-                    .contentType(ContentType.JSON)
-                    .when().log().all()
-                    .get("/my-page/like-parts")
-                    .then().log().all()
-                    .statusCode(HttpStatus.OK.value())
-                    .extract().body().jsonPath().getList(".", LikedKillingPartResponse.class);
+                .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
+                .contentType(ContentType.JSON)
+                .when().log().all()
+                .get("/my-page/like-parts")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().body().jsonPath().getList(".", LikedKillingPartResponse.class);
 
             assertThat(response).usingRecursiveComparison().isEqualTo(expected);
         }
@@ -143,18 +142,18 @@ class MyPageControllerTest {
         void notExist() {
             //given
             final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID,
-                    SAVED_MEMBER_NICKNAME);
+                                                                       SAVED_MEMBER_NICKNAME);
 
             //when
             //then
             final List<LikedKillingPartResponse> response = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
-                    .contentType(ContentType.JSON)
-                    .when().log().all()
-                    .get("/my-page/like-parts")
-                    .then().log().all()
-                    .statusCode(HttpStatus.OK.value())
-                    .extract().body().jsonPath().getList(".", LikedKillingPartResponse.class);
+                .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
+                .contentType(ContentType.JSON)
+                .when().log().all()
+                .get("/my-page/like-parts")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().body().jsonPath().getList(".", LikedKillingPartResponse.class);
 
             assertThat(response).isEmpty();
         }
@@ -164,7 +163,7 @@ class MyPageControllerTest {
         void findAllMyPart() {
             // given
             final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID,
-                    SAVED_MEMBER_NICKNAME);
+                                                                       SAVED_MEMBER_NICKNAME);
 
             final Song firstSong = songRepository.findById(1L).get();
             final Song secondSong = songRepository.findById(2L).get();
@@ -183,17 +182,17 @@ class MyPageControllerTest {
             final MemberPart memberPart1 = memberPartRepository.findById(1L).get();
 
             final List<MyPartsResponse> expected = List.of(MyPartsResponse.of(thirdSong, memberPart3),
-                    MyPartsResponse.of(secondSong, memberPart2),
-                    MyPartsResponse.of(firstSong, memberPart1));
+                                                           MyPartsResponse.of(secondSong, memberPart2),
+                                                           MyPartsResponse.of(firstSong, memberPart1));
 
             final List<MyPartsResponse> response = RestAssured.given().log().all()
-                    .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
-                    .contentType(ContentType.JSON)
-                    .when().log().all()
-                    .get("/my-page/my-parts")
-                    .then().log().all()
-                    .statusCode(HttpStatus.OK.value())
-                    .extract().body().jsonPath().getList(".", MyPartsResponse.class);
+                .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + accessToken)
+                .contentType(ContentType.JSON)
+                .when().log().all()
+                .get("/my-page/my-parts")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().body().jsonPath().getList(".", MyPartsResponse.class);
 
             assertThat(response).usingRecursiveComparison().isEqualTo(expected);
 

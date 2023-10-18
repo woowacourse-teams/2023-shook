@@ -1,4 +1,4 @@
-package shook.shook.my_part.domain.repository;
+package shook.shook.member_part.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.dto.SongMemberPartCreatedAtDto;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.dto.SongMemberPartCreatedAtDto;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;

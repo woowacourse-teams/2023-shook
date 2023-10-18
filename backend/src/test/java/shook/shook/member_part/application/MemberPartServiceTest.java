@@ -1,4 +1,4 @@
-package shook.shook.my_part.application;
+package shook.shook.member_part.application;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -11,9 +11,9 @@ import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
-import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.member_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.SongException;

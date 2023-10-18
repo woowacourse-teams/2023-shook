@@ -1,4 +1,4 @@
-package shook.shook.my_part.domain.repository;
+package shook.shook.member_part.domain.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import shook.shook.member.domain.Member;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.dto.SongMemberPartCreatedAtDto;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.dto.SongMemberPartCreatedAtDto;
+import shook.shook.song.domain.Song;
 
 public interface MemberPartRepository extends JpaRepository<MemberPart, Long> {
 
@@ -22,4 +23,6 @@ public interface MemberPartRepository extends JpaRepository<MemberPart, Long> {
     List<SongMemberPartCreatedAtDto> findByMemberId(
         @Param("memberId") final Long memberId
     );
+
+    Optional<MemberPart> findByMemberAndSong(final Member member, final Song song);
 }

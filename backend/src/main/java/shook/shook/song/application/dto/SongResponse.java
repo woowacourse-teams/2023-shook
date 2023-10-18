@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.my_part.domain.MemberPart;
+import shook.shook.member_part.domain.MemberPart;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 

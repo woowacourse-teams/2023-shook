@@ -13,8 +13,8 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -216,5 +216,22 @@ public class SongService {
         final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, nextSongs);
+    }
+
+    public SongResponse findSongById(final Long songId, final MemberInfo memberInfo) {
+        final Song song = inMemorySongs.getSongById(songId);
+        final Authority authority = memberInfo.getAuthority();
+
+        if (authority.isAnonymous()) {
+            return SongResponse.fromUnauthorizedUser(song);
+        }
+
+        final Member member = findMemberById(memberInfo.getMemberId());
+        final List<Long> likedKillingPartIds =
+            killingPartLikeRepository.findLikedKillingPartIdsByMember(member);
+        final MemberPart memberPart = memberPartRepository.findByMemberAndSong(member, song)
+            .orElse(null);
+
+        return SongResponse.of(song, likedKillingPartIds, memberPart);
     }
 }

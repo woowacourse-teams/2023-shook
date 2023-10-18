@@ -1,4 +1,4 @@
-package shook.shook.my_part.application.dto;
+package shook.shook.member_part.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

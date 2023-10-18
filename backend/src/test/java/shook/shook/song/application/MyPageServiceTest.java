@@ -1,5 +1,10 @@
 package shook.shook.song.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +14,8 @@ import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.my_part.domain.MemberPart;
-import shook.shook.my_part.domain.repository.MemberPartRepository;
+import shook.shook.member_part.domain.MemberPart;
+import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.LikedKillingPartResponse;
 import shook.shook.song.application.dto.MyPartsResponse;
 import shook.shook.song.domain.Song;
@@ -20,12 +25,6 @@ import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.support.UsingJpaTest;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Sql(scripts = "classpath:killingpart/initialize_killing_part_song.sql")
 class MyPageServiceTest extends UsingJpaTest {
@@ -66,18 +65,18 @@ class MyPageServiceTest extends UsingJpaTest {
 
         //when
         final List<LikedKillingPartResponse> likedKillingPartByMemberId =
-                myPageService.findLikedKillingPartByMemberId(new MemberInfo(member.getId(), Authority.MEMBER));
+            myPageService.findLikedKillingPartByMemberId(new MemberInfo(member.getId(), Authority.MEMBER));
 
         //then
         assertAll(
-                () -> assertThat(likedKillingPartByMemberId).hasSize(1),
-                () -> {
-                    final LikedKillingPartResponse likedKillingPartResponse = likedKillingPartByMemberId.get(0);
-                    final KillingPart firstKillingPart = killingPartRepository.findById(1L).get();
-                    assertThat(likedKillingPartResponse)
-                            .usingRecursiveComparison()
-                            .isEqualTo(LikedKillingPartResponse.of(firstKillingPart.getSong(), killingPart));
-                }
+            () -> assertThat(likedKillingPartByMemberId).hasSize(1),
+            () -> {
+                final LikedKillingPartResponse likedKillingPartResponse = likedKillingPartByMemberId.get(0);
+                final KillingPart firstKillingPart = killingPartRepository.findById(1L).get();
+                assertThat(likedKillingPartResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(LikedKillingPartResponse.of(firstKillingPart.getSong(), killingPart));
+            }
         );
     }
 
@@ -101,16 +100,16 @@ class MyPageServiceTest extends UsingJpaTest {
 
         // then
         final List<MyPartsResponse> expect = List.of(
-                MyPartsResponse.of(song2, memberPart2),
-                MyPartsResponse.of(song1, memberPart1));
+            MyPartsResponse.of(song2, memberPart2),
+            MyPartsResponse.of(song1, memberPart1));
 
         assertAll(
-                () -> assertThat(result).hasSize(2),
-                () -> {
-                    assertThat(result).usingRecursiveComparison()
-                            .ignoringFieldsOfTypes(LocalDateTime.class)
-                            .isEqualTo(expect);
-                }
+            () -> assertThat(result).hasSize(2),
+            () -> {
+                assertThat(result).usingRecursiveComparison()
+                    .ignoringFieldsOfTypes(LocalDateTime.class)
+                    .isEqualTo(expect);
+            }
         );
 
     }

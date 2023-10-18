@@ -1,4 +1,4 @@
-package shook.shook.my_part.ui;
+package shook.shook.member_part.ui;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shook.shook.auth.ui.argumentresolver.Authenticated;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
-import shook.shook.my_part.application.MemberPartService;
-import shook.shook.my_part.application.dto.MemberPartRegisterRequest;
-import shook.shook.my_part.ui.openapi.MemberPartApi;
+import shook.shook.member_part.application.MemberPartService;
+import shook.shook.member_part.application.dto.MemberPartRegisterRequest;
+import shook.shook.member_part.ui.openapi.MemberPartApi;
 
 @RequiredArgsConstructor
 @RequestMapping

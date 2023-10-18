@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import shook.shook.my_part.domain.MemberPart;
+import shook.shook.member_part.domain.MemberPart;
 import shook.shook.song.domain.Song;
 
 @Schema(description = "마이 파트 응답")

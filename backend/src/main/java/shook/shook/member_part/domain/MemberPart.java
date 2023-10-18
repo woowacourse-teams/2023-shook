@@ -1,4 +1,4 @@
-package shook.shook.my_part.domain;
+package shook.shook.member_part.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -20,7 +20,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.member.domain.Member;
-import shook.shook.my_part.exception.MemberPartException;
+import shook.shook.member_part.exception.MemberPartException;
 import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 
