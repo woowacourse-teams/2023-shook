@@ -44,7 +44,7 @@ const KillingPartTrack = ({
   hideMyPart,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
-  const { seekTo, pause, playerState } = useVideoPlayerContext();
+  const { seekTo, pause, playerState, videoPlayer } = useVideoPlayerContext();
   const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
     likeCount,
     likeStatus,
@@ -77,6 +77,17 @@ const KillingPartTrack = ({
     });
 
     await copyClipboard(window.location.href);
+    showToast('영상 링크가 복사되었습니다.');
+  };
+
+  const copyMyPartUrl = async () => {
+    sendGAEvent({
+      action: GA_ACTIONS.COPY_URL,
+      category: GA_CATEGORIES.SONG_DETAIL,
+      memberId: user?.memberId,
+    });
+
+    await copyClipboard(`${videoPlayer.current?.getVideoUrl()}&t=${start}s`);
     showToast('영상 링크가 복사되었습니다.');
   };
 
@@ -171,9 +182,20 @@ const KillingPartTrack = ({
       </FLexContainer>
       <ButtonContainer>
         {isMyKillingPart ? (
-          <DeleteButton type="button" onClick={openMyPartModal} aria-label="나의 킬링파트 삭제하기">
-            <ButtonIcon src={trashIcon} alt="" />
-          </DeleteButton>
+          <>
+            <DeleteButton
+              type="button"
+              onClick={openMyPartModal}
+              aria-label="나의 킬링파트 삭제하기"
+            >
+              <ButtonIcon src={trashIcon} alt="" />
+              <ButtonTitle>Delete</ButtonTitle>
+            </DeleteButton>
+            <ShareButton aria-label={'나의 킬링파트 유튜브 링크 공유하기'} onClick={copyMyPartUrl}>
+              <ButtonIcon src={shareIcon} alt="" />
+              <ButtonTitle>Share</ButtonTitle>
+            </ShareButton>
+          </>
         ) : (
           <>
             <LikeButton
@@ -184,7 +206,7 @@ const KillingPartTrack = ({
               <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
             </LikeButton>
             <ShareButton
-              aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
+              aria-label={`${rank}등 킬링파트 링크 공유하기`}
               onClick={copyKillingPartUrl}
             >
               <ButtonIcon src={shareIcon} alt="" />
