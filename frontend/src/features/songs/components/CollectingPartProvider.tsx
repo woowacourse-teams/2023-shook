@@ -1,7 +1,6 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import type { PropsWithChildren } from 'react';
 
 interface CollectingPartProviderProps {
@@ -14,7 +13,6 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   partStartTime: number;
   interval: number;
   isPlayingEntire: boolean;
-  boxRef: React.RefObject<HTMLDivElement>;
   setPartStartTime: React.Dispatch<React.SetStateAction<number>>;
   increasePartInterval: () => void;
   decreasePartInterval: () => void;
@@ -32,7 +30,6 @@ export const CollectingPartProvider = ({
   const [partStartTime, setPartStartTime] = useState(0);
   const [isPlayingEntire, setIsPlayingEntire] = useState(false);
   const { playerState, seekTo } = useVideoPlayerContext();
-  const boxRef = useRef<HTMLDivElement>(null);
 
   const toggleEntirePlaying = () => {
     if (isPlayingEntire) {
@@ -52,23 +49,6 @@ export const CollectingPartProvider = ({
 
     setInterval(interval - 1);
   };
-
-  useDebounceEffect(() => seekTo(partStartTime), [partStartTime], 150);
-  useDebounceEffect(
-    () => {
-      if (boxRef.current) {
-        const unit =
-          (boxRef.current.scrollWidth - boxRef.current.clientWidth) / (videoLength - interval);
-        boxRef.current.scrollTo({
-          left: partStartTime * unit + 2.5,
-          behavior: 'instant',
-        });
-      }
-      seekTo(partStartTime);
-    },
-    [interval],
-    300
-  );
 
   useEffect(() => {
     if (isPlayingEntire || playerState !== YT.PlayerState.PLAYING) return;
@@ -91,7 +71,6 @@ export const CollectingPartProvider = ({
         songId,
         songVideoId,
         isPlayingEntire,
-        boxRef,
         setPartStartTime,
         increasePartInterval,
         decreasePartInterval,

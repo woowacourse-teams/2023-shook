@@ -1,96 +1,44 @@
-import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
-import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
-import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import useWave from '@/features/killingParts/hooks/useWave';
 import Flex from '@/shared/components/Flex/Flex';
 
 const WaveScrubber = () => {
-  const { boxRef, interval, videoLength, setPartStartTime, isPlayingEntire } =
-    useCollectingPartContext();
-  const video = useVideoPlayerContext();
-
-  const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
-
-  console.log('box scroll', boxRef.current?.scrollLeft);
-
-  const maxPartStartTime = videoLength - interval;
-  const progressWidth = 100 + (interval - 5) * 5;
-  const isInterval = video.playerState === YT.PlayerState.PLAYING && !isPlayingEntire;
-  const isEntire = video.playerState === YT.PlayerState.PLAYING && isPlayingEntire;
-
-  const changePartStartTime: React.UIEventHandler<HTMLDivElement> = (e) => {
-    const { scrollWidth, scrollLeft } = e.currentTarget;
-
-    if (!boxRef.current) return;
-    const clientWidth = boxRef.current?.clientWidth;
-    const unit = (scrollWidth - clientWidth) / maxPartStartTime;
-    const partStartTimeToChange = Math.floor(scrollLeft / unit);
-    if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
-      setPartStartTime(partStartTimeToChange);
-    }
-  };
-
-  const wheelPartStartTime: React.WheelEventHandler<HTMLDivElement> = (e) => {
-    console.log('[wheel]');
-    if (!boxRef.current) return;
-
-    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
-      e.currentTarget?.scrollTo({
-        left: e.deltaY / 1.2 + boxRef.current?.scrollLeft,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const playVideo = () => {
-    if (video.playerState !== YT.PlayerState.PLAYING) {
-      video.play();
-    }
-  };
+  const {
+    boxRef,
+    progressWidth,
+    isInterval,
+    isEntire,
+    scrollStartTime,
+    wheelStartTime,
+    maxPartStartTime,
+    interval,
+    playVideo,
+    dragStart,
+    dragMoving,
+    dragEnd,
+  } = useWave();
 
   return (
     <Container>
       <WaveWrapper
-        onScroll={changePartStartTime}
-        onWheel={wheelPartStartTime}
+        onScroll={scrollStartTime}
+        onWheel={wheelStartTime}
         onTouchStart={playVideo}
         $progressWidth={progressWidth}
         ref={boxRef}
         $gap={8}
         $align="center"
-        onMouseDown={(e) => {
-          e.preventDefault();
-          if (boxRef.current) {
-            setXPos({
-              initial: e.screenX,
-              scroll: boxRef.current?.scrollLeft,
-            });
-          }
-        }}
-        onMouseMove={({ screenX }) => {
-          if (!xPos) return;
-          console.log('[mouse move]');
-
-          boxRef.current?.scrollTo({
-            left: xPos.scroll + (xPos.initial - screenX) / 0.5,
-            behavior: 'instant',
-          });
-        }}
-        onMouseUp={() => {
-          console.log('[mouse up]');
-          setXPos(null);
-        }}
-        onMouseLeave={() => {
-          console.log('[mouse leave]');
-          setXPos(null);
-        }}
+        onMouseDown={dragStart}
+        onMouseMove={dragMoving}
+        onMouseUp={dragEnd}
+        onMouseLeave={dragEnd}
       >
         <SoundWave ref={boxRef} length={maxPartStartTime} progressWidth={progressWidth} />
       </WaveWrapper>
       <ProgressFrame $progressWidth={progressWidth} />
       {isInterval && <ProgressFill $progressWidth={progressWidth} $interval={interval} />}
-      {isPlayingEntire && <WaveFill $progressWidth={progressWidth} $isRunning={isEntire} />}
+      {isEntire && <WaveFill $progressWidth={progressWidth} $isRunning={isEntire} />}
     </Container>
   );
 };
