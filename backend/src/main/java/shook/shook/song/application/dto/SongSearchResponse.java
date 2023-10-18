@@ -23,8 +23,16 @@ public class SongSearchResponse {
     @Schema(description = "노래 비디오 길이", example = "247")
     private final int videoLength;
 
-    public static SongSearchResponse from(final Song song) {
-        return new SongSearchResponse(song.getId(), song.getTitle(), song.getAlbumCoverUrl(),
-            song.getLength());
+    @Schema(description = "가수 이름", example = "가수")
+    private final String singer;
+
+    public static SongSearchResponse from(final Song song, final String singer) {
+        return new SongSearchResponse(
+            song.getId(),
+            song.getTitle(),
+            song.getAlbumCoverUrl(),
+            song.getLength(),
+            singer
+        );
     }
 }
