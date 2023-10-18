@@ -6,7 +6,7 @@ import Flex from '@/shared/components/Flex/Flex';
 
 const VideoController = () => {
   return (
-    <Flex $gap={8} $direction={'column'}>
+    <Flex $gap={12} $direction={'column'}>
       <SubHeading>길이 선택</SubHeading>
       <VideoIntervalStepper />
 
