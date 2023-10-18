@@ -455,4 +455,21 @@ class SongRepositoryTest extends UsingJpaTest {
         // then
         assertThat(songs).containsExactly(song5, song4, song3, song2);
     }
+
+    @DisplayName("노래 최신순으로 정렬하여 상위 노래를 조회한다.")
+    @Test
+    void findSongsOrderById() {
+        // given
+        final Song song1 = songRepository.save(createNewSongWithKillingParts());
+        final Song song2 = songRepository.save(createNewSongWithKillingParts());
+        final Song song3 = songRepository.save(createNewSongWithKillingParts());
+        final Song song4 = songRepository.save(createNewSongWithKillingParts());
+        final Song song5 = songRepository.save(createNewSongWithKillingParts());
+
+        // when
+        final List<Song> songs = songRepository.findSongsOrderById(PageRequest.of(0, 4));
+
+        // then
+        assertThat(songs).containsExactly(song5, song4, song3, song2);
+    }
 }

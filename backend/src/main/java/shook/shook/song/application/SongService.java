@@ -14,6 +14,7 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.member_part.domain.MemberPart;
 import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.RecentSongCarouselResponse;
@@ -233,6 +234,14 @@ public class SongService {
             .orElse(null);
 
         return SongResponse.of(song, likedKillingPartIds, memberPart);
+    }
+
+    public List<RecentSongCarouselResponse> findRecentRegisteredSongsForCarousel(final Integer size) {
+        final List<Song> topSongs = songRepository.findSongsOrderById(PageRequest.of(0, size));
+
+        return topSongs.stream()
+            .map(RecentSongCarouselResponse::from)
+            .toList();
     }
 
     public List<RecentSongCarouselResponse> findRecentRegisteredSongsForCarousel(final Integer size) {
