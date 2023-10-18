@@ -56,7 +56,7 @@ create table if not exists voting_song_part
 (
     id             bigint auto_increment,
     start_second   integer      not null,
-    length         varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    length         integer      not null,
     voting_song_id bigint       not null,
     created_at     timestamp(6) not null,
     primary key (id)
