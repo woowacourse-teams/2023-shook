@@ -122,7 +122,7 @@ export const memberHandlers = [
     );
   }),
 
-  rest.get(`${BASE_URL}/my-page/member-parts`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/my-page/my-parts`, (req, res, ctx) => {
     return res(
       ctx.json([
         {
