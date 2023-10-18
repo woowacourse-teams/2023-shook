@@ -2,15 +2,17 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import PartItem from './PartItem';
 import type { LikeKillingPart } from './MyPartList';
+import type { MyPageTab } from '../types/myPage';
 
 interface PartListProps {
   parts: LikeKillingPart[];
   isShow: boolean;
+  tab: MyPageTab;
 }
 
 const PART_LIST_SCROLL_TOP = 180;
 
-const PartList = ({ parts, isShow }: PartListProps) => {
+const PartList = ({ parts, isShow, tab }: PartListProps) => {
   useEffect(() => {
     if (window.scrollY > PART_LIST_SCROLL_TOP) {
       window.scrollTo({ top: PART_LIST_SCROLL_TOP, behavior: 'smooth' });
@@ -24,7 +26,7 @@ const PartList = ({ parts, isShow }: PartListProps) => {
   return (
     <PartListContainer>
       {parts.map((part) => (
-        <PartItem key={part.partId} {...part} />
+        <PartItem key={part.partId} tab={tab} {...part} />
       ))}
     </PartListContainer>
   );

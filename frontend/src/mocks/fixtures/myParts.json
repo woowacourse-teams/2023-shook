@@ -6,7 +6,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 11,
     "start": 1,
-    "end": 11
+    "end": 11,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 2,
@@ -15,7 +16,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 12,
     "start": 13,
-    "end": 23
+    "end": 23,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 3,
@@ -24,7 +26,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 13,
     "start": 36,
-    "end": 46
+    "end": 46,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 4,
@@ -33,7 +36,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 14,
     "start": 77,
-    "end": 87
+    "end": 87,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 5,
@@ -42,7 +46,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 15,
     "start": 102,
-    "end": 112
+    "end": 112,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 6,
@@ -51,7 +56,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 7,
@@ -60,7 +66,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
 
   {
@@ -70,7 +77,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 9,
@@ -79,7 +87,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 10,
@@ -88,7 +97,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 11,
@@ -97,7 +107,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 12,
@@ -106,7 +117,8 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   },
   {
     "songId": 13,
@@ -115,6 +127,7 @@
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg/melon/resize/120/quality/80/optimize",
     "partId": 16,
     "start": 190,
-    "end": 200
+    "end": 200,
+    "songVideoId": "3kGAlp_PNUg"
   }
 ]
