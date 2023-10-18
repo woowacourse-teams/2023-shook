@@ -21,11 +21,11 @@ const StepperElementStyle = css`
 
   min-width: 50px;
   margin: 0;
-  padding: 4px 11px;
 
   font-weight: 700;
   text-align: center;
 
+  height: 30px;
   border: none;
   border-radius: 10px;
 `;
@@ -36,6 +36,9 @@ const ControlButton = styled.button`
   background-color: ${({ theme: { color } }) => color.secondary};
 
   font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:active {
     background-color: ${({ theme: { color } }) => color.disabled};
