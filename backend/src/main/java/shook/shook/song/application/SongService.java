@@ -3,6 +3,7 @@ package shook.shook.song.application;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
+import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -200,5 +202,13 @@ public class SongService {
         final List<Song> nextSongs = inMemorySongs.getNextLikedSongByGenre(currentSong, genre, AFTER_SONGS_COUNT);
 
         return convertToSongResponses(memberInfo, nextSongs);
+    }
+
+    public List<RecentSongCarouselResponse> findRecentRegisteredSongsForCarousel(final Integer size) {
+        final List<Song> topSongs = songRepository.findSongsOrderById(PageRequest.of(0, size));
+
+        return topSongs.stream()
+            .map(RecentSongCarouselResponse::from)
+            .toList();
     }
 }

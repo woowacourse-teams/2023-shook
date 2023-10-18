@@ -16,6 +16,7 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.dto.KillingPartRegisterRequest;
+import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -424,5 +425,29 @@ class SongServiceTest extends UsingJpaTest {
                     .containsExactly(2L, 1L, 3L, 5L, 4L)
             );
         }
+    }
+
+    @DisplayName("최근에 등록된 순으로 노래 5개를 조회한다.")
+    @Test
+    void findRecentRegisteredSongsForCarousel() {
+        // given
+        registerNewSong("노래1");
+        registerNewSong("노래2");
+        registerNewSong("노래3");
+        registerNewSong("노래4");
+        registerNewSong("노래5");
+        registerNewSong("노래6");
+        registerNewSong("노래7");
+
+        saveAndClearEntityManager();
+
+        // when
+        final List<RecentSongCarouselResponse> songs = songService.findRecentRegisteredSongsForCarousel(5);
+
+        // then
+        assertThat(songs.stream()
+            .map(RecentSongCarouselResponse::getId)
+            .toList())
+            .containsExactly(7L, 6L, 5L, 4L, 3L);
     }
 }
