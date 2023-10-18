@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSingerSearch } from '@/features/search/remotes/search';
 import SingerBanner from '@/features/singer/components/SingerBanner';
