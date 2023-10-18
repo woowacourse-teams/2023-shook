@@ -108,6 +108,10 @@ const WaveWrapper = styled(Flex)<{ $progressWidth: number }>`
   padding: ${({ $progressWidth }) => `0 calc((100% - ${$progressWidth}px) / 2)`};
 
   background-color: transparent;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    height: 90px;
+  }
 `;
 
 const Container = styled.div`
