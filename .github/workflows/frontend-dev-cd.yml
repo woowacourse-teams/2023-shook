@@ -11,26 +11,43 @@ jobs:
 
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Setting env
         shell: bash
         run: |
           rm -rf frontend/.env
           mkdir frontend/.env
           echo "BASE_URL=${{ secrets.FRONT_DEV_BASE_URL }}" > frontend/.env/.env.production
-      - name: Package clean install
+
+      - name: Cache dependencies
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}-
+            ${{ runner.os }}-node-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
         shell: bash
-        run: |
-          cd frontend
-          npm ci
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: npm ci
+        working-directory: ./frontend
+
       - name: Build files
         shell: bash
-        run: |
-          cd frontend
-          npm run build
+        run: npm run build
+        working-directory: ./frontend
+
       - name: Remove legacy static pages
         shell: bash
         run: rm -rf /home/ubuntu/dist
+
       - name: Move generated new static pages
         shell: bash
         run: cp -r frontend/dist ~/
