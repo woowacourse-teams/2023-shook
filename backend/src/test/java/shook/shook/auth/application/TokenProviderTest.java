@@ -19,8 +19,8 @@ class TokenProviderTest {
     @BeforeEach
     public void setUp() {
         tokenProvider = new TokenProvider(ACCESS_TOKEN_VALID_TIME,
-            REFRESH_TOKEN_VALID_TIME,
-            SECRET_CODE);
+                                          REFRESH_TOKEN_VALID_TIME,
+                                          SECRET_CODE);
     }
 
     @DisplayName("올바른 access token을 생성한다.")

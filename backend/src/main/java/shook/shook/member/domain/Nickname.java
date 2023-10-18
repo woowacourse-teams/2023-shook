@@ -16,7 +16,8 @@ import shook.shook.util.StringChecker;
 @Embeddable
 public class Nickname {
 
-    private static final int NICKNAME_MAXIMUM_LENGTH = 100;
+    private static final int NICKNAME_MAXIMUM_LENGTH = 20;
+    private static final int NICKNAME_MINIMUM_LENGTH = 2;
 
     @Column(name = "nickname", length = NICKNAME_MAXIMUM_LENGTH, nullable = false)
     private String value;
@@ -32,6 +33,11 @@ public class Nickname {
         }
         if (value.length() > NICKNAME_MAXIMUM_LENGTH) {
             throw new MemberException.TooLongNicknameException(
+                Map.of("Nickname", value)
+            );
+        }
+        if (value.length() < NICKNAME_MINIMUM_LENGTH) {
+            throw new MemberException.TooShortNicknameException(
                 Map.of("Nickname", value)
             );
         }

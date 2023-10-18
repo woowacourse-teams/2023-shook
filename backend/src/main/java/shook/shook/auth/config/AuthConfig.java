@@ -45,7 +45,8 @@ public class AuthConfig implements WebMvcConfigurer {
             .includePathPattern("/songs/*/parts/*/likes", PathMethod.PUT)
             .includePathPattern("/voting-songs/*/parts", PathMethod.POST)
             .includePathPattern("/songs/*/parts/*/comments", PathMethod.POST)
-            .includePathPattern("/members/*", PathMethod.DELETE);
+            .includePathPattern("/members/*", PathMethod.DELETE)
+            .includePathPattern("/members/*/nickname", PathMethod.PATCH);
     }
 
     @Override

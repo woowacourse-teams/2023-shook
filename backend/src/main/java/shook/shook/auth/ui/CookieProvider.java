@@ -19,6 +19,7 @@ public class CookieProvider {
         cookie.setPath("/api/reissue");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
+
         return cookie;
     }
 }

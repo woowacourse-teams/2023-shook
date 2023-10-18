@@ -49,6 +49,14 @@ public class Member {
         this.nickname = new Nickname(newNickName);
     }
 
+    public void updateNickname(final Nickname newNickname) {
+        this.nickname = newNickname;
+    }
+
+    public boolean hasSameNickname(final Nickname nickname) {
+        return nickname.equals(this.nickname);
+    }
+
     public String getEmail() {
         return email.getValue();
     }

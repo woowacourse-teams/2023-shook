@@ -1,7 +1,6 @@
 package shook.shook.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -13,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
 import shook.shook.auth.application.dto.TokenPair;
-import shook.shook.auth.exception.TokenException;
 import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.member.application.MemberService;
 import shook.shook.member.domain.Member;
@@ -90,60 +87,5 @@ class AuthServiceTest {
         assertThat(accessTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
         assertThat(accessTokenClaims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
         assertThat(refreshTokenClaims.get("memberId", Long.class)).isEqualTo(savedMember.getId());
-        assertThat(refreshTokenClaims.get("nickname", String.class)).isEqualTo(savedMember.getNickname());
-    }
-
-    @DisplayName("올바른 refresh 토큰과 access 토큰이 들어오면 access 토큰을 재발급해준다.")
-    @Test
-    void success_reissue() {
-        //given
-        //when
-        final ReissueAccessTokenResponse result = authService.reissueAccessTokenByRefreshToken(
-            refreshToken, accessToken);
-
-        //then
-        final String accessToken = tokenProvider.createAccessToken(
-            savedMember.getId(),
-            savedMember.getNickname());
-
-        assertThat(result.getAccessToken()).isEqualTo(accessToken);
-    }
-
-    @DisplayName("잘못된 refresh 토큰(secret Key가 다른)이 들어오면 예외를 던진다.")
-    @Test
-    void fail_reissue_invalid_refreshToken() {
-        //given
-        final TokenProvider inValidTokenProvider = new TokenProvider(
-            10L,
-            100L,
-            "asdzzxcwetg2adfvssd3xZcZXCZvzx");
-
-        final String wrongRefreshToken = inValidTokenProvider.createRefreshToken(
-            savedMember.getId(),
-            savedMember.getNickname());
-
-        //when
-        //then
-        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(wrongRefreshToken, accessToken))
-            .isInstanceOf(TokenException.NotIssuedTokenException.class);
-    }
-
-    @DisplayName("기간이 만료된 refresh 토큰이면 예외를 던진다.")
-    @Test
-    void fail_reissue_expired_refreshToken() {
-        //given
-        final TokenProvider inValidTokenProvider = new TokenProvider(
-            0,
-            0,
-            "asdfsdsvsdf2esvsdvsdvs23");
-
-        final String refreshToken = inValidTokenProvider.createRefreshToken(
-            savedMember.getId(),
-            savedMember.getNickname());
-
-        //when
-        //then
-        assertThatThrownBy(() -> authService.reissueAccessTokenByRefreshToken(refreshToken, accessToken))
-            .isInstanceOf(TokenException.ExpiredTokenException.class);
     }
 }

@@ -93,4 +93,26 @@ public class MemberException extends CustomException {
             super(ErrorCode.MEMBER_NOT_EXIST, inputValuesByProperty);
         }
     }
+
+    public static class ExistNicknameException extends MemberException {
+
+        public ExistNicknameException() {
+            super(ErrorCode.DUPLICATE_NICKNAME);
+        }
+
+        public ExistNicknameException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.DUPLICATE_NICKNAME, inputValuesByProperty);
+        }
+    }
+
+    public static class TooShortNicknameException extends MemberException {
+
+        public TooShortNicknameException() {
+            super(ErrorCode.TOO_SHORT_NICKNAME);
+        }
+
+        public TooShortNicknameException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.TOO_SHORT_NICKNAME, inputValuesByProperty);
+        }
+    }
 }

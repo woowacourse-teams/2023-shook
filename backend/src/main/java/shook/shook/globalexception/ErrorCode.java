@@ -60,22 +60,24 @@ public enum ErrorCode {
     VOTING_PART_END_OVER_SONG_LENGTH(4003, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
     INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5, 10, 15초 중 하나여야합니다."),
     VOTING_PART_DUPLICATE_START_AND_LENGTH_EXCEPTION(4005,
-        "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
+                                                     "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
     VOTING_SONG_PART_NOT_EXIST(4006, "투표 대상 파트가 존재하지 않습니다."),
 
     VOTING_SONG_PART_FOR_OTHER_SONG(4007, "해당 파트는 다른 노래의 파트입니다."),
     VOTING_SONG_NOT_EXIST(4008, "존재하지 않는 투표 노래입니다."),
     VOTE_FOR_OTHER_PART(4009, "해당 투표는 다른 파트에 대한 투표입니다."),
     DUPLICATE_VOTE_EXIST(4010, "중복된 투표입니다."),
-    // 5000: 사용자
 
+    // 5000: 사용자
     EMPTY_EMAIL(5001, "이메일은 비어있을 수 없습니다."),
     TOO_LONG_EMAIL(5002, "이메일은 100자를 초과할 수 없습니다."),
     INVALID_EMAIL_FORM(5003, "이메일 형식에 맞지 않습니다."),
     EMPTY_NICKNAME(5004, "닉네임은 비어있을 수 없습니다."),
-    TOO_LONG_NICKNAME(5005, "닉네임은 100자를 초과할 수 없습니다."),
+    TOO_LONG_NICKNAME(5005, "닉네임은 20자를 초과할 수 없습니다."),
     EXIST_MEMBER(5006, "이미 회원가입 된 멤버입니다."),
     MEMBER_NOT_EXIST(5007, "존재하지 않는 멤버입니다."),
+    DUPLICATE_NICKNAME(5008, "중복되는 닉네임입니다."),
+    TOO_SHORT_NICKNAME(5009, "닉네임은 2자 이상이어야 합니다."),
 
     REQUEST_BODY_VALIDATION_FAIL(10001, ""),
     WRONG_REQUEST_URL(10002, "URL의 pathVariable 은 비어있을 수 없습니다."),

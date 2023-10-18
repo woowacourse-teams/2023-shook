@@ -6,8 +6,11 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.auth.exception.AuthorizationException;
+import shook.shook.auth.repository.InMemoryTokenPairRepository;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.member.application.dto.NicknameUpdateRequest;
 import shook.shook.member.domain.Email;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.Nickname;
@@ -27,6 +30,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final KillingPartCommentRepository commentRepository;
     private final KillingPartLikeRepository likeRepository;
+    private final TokenProvider tokenProvider;
+    private final InMemoryTokenPairRepository inMemoryTokenPairRepository;
 
     @Transactional
     public Member register(final String email) {
@@ -37,6 +42,7 @@ public class MemberService {
         final Member newMember = new Member(email, BASIC_NICKNAME);
         final Member savedMember = memberRepository.save(newMember);
         savedMember.updateNickname(savedMember.getNickname() + savedMember.getId());
+
         return savedMember;
     }
 
@@ -55,19 +61,32 @@ public class MemberService {
 
     @Transactional
     public void deleteById(final Long id, final MemberInfo memberInfo) {
-        final long requestMemberId = memberInfo.getMemberId();
-        final Member requestMember = findById(requestMemberId);
-        final Member targetMember = findById(id);
-        validateMemberAuthentication(requestMember, targetMember);
+        final Member member = getMemberIfValidRequest(id, memberInfo.getMemberId());
 
-        final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(
-            targetMember,
-            false
-        );
+        final List<KillingPartLike> membersExistLikes = likeRepository.findAllByMemberAndIsDeleted(member, false);
 
         membersExistLikes.forEach(KillingPartLike::updateDeletion);
-        commentRepository.deleteAllByMember(targetMember);
-        memberRepository.delete(targetMember);
+        commentRepository.deleteAllByMember(member);
+        memberRepository.delete(member);
+    }
+
+    private Member getMemberIfValidRequest(final Long memberId, final Long requestMemberId) {
+        final Member requestMember = findById(requestMemberId);
+        final Member targetMember = findById(memberId);
+        validateMemberAuthentication(requestMember, targetMember);
+
+        return targetMember;
+    }
+
+    private void validateMemberAuthentication(final Member requestMember, final Member targetMember) {
+        if (!requestMember.equals(targetMember)) {
+            throw new AuthorizationException.UnauthenticatedException(
+                Map.of(
+                    "tokenMemberId", String.valueOf(requestMember.getId()),
+                    "pathMemberId", String.valueOf(targetMember.getId())
+                )
+            );
+        }
     }
 
     private Member findById(final Long id) {
@@ -77,14 +96,28 @@ public class MemberService {
             ));
     }
 
-    private void validateMemberAuthentication(final Member requestMember,
-                                              final Member targetMember) {
-        if (!requestMember.equals(targetMember)) {
-            throw new AuthorizationException.UnauthenticatedException(
-                Map.of(
-                    "tokenMemberId", String.valueOf(requestMember.getId()),
-                    "pathMemberId", String.valueOf(targetMember.getId())
-                )
+    @Transactional
+    public boolean updateNickname(final Long memberId, final Long requestMemberId,
+                                  final NicknameUpdateRequest request) {
+        final Member member = getMemberIfValidRequest(memberId, requestMemberId);
+        final Nickname nickname = new Nickname(request.getNickname());
+
+        if (member.hasSameNickname(nickname)) {
+            return false;
+        }
+
+        validateDuplicateNickname(nickname);
+        member.updateNickname(nickname.getValue());
+        memberRepository.save(member);
+
+        return true;
+    }
+
+    private void validateDuplicateNickname(final Nickname nickname) {
+        final boolean isDuplicated = memberRepository.existsMemberByNickname(nickname);
+        if (isDuplicated) {
+            throw new MemberException.ExistNicknameException(
+                Map.of("Nickname", nickname.getValue())
             );
         }
     }

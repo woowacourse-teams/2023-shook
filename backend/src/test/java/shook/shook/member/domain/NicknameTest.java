@@ -33,11 +33,11 @@ class NicknameTest {
             .isInstanceOf(MemberException.NullOrEmptyNicknameException.class);
     }
 
-    @DisplayName("닉네임의 길이가 100자를 넘을 경우 예외를 던진다.")
+    @DisplayName("닉네임의 길이가 20자를 넘을 경우 예외를 던진다.")
     @Test
-    void create_fail_lengthOver100() {
+    void create_fail_lengthOver20() {
         //given
-        final String nickname = ".".repeat(101);
+        final String nickname = ".".repeat(21);
 
         //when
         //then

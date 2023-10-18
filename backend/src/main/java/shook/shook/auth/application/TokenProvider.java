@@ -50,6 +50,7 @@ public class TokenProvider {
         claims.put("memberId", memberId);
         claims.put("nickname", nickname);
         final Date now = new Date();
+
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
