@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Flex from '@/shared/components/Flex/Flex';
+import ROUTE_PATH from '@/shared/constants/path';
 import { toMinSecText } from '@/shared/utils/convertTime';
 import type { SingersSong } from '@/features/singer/types/singer.type';
 
@@ -7,22 +9,35 @@ interface SingerSongItemProps extends SingersSong {}
 
 const SingerSongItem = ({ id, singer, albumCoverUrl, title, videoLength }: SingerSongItemProps) => {
   return (
-    <SongListItem as="li" key={id} $gap={16} $justify="center" $xs={{ $align: 'center' }}>
-      <AlbumCoverWrapper>
-        <AlbumCover src={albumCoverUrl} />
-      </AlbumCoverWrapper>
-      <FlexInfo $direction="column" $gap={8} $xs={{ $gap: 4 }}>
-        <SongTitle>{title}</SongTitle>
-        <Singer>{singer}</Singer>
-      </FlexInfo>
-      <VideoLength $align="center" $justify="flex-end">
-        {toMinSecText(videoLength)}
-      </VideoLength>
+    <SongListItem as="li">
+      <FlexLink to={`/${ROUTE_PATH.SONG_DETAILS}/${id}/ALL`}>
+        <AlbumCoverWrapper>
+          <AlbumCover src={albumCoverUrl} />
+        </AlbumCoverWrapper>
+        <FlexInfo $direction="column" $gap={8} $xs={{ $gap: 4 }}>
+          <SongTitle>{title}</SongTitle>
+          <Singer>{singer}</Singer>
+        </FlexInfo>
+        <VideoLength $align="center" $justify="flex-end">
+          {toMinSecText(videoLength)}
+        </VideoLength>
+      </FlexLink>
     </SongListItem>
   );
 };
 
 export default SingerSongItem;
+
+const FlexLink = styled(Link)`
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    align-items: center;
+  }
+`;
 
 const SongListItem = styled(Flex)`
   width: 100%;
@@ -34,6 +49,11 @@ const SongListItem = styled(Flex)`
     &:hover {
       background-color: ${({ theme: { color } }) => color.secondary};
     }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding: 0;
+    border-radius: 0;
   }
 `;
 

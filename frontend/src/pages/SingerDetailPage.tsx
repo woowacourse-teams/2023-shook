@@ -13,7 +13,7 @@ const SingerDetailPage = () => {
   const { data: singerDetail } = useFetch(() => getSingerDetail(Number(singerId)));
   if (!singerDetail) return;
 
-  const { id, profileImageUrl, singer, songs, totalSongCount } = singerDetail;
+  const { profileImageUrl, singer, songs, totalSongCount } = singerDetail;
 
   return (
     <Container $direction="column">
@@ -25,7 +25,7 @@ const SingerDetailPage = () => {
         singer={singer}
         totalSongCount={totalSongCount}
       />
-      <Spacing direction="vertical" size={68} />
+      <Spacing direction="vertical" size={68} $md={{ size: 34 }} />
       <Title>곡</Title>
       <Spacing direction="vertical" size={18} />
       <SongsItemList as="ol" $direction="column" $gap={12} $align="center">
@@ -42,7 +42,6 @@ export default SingerDetailPage;
 const Container = styled(Flex)`
   width: 100%;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
-  color: white;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
@@ -56,10 +55,13 @@ const Container = styled(Flex)`
 const SongsItemList = styled(Flex)`
   overflow-y: scroll;
   width: 100%;
-  border-radius: 8px;
 `;
 
 const Title = styled.h2`
   font-size: 28px;
   font-weight: 700;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    font-size: 24px;
+  }
 `;
