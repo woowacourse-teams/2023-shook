@@ -7,17 +7,22 @@ interface SingerBannerProps
 
 const SingerBanner = ({ profileImageUrl, singer, totalSongCount }: SingerBannerProps) => {
   return (
-    <SingerInfoContainer $align=" center" $gap={24}>
-      <ProfileImage src={profileImageUrl} alt="" />
-      <Flex $direction="column" $gap={16}>
-        <Name>{singer}</Name>
-        <SongCount>{`등록된 노래 ${totalSongCount}개`}</SongCount>
-      </Flex>
-    </SingerInfoContainer>
+    <Container>
+      <Title>아티스트</Title>
+      <SingerInfoContainer $align=" center" $gap={24}>
+        <ProfileImage src={profileImageUrl} alt="" />
+        <Flex $direction="column" $gap={16}>
+          <Name>{singer}</Name>
+          <SongCount>{`등록된 노래 ${totalSongCount}개`}</SongCount>
+        </Flex>
+      </SingerInfoContainer>
+    </Container>
   );
 };
 
 export default SingerBanner;
+
+const Container = styled.div``;
 
 const SingerInfoContainer = styled(Flex)`
   width: 370px;
@@ -61,5 +66,15 @@ const SongCount = styled.p`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 14px;
+  }
+`;
+
+const Title = styled.h1`
+  margin-bottom: 18px;
+  font-size: 28px;
+  font-weight: 700;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 24px;
   }
 `;

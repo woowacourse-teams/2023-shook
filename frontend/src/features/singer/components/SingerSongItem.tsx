@@ -18,7 +18,7 @@ const SingerSongItem = ({ id, singer, albumCoverUrl, title, videoLength }: Singe
           <SongTitle>{title}</SongTitle>
           <Singer>{singer}</Singer>
         </FlexInfo>
-        <VideoLength $align="center" $justify="flex-end">
+        <VideoLength as="span" $align="center" $justify="flex-end">
           {toMinSecText(videoLength)}
         </VideoLength>
       </FlexLink>
@@ -39,7 +39,7 @@ const FlexLink = styled(Link)`
   }
 `;
 
-const SongListItem = styled(Flex)`
+const SongListItem = styled.li`
   width: 100%;
   padding: 8px;
   color: ${({ theme: { color } }) => color.white};
@@ -52,7 +52,6 @@ const SongListItem = styled(Flex)`
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    padding: 0;
     border-radius: 0;
   }
 `;
