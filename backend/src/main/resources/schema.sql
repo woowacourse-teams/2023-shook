@@ -12,11 +12,12 @@ create table if not exists song
 
 create table if not exists killing_part
 (
-    id           bigint auto_increment,
-    start_second integer      not null,
-    length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
-    song_id      bigint       not null,
-    created_at   timestamp(6) not null,
+    id            bigint auto_increment,
+    start_second  integer      not null,
+    legacy_length varchar(255) not null check (legacy_length in ('SHORT', 'STANDARD', 'LONG')),
+    length        integer      not null,
+    song_id       bigint       not null,
+    created_at    timestamp(6) not null,
     primary key (id)
 );
 
