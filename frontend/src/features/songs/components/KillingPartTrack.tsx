@@ -3,35 +3,45 @@ import { css, styled } from 'styled-components';
 import emptyPlayIcon from '@/assets/icon/empty-play.svg';
 import fillPlayIcon from '@/assets/icon/fill-play.svg';
 import shareIcon from '@/assets/icon/share.svg';
+import trashIcon from '@/assets/icon/trash.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
+import { deleteMemberParts } from '@/features/member/remotes/memberParts';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
+import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
 import useKillingPartLikes from '../hooks/useKillingPartLikes';
+import MyPartModal from './MyPartModal';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
+  order: number;
   killingPart: KillingPart;
   songId: number;
   isNowPlayingTrack: boolean;
-  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<number>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  isMyKillingPart?: boolean;
+  hideMyPart?: () => void;
 }
 
 const KillingPartTrack = ({
+  order,
   killingPart: { id: partId, rank, start, end, likeCount, likeStatus },
   songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
+  isMyKillingPart,
+  hideMyPart,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
@@ -42,7 +52,16 @@ const KillingPartTrack = ({
     partId,
   });
   const { countedTime: currentPlayTime } = useTimerContext();
-  const { isOpen, closeModal, openModal } = useModal();
+  const {
+    isOpen: isLoginModalOpen,
+    closeModal: closeLoginModal,
+    openModal: openLoginModal,
+  } = useModal();
+  const {
+    isOpen: isMyPartModal,
+    closeModal: closeMyPartModal,
+    openModal: openMyPartModal,
+  } = useModal();
   const { user } = useAuthContext();
   const isLoggedIn = user !== null;
 
@@ -78,8 +97,13 @@ const KillingPartTrack = ({
 
   const playTrack = () => {
     seekTo(start);
-    setNowPlayingTrack(partId);
-    setCommentsPartId(partId);
+    setNowPlayingTrack(order);
+
+    if (order !== 4) {
+      setCommentsPartId(partId);
+    } else {
+      setCommentsPartId(-1);
+    }
   };
 
   const stopTrack = () => {
@@ -111,18 +135,31 @@ const KillingPartTrack = ({
     toggleKillingPartLikes();
   };
 
+  const { mutateData: deleteMemberPart } = useMutation(() => deleteMemberParts(partId));
+
+  const deleteMyPart = async () => {
+    if (!hideMyPart) return;
+
+    await deleteMemberPart();
+
+    hideMyPart();
+    pause();
+    closeMyPartModal();
+    showToast('내 파트가 삭제되었습니다.');
+  };
+
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
-      htmlFor={`play-${songId}-${partId}`}
+      htmlFor={`play-${songId}-${order}`}
       tabIndex={0}
       role="radio"
-      aria-label={`${rank}등 킬링파트 재생하기`}
+      aria-label={isMyKillingPart ? '나의 킬링파트 재생하기' : `${rank}등 킬링파트 재생하기`}
     >
       <FLexContainer>
-        <Rank>{ordinalRank}</Rank>
+        <Rank>{isMyKillingPart ? 'MY' : ordinalRank}</Rank>
         <PlayButton
-          id={`play-${songId}-${partId}`}
+          id={`play-${songId}-${order}`}
           name="track"
           type="radio"
           onChange={toggleTrackPlayAndStop}
@@ -133,30 +170,41 @@ const KillingPartTrack = ({
         <PlayingTime>{playingTime}</PlayingTime>
       </FLexContainer>
       <ButtonContainer>
-        <LikeButton
-          onClick={isLoggedIn ? toggleLike : openModal}
-          aria-label={`${rank}등 킬링파트 좋아요 하기`}
-        >
-          <ButtonIcon src={heartIcon} alt="" />
-          <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
-        </LikeButton>
-        <ShareButton
-          aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
-          onClick={copyKillingPartUrl}
-        >
-          <ButtonIcon src={shareIcon} alt="" />
-          <ButtonTitle>Share</ButtonTitle>
-        </ShareButton>
+        {isMyKillingPart ? (
+          <DeleteButton type="button" onClick={openMyPartModal} aria-label="나의 킬링파트 삭제하기">
+            <ButtonIcon src={trashIcon} alt="" />
+          </DeleteButton>
+        ) : (
+          <>
+            <LikeButton
+              onClick={isLoggedIn ? toggleLike : openLoginModal}
+              aria-label={`${rank}등 킬링파트 좋아요 하기`}
+            >
+              <ButtonIcon src={heartIcon} alt="" />
+              <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
+            </LikeButton>
+            <ShareButton
+              aria-label={`${rank}등 킬링파트 유튜브 링크 공유하기`}
+              onClick={copyKillingPartUrl}
+            >
+              <ButtonIcon src={shareIcon} alt="" />
+              <ButtonTitle>Share</ButtonTitle>
+            </ShareButton>
+          </>
+        )}
       </ButtonContainer>
       {isNowPlayingTrack && (
         <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
       )}
+
+      <MyPartModal isOpen={isMyPartModal} closeModal={closeMyPartModal} onDelete={deleteMyPart} />
+
       <LoginModal
-        isOpen={isOpen}
+        isOpen={isLoginModalOpen}
         message={
           '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!\n"좋아요!"한 노래는 마이페이지에 저장됩니다!'
         }
-        closeModal={closeModal}
+        closeModal={closeLoginModal}
       />
     </Container>
   );
@@ -218,6 +266,10 @@ const ButtonWithIcon = css`
   align-items: center;
 
   width: 44px;
+`;
+
+const DeleteButton = styled.button`
+  ${ButtonWithIcon}
 `;
 
 const LikeButton = styled.button`
