@@ -49,8 +49,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT,
-            SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
@@ -64,8 +63,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT,
-            SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -88,8 +86,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
         //when
         saveAndClearEntityManager();
-        final List<VotingSongPart> allBySong = votingSongPartRepository.findAllByVotingSong(
-            SAVED_SONG);
+        final List<VotingSongPart> allBySong = votingSongPartRepository.findAllByVotingSong(SAVED_SONG);
 
         //then
         assertThat(allBySong).containsAll(List.of(firstPart, secondPart));

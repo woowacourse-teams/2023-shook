@@ -31,9 +31,6 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         + "HAVING SUM(COALESCE(kp.likeCount, 0)) < (SELECT SUM(COALESCE(kp2.likeCount, 0)) FROM KillingPart kp2 WHERE kp2.song.id = :id) "
         + "OR (SUM(COALESCE(kp.likeCount, 0)) = (SELECT SUM(COALESCE(kp3.likeCount, 0)) FROM KillingPart kp3 WHERE kp3.song.id = :id) AND s.id < :id) "
         + "ORDER BY SUM(COALESCE(kp.likeCount, 0)) DESC, s.id DESC")
-        // id 로 song 찾아온느 쿼리 1개 -> 비즈니스 로직에서 조건 필터링 => 2번을 1번으로
-        // 100개 이하의 데이터는 비즈니스 로직에서 정렬하는 것을 추천한다.
-        // 조건이 확실하게 있는 경우는 쿼리에서 하는 것이 좋다.
     List<Song> findSongsWithLessLikeCountThanSongWithId(
         @Param("id") final Long songId,
         final Pageable pageable
