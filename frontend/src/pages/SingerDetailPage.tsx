@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { getSingerDetail } from '@/features/search/remotes/singer';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongItem from '@/features/singer/components/SingerSongItem';
+import SingerSongList from '@/features/singer/components/SingerSongList';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
@@ -17,8 +18,6 @@ const SingerDetailPage = () => {
 
   return (
     <Container $direction="column">
-      <Spacing direction="vertical" size={36} />
-      <Title>아티스트</Title>
       <Spacing direction="vertical" size={18} />
       <SingerBanner
         profileImageUrl={profileImageUrl}
@@ -26,13 +25,8 @@ const SingerDetailPage = () => {
         totalSongCount={totalSongCount}
       />
       <Spacing direction="vertical" size={68} $md={{ size: 34 }} />
-      <Title>곡</Title>
+      <SingerSongList songs={songs} />
       <Spacing direction="vertical" size={18} />
-      <SongsItemList as="ol" $direction="column" $gap={12} $align="center">
-        {songs.map((song) => (
-          <SingerSongItem key={song.id} {...song} />
-        ))}
-      </SongsItemList>
     </Container>
   );
 };
@@ -49,19 +43,5 @@ const Container = styled(Flex)`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.xxs};
-  }
-`;
-
-const SongsItemList = styled(Flex)`
-  overflow-y: scroll;
-  width: 100%;
-`;
-
-const Title = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-    font-size: 24px;
   }
 `;
