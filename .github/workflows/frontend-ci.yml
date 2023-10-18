@@ -22,16 +22,20 @@ jobs:
           node-version: ${{ env.node-version }}
 
       - name: Cache dependencies
-        id: cache
+        id: cache-npm
         uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
+            ${{ runner.os }}-node-${{ env.cache-name }}-
             ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         run: npm ci
         working-directory: ${{ env.working-directory }}
 
