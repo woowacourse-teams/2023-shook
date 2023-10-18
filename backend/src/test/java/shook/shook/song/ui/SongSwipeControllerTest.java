@@ -120,7 +120,7 @@ class SongSwipeControllerTest {
         assertThat(response.stream()
                        .map(SongResponse::getId).toList())
             .containsExactly(1L, 4L, 3L);
-        assertThat(response.get(0).getMemberPart().getPartId()).isNotNull();
+        assertThat(response.get(0).getMemberPart().getId()).isNotNull();
         assertThat(response.get(1).getMemberPart()).isNull();
         assertThat(response.get(2).getMemberPart()).isNull();
     }

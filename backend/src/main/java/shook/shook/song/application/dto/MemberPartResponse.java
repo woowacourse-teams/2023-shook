@@ -12,7 +12,7 @@ import shook.shook.member_part.domain.MemberPart;
 public class MemberPartResponse {
 
     @Schema(description = "멤버 파트 id", example = "1")
-    private final Long partId;
+    private final Long id;
 
     @Schema(description = "멤버 파트 시작 초", example = "30")
     private final int start;

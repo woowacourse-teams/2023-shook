@@ -136,7 +136,7 @@ class SongServiceTest extends UsingJpaTest {
                                              song.getLikeCountSortedKillingParts().get(2).getId())
                 .hasFieldOrPropertyWithValue("rank", 3)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
-            () -> assertThat(response.getCurrentSong().getMemberPart().getPartId()).isNotNull()
+            () -> assertThat(response.getCurrentSong().getMemberPart().getId()).isNotNull()
         );
     }
 
@@ -314,12 +314,12 @@ class SongServiceTest extends UsingJpaTest {
                                      .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 1L)),
                 () -> assertThat(result.getCurrentSong().getMemberPart()).isNull(),
                 () -> assertThat(result.getPrevSongs().stream()
-                                     .map(songResponse -> songResponse.getMemberPart().getPartId())
+                                     .map(songResponse -> songResponse.getMemberPart().getId())
                                      .toList())
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(4L, 3L)),
                 () -> assertThat(result.getNextSongs().stream()
-                                     .map(songResponse -> songResponse.getMemberPart().getPartId())
+                                     .map(songResponse -> songResponse.getMemberPart().getId())
                                      .toList())
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(2L, 1L))
@@ -389,7 +389,7 @@ class SongServiceTest extends UsingJpaTest {
                            .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
             assertThat(beforeResponses.stream()
                            .map(SongResponse::getMemberPart)
-                           .map(MemberPartResponse::getPartId)
+                           .map(MemberPartResponse::getId)
                            .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
         }
 
@@ -433,7 +433,7 @@ class SongServiceTest extends UsingJpaTest {
                            .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
             assertThat(afterResponses.stream()
                            .map(SongResponse::getMemberPart)
-                           .map(MemberPartResponse::getPartId)
+                           .map(MemberPartResponse::getId)
                            .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
         }
     }
@@ -518,7 +518,7 @@ class SongServiceTest extends UsingJpaTest {
                                              song.getLikeCountSortedKillingParts().get(2).getId())
                 .hasFieldOrPropertyWithValue("rank", 3)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
-            () -> assertThat(response.getMemberPart().getPartId()).isNotNull()
+            () -> assertThat(response.getMemberPart().getId()).isNotNull()
         );
     }
 }
