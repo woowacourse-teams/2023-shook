@@ -1,5 +1,5 @@
 import fetcher from '@/shared/remotes';
-import type { SingerSearchPreview, SingerSearchResult } from '../types/search';
+import type { SingerSearchPreview, SingerSearchResult } from '../types/search.type';
 
 export const getSingerSearchPreview = async (query: string): Promise<SingerSearchPreview[]> => {
   const encodedQuery = encodeURIComponent(query);
