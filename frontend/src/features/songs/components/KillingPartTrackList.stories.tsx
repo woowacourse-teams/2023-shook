@@ -65,7 +65,7 @@ const killingPart3: KillingPart = {
   partLength: 10,
 };
 
-const myPart: KillingPart = {
+const memberPart: KillingPart = {
   id: 4,
   rank: 3,
   voteCount: 0,
@@ -84,7 +84,7 @@ const KillingPartTrackListWithHooks = () => {
 
   return (
     <KillingPartTrackList
-      myPart={myPart}
+      memberPart={memberPart}
       killingParts={[killingPart, killingPart2, killingPart3]}
       songId={1}
       nowPlayingTrack={nowPlayingTrack}

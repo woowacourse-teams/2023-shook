@@ -10,7 +10,7 @@ import type { KillingPart, SongDetail } from '@/shared/types/song';
 
 interface KillingPartTrackListProps {
   killingParts: SongDetail['killingParts'];
-  myPart: SongDetail['myPart'];
+  memberPart: SongDetail['memberPart'];
   songId: number;
   nowPlayingTrack: KillingPart['id'];
   setNowPlayingTrack: React.Dispatch<React.SetStateAction<number>>;
@@ -19,13 +19,13 @@ interface KillingPartTrackListProps {
 
 const KillingPartTrackList = ({
   killingParts,
-  myPart,
+  memberPart,
   songId,
   nowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
 }: KillingPartTrackListProps) => {
-  const [myPartDetail, setMyPartDetail] = useState<SongDetail['myPart'] | null>(myPart);
+  const [myPartDetail, setMyPartDetail] = useState<SongDetail['memberPart'] | null>(memberPart);
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const KillingPartTrackList = ({
       {myPartDetail ? (
         <KillingPartTrack
           order={4}
-          killingPart={myPart}
+          killingPart={memberPart}
           songId={songId}
           isNowPlayingTrack={4 === nowPlayingTrack}
           setNowPlayingTrack={setNowPlayingTrack}
