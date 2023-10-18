@@ -44,6 +44,7 @@ class MemberPartRepositoryTest extends UsingJpaTest {
         final Optional<MemberPart> optionalMember = memberPartRepository.findByMemberIdAndId(member.getId(),
                                                                                              memberPart.getId());
         final MemberPart savedMemberPart = optionalMember.get();
+
         // then
         assertThat(optionalMember).isPresent();
         assertThat(savedMemberPart.getMember().getId()).isEqualTo(member.getId());
