@@ -1,5 +1,6 @@
-interface SingersSong {
+export interface SingersSong {
   id: number;
+  singer: string;
   title: string;
   albumCoverUrl: string;
   videoLength: number;

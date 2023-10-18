@@ -2,43 +2,49 @@
   {
     "id": 1,
     "singer": "악동뮤지션",
-    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
     "totalSongCount": 6,
     "songs": [
       {
         "id": 1,
+        "singer": "악동뮤지션",
         "title": "계란찜의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 111
       },
       {
         "id": 2,
+        "singer": "악동뮤지션",
         "title": "수란의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 222
       },
       {
         "id": 3,
+        "singer": "악동뮤지션",
         "title": "서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 333
       },
       {
         "id": 4,
+        "singer": "악동뮤지션",
         "title": "계란찜의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 111
       },
       {
         "id": 5,
+        "singer": "악동뮤지션",
         "title": "수란의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 222
       },
       {
         "id": 6,
+        "singer": "악동뮤지션",
         "title": "서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 333
       }
     ]
@@ -46,25 +52,28 @@
   {
     "id": 2,
     "singer": "악동",
-    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
     "totalSongCount": 12,
     "songs": [
       {
         "id": 7,
+        "singer": "악동",
         "title": "계란찜의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 111
       },
       {
         "id": 8,
+        "singer": "악동",
         "title": "수란의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 222
       },
       {
         "id": 9,
+        "singer": "악동",
         "title": "서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 333
       }
     ]
@@ -72,25 +81,28 @@
   {
     "id": 3,
     "singer": "뮤지션",
-    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
     "totalSongCount": 18,
     "songs": [
       {
         "id": 10,
+        "singer": "뮤지션",
         "title": "계란찜의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 111
       },
       {
         "id": 11,
+        "singer": "뮤지션",
         "title": "수란의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 222
       },
       {
         "id": 12,
+        "singer": "뮤지션",
         "title": "서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 서니사이드업의 꿈",
-        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize",
+        "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/240/quality/100/optimize",
         "videoLength": 333
       }
     ]
