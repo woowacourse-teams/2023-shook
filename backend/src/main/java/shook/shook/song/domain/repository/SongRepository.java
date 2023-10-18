@@ -46,5 +46,8 @@ public interface SongRepository extends JpaRepository<Song, Long> {
         final Pageable pageable
     );
 
+    @Query("SELECT s from Song s ORDER BY s.id DESC")
+    List<Song> findSongsOrderById(final Pageable pageable);
+
     boolean existsSongByTitle(final SongTitle title);
 }
