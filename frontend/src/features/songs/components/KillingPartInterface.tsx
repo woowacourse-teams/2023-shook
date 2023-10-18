@@ -18,7 +18,7 @@ interface KillingPartInterfaceProps {
 const DEFAULT_PART_ID = -1;
 
 const KillingPartInterface = ({ killingParts, songId, myPart }: KillingPartInterfaceProps) => {
-  const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(DEFAULT_PART_ID);
+  const [nowPlayingTrack, setNowPlayingTrack] = useState(DEFAULT_PART_ID);
   const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
   const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();

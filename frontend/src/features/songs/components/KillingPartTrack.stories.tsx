@@ -50,6 +50,7 @@ const KillingPartTrackWithHook = () => {
 
   return (
     <KillingPartTrack
+      order={1}
       killingPart={killingPart}
       songId={1}
       isNowPlayingTrack={isNowPlayingTrack}

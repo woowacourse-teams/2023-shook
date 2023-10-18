@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
@@ -12,7 +13,7 @@ interface KillingPartTrackListProps {
   myPart: SongDetail['myPart'];
   songId: number;
   nowPlayingTrack: KillingPart['id'];
-  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<number>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
 }
 
@@ -24,7 +25,7 @@ const KillingPartTrackList = ({
   setNowPlayingTrack,
   setCommentsPartId,
 }: KillingPartTrackListProps) => {
-  const hasMyPart = myPart !== undefined;
+  const [myPartDetail, setMyPartDetail] = useState<SongDetail['myPart'] | null>(myPart);
 
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -34,27 +35,32 @@ const KillingPartTrackList = ({
 
   const { isOpen, openModal, closeModal } = useModal();
 
+  const hideMyPart = () => setMyPartDetail(null);
+
   return (
     <TrackList role="radiogroup">
-      {killingParts.map((killingPart) => (
+      {killingParts.map((killingPart, i) => (
         <KillingPartTrack
+          order={i + 1}
           key={killingPart.id}
           killingPart={killingPart}
           songId={songId}
-          isNowPlayingTrack={killingPart.id === nowPlayingTrack}
+          isNowPlayingTrack={i + 1 === nowPlayingTrack}
           setNowPlayingTrack={setNowPlayingTrack}
           setCommentsPartId={setCommentsPartId}
         />
       ))}
 
-      {hasMyPart ? (
+      {myPartDetail ? (
         <KillingPartTrack
+          order={4}
           killingPart={myPart}
           songId={songId}
-          isNowPlayingTrack={myPart.id === nowPlayingTrack}
+          isNowPlayingTrack={4 === nowPlayingTrack}
           setNowPlayingTrack={setNowPlayingTrack}
           setCommentsPartId={setCommentsPartId}
           isMyKillingPart
+          hideMyPart={hideMyPart}
         />
       ) : (
         <PartRegisterButton type="button" onClick={isLoggedIn ? goToPartCollectingPage : openModal}>

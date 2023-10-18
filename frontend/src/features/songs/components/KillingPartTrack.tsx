@@ -23,21 +23,25 @@ import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
 interface KillingPartTrackProps {
+  order: number;
   killingPart: KillingPart;
   songId: number;
   isNowPlayingTrack: boolean;
-  setNowPlayingTrack: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
+  setNowPlayingTrack: React.Dispatch<React.SetStateAction<number>>;
   setCommentsPartId: React.Dispatch<React.SetStateAction<KillingPart['id']>>;
   isMyKillingPart?: boolean;
+  hideMyPart?: () => void;
 }
 
 const KillingPartTrack = ({
+  order,
   killingPart: { id: partId, rank, start, end, likeCount, likeStatus },
   songId,
   isNowPlayingTrack,
   setNowPlayingTrack,
   setCommentsPartId,
   isMyKillingPart,
+  hideMyPart,
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState } = useVideoPlayerContext();
@@ -93,8 +97,13 @@ const KillingPartTrack = ({
 
   const playTrack = () => {
     seekTo(start);
-    setNowPlayingTrack(partId);
-    setCommentsPartId(partId);
+    setNowPlayingTrack(order);
+
+    if (order !== 4) {
+      setCommentsPartId(partId);
+    } else {
+      setCommentsPartId(-1);
+    }
   };
 
   const stopTrack = () => {
@@ -129,8 +138,12 @@ const KillingPartTrack = ({
   const { mutateData: deleteMemberPart } = useMutation(() => deleteMemberParts(partId));
 
   const deleteMyPart = async () => {
+    if (!hideMyPart) return;
+
     await deleteMemberPart();
 
+    hideMyPart();
+    pause();
     closeMyPartModal();
     showToast('내 파트가 삭제되었습니다.');
   };
@@ -138,7 +151,7 @@ const KillingPartTrack = ({
   return (
     <Container
       $isNowPlayingTrack={isNowPlayingTrack}
-      htmlFor={`play-${songId}-${partId}`}
+      htmlFor={`play-${songId}-${order}`}
       tabIndex={0}
       role="radio"
       aria-label={isMyKillingPart ? '나의 킬링파트 재생하기' : `${rank}등 킬링파트 재생하기`}
@@ -146,7 +159,7 @@ const KillingPartTrack = ({
       <FLexContainer>
         <Rank>{isMyKillingPart ? 'MY' : ordinalRank}</Rank>
         <PlayButton
-          id={`play-${songId}-${partId}`}
+          id={`play-${songId}-${order}`}
           name="track"
           type="radio"
           onChange={toggleTrackPlayAndStop}
