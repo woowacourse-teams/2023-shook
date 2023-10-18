@@ -40,9 +40,9 @@ public class MyPartsResponse {
         return new MyPartsResponse(
             song.getId(),
             song.getTitle(),
+            song.getVideoId(),
             song.getSinger(),
             song.getAlbumCoverUrl(),
-            song.getVideoId(),
             memberPart.getId(),
             memberPart.getStartSecond(),
             memberPart.getEndSecond()
