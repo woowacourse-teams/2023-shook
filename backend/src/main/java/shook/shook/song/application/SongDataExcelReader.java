@@ -90,8 +90,7 @@ public class SongDataExcelReader {
         final Optional<KillingParts> killingParts = getKillingParts(cellIterator);
 
         return killingParts.map(
-            parts -> new Song(title, videoId, albumCoverUrl, singer, length, Genre.from(genre),
-                              parts));
+            parts -> new Song(title, videoId, albumCoverUrl, singer, length, Genre.from(genre), parts));
     }
 
     private String getString(final Iterator<Cell> iterator) {

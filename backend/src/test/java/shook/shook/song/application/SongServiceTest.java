@@ -478,4 +478,47 @@ class SongServiceTest extends UsingJpaTest {
             );
         }
     }
+
+    @DisplayName("노래 id 로 노래 하나를 조회한다.")
+    @Test
+    void findSongById() {
+        // given
+        final Song song = registerNewSong("title");
+        final Member member = createAndSaveMember("email@email.com", "nickname");
+        addLikeToEachKillingParts(song, member);
+        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
+        addMemberPartToSong(10, 5, song, member);
+        saveAndClearEntityManager();
+
+        // when
+        final SongResponse response = songService.findSongById(song.getId(),
+                                                               new MemberInfo(member.getId(), Authority.MEMBER));
+
+        // then
+        assertAll(
+            () -> assertThat(response.getId()).isEqualTo(song.getId()),
+            () -> assertThat(response.getTitle()).isEqualTo(song.getTitle()),
+            () -> assertThat(response.getAlbumCoverUrl()).isEqualTo(song.getAlbumCoverUrl()),
+            () -> assertThat(response.getSinger()).isEqualTo(song.getSinger()),
+            () -> assertThat(response.getKillingParts()).hasSize(3),
+            () -> assertThat(response.getKillingParts().get(0))
+                .hasFieldOrPropertyWithValue("id",
+                                             song.getLikeCountSortedKillingParts().get(0).getId())
+                .hasFieldOrPropertyWithValue("rank", 1)
+                .hasFieldOrPropertyWithValue("likeStatus", true),
+
+            () -> assertThat(response.getKillingParts().get(1))
+                .hasFieldOrPropertyWithValue("id",
+                                             song.getLikeCountSortedKillingParts().get(1).getId())
+                .hasFieldOrPropertyWithValue("rank", 2)
+                .hasFieldOrPropertyWithValue("likeStatus", true),
+
+            () -> assertThat(response.getKillingParts().get(2))
+                .hasFieldOrPropertyWithValue("id",
+                                             song.getLikeCountSortedKillingParts().get(2).getId())
+                .hasFieldOrPropertyWithValue("rank", 3)
+                .hasFieldOrPropertyWithValue("likeStatus", true),
+            () -> assertThat(response.getMemberPart().getPartId()).isNotNull()
+        );
+    }
 }

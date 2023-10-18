@@ -105,11 +105,9 @@ class MyPageServiceTest extends UsingJpaTest {
 
         assertAll(
             () -> assertThat(result).hasSize(2),
-            () -> {
-                assertThat(result).usingRecursiveComparison()
-                    .ignoringFieldsOfTypes(LocalDateTime.class)
-                    .isEqualTo(expect);
-            }
+            () -> assertThat(result).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(LocalDateTime.class)
+                .isEqualTo(expect)
         );
 
     }
