@@ -55,8 +55,8 @@ const SingerInfoContainer = styled(Flex)<{ $clickable: boolean }>`
         right: 10px;
         bottom: 4px;
 
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
 
         background: ${({ $clickable }) =>
           $clickable ? `no-repeat center url(${rightArrow})` : ''};
