@@ -42,8 +42,12 @@ const FlexLink = styled(Link)`
 const SongListItem = styled.li`
   width: 100%;
   padding: 8px;
+
   color: ${({ theme: { color } }) => color.white};
+
   border-radius: 4px;
+
+  transition: background-color 0.3s ease;
 
   @media (hover: hover) {
     &:hover {

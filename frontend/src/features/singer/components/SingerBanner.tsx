@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import rightArrow from '@/assets/icon/right-long-arrow.svg';
 import Flex from '@/shared/components/Flex/Flex';
 import type { SingerDetail } from '@/features/singer/types/singer.type';
 
@@ -29,6 +30,8 @@ const Container = styled.div``;
 const SingerInfoContainer = styled(Flex)<{ $clickable: boolean }>`
   cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
 
+  position: relative;
+
   width: 370px;
   height: 240px;
   padding: 20px;
@@ -38,9 +41,26 @@ const SingerInfoContainer = styled(Flex)<{ $clickable: boolean }>`
   background-color: ${({ theme: { color } }) => color.black500};
   border-radius: 8px;
 
+  transition: background-color 0.3s ease;
+
   @media (hover: hover) {
     &:hover {
-      background-color: ${({ theme: { color } }) => color.secondary};
+      background-color: ${({ $clickable, theme: { color } }) =>
+        $clickable ? color.secondary : ''};
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+
+        width: 40px;
+        height: 40px;
+
+        background: ${({ $clickable }) =>
+          $clickable ? `no-repeat center url(${rightArrow})` : ''};
+      }
     }
   }
 
