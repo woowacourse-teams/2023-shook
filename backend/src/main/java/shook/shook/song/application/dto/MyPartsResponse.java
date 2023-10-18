@@ -18,6 +18,9 @@ public class MyPartsResponse {
     @Schema(description = "노래 제목", example = "제목")
     private final String title;
 
+    @Schema(description = "노래 비디오 id", example = "4")
+    private final String songVideoId;
+
     @Schema(description = "가수 이름", example = "가수")
     private final String singer;
 
@@ -39,6 +42,7 @@ public class MyPartsResponse {
             song.getTitle(),
             song.getSinger(),
             song.getAlbumCoverUrl(),
+            song.getVideoId(),
             memberPart.getId(),
             memberPart.getStartSecond(),
             memberPart.getEndSecond()
