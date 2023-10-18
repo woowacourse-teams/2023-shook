@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import playIcon from '@/assets/icon/fill-play.svg';
 import pauseIcon from '@/assets/icon/pause.svg';
@@ -8,9 +8,13 @@ import removeIcon from '@/assets/icon/remove.svg';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
-import Spacing from '@/shared/components/Spacing';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
+interface Pin {
+  partStartTime: number;
+  interval: number;
+  text: string;
+}
 const VideoBadges = () => {
   const {
     partStartTime,
@@ -24,11 +28,15 @@ const VideoBadges = () => {
   const partStartTimeText = toMinSecText(partStartTime);
   const ref = useRef<HTMLDivElement>(null);
 
-  // state
-  const [pinList, setPinList] = useState<
-    { partStartTime: number; interval: number; text: string }[]
-  >([]);
-  const [activePinIndex, setActivePinIndex] = useState<number | null>(null);
+  const [pinList, setPinList] = useState<Pin[]>([]);
+
+  const activePinIndex = useMemo(
+    () =>
+      pinList.findIndex((pin) => pin.partStartTime === partStartTime && pin.interval === interval),
+    [pinList, partStartTime, interval]
+  );
+
+  const isPinListEmpty = pinList.length === 0;
 
   const pinAnimationRef = useRef<number>(1);
   const refreshPinAnimation = () => {
@@ -36,8 +44,7 @@ const VideoBadges = () => {
   };
 
   const addPin = () => {
-    const text = `${toMinSecText(partStartTime)} ~ ${toMinSecText(partStartTime + interval)}`;
-    if (pinList.find((pin) => pin.text === text)) return;
+    const text = `${toMinSecText(partStartTime)}`;
 
     setPinList((prevTimeList) => [
       {
@@ -45,10 +52,9 @@ const VideoBadges = () => {
         interval,
         text,
       },
-      ...prevTimeList,
+      ...prevTimeList.filter((pin) => pin.text !== text),
     ]);
 
-    setActivePinIndex(0);
     if (ref.current) {
       ref.current.scrollTo({
         left: 0,
@@ -60,19 +66,16 @@ const VideoBadges = () => {
   };
 
   const deletePin = () => {
-    if (activePinIndex) {
+    if (activePinIndex >= 0) {
       setPinList(pinList.filter((_, index) => index !== activePinIndex));
     } else {
       setPinList(pinList.slice(1));
     }
-
-    setActivePinIndex(null);
   };
 
-  const playPin = (start: number, interval: number, index: number) => () => {
+  const playPin = (start: number, interval: number) => () => {
     setPartStartTime(start);
     setInterval(interval);
-    setActivePinIndex(index);
   };
 
   const isPaused = video.playerState === YT.PlayerState.PAUSED;
@@ -95,7 +98,7 @@ const VideoBadges = () => {
           <img src={playStreamIcon} style={{ marginRight: '4px' }} alt="" />
           {partStartTimeText}
         </StartBadge>
-        <Badge as="button" onClick={addPin}>
+        <Badge as="button" onClick={addPin} $isActive={!isPinListEmpty}>
           <img src={pinIcon} alt="나만의 파트 임시 저장" />
         </Badge>
         <Badge as="button" type="button" onClick={isPaused ? videoPlay : videoPause}>
@@ -105,10 +108,8 @@ const VideoBadges = () => {
           전체 듣기
         </Badge>
       </Flex>
-      <Spacing direction="vertical" size={2} />
-
       <PinFlex $gap={4} ref={ref}>
-        {pinList.length !== 0 && (
+        {!isPinListEmpty && (
           <DeleteBadge as="button" onClick={deletePin}>
             <img src={removeIcon} alt="나만의 파트 임시 저장 삭제하기" />
           </DeleteBadge>
@@ -117,7 +118,7 @@ const VideoBadges = () => {
           <PinBadge
             key={pin.text + pinAnimationRef.current}
             as="button"
-            onClick={playPin(pin.partStartTime, pin.interval, index)}
+            onClick={playPin(pin.partStartTime, pin.interval)}
             $isActive={index === activePinIndex}
             $isNew={index === 0 && index === activePinIndex}
           >
@@ -140,14 +141,20 @@ const Badge = styled.span<{ $isActive?: boolean }>`
   padding: 0 10px;
 
   font-size: 14px;
-  color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
+  color: ${({ theme: { color } }) => color.white};
   text-align: center;
 
   background-color: ${({ theme: { color }, $isActive }) =>
-    $isActive ? color.magenta200 : color.disabled};
+    $isActive ? color.magenta700 : color.disabled};
   border-radius: 40px;
 
-  transition: background-color 0.2s ease-in;
+  transition:
+    background-color 0.2s ease-in,
+    box-shadow 0.2s ease;
+
+  &:active {
+    box-shadow: 0 0 0 1px inset white;
+  }
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 16px;
@@ -178,7 +185,7 @@ const slideLeft = keyframes`
 
 const slideRight = keyframes`
   from {
-    transform: translateX(-10px);
+    transform: translateX(-15px);
   }
   to {
     transform: translateX(0);
@@ -193,7 +200,7 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)}
 
   border: none;
-  width: 100px;
+  width: 50px;
   white-space: nowrap;
 
   color: ${({ theme: { color }, $isActive }) => ($isActive ? color.white : color.black)};
