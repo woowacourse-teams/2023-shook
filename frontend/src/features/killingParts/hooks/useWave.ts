@@ -68,7 +68,7 @@ const useWave = () => {
     setXPos(null);
   };
 
-  useDebounceEffect(() => video.seekTo(partStartTime), [partStartTime], 150);
+  useDebounceEffect(() => video.seekTo(partStartTime), [partStartTime], 300);
   useDebounceEffect(
     () => {
       if (boxRef.current) {

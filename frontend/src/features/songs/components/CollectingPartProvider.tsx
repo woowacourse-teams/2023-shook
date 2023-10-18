@@ -14,6 +14,7 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   interval: number;
   isPlayingEntire: boolean;
   setPartStartTime: React.Dispatch<React.SetStateAction<number>>;
+  setInterval: React.Dispatch<React.SetStateAction<number>>;
   increasePartInterval: () => void;
   decreasePartInterval: () => void;
   toggleEntirePlaying: () => void;
@@ -72,6 +73,7 @@ export const CollectingPartProvider = ({
         songVideoId,
         isPlayingEntire,
         setPartStartTime,
+        setInterval,
         increasePartInterval,
         decreasePartInterval,
         toggleEntirePlaying,
