@@ -35,10 +35,16 @@ const KillingPartInterface = ({ killingParts, songId, myPart }: KillingPartInter
     }
   }, [videoPlayer, playerState]);
 
-  useEffect(() => {
-    const part = killingParts.find((part) => part.id === nowPlayingTrack);
-    if (!part || !videoPlayer.current) return;
+  const trackList = [...killingParts, myPart].map((part, i) => ({ part, order: i + 1 }));
 
+  useEffect(() => {
+    if (nowPlayingTrack === DEFAULT_PART_ID) return;
+
+    const track = trackList.find(({ order }) => order === nowPlayingTrack);
+
+    if (!track || !videoPlayer.current) return;
+
+    const { part } = track;
     const partLength = (part.end - part.start) * 1000;
     const remainingTime = partLength - countedTime * 1000;
 
@@ -69,16 +75,7 @@ const KillingPartInterface = ({ killingParts, songId, myPart }: KillingPartInter
       window.clearTimeout(timeoutId2);
       window.clearInterval(intervalIds);
     };
-  }, [
-    killingParts,
-    isRepeat,
-    nowPlayingTrack,
-    videoPlayer,
-    pause,
-    resetTimer,
-    seekTo,
-    countedTime,
-  ]);
+  }, [trackList, isRepeat, nowPlayingTrack, videoPlayer, pause, resetTimer, seekTo, countedTime]);
 
   useEffect(() => {
     resetTimer();
