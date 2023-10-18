@@ -39,4 +39,8 @@ const LayoutContainer = styled.main`
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     padding: 0 16px;
   }
+
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+    min-height: -webkit-fill-available;
+  }
 `;

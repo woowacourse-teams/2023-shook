@@ -1,55 +1,44 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import useVoteInterfaceContext from '@/features/songs/hooks/useVoteInterfaceContext';
-import VideoSlider from '@/features/youtube/components/VideoSlider';
+import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
+import { usePostKillingPart } from '@/features/killingParts/remotes/usePostKillingPart';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
-import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
-import { usePostKillingPart } from '../remotes/usePostKillingPart';
-import KillingPartToggleGroup from './KillingPartToggleGroup';
 
-const VoteInterface = () => {
-  const { showToast } = useToastContext();
-  const { interval, partStartTime, songId, songVideoId } = useVoteInterfaceContext();
-  const { videoPlayer } = useVideoPlayerContext();
-
-  const { createKillingPart } = usePostKillingPart();
+const RegisterPart = () => {
   const { isOpen, openModal, closeModal } = useModal();
-
+  const { showToast } = useToastContext();
   const { user } = useAuthContext();
+  const { interval, partStartTime, songId, songVideoId } = useCollectingPartContext();
+  const video = useVideoPlayerContext();
+  const { createKillingPart } = usePostKillingPart();
 
-  const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
-
+  // 현재 useMutation 훅이 response 객체를 리턴하지 않고 내부적으로 처리합니다.
+  // 때문에 컴포넌트 단에서 createKillingPart 성공 여부에 따라 등록 완료 만료를 처리를 할 수 없어요!
+  // 현재 비로그인 시에 등록을 누르면 두 개의 모달이 뜹니다.
   const submitKillingPart = async () => {
-    videoPlayer.current?.pauseVideo();
+    video.pause();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
     openModal();
   };
 
+  const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
+
   const copyPartVideoUrl = async () => {
-    await copyClipboard(`https://www.youtube.com/watch?v=${songVideoId}`);
+    await copyClipboard(`https://www.youtube.com/watch?v=${songVideoId}&t=${partStartTime}s`);
     closeModal();
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
   return (
-    <Container>
-      <RegisterTitle>당신의 킬링파트를 등록하세요</RegisterTitle>
-      <Spacing direction="vertical" size={4} />
-      <Warning>같은 파트에 대한 여러 번의 등록은 한 번의 등록으로 처리됩니다.</Warning>
-      <Spacing direction="vertical" size={16} />
-      <KillingPartToggleGroup />
-      <Spacing direction="vertical" size={24} />
-      <VideoSlider />
-      <Spacing direction="vertical" size={16} />
-      <Register type="button" onClick={submitKillingPart}>
+    <>
+      <RegisterButton type="submit" onClick={submitKillingPart}>
         등록
-      </Register>
-
+      </RegisterButton>
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>
           <TitleColumn>{user?.nickname}님의</TitleColumn>
@@ -68,39 +57,34 @@ const VoteInterface = () => {
           </Share>
         </ButtonContainer>
       </Modal>
-    </Container>
+    </>
   );
 };
 
-export default VoteInterface;
+export default RegisterPart;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const RegisterTitle = styled.p`
-  font-size: 22px;
-  font-weight: 700;
-  color: ${({ theme: { color } }) => color.white};
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 18px;
-  }
-`;
-
-const Register = styled.button`
-  cursor: pointer;
-
+const RegisterButton = styled.button`
   width: 100%;
-  height: 36px;
+  margin-top: auto;
+  padding: 8px 11px;
 
   font-weight: 700;
   color: ${({ theme: { color } }) => color.white};
+  letter-spacing: 6px;
 
   background-color: ${({ theme: { color } }) => color.primary};
-  border: none;
-  border-radius: 10px;
+  border-radius: 6px;
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    position: static;
+    left: unset;
+    transform: unset;
+
+    width: 100%;
+    padding: 11px 15px;
+
+    font-size: 18px;
+  }
 `;
 
 const ModalTitle = styled.h3``;
@@ -121,13 +105,8 @@ const ModalContent = styled.div`
 const Message = styled.div``;
 
 const Button = styled.button`
-  cursor: pointer;
-
   height: 36px;
-
   color: ${({ theme: { color } }) => color.white};
-
-  border: none;
   border-radius: 10px;
 `;
 
@@ -145,8 +124,4 @@ const ButtonContainer = styled.div`
   display: flex;
   gap: 16px;
   width: 100%;
-`;
-
-const Warning = styled.div`
-  color: ${({ theme: { color } }) => color.subText};
 `;

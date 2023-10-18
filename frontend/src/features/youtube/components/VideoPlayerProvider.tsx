@@ -4,6 +4,7 @@ import type { PropsWithChildren } from 'react';
 interface VideoPlayerContextProps {
   videoPlayer: React.MutableRefObject<YT.Player | null>;
   playerState: YT.PlayerState | null;
+  play: () => void;
   seekTo: (start: number) => void;
   pause: () => void;
   initPlayer: YT.PlayerEventHandler<YT.PlayerEvent>;
@@ -43,6 +44,7 @@ export const VideoPlayerProvider = ({ children }: PropsWithChildren) => {
         videoPlayer,
         playerState,
         seekTo,
+        play,
         pause,
         initPlayer,
         bindUpdatePlayerStateEvent,
