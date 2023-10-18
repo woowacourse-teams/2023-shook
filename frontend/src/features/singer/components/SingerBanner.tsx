@@ -3,13 +3,15 @@ import Flex from '@/shared/components/Flex/Flex';
 import type { SingerDetail } from '@/features/singer/types/singer.type';
 
 interface SingerBannerProps
-  extends Pick<SingerDetail, 'profileImageUrl' | 'singer' | 'totalSongCount'> {}
+  extends Pick<SingerDetail, 'profileImageUrl' | 'singer' | 'totalSongCount'> {
+  onClick?: () => void;
+}
 
-const SingerBanner = ({ profileImageUrl, singer, totalSongCount }: SingerBannerProps) => {
+const SingerBanner = ({ profileImageUrl, singer, totalSongCount, onClick }: SingerBannerProps) => {
   return (
     <Container>
       <Title>아티스트</Title>
-      <SingerInfoContainer $align=" center" $gap={24}>
+      <SingerInfoContainer $align=" center" $gap={24} onClick={onClick} $clickable={!!onClick}>
         <ProfileImage src={profileImageUrl} alt="" />
         <Flex $direction="column" $gap={16}>
           <Name>{singer}</Name>
@@ -24,7 +26,9 @@ export default SingerBanner;
 
 const Container = styled.div``;
 
-const SingerInfoContainer = styled(Flex)`
+const SingerInfoContainer = styled(Flex)<{ $clickable: boolean }>`
+  cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
+
   width: 370px;
   height: 240px;
   padding: 20px;

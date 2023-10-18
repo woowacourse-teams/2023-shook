@@ -1,18 +1,24 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSingerSearch } from '@/features/search/remotes/search';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongList from '@/features/singer/components/SingerSongList';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
+import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
 import useValidSearchParams from '@/shared/hooks/useValidSearchParams';
 
 const SearchResultPage = () => {
   const { name } = useValidSearchParams('name');
+  const navigate = useNavigate();
 
   const { data: singerDetailList } = useFetch(() => getSingerSearch(name));
   if (!singerDetailList) return;
+
+  const goToSingerDetailPage = (singerId: number) =>
+    navigate(`/${ROUTE_PATH.SINGER_DETAIL}/${singerId}`);
 
   return (
     <Container $direction="column">
@@ -25,6 +31,7 @@ const SearchResultPage = () => {
               profileImageUrl={profileImageUrl}
               singer={singer}
               totalSongCount={totalSongCount}
+              onClick={() => goToSingerDetailPage(singerId)}
             />
             <SingerSongList songs={songs} />
           </FlexSearchResultContainer>
