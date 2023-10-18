@@ -1,4 +1,3 @@
-import { useMemo, useRef, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import playIcon from '@/assets/icon/fill-play.svg';
 import pauseIcon from '@/assets/icon/pause.svg';
@@ -6,77 +5,26 @@ import pinIcon from '@/assets/icon/pin.svg';
 import playStreamIcon from '@/assets/icon/play-stream.svg';
 import removeIcon from '@/assets/icon/remove.svg';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
+import usePin from '@/features/killingParts/hooks/usePin';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
-interface Pin {
-  partStartTime: number;
-  interval: number;
-  text: string;
-}
 const VideoBadges = () => {
+  const { partStartTime, isPlayingEntire, toggleEntirePlaying } = useCollectingPartContext();
   const {
-    partStartTime,
-    isPlayingEntire,
-    interval,
-    setPartStartTime,
-    setInterval,
-    toggleEntirePlaying,
-  } = useCollectingPartContext();
+    pinList,
+    isPinListEmpty,
+    activePinIndex,
+    ref,
+    pinAnimationRef,
+    addPin,
+    deletePin,
+    playPin,
+  } = usePin();
+
   const video = useVideoPlayerContext();
   const partStartTimeText = toMinSecText(partStartTime);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const [pinList, setPinList] = useState<Pin[]>([]);
-
-  const activePinIndex = useMemo(
-    () =>
-      pinList.findIndex((pin) => pin.partStartTime === partStartTime && pin.interval === interval),
-    [pinList, partStartTime, interval]
-  );
-
-  const isPinListEmpty = pinList.length === 0;
-
-  const pinAnimationRef = useRef<number>(1);
-  const refreshPinAnimation = () => {
-    pinAnimationRef.current += 1;
-  };
-
-  const addPin = () => {
-    const text = `${toMinSecText(partStartTime)}`;
-
-    setPinList((prevTimeList) => [
-      {
-        partStartTime,
-        interval,
-        text,
-      },
-      ...prevTimeList.filter((pin) => pin.text !== text),
-    ]);
-
-    if (ref.current) {
-      ref.current.scrollTo({
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-
-    refreshPinAnimation();
-  };
-
-  const deletePin = () => {
-    if (activePinIndex >= 0) {
-      setPinList(pinList.filter((_, index) => index !== activePinIndex));
-    } else {
-      setPinList(pinList.slice(1));
-    }
-  };
-
-  const playPin = (start: number, interval: number) => () => {
-    setPartStartTime(start);
-    setInterval(interval);
-  };
 
   const isPaused = video.playerState === YT.PlayerState.PAUSED;
 
