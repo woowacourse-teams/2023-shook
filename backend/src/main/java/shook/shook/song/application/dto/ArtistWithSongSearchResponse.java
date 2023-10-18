@@ -35,13 +35,14 @@ public class ArtistWithSongSearchResponse {
             artist.getArtistName(),
             artist.getProfileImageUrl(),
             totalSongCount,
-            convertToSongSearchResponse(songs)
+            convertToSongSearchResponse(songs, artist.getArtistName())
         );
     }
 
-    private static List<SongSearchResponse> convertToSongSearchResponse(final List<Song> songs) {
+    private static List<SongSearchResponse> convertToSongSearchResponse(final List<Song> songs,
+                                                                        final String singer) {
         return songs.stream()
-            .map(SongSearchResponse::from)
+            .map(song -> SongSearchResponse.from(song, singer))
             .toList();
     }
 }
