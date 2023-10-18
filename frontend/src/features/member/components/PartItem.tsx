@@ -4,7 +4,6 @@ import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import Thumbnail from '@/features/songs/components/Thumbnail';
-import GENRES from '@/features/songs/constants/genres';
 import Spacing from '@/shared/components/Spacing';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';

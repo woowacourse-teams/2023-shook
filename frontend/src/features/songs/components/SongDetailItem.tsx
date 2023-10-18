@@ -17,7 +17,7 @@ import type { SongDetail } from '@/shared/types/song';
 interface SongDetailItemProps extends SongDetail {}
 
 const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
-  ({ id, killingParts, singer, title, songVideoId, albumCoverUrl, myPart }, ref) => {
+  ({ id, killingParts, singer, title, songVideoId, albumCoverUrl, memberPart }, ref) => {
     const navigate = useNavigate();
     const { genre } = useValidParams();
 
@@ -61,7 +61,11 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
               <Youtube videoId={songVideoId} />
             </Flex>
             <TimerProvider time={15}>
-              <KillingPartInterface killingParts={killingParts} songId={id} myPart={myPart} />
+              <KillingPartInterface
+                killingParts={killingParts}
+                songId={id}
+                memberPart={memberPart}
+              />
             </TimerProvider>
           </Flex>
         </VideoPlayerProvider>
