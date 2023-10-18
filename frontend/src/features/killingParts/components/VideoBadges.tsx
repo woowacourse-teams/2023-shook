@@ -22,12 +22,10 @@ const VideoBadges = () => {
     deletePin,
     playPin,
   } = usePin();
-
   const video = useVideoPlayerContext();
   const partStartTimeText = toMinSecText(partStartTime);
 
   const isPaused = video.playerState === YT.PlayerState.PAUSED;
-
   const videoPlay = () => {
     if (isPlayingEntire) {
       video.play();
@@ -62,22 +60,35 @@ const VideoBadges = () => {
             <img src={removeIcon} alt="나만의 파트 임시 저장 삭제하기" />
           </DeleteBadge>
         )}
-        {pinList.map((pin, index) => (
-          <PinBadge
-            key={pin.text + pinAnimationRef.current}
-            as="button"
-            onClick={playPin(pin.partStartTime, pin.interval)}
-            $isActive={index === activePinIndex}
-            $isNew={index === 0 && index === activePinIndex}
-          >
-            {pin.text}
-          </PinBadge>
-        ))}
+        <PinInner $gap={4} ref={ref}>
+          {pinList.map((pin, index) => (
+            <PinBadge
+              key={pin.text + pinAnimationRef.current}
+              as="button"
+              onClick={playPin(pin.partStartTime, pin.interval)}
+              $isActive={index === activePinIndex}
+              $isNew={index === 0 && index === activePinIndex}
+            >
+              {pin.text}
+            </PinBadge>
+          ))}
+        </PinInner>
       </PinFlex>
     </>
   );
 };
 export default VideoBadges;
+
+const PinFlex = styled(Flex)`
+  //overflow-x: scroll;
+  //position: relative;
+  width: 100%;
+`;
+
+const PinInner = styled(Flex)`
+  overflow-x: scroll;
+  width: calc(100% - 44px);
+`;
 
 const Badge = styled.span<{ $isActive?: boolean }>`
   display: flex;
@@ -114,12 +125,7 @@ const StartBadge = styled(Badge)`
   letter-spacing: 1px;
 `;
 
-const PinFlex = styled(Flex)`
-  overflow-x: scroll;
-  position: relative;
-`;
-
-const slideLeft = keyframes`
+const slideFirstItem = keyframes`
   from {
     opacity: 0;
     transform: translateX(-30px);
@@ -131,7 +137,7 @@ const slideLeft = keyframes`
   }
 `;
 
-const slideRight = keyframes`
+const slideRestItems = keyframes`
   from {
     transform: translateX(-15px);
   }
@@ -151,19 +157,19 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
   width: 50px;
   white-space: nowrap;
 
-  color: ${({ theme: { color }, $isActive }) => ($isActive ? color.white : color.black)};
+  color: black;
   font-size: 12px;
   margin-right: 4px;
   border-radius: 4px;
 
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
   animation: ${({ $isNew }) =>
     $isNew
       ? css`
-          ${slideLeft} 1s forwards
+          ${slideFirstItem} 1s forwards
         `
       : css`
-          ${slideRight} 0.5s forwards
+          ${slideRestItems} 0.5s forwards
         `};
 `;
 
