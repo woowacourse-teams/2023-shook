@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { getSingerDetail } from '@/features/search/remotes/search';
-import Thumbnail from '@/features/songs/components/Thumbnail';
+import { getSingerDetail } from '@/features/search/remotes/singer';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
