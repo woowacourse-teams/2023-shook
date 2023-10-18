@@ -27,6 +27,7 @@ export default SingerSongItem;
 const SongListItem = styled(Flex)`
   width: 100%;
   padding: 8px;
+  color: ${({ theme: { color } }) => color.white};
   border-radius: 4px;
 
   @media (hover: hover) {

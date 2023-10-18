@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Flex from '@/shared/components/Flex/Flex';
-import Spacing from '@/shared/components/Spacing';
 import type { SingerDetail } from '@/features/singer/types/singer.type';
 
 interface SingerBannerProps
@@ -20,15 +19,12 @@ const SingerBanner = ({ profileImageUrl, singer, totalSongCount }: SingerBannerP
 
 export default SingerBanner;
 
-const Title = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-`;
-
 const SingerInfoContainer = styled(Flex)`
   width: 370px;
   height: 240px;
   padding: 20px;
+
+  color: ${({ theme: { color } }) => color.white};
 
   background-color: ${({ theme: { color } }) => color.black500};
   border-radius: 8px;
