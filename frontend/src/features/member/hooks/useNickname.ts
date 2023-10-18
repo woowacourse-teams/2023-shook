@@ -21,14 +21,19 @@ const useNickname = () => {
   const hasError = nicknameErrorMessage.length !== 0;
   const handleChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const currentNickname = event.currentTarget.value;
-    setNicknameEntered(currentNickname);
-    if (currentNickname.length < 2 || currentNickname.length > 20) {
+
+    if (currentNickname.length > 20) {
+      setNicknameErrorMessage('2글자 이상 20글자 이하 문자만 가능합니다.');
+      return;
+    } else if (currentNickname.length < 2) {
       setNicknameErrorMessage('2글자 이상 20글자 이하 문자만 가능합니다.');
     } else if (currentNickname === user?.nickname) {
       setNicknameErrorMessage('이전과 다른 닉네임으로 변경해주세요.');
     } else {
       setNicknameErrorMessage('');
     }
+
+    setNicknameEntered(currentNickname);
   };
 
   const submitNicknameChanged = async () => {
