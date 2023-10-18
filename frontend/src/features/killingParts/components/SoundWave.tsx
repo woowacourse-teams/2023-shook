@@ -15,7 +15,7 @@ const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
           const boxPos =
             boxRef.current?.scrollLeft + boxRef.current?.clientWidth / 2 - progressWidth / 2;
 
-          const containerRightEdge = boxPos + progressWidth - 1;
+          const containerRightEdge = boxPos + progressWidth;
           const itemRightEdge = dom.offsetLeft;
 
           if (itemRightEdge >= boxPos && itemRightEdge <= containerRightEdge) {
