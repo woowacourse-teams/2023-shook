@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.member_part.domain.MemberPart;
 import shook.shook.member_part.domain.repository.MemberPartRepository;
+import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -231,5 +233,13 @@ public class SongService {
             .orElse(null);
 
         return SongResponse.of(song, likedKillingPartIds, memberPart);
+    }
+
+    public List<RecentSongCarouselResponse> findRecentRegisteredSongsForCarousel(final Integer size) {
+        final List<Song> topSongs = songRepository.findSongsOrderById(PageRequest.of(0, size));
+
+        return topSongs.stream()
+            .map(RecentSongCarouselResponse::from)
+            .toList();
     }
 }
