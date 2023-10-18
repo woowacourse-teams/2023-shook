@@ -25,18 +25,21 @@ const VideoBadges = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   // state
-  const [timeListPinned, setTimeListPinned] = useState<
+  const [pinList, setPinList] = useState<
     { partStartTime: number; interval: number; text: string }[]
   >([]);
-  const [activePinnedIndex, setActivePinnedIndex] = useState<number | null>(null);
+  const [activePinIndex, setActivePinIndex] = useState<number | null>(null);
 
-  const animationKeyRef = useRef<number>(1);
+  const pinAnimationRef = useRef<number>(1);
+  const refreshPinAnimation = () => {
+    pinAnimationRef.current += 1;
+  };
 
-  const saveTime = () => {
+  const addPin = () => {
     const text = `${toMinSecText(partStartTime)} ~ ${toMinSecText(partStartTime + interval)}`;
-    if (timeListPinned.find((timePinned) => timePinned.text === text)) return;
+    if (pinList.find((pin) => pin.text === text)) return;
 
-    setTimeListPinned((prevTimeList) => [
+    setPinList((prevTimeList) => [
       {
         partStartTime,
         interval,
@@ -45,7 +48,7 @@ const VideoBadges = () => {
       ...prevTimeList,
     ]);
 
-    setActivePinnedIndex(0);
+    setActivePinIndex(0);
     if (ref.current) {
       ref.current.scrollTo({
         left: 0,
@@ -53,20 +56,26 @@ const VideoBadges = () => {
       });
     }
 
-    animationKeyRef.current += 1;
+    refreshPinAnimation();
+  };
+
+  const deletePin = () => {
+    if (activePinIndex) {
+      setPinList(pinList.filter((_, index) => index !== activePinIndex));
+    } else {
+      setPinList(pinList.slice(1));
+    }
+
+    setActivePinIndex(null);
+  };
+
+  const playPin = (start: number, interval: number, index: number) => () => {
+    setPartStartTime(start);
+    setInterval(interval);
+    setActivePinIndex(index);
   };
 
   const isPaused = video.playerState === YT.PlayerState.PAUSED;
-
-  const deletePin = () => {
-    if (activePinnedIndex) {
-      setTimeListPinned(timeListPinned.filter((_, index) => index !== activePinnedIndex));
-    } else {
-      setTimeListPinned(timeListPinned.slice(1));
-    }
-
-    setActivePinnedIndex(null);
-  };
 
   const videoPlay = () => {
     if (isPlayingEntire) {
@@ -86,7 +95,7 @@ const VideoBadges = () => {
           <img src={playStreamIcon} style={{ marginRight: '4px' }} alt="" />
           {partStartTimeText}
         </StartBadge>
-        <Badge as="button" onClick={saveTime}>
+        <Badge as="button" onClick={addPin}>
           <img src={pinIcon} alt="나만의 파트 임시 저장" />
         </Badge>
         <Badge as="button" type="button" onClick={isPaused ? videoPlay : videoPause}>
@@ -99,25 +108,20 @@ const VideoBadges = () => {
       <Spacing direction="vertical" size={2} />
 
       <PinFlex $gap={4} ref={ref}>
-        {timeListPinned.length !== 0 && (
+        {pinList.length !== 0 && (
           <DeleteBadge as="button" onClick={deletePin}>
             <img src={removeIcon} alt="나만의 파트 임시 저장 삭제하기" />
           </DeleteBadge>
         )}
-        {timeListPinned.map(({ partStartTime, interval, text }, index) => (
+        {pinList.map((pin, index) => (
           <PinBadge
-            key={text + animationKeyRef.current}
+            key={pin.text + pinAnimationRef.current}
             as="button"
-            onClick={() => {
-              setPartStartTime(partStartTime);
-              setInterval(interval);
-
-              setActivePinnedIndex(index);
-            }}
-            $isActive={index === activePinnedIndex}
-            $isNew={index === 0 && index === activePinnedIndex}
+            onClick={playPin(pin.partStartTime, pin.interval, index)}
+            $isActive={index === activePinIndex}
+            $isNew={index === 0 && index === activePinIndex}
           >
-            {text}
+            {pin.text}
           </PinBadge>
         ))}
       </PinFlex>
@@ -206,8 +210,6 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
       : css`
           ${slideRight} 0.5s forwards
         `};
-  
-  
 `;
 
 const DeleteBadge = styled(Badge)`
