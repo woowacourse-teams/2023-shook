@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 import type { PropsWithChildren } from 'react';
 
 interface CollectingPartProviderProps {
@@ -33,7 +32,10 @@ export const CollectingPartProvider = ({
   const { playerState, seekTo } = useVideoPlayerContext();
 
   const toggleEntirePlaying = () => {
-    setIsPlayingEntire((prev) => !prev);
+    if (isPlayingEntire) {
+      seekTo(partStartTime);
+    }
+    setIsPlayingEntire(!isPlayingEntire);
   };
 
   const increasePartInterval = () => {
@@ -48,10 +50,8 @@ export const CollectingPartProvider = ({
     setInterval(interval - 1);
   };
 
-  useDebounceEffect(() => seekTo(partStartTime), [partStartTime, interval, isPlayingEntire], 300);
-
   useEffect(() => {
-    if (isPlayingEntire || playerState === YT.PlayerState.PAUSED) return;
+    if (isPlayingEntire || playerState !== YT.PlayerState.PLAYING) return;
 
     const timer = window.setInterval(() => {
       seekTo(partStartTime);

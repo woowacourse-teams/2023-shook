@@ -12,17 +12,15 @@ import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
-import type { VotingSongList } from '@/shared/types/song';
+import type { SongInfo } from '@/shared/types/song';
 
 const PartCollectingPage = () => {
   const { id: songId } = useParams();
   // TODO: 조회 API 만들어야함.
-  const { data: votingSongs } = useFetch<VotingSongList>(() =>
-    fetcher(`/voting-songs/${songId}`, 'GET')
-  );
+  const { data: songInfo } = useFetch<SongInfo>(() => fetcher(`/songs/${songId}`, 'GET'));
 
-  if (!votingSongs) return;
-  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = votingSongs.currentSong;
+  if (!songInfo) return;
+  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = songInfo;
 
   return (
     <>
@@ -30,12 +28,12 @@ const PartCollectingPage = () => {
       <HeaderSpacing direction={'vertical'} size={50} />
       <VideoPlayerProvider>
         <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-          <PageFlex $gap={8} $direction="row" $md={{ $direction: 'column' }}>
-            <SongPlayerFlex $gap={8} $direction="column">
+          <PageFlex $gap={10} $direction="row" $md={{ $direction: 'column' }}>
+            <SongPlayerFlex $gap={10} $direction="column">
               <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
-              <Youtube videoId={songVideoId} />
+              <Youtube videoId={songVideoId} controls={0} />
             </SongPlayerFlex>
-            <ControllerFlex $gap={8} $direction="column">
+            <ControllerFlex $gap={10} $direction="column">
               <CollectingInformation />
               <VideoController />
               <RegisterPart />

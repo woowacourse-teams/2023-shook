@@ -15,11 +15,11 @@ const Container = styled.div``;
 
 const RegisterTitle = styled.h2`
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: ${({ theme: { color } }) => color.white};
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 22px;
+    font-size: 20px;
   }
 `;
 
@@ -28,6 +28,6 @@ const Warning = styled.div`
   color: ${({ theme: { color } }) => color.subText};
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 18px;
+    font-size: 15px;
   }
 `;

@@ -47,7 +47,7 @@ const Badge = styled.span<{ $isActive?: boolean }>`
   min-width: 40px;
   padding: 0 10px;
 
-  font-size: 13px;
+  font-size: 14px;
   color: ${({ theme: { color }, $isActive }) => ($isActive ? color.black : color.white)};
   text-align: center;
 
@@ -58,6 +58,6 @@ const Badge = styled.span<{ $isActive?: boolean }>`
   transition: background-color 0.2s ease-in;
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
