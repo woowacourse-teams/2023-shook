@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSingerDetail } from '@/features/search/remotes/singer';
+import SingerBanner from '@/features/singer/components/SingerBanner';
+import SingerSongItem from '@/features/singer/components/SingerSongItem';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import useValidParams from '@/shared/hooks/useValidParams';
-import { toMinSecText } from '@/shared/utils/convertTime';
 
 const SingerDetailPage = () => {
   const { singerId } = useValidParams();
@@ -20,30 +20,17 @@ const SingerDetailPage = () => {
       <Spacing direction="vertical" size={36} />
       <Title>아티스트</Title>
       <Spacing direction="vertical" size={18} />
-      <SingerInfoContainer $align="center" $gap={24}>
-        <ProfileImage src={profileImageUrl} alt={singer} />
-        <Flex $direction="column" $gap={16}>
-          <Name>{singer}</Name>
-          <SongCount>{`등록된 노래 ${totalSongCount}개`}</SongCount>
-        </Flex>
-      </SingerInfoContainer>
-      <Spacing direction="vertical" size={50} />
+      <SingerBanner
+        profileImageUrl={profileImageUrl}
+        singer={singer}
+        totalSongCount={totalSongCount}
+      />
+      <Spacing direction="vertical" size={68} />
       <Title>곡</Title>
       <Spacing direction="vertical" size={18} />
       <SongsItemList as="ol" $direction="column" $gap={12} $align="center">
-        {songs.map(({ id, albumCoverUrl, title, videoLength }) => (
-          <SongListItem as="li" key={id} $gap={16} $justify="center" $xs={{ $align: 'center' }}>
-            <AlbumCoverWrapper>
-              <AlbumCover src={albumCoverUrl} />
-            </AlbumCoverWrapper>
-            <FlexInfo $direction="column" $gap={8} $xs={{ $gap: 4 }}>
-              <SongTitle>{title}</SongTitle>
-              <Singer>{singer}</Singer>
-            </FlexInfo>
-            <VideoLength $align="center" $justify="flex-end">
-              {toMinSecText(videoLength)}
-            </VideoLength>
-          </SongListItem>
+        {songs.map((song) => (
+          <SingerSongItem key={song.id} {...song} />
         ))}
       </SongsItemList>
     </Container>
@@ -51,34 +38,6 @@ const SingerDetailPage = () => {
 };
 
 export default SingerDetailPage;
-
-const Title = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-`;
-
-const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-`;
-
-const Name = styled.div`
-  font-size: 36px;
-  font-weight: 700;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 20px;
-  }
-`;
-
-const SongCount = styled.p`
-  font-size: 18px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 14px;
-  }
-`;
 
 const Container = styled(Flex)`
   width: 100%;
@@ -94,94 +53,13 @@ const Container = styled(Flex)`
   }
 `;
 
-const SingerInfoContainer = styled(Flex)`
-  width: 370px;
-  height: 240px;
-  padding: 20px;
-
-  background-color: ${({ theme: { color } }) => color.black500};
-  border-radius: 8px;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: ${({ theme: { color } }) => color.secondary};
-    }
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 100%;
-    height: 180px;
-  }
-`;
-
-const SongListItem = styled(Flex)`
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: ${({ theme: { color } }) => color.secondary};
-    }
-  }
-`;
-
 const SongsItemList = styled(Flex)`
   overflow-y: scroll;
   width: 100%;
   border-radius: 8px;
 `;
 
-const FlexInfo = styled(Flex)`
-  overflow: hidden;
-  flex: 3 1 0;
-
-  padding: 8px 0;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    padding: 6px 0;
-  }
-`;
-
-const AlbumCover = styled.img`
-  width: 100%;
-`;
-
-const AlbumCoverWrapper = styled.div`
-  aspect-ratio: 1 / 1;
-  width: 100px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    width: 70px;
-  }
-`;
-
-const SongTitle = styled.div`
-  overflow: hidden;
-
-  font-size: 16px;
+const Title = styled.h2`
+  font-size: 28px;
   font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const Singer = styled.div`
-  overflow: hidden;
-
-  font-size: 14px;
-  color: ${({ theme: { color } }) => color.subText};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const VideoLength = styled(Flex)`
-  flex: 1 0 0;
-  font-size: 16px;
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 14px;
-  }
 `;
