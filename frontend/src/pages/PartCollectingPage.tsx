@@ -12,17 +12,15 @@ import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
 import fetcher from '@/shared/remotes';
-import type { VotingSongList } from '@/shared/types/song';
+import type { SongInfo } from '@/shared/types/song';
 
 const PartCollectingPage = () => {
   const { id: songId } = useParams();
   // TODO: 조회 API 만들어야함.
-  const { data: votingSongs } = useFetch<VotingSongList>(() =>
-    fetcher(`/voting-songs/${songId}`, 'GET')
-  );
+  const { data: songInfo } = useFetch<SongInfo>(() => fetcher(`/songs/${songId}`, 'GET'));
 
-  if (!votingSongs) return;
-  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = votingSongs.currentSong;
+  if (!songInfo) return;
+  const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = songInfo;
 
   return (
     <>
