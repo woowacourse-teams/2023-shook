@@ -12,12 +12,24 @@ import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { secondsToMinSec, toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import type { LikeKillingPart } from './MyPartList';
+import type { MyPageTab } from '../types/myPage';
 
 const { BASE_URL } = process.env;
 
-type PartItemProps = LikeKillingPart;
+type PartItemProps = LikeKillingPart & {
+  tab: MyPageTab;
+};
 
-const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItemProps) => {
+const PartItem = ({
+  songId,
+  albumCoverUrl,
+  title,
+  singer,
+  start,
+  end,
+  songVideoId,
+  tab,
+}: PartItemProps) => {
   const { showToast } = useToastContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -30,7 +42,12 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
       memberId: user?.memberId,
     });
 
-    copyClipboard(`${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/ALL`);
+    const shareLink =
+      tab === 'Like'
+        ? `${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/ALL`
+        : `https://youtu.be/${songVideoId}?start=${start}`;
+
+    copyClipboard(shareLink);
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 

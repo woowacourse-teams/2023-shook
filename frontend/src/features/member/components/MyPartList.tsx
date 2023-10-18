@@ -7,7 +7,10 @@ import PartList from './PartList';
 import type { MyPageTab } from '../types/myPage';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
-export type LikeKillingPart = Pick<SongDetail, 'title' | 'singer' | 'albumCoverUrl'> &
+export type LikeKillingPart = Pick<
+  SongDetail,
+  'title' | 'singer' | 'albumCoverUrl' | 'songVideoId'
+> &
   Pick<KillingPart, 'start' | 'end'> & {
     songId: number;
     partId: number;
@@ -55,7 +58,12 @@ const MyPartList = () => {
       <Spacing direction="vertical" size={24} />
 
       {partTabItems.map((option) => (
-        <PartList key={option.tab} parts={option.parts} isShow={tab === option.tab} />
+        <PartList
+          key={option.tab}
+          parts={option.parts}
+          isShow={tab === option.tab}
+          tab={option.tab}
+        />
       ))}
     </>
   );
