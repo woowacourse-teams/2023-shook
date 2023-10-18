@@ -102,8 +102,10 @@ const SingerInfoContainer = styled(Flex)`
   background-color: ${({ theme: { color } }) => color.black500};
   border-radius: 8px;
 
-  &:hover {
-    background-color: ${({ theme: { color } }) => color.secondary};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${({ theme: { color } }) => color.secondary};
+    }
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
@@ -117,8 +119,10 @@ const SongListItem = styled(Flex)`
   padding: 8px;
   border-radius: 4px;
 
-  &:hover {
-    background-color: ${({ theme: { color } }) => color.secondary};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${({ theme: { color } }) => color.secondary};
+    }
   }
 `;
 
