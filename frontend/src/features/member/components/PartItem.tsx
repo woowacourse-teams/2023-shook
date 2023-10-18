@@ -31,14 +31,12 @@ const PartItem = ({ songId, albumCoverUrl, title, singer, start, end }: PartItem
       memberId: user?.memberId,
     });
 
-    copyClipboard(
-      `${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/${GENRES.ALL}`
-    );
+    copyClipboard(`${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/ALL`);
     showToast('클립보드에 영상링크가 복사되었습니다.');
   };
 
   const goToSongDetailListPage = () => {
-    navigate(`/${ROUTE_PATH.SONG_DETAILS}${songId}/${GENRES.ALL}`);
+    navigate(`/${ROUTE_PATH.SONG_DETAILS}/${songId}/ALL`);
   };
 
   const { minute: startMin, second: startSec } = secondsToMinSec(start);
