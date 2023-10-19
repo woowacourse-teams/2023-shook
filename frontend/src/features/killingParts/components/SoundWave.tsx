@@ -8,7 +8,7 @@ interface SoundWaveProps {
 // eslint-disable-next-line react/display-name
 const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
   ({ length, progressWidth }, boxRef) => {
-    const refCallback =
+    const stretchWaveHeight =
       (activeHeight: string, inactiveHeight: string) => (dom: HTMLDivElement | null) => {
         if (!dom || !boxRef || typeof boxRef === 'function') return;
         if (boxRef.current?.scrollLeft) {
@@ -28,8 +28,8 @@ const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
 
     return Array.from({ length }, (_, index) => (
       <React.Fragment key={index}>
-        <LongBar ref={refCallback('25px', '20px')} />
-        <ShortBar ref={refCallback('17px', '12px')} />
+        <LongBar ref={stretchWaveHeight('25px', '20px')} />
+        <ShortBar ref={stretchWaveHeight('17px', '12px')} />
       </React.Fragment>
     ));
   }
