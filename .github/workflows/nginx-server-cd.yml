@@ -1,11 +1,11 @@
-name: NginX Server Deploy (CD)
+name: Blue-Green Backend Production Deploy (CD)
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Backend Develop Deploy
+  deploy:
+    name: Deploy Backend Production Server
     runs-on: shook-nginx-runner
 
     steps:
@@ -31,3 +31,14 @@ jobs:
       - name: Backend Deploy
         shell: bash
         run: bash /home/ubuntu/blue-green.sh
+        
+  switch-server:
+    name: Switch Backend Production Server
+    runs-on: shook-prod
+    needs: deploy
+    
+    steps:
+      - name: Run switch_server.sh
+        shell: bash
+        run: bash /home/ubuntu/blue-green/server_switch.sh
+    
