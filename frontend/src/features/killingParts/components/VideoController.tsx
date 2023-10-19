@@ -24,8 +24,7 @@ const SubHeading = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     display: unset;
-
-    font-size: 18px;
     margin-top: 8px;
+    font-size: 18px;
   }
 `;

@@ -20,42 +20,47 @@ const StepperElementStyle = css`
   flex: 1;
 
   min-width: 50px;
+  height: 36px;
   margin: 0;
 
   font-weight: 700;
   text-align: center;
 
-  height: 36px;
   border: none;
   border-radius: 10px;
 `;
 
 const ControlButton = styled.button`
-  ${StepperElementStyle};
-  color: ${({ theme: { color } }) => color.white};
-  background-color: ${({ theme: { color } }) => color.secondary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: ${({ theme: { color } }) => color.white};
+
+  background-color: ${({ theme: { color } }) => color.secondary};
 
   &:active {
     background-color: ${({ theme: { color } }) => color.disabled};
     transition: box-shadow 0.2s ease;
   }
+
+  ${StepperElementStyle}
 `;
 
 const CountText = styled.p`
-  ${StepperElementStyle};
-  color: ${({ theme: { color } }) => color.black};
-  background-color: ${({ theme: { color } }) => color.white};
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  color: ${({ theme: { color } }) => color.black};
+
+  background-color: ${({ theme: { color } }) => color.white};
 
   &:active {
     box-shadow: 0 0 0 1px inset ${({ theme: { color } }) => color.magenta300};
     transition: box-shadow 0.1s ease;
   }
+
+  ${StepperElementStyle}
 `;

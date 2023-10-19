@@ -123,9 +123,11 @@ const ButtonContainer = styled.div`
 `;
 
 const Part = styled.span`
+  padding: 6px 11px;
+
+  color: white;
+  letter-spacing: 1px;
+
   background-color: ${({ theme: { color } }) => color.disabled};
   border-radius: 10px;
-  padding: 6px 11px;
-  letter-spacing: 1px;
-  color: white;
 `;

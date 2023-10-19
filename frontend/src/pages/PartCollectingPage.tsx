@@ -55,7 +55,7 @@ const HeaderSpacing = styled(Spacing)`
 const PageFlex = styled(Flex)`
   width: 100%;
   margin: auto;
-  padding: 10px;
+  padding: 8px;
 
   background-color: ${({ theme: { color } }) => color.black300};
   border-radius: 8px;

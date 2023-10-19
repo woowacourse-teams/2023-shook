@@ -46,8 +46,9 @@ const WaveScrubber = () => {
 export default WaveScrubber;
 
 const WaveWrapper = styled(Flex)<{ $progressWidth: number }>`
-  z-index: 3;
   cursor: grab;
+
+  z-index: 3;
 
   overflow-x: scroll;
 
@@ -88,8 +89,8 @@ const ProgressFrame = styled.div<{ $progressWidth: number }>`
   left: 50%;
   transform: translateX(-50%);
 
-  height: 50px;
   width: ${({ $progressWidth }) => $progressWidth}px;
+  height: 50px;
 
   border: transparent;
   border-radius: 4px;
@@ -113,8 +114,8 @@ const ProgressFill = styled.div<{ $progressWidth: number; $interval: number }>`
   left: 50%;
   transform: translateX(-50%);
 
-  height: 50px;
   width: ${({ $progressWidth }) => $progressWidth}px;
+  height: 50px;
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, transparent 50%, ${color.magenta300} 50%)`};
@@ -162,8 +163,8 @@ const WaveFill = styled.div<{ $progressWidth: number; $isRunning: boolean }>`
   left: 50%;
   transform: translateX(-50%);
 
-  height: 50px;
   width: ${({ $progressWidth }) => $progressWidth}px;
+  height: 50px;
 
   background: ${({ theme: { color } }) =>
     `linear-gradient(to left, ${color.magenta100}, ${color.magenta400})`};

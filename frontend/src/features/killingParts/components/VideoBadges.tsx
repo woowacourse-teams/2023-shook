@@ -23,8 +23,8 @@ const VideoBadges = () => {
     playPin,
   } = usePin();
   const video = useVideoPlayerContext();
-  const partStartTimeText = toMinSecText(partStartTime);
 
+  const partStartTimeText = toMinSecText(partStartTime);
   const isPaused = video.playerState === YT.PlayerState.PAUSED;
   const videoPlay = () => {
     if (isPlayingEntire) {
@@ -33,6 +33,7 @@ const VideoBadges = () => {
       video.seekTo(partStartTime);
     }
   };
+
   const videoPause = () => {
     video.pause();
   };
@@ -80,8 +81,6 @@ const VideoBadges = () => {
 export default VideoBadges;
 
 const PinFlex = styled(Flex)`
-  //overflow-x: scroll;
-  //position: relative;
   width: 100%;
 `;
 
@@ -95,8 +94,8 @@ const Badge = styled.span<{ $isActive?: boolean }>`
   align-items: center;
   justify-content: center;
 
-  height: 30px;
   min-width: 40px;
+  height: 30px;
   padding: 0 10px;
 
   font-size: 14px;
@@ -147,19 +146,19 @@ const slideRestItems = keyframes`
 `;
 
 const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
-  background-color: ${({ theme: { color }, $isActive }) =>
-    $isActive ? color.magenta700 : color.disabledBackground};
-
   z-index: ${({ $isActive }) => ($isActive ? 1 : 0)};
-  opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)}
 
-  border: none;
   width: 50px;
+  margin-right: 4px;
+
+  font-size: 12px;
+  color: black;
   white-space: nowrap;
 
-  color: black;
-  font-size: 12px;
-  margin-right: 4px;
+  opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)};
+  background-color: ${({ theme: { color }, $isActive }) =>
+    $isActive ? color.magenta700 : color.disabledBackground};
+  border: none;
   border-radius: 4px;
 
   transition: background-color 0.5s ease-in-out;
@@ -174,9 +173,10 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
 `;
 
 const DeleteBadge = styled(Badge)`
-  border-radius: 50%;
-  height: 30px;
   min-width: 30px;
-  padding: 0;
+  height: 30px;
   margin-right: 10px;
+  padding: 0;
+
+  border-radius: 50%;
 `;
