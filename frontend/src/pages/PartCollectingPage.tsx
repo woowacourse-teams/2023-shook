@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import RegisterPart from '@/features/killingParts/components/RegisterPart';
 import VideoController from '@/features/killingParts/components/VideoController';
@@ -6,7 +7,6 @@ import { CollectingPartProvider } from '@/features/songs/components/CollectingPa
 import SongInformation from '@/features/songs/components/SongInformation';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';

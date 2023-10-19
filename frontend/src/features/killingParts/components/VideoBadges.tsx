@@ -1,3 +1,4 @@
+import { Flex } from 'shook-layout';
 import styled, { css, keyframes } from 'styled-components';
 import playIcon from '@/assets/icon/fill-play.svg';
 import pauseIcon from '@/assets/icon/pause.svg';
@@ -7,7 +8,6 @@ import removeIcon from '@/assets/icon/remove.svg';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import usePin from '@/features/killingParts/hooks/usePin';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import Flex from '@/shared/components/Flex/Flex';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
 const VideoBadges = () => {

@@ -1,5 +1,5 @@
+import { Flex } from 'shook-layout';
 import styled from 'styled-components';
-import Flex from '@/shared/components/Flex/Flex';
 import SingerSongItem from './SingerSongItem';
 import type { SingersSong } from '../types/singer.type';
 
