@@ -14,10 +14,12 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.song.application.dto.RecentSongCarouselResponse;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
@@ -29,6 +31,9 @@ class CarouselSongControllerTest {
 
     @Autowired
     private SongRepository songRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
 
     @BeforeEach
     void setUp() {
@@ -94,8 +99,10 @@ class CarouselSongControllerTest {
         final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
         final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
+        final Artist artist = new Artist("image", "name");
+        artistRepository.save(artist);
         return new Song(
-            "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, Genre.from("댄스"),
+            "제목", "비디오ID는 11글자", "이미지URL", artist, 5, Genre.from("댄스"),
             new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart)));
     }
 }

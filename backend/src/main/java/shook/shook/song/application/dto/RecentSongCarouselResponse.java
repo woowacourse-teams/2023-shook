@@ -29,7 +29,7 @@ public class RecentSongCarouselResponse {
         return new RecentSongCarouselResponse(
             song.getId(),
             song.getTitle(),
-            song.getSinger(),
+            song.getArtistName(),
             song.getLength(),
             song.getAlbumCoverUrl()
         );

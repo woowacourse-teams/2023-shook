@@ -47,6 +47,7 @@ class SongRepositoryTest extends UsingJpaTest {
         final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
         final Artist artist = new Artist("image", "name");
+        artistRepository.save(artist);
         return new Song(
             "title",
             "3rUPND6FG8A",
