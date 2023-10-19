@@ -35,6 +35,7 @@ const Title = styled.h2`
   margin-bottom: 18px;
   font-size: 28px;
   font-weight: 700;
+  color: ${({ theme: { color } }) => color.white};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     font-size: 24px;
