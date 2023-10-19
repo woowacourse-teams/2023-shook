@@ -4,10 +4,10 @@ import type { SingerSearchPreview } from '../types/search.type';
 
 export const getSingerSearchPreview = async (query: string): Promise<SingerSearchPreview[]> => {
   const encodedQuery = encodeURIComponent(query);
-  return await fetcher(`/singers?name=${encodedQuery}&search=singer`, 'GET');
+  return await fetcher(`/search?keyword=${encodedQuery}&type=singer`, 'GET');
 };
 
 export const getSingerSearch = async (query: string): Promise<SingerDetail[]> => {
   const encodedQuery = encodeURIComponent(query);
-  return await fetcher(`/singers?name=${encodedQuery}&search=singer&search=song`, 'GET');
+  return await fetcher(`/search?keyword=${encodedQuery}&type=singer&type=song`, 'GET');
 };
