@@ -45,19 +45,18 @@ const Spacing = styled.div<SpacingProps>`
 `;
 
 const spacingCss = (
-  spacing?: Partial<Spacing>,
+  responsiveSpacing?: Partial<Spacing>,
   originalDir?: Spacing['direction'],
   originalSize?: Spacing['size']
 ) => {
-  if (!spacing) return;
-  const { direction: newDirection, size: newSize } = spacing;
+  if (!responsiveSpacing) return;
 
-  const realDirection = newDirection ?? originalDir;
-  const realSize = newSize ?? originalSize;
+  const direction = responsiveSpacing.direction ?? originalDir;
+  const size = responsiveSpacing.size ?? originalSize;
 
   return css`
-    min-width: ${realDirection === 'horizontal' ? `${realSize}px` : '0'};
-    min-height: ${realDirection === 'vertical' ? `${realSize}px` : '0'};
+    min-width: ${direction === 'horizontal' ? `${size}px` : '0'};
+    min-height: ${direction === 'vertical' ? `${size}px` : '0'};
   `;
 };
 
