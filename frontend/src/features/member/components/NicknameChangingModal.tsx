@@ -19,18 +19,20 @@ const NicknameChangingModal = ({
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
-      <>
-        <ModalContent>{`닉네임 변경 시 다시 로그인을 해야합니다.\n닉네임을 ${nickname}로 바꾸겠습니까?`}</ModalContent>
-        <Spacing direction={'vertical'} size={16} />
-        <ButtonContainer>
-          <CancelButton onClick={closeModal} type="button">
-            취소
-          </CancelButton>
-          <ConfirmButton type="button" onClick={onSubmitNickname}>
-            변경
-          </ConfirmButton>
-        </ButtonContainer>
-      </>
+      <ModalContent>{`닉네임 변경 시 다시 로그인을 해야합니다.\n닉네임을 변경하시겠습니까?`}</ModalContent>
+      <Spacing direction="vertical" size={10} />
+      <NicknameContent>{`변경 후 닉네임: ${nickname}`}</NicknameContent>
+
+      <Spacing direction={'vertical'} size={16} />
+
+      <ButtonContainer>
+        <CancelButton onClick={closeModal} type="button">
+          취소
+        </CancelButton>
+        <ConfirmButton type="button" onClick={onSubmitNickname}>
+          변경
+        </ConfirmButton>
+      </ButtonContainer>
     </Modal>
   );
 };
@@ -38,22 +40,19 @@ const NicknameChangingModal = ({
 export default NicknameChangingModal;
 
 const ModalContent = styled.div`
-  align-self: start;
-
   font-size: 16px;
-  line-height: 200%;
+  line-height: 1.8;
   color: ${({ theme }) => theme.color.subText};
   white-space: pre-line;
 `;
 
+const NicknameContent = styled.div`
+  color: ${({ theme }) => theme.color.white};
+`;
+
 const Button = styled.button`
-  cursor: pointer;
-
   height: 36px;
-
   color: ${({ theme: { color } }) => color.white};
-
-  border: none;
   border-radius: 10px;
 `;
 

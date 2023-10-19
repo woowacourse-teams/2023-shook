@@ -37,7 +37,7 @@ const EditProfilePage = () => {
       <Avatar src={shookshook} />
       <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input
+      <NicknameInput
         id="nickname"
         value={nicknameEntered}
         onChange={handleChangeNickname}
@@ -75,7 +75,7 @@ const Container = styled.div`
 
   width: 100%;
   min-width: 300px;
-  max-width: 800px;
+  max-width: 400px;
   height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.desktop});
   margin: auto 0;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
@@ -116,8 +116,6 @@ const WithdrawalButton = styled.button`
 `;
 
 const SubmitButton = styled.button`
-  cursor: pointer;
-
   position: absolute;
   bottom: 0;
 
@@ -128,7 +126,6 @@ const SubmitButton = styled.button`
 
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.6;
 
   background-color: ${({ theme }) => theme.color.primary};
   border: none;
@@ -140,7 +137,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Input = styled.input`
+const NicknameInput = styled.input`
   padding: 0 8px;
 
   font-size: 18px;
