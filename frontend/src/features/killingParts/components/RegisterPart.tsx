@@ -21,18 +21,20 @@ const RegisterPart = () => {
   // 때문에 컴포넌트 단에서 createKillingPart 성공 여부에 따라 등록 완료 만료를 처리를 할 수 없어요!
   // 현재 비로그인 시에 등록을 누르면 두 개의 모달이 뜹니다.정
   const submitKillingPart = async () => {
-    video.pause();
     await createKillingPart(songId, { startSecond: partStartTime, length: interval });
     navigate(-1);
+  };
+
+  const openRegisterModal = () => {
+    video.pause();
+    openModal();
   };
 
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
 
   return (
     <>
-      <RegisterButton type="submit" onClick={openModal}>
-        등록
-      </RegisterButton>
+      <RegisterButton onClick={openRegisterModal}>등록</RegisterButton>
       <Modal isOpen={isOpen} closeModal={closeModal}>
         <ModalTitle>
           <TitleColumn>{user?.nickname}님의 파트 저장</TitleColumn>
@@ -45,12 +47,12 @@ const RegisterPart = () => {
           <Message>나만의 파트로 등록하시겠습니까?</Message>
         </ModalContent>
         <ButtonContainer>
-          <Confirm type="button" onClick={closeModal}>
+          <Cancel type="button" onClick={closeModal}>
             취소
-          </Confirm>
-          <Share type="button" onClick={submitKillingPart}>
+          </Cancel>
+          <Confirm type="button" onClick={submitKillingPart}>
             등록
-          </Share>
+          </Confirm>
         </ButtonContainer>
       </Modal>
     </>
@@ -101,12 +103,12 @@ const Button = styled.button`
   border-radius: 10px;
 `;
 
-const Confirm = styled(Button)`
+const Cancel = styled(Button)`
   flex: 1;
   background-color: ${({ theme: { color } }) => color.secondary};
 `;
 
-const Share = styled(Button)`
+const Confirm = styled(Button)`
   flex: 1;
   background-color: ${({ theme: { color } }) => color.primary};
 `;
