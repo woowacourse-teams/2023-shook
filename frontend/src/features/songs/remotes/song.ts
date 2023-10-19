@@ -1,9 +1,12 @@
 import fetcher from '@/shared/remotes';
 import type { Genre, Song } from '../types/Song.type';
-import type { SongDetail } from '@/shared/types/song';
+import type { RecentSong } from '@/shared/types/song';
 
-export const getSongDetail = async (songId: number): Promise<SongDetail> => {
-  return await fetcher(`/songs/${songId}`, 'GET');
+// 메인 케러셀 최신순 노래 n개 조회 api - 쿼리파람 없는경우, 응답 기본값은 5개입니다.
+export const getRecentSongs = async (songCount?: number): Promise<RecentSong[]> => {
+  const query = songCount ? `?size=${songCount}` : '';
+
+  return await fetcher(`/songs/recent${query}`, 'GET');
 };
 
 export const getHighLikedSongs = async (genre: Genre): Promise<Song[]> => {

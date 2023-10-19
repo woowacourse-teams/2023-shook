@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import Flex from '@/shared/components/Flex/Flex';
 import ROUTE_PATH from '@/shared/constants/path';
-import type { SingerSearchPreview } from '../types/search';
+import type { SingerSearchPreview } from '../types/search.type';
 
 interface ResultSheetProps {
   result: SingerSearchPreview[];
