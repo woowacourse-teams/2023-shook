@@ -243,12 +243,4 @@ public class SongService {
             .map(RecentSongCarouselResponse::from)
             .toList();
     }
-
-    public List<RecentSongCarouselResponse> findRecentRegisteredSongsForCarousel(final Integer size) {
-        final List<Song> topSongs = songRepository.findSongsOrderById(PageRequest.of(0, size));
-
-        return topSongs.stream()
-            .map(RecentSongCarouselResponse::from)
-            .toList();
-    }
 }
