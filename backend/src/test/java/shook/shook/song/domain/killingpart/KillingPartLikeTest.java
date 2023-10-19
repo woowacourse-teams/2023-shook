@@ -5,15 +5,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 
 class KillingPartLikeTest {
 
     private static final Song EMPTY_SONG = null;
     private static final Member MEMBER = new Member("email@naver.com", "nickname");
-    private static final KillingPart KILLING_PART = KillingPart.saved(1L, 10, PartLength.SHORT,
-        EMPTY_SONG);
+    private static final KillingPart KILLING_PART = KillingPart.saved(1L, 10, 5,
+                                                                      EMPTY_SONG);
 
     @DisplayName("isDeleted 상태를 반대로 변경할 수 있다.")
     @Test

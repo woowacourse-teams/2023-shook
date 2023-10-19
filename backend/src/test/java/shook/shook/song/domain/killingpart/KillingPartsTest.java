@@ -12,16 +12,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import shook.shook.member.domain.Member;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.killingpart.KillingPartsException;
 
 class KillingPartsTest {
 
-    private static final KillingPart FIRST_PART = KillingPart.forSave(0, PartLength.SHORT);
-    private static final KillingPart SECOND_PART = KillingPart.forSave(5, PartLength.SHORT);
-    private static final KillingPart THIRD_PART = KillingPart.forSave(10, PartLength.SHORT);
+    private static final KillingPart FIRST_PART = KillingPart.forSave(0, 5);
+    private static final KillingPart SECOND_PART = KillingPart.forSave(5, 5);
+    private static final KillingPart THIRD_PART = KillingPart.forSave(10, 5);
     private static final Song EMPTY_SONG = null;
 
     @DisplayName("한 노래의 킬링파트는 총 3개로 구성된다.")
@@ -41,7 +40,7 @@ class KillingPartsTest {
         // given
         final List<KillingPart> killingPartsToSave = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            killingPartsToSave.add(KillingPart.forSave(i, PartLength.STANDARD));
+            killingPartsToSave.add(KillingPart.forSave(i, 10));
         }
 
         // when, then
@@ -66,7 +65,7 @@ class KillingPartsTest {
         // given
         final List<KillingPart> killingPartsToSave = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            killingPartsToSave.add(KillingPart.forSave(i, PartLength.STANDARD));
+            killingPartsToSave.add(KillingPart.forSave(i, 10));
         }
         final KillingParts killingParts = new KillingParts(killingPartsToSave);
 
@@ -82,15 +81,15 @@ class KillingPartsTest {
     void getKillingPartsSortedByLikeCount() {
         // given
         final Member member = new Member("email@naver.com", "nickname");
-        final KillingPart killingPart1 = KillingPart.saved(1L, 15, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart killingPart2 = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart killingPart3 = KillingPart.saved(3L, 20, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart1 = KillingPart.saved(1L, 15, 5, EMPTY_SONG);
+        final KillingPart killingPart2 = KillingPart.saved(2L, 10, 5, EMPTY_SONG);
+        final KillingPart killingPart3 = KillingPart.saved(3L, 20, 5, EMPTY_SONG);
 
         killingPart1.like(new KillingPartLike(killingPart1, member));
         killingPart2.like(new KillingPartLike(killingPart2, member));
 
         final KillingParts killingParts = new KillingParts(List.of(killingPart1, killingPart3,
-            killingPart2));
+                                                                   killingPart2));
 
         // when
         final List<KillingPart> result = killingParts.getKillingPartsSortedByLikeCount();
@@ -108,15 +107,15 @@ class KillingPartsTest {
     void getTotalLikeCount() {
         // given
         final Member member = new Member("email@naver.com", "nickname");
-        final KillingPart killingPart1 = KillingPart.saved(1L, 15, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart killingPart2 = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart killingPart3 = KillingPart.saved(3L, 20, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart1 = KillingPart.saved(1L, 15, 5, EMPTY_SONG);
+        final KillingPart killingPart2 = KillingPart.saved(2L, 10, 5, EMPTY_SONG);
+        final KillingPart killingPart3 = KillingPart.saved(3L, 20, 5, EMPTY_SONG);
 
         killingPart1.like(new KillingPartLike(killingPart1, member));
         killingPart2.like(new KillingPartLike(killingPart2, member));
 
         final KillingParts killingParts = new KillingParts(List.of(killingPart1, killingPart3,
-            killingPart2));
+                                                                   killingPart2));
 
         // when
         final int totalLikeCount = killingParts.getKillingPartsTotalLikeCount();

@@ -35,7 +35,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void save() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, new PartLength(5), SAVED_SONG);
 
         //when
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
@@ -49,7 +49,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, new PartLength(5), SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -65,8 +65,8 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void findAllBySong() {
         //given
-        final VotingSongPart firstPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
-        final VotingSongPart secondPart = VotingSongPart.forSave(5, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart firstPart = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
+        final VotingSongPart secondPart = VotingSongPart.forSave(5, new PartLength(5), SAVED_SONG);
         votingSongPartRepository.save(firstPart);
         votingSongPartRepository.save(secondPart);
 
@@ -86,7 +86,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
         @Test
         void findOnePart() {
             // given
-            final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart part = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
             votingSongPartRepository.save(part);
 
             // when
@@ -111,7 +111,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void existsByVotingSongAndMemberAndStartSecondAndLength() {
         //given
-        final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart part = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
         votingSongPartRepository.save(part);
 
         //when
