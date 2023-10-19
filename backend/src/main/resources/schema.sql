@@ -12,12 +12,11 @@ create table if not exists song
 
 create table if not exists killing_part
 (
-    id            bigint auto_increment,
-    start_second  integer      not null,
-    legacy_length varchar(255) not null check (legacy_length in ('SHORT', 'STANDARD', 'LONG')),
-    length        integer      not null,
-    song_id       bigint       not null,
-    created_at    timestamp(6) not null,
+    id           bigint auto_increment,
+    start_second integer      not null,
+    length       integer      not null,
+    song_id      bigint       not null,
+    created_at   timestamp(6) not null,
     primary key (id)
 );
 
@@ -106,19 +105,3 @@ alter table song
                    'FOLK_BLUES', 'POP', 'JAZZ', 'CLASSIC', 'J_POP', 'EDM', 'ETC'));
 alter table vote
     add column member_id bigint not null;
-/* 배포 시 임시 열을 추가한 뒤에, rename 한다.
-alter table killing_part
-    add column temp_length integer;
-update killing_part
-set temp_length = CASE
-                      WHEN length = 'SHORT' THEN 5
-                      WHEN length = 'STANDARD' THEN 10
-                      WHEN length = 'LONG' THEN 15
-    END;
-alter table killing_part
-    modify temp_length integer not null;
-alter table killing_part
-    change column length legacy_length varchar(255) null;
-alter table killing_part
-    change column temp_length length integer not null;
-*/
