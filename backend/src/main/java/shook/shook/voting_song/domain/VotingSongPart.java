@@ -80,8 +80,16 @@ public class VotingSongPart {
         final PartLength length,
         final VotingSong votingSong
     ) {
-        validateStartSecond(startSecond, length, votingSong.getLength());
         return new VotingSongPart(id, startSecond, length, votingSong);
+    }
+
+    public static VotingSongPart forSave(
+        final int startSecond,
+        final PartLength length,
+        final VotingSong votingSong
+    ) {
+        validateStartSecond(startSecond, length, votingSong.getLength());
+        return new VotingSongPart(null, startSecond, length, votingSong);
     }
 
     private static void validateStartSecond(
@@ -107,15 +115,6 @@ public class VotingSongPart {
                 )
             );
         }
-    }
-
-    public static VotingSongPart forSave(
-        final int startSecond,
-        final PartLength length,
-        final VotingSong votingSong
-    ) {
-        validateStartSecond(startSecond, length, votingSong.getLength());
-        return new VotingSongPart(null, startSecond, length, votingSong);
     }
 
     public void vote(final Vote vote) {

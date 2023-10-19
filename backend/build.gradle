@@ -51,6 +51,9 @@ dependencies {
     //xlsx reader
     implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+
+    //actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {

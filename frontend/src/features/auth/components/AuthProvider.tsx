@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
 import parseJWT from '../utils/parseJWT';
+import type { PropsWithChildren } from 'react';
 
 interface User {
   memberId: number;
@@ -23,7 +24,7 @@ export const useAuthContext = () => {
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
-const AuthProvider = ({ children }: { children: React.ReactElement[] }) => {
+const AuthProvider = ({ children }: PropsWithChildren) => {
   const [accessToken, setAccessToken] = useState(accessTokenStorage.getToken() || '');
 
   const user: User | null = useMemo(() => {
