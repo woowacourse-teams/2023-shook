@@ -10,19 +10,18 @@ const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
   ({ length, progressWidth }, boxRef) => {
     const stretchWaveHeight =
       (activeHeight: string, inactiveHeight: string) => (dom: HTMLDivElement | null) => {
-        if (!dom || !boxRef || typeof boxRef === 'function') return;
-        if (boxRef.current?.scrollLeft) {
-          const boxPos =
-            boxRef.current?.scrollLeft + boxRef.current?.clientWidth / 2 - progressWidth / 2;
+        if (!dom || !boxRef || typeof boxRef === 'function' || !boxRef.current?.scrollLeft) return;
 
-          const containerRightEdge = boxPos + progressWidth;
-          const itemRightEdge = dom.offsetLeft;
+        const boxPos =
+          boxRef.current?.scrollLeft + boxRef.current?.clientWidth / 2 - progressWidth / 2;
 
-          if (itemRightEdge >= boxPos && itemRightEdge <= containerRightEdge) {
-            dom.style.height = activeHeight;
-          } else {
-            dom.style.height = inactiveHeight;
-          }
+        const containerRightEdge = boxPos + progressWidth;
+        const itemRightEdge = dom.offsetLeft;
+
+        if (itemRightEdge >= boxPos && itemRightEdge <= containerRightEdge) {
+          dom.style.height = activeHeight;
+        } else {
+          dom.style.height = inactiveHeight;
         }
       };
 
