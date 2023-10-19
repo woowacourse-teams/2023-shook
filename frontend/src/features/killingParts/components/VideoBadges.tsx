@@ -26,7 +26,7 @@ const VideoBadges = () => {
   const video = useVideoPlayerContext();
 
   const partStartTimeText = toMinSecText(partStartTime);
-  const isPaused = video.playerState === YT.PlayerState.PAUSED;
+  const isPaused = video.playerState === null || video.playerState === YT.PlayerState.PAUSED;
   const videoPlay = () => {
     if (isPlayingEntire) {
       video.play();
