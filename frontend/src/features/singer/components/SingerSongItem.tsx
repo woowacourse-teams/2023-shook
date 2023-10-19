@@ -45,6 +45,7 @@ const SongListItem = styled.li`
 
   color: ${({ theme: { color } }) => color.white};
 
+  background-color: ${({ theme: { color } }) => color.black};
   border-radius: 4px;
 
   transition: background-color 0.3s ease;
