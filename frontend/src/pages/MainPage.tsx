@@ -19,7 +19,7 @@ const MainPage = () => {
   return (
     <Container>
       <SRHeading>shook 메인 페이지</SRHeading>
-      <Title>현재 킬링파트 등록중인 노래</Title>
+      <Title>최근 등록된 노래 Top 5</Title>
       <Spacing direction="vertical" size={16} />
       <CollectionCarousel>
         {recentSongs.map((recentSong) => (
