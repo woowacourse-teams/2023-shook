@@ -1,32 +1,18 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useDebounceEffect from '@/shared/hooks/useDebounceEffect';
 
 const useWave = () => {
   const {
+    partStartTime,
     interval,
     videoLength,
-    partStartTime,
     setPartStartTime,
     isPlayingEntire,
-    activePinIndex,
+    waveScrubberRef,
   } = useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const waveScrubberRef = useRef<HTMLDivElement>(null);
-  const scrollWaveToStartTime = () => {
-    if (waveScrubberRef.current) {
-      const unit =
-        (waveScrubberRef.current.scrollWidth - waveScrubberRef.current.clientWidth) /
-        (videoLength - interval);
-      waveScrubberRef.current.scrollTo({
-        left: partStartTime * unit + 2.5,
-        behavior: 'instant',
-      });
-    }
-    video.seekTo(partStartTime);
-  };
-
   const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
 
   const maxPartStartTime = videoLength - interval;
@@ -88,8 +74,7 @@ const useWave = () => {
     setXPos(null);
   };
 
-  useDebounceEffect(() => video.seekTo(partStartTime), [partStartTime], 300);
-  useDebounceEffect(scrollWaveToStartTime, [interval, activePinIndex], 300);
+  useDebounceEffect(() => video.seekTo(partStartTime), [interval, partStartTime], 300);
 
   return {
     waveScrubberRef,

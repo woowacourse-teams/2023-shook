@@ -11,6 +11,7 @@ const usePin = () => {
     pinList,
     setPinList,
     activePinIndex,
+    triggerScrollKey,
   } = useCollectingPartContext();
 
   const pinContainerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,7 @@ const usePin = () => {
   const playPin = (start: number, interval: number) => () => {
     setPartStartTime(start);
     setInterval(interval);
+    triggerScrollKey();
   };
 
   return {

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import type { PropsWithChildren } from 'react';
@@ -16,6 +16,9 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   setPartStartTime: React.Dispatch<React.SetStateAction<number>>;
   pinList: Pin[];
   activePinIndex: number;
+  waveScrubberRef: React.RefObject<HTMLDivElement>;
+  forceScrollWave: () => void;
+  triggerScrollKey: () => void;
   setPinList: React.Dispatch<React.SetStateAction<Pin[]>>;
   setInterval: React.Dispatch<React.SetStateAction<number>>;
   increasePartInterval: () => void;
@@ -41,11 +44,16 @@ export const CollectingPartProvider = ({
   const [isPlayingEntire, setIsPlayingEntire] = useState(false);
   const { playerState, seekTo } = useVideoPlayerContext();
   const [pinList, setPinList] = useState<Pin[]>([]);
+  const [scrollKey, setScrollKey] = useState<number>(0);
+  const waveScrubberRef = useRef<HTMLDivElement>(null);
   const activePinIndex = useMemo(
-    () =>
-      pinList.findIndex((pin) => pin.partStartTime === partStartTime && pin.interval === interval),
-    [pinList, partStartTime, interval]
+    () => pinList.findIndex((pin) => pin.partStartTime === partStartTime),
+    [pinList, partStartTime]
   );
+
+  const triggerScrollKey = () => {
+    setScrollKey((prevKey) => prevKey + 1);
+  };
 
   const toggleEntirePlaying = () => {
     if (isPlayingEntire) {
@@ -66,6 +74,18 @@ export const CollectingPartProvider = ({
     setInterval(interval - 1);
   };
 
+  const forceScrollWave = () => {
+    if (waveScrubberRef.current) {
+      const unit =
+        (waveScrubberRef.current.scrollWidth - waveScrubberRef.current.clientWidth) /
+        (videoLength - interval);
+      waveScrubberRef.current.scrollTo({
+        left: partStartTime * unit + 2.5,
+        behavior: 'instant',
+      });
+    }
+  };
+
   useEffect(() => {
     if (isPlayingEntire || playerState !== YT.PlayerState.PLAYING) return;
 
@@ -78,6 +98,10 @@ export const CollectingPartProvider = ({
     };
   }, [playerState, partStartTime, interval, isPlayingEntire]);
 
+  useEffect(() => {
+    forceScrollWave();
+  }, [scrollKey]);
+
   return (
     <CollectingPartContext.Provider
       value={{
@@ -89,6 +113,9 @@ export const CollectingPartProvider = ({
         isPlayingEntire,
         pinList,
         activePinIndex,
+        waveScrubberRef,
+        triggerScrollKey,
+        forceScrollWave,
         setPinList,
         setPartStartTime,
         setInterval,
