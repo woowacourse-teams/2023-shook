@@ -53,8 +53,8 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
   }
   a {
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
   }
   table {
     border-spacing: 0;
@@ -67,6 +67,7 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard';
+    background-color: black;
   }
 `;
 

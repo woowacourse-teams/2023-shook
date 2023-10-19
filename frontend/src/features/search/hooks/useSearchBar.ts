@@ -16,7 +16,7 @@ const useSearchBar = () => {
     false
   );
 
-  useDebounceEffect(fetchSingerSearchPreview, searchQuery, 300);
+  useDebounceEffect(fetchSingerSearchPreview, [searchQuery], 300);
 
   const search: React.FormEventHandler = useCallback(
     (e) => {
