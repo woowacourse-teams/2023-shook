@@ -29,6 +29,7 @@ import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.song.domain.repository.ArtistRepository;
+import shook.shook.song.domain.repository.ArtistSynonymRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.ArtistException;
 import shook.shook.support.UsingJpaTest;
@@ -39,15 +40,13 @@ class ArtistSearchServiceTest extends UsingJpaTest {
 
     private ArtistSearchService artistSearchService;
     private InMemoryArtistSynonyms artistSynonyms = new InMemoryArtistSynonyms();
+    private InMemoryArtistSynonymsGenerator generator;
 
     @Autowired
     private SongRepository songRepository;
 
     @Autowired
     private ArtistRepository artistRepository;
-
-    @Autowired
-    private InMemoryArtistSynonymsGenerator generator;
 
     @Autowired
     private KillingPartLikeRepository likeRepository;
@@ -58,8 +57,12 @@ class ArtistSearchServiceTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private ArtistSynonymRepository synonymRepository;
+
     @BeforeEach
     void setUp() {
+        generator = new InMemoryArtistSynonymsGenerator(artistSynonyms, synonymRepository);
         artistSearchService = new ArtistSearchService(artistSynonyms, artistRepository,
             songRepository, generator);
         final Song firstSong = songRepository.findById(1L).get();

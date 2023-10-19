@@ -23,12 +23,11 @@ import shook.shook.song.domain.ArtistSynonym;
 import shook.shook.song.domain.InMemoryArtistSynonyms;
 import shook.shook.song.domain.Synonym;
 import shook.shook.song.domain.repository.ArtistRepository;
-import shook.shook.song.domain.repository.ArtistSynonymRepository;
 
 @SuppressWarnings("NonAsciiCharacters")
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class ArtistSongSearchControllerTest {
+class SearchControllerTest {
 
     private Artist newJeans;
     private Artist 가수;
@@ -61,12 +60,9 @@ class ArtistSongSearchControllerTest {
     private InMemoryArtistSynonyms artistSynonyms;
 
     @Autowired
-    private ArtistSynonymRepository synonymRepository;
-
-    @Autowired
     private ArtistRepository artistRepository;
 
-    @DisplayName("search=singer,song name=검색어 으로 요청을 보내는 경우 상태코드 200, 검색어로 시작하거나 끝나는 가수, 가수의 TOP3 노래 리스트를 반환한다.")
+    @DisplayName("type=singer,song keyword=검색어 으로 요청을 보내는 경우 상태코드 200, 검색어로 시작하거나 끝나는 가수, 가수의 TOP3 노래 리스트를 반환한다.")
     @Test
     void searchArtistWithSongByKeyword() {
         // given
@@ -75,9 +71,9 @@ class ArtistSongSearchControllerTest {
 
         // when
         final List<ArtistWithSongSearchResponse> response = RestAssured.given().log().all()
-            .params(Map.of("name", keyword, "search", searchType))
+            .params(Map.of("keyword", keyword, "type", searchType))
             .when().log().all()
-            .get("/singers")
+            .get("/search")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
@@ -105,7 +101,7 @@ class ArtistSongSearchControllerTest {
             .toList();
     }
 
-    @DisplayName("search=singer name=검색어 으로 요청을 보내는 경우 상태코드 200, 검색어로 시작하는 가수 목록을 반환한다.")
+    @DisplayName("type=singer keyword=검색어 으로 요청을 보내는 경우 상태코드 200, 검색어로 시작하는 가수 목록을 반환한다.")
     @Test
     void searchArtistByKeyword() {
         // given
@@ -114,9 +110,9 @@ class ArtistSongSearchControllerTest {
 
         // when
         final List<ArtistResponse> response = RestAssured.given().log().all()
-            .params(Map.of("name", keyword, "search", searchType))
+            .params(Map.of("keyword", keyword, "type", searchType))
             .when().log().all()
-            .get("/singers")
+            .get("/search")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .extract()
@@ -129,25 +125,5 @@ class ArtistSongSearchControllerTest {
             () -> assertThat(response.get(0)).hasFieldOrPropertyWithValue("id", newJeans.getId()),
             () -> assertThat(response.get(1)).hasFieldOrPropertyWithValue("id", 가수.getId())
         );
-    }
-
-    @DisplayName("GET /singers/{singerId} 로 요청을 보내는 경우 상태코드 200, 해당 가수의 정보, 모든 노래 리스트를 반환한다.")
-    @Test
-    void searchSongsByArtist() {
-        // given
-        final Long singerId = newJeans.getId();
-
-        // when
-        final ArtistWithSongSearchResponse response = RestAssured.given().log().all()
-            .when().log().all()
-            .get("/singers/{singerId}", singerId)
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .extract()
-            .body().as(ArtistWithSongSearchResponse.class);
-
-        // then
-        assertThat(response.getId()).isEqualTo(newJeans.getId());
-        assertThat(getSongIdsFromResponse(response)).containsExactly(3L, 1L);
     }
 }
