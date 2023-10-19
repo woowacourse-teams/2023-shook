@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 import shook.shook.song.application.InMemorySongsScheduler;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
@@ -21,6 +22,7 @@ import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Transactional
 class HighLikedSongControllerTest {
 
     private static final long FIRST_SONG_ID = 1L;

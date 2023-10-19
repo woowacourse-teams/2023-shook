@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: ToggleSwitch,
-  title: 'ToggleSwitch',
+  title: 'shared/ToggleSwitch',
 } satisfies Meta<typeof ToggleSwitch>;
 
 export default meta;

@@ -9,7 +9,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 // FIXME: 재생시 `YT is not defined` 에러 발생
 const meta = {
   component: KillingPartTrack,
-  title: 'KillingPartTrack',
+  title: 'killingPart/KillingPartTrack',
   decorators: [
     (Story) => {
       return (

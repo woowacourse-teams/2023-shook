@@ -53,20 +53,21 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
   }
   a {
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
   }
   table {
     border-spacing: 0;
     border-collapse: collapse;
   }
 
-  ol, ul { 
+  ol, ul, li { 
     list-style: none;
   }
 
   body {
     font-family: 'Pretendard';
+    background-color: black;
   }
 `;
 

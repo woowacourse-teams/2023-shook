@@ -10,6 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.AcceptanceTest;
 import shook.shook.voting_song.application.dto.VotingSongResponse;
 import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
@@ -21,14 +23,29 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Autowired
     private VotingSongRepository votingSongRepository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
+    private VotingSong saveVotingSongWithTitle(final String votingSongTitle) {
+        final Artist artist = new Artist("profile", "가수");
+        final VotingSong votingSong = new VotingSong(
+            votingSongTitle,
+            "12345678901",
+            "이미지URL",
+            artist,
+            180
+        );
+        artistRepository.save(artist);
+
+        return votingSongRepository.save(votingSong);
+    }
+
     @DisplayName("노래 정보를 조회시 제목, 가수, 길이, URL, 킬링파트를 담은 응답을 반환한다.")
     @Test
     void showSongById() {
         //given
-        final VotingSong song1 = votingSongRepository.save(
-            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong song2 = votingSongRepository.save(
-            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
+        final VotingSong song1 = saveVotingSongWithTitle("제목1");
+        final VotingSong song2 = saveVotingSongWithTitle("제목2");
 
         final List<VotingSongResponse> expected = Stream.of(song1, song2)
             .map(VotingSongResponse::from)
@@ -55,12 +72,9 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Test
     void findById() {
         // given
-        final VotingSong prevSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong nextSong = votingSongRepository.save(
-            new VotingSong("제목3", "비디오ID는 11글자", "이미지URL", "가수", 20));
+        final VotingSong prevSong = saveVotingSongWithTitle("제목1");
+        final VotingSong standardSong = saveVotingSongWithTitle("제목2");
+        final VotingSong nextSong = saveVotingSongWithTitle("제목3");
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()
@@ -93,10 +107,8 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Test
     void findByIdEmptyAfterSong() {
         // given
-        final VotingSong prevSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
+        final VotingSong prevSong = saveVotingSongWithTitle("제목1");
+        final VotingSong standardSong = saveVotingSongWithTitle("제목2");
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()
@@ -125,10 +137,8 @@ class VotingSongControllerTest extends AcceptanceTest {
     @Test
     void findByIdEmptyBeforeSong() {
         // given
-        final VotingSong standardSong = votingSongRepository.save(
-            new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
-        final VotingSong nextSong = votingSongRepository.save(
-            new VotingSong("제목2", "비디오ID는 11글자", "이미지URL", "가수", 20));
+        final VotingSong standardSong = saveVotingSongWithTitle("제목1");
+        final VotingSong nextSong = saveVotingSongWithTitle("제목2");
 
         // when
         final VotingSongSwipeResponse response = RestAssured.given().log().all()

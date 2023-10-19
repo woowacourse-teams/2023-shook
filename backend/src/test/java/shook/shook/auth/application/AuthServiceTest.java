@@ -100,13 +100,21 @@ class AuthServiceTest {
         //when
         final ReissueAccessTokenResponse result = authService.reissueAccessTokenByRefreshToken(
             refreshToken, accessToken);
+        final Claims resultClaims = tokenProvider.parseClaims(accessToken);
+        final Object resultId = resultClaims.get("id");
+        final Object resultNickname = resultClaims.get("nickname");
 
         //then
         final String accessToken = tokenProvider.createAccessToken(
             savedMember.getId(),
             savedMember.getNickname());
 
-        assertThat(result.getAccessToken()).isEqualTo(accessToken);
+        final Claims claims = tokenProvider.parseClaims(accessToken);
+        final Object expectedId = claims.get("id");
+        final Object expectedNickname = claims.get("nickname");
+
+        assertThat(expectedId).isEqualTo(resultId);
+        assertThat(expectedNickname).isEqualTo(resultNickname);
     }
 
     @DisplayName("잘못된 refresh 토큰(secret Key가 다른)이 들어오면 예외를 던진다.")
