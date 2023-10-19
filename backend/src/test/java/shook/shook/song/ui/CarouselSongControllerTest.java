@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
@@ -91,9 +90,9 @@ class CarouselSongControllerTest {
     }
 
     private Song createNewSongWithKillingParts() {
-        final KillingPart firstKillingPart = KillingPart.forSave(10, PartLength.SHORT);
-        final KillingPart secondKillingPart = KillingPart.forSave(15, PartLength.SHORT);
-        final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
+        final KillingPart firstKillingPart = KillingPart.forSave(10, 5);
+        final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
+        final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
         return new Song(
             "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, Genre.from("댄스"),
