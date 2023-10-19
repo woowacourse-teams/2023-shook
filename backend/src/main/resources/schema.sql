@@ -14,7 +14,7 @@ create table if not exists killing_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    length       integer      not null,
     song_id      bigint       not null,
     created_at   timestamp(6) not null,
     primary key (id)
@@ -55,7 +55,7 @@ create table if not exists voting_song_part
 (
     id             bigint auto_increment,
     start_second   integer      not null,
-    length         varchar(255) not null check (length in ('SHORT', 'STANDARD', 'LONG')),
+    length         integer      not null,
     voting_song_id bigint       not null,
     created_at     timestamp(6) not null,
     primary key (id)
@@ -73,6 +73,17 @@ create table if not exists member
     id       bigint auto_increment,
     email    varchar(100) not null,
     nickname varchar(100) not null,
+    primary key (id)
+);
+
+create table if not exists member_part
+(
+    id           bigint auto_increment,
+    start_second integer      not null,
+    length       integer      not null,
+    song_id      bigint       not null,
+    member_id    bigint       not null,
+    created_at   timestamp(6) not null,
     primary key (id)
 );
 
@@ -94,3 +105,25 @@ alter table song
                    'FOLK_BLUES', 'POP', 'JAZZ', 'CLASSIC', 'J_POP', 'EDM', 'ETC'));
 alter table vote
     add column member_id bigint not null;
+
+create table if not exists artist
+(
+    id                bigint auto_increment,
+    name              varchar(50)  not null,
+    profile_image_url text         not null,
+    created_at        timestamp(6) not null,
+    primary key (id)
+);
+
+ALTER TABLE song ADD COLUMN artist_id BIGINT NOT NULL;
+ALTER TABLE song DROP COLUMN singer;
+ALTER TABLE voting_song ADD COLUMN artist_id BIGINT NOT NULL;
+ALTER TABLE voting_song DROP COLUMN singer;
+
+create table if not exists artist_synonym
+(
+    id        bigint auto_increment,
+    artist_id bigint       not null,
+    synonym   varchar(255) not null,
+    primary key (id)
+);

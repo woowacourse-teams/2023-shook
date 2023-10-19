@@ -10,20 +10,28 @@ import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
+import shook.shook.song.domain.Artist;
 import shook.shook.voting_song.exception.VoteException;
 
 class VotingSongPartTest {
 
     private static Member MEMBER = new Member("a@a.com", "nickname");
-    private final VotingSong votingSong = new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30);
+    private final Artist artist = new Artist("profile", "가수");
+    private final VotingSong votingSong = new VotingSong(
+        "제목",
+        "비디오ID는 11글자",
+        "이미지URL",
+        artist,
+        30
+    );
 
     @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
     @Test
     void equals_true() {
         //given
-        final VotingSongPart firstPart = VotingSongPart.saved(1L, 4, PartLength.SHORT, votingSong);
-        final VotingSongPart secondPart = VotingSongPart.saved(1L, 14, PartLength.SHORT,
-            votingSong);
+        final VotingSongPart firstPart = VotingSongPart.saved(1L, 4, new PartLength(5), votingSong);
+        final VotingSongPart secondPart = VotingSongPart.saved(1L, 14, new PartLength(5),
+                                                               votingSong);
 
         //when
         final boolean equals = firstPart.equals(secondPart);
@@ -41,9 +49,9 @@ class VotingSongPartTest {
         void equals_false_nullId() {
             //given
             final VotingSongPart firstPart =
-                VotingSongPart.saved(null, 4, PartLength.SHORT, votingSong);
+                VotingSongPart.saved(null, 4, new PartLength(5), votingSong);
             final VotingSongPart secondPart =
-                VotingSongPart.saved(1L, 14, PartLength.SHORT, votingSong);
+                VotingSongPart.saved(1L, 14, new PartLength(5), votingSong);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -57,9 +65,9 @@ class VotingSongPartTest {
         void equals_false_bothNullId() {
             //given
             final VotingSongPart firstPart =
-                VotingSongPart.saved(null, 4, PartLength.SHORT, votingSong);
+                VotingSongPart.saved(null, 4, new PartLength(5), votingSong);
             final VotingSongPart secondPart =
-                VotingSongPart.saved(null, 14, PartLength.SHORT, votingSong);
+                VotingSongPart.saved(null, 14, new PartLength(5), votingSong);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -79,7 +87,7 @@ class VotingSongPartTest {
             //given
             //when
             //then
-            assertDoesNotThrow(() -> VotingSongPart.forSave(14, PartLength.SHORT, votingSong));
+            assertDoesNotThrow(() -> VotingSongPart.forSave(14, new PartLength(5), votingSong));
         }
 
         @DisplayName("파트의 시작초가 0보다 작으면 예외가 발생한다.")
@@ -88,7 +96,7 @@ class VotingSongPartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> VotingSongPart.forSave(-1, PartLength.SHORT, votingSong))
+            assertThatThrownBy(() -> VotingSongPart.forSave(-1, new PartLength(5), votingSong))
                 .isInstanceOf(PartException.StartLessThanZeroException.class);
         }
 
@@ -98,7 +106,7 @@ class VotingSongPartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> VotingSongPart.forSave(30, PartLength.SHORT, votingSong))
+            assertThatThrownBy(() -> VotingSongPart.forSave(30, new PartLength(5), votingSong))
                 .isInstanceOf(PartException.StartOverSongLengthException.class);
         }
 
@@ -108,7 +116,7 @@ class VotingSongPartTest {
             //given
             //when
             //then
-            assertThatThrownBy(() -> VotingSongPart.forSave(29, PartLength.SHORT, votingSong))
+            assertThatThrownBy(() -> VotingSongPart.forSave(29, new PartLength(5), votingSong))
                 .isInstanceOf(PartException.EndOverSongLengthException.class);
         }
     }
@@ -121,7 +129,7 @@ class VotingSongPartTest {
         @Test
         void vote_success_one() {
             //given
-            final VotingSongPart part = VotingSongPart.saved(1L, 14, PartLength.SHORT, votingSong);
+            final VotingSongPart part = VotingSongPart.saved(1L, 14, new PartLength(5), votingSong);
             final Vote vote = Vote.saved(1L, MEMBER, part);
 
             //when
@@ -135,7 +143,7 @@ class VotingSongPartTest {
         @Test
         void vote_success_many() {
             //given
-            final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
+            final VotingSongPart part = VotingSongPart.forSave(14, new PartLength(5), votingSong);
             final Vote firstVote = Vote.forSave(MEMBER, part);
             final Vote secondVote = Vote.forSave(MEMBER, part);
 
@@ -151,10 +159,10 @@ class VotingSongPartTest {
         @Test
         void vote_fail_voteForOtherPart() {
             //given
-            final VotingSongPart firstPart = VotingSongPart.saved(1L, 14, PartLength.SHORT,
-                votingSong);
-            final VotingSongPart secondPart = VotingSongPart.saved(2L, 10, PartLength.SHORT,
-                votingSong);
+            final VotingSongPart firstPart = VotingSongPart.saved(1L, 14, new PartLength(5),
+                                                                  votingSong);
+            final VotingSongPart secondPart = VotingSongPart.saved(2L, 10, new PartLength(5),
+                                                                   votingSong);
             final Vote voteForSecondPart = Vote.forSave(MEMBER, secondPart);
 
             //when
@@ -172,7 +180,7 @@ class VotingSongPartTest {
         @Test
         void getVoteCount_twoVoteDifferentId() {
             //given
-            final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
+            final VotingSongPart part = VotingSongPart.forSave(14, new PartLength(5), votingSong);
             final Vote firstVote = Vote.saved(1L, MEMBER, part);
             final Vote secondVote = Vote.saved(2L, MEMBER, part);
             part.vote(firstVote);
@@ -189,7 +197,7 @@ class VotingSongPartTest {
         @Test
         void getVoteCount_towVoteSameId() {
             //given
-            final VotingSongPart part = VotingSongPart.forSave(14, PartLength.SHORT, votingSong);
+            final VotingSongPart part = VotingSongPart.forSave(14, new PartLength(5), votingSong);
             final Vote firstVote = Vote.saved(1L, MEMBER, part);
             final Vote secondVote = Vote.saved(1L, MEMBER, part);
             part.vote(firstVote);

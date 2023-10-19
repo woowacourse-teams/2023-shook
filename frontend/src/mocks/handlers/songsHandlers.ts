@@ -3,13 +3,13 @@ import comments from '../fixtures/comments.json';
 import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
 import popularSongs from '../fixtures/popularSongs.json';
+import recentSongs from '../fixtures/recentSongs.json';
 import songEntries from '../fixtures/songEntries.json';
-import votingSongs from '../fixtures/votingSongs.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
 
-export const songsHandlers = [
+const songsHandlers = [
   rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
     // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(popularSongs));
@@ -54,7 +54,17 @@ export const songsHandlers = [
     return res(ctx.status(200), ctx.json(extraNextSongDetails));
   }),
 
-  rest.get(`${BASE_URL}/voting-songs`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(votingSongs));
+  rest.get(`${BASE_URL}/songs/recent`, (req, res, ctx) => {
+    const size = req.url.searchParams.get('size');
+
+    const slicedRecentSongs = size ? recentSongs.slice(0, Number(size)) : recentSongs.slice(0, 5);
+
+    return res(ctx.status(200), ctx.json(slicedRecentSongs));
+  }),
+
+  rest.delete(`${BASE_URL}/member-parts/:partId`, (req, res, ctx) => {
+    return res(ctx.status(204));
   }),
 ];
+
+export default songsHandlers;

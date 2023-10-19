@@ -1,41 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import emptyPlay from '@/assets/icon/empty-play.svg';
-import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import LoginModal from '@/features/auth/components/LoginModal';
 import Thumbnail from '@/features/songs/components/Thumbnail';
-import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { toMinSecText } from '@/shared/utils/convertTime';
-import type { VotingSong } from '../types/Song.type';
+import type { RecentSong } from '@/shared/types/song';
 
 interface CarouselItemProps {
-  votingSong: VotingSong;
+  recentSong: RecentSong;
 }
 
-const CarouselItem = ({ votingSong }: CarouselItemProps) => {
-  const { id, singer, title, videoLength, albumCoverUrl } = votingSong;
-
-  const { isOpen, openModal, closeModal } = useModal();
-
-  const { user } = useAuthContext();
-  const isLoggedIn = !!user;
-
-  const navigate = useNavigate();
-  const goToPartCollectingPage = () => navigate(`${ROUTE_PATH.COLLECT}/${id}`);
+const CarouselItem = ({ recentSong }: CarouselItemProps) => {
+  const { id, singer, title, videoLength, albumCoverUrl } = recentSong;
 
   return (
     <Wrapper>
-      <LoginModal
-        message={
-          '슉에서 당신만의 킬링파트를 등록해보세요!\n당신이 등록한 구간이 대표 킬링파트가 될 수 있어요!'
-        }
-        isOpen={isOpen}
-        closeModal={closeModal}
-      />
-
-      <CollectingLink onClick={isLoggedIn ? goToPartCollectingPage : openModal}>
+      <FlexLink to={`${ROUTE_PATH.SONG_DETAILS}/${id}/ALL`}>
         <Thumbnail src={albumCoverUrl} size="xl" borderRadius={4} />
         <Spacing direction={'horizontal'} size={24} />
         <Contents>
@@ -46,7 +27,7 @@ const CarouselItem = ({ votingSong }: CarouselItemProps) => {
             <PlayingTimeText>{toMinSecText(videoLength)}</PlayingTimeText>
           </PlayingTime>
         </Contents>
-      </CollectingLink>
+      </FlexLink>
     </Wrapper>
   );
 };
@@ -58,7 +39,7 @@ const Wrapper = styled.li`
   min-width: 350px;
 `;
 
-const CollectingLink = styled.a`
+const FlexLink = styled(Link)`
   display: flex;
   justify-content: center;
   padding: 10px;

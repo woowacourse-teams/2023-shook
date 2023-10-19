@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
+import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrackList from './KillingPartTrackList';
 import type { KillingPart } from '@/shared/types/song';
 import type { Meta, StoryObj } from '@storybook/react';
 
+// FIXME: 재생시 `YT is not defined` 에러 발생
 const meta = {
   component: KillingPartTrackList,
-  title: 'KillingPartTrackList',
+  title: 'killingPart/KillingPartTrackList',
   decorators: [
     (Story) => {
       return (
         <ToastProvider>
           <VideoPlayerProvider>
-            <Story />
+            <TimerProvider time={killingPart.end - killingPart.start}>
+              <Story />
+            </TimerProvider>
           </VideoPlayerProvider>
         </ToastProvider>
       );
@@ -60,6 +64,18 @@ const killingPart3: KillingPart = {
   partLength: 10,
 };
 
+const memberPart: KillingPart = {
+  id: 4,
+  rank: 3,
+  voteCount: 0,
+  start: 70,
+  end: 80,
+  partVideoUrl: 'https://youtu.be/ArmDp-zijuc?start=105&end=115',
+  likeCount: 12,
+  likeStatus: false,
+  partLength: 10,
+};
+
 const KillingPartTrackListWithHooks = () => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState<KillingPart['id']>(-1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -67,6 +83,7 @@ const KillingPartTrackListWithHooks = () => {
 
   return (
     <KillingPartTrackList
+      memberPart={memberPart}
       killingParts={[killingPart, killingPart2, killingPart3]}
       songId={1}
       nowPlayingTrack={nowPlayingTrack}

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "singer": "악동뮤지션",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize"
+  },
+  {
+    "id": 2,
+    "singer": "악동",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize"
+  },
+  {
+    "id": 3,
+    "singer": "뮤지션",
+    "profileImageUrl": "https://cdnimg.melon.co.kr/cm2/artistcrop/images/007/12/452/712452_20230821182358_500.jpg?f9ab949ec336274795e07b2719addab6/melon/resize/416/quality/80/optimize"
+  }
+]

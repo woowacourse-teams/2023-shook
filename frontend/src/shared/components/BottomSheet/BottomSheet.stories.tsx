@@ -4,6 +4,7 @@ import BottomSheet from './BottomSheet';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof BottomSheet> = {
+  title: 'shared/BottomSheet',
   component: BottomSheet,
 };
 

@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.song.exception.SongException;
+import shook.shook.song.exception.ArtistException;
 import shook.shook.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +15,7 @@ import shook.shook.util.StringChecker;
 @EqualsAndHashCode
 @Embeddable
 public class Singer {
+    // TODO: 2023-10-09 데이터 옮긴 후 Song에 있는 해당 컬럼을,, 날려야 하나..?
 
     private static final int NAME_MAXIMUM_LENGTH = 50;
 
@@ -28,10 +29,10 @@ public class Singer {
 
     private void validateName(final String name) {
         if (StringChecker.isNullOrBlank(name)) {
-            throw new SongException.NullOrEmptySingerNameException();
+            throw new ArtistException.NullOrEmptyNameException();
         }
         if (name.length() > NAME_MAXIMUM_LENGTH) {
-            throw new SongException.TooLongSingerNameException(
+            throw new ArtistException.TooLongNameException(
                 Map.of("Singer", name)
             );
         }

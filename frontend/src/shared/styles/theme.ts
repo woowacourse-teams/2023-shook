@@ -19,6 +19,15 @@ const theme = {
       kakao: '#fee500',
       google: '#ffffff',
     },
+    magenta100: '#fff0f6',
+    magenta200: '#ffd6e7',
+    magenta300: '#ffadd2',
+    magenta400: '#ff85c0',
+    magenta500: '#f759ab',
+    magenta600: '#eb2f96',
+    magenta700: '#c41d7f',
+    magenta800: '#9e1068',
+    magenta900: '#520339',
   },
 
   breakPoints: {
@@ -36,13 +45,6 @@ const theme = {
     mobile: '60px',
     tablet: '80px',
     desktop: '80px',
-  },
-
-  mainTopBottomPadding: {
-    xxs: '8px',
-    mobile: '16px',
-    tablet: '16px',
-    desktop: '36px',
   },
 } as const;
 

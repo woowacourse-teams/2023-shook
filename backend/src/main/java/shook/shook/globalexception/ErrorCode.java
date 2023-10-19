@@ -40,6 +40,7 @@ public enum ErrorCode {
     EMPTY_KILLING_PARTS(2011, "노래의 킬링파트는 비어있을 수 없습니다."),
 
     // 3000: 노래
+
     NOT_POSITIVE_SONG_LENGTH(3001, "노래 길이는 0보다 커야합니다."),
     SONG_NOT_EXIST(3002, "존재하지 않는 노래입니다."),
     EMPTY_SONG_TITLE(3003, "노래 제목은 비어있을 수 없습니다."),
@@ -53,20 +54,28 @@ public enum ErrorCode {
     CAN_NOT_READ_SONG_DATA_FILE(3011, "노래 데이터 파일을 읽을 수 없습니다."),
     SONG_ALREADY_EXIST(3012, "등록하려는 노래가 이미 존재합니다."),
     WRONG_GENRE_TYPE(3013, "잘못된 장르 타입입니다."),
+    EMPTY_ARTIST_PROFILE_URL(3014, "가수 프로필 이미지는 비어있을 수 없습니다."),
+    TOO_LONG_ARTIST_PROFILE_URL(3015, "가수 프로필 이미지URL은 65,356자를 넘길 수 없습니다."),
+    EMPTY_ARTIST_SYNONYM(3016, "가수 동의어는 비어있을 수 없습니다."),
+    TOO_LONG_ARTIST_SYNONYM(3017, "가수 동의어는 255자를 넘길 수 없습니다."),
+    ARTIST_NOT_EXIST(3018, "존재하지 않는 가수입니다."),
+
 
     // 4000: 투표
+
     VOTING_PART_START_LESS_THAN_ZERO(4001, "파트의 시작 초는 0보다 작을 수 없습니다."),
     VOTING_PART_START_OVER_SONG_LENGTH(4002, "파트의 시작 초는 노래 길이를 초과할 수 없습니다."),
     VOTING_PART_END_OVER_SONG_LENGTH(4003, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
-    INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5, 10, 15초 중 하나여야합니다."),
+    INVALID_VOTING_PART_LENGTH(4004, "파트의 길이는 5초 이상, 15초 이하여야 합니다."),
     VOTING_PART_DUPLICATE_START_AND_LENGTH_EXCEPTION(4005,
-        "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
+                                                     "한 노래에 동일한 파트를 두 개 이상 등록할 수 없습니다."),
     VOTING_SONG_PART_NOT_EXIST(4006, "투표 대상 파트가 존재하지 않습니다."),
 
     VOTING_SONG_PART_FOR_OTHER_SONG(4007, "해당 파트는 다른 노래의 파트입니다."),
     VOTING_SONG_NOT_EXIST(4008, "존재하지 않는 투표 노래입니다."),
     VOTE_FOR_OTHER_PART(4009, "해당 투표는 다른 파트에 대한 투표입니다."),
     DUPLICATE_VOTE_EXIST(4010, "중복된 투표입니다."),
+
     // 5000: 사용자
 
     EMPTY_EMAIL(5001, "이메일은 비어있을 수 없습니다."),
@@ -80,7 +89,14 @@ public enum ErrorCode {
     REQUEST_BODY_VALIDATION_FAIL(10001, ""),
     WRONG_REQUEST_URL(10002, "URL의 pathVariable 은 비어있을 수 없습니다."),
 
-    INTERNAL_SERVER_ERROR(10003, "알 수 없는 서버 오류가 발생했습니다. 관리자에게 문의해주세요.");
+    INTERNAL_SERVER_ERROR(10003, "알 수 없는 서버 오류가 발생했습니다. 관리자에게 문의해주세요."),
+
+    // 6000: 멤버 파트
+
+    NEGATIVE_START_SECOND(6001, "멤버 파트의 시작 초는 0보다 작을 수 없습니다."),
+    MEMBER_PART_END_OVER_SONG_LENGTH(6002, "파트의 끝 초는 노래 길이를 초과할 수 없습니다."),
+    MEMBER_PART_ALREADY_EXIST(6003, "멤버 파트가 이미 존재합니다."),
+    ;
 
     private final int code;
     private final String message;

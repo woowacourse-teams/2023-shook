@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.domain.VotingSong;
 import shook.shook.voting_song.domain.VotingSongPart;
@@ -23,19 +25,31 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
 
     @Autowired
     private VotingSongRepository votingSongRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
+
     private static VotingSong SAVED_SONG;
 
     @BeforeEach
     void setUp() {
+        final Artist artist = new Artist("profile", "가수");
+        artistRepository.save(artist);
         SAVED_SONG = votingSongRepository.save(
-            new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30));
+            new VotingSong(
+                "제목",
+                "비디오ID는 11글자",
+                "이미지URL",
+                artist,
+                30)
+        );
     }
 
     @DisplayName("VotingSongPart 를 저장한다.")
     @Test
     void save() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, new PartLength(5), SAVED_SONG);
 
         //when
         final VotingSongPart saved = votingSongPartRepository.save(votingSongPart);
@@ -49,7 +63,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void createdAt() {
         //given
-        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart votingSongPart = VotingSongPart.forSave(14, new PartLength(5), SAVED_SONG);
 
         //when
         final LocalDateTime prev = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -65,8 +79,8 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void findAllBySong() {
         //given
-        final VotingSongPart firstPart = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
-        final VotingSongPart secondPart = VotingSongPart.forSave(5, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart firstPart = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
+        final VotingSongPart secondPart = VotingSongPart.forSave(5, new PartLength(5), SAVED_SONG);
         votingSongPartRepository.save(firstPart);
         votingSongPartRepository.save(secondPart);
 
@@ -86,7 +100,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
         @Test
         void findOnePart() {
             // given
-            final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+            final VotingSongPart part = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
             votingSongPartRepository.save(part);
 
             // when
@@ -111,7 +125,7 @@ class VotingSongPartRepositoryTest extends UsingJpaTest {
     @Test
     void existsByVotingSongAndMemberAndStartSecondAndLength() {
         //given
-        final VotingSongPart part = VotingSongPart.forSave(1, PartLength.SHORT, SAVED_SONG);
+        final VotingSongPart part = VotingSongPart.forSave(1, new PartLength(5), SAVED_SONG);
         votingSongPartRepository.save(part);
 
         //when

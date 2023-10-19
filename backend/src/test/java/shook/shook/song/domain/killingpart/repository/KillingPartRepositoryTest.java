@@ -9,11 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.support.UsingJpaTest;
 
@@ -29,13 +30,16 @@ class KillingPartRepositoryTest extends UsingJpaTest {
     private KillingPartRepository killingPartRepository;
 
     @Autowired
+    private ArtistRepository artistRepository;
+
+    @Autowired
     private SongRepository songRepository;
 
     @BeforeEach
     void setUp() {
-        FIRST_KILLING_PART = KillingPart.forSave(0, PartLength.SHORT);
-        SECOND_KILLING_PART = KillingPart.forSave(10, PartLength.SHORT);
-        THIRD_KILLING_PART = KillingPart.forSave(14, PartLength.STANDARD);
+        FIRST_KILLING_PART = KillingPart.forSave(0, 5);
+        SECOND_KILLING_PART = KillingPart.forSave(10, 5);
+        THIRD_KILLING_PART = KillingPart.forSave(14, 10);
         KILLING_PARTS = new KillingParts(
             List.of(
                 FIRST_KILLING_PART,
@@ -43,8 +47,18 @@ class KillingPartRepositoryTest extends UsingJpaTest {
                 THIRD_KILLING_PART
             )
         );
-        SAVED_SONG = songRepository.save(
-            new Song("제목", "비디오ID는 11글자", "이미지URL", "가수", 30, Genre.from("댄스"), KILLING_PARTS));
+        final Artist artist = new Artist("image", "name");
+        final Song song = new Song(
+            "title",
+            "3rUPND6FG8A",
+            "image_url",
+            artist,
+            230,
+            Genre.from("댄스"),
+            KILLING_PARTS
+        );
+        artistRepository.save(song.getArtist());
+        SAVED_SONG = songRepository.save(song);
     }
 
     @DisplayName("KillingPart 를 모두 저장한다.")
@@ -56,13 +70,12 @@ class KillingPartRepositoryTest extends UsingJpaTest {
             KILLING_PARTS.getKillingParts());
 
         //then
-        assertThat(savedKillingParts).hasSize(3);
-        assertThat(savedKillingParts).containsExactly(
-            FIRST_KILLING_PART,
-            SECOND_KILLING_PART,
-            THIRD_KILLING_PART
-        );
-        assertThat(savedKillingParts).usingRecursiveComparison()
+        assertThat(savedKillingParts).hasSize(3)
+            .containsExactly(
+                FIRST_KILLING_PART,
+                SECOND_KILLING_PART,
+                THIRD_KILLING_PART
+            ).usingRecursiveComparison()
             .comparingOnlyFields("id")
             .isNotNull();
     }

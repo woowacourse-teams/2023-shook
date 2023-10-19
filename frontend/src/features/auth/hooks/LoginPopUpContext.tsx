@@ -12,7 +12,7 @@ const LoginPopUpContext = createContext<LoginPopUpContextProps | null>(null);
 export const useLoginPopup = () => {
   const contextValue = useContext(LoginPopUpContext);
 
-  if (contextValue === null) throw new Error('AuthContext가 null입니다.');
+  if (contextValue === null) throw new Error('LoginPopUpContext에 값이 제공되지 않았습니다.');
 
   return contextValue;
 };

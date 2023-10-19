@@ -7,9 +7,10 @@ import useVideoPlayerContext from '../hooks/useVideoPlayerContext';
 interface YoutubeProps {
   start?: number;
   videoId: string;
+  controls?: YT.Controls;
 }
 
-const Youtube = ({ start = 0, videoId }: YoutubeProps) => {
+const Youtube = ({ start = 0, videoId, controls = 1 }: YoutubeProps) => {
   const { initPlayer, bindUpdatePlayerStateEvent } = useVideoPlayerContext();
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +23,7 @@ const Youtube = ({ start = 0, videoId }: YoutubeProps) => {
           videoId,
           width: '100%',
           height: '100%',
-          playerVars: { start, rel: 0, fs: 0 },
+          playerVars: { start, rel: 0, fs: 0, controls },
           events: {
             onReady: (e) => {
               bindUpdatePlayerStateEvent(e);

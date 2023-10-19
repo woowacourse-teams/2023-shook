@@ -15,6 +15,5 @@ const GENRES = {
   EDM: 'EDM',
   ETC: '기타',
 } as const;
-`  `;
 
 export default GENRES;

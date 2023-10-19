@@ -5,9 +5,13 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -38,9 +42,12 @@ public class Song {
 
     @Embedded
     private AlbumCoverUrl albumCoverUrl;
-
     @Embedded
-    private Singer singer;
+    private KillingParts killingParts = new KillingParts();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "none"), updatable = false, nullable = false)
+    private Artist artist;
 
     @Embedded
     private SongLength length;
@@ -49,8 +56,6 @@ public class Song {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @Embedded
-    private KillingParts killingParts = new KillingParts();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -65,7 +70,7 @@ public class Song {
         final String title,
         final String videoId,
         final String imageUrl,
-        final String singer,
+        final Artist artist,
         final int length,
         final Genre genre,
         final KillingParts killingParts
@@ -75,7 +80,7 @@ public class Song {
         this.title = new SongTitle(title);
         this.videoId = new SongVideoId(videoId);
         this.albumCoverUrl = new AlbumCoverUrl(imageUrl);
-        this.singer = new Singer(singer);
+        this.artist = artist;
         this.length = new SongLength(length);
         this.genre = genre;
         killingParts.setSong(this);
@@ -86,12 +91,12 @@ public class Song {
         final String title,
         final String videoId,
         final String albumCoverUrl,
-        final String singer,
+        final Artist artist,
         final int length,
         final Genre genre,
         final KillingParts killingParts
     ) {
-        this(null, title, videoId, albumCoverUrl, singer, length, genre, killingParts);
+        this(null, title, videoId, albumCoverUrl, artist, length, genre, killingParts);
     }
 
     private void validate(final KillingParts killingParts) {
@@ -120,8 +125,8 @@ public class Song {
         return albumCoverUrl.getValue();
     }
 
-    public String getSinger() {
-        return singer.getName();
+    public String getArtistName() {
+        return artist.getArtistName();
     }
 
     public int getLength() {

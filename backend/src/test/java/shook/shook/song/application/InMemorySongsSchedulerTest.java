@@ -2,7 +2,6 @@ package shook.shook.song.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collections;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +27,6 @@ class InMemorySongsSchedulerTest {
         // given
         // when
         scheduler.recreateCachedSong();
-
-        // then
-        assertThat(inMemorySongs.getSongs()).hasSize(4);
-    }
-
-    @DisplayName("Scheduler 가 1초마다 실행된다.")
-    @Test
-    void schedule() throws InterruptedException {
-        // given
-        // when
-        inMemorySongs.recreate(Collections.emptyList());
-        Thread.sleep(1000);
 
         // then
         assertThat(inMemorySongs.getSongs()).hasSize(4);
