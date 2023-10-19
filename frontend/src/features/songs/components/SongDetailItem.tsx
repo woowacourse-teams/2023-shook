@@ -88,6 +88,10 @@ const Container = styled.div`
   height: 100vh;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    justify-content: flex-start;
+  }
+
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};
   }
