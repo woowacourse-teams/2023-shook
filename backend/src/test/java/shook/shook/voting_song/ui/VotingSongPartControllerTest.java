@@ -17,6 +17,8 @@ import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.voting_song.application.VotingSongPartService;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 import shook.shook.voting_song.domain.VotingSong;
@@ -42,6 +44,9 @@ class VotingSongPartControllerTest {
 
     @Autowired
     private VotingSongRepository votingSongRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
 
     @Autowired
     private VotingSongPartService votingSongPartService;
@@ -89,7 +94,15 @@ class VotingSongPartControllerTest {
     }
 
     private VotingSong getSavedSong() {
-        return votingSongRepository.save(new VotingSong("title", "12345678901", "albumCover", "singer", 100));
+        final Artist artist = new Artist("profile", "가수");
+        artistRepository.save(artist);
+        return votingSongRepository.save(new VotingSong(
+            "title",
+            "12345678901",
+            "albumCover",
+            artist,
+            100)
+        );
     }
 
     private Member getMember() {

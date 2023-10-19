@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Ditto",
+    "singer": "NewJeans",
+    "videoLength": 187,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 2,
+    "title": "Still With You",
+    "singer": "정국",
+    "videoLength": 239,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 3,
+    "title": "Broken Melodies",
+    "singer": "NCT DREAM",
+    "videoLength": 227,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 4,
+    "title": "Candy",
+    "singer": "NCT DREAM",
+    "videoLength": 220,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 5,
+    "title": "Kitsch",
+    "singer": "IVE (아이브)",
+    "videoLength": 195,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  },
+  {
+    "id": 6,
+    "title": "UNFORGIVEN (feat. Nile Rodgers)",
+    "singer": "LE SSERAFIM (르세라핌)",
+    "videoLength": 181,
+    "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/120/quality/80/optimize"
+  }
+]

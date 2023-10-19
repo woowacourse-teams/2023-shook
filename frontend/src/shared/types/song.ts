@@ -40,3 +40,11 @@ export interface SongInfo {
   genre: Genre;
   killingParts: KillingPart[];
 }
+
+export interface RecentSong {
+  id: number;
+  title: string;
+  singer: string;
+  videoLength: number;
+  albumCoverUrl: string;
+}

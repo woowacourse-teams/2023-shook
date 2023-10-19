@@ -41,7 +41,7 @@ public class MyPartsResponse {
             song.getId(),
             song.getTitle(),
             song.getVideoId(),
-            song.getSinger(),
+            song.getArtistName(),
             song.getAlbumCoverUrl(),
             memberPart.getId(),
             memberPart.getStartSecond(),

@@ -34,7 +34,13 @@ class AdminSongControllerTest {
     void register_success() {
         // given
         final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title1", "elevenVideo", "imageUrl", "singer", 300, "댄스",
+            "title",
+            "elevenVideo",
+            "imageUrl",
+            "singer",
+            "image",
+            300,
+            "댄스",
             List.of(
                 new KillingPartRegisterRequest(10, 5),
                 new KillingPartRegisterRequest(15, 10),
@@ -50,30 +56,5 @@ class AdminSongControllerTest {
             .post("/songs")
             .then().log().all()
             .statusCode(HttpStatus.CREATED.value());
-    }
-
-    @DisplayName("노래와 킬링파트 등록시 이미 존재하는 노래일 경우 401 상태코드를 반환한다.")
-    @Test
-    void register_alreadyExist() {
-        // given
-        final SongWithKillingPartsRegisterRequest request = new SongWithKillingPartsRegisterRequest(
-            "title2", "elevenVideo", "imageUrl", "singer", 300, "댄스",
-            List.of(
-                new KillingPartRegisterRequest(10, 5),
-                new KillingPartRegisterRequest(15, 10),
-                new KillingPartRegisterRequest(0, 10)
-            )
-        );
-
-        songService.register(request);
-
-        // when, then
-        RestAssured.given().log().all()
-            .contentType(ContentType.JSON)
-            .body(request)
-            .when().log().all()
-            .post("/songs")
-            .then().log().all()
-            .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

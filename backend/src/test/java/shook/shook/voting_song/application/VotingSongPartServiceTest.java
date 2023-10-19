@@ -14,6 +14,8 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.part.domain.PartLength;
+import shook.shook.song.domain.Artist;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.support.UsingJpaTest;
 import shook.shook.voting_song.application.dto.VotingSongPartRegisterRequest;
 import shook.shook.voting_song.domain.Vote;
@@ -42,6 +44,9 @@ class VotingSongPartServiceTest extends UsingJpaTest {
     @Autowired
     private VoteRepository voteRepository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     private VotingSongPartService votingSongPartService;
 
     @BeforeEach
@@ -54,7 +59,15 @@ class VotingSongPartServiceTest extends UsingJpaTest {
         );
         FIRST_MEMBER = memberRepository.save(new Member("a@a.com", "nickname"));
         SECOND_MEMBER = memberRepository.save(new Member("b@b.com", "nickname"));
-        SAVED_SONG = votingSongRepository.save(new VotingSong("노래제목", "비디오ID는 11글자", "이미지URL", "가수", 180));
+        final Artist artist = new Artist("profile", "가수");
+        artistRepository.save(artist);
+        SAVED_SONG = votingSongRepository.save(new VotingSong(
+            "노래제목",
+            "비디오ID는 11글자",
+            "이미지URL",
+            artist,
+            180)
+        );
     }
 
     void addPart(final VotingSong votingSong, final VotingSongPart votingSongPart) {
@@ -102,8 +115,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
 
             //when
             final MemberInfo anotherMemberInfo = new MemberInfo(FIRST_MEMBER.getId(), Authority.MEMBER);
-            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(),
-                                                                         request);
+            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(), request);
             saveAndClearEntityManager();
 
             //then
@@ -127,8 +139,7 @@ class VotingSongPartServiceTest extends UsingJpaTest {
 
             //when
             final MemberInfo anotherMemberInfo = new MemberInfo(SECOND_MEMBER.getId(), Authority.MEMBER);
-            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(),
-                                                                         request);
+            votingSongPartService.registerAndReturnMemberPartDuplication(anotherMemberInfo, SAVED_SONG.getId(), request);
             saveAndClearEntityManager();
 
             //then

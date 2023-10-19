@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.SongTitle;
 import shook.shook.song.domain.repository.dto.SongTotalLikeCountDto;
@@ -50,4 +51,12 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     List<Song> findSongsOrderById(final Pageable pageable);
 
     boolean existsSongByTitle(final SongTitle title);
+
+    @Query("SELECT s AS song, SUM(COALESCE(kp.likeCount, 0)) AS totalLikeCount "
+        + "FROM Song s LEFT JOIN s.killingParts.killingParts kp "
+        + "WHERE s.artist = :artist "
+        + "GROUP BY s.id")
+    List<SongTotalLikeCountDto> findAllSongsWithTotalLikeCountByArtist(
+        @Param("artist") final Artist artist
+    );
 }
