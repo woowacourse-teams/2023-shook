@@ -1,6 +1,6 @@
+import { Flex } from 'shook-layout';
 import styled from 'styled-components';
 import rightArrow from '@/assets/icon/right-long-arrow.svg';
-import Flex from '@/shared/components/Flex/Flex';
 import type { SingerDetail } from '@/features/singer/types/singer.type';
 
 interface SingerBannerProps

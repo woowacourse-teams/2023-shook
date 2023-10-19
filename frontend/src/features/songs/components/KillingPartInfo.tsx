@@ -1,8 +1,8 @@
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import link from '@/assets/icon/link.svg';
 import shook from '@/assets/icon/shook.svg';
 import people from '@/assets/icon/user-group.svg';
-import Flex from '@/shared/components/Flex';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { toPlayingTimeText, secondsToMinSec } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
@@ -29,7 +29,7 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
   const { minute: endMin, second: endSec } = secondsToMinSec(end);
 
   return (
-    <Wrapper>
+    <Flex $direction="column">
       <Container>
         <TimeWrapper>
           <Img src={shook} alt="" />
@@ -52,7 +52,7 @@ const KillingPartInfo = ({ killingPart }: KillingPartInfoProps) => {
           </ShareBox>
         </RestWrapper>
       </Container>
-    </Wrapper>
+    </Flex>
   );
 };
 
@@ -77,11 +77,6 @@ const TimeWrapper = styled.div`
   font-weight: 700;
   color: ${({ theme: { color } }) => color.primary};
   letter-spacing: 1px;
-`;
-
-const Wrapper = styled(Flex)`
-  flex-direction: column;
-  color: white;
 `;
 
 const Container = styled.div`

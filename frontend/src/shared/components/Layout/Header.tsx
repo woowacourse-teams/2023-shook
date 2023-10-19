@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import logo from '@/assets/image/logo.png';
@@ -6,7 +7,6 @@ import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import SearchBar from '@/features/search/components/SearchBar';
 import ROUTE_PATH from '@/shared/constants/path';
 import Avatar from '../Avatar';
-import Flex from '../Flex/Flex';
 
 const Header = () => {
   const { user } = useAuthContext();
@@ -16,7 +16,7 @@ const Header = () => {
       <Link to={ROUTE_PATH.ROOT} aria-label="shook 홈으로 가기">
         <Logo src={logo} alt="logo" aria-hidden="true" />
       </Link>
-      <Flex $align="center" $gap={12} $xs={{ $justify: 'flex-end', $css: { width: '100%' } }}>
+      <SearchFlex $align="center" $gap={12} $xs={{ $justify: 'flex-end' }}>
         <SearchBar />
         {user ? (
           <Link to={`/${ROUTE_PATH.MY_PAGE}`}>
@@ -27,7 +27,7 @@ const Header = () => {
             <LoginButton>로그인</LoginButton>
           </Link>
         )}
-      </Flex>
+      </SearchFlex>
     </Container>
   );
 };
@@ -65,6 +65,12 @@ const Container = styled.header`
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
     height: ${({ theme }) => theme.headerHeight.xxs};
+  }
+`;
+
+const SearchFlex = styled(Flex)`
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    width: 100%;
   }
 `;
 

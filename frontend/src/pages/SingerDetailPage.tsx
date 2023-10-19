@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
+import { Flex } from 'shook-layout';
 import styled from 'styled-components';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongList from '@/features/singer/components/SingerSongList';
 import { getSingerDetail } from '@/features/singer/remotes/singer';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
 import useValidParams from '@/shared/hooks/useValidParams';
