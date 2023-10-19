@@ -22,13 +22,13 @@ const WaveScrubber = () => {
   return (
     <Container>
       <WaveWrapper
-        onScroll={scrollStartTime}
-        onWheel={wheelStartTime}
-        onTouchStart={playVideo}
-        $progressWidth={progressWidth}
         ref={waveScrubberRef}
         $gap={8}
         $align="center"
+        $progressWidth={progressWidth}
+        onScroll={scrollStartTime}
+        onWheel={wheelStartTime}
+        onTouchStart={playVideo}
         onMouseDown={dragStart}
         onMouseMove={dragMoving}
         onMouseUp={dragEnd}
