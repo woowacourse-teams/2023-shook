@@ -11,6 +11,7 @@ const useWave = () => {
     setPartStartTime,
     isPlayingEntire,
     waveScrubberRef,
+    scrollingRef,
   } = useCollectingPartContext();
   const video = useVideoPlayerContext();
   const [xPos, setXPos] = useState<{ initial: number; scroll: number } | null>(null);
@@ -32,6 +33,10 @@ const useWave = () => {
     if (partStartTimeToChange >= 0 && partStartTimeToChange <= maxPartStartTime) {
       setPartStartTime(partStartTimeToChange);
     }
+
+    scrollingRef.current = window.setTimeout(() => {
+      scrollingRef.current = null;
+    }, 300);
   };
 
   const wheelStartTime: React.WheelEventHandler<HTMLDivElement> = (e) => {
@@ -74,7 +79,7 @@ const useWave = () => {
     setXPos(null);
   };
 
-  useDebounceEffect(() => video.seekTo(partStartTime), [interval, partStartTime], 300);
+  useDebounceEffect(() => video.seekTo(partStartTime), [interval, partStartTime], 200);
 
   return {
     waveScrubberRef,

@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { flushSync } from 'react-dom';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
@@ -11,6 +12,7 @@ const usePin = () => {
     pinList,
     setPinList,
     activePinIndex,
+    scrollingRef,
     triggerScrollKey,
   } = useCollectingPartContext();
 
@@ -54,9 +56,14 @@ const usePin = () => {
   };
 
   const playPin = (start: number, interval: number) => () => {
-    setPartStartTime(start);
-    setInterval(interval);
-    triggerScrollKey();
+    if (!scrollingRef.current) {
+      flushSync(() => {
+        setPartStartTime(start);
+        setInterval(interval);
+      });
+
+      triggerScrollKey();
+    }
   };
 
   return {

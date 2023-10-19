@@ -17,6 +17,7 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   pinList: Pin[];
   activePinIndex: number;
   waveScrubberRef: React.RefObject<HTMLDivElement>;
+  scrollingRef: React.MutableRefObject<number | null>;
   forceScrollWave: () => void;
   triggerScrollKey: () => void;
   setPinList: React.Dispatch<React.SetStateAction<Pin[]>>;
@@ -44,12 +45,14 @@ export const CollectingPartProvider = ({
   const [isPlayingEntire, setIsPlayingEntire] = useState(false);
   const { playerState, seekTo } = useVideoPlayerContext();
   const [pinList, setPinList] = useState<Pin[]>([]);
-  const [scrollKey, setScrollKey] = useState<number>(0);
+  const [scrollKey, setScrollKey] = useState(0);
   const waveScrubberRef = useRef<HTMLDivElement>(null);
   const activePinIndex = useMemo(
     () => pinList.findIndex((pin) => pin.partStartTime === partStartTime),
     [pinList, partStartTime]
   );
+
+  const scrollingRef = useRef<number | null>(null);
 
   const triggerScrollKey = () => {
     setScrollKey((prevKey) => prevKey + 1);
@@ -114,6 +117,7 @@ export const CollectingPartProvider = ({
         pinList,
         activePinIndex,
         waveScrubberRef,
+        scrollingRef,
         triggerScrollKey,
         forceScrollWave,
         setPinList,
