@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 // NOTE: 댓글 기능 임시 중단
 // import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import ToggleSwitch from '@/shared/components/ToggleSwitch/ToggleSwitch';

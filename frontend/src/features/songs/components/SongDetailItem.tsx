@@ -1,11 +1,11 @@
 import { forwardRef, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import KillingPartInterface from '@/features/songs/components/KillingPartInterface';
 import Thumbnail from '@/features/songs/components/Thumbnail';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
 import Youtube from '@/features/youtube/components/Youtube';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import TimerProvider from '@/shared/components/Timer/TimerProvider';
@@ -44,13 +44,8 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
       <Container ref={ref} role="article" data-song-id={id}>
         <SRHeading>킬링파트 듣기 페이지</SRHeading>
         <VideoPlayerProvider>
-          <Flex
-            $gap={16}
-            $md={{ $direction: 'column' }}
-            $xs={{ $css: { padding: '8px' } }}
-            $css={{ padding: '16px', background: '#121212c8', borderRadius: '8px' }}
-          >
-            <Flex $direction="column" $css={{ flex: '3 1 0' }}>
+          <ItemFlex $gap={16} $md={{ $direction: 'column' }}>
+            <SongFlex $direction="column">
               <SongInfoContainer>
                 <Thumbnail src={albumCoverUrl} size="md" />
                 <Info>
@@ -60,7 +55,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
               </SongInfoContainer>
               <Spacing direction="vertical" size={16} />
               <Youtube videoId={songVideoId} />
-            </Flex>
+            </SongFlex>
             <TimerProvider time={15}>
               <KillingPartInterface
                 killingParts={killingParts}
@@ -68,7 +63,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
                 memberPart={memberPart}
               />
             </TimerProvider>
-          </Flex>
+          </ItemFlex>
         </VideoPlayerProvider>
         <div ref={navigateToCurrentSongId} />
       </Container>
@@ -79,6 +74,20 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
 SongDetailItem.displayName = 'SongDetailItem';
 
 export default SongDetailItem;
+
+const ItemFlex = styled(Flex)`
+  padding: 16px;
+  background: #121212c8;
+  border-radius: 8px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
+    padding: 8px;
+  }
+`;
+
+const SongFlex = styled(Flex)`
+  flex: 3 1 0;
+`;
 
 const Container = styled.div`
   display: flex;

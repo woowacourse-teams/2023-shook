@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import MyPartList from '@/features/member/components/MyPartList';
 import getRandomIntroduction from '@/features/member/utils/getRandomIntroduction';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
