@@ -13,7 +13,7 @@ const usePin = () => {
     activePinIndex,
   } = useCollectingPartContext();
 
-  const ref = useRef<HTMLDivElement>(null);
+  const pinContainerRef = useRef<HTMLDivElement>(null);
 
   const isPinListEmpty = pinList.length === 0;
 
@@ -34,8 +34,8 @@ const usePin = () => {
       ...prevTimeList.filter((pin) => pin.text !== text),
     ]);
 
-    if (ref.current) {
-      ref.current.scrollTo({
+    if (pinContainerRef.current) {
+      pinContainerRef.current.scrollTo({
         left: 0,
         behavior: 'smooth',
       });
@@ -62,7 +62,8 @@ const usePin = () => {
     isPinListEmpty,
     activePinIndex,
     pinAnimationRef,
-    ref,
+    pinContainerRef,
+    partStartTime,
     addPin,
     deletePin,
     playPin,

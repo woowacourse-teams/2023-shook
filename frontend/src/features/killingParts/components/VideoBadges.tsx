@@ -16,7 +16,7 @@ const VideoBadges = () => {
     pinList,
     isPinListEmpty,
     activePinIndex,
-    ref,
+    pinContainerRef,
     pinAnimationRef,
     addPin,
     deletePin,
@@ -55,13 +55,13 @@ const VideoBadges = () => {
           전체 듣기
         </Badge>
       </Flex>
-      <PinFlex $gap={4} ref={ref}>
+      <PinFlex $gap={4} ref={pinContainerRef}>
         {!isPinListEmpty && (
           <DeleteBadge as="button" onClick={deletePin}>
             <img src={removeIcon} alt="나만의 파트 임시 저장 삭제하기" />
           </DeleteBadge>
         )}
-        <PinInner $gap={4} ref={ref}>
+        <PinInner $gap={4} ref={pinContainerRef}>
           {pinList.map((pin, index) => (
             <PinBadge
               key={pin.text + pinAnimationRef.current}
