@@ -6,7 +6,7 @@ const song = searchedSingers[0].songs[0];
 
 const meta = {
   component: SingerSongItem,
-  title: 'SingerSongItem',
+  title: 'singer/SingerSongItem',
 } satisfies Meta<typeof SingerSongItem>;
 
 export default meta;

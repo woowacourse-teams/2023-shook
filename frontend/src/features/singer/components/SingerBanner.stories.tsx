@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: SingerBanner,
-  title: 'SingerBanner',
+  title: 'singer/SingerBanner',
 } satisfies Meta<typeof SingerBanner>;
 
 export default meta;
