@@ -83,6 +83,11 @@ export const TrackList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 314px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    width: 100%;
+  }
 `;
 
 const PartRegisterButton = styled.button`

@@ -47,6 +47,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
           <Flex
             $gap={16}
             $md={{ $direction: 'column' }}
+            $xs={{ $css: { padding: '8px' } }}
             $css={{ padding: '16px', background: '#121212c8', borderRadius: '8px' }}
           >
             <Flex $direction="column" $css={{ flex: '3 1 0' }}>
@@ -82,6 +83,8 @@ export default SongDetailItem;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+
   height: 100vh;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
