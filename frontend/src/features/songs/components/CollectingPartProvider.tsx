@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { MAX_PART_INTERVAL, MIN_PART_INTERVAL } from '@/features/songs/constants/partInterval';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import type { PropsWithChildren } from 'react';
@@ -14,10 +14,19 @@ interface CollectingPartContextProps extends CollectingPartProviderProps {
   interval: number;
   isPlayingEntire: boolean;
   setPartStartTime: React.Dispatch<React.SetStateAction<number>>;
+  pinList: Pin[];
+  activePinIndex: number;
+  setPinList: React.Dispatch<React.SetStateAction<Pin[]>>;
   setInterval: React.Dispatch<React.SetStateAction<number>>;
   increasePartInterval: () => void;
   decreasePartInterval: () => void;
   toggleEntirePlaying: () => void;
+}
+
+interface Pin {
+  partStartTime: number;
+  interval: number;
+  text: string;
 }
 
 export const CollectingPartContext = createContext<CollectingPartContextProps | null>(null);
@@ -31,6 +40,12 @@ export const CollectingPartProvider = ({
   const [partStartTime, setPartStartTime] = useState(0);
   const [isPlayingEntire, setIsPlayingEntire] = useState(false);
   const { playerState, seekTo } = useVideoPlayerContext();
+  const [pinList, setPinList] = useState<Pin[]>([]);
+  const activePinIndex = useMemo(
+    () =>
+      pinList.findIndex((pin) => pin.partStartTime === partStartTime && pin.interval === interval),
+    [pinList, partStartTime, interval]
+  );
 
   const toggleEntirePlaying = () => {
     if (isPlayingEntire) {
@@ -72,6 +87,9 @@ export const CollectingPartProvider = ({
         songId,
         songVideoId,
         isPlayingEntire,
+        pinList,
+        activePinIndex,
+        setPinList,
         setPartStartTime,
         setInterval,
         increasePartInterval,

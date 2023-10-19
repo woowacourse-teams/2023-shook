@@ -1,23 +1,19 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef } from 'react';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
-interface Pin {
-  partStartTime: number;
-  interval: number;
-  text: string;
-}
-
 const usePin = () => {
-  const { partStartTime, interval, setPartStartTime, setInterval } = useCollectingPartContext();
-  const [pinList, setPinList] = useState<Pin[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
+  const {
+    partStartTime,
+    interval,
+    setPartStartTime,
+    setInterval,
+    pinList,
+    setPinList,
+    activePinIndex,
+  } = useCollectingPartContext();
 
-  const activePinIndex = useMemo(
-    () =>
-      pinList.findIndex((pin) => pin.partStartTime === partStartTime && pin.interval === interval),
-    [pinList, partStartTime, interval]
-  );
+  const ref = useRef<HTMLDivElement>(null);
 
   const isPinListEmpty = pinList.length === 0;
 

@@ -5,7 +5,7 @@ import Flex from '@/shared/components/Flex/Flex';
 
 const WaveScrubber = () => {
   const {
-    boxRef,
+    waveScrubberRef,
     progressWidth,
     isInterval,
     isEntire,
@@ -26,7 +26,7 @@ const WaveScrubber = () => {
         onWheel={wheelStartTime}
         onTouchStart={playVideo}
         $progressWidth={progressWidth}
-        ref={boxRef}
+        ref={waveScrubberRef}
         $gap={8}
         $align="center"
         onMouseDown={dragStart}
@@ -34,7 +34,7 @@ const WaveScrubber = () => {
         onMouseUp={dragEnd}
         onMouseLeave={dragEnd}
       >
-        <SoundWave ref={boxRef} length={maxPartStartTime} progressWidth={progressWidth} />
+        <SoundWave ref={waveScrubberRef} length={maxPartStartTime} progressWidth={progressWidth} />
       </WaveWrapper>
       <ProgressFrame $progressWidth={progressWidth} />
       {isInterval && <ProgressFill $progressWidth={progressWidth} $interval={interval} />}
