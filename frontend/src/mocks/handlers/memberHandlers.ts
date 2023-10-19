@@ -4,7 +4,7 @@ import myParts from '@/mocks/fixtures/myParts.json';
 
 const { BASE_URL } = process.env;
 
-export const memberHandlers = [
+const memberHandlers = [
   rest.get(`${BASE_URL}/my-page/like-parts`, (req, res, ctx) => {
     return res(ctx.json(likeParts));
   }),
@@ -13,3 +13,5 @@ export const memberHandlers = [
     return res(ctx.json(myParts));
   }),
 ];
+
+export default memberHandlers;

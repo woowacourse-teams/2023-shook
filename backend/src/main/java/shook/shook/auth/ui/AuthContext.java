@@ -18,7 +18,7 @@ public class AuthContext {
     }
 
     public boolean isAnonymous() {
-        return this.authority == Authority.ANONYMOUS;
+        return authority.isAnonymous();
     }
 
     public long getMemberId() {
@@ -29,3 +29,4 @@ public class AuthContext {
         return authority;
     }
 }
+

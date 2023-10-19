@@ -1,34 +1,40 @@
 package shook.shook.part.domain;
 
-import java.util.Arrays;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import shook.shook.part.exception.PartException;
 
-public enum PartLength {
-    SHORT(5),
-    STANDARD(10),
-    LONG(15);
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@EqualsAndHashCode
+@Embeddable
+public class PartLength {
 
-    private final int value;
+    private static final int MINIMUM_LENGTH = 5;
+    private static final int MAXIMUM_LENGTH = 15;
 
-    PartLength(final int value) {
+    @Column(name = "length", nullable = false)
+    private int value;
+
+    public PartLength(final int value) {
+        validate(value);
         this.value = value;
     }
 
-    public static PartLength findBySecond(final int second) {
-        return Arrays.stream(values())
-            .filter(length -> length.value == second)
-            .findFirst()
-            .orElseThrow(() -> new PartException.InvalidLengthException(
+    public void validate(final int second) {
+        if (second < MINIMUM_LENGTH || second > MAXIMUM_LENGTH) {
+            throw new PartException.InvalidLengthException(
                 Map.of("PartLength", String.valueOf(second))
-            ));
+            );
+        }
     }
 
     public int getEndSecond(final int start) {
         return start + this.value;
-    }
-
-    public int getValue() {
-        return value;
     }
 }

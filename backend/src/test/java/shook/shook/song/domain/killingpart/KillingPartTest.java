@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
@@ -26,8 +25,8 @@ class KillingPartTest {
     @Test
     void equals_true() {
         //given
-        final KillingPart firstPart = KillingPart.saved(1L, 4, PartLength.SHORT, EMPTY_SONG);
-        final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart firstPart = KillingPart.saved(1L, 4, 5, EMPTY_SONG);
+        final KillingPart secondPart = KillingPart.saved(1L, 14, 5, EMPTY_SONG);
 
         //when
         final boolean equals = firstPart.equals(secondPart);
@@ -44,8 +43,8 @@ class KillingPartTest {
         @Test
         void equals_false_nullId() {
             //given
-            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, EMPTY_SONG);
-            final KillingPart secondPart = KillingPart.saved(1L, 14, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart firstPart = KillingPart.saved(null, 4, 5, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(1L, 14, 5, EMPTY_SONG);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -58,9 +57,9 @@ class KillingPartTest {
         @Test
         void equals_false_bothNullId() {
             //given
-            final KillingPart firstPart = KillingPart.saved(null, 4, PartLength.SHORT, EMPTY_SONG);
-            final KillingPart secondPart = KillingPart.saved(null, 14, PartLength.SHORT,
-                EMPTY_SONG);
+            final KillingPart firstPart = KillingPart.saved(null, 4, 5, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(null, 14, 5,
+                                                             EMPTY_SONG);
 
             //when
             final boolean equals = firstPart.equals(secondPart);
@@ -74,7 +73,7 @@ class KillingPartTest {
     @Test
     void getStartAndEndUrlPathParameterOfKillingPart() {
         //given
-        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
 
         //when
         final String startAndEndUrlPathParameter = killingPart.getStartAndEndUrlPathParameter();
@@ -94,7 +93,7 @@ class KillingPartTest {
         @Test
         void success() {
             //given
-            final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
 
             //when
             killingPart.addComment(KillingPartComment.saved(1L, killingPart, "댓글 내용", MEMBER));
@@ -107,8 +106,8 @@ class KillingPartTest {
         @Test
         void belongToOtherPart() {
             //given
-            final KillingPart firstPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
-            final KillingPart secondPart = KillingPart.saved(2L, 5, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart firstPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
+            final KillingPart secondPart = KillingPart.saved(2L, 5, 5, EMPTY_SONG);
 
             //when
             //then
@@ -127,7 +126,7 @@ class KillingPartTest {
         @Test
         void setSong_emptySong_fail() {
             // given
-            final KillingPart killingPart = KillingPart.forSave(0, PartLength.STANDARD);
+            final KillingPart killingPart = KillingPart.forSave(0, 10);
 
             // when, then
             assertThatThrownBy(() -> killingPart.setSong(EMPTY_SONG))
@@ -138,15 +137,16 @@ class KillingPartTest {
         @Test
         void setSong_alreadyRegisteredToSong_fail() {
             // given
-            final KillingPart dummyKillingPart1 = KillingPart.forSave(0, PartLength.STANDARD);
-            final KillingPart dummyKillingPart2 = KillingPart.forSave(0, PartLength.SHORT);
-            final KillingPart dummyKillingPart3 = KillingPart.forSave(0, PartLength.LONG);
+            final KillingPart dummyKillingPart1 = KillingPart.forSave(0, 10);
+            final KillingPart dummyKillingPart2 = KillingPart.forSave(0, 5);
+            final KillingPart dummyKillingPart3 = KillingPart.forSave(0, 15);
             final Song song = new Song("title", "elevenVideo", "imageUrl", "singer", 10,
-                Genre.from("댄스"),
-                new KillingParts(List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
+                                       Genre.from("댄스"),
+                                       new KillingParts(
+                                           List.of(dummyKillingPart1, dummyKillingPart2, dummyKillingPart3))
             );
 
-            final KillingPart killingPart = KillingPart.forSave(0, PartLength.STANDARD);
+            final KillingPart killingPart = KillingPart.forSave(0, 10);
 
             // when, then
             assertThatThrownBy(() -> killingPart.setSong(song))
@@ -163,7 +163,7 @@ class KillingPartTest {
         void createKillingPart_likeCount_0() {
             // given
             // when
-            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
 
             // then
             assertThat(killingPart.getLikeCount()).isZero();
@@ -175,7 +175,7 @@ class KillingPartTest {
         void likeCount_updateSuccess() {
             // given
             final Member member = new Member("email@naver.com", "nickname");
-            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
 
             // when
             final KillingPartLike likeToAdd = new KillingPartLike(killingPart, member);
@@ -191,7 +191,7 @@ class KillingPartTest {
         void likeCount_updateFail() {
             // given
             final Member member = new Member("email@naver.com", "nickname");
-            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
 
@@ -208,7 +208,7 @@ class KillingPartTest {
         void likeCount_deleteSuccess() {
             // given
             final Member member = new Member("email@naver.com", "nickname");
-            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
 
@@ -225,7 +225,7 @@ class KillingPartTest {
         void likeCount_deleteFail() {
             // given
             final Member member = new Member("email@naver.com", "nickname");
-            final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+            final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
             final KillingPartLike like = new KillingPartLike(killingPart, member);
             killingPart.like(like);
 
@@ -245,7 +245,7 @@ class KillingPartTest {
     @Test
     void like_empty_fail() {
         // given
-        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
 
         // when, then
         assertThatThrownBy(() -> killingPart.like(null))
@@ -257,10 +257,10 @@ class KillingPartTest {
     void like_belongsToOtherKillingPart_fail() {
         // given
         final Member member = new Member("email@naver.com", "name");
-        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
         final KillingPartLike like = new KillingPartLike(killingPart, member);
 
-        final KillingPart other = KillingPart.saved(2L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart other = KillingPart.saved(2L, 10, 5, EMPTY_SONG);
 
         // when, then
         assertThatThrownBy(() -> other.like(like))
@@ -272,7 +272,7 @@ class KillingPartTest {
     void likeByMember() {
         // given
         final Member member = new Member("email@naver.com", "name");
-        final KillingPart killingPart = KillingPart.saved(1L, 10, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 10, 5, EMPTY_SONG);
         final KillingPartLike like = new KillingPartLike(killingPart, member);
         killingPart.like(like);
 

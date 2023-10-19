@@ -3,8 +3,6 @@ package shook.shook.song.domain.killingpart;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -48,8 +46,7 @@ public class KillingPart {
     @Column(nullable = false, updatable = false)
     private int startSecond;
 
-    @Column(nullable = false, updatable = false)
-    @Enumerated(EnumType.STRING)
+    @Embedded
     private PartLength length;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -77,31 +74,31 @@ public class KillingPart {
     private KillingPart(
         final Long id,
         final int startSecond,
-        final PartLength length,
+        final int length,
         final Song song,
         final int likeCount
     ) {
         this.id = id;
         this.startSecond = startSecond;
-        this.length = length;
+        this.length = new PartLength(length);
         this.song = song;
         this.likeCount = likeCount;
     }
 
-    private KillingPart(final int startSecond, final PartLength length) {
+    private KillingPart(final int startSecond, final int length) {
         this(null, startSecond, length, null, 0);
     }
 
     public static KillingPart saved(
         final Long id,
         final int startSecond,
-        final PartLength length,
+        final int length,
         final Song song
     ) {
         return new KillingPart(id, startSecond, length, song, 0);
     }
 
-    public static KillingPart forSave(final int startSecond, final PartLength length) {
+    public static KillingPart forSave(final int startSecond, final int length) {
         return new KillingPart(startSecond, length);
     }
 

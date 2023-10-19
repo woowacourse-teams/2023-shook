@@ -9,7 +9,7 @@ import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
 
-export const songsHandlers = [
+const songsHandlers = [
   rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
     // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(popularSongs));
@@ -62,3 +62,5 @@ export const songsHandlers = [
     return res(ctx.status(204));
   }),
 ];
+
+export default songsHandlers;

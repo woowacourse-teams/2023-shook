@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Song;
 import shook.shook.song.exception.killingpart.KillingPartCommentException;
 
@@ -20,7 +19,7 @@ class KillingPartCommentsTest {
     @Test
     void addComment_success() {
         //given
-        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
 
         final KillingPartComments comments = new KillingPartComments();
 
@@ -35,7 +34,7 @@ class KillingPartCommentsTest {
     @Test
     void addComment_exist_fail() {
         //given
-        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
         final KillingPartComments partComments = new KillingPartComments();
 
         //when
@@ -52,13 +51,13 @@ class KillingPartCommentsTest {
     @Test
     void getCommentsInRecentOrder() {
         //given
-        final KillingPart killingPart = KillingPart.saved(1L, 5, PartLength.SHORT, EMPTY_SONG);
+        final KillingPart killingPart = KillingPart.saved(1L, 5, 5, EMPTY_SONG);
         final KillingPartComments comments = new KillingPartComments();
 
         final KillingPartComment early = KillingPartComment.saved(1L, killingPart, "댓글입니다.",
-            MEMBER);
+                                                                  MEMBER);
         final KillingPartComment late = KillingPartComment.saved(2L, killingPart, "댓글이였습니다.",
-            MEMBER);
+                                                                 MEMBER);
 
         comments.addComment(late);
         comments.addComment(early);

@@ -8,7 +8,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.killingpart.KillingPart;
 
 @Schema(description = "킬링파트 등록 요청")
@@ -28,9 +27,6 @@ public class KillingPartRegisterRequest {
     private Integer length;
 
     public KillingPart toKillingPart() {
-        return KillingPart.forSave(
-            startSecond,
-            PartLength.findBySecond(length)
-        );
+        return KillingPart.forSave(startSecond, length);
     }
 }

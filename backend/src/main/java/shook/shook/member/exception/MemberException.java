@@ -93,4 +93,15 @@ public class MemberException extends CustomException {
             super(ErrorCode.MEMBER_NOT_EXIST, inputValuesByProperty);
         }
     }
+
+    public static class MemberPartAlreadyExistException extends MemberException {
+
+        public MemberPartAlreadyExistException() {
+            super(ErrorCode.MEMBER_PART_ALREADY_EXIST);
+        }
+
+        public MemberPartAlreadyExistException(final Map<String, String> inputValuesByProperty) {
+            super(ErrorCode.MEMBER_PART_ALREADY_EXIST, inputValuesByProperty);
+        }
+    }
 }
