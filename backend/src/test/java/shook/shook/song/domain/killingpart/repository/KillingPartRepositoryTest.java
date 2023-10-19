@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
@@ -33,9 +32,9 @@ class KillingPartRepositoryTest extends UsingJpaTest {
 
     @BeforeEach
     void setUp() {
-        FIRST_KILLING_PART = KillingPart.forSave(0, PartLength.SHORT);
-        SECOND_KILLING_PART = KillingPart.forSave(10, PartLength.SHORT);
-        THIRD_KILLING_PART = KillingPart.forSave(14, PartLength.STANDARD);
+        FIRST_KILLING_PART = KillingPart.forSave(0, 5);
+        SECOND_KILLING_PART = KillingPart.forSave(10, 5);
+        THIRD_KILLING_PART = KillingPart.forSave(14, 10);
         KILLING_PARTS = new KillingParts(
             List.of(
                 FIRST_KILLING_PART,

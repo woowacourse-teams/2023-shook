@@ -17,7 +17,7 @@ import type { SongDetail } from '@/shared/types/song';
 interface SongDetailItemProps extends SongDetail {}
 
 const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
-  ({ id, killingParts, singer, title, songVideoId, albumCoverUrl }, ref) => {
+  ({ id, killingParts, singer, title, songVideoId, albumCoverUrl, memberPart }, ref) => {
     const navigate = useNavigate();
     const { genre } = useValidParams();
 
@@ -47,6 +47,7 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
           <Flex
             $gap={16}
             $md={{ $direction: 'column' }}
+            $xs={{ $css: { padding: '8px' } }}
             $css={{ padding: '16px', background: '#121212c8', borderRadius: '8px' }}
           >
             <Flex $direction="column" $css={{ flex: '3 1 0' }}>
@@ -61,7 +62,11 @@ const SongDetailItem = forwardRef<HTMLDivElement, SongDetailItemProps>(
               <Youtube videoId={songVideoId} />
             </Flex>
             <TimerProvider time={15}>
-              <KillingPartInterface killingParts={killingParts} songId={id} />
+              <KillingPartInterface
+                killingParts={killingParts}
+                songId={id}
+                memberPart={memberPart}
+              />
             </TimerProvider>
           </Flex>
         </VideoPlayerProvider>
@@ -78,8 +83,14 @@ export default SongDetailItem;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+
   height: 100vh;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    justify-content: flex-start;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
     padding-top: ${({ theme: { headerHeight } }) => headerHeight.mobile};

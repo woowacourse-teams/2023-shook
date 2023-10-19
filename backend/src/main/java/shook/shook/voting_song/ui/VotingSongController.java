@@ -12,6 +12,7 @@ import shook.shook.voting_song.application.dto.VotingSongResponse;
 import shook.shook.voting_song.application.dto.VotingSongSwipeResponse;
 import shook.shook.voting_song.ui.openapi.VotingSongApi;
 
+@Deprecated
 @RequiredArgsConstructor
 @RequestMapping("/voting-songs")
 @RestController

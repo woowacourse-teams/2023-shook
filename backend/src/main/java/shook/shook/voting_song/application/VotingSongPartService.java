@@ -39,7 +39,7 @@ public class VotingSongPartService {
         final VotingSong votingSong = findVotingSongThrowIfNotExist(votingSongId);
 
         final int startSecond = request.getStartSecond();
-        final PartLength partLength = PartLength.findBySecond(request.getLength());
+        final PartLength partLength = new PartLength(request.getLength());
 
         final Optional<VotingSongPart> findVotingSongPart =
             votingSongPartRepository.findByVotingSongAndStartSecondAndLength(votingSong, startSecond, partLength);
@@ -88,7 +88,7 @@ public class VotingSongPartService {
                 Map.of(
                     "VotingSongId", String.valueOf(votingSong.getId()),
                     "StartSecond", String.valueOf(votingSongPart.getStartSecond()),
-                    "PartLength", votingSongPart.getLength().name()
+                    "PartLength", String.valueOf(votingSongPart.getLength())
                 )
             ));
 

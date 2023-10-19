@@ -2,22 +2,15 @@ import styled from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import Avatar from '@/shared/components/Avatar';
 import Spacing from '@/shared/components/Spacing';
+import convertRelativeTimeString from '@/shared/utils/convertRelativeTimeString';
+
 interface CommentProps {
   content: string;
   createdAt: string;
   writerNickname: string;
 }
 
-// FIXME: 분리 및 포맷 정리, ~일 전 말고도 세분화 필요
-const rtf = new Intl.RelativeTimeFormat('ko', {
-  numeric: 'always',
-});
-
 const Comment = ({ content, createdAt, writerNickname }: CommentProps) => {
-  const time = Math.ceil(
-    (new Date(createdAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
-  );
-
   return (
     <Wrapper>
       <Flex>
@@ -25,7 +18,7 @@ const Comment = ({ content, createdAt, writerNickname }: CommentProps) => {
         <Spacing direction="horizontal" size={14} />
         <Box tabIndex={0} role="comment">
           <Username>{writerNickname}</Username>
-          <RelativeTime>{rtf.format(time, 'day')}</RelativeTime>
+          <RelativeTime>{convertRelativeTimeString(createdAt)}</RelativeTime>
           <Content>{content}</Content>
         </Box>
       </Flex>

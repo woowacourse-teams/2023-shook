@@ -37,7 +37,7 @@ class VoteRepositoryTest extends UsingJpaTest {
         final VotingSong votingSong = votingSongRepository.save(
             new VotingSong("제목1", "비디오ID는 11글자", "이미지URL", "가수", 20));
         final VotingSongPart votingSongPart = votingSongPartRepository.save(
-            VotingSongPart.forSave(1, PartLength.SHORT, votingSong));
+            VotingSongPart.forSave(1, new PartLength(5), votingSong));
         voteRepository.save(Vote.forSave(member, votingSongPart));
 
         //when
