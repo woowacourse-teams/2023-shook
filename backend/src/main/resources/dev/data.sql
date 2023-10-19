@@ -5,8 +5,14 @@ TRUNCATE TABLE voting_song;
 TRUNCATE TABLE artist;
 
 INSERT INTO artist (name, profile_image_url, created_at) values ('NewJeans', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
-INSERT INTO artist (name, profile_image_url, created_at) values ('가수', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
+INSERT INTO artist (name, profile_image_url, created_at) values ('AKMU (악뮤)', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
 INSERT INTO artist (name, profile_image_url, created_at) values ('정국', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
+
+INSERT INTO artist_synonym (artist_id, synonym) values (1, '뉴진스');
+INSERT INTO artist_synonym (artist_id, synonym) values (2, '악동뮤지션');
+INSERT INTO artist_synonym (artist_id, synonym) values (2, '악뮤');
+INSERT INTO artist_synonym (artist_id, synonym) values (3, 'Jung Kook');
+INSERT INTO artist_synonym (artist_id, synonym) values (3, '전정국');
 
 insert into voting_song (title, artist_id, length, video_id, album_cover_url, created_at)
 values ('N.Y.C.T', 1, 241, '8umUXHLGl3o',

@@ -11,6 +11,7 @@ import shook.shook.song.application.dto.ArtistResponse;
 import shook.shook.song.application.dto.ArtistWithSongSearchResponse;
 import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.InMemoryArtistSynonyms;
+import shook.shook.song.domain.InMemoryArtistSynonymsGenerator;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
@@ -27,6 +28,7 @@ public class ArtistSearchService {
     private final InMemoryArtistSynonyms inMemoryArtistSynonyms;
     private final ArtistRepository artistRepository;
     private final SongRepository songRepository;
+    private final InMemoryArtistSynonymsGenerator generator;
 
     public List<ArtistResponse> searchArtistsByKeyword(final String keyword) {
         final List<Artist> artists = findArtistsStartsWithKeyword(keyword);
@@ -110,5 +112,9 @@ public class ArtistSearchService {
             .orElseThrow(() -> new ArtistException.NotExistException(
                 Map.of("ArtistId", String.valueOf(artistId))
             ));
+    }
+
+    public void updateArtistSynonymFromDatabase() {
+        generator.initialize();
     }
 }

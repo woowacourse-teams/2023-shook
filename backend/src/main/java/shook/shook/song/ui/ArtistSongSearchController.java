@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +39,12 @@ public class ArtistSongSearchController implements ArtistSongSearchApi {
     public ResponseEntity<ArtistWithSongSearchResponse> searchSongsByArtist(
         @PathVariable(name = "artist_id") final Long artistId) {
         return ResponseEntity.ok(artistSearchService.searchAllSongsByArtist(artistId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> updateArtistSynonym() {
+        artistSearchService.updateArtistSynonymFromDatabase();
+
+        return ResponseEntity.ok().build();
     }
 }
