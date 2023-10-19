@@ -57,12 +57,3 @@ const Title = styled.h2`
   font-weight: 700;
   color: white;
 `;
-
-const EmptyMessage = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  min-width: 350px;
-`;

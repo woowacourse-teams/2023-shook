@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { getSingerDetail } from '@/features/search/remotes/singer';
 import SingerBanner from '@/features/singer/components/SingerBanner';
-import SingerSongItem from '@/features/singer/components/SingerSongItem';
 import SingerSongList from '@/features/singer/components/SingerSongList';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
