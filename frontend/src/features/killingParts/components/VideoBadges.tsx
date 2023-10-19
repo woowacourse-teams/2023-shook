@@ -26,7 +26,7 @@ const VideoBadges = () => {
   const video = useVideoPlayerContext();
 
   const partStartTimeText = toMinSecText(partStartTime);
-  const isPaused = video.playerState === YT.PlayerState.PAUSED;
+  const isPaused = video.playerState === null || video.playerState === YT.PlayerState.PAUSED;
   const videoPlay = () => {
     if (isPlayingEntire) {
       video.play();
@@ -48,9 +48,9 @@ const VideoBadges = () => {
           <img src={playStreamIcon} style={{ marginRight: '4px' }} alt="" />
           {partStartTimeText}
         </StartBadge>
-        <Badge as="button" onClick={addPin} $isActive={!isPinListEmpty}>
+        <SavePinBadge as="button" onClick={addPin} $isActive={!isPinListEmpty}>
           <img src={pinIcon} alt="나만의 파트 임시 저장" />
-        </Badge>
+        </SavePinBadge>
         <Badge as="button" type="button" onClick={isPaused ? videoPlay : videoPause}>
           <img src={isPaused ? playIcon : pauseIcon} alt={'재생 혹은 정지'} />
         </Badge>
@@ -131,7 +131,7 @@ const slideFirstItem = keyframes`
   from {
     opacity: 0;
     transform: translateX(-30px);
-    
+
   }
   to {
     opacity: 1;
@@ -158,7 +158,6 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
   color: black;
   white-space: nowrap;
 
-  opacity: ${({ $isActive }) => ($isActive ? 1 : 0.5)};
   background-color: ${({ theme: { color }, $isActive }) =>
     $isActive ? color.magenta700 : color.disabledBackground};
   border: none;
@@ -182,4 +181,13 @@ const DeleteBadge = styled(Badge)`
   padding: 0;
 
   border-radius: 50%;
+`;
+
+const SavePinBadge = styled(Badge)`
+  background-color: ${({ theme: { color } }) => color.disabled};
+  box-shadow: ${({ $isActive }) => ($isActive ? '0 0 0 1.5px inset white ' : 'none')};
+
+  &:active {
+    background-color: ${({ theme: { color } }) => color.disabledBackground};
+  }
 `;

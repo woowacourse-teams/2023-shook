@@ -59,7 +59,7 @@ export const CollectingPartProvider = ({
   };
 
   const toggleEntirePlaying = () => {
-    if (isPlayingEntire) {
+    if (isPlayingEntire || playerState === null) {
       seekTo(partStartTime);
     }
     setIsPlayingEntire(!isPlayingEntire);
