@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSingerSearch } from '@/features/search/remotes/search';
@@ -14,7 +14,14 @@ const SearchResultPage = () => {
   const { name } = useValidSearchParams('name');
   const navigate = useNavigate();
 
-  const { data: singerDetailList } = useFetch(() => getSingerSearch(name));
+  const { data: singerDetailList, fetchData: refetchSingerSearch } = useFetch(() =>
+    getSingerSearch(name)
+  );
+
+  useEffect(() => {
+    refetchSingerSearch();
+  }, [name]);
+
   if (!singerDetailList) return;
 
   const goToSingerDetailPage = (singerId: number) =>

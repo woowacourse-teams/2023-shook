@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongList from '@/features/singer/components/SingerSongList';
@@ -10,7 +11,14 @@ import useValidParams from '@/shared/hooks/useValidParams';
 const SingerDetailPage = () => {
   const { singerId } = useValidParams();
 
-  const { data: singerDetail } = useFetch(() => getSingerDetail(Number(singerId)));
+  const { data: singerDetail, fetchData: refetchSingerDetail } = useFetch(() =>
+    getSingerDetail(Number(singerId))
+  );
+
+  useEffect(() => {
+    refetchSingerDetail();
+  }, [singerId]);
+
   if (!singerDetail) return null;
 
   const { profileImageUrl, singer, songs, totalSongCount } = singerDetail;
