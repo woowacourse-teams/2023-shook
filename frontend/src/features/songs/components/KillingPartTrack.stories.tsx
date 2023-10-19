@@ -6,6 +6,7 @@ import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart } from '@/shared/types/song';
 import type { Meta, StoryObj } from '@storybook/react';
 
+// FIXME: 재생시 `YT is not defined` 에러 발생
 const meta = {
   component: KillingPartTrack,
   title: 'KillingPartTrack',
@@ -49,6 +50,7 @@ const KillingPartTrackWithHook = () => {
 
   return (
     <KillingPartTrack
+      order={1}
       killingPart={killingPart}
       songId={1}
       isNowPlayingTrack={isNowPlayingTrack}

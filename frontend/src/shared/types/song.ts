@@ -12,6 +12,7 @@ export interface SongDetail {
   songVideoId: string;
   albumCoverUrl: string;
   killingParts: KillingPart[];
+  memberPart: KillingPart;
 }
 
 export interface KillingPart {

@@ -57,6 +57,10 @@ const songsHandlers = [
   rest.get(`${BASE_URL}/voting-songs`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(votingSongs));
   }),
+
+  rest.delete(`${BASE_URL}/member-parts/:partId`, (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
 ];
 
 export default songsHandlers;

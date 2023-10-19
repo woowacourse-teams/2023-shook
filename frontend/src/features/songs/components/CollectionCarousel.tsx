@@ -31,18 +31,16 @@ const CollectionCarousel = ({ children }: CarouselProps) => {
   }, [currentIndex, numberOfItems]);
 
   return (
-    <>
-      <Wrapper>
-        <CarouselWrapper ref={carouselRef} onScroll={handleScroll}>
-          {children}
-        </CarouselWrapper>
-        <IndicatorWrapper aria-hidden>
-          {Array.from({ length: numberOfItems }, (_, idx) => (
-            <Dot key={idx} $isActive={idx === currentIndex} />
-          ))}
-        </IndicatorWrapper>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <CarouselWrapper ref={carouselRef} onScroll={handleScroll}>
+        {children}
+      </CarouselWrapper>
+      <IndicatorWrapper aria-hidden>
+        {Array.from({ length: numberOfItems }, (_, idx) => (
+          <Dot key={idx} $isActive={idx === currentIndex} />
+        ))}
+      </IndicatorWrapper>
+    </Wrapper>
   );
 };
 
