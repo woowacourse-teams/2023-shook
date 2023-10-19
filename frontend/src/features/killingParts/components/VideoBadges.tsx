@@ -11,7 +11,8 @@ import Flex from '@/shared/components/Flex/Flex';
 import { toMinSecText } from '@/shared/utils/convertTime';
 
 const VideoBadges = () => {
-  const { partStartTime, isPlayingEntire, toggleEntirePlaying } = useCollectingPartContext();
+  const { partStartTime, isPlayingEntire, scrollingRef, toggleEntirePlaying } =
+    useCollectingPartContext();
   const {
     pinList,
     isPinListEmpty,
@@ -35,7 +36,9 @@ const VideoBadges = () => {
   };
 
   const videoPause = () => {
-    video.pause();
+    if (scrollingRef.current === null) {
+      video.pause();
+    }
   };
 
   return (
@@ -68,7 +71,7 @@ const VideoBadges = () => {
               as="button"
               onClick={playPin(pin.partStartTime, pin.interval)}
               $isActive={index === activePinIndex}
-              $isNew={index === 0 && index === activePinIndex}
+              $isNew={index === 0}
             >
               {pin.text}
             </PinBadge>
@@ -161,14 +164,14 @@ const PinBadge = styled(Badge)<{ $isActive?: boolean; $isNew?: boolean }>`
   border: none;
   border-radius: 4px;
 
-  transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   animation: ${({ $isNew }) =>
     $isNew
       ? css`
-          ${slideFirstItem} 1s forwards
+          ${slideFirstItem} 0.6s forwards
         `
       : css`
-          ${slideRestItems} 0.5s forwards
+          ${slideRestItems} 0.3s forwards
         `};
 `;
 
