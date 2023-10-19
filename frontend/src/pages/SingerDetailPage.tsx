@@ -24,7 +24,7 @@ const SingerDetailPage = () => {
         totalSongCount={totalSongCount}
       />
       <Spacing direction="vertical" size={68} $md={{ size: 34 }} />
-      <SingerSongList songs={songs} />
+      <SingerSongList songs={songs} title="곡" />
       <Spacing direction="vertical" size={18} />
     </Container>
   );

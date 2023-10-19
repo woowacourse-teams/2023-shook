@@ -5,12 +5,13 @@ import type { SingersSong } from '../types/singer.type';
 
 interface SingerSongListProps {
   songs: SingersSong[];
+  title: string;
 }
 
-const SingerSongList = ({ songs }: SingerSongListProps) => {
+const SingerSongList = ({ songs, title }: SingerSongListProps) => {
   return (
     <Container>
-      <Title>곡</Title>
+      <Title>{title}</Title>
       <SongsItemList as="ol" $direction="column" $gap={12} $align="center">
         {songs.map((song) => (
           <SingerSongItem key={song.id} {...song} />

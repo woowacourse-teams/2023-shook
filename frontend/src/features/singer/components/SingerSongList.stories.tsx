@@ -13,5 +13,5 @@ export default meta;
 type Story = StoryObj<typeof SingerSongList>;
 
 export const Default: Story = {
-  render: () => <SingerSongList songs={singerSong.songs} />,
+  render: () => <SingerSongList songs={singerSong.songs} title="곡" />,
 };

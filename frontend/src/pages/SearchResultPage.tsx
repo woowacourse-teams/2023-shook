@@ -33,7 +33,7 @@ const SearchResultPage = () => {
               totalSongCount={totalSongCount}
               onClick={() => goToSingerDetailPage(singerId)}
             />
-            <SingerSongList songs={songs} />
+            <SingerSongList songs={songs} title="인기 Top 3" />
           </FlexSearchResultContainer>
 
           <UnderLine />
