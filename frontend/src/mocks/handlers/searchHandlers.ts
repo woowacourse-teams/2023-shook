@@ -5,9 +5,10 @@ import searchedSingers from '@/mocks/fixtures/searchedSingers.json';
 const { BASE_URL } = process.env;
 
 const searchHandlers = [
-  rest.get(`${BASE_URL}/singers`, (req, res, ctx) => {
-    const query = req.url.searchParams.get('name') ?? '';
-    const [singer, song] = req.url.searchParams.getAll('search');
+  // 검색 미리보기, 검색완료 페이지
+  rest.get(`${BASE_URL}/search`, (req, res, ctx) => {
+    const query = req.url.searchParams.get('keyword') ?? '';
+    const [singer, song] = req.url.searchParams.getAll('type');
     const testQueries = ['악동뮤지션', '악동', '뮤지션'];
 
     const isPreviewRequest = singer !== undefined && song === undefined;
@@ -28,19 +29,6 @@ const searchHandlers = [
     if (!isInTestQueries) {
       return res(ctx.status(200), ctx.json([]));
     }
-  }),
-
-  rest.get(`${BASE_URL}/singers/:singerId`, (req, res, ctx) => {
-    const { singerId } = req.params;
-
-    const numberSingerId = Number(singerId as string);
-    const searchedSinger = searchedSingers[numberSingerId - 1];
-
-    if (searchedSinger !== undefined) {
-      return res(ctx.status(200), ctx.json(searchedSinger));
-    }
-
-    return res(ctx.status(400), ctx.json({}));
   }),
 ];
 
