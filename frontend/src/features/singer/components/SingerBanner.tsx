@@ -9,10 +9,12 @@ interface SingerBannerProps
 }
 
 const SingerBanner = ({ profileImageUrl, singer, totalSongCount, onClick }: SingerBannerProps) => {
+  const clickable = typeof onClick === 'function';
+
   return (
     <Container>
       <Title>아티스트</Title>
-      <SingerInfoContainer $align=" center" $gap={24} onClick={onClick} $clickable={!!onClick}>
+      <SingerInfoContainer $align="center" $gap={24} onClick={onClick} $clickable={clickable}>
         <ProfileImage src={profileImageUrl} alt="" />
         <Flex $direction="column" $gap={16}>
           <Name>{singer}</Name>
