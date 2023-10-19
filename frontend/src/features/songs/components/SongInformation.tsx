@@ -1,6 +1,6 @@
+import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import Thumbnail from '@/features/songs/components/Thumbnail';
-import Flex from '@/shared/components/Flex/Flex';
 
 interface SongInformationProps {
   albumCoverUrl: string;

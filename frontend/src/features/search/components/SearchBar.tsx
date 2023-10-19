@@ -1,8 +1,8 @@
+import { Flex } from 'shook-layout';
 import styled, { css } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import backwardIcon from '@/assets/icon/left-arrow.svg';
 import searchIcon from '@/assets/icon/search.svg';
-import Flex from '@/shared/components/Flex/Flex';
 import useSearchBar from '../hooks/useSearchBar';
 import SearchPreviewSheet from './SearchPreviewSheet';
 
