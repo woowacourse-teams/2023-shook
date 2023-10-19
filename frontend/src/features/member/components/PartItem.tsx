@@ -44,7 +44,7 @@ const PartItem = ({
 
     const shareLink =
       tab === 'Like'
-        ? `${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}${songId}/ALL`
+        ? `${BASE_URL?.replace('/api', '')}/${ROUTE_PATH.SONG_DETAILS}/${songId}/ALL`
         : `https://youtu.be/${songVideoId}?start=${start}`;
 
     copyClipboard(shareLink);
