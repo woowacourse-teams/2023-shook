@@ -4,6 +4,7 @@ drop table if exists killing_part_like;
 drop table if exists killing_part_comment;
 drop table if exists voting_song_part;
 drop table if exists voting_song;
+drop table if exists voting_song_part;
 drop table if exists vote;
 drop table if exists member;
 drop table if exists member_part;
