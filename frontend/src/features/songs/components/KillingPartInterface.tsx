@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import CommentList from '@/features/comments/components/CommentList';
+// NOTE: 댓글 기능 임시 중단
+// import CommentList from '@/features/comments/components/CommentList';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
@@ -19,6 +20,8 @@ const DEFAULT_PART_ID = -1;
 
 const KillingPartInterface = ({ killingParts, songId, memberPart }: KillingPartInterfaceProps) => {
   const [nowPlayingTrack, setNowPlayingTrack] = useState(DEFAULT_PART_ID);
+  // NOTE: 댓글 기능 임시 중단
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [commentsPartId, setCommentsPartId] = useState<KillingPart['id']>(DEFAULT_PART_ID);
   const [isRepeat, setIsRepeat] = useState(false);
   const { videoPlayer, playerState, seekTo, pause } = useVideoPlayerContext();
@@ -144,9 +147,10 @@ const KillingPartInterface = ({ killingParts, songId, memberPart }: KillingPartI
         setNowPlayingTrack={setNowPlayingTrack}
         setCommentsPartId={setCommentsPartId}
       />
-      {commentsPartId !== DEFAULT_PART_ID && (
+      {/* NOTE: 댓글 기능 임시 중단 */}
+      {/* {commentsPartId !== DEFAULT_PART_ID && (
         <CommentList songId={songId} partId={commentsPartId} />
-      )}
+      )} */}
     </Flex>
   );
 };
