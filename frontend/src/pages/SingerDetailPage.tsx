@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { getSingerDetail } from '@/features/search/remotes/singer';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongList from '@/features/singer/components/SingerSongList';
+import { getSingerDetail } from '@/features/singer/remotes/singer';
 import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import useFetch from '@/shared/hooks/useFetch';
@@ -11,7 +11,7 @@ const SingerDetailPage = () => {
   const { singerId } = useValidParams();
 
   const { data: singerDetail } = useFetch(() => getSingerDetail(Number(singerId)));
-  if (!singerDetail) return;
+  if (!singerDetail) return null;
 
   const { profileImageUrl, singer, songs, totalSongCount } = singerDetail;
 
