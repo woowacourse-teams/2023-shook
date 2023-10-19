@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import { updateNickname } from '@/features/member/remotes/nickname';
@@ -7,15 +7,20 @@ import { useMutation } from '@/shared/hooks/useMutation';
 
 const useNickname = () => {
   const { user, logout } = useAuthContext();
+  // TODO: 피드백 반영하여 error throw. 그러나 error 핸들링 반드시 필요
+  if (!user) {
+    throw new Error('현재 user 로그인된 정보가 없습니다.');
+  }
 
-  const [nicknameEntered, setNicknameEntered] = useState(user?.nickname);
+  const [nicknameEntered, setNicknameEntered] = useState(user.nickname);
+
   const [nicknameErrorMessage, setNicknameErrorMessage] =
     useState('이전과 다른 닉네임으로 변경해주세요.');
-  const mutateNickname = useMemo(
-    () => updateNickname(user?.memberId, nicknameEntered),
-    [nicknameEntered, user?.memberId]
+
+  const { mutateData: changeNickname } = useMutation(() =>
+    updateNickname(user.memberId, nicknameEntered)
   );
-  const { mutateData: changeNickname } = useMutation(mutateNickname);
+
   const navigate = useNavigate();
 
   const hasError = nicknameErrorMessage.length !== 0;
