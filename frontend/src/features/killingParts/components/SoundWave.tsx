@@ -5,7 +5,7 @@ interface SoundWaveProps {
   length: number;
   progressWidth: number;
 }
-// eslint-disable-next-line react/display-name
+
 const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
   ({ length, progressWidth }, boxRef) => {
     const stretchWaveHeight =
@@ -34,6 +34,7 @@ const SoundWave = forwardRef<HTMLDivElement, SoundWaveProps>(
   }
 );
 
+SoundWave.displayName = 'SoundWave';
 export default SoundWave;
 
 const LongBar = styled.div`
