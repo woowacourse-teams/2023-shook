@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
+import TimerProvider from '@/shared/components/Timer/TimerProvider';
 import ToastProvider from '@/shared/components/Toast/ToastProvider';
 import KillingPartTrackList from './KillingPartTrackList';
 import type { KillingPart } from '@/shared/types/song';
@@ -7,14 +8,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: KillingPartTrackList,
-  title: 'KillingPartTrackList',
+  title: 'killingPart/KillingPartTrackList',
   decorators: [
     (Story) => {
       return (
         <ToastProvider>
-          <VideoPlayerProvider>
-            <Story />
-          </VideoPlayerProvider>
+          <TimerProvider time={15}>
+            <VideoPlayerProvider>
+              <Story />
+            </VideoPlayerProvider>
+          </TimerProvider>
         </ToastProvider>
       );
     },

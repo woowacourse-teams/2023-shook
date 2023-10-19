@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof CollectionCarousel> = {
   component: CollectionCarousel,
-  title: 'CollectionCarousel',
+  title: 'songs/CollectionCarousel',
   decorators: [
     (Story) => (
       <Container>

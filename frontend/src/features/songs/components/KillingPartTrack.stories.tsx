@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: KillingPartTrack,
-  title: 'KillingPartTrack',
+  title: 'killingPart/KillingPartTrack',
   decorators: [
     (Story) => {
       return (
