@@ -61,7 +61,7 @@ const GlobalStyles = createGlobalStyle`
     border-collapse: collapse;
   }
 
-  ol, ul { 
+  ol, ul, li { 
     list-style: none;
   }
 
