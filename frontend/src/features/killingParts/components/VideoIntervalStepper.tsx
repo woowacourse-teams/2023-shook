@@ -25,7 +25,7 @@ const StepperElementStyle = css`
   font-weight: 700;
   text-align: center;
 
-  height: 30px;
+  height: 36px;
   border: none;
   border-radius: 10px;
 `;

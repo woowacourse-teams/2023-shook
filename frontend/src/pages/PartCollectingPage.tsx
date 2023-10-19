@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import CollectingInformation from '@/features/killingParts/components/CollectingInformation';
 import RegisterPart from '@/features/killingParts/components/RegisterPart';
 import VideoController from '@/features/killingParts/components/VideoController';
 import { CollectingPartProvider } from '@/features/songs/components/CollectingPartProvider';
@@ -28,13 +27,13 @@ const PartCollectingPage = () => {
       <HeaderSpacing direction={'vertical'} size={50} />
       <VideoPlayerProvider>
         <CollectingPartProvider songVideoId={songVideoId} videoLength={videoLength} songId={id}>
-          <PageFlex $gap={10} $direction="row" $md={{ $direction: 'column' }}>
+          <PageFlex $gap={4} $direction="row" $md={{ $direction: 'column' }}>
             <SongPlayerFlex $gap={10} $direction="column">
               <SongInformation albumCoverUrl={albumCoverUrl} singer={singer} title={title} />
               <Youtube videoId={songVideoId} controls={0} />
             </SongPlayerFlex>
             <ControllerFlex $gap={10} $direction="column">
-              <CollectingInformation />
+              <RegisterTitle>나만의 파트 저장하기</RegisterTitle>
               <VideoController />
               <RegisterPart />
             </ControllerFlex>
@@ -78,5 +77,15 @@ const SongPlayerFlex = styled(Flex)`
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     max-width: calc(100% - 320px);
+  }
+`;
+
+const RegisterTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 800;
+  color: ${({ theme: { color } }) => color.white};
+
+  @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 24px;
   }
 `;
