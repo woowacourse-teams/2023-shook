@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.member_part.exception.MemberPartException;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
@@ -17,6 +18,7 @@ class MemberPartTest {
 
     private static Song SONG;
     private static Member MEMBER;
+    private static Artist ARTIST;
 
     @BeforeEach
     void setUp() {
@@ -27,8 +29,8 @@ class MemberPartTest {
                 KillingPart.forSave(1, 10)
             )
         );
-
-        SONG = new Song("title", "12345678901", "albumCover", "singer", 300, Genre.DANCE, killingParts);
+        ARTIST = new Artist("profile", "image");
+        SONG = new Song("title", "12345678901", "albumCover", ARTIST, 300, Genre.DANCE, killingParts);
         MEMBER = new Member("shook@email.com", "shook");
     }
 

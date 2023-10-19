@@ -12,10 +12,12 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member_part.domain.MemberPart;
 import shook.shook.member_part.domain.repository.dto.SongMemberPartCreatedAtDto;
+import shook.shook.song.domain.Artist;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
+import shook.shook.song.domain.repository.ArtistRepository;
 import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.support.UsingJpaTest;
 
@@ -31,6 +33,9 @@ class MemberPartRepositoryTest extends UsingJpaTest {
     @Autowired
     private SongRepository songRepository;
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     @DisplayName("멤버 아이디와 멤버 파트 아이디로 멤버 파트를 조회한다.")
     @Test
     void findByMemberIdAndId() {
@@ -42,7 +47,7 @@ class MemberPartRepositoryTest extends UsingJpaTest {
 
         // when
         final Optional<MemberPart> optionalMember = memberPartRepository.findByMemberIdAndId(member.getId(),
-                                                                                             memberPart.getId());
+            memberPart.getId());
         final MemberPart savedMemberPart = optionalMember.get();
 
         // then
@@ -56,8 +61,10 @@ class MemberPartRepositoryTest extends UsingJpaTest {
         final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
         final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
+        final Artist artist = new Artist("profile", "name");
+        artistRepository.save(artist);
         final Song song = new Song(
-            "제목", "비디오ID는 11글자", "이미지URL", "가수", 180, Genre.from("댄스"),
+            "제목", "비디오ID는 11글자", "이미지URL", artist, 180, Genre.from("댄스"),
             new KillingParts(List.of(firstKillingPart, secondKillingPart, thirdKillingPart)));
 
         return songRepository.save(song);
@@ -90,16 +97,16 @@ class MemberPartRepositoryTest extends UsingJpaTest {
 
         // when
         final List<MemberPart> memberParts = memberPartRepository.findByMemberAndSongIdIn(member,
-                                                                                          List.of(firstSong.getId(),
-                                                                                                  secondSong.getId(),
-                                                                                                  thirdSong.getId()));
+            List.of(firstSong.getId(),
+                secondSong.getId(),
+                thirdSong.getId()));
 
         // then
         assertThat(memberParts).hasSize(3);
         assertThat(memberParts.stream()
-                       .map(MemberPart::getSong)
-                       .map(Song::getId)
-                       .toList()).contains(firstSong.getId(), secondSong.getId(), thirdSong.getId());
+            .map(MemberPart::getSong)
+            .map(Song::getId)
+            .toList()).contains(firstSong.getId(), secondSong.getId(), thirdSong.getId());
     }
 
     @DisplayName("나의 파트를 조회한다.")

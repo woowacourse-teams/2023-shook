@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.application.dto.ArtistResponse;
 import shook.shook.song.application.dto.ArtistWithSongSearchResponse;
 import shook.shook.song.domain.Artist;
@@ -33,6 +32,7 @@ import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.ArtistException;
 import shook.shook.support.UsingJpaTest;
 
+@SuppressWarnings("NonAsciiCharacters")
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 class ArtistSearchServiceTest extends UsingJpaTest {
 
@@ -159,9 +159,9 @@ class ArtistSearchServiceTest extends UsingJpaTest {
     }
 
     private Song createNewSongWithArtist(final Artist artist) {
-        final KillingPart firstKillingPart = KillingPart.forSave(10, PartLength.SHORT);
-        final KillingPart secondKillingPart = KillingPart.forSave(15, PartLength.SHORT);
-        final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
+        final KillingPart firstKillingPart = KillingPart.forSave(10, 5);
+        final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
+        final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
         return new Song(
             "title",
