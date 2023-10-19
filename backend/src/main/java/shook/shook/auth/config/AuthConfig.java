@@ -36,7 +36,9 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private HandlerInterceptor loginCheckerInterceptor() {
         return new PathMatcherInterceptor(loginCheckerInterceptor)
-            .includePathPattern("/songs/high-liked/**", PathMethod.GET)
+            .includePathPattern("/songs/high-liked/*", PathMethod.GET)
+            .includePathPattern("/songs/high-liked/*/prev", PathMethod.GET)
+            .includePathPattern("/songs/high-liked/*/next", PathMethod.GET)
             .includePathPattern("/songs/*", PathMethod.GET);
     }
 
