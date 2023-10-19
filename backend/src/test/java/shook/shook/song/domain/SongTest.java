@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.exception.killingpart.KillingPartsException;
 
@@ -26,15 +25,15 @@ class SongTest {
     @Test
     void getPartVideoUrl() {
         // given
-        final KillingPart killingPart1 = KillingPart.forSave(10, PartLength.STANDARD);
-        final KillingPart killingPart2 = KillingPart.forSave(20, PartLength.STANDARD);
-        final KillingPart killingPart3 = KillingPart.forSave(30, PartLength.STANDARD);
+        final KillingPart killingPart1 = KillingPart.forSave(10, 10);
+        final KillingPart killingPart2 = KillingPart.forSave(20, 10);
+        final KillingPart killingPart3 = KillingPart.forSave(30, 10);
         final KillingParts killingParts = new KillingParts(
             List.of(killingPart1, killingPart2, killingPart3)
         );
         final Song song = new Song("title", "3rUPND6FG8A", "image_url", "singer", 230,
-            Genre.from("댄스"),
-            killingParts);
+                                   Genre.from("댄스"),
+                                   killingParts);
 
         // when
         final String killingPart1VideoUrl = song.getPartVideoUrl(killingPart1);

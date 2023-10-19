@@ -29,7 +29,7 @@ public class VotingSongParts {
             throw new PartException.DuplicateStartAndLengthException(
                 Map.of(
                     "StartSecond", String.valueOf(newVotingSongPart.getStartSecond()),
-                    "PartLength", newVotingSongPart.getLength().name()
+                    "PartLength", String.valueOf(newVotingSongPart.getLength())
                 )
             );
         }

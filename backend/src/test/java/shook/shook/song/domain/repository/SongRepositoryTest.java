@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
-import shook.shook.part.domain.PartLength;
 import shook.shook.song.domain.Genre;
 import shook.shook.song.domain.KillingParts;
 import shook.shook.song.domain.Song;
@@ -38,9 +37,9 @@ class SongRepositoryTest extends UsingJpaTest {
     private MemberRepository memberRepository;
 
     private Song createNewSongWithKillingParts() {
-        final KillingPart firstKillingPart = KillingPart.forSave(10, PartLength.SHORT);
-        final KillingPart secondKillingPart = KillingPart.forSave(15, PartLength.SHORT);
-        final KillingPart thirdKillingPart = KillingPart.forSave(20, PartLength.SHORT);
+        final KillingPart firstKillingPart = KillingPart.forSave(10, 5);
+        final KillingPart secondKillingPart = KillingPart.forSave(15, 5);
+        final KillingPart thirdKillingPart = KillingPart.forSave(20, 5);
 
         return new Song(
             "제목", "비디오ID는 11글자", "이미지URL", "가수", 5, Genre.from("댄스"),
@@ -195,7 +194,7 @@ class SongRepositoryTest extends UsingJpaTest {
         assertThat(songs).usingRecursiveComparison()
             .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(List.of(secondSong, thirdSong, fourthSong, fifthSong, sixthSong, seventhSong,
-                eighthSong, ninthSong, tenthSong, eleventhSong)
+                               eighthSong, ninthSong, tenthSong, eleventhSong)
             );
     }
 
@@ -306,7 +305,7 @@ class SongRepositoryTest extends UsingJpaTest {
             .ignoringFieldsOfTypes(LocalDateTime.class)
             .isEqualTo(
                 List.of(seventhSong, eighthSong, ninthSong, tenthSong, eleventhSong, fourthSong,
-                    fifthSong, firstSong, secondSong, thirdSong));
+                        fifthSong, firstSong, secondSong, thirdSong));
     }
 
     @DisplayName("주어진 id보다 좋아요가 많은 노래 10개를 총 좋아요 오름차순, id 오름차순으로 조회한다. (데이터가 기준보다 부족할 때)")

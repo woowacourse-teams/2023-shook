@@ -36,15 +36,18 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private HandlerInterceptor loginCheckerInterceptor() {
         return new PathMatcherInterceptor(loginCheckerInterceptor)
-            .includePathPattern("/songs/high-liked/**", PathMethod.GET);
+            .includePathPattern("/songs/high-liked/**", PathMethod.GET)
+            .includePathPattern("/songs/*", PathMethod.GET);
     }
 
     private HandlerInterceptor tokenInterceptor() {
         return new PathMatcherInterceptor(tokenInterceptor)
-            .includePathPattern("/my-page", PathMethod.GET)
+            .includePathPattern("/my-page/**", PathMethod.GET)
             .includePathPattern("/songs/*/parts/*/likes", PathMethod.PUT)
             .includePathPattern("/voting-songs/*/parts", PathMethod.POST)
             .includePathPattern("/songs/*/parts/*/comments", PathMethod.POST)
+            .includePathPattern("/songs/*/member-parts", PathMethod.POST)
+            .includePathPattern("/member-parts/*", PathMethod.DELETE)
             .includePathPattern("/members/*", PathMethod.DELETE);
     }
 
