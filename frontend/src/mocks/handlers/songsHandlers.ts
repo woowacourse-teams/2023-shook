@@ -3,8 +3,8 @@ import comments from '../fixtures/comments.json';
 import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
 import popularSongs from '../fixtures/popularSongs.json';
+import recentSongs from '../fixtures/recentSongs.json';
 import songEntries from '../fixtures/songEntries.json';
-import votingSongs from '../fixtures/votingSongs.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 const { BASE_URL } = process.env;
@@ -54,8 +54,12 @@ const songsHandlers = [
     return res(ctx.status(200), ctx.json(extraNextSongDetails));
   }),
 
-  rest.get(`${BASE_URL}/voting-songs`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(votingSongs));
+  rest.get(`${BASE_URL}/songs/recent`, (req, res, ctx) => {
+    const size = req.url.searchParams.get('size');
+
+    const slicedRecentSongs = size ? recentSongs.slice(0, Number(size)) : recentSongs.slice(0, 5);
+
+    return res(ctx.status(200), ctx.json(slicedRecentSongs));
   }),
 ];
 
