@@ -9,13 +9,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 // FIXME: 재생시 `YT is not defined` 에러 발생
 const meta = {
   component: KillingPartTrackList,
-  title: 'KillingPartTrackList',
+  title: 'killingPart/KillingPartTrackList',
   decorators: [
     (Story) => {
       return (
         <ToastProvider>
           <VideoPlayerProvider>
-            {/* FIXME: time prop을 KillingPartTrack 스토리북 컴포넌트를 보고 임의로 똑같이 넣었습니다. */}
             <TimerProvider time={killingPart.end - killingPart.start}>
               <Story />
             </TimerProvider>

@@ -1,4 +1,4 @@
-import { postKillingPart } from '@/features/songs/remotes/killingPart';
+import { postKillingPart } from '@/features/killingParts/hooks/killingPart';
 import { useMutation } from '@/shared/hooks/useMutation';
 
 export const usePostKillingPart = () => {

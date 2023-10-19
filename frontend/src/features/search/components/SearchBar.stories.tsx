@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   component: SearchBar,
-  title: 'SearchBar',
+  title: 'search/SearchBar',
 } satisfies Meta<typeof SearchBar>;
 
 export default meta;
