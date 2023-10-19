@@ -14,6 +14,11 @@ INSERT INTO artist_synonym (artist_id, synonym) values (2, '악뮤');
 INSERT INTO artist_synonym (artist_id, synonym) values (3, 'Jung Kook');
 INSERT INTO artist_synonym (artist_id, synonym) values (3, '전정국');
 
+INSERT INTO artist (name, profile_image_url, created_at) values ('아이미', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
+INSERT INTO artist (name, profile_image_url, created_at) values ('아이유', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
+INSERT INTO artist_synonym (artist_id, synonym) values (4, 'I ME');
+INSERT INTO artist_synonym (artist_id, synonym) values (5, 'IU');
+
 insert into voting_song (title, artist_id, length, video_id, album_cover_url, created_at)
 values ('N.Y.C.T', 1, 241, '8umUXHLGl3o',
         'https://cdnimg.melon.co.kr/cm2/album/images/113/22/590/11322590_20230907111726_500.jpg?3d8bcc03a4900fdba3f199390f432b24/melon/resize/140/quality/80/optimize',
