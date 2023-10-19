@@ -32,7 +32,6 @@ const SIZE_VARIANTS = {
     width: 50px;
     height: 50px;
   `,
-
   md: css`
     width: 60px;
     height: 60px;

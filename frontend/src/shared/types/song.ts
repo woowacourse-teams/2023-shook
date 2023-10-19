@@ -1,3 +1,5 @@
+import type { Genre } from '@/features/songs/types/Song.type';
+
 export interface SongDetailEntries {
   prevSongs: SongDetail[];
   currentSong: SongDetail;
@@ -27,20 +29,16 @@ export interface KillingPart {
   likeStatus: boolean;
 }
 
-export interface SongVoting {
+// TODO: songDetail type과 다른 점...?
+export interface SongInfo {
   id: number;
   title: string;
   singer: string;
   videoLength: number;
   songVideoId: string;
   albumCoverUrl: string;
+  genre: Genre;
   killingParts: KillingPart[];
-}
-
-export interface VotingSongList {
-  prevSongs: SongVoting[];
-  currentSong: SongVoting;
-  nextSongs: SongVoting[];
 }
 
 export interface RecentSong {
