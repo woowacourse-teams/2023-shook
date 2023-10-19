@@ -10,12 +10,20 @@ import org.junit.jupiter.api.Test;
 import shook.shook.member.domain.Member;
 import shook.shook.part.domain.PartLength;
 import shook.shook.part.exception.PartException;
+import shook.shook.song.domain.Artist;
 import shook.shook.voting_song.exception.VoteException;
 
 class VotingSongPartTest {
 
     private static Member MEMBER = new Member("a@a.com", "nickname");
-    private final VotingSong votingSong = new VotingSong("제목", "비디오ID는 11글자", "이미지URL", "가수", 30);
+    private final Artist artist = new Artist("profile", "가수");
+    private final VotingSong votingSong = new VotingSong(
+        "제목",
+        "비디오ID는 11글자",
+        "이미지URL",
+        artist,
+        30
+    );
 
     @DisplayName("Id가 같은 파트는 동등성 비교에 참을 반환한다.")
     @Test

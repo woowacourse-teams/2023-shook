@@ -105,28 +105,6 @@ public class SongException extends CustomException {
         }
     }
 
-    public static class NullOrEmptySingerNameException extends SongException {
-
-        public NullOrEmptySingerNameException() {
-            super(ErrorCode.EMPTY_SINGER_NAME);
-        }
-
-        public NullOrEmptySingerNameException(final Map<String, String> inputValuesByProperty) {
-            super(ErrorCode.EMPTY_SINGER_NAME, inputValuesByProperty);
-        }
-    }
-
-    public static class TooLongSingerNameException extends SongException {
-
-        public TooLongSingerNameException() {
-            super(ErrorCode.TOO_LONG_SINGER_NAME);
-        }
-
-        public TooLongSingerNameException(final Map<String, String> inputValuesByProperty) {
-            super(ErrorCode.TOO_LONG_SINGER_NAME, inputValuesByProperty);
-        }
-    }
-
     public static class SongAlreadyExistException extends SongException {
 
         public SongAlreadyExistException() {

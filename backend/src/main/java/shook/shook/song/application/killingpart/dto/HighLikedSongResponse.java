@@ -34,7 +34,7 @@ public class HighLikedSongResponse {
         return new HighLikedSongResponse(
             song.getId(),
             song.getTitle(),
-            song.getSinger(),
+            song.getArtistName(),
             song.getAlbumCoverUrl(),
             song.getTotalLikeCount(),
             song.getGenre().name()

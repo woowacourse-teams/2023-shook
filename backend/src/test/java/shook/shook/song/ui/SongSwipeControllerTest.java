@@ -25,6 +25,7 @@ import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
+@SuppressWarnings("NonAsciiCharacters")
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class SongSwipeControllerTest {
