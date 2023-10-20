@@ -19,7 +19,7 @@ const SongItemList = ({ genre }: SongItemListProps) => {
 
   return (
     <>
-      <Title>{`${GENRES[genre]} Top 10`}</Title>
+      <Title>{`${GENRES[genre]}`}</Title>
       <Spacing direction="vertical" size={16} />
       <SongList>
         {songs?.map(({ id, albumCoverUrl, title, singer, totalLikeCount }, i) => (
