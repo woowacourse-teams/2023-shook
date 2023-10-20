@@ -95,10 +95,11 @@ const Container = styled.div`
   justify-content: center;
 
   height: 100vh;
-  padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
+  padding-top: 0;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
     justify-content: flex-start;
+    padding-top: ${({ theme: { headerHeight } }) => headerHeight.tablet};
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
