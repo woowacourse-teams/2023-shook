@@ -45,7 +45,7 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState, videoPlayer } = useVideoPlayerContext();
-  const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
+  const { heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
     likeCount,
     likeStatus,
     songId,
@@ -300,9 +300,9 @@ const ShareButton = styled.button`
   ${ButtonWithIcon}
 `;
 
-const ButtonTitle = styled.span`
-  font-size: 8px;
-`;
+// const ButtonTitle = styled.span`
+//   font-size: 8px;
+// `;
 
 const ButtonIcon = styled.img`
   width: 22px;
