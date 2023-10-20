@@ -45,7 +45,7 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState, videoPlayer } = useVideoPlayerContext();
-  const { calculatedLikeCount, heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
+  const { heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
     likeCount,
     likeStatus,
     songId,
@@ -189,11 +189,9 @@ const KillingPartTrack = ({
               aria-label="나의 킬링파트 삭제하기"
             >
               <ButtonIcon src={trashIcon} alt="" />
-              <ButtonTitle>Delete</ButtonTitle>
             </DeleteButton>
             <ShareButton aria-label={'나의 킬링파트 유튜브 링크 공유하기'} onClick={copyMyPartUrl}>
               <ButtonIcon src={shareIcon} alt="" />
-              <ButtonTitle>Share</ButtonTitle>
             </ShareButton>
           </>
         ) : (
@@ -203,14 +201,12 @@ const KillingPartTrack = ({
               aria-label={`${rank}등 킬링파트 좋아요 하기`}
             >
               <ButtonIcon src={heartIcon} alt="" />
-              <ButtonTitle>{`${calculatedLikeCount} Likes`}</ButtonTitle>
             </LikeButton>
             <ShareButton
               aria-label={`${rank}등 킬링파트 링크 공유하기`}
               onClick={copyKillingPartUrl}
             >
               <ButtonIcon src={shareIcon} alt="" />
-              <ButtonTitle>Share</ButtonTitle>
             </ShareButton>
           </>
         )}
@@ -286,8 +282,10 @@ const ButtonWithIcon = css`
   flex-direction: column;
   gap: 2px;
   align-items: center;
+  justify-content: center;
 
-  width: 44px;
+  width: 38px;
+  height: 100%;
 `;
 
 const DeleteButton = styled.button`
@@ -302,17 +300,17 @@ const ShareButton = styled.button`
   ${ButtonWithIcon}
 `;
 
-const ButtonTitle = styled.span`
-  font-size: 8px;
-`;
+// const ButtonTitle = styled.span`
+//   font-size: 8px;
+// `;
 
 const ButtonIcon = styled.img`
   width: 22px;
   height: 22px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xxs}) {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -339,6 +337,7 @@ const ProgressBar = styled.progress`
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
+  height: 100%;
 `;
 
 const FLexContainer = styled.div`
