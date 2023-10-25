@@ -6,7 +6,7 @@ const GENRES = {
   POP: '팝 즐기기',
   RHYTHM_AND_BLUES: '리듬 속으로, 소울 있게',
   INDIE: '인디 밴드를 좋아한다면?',
-  ROCK_METAL: '무아지경의 세계로, ROCK & ROLE',
+  ROCK_METAL: '무아지경의 세계로, ROCK & ROLL',
   TROT: '트로트',
   FOLK_BLUES: '부드러운 무드',
   JAZZ: '재즈',
