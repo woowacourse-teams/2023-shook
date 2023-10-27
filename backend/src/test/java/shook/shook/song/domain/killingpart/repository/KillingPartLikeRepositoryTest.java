@@ -192,4 +192,41 @@ class KillingPartLikeRepositoryTest extends UsingJpaTest {
             SECOND_SAVED_KILLING_PART.getId()
         );
     }
+
+    @DisplayName("좋아요 데이터를 삭제되지 않은 상태로 변경한다. (좋아요를 누른다.)")
+    @Test
+    void pressLike() {
+        // given
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART, SAVED_MEMBER);
+        killingPartLikeRepository.save(killingPartLike);
+
+        // when
+        killingPartLikeRepository.pressLike(killingPartLike.getId());
+
+        // then
+        final Optional<KillingPartLike> foundLike = killingPartLikeRepository.findById(killingPartLike.getId());
+
+        assertThat(foundLike).isPresent()
+            .get()
+            .hasFieldOrPropertyWithValue("isDeleted", false);
+    }
+
+    @DisplayName("좋아요 데이터를 삭제된 상태로 변경한다. (좋아요를 취소한다.)")
+    @Test
+    void cancelLike() {
+        // given
+        final KillingPartLike killingPartLike = new KillingPartLike(FIRST_SAVED_KILLING_PART, SAVED_MEMBER);
+        killingPartLikeRepository.save(killingPartLike);
+        killingPartLikeRepository.pressLike(killingPartLike.getId());
+
+        // when
+        killingPartLikeRepository.cancelLike(killingPartLike.getId());
+
+        // then
+        final Optional<KillingPartLike> foundLike = killingPartLikeRepository.findById(killingPartLike.getId());
+
+        assertThat(foundLike).isPresent()
+            .get()
+            .hasFieldOrPropertyWithValue("isDeleted", true);
+    }
 }
