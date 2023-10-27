@@ -1,6 +1,6 @@
+import { Flex } from 'shook-layout';
 import { css, styled } from 'styled-components';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
-import Flex from '@/shared/components/Flex/Flex';
 
 const VideoIntervalStepper = () => {
   const { interval, increasePartInterval, decreasePartInterval } = useCollectingPartContext();

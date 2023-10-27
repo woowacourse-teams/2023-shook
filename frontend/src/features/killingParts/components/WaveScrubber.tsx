@@ -1,7 +1,7 @@
+import { Flex } from 'shook-layout';
 import styled, { keyframes } from 'styled-components';
 import SoundWave from '@/features/killingParts/components/SoundWave';
 import useWave from '@/features/killingParts/hooks/useWave';
-import Flex from '@/shared/components/Flex/Flex';
 
 const WaveScrubber = () => {
   const {

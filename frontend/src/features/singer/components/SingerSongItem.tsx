@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import styled from 'styled-components';
-import Flex from '@/shared/components/Flex/Flex';
 import ROUTE_PATH from '@/shared/constants/path';
 import { toMinSecText } from '@/shared/utils/convertTime';
 import type { SingersSong } from '@/features/singer/types/singer.type';

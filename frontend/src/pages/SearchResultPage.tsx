@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Flex } from 'shook-layout';
 import styled from 'styled-components';
 import { getSingerSearch } from '@/features/search/remotes/search';
 import SingerBanner from '@/features/singer/components/SingerBanner';
 import SingerSongList from '@/features/singer/components/SingerSongList';
-import Flex from '@/shared/components/Flex/Flex';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import useFetch from '@/shared/hooks/useFetch';
