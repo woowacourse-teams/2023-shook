@@ -32,6 +32,12 @@ S-HOOK 유저들이 어떤 노래를 자주 듣는지 궁금하다면? S-HOOK에
 
 이제, 당신의 출근길을 S-HOOK이 함께합니다.      
 매일 새로운 음악과 함께 오늘 하루를 특별하게 시작하세요 🎧   
+
+## ⚡️ 기술 스택
+![백엔드_기술스택 001](https://github.com/woowacourse-teams/2023-shook/assets/61370551/c0d54c4c-394c-486e-b20f-5f4e35f63856)
+![백엔드_기술스택 002](https://github.com/woowacourse-teams/2023-shook/assets/61370551/9c1019a5-46c2-439c-9de2-9050be73f7c5)
+![_기술스택-프론트엔드](https://github.com/woowacourse-teams/2023-shook/assets/61370551/03f1b2ba-e7d0-4d1e-b031-f4bbe09a5146)
+
 ## ⚒️서비스 구조도
 <img width="823" alt="image" src="https://github.com/woowacourse-teams/2023-shook/assets/70303795/db1a86f5-c314-41e5-86d1-c0674e5b8fec">
 
