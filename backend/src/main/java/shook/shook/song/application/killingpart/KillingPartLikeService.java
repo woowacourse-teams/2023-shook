@@ -1,7 +1,6 @@
 package shook.shook.song.application.killingpart;
 
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,14 +61,15 @@ public class KillingPartLikeService {
 
     private KillingPartLike createNewLike(final KillingPart killingPart, final Member member) {
         final KillingPartLike like = new KillingPartLike(killingPart, member);
+
         return likeRepository.save(like);
     }
 
     private void delete(final KillingPart killingPart, final Member member) {
-        final Optional<KillingPartLike> like = killingPart.findLikeByMember(member);
-        like.ifPresent(likeOnKillingPart -> {
-            likeRepository.cancelLike(likeOnKillingPart.getId());
-            killingPartRepository.decreaseLikeCount(killingPart.getId());
-        });
+        killingPart.findLikeByMember(member)
+            .ifPresent(likeOnKillingPart -> {
+                likeRepository.cancelLike(likeOnKillingPart.getId());
+                killingPartRepository.decreaseLikeCount(killingPart.getId());
+            });
     }
 }
