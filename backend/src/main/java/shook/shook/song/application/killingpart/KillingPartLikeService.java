@@ -30,11 +30,9 @@ public class KillingPartLikeService {
         final KillingPartLikeRequest request
     ) {
         final Member member = memberRepository.findById(memberId)
-            .orElseThrow(
-                () -> new MemberException.MemberNotExistException(
-                    Map.of("MemberId", String.valueOf(memberId))
-                )
-            );
+            .orElseThrow(() -> new MemberException.MemberNotExistException(
+                Map.of("MemberId", String.valueOf(memberId))
+            ));
 
         final KillingPart killingPart = killingPartRepository.findById(killingPartId)
             .orElseThrow(() -> new KillingPartException.PartNotExistException(
@@ -53,20 +51,25 @@ public class KillingPartLikeService {
             return;
         }
 
-        final KillingPartLike likeOnKillingPart =
-            likeRepository.findByKillingPartAndMember(killingPart, member)
-                .orElseGet(() -> createNewLike(killingPart, member));
-
-        killingPart.like(likeOnKillingPart);
+        final KillingPartLike likeOnKillingPart = likeRepository.findByKillingPartAndMember(killingPart, member)
+            .orElseGet(() -> createNewLike(killingPart, member));
+        if (likeOnKillingPart.isDeleted()) {
+            likeRepository.pressLike(likeOnKillingPart.getId());
+            killingPartRepository.increaseLikeCount(killingPart.getId());
+        }
     }
 
     private KillingPartLike createNewLike(final KillingPart killingPart, final Member member) {
         final KillingPartLike like = new KillingPartLike(killingPart, member);
+
         return likeRepository.save(like);
     }
 
     private void delete(final KillingPart killingPart, final Member member) {
         killingPart.findLikeByMember(member)
-            .ifPresent(killingPart::unlike);
+            .ifPresent(likeOnKillingPart -> {
+                likeRepository.cancelLike(likeOnKillingPart.getId());
+                killingPartRepository.decreaseLikeCount(killingPart.getId());
+            });
     }
 }

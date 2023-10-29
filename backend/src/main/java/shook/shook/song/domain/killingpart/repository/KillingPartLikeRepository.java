@@ -3,6 +3,7 @@ package shook.shook.song.domain.killingpart.repository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,12 @@ public interface KillingPartLikeRepository extends JpaRepository<KillingPartLike
         + "FROM KillingPartLike kp_like "
         + "WHERE kp_like.member=:member and kp_like.isDeleted=false")
     List<Long> findLikedKillingPartIdsByMember(@Param("member") final Member member);
+
+    @Query("update KillingPartLike kp_like set kp_like.isDeleted = false where kp_like.id = :id")
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    void pressLike(@Param("id") final Long killingPartLikeId);
+
+    @Query("update KillingPartLike kp_like set kp_like.isDeleted = true where kp_like.id = :id")
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    void cancelLike(@Param("id") final Long killingPartLikeId);
 }
