@@ -124,13 +124,15 @@ public class KillingPart {
         comments.addComment(comment);
     }
 
-    public void like(final KillingPartLike likeToAdd) {
+    public boolean like(final KillingPartLike likeToAdd) {
         validateLikeUpdate(likeToAdd);
         final boolean isLikeCreated = killingPartLikes.addLike(likeToAdd);
         if (isLikeCreated) {
             this.likeCount++;
             atomicLikeCount.incrementAndGet();
+            return true;
         }
+        return false;
     }
 
     private void validateLikeUpdate(final KillingPartLike like) {
@@ -147,13 +149,15 @@ public class KillingPart {
         }
     }
 
-    public void unlike(final KillingPartLike likeToDelete) {
+    public boolean unlike(final KillingPartLike likeToDelete) {
         validateLikeUpdate(likeToDelete);
         final boolean isLikeDeleted = killingPartLikes.deleteLike(likeToDelete);
         if (isLikeDeleted) {
             this.likeCount--;
             atomicLikeCount.decrementAndGet();
+            return true;
         }
+        return false;
     }
 
     public Optional<KillingPartLike> findLikeByMember(final Member member) {

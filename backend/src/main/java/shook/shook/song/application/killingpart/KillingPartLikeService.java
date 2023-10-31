@@ -55,10 +55,8 @@ public class KillingPartLikeService {
 
         final KillingPartLike likeOnKillingPart = likeRepository.findByKillingPartAndMember(killingPart, member)
             .orElseGet(() -> createNewLike(killingPart, member));
-        if (likeOnKillingPart.isDeleted()) {  // 좋아요를 취소한 경우
-//            likeRepository.pressLike(likeOnKillingPart.getId());
-//            killingPartRepository.increaseLikeCount(killingPart.getId());
-            inMemorySongs.pressLike(killingPart, likeOnKillingPart);
+        if (likeOnKillingPart.isDeleted()) {
+            inMemorySongs.like(killingPart, likeOnKillingPart);
         }
     }
 
@@ -71,9 +69,7 @@ public class KillingPartLikeService {
     private void delete(final KillingPart killingPart, final Member member) {
         killingPart.findLikeByMember(member)
             .ifPresent(likeOnKillingPart -> {
-//                likeRepository.cancelLike(likeOnKillingPart.getId());
-//                killingPartRepository.decreaseLikeCount(killingPart.getId());
-                inMemorySongs.cancelLike(killingPart, likeOnKillingPart);
+                inMemorySongs.unlike(killingPart, likeOnKillingPart);
             });
     }
 }
