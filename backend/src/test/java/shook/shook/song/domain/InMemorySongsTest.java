@@ -43,7 +43,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @Test
     void recreate() {
         // given
-        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final List<Song> songs = songRepository.findAllWithKillingPartsAndLikes();
         likeAllKillingPartsInSong(songs.get(0));
         likeAllKillingPartsInSong(songs.get(1));
 
@@ -71,14 +71,14 @@ class InMemorySongsTest extends UsingJpaTest {
     @Test
     void getSongById() {
         // given
-        final List<Song> songs = songRepository.findAllWithKillingParts();
-        inMemorySongs.recreate(songs);
+        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
+        final List<Song> allSongs = inMemorySongs.getSongs();
         final Song foundSong = inMemorySongs.getSongById(4L);
 
         // then
-        final Song expectedSong = songs.get(0);
+        final Song expectedSong = allSongs.get(0);
         assertThat(foundSong).isEqualTo(expectedSong);
     }
 
@@ -86,7 +86,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @Test
     void getPrevLikedSongs() {
         // given
-        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final List<Song> songs = songRepository.findAllWithKillingPartsAndLikes();
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);
@@ -110,7 +110,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @Test
     void getNextLikedSongs() {
         // given
-        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final List<Song> songs = songRepository.findAllWithKillingPartsAndLikes();
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);
@@ -133,7 +133,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @DisplayName("특정 장르 노래에 대해 1. 좋아요 수가 더 적거나 2. 좋아요 수가 같은 경우 id가 더 작은 노래 목록을 조회한다.")
     @Test
     void getSortedSongsByGenre() {
-        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final List<Song> songs = songRepository.findAllWithKillingPartsAndLikes();
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);
@@ -155,7 +155,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @DisplayName("특정 장르 노래에 대해 1. 좋아요 수가 더 많거나 2. 좋아요 수가 같은 경우 id가 더 큰 노래 목록을 조회한다.")
     @Test
     void getPrevLikedSongByGenre() {
-        final List<Song> songs = songRepository.findAllWithKillingParts();
+        final List<Song> songs = songRepository.findAllWithKillingPartsAndLikes();
         final Song firstSong = songs.get(0);
         final Song secondSong = songs.get(1);
         final Song thirdSong = songs.get(2);

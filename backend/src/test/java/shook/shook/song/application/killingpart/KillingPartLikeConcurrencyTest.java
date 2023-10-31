@@ -19,9 +19,11 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 import shook.shook.song.domain.InMemorySongs;
+import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.SongRepository;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest
@@ -29,6 +31,7 @@ class KillingPartLikeConcurrencyTest {
 
     private static KillingPart SAVED_KILLING_PART;
     private static Member SAVED_MEMBER;
+    private static Song SAVED_SONG;
 
     @Autowired
     private KillingPartRepository killingPartRepository;
@@ -45,11 +48,15 @@ class KillingPartLikeConcurrencyTest {
     @Autowired
     private InMemorySongs inMemorySongs;
 
+    @Autowired
+    private SongRepository songRepository;
+
     private KillingPartLikeService likeService;
     private TransactionTemplate transactionTemplate;
 
     @BeforeEach
     void setUp() {
+        SAVED_SONG = songRepository.findById(1L).get();
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
         likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository,
@@ -64,6 +71,7 @@ class KillingPartLikeConcurrencyTest {
         // given
         final Member first = SAVED_MEMBER;
         final Member second = memberRepository.save(new Member("second@gmail.com", "second"));
+        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -91,8 +99,10 @@ class KillingPartLikeConcurrencyTest {
         Thread.sleep(1000);
 
         // then
-        final KillingPart killingPart = killingPartRepository.findById(SAVED_KILLING_PART.getId()).get();
-        assertThat(killingPart.getLikeCount()).isEqualTo(2);
+        final KillingPart killingPart = inMemorySongs.getSongById(SAVED_SONG.getId()).getKillingParts().stream()
+            .filter(kp -> kp.getId().equals(SAVED_KILLING_PART.getId()))
+            .findAny().get();
+        assertThat(killingPart.getAtomicLikeCount().get()).isEqualTo(2);
     }
 
     @Disabled("UPDATE + 1 사용 시 한 사용자의 동시에 도착하는 좋아요 요청 동시성 문제 발생")

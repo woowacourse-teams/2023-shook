@@ -15,10 +15,12 @@ import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 import shook.shook.song.domain.InMemorySongs;
+import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.SongRepository;
 import shook.shook.song.exception.killingpart.KillingPartException;
 import shook.shook.support.UsingJpaTest;
 
@@ -29,6 +31,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
     private static final long UNSAVED_KILLING_PART_ID = Long.MAX_VALUE;
     private static KillingPart SAVED_KILLING_PART;
     private static Member SAVED_MEMBER;
+    private static Song SAVED_SONG;
 
     @Autowired
     private KillingPartRepository killingPartRepository;
@@ -39,14 +42,20 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private SongRepository songRepository;
+
     private KillingPartLikeService likeService;
+    private InMemorySongs inMemorySongs;
 
     @BeforeEach
     void setUp() {
+        SAVED_SONG = songRepository.findById(1L).get();
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
-        likeService = new KillingPartLikeService(killingPartRepository, memberRepository,
-                                                 killingPartLikeRepository, new InMemorySongs(entityManager));
+        inMemorySongs = new InMemorySongs(entityManager);
+        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository,
+                                                 inMemorySongs);
     }
 
     @DisplayName("킬링파트 좋아요를 누른다.")
@@ -58,6 +67,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_newLike() {
             // given
             // when
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
                                          new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
@@ -65,8 +75,10 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // then
             final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
                 findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
-            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
-                SAVED_KILLING_PART.getId());
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
 
             assertThat(savedLike).isPresent()
                 .get()
@@ -81,6 +93,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         @Test
         void create_updateLike_exist() {
             // given
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
                                          new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
@@ -95,8 +108,10 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // then
             final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
                 findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
-            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
-                SAVED_KILLING_PART.getId());
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
 
             assertThat(savedLike).isPresent()
                 .get()
@@ -111,6 +126,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         @Test
         void create_noAction() {
             // given
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
                                          new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
@@ -123,8 +139,10 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // then
             final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
                 findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
-            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
-                SAVED_KILLING_PART.getId());
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
 
             assertThat(savedLike).isPresent()
                 .get()
@@ -187,6 +205,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         @Test
         void delete_alreadyDeleted_noAction() {
             // given
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
                                          new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
@@ -217,6 +236,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         @Test
         void create_noAction() {
             // given
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
                                          new KillingPartLikeRequest(true));
             saveAndClearEntityManager();

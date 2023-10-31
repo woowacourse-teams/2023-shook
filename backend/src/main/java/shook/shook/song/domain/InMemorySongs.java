@@ -19,11 +19,11 @@ import shook.shook.song.exception.killingpart.KillingPartException;
 @Repository
 public class InMemorySongs {
 
-    private static final Comparator<Song> COMPARATOR = Comparator.comparing(Song::getTotalLikeCount,
-                                                                            Comparator.reverseOrder())
-        .thenComparing(Song::getId, Comparator.reverseOrder());
-    private Map<Long, Song> songsSortedInLikeCountById;
-    private List<Long> sortedIds;
+    private static final Comparator<Song> COMPARATOR =
+        Comparator.comparing(Song::getTotalLikeCount, Comparator.reverseOrder())
+            .thenComparing(Song::getId, Comparator.reverseOrder());
+    private Map<Long, Song> songsSortedInLikeCountById = new HashMap<>();
+    private List<Long> sortedIds = new ArrayList<>();
 
     private final EntityManager entityManager;
 
@@ -47,11 +47,13 @@ public class InMemorySongs {
     }
 
     public List<Song> getSongs() {
-        return songsSortedInLikeCountById.values().stream().toList();
+        return sortedIds.stream()
+            .map(songsSortedInLikeCountById::get)
+            .toList();
     }
 
     public List<Song> getSongs(final int limit) {
-        final List<Long> topSongIds = this.sortedIds.subList(0, Math.min(limit, this.sortedIds.size()));
+        final List<Long> topSongIds = sortedIds.subList(0, Math.min(limit, sortedIds.size()));
 
         return topSongIds.stream()
             .map(songsSortedInLikeCountById::get)
@@ -123,12 +125,89 @@ public class InMemorySongs {
         final KillingPart killingPartById = findKillingPart(killingPart, song);
         final boolean updated = killingPartById.like(likeOnKillingPart);
         if (updated) {
-            sortSongIds();
+            reorder(song);
         }
     }
 
-    private void sortSongIds() {
-        sortedIds.sort(Comparator.comparing(songsSortedInLikeCountById::get, COMPARATOR));
+    public void reorder(final Song updatedSong) {
+        int currentSongIndex = sortedIds.indexOf(updatedSong.getId());
+
+        if (currentSongIndex == -1) {
+            return;
+        }
+
+        if (shouldMoveForward(updatedSong, currentSongIndex)) {
+            moveLeft(updatedSong, currentSongIndex);
+        }
+
+        if (shouldMoveBackward(updatedSong, currentSongIndex)) {
+            moveRight(updatedSong, currentSongIndex);
+        }
+    }
+
+    private boolean shouldMoveForward(final Song song, final int index) {
+        if (index == 0) {
+            return false;
+        }
+
+        final Long prevSongId = sortedIds.get(index - 1);
+        final Song prevSong = songsSortedInLikeCountById.get(prevSongId);
+
+        return index > 0 && shouldSwapWithPrevious(song, prevSong);
+    }
+
+    private boolean shouldMoveBackward(final Song song, final int index) {
+        if (index == sortedIds.size() - 1) {
+            return false;
+        }
+
+        final Long nextSongId = sortedIds.get(index + 1);
+        final Song nextSong = songsSortedInLikeCountById.get(nextSongId);
+
+        return index < sortedIds.size() - 1 && shouldSwapWithNext(song, nextSong);
+    }
+
+    private void moveLeft(final Song changedSong, final int songIndex) {
+        int currentSongIndex = songIndex;
+
+        while (currentSongIndex > 0 && currentSongIndex < sortedIds.size() &&
+            shouldSwapWithPrevious(changedSong,
+                                   songsSortedInLikeCountById.get(sortedIds.get(currentSongIndex - 1)))) {
+            swap(currentSongIndex, currentSongIndex - 1);
+            currentSongIndex--;
+        }
+    }
+
+    private boolean shouldSwapWithPrevious(final Song song, final Song prevSong) {
+        final boolean hasSameTotalLikeCountAndLargerIdThanPrevSong =
+            song.getTotalLikeCount() == prevSong.getTotalLikeCount() && song.getId() > prevSong.getId();
+        final boolean hasLargerTotalLikeCountThanPrevSong = song.getTotalLikeCount() > prevSong.getTotalLikeCount();
+
+        return hasLargerTotalLikeCountThanPrevSong || hasSameTotalLikeCountAndLargerIdThanPrevSong;
+    }
+
+    private void swap(final int currentIndex, final int otherIndex) {
+        final Long prevIndex = sortedIds.get(currentIndex);
+        sortedIds.set(currentIndex, sortedIds.get(otherIndex));
+        sortedIds.set(otherIndex, prevIndex);
+    }
+
+    private void moveRight(final Song changedSong, final int songIndex) {
+        int currentSongIndex = songIndex;
+
+        while (currentSongIndex < sortedIds.size() - 1 && currentSongIndex > 0
+            && shouldSwapWithNext(changedSong, songsSortedInLikeCountById.get(sortedIds.get(currentSongIndex - 1)))) {
+            swap(currentSongIndex, currentSongIndex + 1);
+            currentSongIndex++;
+        }
+    }
+
+    private boolean shouldSwapWithNext(final Song song, final Song nextSong) {
+        final boolean hasSameTotalLikeCountAndSmallerIdThanNextSong =
+            song.getTotalLikeCount() == nextSong.getTotalLikeCount() && song.getId() < nextSong.getId();
+        final boolean hasSmallerTotalLikeCountThanNextSong = song.getTotalLikeCount() < nextSong.getTotalLikeCount();
+
+        return hasSmallerTotalLikeCountThanNextSong || hasSameTotalLikeCountAndSmallerIdThanNextSong;
     }
 
     private static KillingPart findKillingPart(final KillingPart killingPart, final Song song) {
@@ -145,7 +224,7 @@ public class InMemorySongs {
         final KillingPart killingPartById = findKillingPart(killingPart, song);
         final boolean updated = killingPartById.unlike(unlikeOnKillingPart);
         if (updated) {
-            sortSongIds();
+            reorder(song);
         }
     }
 }

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,15 +56,13 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private ArtistRepository artistRepository;
 
-    @Autowired
-    private EntityManager entityManager;
-
-    private final InMemorySongs inMemorySongs = new InMemorySongs(entityManager);
+    private InMemorySongs inMemorySongs;
 
     private SongService songService;
 
     @BeforeEach
     public void setUp() {
+        inMemorySongs = new InMemorySongs(entityManager);
         songService = new SongService(
             songRepository,
             killingPartRepository,
@@ -121,8 +118,8 @@ class SongServiceTest extends UsingJpaTest {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
         final Song song = registerNewSong("title");
+        inMemorySongs.recreate(List.of(song));
         addLikeToEachKillingParts(song, member);
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
         addMemberPartToSong(10, 5, song, member);
 
         //when
@@ -166,7 +163,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_not_login_member() {
         //given
         final Song song = registerNewSong("title");
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
+        inMemorySongs.recreate(List.of(song));
 
         //when인
         saveAndClearEntityManager();
@@ -204,6 +201,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_notExist() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
+        inMemorySongs.recreate(List.of());
 
         //when
         //then
@@ -231,8 +229,8 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(thirdSong, member2);
         addLikeToEachKillingParts(fourthSong, member1);
 
+        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
         saveAndClearEntityManager();
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
         // when
         final List<HighLikedSongResponse> result = songService.showHighLikedSongs();
@@ -308,7 +306,6 @@ class SongServiceTest extends UsingJpaTest {
             // 4, 3, 5, 2, 1
             addLikeToEachKillingParts(thirdSong, member);
             addLikeToEachKillingParts(fourthSong, member);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             // 1, 2, 3 노래에 memberPart 추가
             addMemberPartToSong(10, 5, firstSong, member);
@@ -317,6 +314,7 @@ class SongServiceTest extends UsingJpaTest {
             addMemberPartToSong(10, 5, fourthSong, member);
 
             saveAndClearEntityManager();
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final SongSwipeResponse result =
@@ -355,6 +353,8 @@ class SongServiceTest extends UsingJpaTest {
             final Member member = createAndSaveMember("first@naver.com", "first");
             final Long notExistSongId = Long.MAX_VALUE;
 
+            saveAndClearEntityManager();
+
             // when
             // then
             assertThatThrownBy(
@@ -389,8 +389,6 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(fourthSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
 
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
-
             addMemberPartToSong(10, 5, firstSong, member);
             addMemberPartToSong(10, 5, secondSong, member);
             addMemberPartToSong(10, 5, standardSong, member);
@@ -399,6 +397,7 @@ class SongServiceTest extends UsingJpaTest {
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
             saveAndClearEntityManager();
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> beforeResponses =
@@ -432,7 +431,6 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(secondSong, member2);
             addLikeToEachKillingParts(standardSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             addMemberPartToSong(10, 5, firstSong, member);
             addMemberPartToSong(10, 5, secondSong, member);
@@ -441,8 +439,8 @@ class SongServiceTest extends UsingJpaTest {
             addMemberPartToSong(10, 5, fifthSong, member);
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
-
             saveAndClearEntityManager();
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> afterResponses =
@@ -483,9 +481,9 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(song1, member);
             addLikeToEachKillingParts(song1, secondMember);
             addLikeToEachKillingParts(song3, member);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             // 정렬 순서: 2L, 1L, 3L, 5L, 4L
+            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
             saveAndClearEntityManager();
 
             // when
@@ -508,9 +506,9 @@ class SongServiceTest extends UsingJpaTest {
         final Song song = registerNewSong("title");
         final Member member = createAndSaveMember("email@email.com", "nickname");
         addLikeToEachKillingParts(song, member);
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
         addMemberPartToSong(10, 5, song, member);
         saveAndClearEntityManager();
+        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         final SongResponse response = songService.findSongById(song.getId(),
