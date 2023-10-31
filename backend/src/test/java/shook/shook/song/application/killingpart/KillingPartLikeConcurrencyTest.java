@@ -18,6 +18,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
@@ -41,6 +42,9 @@ class KillingPartLikeConcurrencyTest {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @Autowired
+    private InMemorySongs inMemorySongs;
+
     private KillingPartLikeService likeService;
     private TransactionTemplate transactionTemplate;
 
@@ -48,7 +52,8 @@ class KillingPartLikeConcurrencyTest {
     void setUp() {
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
-        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository);
+        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository,
+                                                 inMemorySongs);
         transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
@@ -67,18 +72,20 @@ class KillingPartLikeConcurrencyTest {
         final KillingPartLikeRequest request = new KillingPartLikeRequest(true);
 
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), request);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(),
+                                                                     request);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), second.getId(), request);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), second.getId(),
+                                                                     request);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         latch.await();
         Thread.sleep(1000);
@@ -103,25 +110,28 @@ class KillingPartLikeConcurrencyTest {
         final KillingPartLikeRequest unlikeRequest = new KillingPartLikeRequest(false);
 
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(),
+                                                                     likeRequest);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), unlikeRequest);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(),
+                                                                     unlikeRequest);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(),
+                                                                     likeRequest);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
 
         latch.await();

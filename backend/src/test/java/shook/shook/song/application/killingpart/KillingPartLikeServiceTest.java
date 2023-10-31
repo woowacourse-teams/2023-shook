@@ -14,6 +14,7 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
@@ -45,7 +46,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
         likeService = new KillingPartLikeService(killingPartRepository, memberRepository,
-            killingPartLikeRepository);
+                                                 killingPartLikeRepository, new InMemorySongs(entityManager));
     }
 
     @DisplayName("킬링파트 좋아요를 누른다.")
@@ -58,7 +59,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // given
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
 
             // then
@@ -81,14 +82,14 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_updateLike_exist() {
             // given
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(false));
+                                         new KillingPartLikeRequest(false));
             saveAndClearEntityManager();
 
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
 
             // then
@@ -111,12 +112,12 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_noAction() {
             // given
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
 
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
 
             // then
@@ -141,7 +142,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId(),
-                    new KillingPartLikeRequest(true)))
+                                                   new KillingPartLikeRequest(true)))
                 .isInstanceOf(KillingPartException.PartNotExistException.class);
         }
 
@@ -152,7 +153,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
-                    new KillingPartLikeRequest(true)))
+                                                   new KillingPartLikeRequest(true)))
                 .isInstanceOf(MemberException.MemberNotExistException.class);
         }
     }
@@ -167,7 +168,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // given
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(false));
+                                         new KillingPartLikeRequest(false));
             saveAndClearEntityManager();
 
             // then
@@ -187,14 +188,14 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void delete_alreadyDeleted_noAction() {
             // given
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(false));
+                                         new KillingPartLikeRequest(false));
             saveAndClearEntityManager();
 
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(false));
+                                         new KillingPartLikeRequest(false));
             saveAndClearEntityManager();
 
             // then
@@ -217,12 +218,12 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
         void create_noAction() {
             // given
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(true));
+                                         new KillingPartLikeRequest(true));
             saveAndClearEntityManager();
 
             // when
             likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
-                new KillingPartLikeRequest(false));
+                                         new KillingPartLikeRequest(false));
             saveAndClearEntityManager();
 
             // then
@@ -247,7 +248,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId(),
-                    new KillingPartLikeRequest(true)))
+                                                   new KillingPartLikeRequest(true)))
                 .isInstanceOf(KillingPartException.PartNotExistException.class);
         }
 
@@ -258,7 +259,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // when, then
             assertThatThrownBy(
                 () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
-                    new KillingPartLikeRequest(false)))
+                                                   new KillingPartLikeRequest(false)))
                 .isInstanceOf(MemberException.MemberNotExistException.class);
         }
     }

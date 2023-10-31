@@ -58,12 +58,13 @@ public class KillingParts {
     public List<KillingPart> getKillingPartsSortedByLikeCount() {
         return killingParts.stream()
             .sorted(Comparator.comparing(KillingPart::getLikeCount, Comparator.reverseOrder())
-                .thenComparing(KillingPart::getStartSecond))
+                        .thenComparing(KillingPart::getStartSecond))
             .toList();
     }
 
     public int getKillingPartsTotalLikeCount() {
         return killingParts.stream()
-            .reduce(0, (sum, killingPart) -> sum + killingPart.getLikeCount(), Integer::sum);
+            .mapToInt(killingPart -> killingPart.getAtomicLikeCount().get())
+            .reduce(0, Integer::sum);
     }
 }

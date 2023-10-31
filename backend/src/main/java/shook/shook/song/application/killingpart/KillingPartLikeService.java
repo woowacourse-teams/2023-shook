@@ -8,6 +8,7 @@ import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.KillingPartLike;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
@@ -22,6 +23,7 @@ public class KillingPartLikeService {
     private final KillingPartRepository killingPartRepository;
     private final MemberRepository memberRepository;
     private final KillingPartLikeRepository likeRepository;
+    private final InMemorySongs inMemorySongs;
 
     @Transactional
     public void updateLikeStatus(
@@ -53,9 +55,10 @@ public class KillingPartLikeService {
 
         final KillingPartLike likeOnKillingPart = likeRepository.findByKillingPartAndMember(killingPart, member)
             .orElseGet(() -> createNewLike(killingPart, member));
-        if (likeOnKillingPart.isDeleted()) {
-            likeRepository.pressLike(likeOnKillingPart.getId());
-            killingPartRepository.increaseLikeCount(killingPart.getId());
+        if (likeOnKillingPart.isDeleted()) {  // 좋아요를 취소한 경우
+//            likeRepository.pressLike(likeOnKillingPart.getId());
+//            killingPartRepository.increaseLikeCount(killingPart.getId());
+            inMemorySongs.pressLike(killingPart, likeOnKillingPart);
         }
     }
 
@@ -68,8 +71,9 @@ public class KillingPartLikeService {
     private void delete(final KillingPart killingPart, final Member member) {
         killingPart.findLikeByMember(member)
             .ifPresent(likeOnKillingPart -> {
-                likeRepository.cancelLike(likeOnKillingPart.getId());
-                killingPartRepository.decreaseLikeCount(killingPart.getId());
+//                likeRepository.cancelLike(likeOnKillingPart.getId());
+//                killingPartRepository.decreaseLikeCount(killingPart.getId());
+                inMemorySongs.cancelLike(killingPart, likeOnKillingPart);
             });
     }
 }
