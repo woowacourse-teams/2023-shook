@@ -20,7 +20,9 @@ public class LocalInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
         throws Exception {
-        authContext.setAuthenticatedMember(1L);
+        final long memberId = Long.parseLong(request.getHeader("Authorization"));
+        authContext.setAuthenticatedMember(memberId);
+
         return true;
     }
 }
