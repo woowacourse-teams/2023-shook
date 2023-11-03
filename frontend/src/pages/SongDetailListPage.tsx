@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import swipeUpDown from '@/assets/icon/swipe-up-down.svg';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
@@ -36,23 +36,45 @@ const SongDetailListPage = () => {
     'next'
   );
 
+  const prevObserverRef = useRef<IntersectionObserver | null>(null);
+  const nextObserverRef = useRef<IntersectionObserver | null>(null);
+
+  const getExtraPrevSongDetailsOnObserve: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
+    if (dom === null) {
+      prevObserverRef.current?.disconnect();
+      return;
+    }
+
+    prevObserverRef.current = createObserver(() =>
+      fetchExtraPrevSongDetails(getFirstSongId(dom), genreParams as Genre)
+    );
+
+    prevObserverRef.current.observe(dom);
+  }, []);
+
+  const getExtraNextSongDetailsOnObserve: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
+    if (dom === null) {
+      nextObserverRef.current?.disconnect();
+      return;
+    }
+
+    nextObserverRef.current = createObserver(() =>
+      fetchExtraNextSongDetails(getLastSongId(dom), genreParams as Genre)
+    );
+
+    nextObserverRef.current.observe(dom);
+  }, []);
+
   const itemRef = useRef<HTMLDivElement>(null);
 
-  const prevTargetRef = useRef<HTMLDivElement | null>(null);
-  const nextTargetRef = useRef<HTMLDivElement | null>(null);
-
-  const getFirstSongId = () => {
-    const firstSongId = prevTargetRef.current?.nextElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
+  const getFirstSongId = (dom: HTMLDivElement) => {
+    const firstSongId = dom.nextElementSibling?.getAttribute('data-song-id') as string;
 
     return Number(firstSongId);
   };
 
-  const getLastSongId = () => {
-    const lastSongId = nextTargetRef.current?.previousElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
+  const getLastSongId = (dom: HTMLDivElement) => {
+    const lastSongId = dom.previousElementSibling?.getAttribute('data-song-id') as string;
 
     return Number(lastSongId);
   };
@@ -61,28 +83,6 @@ const SongDetailListPage = () => {
     setOnboarding(false);
     closeModal();
   };
-
-  useEffect(() => {
-    if (!prevTargetRef.current) return;
-
-    const prevObserver = createObserver(() =>
-      fetchExtraPrevSongDetails(getFirstSongId(), genreParams as Genre)
-    );
-    prevObserver.observe(prevTargetRef.current);
-
-    return () => prevObserver.disconnect();
-  }, [fetchExtraPrevSongDetails, songDetailEntries, genreParams]);
-
-  useEffect(() => {
-    if (!nextTargetRef.current) return;
-
-    const nextObserver = createObserver(() =>
-      fetchExtraNextSongDetails(getLastSongId(), genreParams as Genre)
-    );
-    nextObserver.observe(nextTargetRef.current);
-
-    return () => nextObserver.disconnect();
-  }, [fetchExtraNextSongDetails, songDetailEntries, genreParams]);
 
   useLayoutEffect(() => {
     itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
@@ -113,7 +113,7 @@ const SongDetailListPage = () => {
       )}
 
       <ItemContainer>
-        <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
+        <ObservingTrigger ref={getExtraPrevSongDetailsOnObserve} aria-hidden="true" />
 
         {extraPrevSongDetails?.map((extraPrevSongDetail) => (
           <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
@@ -131,7 +131,7 @@ const SongDetailListPage = () => {
           <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
         ))}
 
-        <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
+        <ObservingTrigger ref={getExtraNextSongDetailsOnObserve} aria-hidden="true" />
       </ItemContainer>
     </>
   );
