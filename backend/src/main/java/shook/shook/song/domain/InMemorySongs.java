@@ -142,25 +142,25 @@ public class InMemorySongs {
     }
 
     private boolean shouldMoveForward(final Song song, final int index) {
-        if (index == 0) {
+        if (index <= 0) {
             return false;
         }
 
         final Long prevSongId = sortedSongIds.get(index - 1);
         final Song prevSong = songs.get(prevSongId);
 
-        return index > 0 && shouldSwapWithPrevious(song, prevSong);
+        return shouldSwapWithPrevious(song, prevSong);
     }
 
     private boolean shouldMoveBackward(final Song song, final int index) {
-        if (index == sortedSongIds.size() - 1) {
+        if (index >= sortedSongIds.size() - 1) {
             return false;
         }
 
         final Long nextSongId = sortedSongIds.get(index + 1);
         final Song nextSong = songs.get(nextSongId);
 
-        return index < sortedSongIds.size() - 1 && shouldSwapWithNext(song, nextSong);
+        return shouldSwapWithNext(song, nextSong);
     }
 
     private void moveForward(final Song changedSong, final int songIndex) {
