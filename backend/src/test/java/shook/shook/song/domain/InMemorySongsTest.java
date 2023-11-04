@@ -36,7 +36,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @BeforeEach
     void setUp() {
         MEMBER = memberRepository.findById(1L).get();
-        inMemorySongs = new InMemorySongs(entityManager);
+        inMemorySongs = new InMemorySongs();
     }
 
     @DisplayName("InMemorySong 을 1.좋아요 순, 2. id 순으로 정렬된 노래로 초기화한다.")
@@ -48,7 +48,7 @@ class InMemorySongsTest extends UsingJpaTest {
         likeAllKillingPartsInSong(songs.get(1));
 
         // when
-        inMemorySongs.recreate(songs);
+        inMemorySongs.refreshSongs(songs);
         // 정렬 순서: 2L, 1L, 4L
 
         // then
@@ -71,7 +71,7 @@ class InMemorySongsTest extends UsingJpaTest {
     @Test
     void getSongById() {
         // given
-        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         final List<Song> allSongs = inMemorySongs.getSongs();
@@ -93,7 +93,7 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // second, first, fourth, third
+        inMemorySongs.refreshSongs(songs); // second, first, fourth, third
 
         // when
         final List<Song> prevLikedSongs = inMemorySongs.getPrevLikedSongs(thirdSong, 2);
@@ -117,7 +117,7 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // second, first, fourth, third
+        inMemorySongs.refreshSongs(songs); // second, first, fourth, third
 
         // when
         final List<Song> nextLikedSongs = inMemorySongs.getNextLikedSongs(secondSong, 2);
@@ -140,7 +140,7 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // first, fourth, third
+        inMemorySongs.refreshSongs(songs); // first, fourth, third
 
         // when
         final List<Song> prevLikedSongs = inMemorySongs.getPrevLikedSongByGenre(firstSong, Genre.DANCE, 2);
@@ -162,7 +162,7 @@ class InMemorySongsTest extends UsingJpaTest {
         final Song fourthSong = songs.get(3);
         likeAllKillingPartsInSong(firstSong);
         likeAllKillingPartsInSong(secondSong);
-        inMemorySongs.recreate(songs); // first, fourth, third
+        inMemorySongs.refreshSongs(songs); // first, fourth, third
 
         // when
         final List<Song> prevLikedSongs = inMemorySongs.getNextLikedSongByGenre(thirdSong, Genre.DANCE, 2);

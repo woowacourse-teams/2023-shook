@@ -71,7 +71,7 @@ class KillingPartLikeConcurrencyTest {
         // given
         final Member first = SAVED_MEMBER;
         final Member second = memberRepository.save(new Member("second@gmail.com", "second"));
-        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         ExecutorService executorService = Executors.newFixedThreadPool(2);

@@ -1,6 +1,5 @@
 package shook.shook.song.domain;
 
-import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,47 +21,35 @@ public class InMemorySongs {
     private static final Comparator<Song> COMPARATOR =
         Comparator.comparing(Song::getTotalLikeCount, Comparator.reverseOrder())
             .thenComparing(Song::getId, Comparator.reverseOrder());
-    private Map<Long, Song> songsSortedInLikeCountById = new HashMap<>();
-    private List<Long> sortedIds = new ArrayList<>();
 
-    private final EntityManager entityManager;
+    private Map<Long, Song> songs = new HashMap<>();
+    private List<Long> sortedSongIds = new ArrayList<>();
 
-    public void recreate(final List<Song> songs) {
-        songsSortedInLikeCountById = getSortedSong(songs);
-        sortedIds = new ArrayList<>(songsSortedInLikeCountById.keySet().stream()
-                                        .sorted(Comparator.comparing(songsSortedInLikeCountById::get, COMPARATOR))
-                                        .toList());
-
-        songsSortedInLikeCountById.values().stream()
-            .peek(entityManager::detach)
-            .flatMap(song -> song.getKillingParts().stream())
-            .peek(entityManager::detach)
-            .flatMap(killingPart -> killingPart.getKillingPartLikes().stream())
-            .forEach(entityManager::detach);
-    }
-
-    private static Map<Long, Song> getSortedSong(final List<Song> songs) {
-        return songs.stream()
+    public void refreshSongs(final List<Song> songs) {
+        this.songs = songs.stream()
             .collect(Collectors.toMap(Song::getId, song -> song, (prev, update) -> update, HashMap::new));
+        this.sortedSongIds = new ArrayList<>(this.songs.keySet().stream()
+                                                 .sorted(Comparator.comparing(this.songs::get, COMPARATOR))
+                                                 .toList());
     }
 
     public List<Song> getSongs() {
-        return sortedIds.stream()
-            .map(songsSortedInLikeCountById::get)
+        return sortedSongIds.stream()
+            .map(songs::get)
             .toList();
     }
 
     public List<Song> getSongs(final int limit) {
-        final List<Long> topSongIds = sortedIds.subList(0, Math.min(limit, sortedIds.size()));
+        final List<Long> topSongIds = sortedSongIds.subList(0, Math.min(limit, sortedSongIds.size()));
 
         return topSongIds.stream()
-            .map(songsSortedInLikeCountById::get)
+            .map(songs::get)
             .toList();
     }
 
     public List<Song> getSortedSongsByGenre(final Genre genre) {
-        return sortedIds.stream()
-            .map(songsSortedInLikeCountById::get)
+        return sortedSongIds.stream()
+            .map(songs::get)
             .filter(song -> song.getGenre() == genre)
             .toList();
     }
@@ -74,8 +61,8 @@ public class InMemorySongs {
     }
 
     public Song getSongById(final Long id) {
-        if (songsSortedInLikeCountById.containsKey(id)) {
-            return songsSortedInLikeCountById.get(id);
+        if (songs.containsKey(id)) {
+            return songs.get(id);
         }
         throw new SongException.SongNotExistException(Map.of("song id", String.valueOf(id)));
     }
@@ -100,28 +87,28 @@ public class InMemorySongs {
     }
 
     public List<Song> getPrevLikedSongs(final Song currentSong, final int prevSongCount) {
-        final int currentSongIndex = sortedIds.indexOf(currentSong.getId());
+        final int currentSongIndex = sortedSongIds.indexOf(currentSong.getId());
 
-        return sortedIds.subList(Math.max(0, currentSongIndex - prevSongCount), currentSongIndex).stream()
-            .map(songsSortedInLikeCountById::get)
+        return sortedSongIds.subList(Math.max(0, currentSongIndex - prevSongCount), currentSongIndex).stream()
+            .map(songs::get)
             .toList();
     }
 
     public List<Song> getNextLikedSongs(final Song currentSong, final int nextSongCount) {
-        final int currentSongIndex = sortedIds.indexOf(currentSong.getId());
+        final int currentSongIndex = sortedSongIds.indexOf(currentSong.getId());
 
-        if (currentSongIndex == sortedIds.size() - 1) {
+        if (currentSongIndex == sortedSongIds.size() - 1) {
             return Collections.emptyList();
         }
 
-        return sortedIds.subList(Math.min(currentSongIndex + 1, sortedIds.size() - 1),
-                                 Math.min(sortedIds.size(), currentSongIndex + nextSongCount + 1)).stream()
-            .map(songsSortedInLikeCountById::get)
+        return sortedSongIds.subList(Math.min(currentSongIndex + 1, sortedSongIds.size() - 1),
+                                     Math.min(sortedSongIds.size(), currentSongIndex + nextSongCount + 1)).stream()
+            .map(songs::get)
             .toList();
     }
 
     public void like(final KillingPart killingPart, final KillingPartLike likeOnKillingPart) {
-        final Song song = songsSortedInLikeCountById.get(killingPart.getSong().getId());
+        final Song song = songs.get(killingPart.getSong().getId());
         final KillingPart killingPartById = findKillingPart(killingPart, song);
         final boolean updated = killingPartById.like(likeOnKillingPart);
         if (updated) {
@@ -129,8 +116,17 @@ public class InMemorySongs {
         }
     }
 
+    private static KillingPart findKillingPart(final KillingPart killingPart, final Song song) {
+        return song.getKillingParts().stream()
+            .filter(kp -> kp.equals(killingPart))
+            .findAny()
+            .orElseThrow(
+                () -> new KillingPartException.PartNotExistException(
+                    Map.of("killing part id", String.valueOf(killingPart.getId()))));
+    }
+
     public void reorder(final Song updatedSong) {
-        int currentSongIndex = sortedIds.indexOf(updatedSong.getId());
+        int currentSongIndex = sortedSongIds.indexOf(updatedSong.getId());
 
         if (currentSongIndex == -1) {
             return;
@@ -150,29 +146,29 @@ public class InMemorySongs {
             return false;
         }
 
-        final Long prevSongId = sortedIds.get(index - 1);
-        final Song prevSong = songsSortedInLikeCountById.get(prevSongId);
+        final Long prevSongId = sortedSongIds.get(index - 1);
+        final Song prevSong = songs.get(prevSongId);
 
         return index > 0 && shouldSwapWithPrevious(song, prevSong);
     }
 
     private boolean shouldMoveBackward(final Song song, final int index) {
-        if (index == sortedIds.size() - 1) {
+        if (index == sortedSongIds.size() - 1) {
             return false;
         }
 
-        final Long nextSongId = sortedIds.get(index + 1);
-        final Song nextSong = songsSortedInLikeCountById.get(nextSongId);
+        final Long nextSongId = sortedSongIds.get(index + 1);
+        final Song nextSong = songs.get(nextSongId);
 
-        return index < sortedIds.size() - 1 && shouldSwapWithNext(song, nextSong);
+        return index < sortedSongIds.size() - 1 && shouldSwapWithNext(song, nextSong);
     }
 
     private void moveLeft(final Song changedSong, final int songIndex) {
         int currentSongIndex = songIndex;
 
-        while (currentSongIndex > 0 && currentSongIndex < sortedIds.size() &&
+        while (currentSongIndex > 0 && currentSongIndex < sortedSongIds.size() &&
             shouldSwapWithPrevious(changedSong,
-                                   songsSortedInLikeCountById.get(sortedIds.get(currentSongIndex - 1)))) {
+                                   songs.get(sortedSongIds.get(currentSongIndex - 1)))) {
             swap(currentSongIndex, currentSongIndex - 1);
             currentSongIndex--;
         }
@@ -187,16 +183,16 @@ public class InMemorySongs {
     }
 
     private void swap(final int currentIndex, final int otherIndex) {
-        final Long prevIndex = sortedIds.get(currentIndex);
-        sortedIds.set(currentIndex, sortedIds.get(otherIndex));
-        sortedIds.set(otherIndex, prevIndex);
+        final Long prevIndex = sortedSongIds.get(currentIndex);
+        sortedSongIds.set(currentIndex, sortedSongIds.get(otherIndex));
+        sortedSongIds.set(otherIndex, prevIndex);
     }
 
     private void moveRight(final Song changedSong, final int songIndex) {
         int currentSongIndex = songIndex;
 
-        while (currentSongIndex < sortedIds.size() - 1 && currentSongIndex > 0
-            && shouldSwapWithNext(changedSong, songsSortedInLikeCountById.get(sortedIds.get(currentSongIndex - 1)))) {
+        while (currentSongIndex < sortedSongIds.size() - 1 && currentSongIndex > 0
+            && shouldSwapWithNext(changedSong, songs.get(sortedSongIds.get(currentSongIndex - 1)))) {
             swap(currentSongIndex, currentSongIndex + 1);
             currentSongIndex++;
         }
@@ -210,17 +206,8 @@ public class InMemorySongs {
         return hasSmallerTotalLikeCountThanNextSong || hasSameTotalLikeCountAndSmallerIdThanNextSong;
     }
 
-    private static KillingPart findKillingPart(final KillingPart killingPart, final Song song) {
-        return song.getKillingParts().stream()
-            .filter(kp -> kp.equals(killingPart))
-            .findAny()
-            .orElseThrow(
-                () -> new KillingPartException.PartNotExistException(
-                    Map.of("killing part id", String.valueOf(killingPart.getId()))));
-    }
-
     public void unlike(final KillingPart killingPart, final KillingPartLike unlikeOnKillingPart) {
-        final Song song = songsSortedInLikeCountById.get(killingPart.getSong().getId());
+        final Song song = songs.get(killingPart.getSong().getId());
         final KillingPart killingPartById = findKillingPart(killingPart, song);
         final boolean updated = killingPartById.unlike(unlikeOnKillingPart);
         if (updated) {

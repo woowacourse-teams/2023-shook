@@ -62,7 +62,7 @@ class SongServiceTest extends UsingJpaTest {
 
     @BeforeEach
     public void setUp() {
-        inMemorySongs = new InMemorySongs(entityManager);
+        inMemorySongs = new InMemorySongs();
         songService = new SongService(
             songRepository,
             killingPartRepository,
@@ -118,7 +118,7 @@ class SongServiceTest extends UsingJpaTest {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
         final Song song = registerNewSong("title");
-        inMemorySongs.recreate(List.of(song));
+        inMemorySongs.refreshSongs(List.of(song));
         addLikeToEachKillingParts(song, member);
         addMemberPartToSong(10, 5, song, member);
 
@@ -163,7 +163,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_not_login_member() {
         //given
         final Song song = registerNewSong("title");
-        inMemorySongs.recreate(List.of(song));
+        inMemorySongs.refreshSongs(List.of(song));
 
         //when인
         saveAndClearEntityManager();
@@ -201,7 +201,7 @@ class SongServiceTest extends UsingJpaTest {
     void findById_notExist() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
-        inMemorySongs.recreate(List.of());
+        inMemorySongs.refreshSongs(List.of());
 
         //when
         //then
@@ -229,7 +229,7 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(thirdSong, member2);
         addLikeToEachKillingParts(fourthSong, member1);
 
-        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
         saveAndClearEntityManager();
 
         // when
@@ -314,7 +314,7 @@ class SongServiceTest extends UsingJpaTest {
             addMemberPartToSong(10, 5, fourthSong, member);
 
             saveAndClearEntityManager();
-            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final SongSwipeResponse result =
@@ -397,7 +397,7 @@ class SongServiceTest extends UsingJpaTest {
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
             saveAndClearEntityManager();
-            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> beforeResponses =
@@ -440,7 +440,7 @@ class SongServiceTest extends UsingJpaTest {
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
             saveAndClearEntityManager();
-            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> afterResponses =
@@ -483,7 +483,7 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(song3, member);
 
             // 정렬 순서: 2L, 1L, 3L, 5L, 4L
-            inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
             saveAndClearEntityManager();
 
             // when
@@ -508,7 +508,7 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(song, member);
         addMemberPartToSong(10, 5, song, member);
         saveAndClearEntityManager();
-        inMemorySongs.recreate(songRepository.findAllWithKillingPartsAndLikes());
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         final SongResponse response = songService.findSongById(song.getId(),
