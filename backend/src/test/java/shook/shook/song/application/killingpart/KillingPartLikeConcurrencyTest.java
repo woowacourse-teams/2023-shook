@@ -102,7 +102,7 @@ class KillingPartLikeConcurrencyTest {
         final KillingPart killingPart = inMemorySongs.getSongById(SAVED_SONG.getId()).getKillingParts().stream()
             .filter(kp -> kp.getId().equals(SAVED_KILLING_PART.getId()))
             .findAny().get();
-        assertThat(killingPart.getAtomicLikeCount().get()).isEqualTo(2);
+        assertThat(killingPart.getLikeCount()).isEqualTo(2);
     }
 
     @Disabled("UPDATE + 1 사용 시 한 사용자의 동시에 도착하는 좋아요 요청 동시성 문제 발생")

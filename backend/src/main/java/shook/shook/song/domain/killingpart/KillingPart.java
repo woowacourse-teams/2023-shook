@@ -1,6 +1,7 @@
 package shook.shook.song.domain.killingpart;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -62,10 +62,9 @@ public class KillingPart {
     @Embedded
     private final KillingPartLikes killingPartLikes = new KillingPartLikes();
 
+    @Convert(converter = LikeCountConverter.class)
     @Column(nullable = false)
-    private int likeCount = 0;
-
-    private transient AtomicInteger atomicLikeCount;
+    private AtomicInteger likeCount;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
@@ -86,8 +85,7 @@ public class KillingPart {
         this.startSecond = startSecond;
         this.length = new PartLength(length);
         this.song = song;
-        this.likeCount = likeCount;
-        this.atomicLikeCount = new AtomicInteger(likeCount);
+        this.likeCount = new AtomicInteger(likeCount);
     }
 
     private KillingPart(final int startSecond, final int length) {
@@ -107,11 +105,6 @@ public class KillingPart {
         return new KillingPart(startSecond, length);
     }
 
-    @PostLoad
-    private void postLoad() {
-        this.atomicLikeCount = new AtomicInteger(likeCount);
-    }
-
     public void addComment(final KillingPartComment comment) {
         if (comment.isBelongToOtherKillingPart(this)) {
             throw new KillingPartCommentException.CommentForOtherPartException(
@@ -128,8 +121,7 @@ public class KillingPart {
         validateLikeUpdate(likeToAdd);
         final boolean isLikeCreated = killingPartLikes.addLike(likeToAdd);
         if (isLikeCreated) {
-            this.likeCount++;
-            atomicLikeCount.incrementAndGet();
+            likeCount.incrementAndGet();
             return true;
         }
         return false;
@@ -153,8 +145,7 @@ public class KillingPart {
         validateLikeUpdate(likeToDelete);
         final boolean isLikeDeleted = killingPartLikes.deleteLike(likeToDelete);
         if (isLikeDeleted) {
-            this.likeCount--;
-            atomicLikeCount.decrementAndGet();
+            likeCount.decrementAndGet();
             return true;
         }
         return false;
@@ -196,7 +187,7 @@ public class KillingPart {
     }
 
     public int getLikeCount() {
-        return likeCount;
+        return likeCount.get();
     }
 
     public void setSong(final Song song) {
