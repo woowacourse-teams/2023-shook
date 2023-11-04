@@ -133,11 +133,11 @@ public class InMemorySongs {
         }
 
         if (shouldMoveForward(updatedSong, currentSongIndex)) {
-            moveLeft(updatedSong, currentSongIndex);
+            moveForward(updatedSong, currentSongIndex);
         }
 
         if (shouldMoveBackward(updatedSong, currentSongIndex)) {
-            moveRight(updatedSong, currentSongIndex);
+            moveBackward(updatedSong, currentSongIndex);
         }
     }
 
@@ -163,15 +163,19 @@ public class InMemorySongs {
         return index < sortedSongIds.size() - 1 && shouldSwapWithNext(song, nextSong);
     }
 
-    private void moveLeft(final Song changedSong, final int songIndex) {
+    private void moveForward(final Song changedSong, final int songIndex) {
         int currentSongIndex = songIndex;
 
-        while (currentSongIndex > 0 && currentSongIndex < sortedSongIds.size() &&
-            shouldSwapWithPrevious(changedSong,
-                                   songs.get(sortedSongIds.get(currentSongIndex - 1)))) {
+        while (canSwapWithPreviousSong(changedSong, currentSongIndex)) {
             swap(currentSongIndex, currentSongIndex - 1);
             currentSongIndex--;
         }
+    }
+
+    private boolean canSwapWithPreviousSong(final Song changedSong, final int currentSongIndex) {
+        return currentSongIndex > 0 && currentSongIndex < sortedSongIds.size() &&
+            shouldSwapWithPrevious(changedSong,
+                                   songs.get(sortedSongIds.get(currentSongIndex - 1)));
     }
 
     private boolean shouldSwapWithPrevious(final Song song, final Song prevSong) {
@@ -188,14 +192,18 @@ public class InMemorySongs {
         sortedSongIds.set(otherIndex, prevIndex);
     }
 
-    private void moveRight(final Song changedSong, final int songIndex) {
+    private void moveBackward(final Song changedSong, final int songIndex) {
         int currentSongIndex = songIndex;
 
-        while (currentSongIndex < sortedSongIds.size() - 1 && currentSongIndex > 0
-            && shouldSwapWithNext(changedSong, songs.get(sortedSongIds.get(currentSongIndex - 1)))) {
+        while (canSwapWithNextSong(changedSong, currentSongIndex)) {
             swap(currentSongIndex, currentSongIndex + 1);
             currentSongIndex++;
         }
+    }
+
+    private boolean canSwapWithNextSong(final Song changedSong, final int currentSongIndex) {
+        return currentSongIndex < sortedSongIds.size() - 1 && currentSongIndex > 0
+            && shouldSwapWithNext(changedSong, songs.get(sortedSongIds.get(currentSongIndex - 1)));
     }
 
     private boolean shouldSwapWithNext(final Song song, final Song nextSong) {
