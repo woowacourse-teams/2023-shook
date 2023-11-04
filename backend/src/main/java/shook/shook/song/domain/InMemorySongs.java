@@ -125,7 +125,7 @@ public class InMemorySongs {
                     Map.of("killing part id", String.valueOf(killingPart.getId()))));
     }
 
-    public void reorder(final Song updatedSong) {
+    private void reorder(final Song updatedSong) {
         int currentSongIndex = sortedSongIds.indexOf(updatedSong.getId());
 
         if (currentSongIndex == -1) {
