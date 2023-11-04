@@ -47,7 +47,7 @@ public class InMemorySongs {
             .toList();
     }
 
-    public List<Song> getSortedSongsByGenre(final Genre genre) {
+    private List<Song> getSortedSongsByGenre(final Genre genre) {
         return sortedSongIds.stream()
             .map(songs::get)
             .filter(song -> song.getGenre() == genre)
