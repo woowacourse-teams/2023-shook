@@ -1,95 +1,111 @@
-import { createContext, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
 import { Flex } from 'shook-layout';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Spacing from '../Spacing';
 import type { ReactNode } from 'react';
 
-const ConfirmContext = createContext<null | {
-  getConfirmation: (modalState: ModalState) => Promise<boolean>;
-}>(null);
-
-const Backdrop = styled.div``;
-const ContainerFlex = styled(Flex)``;
-const ButtonFlex = styled(Flex)``;
-const Title = styled.header``;
-const Content = styled.div``;
-const CancelButton = styled.button``;
-const ConfirmButton = styled.button``;
-
-interface ModalState {
+interface ConfirmModalProps {
   title: string;
   content: ReactNode;
-  cancelName?: string;
-  confirmName?: string;
+  cancelName: string;
+  confirmName: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onKeyDown: (event: KeyboardEvent) => void;
 }
 
-type Resolver<T> = (value: T) => void;
+const ConfirmModal = ({
+  title,
+  content,
+  cancelName,
+  confirmName,
+  onCancel,
+  onConfirm,
+  onKeyDown,
+}: ConfirmModalProps) => {
+  useEffect(() => {
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
 
-const createPromise = <T,>() => {
-  let resolver: Resolver<T> | null = null;
-  const promise = new Promise<T>((resolve) => {
-    resolver = resolve;
-  });
-
-  return { promise, resolver };
-};
-
-const ConfirmProvider = (children: ReactNode) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [resolve, setResolve] = useState<((value: boolean) => void) | null>(null);
-  const [modalState, setModalState] = useState<ModalState>({
-    title: '',
-    content: '',
-    cancelName: '닫기',
-    confirmName: '확인',
-  });
-  const { title, content, cancelName, confirmName } = modalState;
-
-  const getConfirmation = ({
-    cancelName = '닫기',
-    confirmName = '확인',
-    ...restState
-  }: ModalState): Promise<boolean> => {
-    const { promise, resolver } = createPromise<boolean>();
-    setResolve(resolver);
-    setModalState({
-      cancelName,
-      confirmName,
-      ...restState,
-    });
-    setIsOpen(true);
-
-    return promise;
-  };
-
-  const onClick = (status: boolean) => {
-    setIsOpen(false);
-
-    if (resolve) {
-      resolve(status);
-    }
-  };
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   return (
-    <ConfirmContext.Provider value={{ getConfirmation }}>
-      {children}
-      {isOpen &&
-        createPortal(
-          <>
-            <Backdrop />
-            <ContainerFlex>
-              <Title>{title}</Title>
-              <Content>{content}</Content>
-              <ButtonFlex>
-                <CancelButton onClick={() => onClick(false)}>{cancelName}</CancelButton>
-                <ConfirmButton onClick={() => onClick(true)}>{confirmName}</ConfirmButton>
-              </ButtonFlex>
-            </ContainerFlex>
-          </>,
-          document.body
-        )}
-    </ConfirmContext.Provider>
+    <>
+      <Backdrop role="dialog" aria-modal="true" />
+      <Container>
+        <Title>{title}</Title>
+        <Spacing direction="vertical" size={10} />
+        <Content>{content}</Content>
+        <Spacing direction="vertical" size={10} />
+        <ButtonFlex $gap={16}>
+          <CancelButton onClick={onCancel}>{cancelName}</CancelButton>
+          <ConfirmButton onClick={onConfirm}>{confirmName}</ConfirmButton>
+        </ButtonFlex>
+      </Container>
+    </>
   );
 };
 
-export default ConfirmProvider;
+export default ConfirmModal;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+const Container = styled.section`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  min-width: 300px;
+  margin: 0 auto;
+  padding: 24px;
+
+  color: #ffffff;
+
+  background-color: #17171c;
+  border: none;
+  border-radius: 16px;
+`;
+const ButtonFlex = styled(Flex)`
+  width: 100%;
+`;
+const Title = styled.header`
+  text-align: left;
+  font-size: 18px;
+`;
+const Content = styled.div``;
+
+const buttonStyle = css`
+  flex: 1;
+  height: 36px;
+  color: ${({ theme: { color } }) => color.white};
+  width: 100%;
+
+  border-radius: 10px;
+`;
+
+const CancelButton = styled.button`
+  background-color: ${({ theme: { color } }) => color.secondary};
+  ${buttonStyle}
+`;
+const ConfirmButton = styled.button`
+  background-color: ${({ theme: { color } }) => color.primary};
+  ${buttonStyle}
+`;
