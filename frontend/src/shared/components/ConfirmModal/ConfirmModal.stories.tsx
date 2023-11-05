@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import ConfirmProvider, { useConfirm } from './ConfirmModalProvider';
+import ConfirmProvider from './ConfirmModalProvider';
+import { useConfirm } from './hooks/useConfirm';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof ConfirmProvider> = {
@@ -23,30 +24,50 @@ export const Example: Story = {
     const RegistrationModal = () => {
       const { confirm } = useConfirm();
 
-      const clickModalBtn = async () => {
+      const clickHiByeBtn = async () => {
         const isConfirmed = await confirm({
-          title: '제목',
+          title: '하이바이 모달',
           content: (
             <>
               <p>도밥은 정말 도밥입니까?</p>
               <p>코난은 정말 코난입니까?</p>
             </>
           ),
+          cancelName: '바이',
+          confirmName: '하이',
         });
 
-        console.log('isConfirmed', isConfirmed);
-
         if (isConfirmed) {
-          console.log('confirmed');
+          alert('confirmed');
           return;
         }
 
-        console.log('denied');
+        alert('denied');
+      };
+
+      const clickOpenCloseBtn = async () => {
+        const isConfirmed = await confirm({
+          title: '오쁜클로즈 모달',
+          content: (
+            <>
+              <p>코난은 정말 코난입니까?</p>
+              <p>도밥은 정말 도밥입니까?</p>
+            </>
+          ),
+        });
+
+        if (isConfirmed) {
+          alert('confirmed');
+          return;
+        }
+
+        alert('denied');
       };
 
       return (
         <Body>
-          <Button onClick={clickModalBtn}>모달 열기</Button>
+          <Button onClick={clickHiByeBtn}>하이바이 모달열기</Button>
+          <Button onClick={clickOpenCloseBtn}>닫기확인 모달열기</Button>
         </Body>
       );
     };
