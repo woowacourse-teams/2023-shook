@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { Flex } from 'shook-layout';
 import styled, { css } from 'styled-components';
 import Spacing from '../Spacing';
@@ -20,7 +21,7 @@ const ConfirmModal = ({
   onCancel,
   onConfirm,
 }: ConfirmModalProps) => {
-  return (
+  return createPortal(
     <>
       <Backdrop role="dialog" aria-modal="true" />
       <Container>
@@ -33,7 +34,8 @@ const ConfirmModal = ({
           <ConfirmButton onClick={onConfirm}>{confirmName}</ConfirmButton>
         </ButtonFlex>
       </Container>
-    </>
+    </>,
+    document.body
   );
 };
 
