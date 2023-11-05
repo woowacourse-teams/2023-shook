@@ -12,7 +12,7 @@ const SongDetailListPage = () => {
   const { isOpen, closeModal } = useModal(true);
   const [onboarding, setOnboarding] = useLocalStorage<boolean>('onboarding', true);
 
-  const { songDetailEntries, currentSongDetailItemRef } = useSongDetailEntries();
+  const { songDetailEntries, scrollIntoCurrentSong } = useSongDetailEntries();
 
   const {
     extraPrevSongDetails,
@@ -60,7 +60,7 @@ const SongDetailListPage = () => {
           <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
         ))}
 
-        <SongDetailItem ref={currentSongDetailItemRef} key={currentSong.id} {...currentSong} />
+        <SongDetailItem ref={scrollIntoCurrentSong} key={currentSong.id} {...currentSong} />
 
         {nextSongs.map((nextSongDetail) => (
           <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />

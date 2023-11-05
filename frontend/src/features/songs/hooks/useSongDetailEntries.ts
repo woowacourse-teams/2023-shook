@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import useFetch from '@/shared/hooks/useFetch';
 import useValidParams from '@/shared/hooks/useValidParams';
 import { getSongDetailEntries } from '../remotes/songs';
@@ -6,17 +6,18 @@ import type { Genre } from '../types/Song.type';
 
 const useSongDetailEntries = () => {
   const { id: songIdParams, genre: genreParams } = useValidParams();
-  const currentSongDetailItemRef = useRef<HTMLDivElement>(null);
 
   const { data: songDetailEntries } = useFetch(() =>
     getSongDetailEntries(Number(songIdParams), genreParams as Genre)
   );
 
-  useLayoutEffect(() => {
-    currentSongDetailItemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
-  }, [songDetailEntries]);
+  const scrollIntoCurrentSong: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
+    if (dom === null) return;
 
-  return { songDetailEntries, currentSongDetailItemRef };
+    dom.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }, []);
+
+  return { songDetailEntries, scrollIntoCurrentSong };
 };
 
 export default useSongDetailEntries;
