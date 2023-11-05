@@ -21,7 +21,7 @@ type Story = StoryObj<typeof ConfirmProvider>;
 
 export const Example: Story = {
   render: () => {
-    const RegistrationModal = () => {
+    const Modal = () => {
       const { confirm } = useConfirm();
 
       const clickHiByeBtn = async () => {
@@ -33,8 +33,8 @@ export const Example: Story = {
               <p>코난은 정말 코난입니까?</p>
             </>
           ),
-          cancelName: '바이',
-          confirmName: '하이',
+          denial: '바이',
+          confirmation: '하이',
         });
 
         if (isConfirmed) {
@@ -45,6 +45,7 @@ export const Example: Story = {
         alert('denied');
       };
 
+      // denial과 confirmation 기본값은 '닫기'와 '확인'입니다.
       const clickOpenCloseBtn = async () => {
         const isConfirmed = await confirm({
           title: '오쁜클로즈 모달',
@@ -72,7 +73,7 @@ export const Example: Story = {
       );
     };
 
-    return <RegistrationModal />;
+    return <Modal />;
   },
 };
 

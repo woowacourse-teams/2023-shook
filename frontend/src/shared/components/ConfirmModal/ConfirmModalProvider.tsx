@@ -5,14 +5,14 @@ import ConfirmModal from './ConfirmModal';
 import type { ReactNode } from 'react';
 
 export const ConfirmContext = createContext<null | {
-  confirm: (modalState: ModalState) => Promise<boolean>;
+  confirm: (modalState: ModalContents) => Promise<boolean>;
 }>(null);
 
-interface ModalState {
+interface ModalContents {
   title: string;
   content: ReactNode;
-  cancelName?: string;
-  confirmName?: string;
+  denial?: string;
+  confirmation?: string;
 }
 
 const ConfirmProvider = ({ children }: { children: ReactNode }) => {
@@ -20,17 +20,18 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   const resolverRef = useRef<{
     resolve: (value: boolean | PromiseLike<boolean>) => void;
   } | null>(null);
-  const [modalState, setModalState] = useState<ModalState>({
+  const [modalContents, setModalContents] = useState<ModalContents>({
     title: '',
     content: '',
-    cancelName: '닫기',
-    confirmName: '확인',
+    denial: '닫기',
+    confirmation: '확인',
   });
-  const { title, content, cancelName, confirmName } = modalState;
+  const { title, content, denial, confirmation } = modalContents;
 
-  const confirm = (modal: ModalState) => {
+  // ContextAPI를 통해 confirm 함수만 제공합니다.
+  const confirm = (contents: ModalContents) => {
     openModal();
-    setModalState(modal);
+    setModalContents(contents);
 
     const promise = new Promise<boolean>((resolve) => {
       resolverRef.current = { resolve };
@@ -53,7 +54,7 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const onCancel = useCallback(() => {
+  const onDeny = useCallback(() => {
     resolveConfirmation(false);
     closeModal();
   }, []);
@@ -97,9 +98,9 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
           <ConfirmModal
             title={title}
             content={content}
-            cancelName={cancelName ?? '닫기'}
-            confirmName={confirmName ?? '확인'}
-            onCancel={onCancel}
+            denial={denial ?? '닫기'}
+            confirmation={confirmation ?? '확인'}
+            onDeny={onDeny}
             onConfirm={onConfirm}
           />,
           document.body

@@ -7,18 +7,18 @@ import type { ReactNode } from 'react';
 interface ConfirmModalProps {
   title: string;
   content: ReactNode;
-  cancelName: string;
-  confirmName: string;
-  onCancel: () => void;
+  denial: string;
+  confirmation: string;
+  onDeny: () => void;
   onConfirm: () => void;
 }
 
 const ConfirmModal = ({
   title,
   content,
-  cancelName,
-  confirmName,
-  onCancel,
+  denial,
+  confirmation,
+  onDeny,
   onConfirm,
 }: ConfirmModalProps) => {
   return createPortal(
@@ -30,8 +30,8 @@ const ConfirmModal = ({
         <Content>{content}</Content>
         <Spacing direction="vertical" size={10} />
         <ButtonFlex $gap={16}>
-          <CancelButton onClick={onCancel}>{cancelName}</CancelButton>
-          <ConfirmButton onClick={onConfirm}>{confirmName}</ConfirmButton>
+          <CancelButton onClick={onDeny}>{denial}</CancelButton>
+          <ConfirmButton onClick={onConfirm}>{confirmation}</ConfirmButton>
         </ButtonFlex>
       </Container>
     </>,
