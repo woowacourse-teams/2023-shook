@@ -22,29 +22,29 @@ const useExtraSongDetail = () => {
   const nextObserverRef = useRef<IntersectionObserver | null>(null);
 
   const getExtraPrevSongDetailsOnObserve: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
-    if (dom === null) {
-      prevObserverRef.current?.disconnect();
+    if (dom !== null) {
+      prevObserverRef.current = createObserver(() =>
+        fetchExtraPrevSongDetails(getFirstSongId(dom), genreParams as Genre)
+      );
+
+      prevObserverRef.current.observe(dom);
       return;
     }
 
-    prevObserverRef.current = createObserver(() =>
-      fetchExtraPrevSongDetails(getFirstSongId(dom), genreParams as Genre)
-    );
-
-    prevObserverRef.current.observe(dom);
+    prevObserverRef.current?.disconnect();
   }, []);
 
   const getExtraNextSongDetailsOnObserve: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
-    if (dom === null) {
-      nextObserverRef.current?.disconnect();
+    if (dom !== null) {
+      nextObserverRef.current = createObserver(() =>
+        fetchExtraNextSongDetails(getLastSongId(dom), genreParams as Genre)
+      );
+
+      nextObserverRef.current.observe(dom);
       return;
     }
 
-    nextObserverRef.current = createObserver(() =>
-      fetchExtraNextSongDetails(getLastSongId(dom), genreParams as Genre)
-    );
-
-    nextObserverRef.current.observe(dom);
+    nextObserverRef.current?.disconnect();
   }, []);
 
   const getFirstSongId = (dom: HTMLDivElement) => {
