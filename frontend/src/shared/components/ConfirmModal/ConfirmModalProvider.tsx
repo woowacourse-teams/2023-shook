@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import ConfirmModal from './ConfirmModal';
 import type { ReactNode } from 'react';
@@ -17,7 +17,7 @@ interface ModalState {
 
 const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [resolver, setResolver] = useState<{
+  const resolverRef = useRef<{
     resolve: (value: boolean | PromiseLike<boolean>) => void;
   } | null>(null);
   const [modalState, setModalState] = useState<ModalState>({
@@ -28,12 +28,12 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   });
   const { title, content, cancelName, confirmName } = modalState;
 
-  const confirm = async (modal: ModalState) => {
+  const confirm = (modal: ModalState) => {
     openModal();
     setModalState(modal);
 
-    const promise = await new Promise<boolean>((resolve) => {
-      setResolver({ resolve });
+    const promise = new Promise<boolean>((resolve) => {
+      resolverRef.current = { resolve };
     });
 
     return promise;
@@ -48,9 +48,9 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resolveConfirmation = (status: boolean) => {
-    if (!resolver) return;
-
-    resolver.resolve(status);
+    if (resolverRef?.current) {
+      resolverRef.current.resolve(status);
+    }
   };
 
   const onCancel = useCallback(() => {
