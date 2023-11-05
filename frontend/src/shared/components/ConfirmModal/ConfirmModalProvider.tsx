@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ConfirmModal from './ConfirmModal';
 import type { ReactNode } from 'react';
 
-const ConfirmContext = createContext<null | {
+export const ConfirmContext = createContext<null | {
   confirm: (modalState: ModalState) => Promise<boolean>;
 }>(null);
 
@@ -69,14 +69,24 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
       event.preventDefault();
       resolveConfirmation(false);
       closeModal();
-      return;
     }
 
     if (key === 'Escape') {
       resolveConfirmation(false);
       closeModal();
-      return;
     }
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', onKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = 'auto';
+    };
   }, []);
 
   return (
@@ -91,7 +101,6 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
             confirmName={confirmName ?? '확인'}
             onCancel={onCancel}
             onConfirm={onConfirm}
-            onKeyDown={onKeyDown}
           />,
           document.body
         )}
@@ -100,12 +109,3 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default ConfirmProvider;
-
-export const useConfirm = () => {
-  const contextValue = useContext(ConfirmContext);
-  if (!contextValue) {
-    throw new Error('ConfirmContext Provider 내부에서 사용 가능합니다.');
-  }
-
-  return contextValue;
-};

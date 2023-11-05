@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Flex } from 'shook-layout';
 import styled, { css } from 'styled-components';
 import Spacing from '../Spacing';
@@ -11,7 +10,6 @@ interface ConfirmModalProps {
   confirmName: string;
   onCancel: () => void;
   onConfirm: () => void;
-  onKeyDown: (event: KeyboardEvent) => void;
 }
 
 const ConfirmModal = ({
@@ -21,18 +19,7 @@ const ConfirmModal = ({
   confirmName,
   onCancel,
   onConfirm,
-  onKeyDown,
 }: ConfirmModalProps) => {
-  useEffect(() => {
-    document.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-
   return (
     <>
       <Backdrop role="dialog" aria-modal="true" />
