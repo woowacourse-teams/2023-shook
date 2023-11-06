@@ -12,9 +12,7 @@ const useSongDetailEntries = () => {
   );
 
   const scrollIntoCurrentSong: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
-    if (dom === null) return;
-
-    dom.scrollIntoView({ behavior: 'instant', block: 'start' });
+    if (dom !== null) dom.scrollIntoView({ behavior: 'instant', block: 'start' });
   }, []);
 
   return { songDetailEntries, scrollIntoCurrentSong };
