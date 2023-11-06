@@ -75,7 +75,6 @@ const RegisterButton = styled.button`
 
   @media (min-width: ${({ theme }) => theme.breakPoints.md}) {
     padding: 11px 15px;
-
     font-size: 18px;
   }
 `;

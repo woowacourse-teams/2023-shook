@@ -72,20 +72,25 @@ const Container = styled.section`
   border: none;
   border-radius: 16px;
 `;
+
 const ButtonFlex = styled(Flex)`
   width: 100%;
 `;
+
 const Title = styled.header`
-  text-align: left;
   font-size: 18px;
+  text-align: left;
 `;
+
 const Content = styled.div``;
 
 const buttonStyle = css`
   flex: 1;
-  height: 36px;
-  color: ${({ theme: { color } }) => color.white};
+
   width: 100%;
+  height: 36px;
+
+  color: ${({ theme: { color } }) => color.white};
 
   border-radius: 10px;
 `;
@@ -94,6 +99,7 @@ const CancelButton = styled.button`
   background-color: ${({ theme: { color } }) => color.secondary};
   ${buttonStyle}
 `;
+
 const ConfirmButton = styled.button`
   background-color: ${({ theme: { color } }) => color.primary};
   ${buttonStyle}

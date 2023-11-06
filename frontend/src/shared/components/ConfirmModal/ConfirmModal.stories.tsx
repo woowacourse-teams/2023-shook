@@ -82,8 +82,8 @@ const Body = styled.div`
 `;
 
 const Button = styled.button`
+  padding: 4px 11px;
   color: white;
   border: 2px solid white;
-  padding: 4px 11px;
   border-radius: 4px;
 `;
