@@ -88,7 +88,7 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <ConfirmContext.Provider value={{ confirm }}>
