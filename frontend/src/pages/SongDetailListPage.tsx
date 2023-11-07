@@ -1,96 +1,34 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import swipeUpDown from '@/assets/icon/swipe-up-down.svg';
 import SongDetailItem from '@/features/songs/components/SongDetailItem';
-import {
-  getExtraNextSongDetails,
-  getExtraPrevSongDetails,
-  getSongDetailEntries,
-} from '@/features/songs/remotes/songs';
+import useExtraSongDetail from '@/features/songs/hooks/useExtraSongDetail';
+import useSongDetailEntries from '@/features/songs/hooks/useSongDetailEntries';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
-import useExtraFetch from '@/shared/hooks/useExtraFetch';
-import useFetch from '@/shared/hooks/useFetch';
 import useLocalStorage from '@/shared/hooks/useLocalStorage';
-import useValidParams from '@/shared/hooks/useValidParams';
-import createObserver from '@/shared/utils/createObserver';
-import type { Genre } from '@/features/songs/types/Song.type';
 
 const SongDetailListPage = () => {
   const { isOpen, closeModal } = useModal(true);
   const [onboarding, setOnboarding] = useLocalStorage<boolean>('onboarding', true);
 
-  const { id: songIdParams, genre: genreParams } = useValidParams();
-  const { data: songDetailEntries } = useFetch(() =>
-    getSongDetailEntries(Number(songIdParams), genreParams as Genre)
-  );
+  const { songDetailEntries, scrollIntoCurrentSong } = useSongDetailEntries();
 
-  const { data: extraPrevSongDetails, fetchData: fetchExtraPrevSongDetails } = useExtraFetch(
-    getExtraPrevSongDetails,
-    'prev'
-  );
+  const {
+    extraPrevSongDetails,
+    extraNextSongDetails,
+    getExtraPrevSongDetailsOnObserve,
+    getExtraNextSongDetailsOnObserve,
+  } = useExtraSongDetail();
 
-  const { data: extraNextSongDetails, fetchData: fetchExtraNextSongDetails } = useExtraFetch(
-    getExtraNextSongDetails,
-    'next'
-  );
+  if (!songDetailEntries) return null;
 
-  const itemRef = useRef<HTMLDivElement>(null);
-
-  const prevTargetRef = useRef<HTMLDivElement | null>(null);
-  const nextTargetRef = useRef<HTMLDivElement | null>(null);
-
-  const getFirstSongId = () => {
-    const firstSongId = prevTargetRef.current?.nextElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
-
-    return Number(firstSongId);
-  };
-
-  const getLastSongId = () => {
-    const lastSongId = nextTargetRef.current?.previousElementSibling?.getAttribute(
-      'data-song-id'
-    ) as string;
-
-    return Number(lastSongId);
-  };
+  const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   const closeCoachMark = () => {
     setOnboarding(false);
     closeModal();
   };
-
-  useEffect(() => {
-    if (!prevTargetRef.current) return;
-
-    const prevObserver = createObserver(() =>
-      fetchExtraPrevSongDetails(getFirstSongId(), genreParams as Genre)
-    );
-    prevObserver.observe(prevTargetRef.current);
-
-    return () => prevObserver.disconnect();
-  }, [fetchExtraPrevSongDetails, songDetailEntries, genreParams]);
-
-  useEffect(() => {
-    if (!nextTargetRef.current) return;
-
-    const nextObserver = createObserver(() =>
-      fetchExtraNextSongDetails(getLastSongId(), genreParams as Genre)
-    );
-    nextObserver.observe(nextTargetRef.current);
-
-    return () => nextObserver.disconnect();
-  }, [fetchExtraNextSongDetails, songDetailEntries, genreParams]);
-
-  useLayoutEffect(() => {
-    itemRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
-  }, [songDetailEntries]);
-
-  if (!songDetailEntries) return;
-
-  const { prevSongs, currentSong, nextSongs } = songDetailEntries;
 
   return (
     <>
@@ -113,7 +51,7 @@ const SongDetailListPage = () => {
       )}
 
       <ItemContainer>
-        <ObservingTrigger ref={prevTargetRef} aria-hidden="true" />
+        <ObservingTrigger ref={getExtraPrevSongDetailsOnObserve} aria-hidden="true" />
 
         {extraPrevSongDetails?.map((extraPrevSongDetail) => (
           <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
@@ -122,7 +60,7 @@ const SongDetailListPage = () => {
           <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
         ))}
 
-        <SongDetailItem ref={itemRef} key={currentSong.id} {...currentSong} />
+        <SongDetailItem ref={scrollIntoCurrentSong} key={currentSong.id} {...currentSong} />
 
         {nextSongs.map((nextSongDetail) => (
           <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
@@ -131,7 +69,7 @@ const SongDetailListPage = () => {
           <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
         ))}
 
-        <ObservingTrigger ref={nextTargetRef} aria-hidden="true" />
+        <ObservingTrigger ref={getExtraNextSongDetailsOnObserve} aria-hidden="true" />
       </ItemContainer>
     </>
   );
