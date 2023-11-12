@@ -8,23 +8,23 @@ import Avatar from '@/shared/components/Avatar';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { useMutation } from '@/shared/hooks/useMutation';
-import fetcher from '@/shared/remotes';
+import { postComment } from '../remotes/comments';
 
 interface CommentFormProps {
-  getComment: () => Promise<void>;
+  getComments: () => Promise<void>;
   songId: number;
   partId: number;
 }
 
-const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
+const CommentForm = ({ getComments, songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
   const { isOpen, closeModal: closeLoginModal, openModal: openLoginModal } = useModal();
   const { user } = useAuthContext();
 
   const isLoggedIn = !!user;
 
-  const { mutateData } = useMutation(() =>
-    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
+  const { mutateData: postNewComment } = useMutation(() =>
+    postComment(songId, partId, newComment.trim())
   );
 
   const { showToast } = useToastContext();
@@ -38,11 +38,11 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
   const submitNewComment: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
-    await mutateData();
+    await postNewComment();
 
     showToast('댓글이 등록되었습니다.');
     resetNewComment();
-    getComment();
+    await getComments();
   };
 
   return (
