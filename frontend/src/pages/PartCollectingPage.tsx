@@ -1,8 +1,8 @@
-import { useParams } from 'react-router-dom';
 import { Flex } from 'shook-layout';
 import { styled } from 'styled-components';
 import RegisterPart from '@/features/killingParts/components/RegisterPart';
 import VideoController from '@/features/killingParts/components/VideoController';
+import { getSong } from '@/features/killingParts/remotes/killingPart';
 import { CollectingPartProvider } from '@/features/songs/components/CollectingPartProvider';
 import SongInformation from '@/features/songs/components/SongInformation';
 import { VideoPlayerProvider } from '@/features/youtube/components/VideoPlayerProvider';
@@ -10,13 +10,12 @@ import Youtube from '@/features/youtube/components/Youtube';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
-import fetcher from '@/shared/remotes';
-import type { SongInfo } from '@/shared/types/song';
+import useValidParams from '@/shared/hooks/useValidParams';
 
 const PartCollectingPage = () => {
-  const { id: songId } = useParams();
+  const { id: songId } = useValidParams();
   // TODO: 조회 API 만들어야함.
-  const { data: songInfo } = useFetch<SongInfo>(() => fetcher(`/songs/${songId}`, 'GET'));
+  const { data: songInfo } = useFetch(() => getSong(Number(songId)));
 
   if (!songInfo) return;
   const { id, title, singer, videoLength, songVideoId, albumCoverUrl } = songInfo;

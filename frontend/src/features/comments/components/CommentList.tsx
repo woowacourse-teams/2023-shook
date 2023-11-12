@@ -6,16 +6,9 @@ import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import useFetch from '@/shared/hooks/useFetch';
-import fetcher from '@/shared/remotes';
+import { getComments } from '../remotes/comments';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
-
-interface Comment {
-  id: number;
-  content: string;
-  createdAt: string;
-  writerNickname: string;
-}
 
 interface CommentListProps {
   songId: number;
@@ -24,12 +17,12 @@ interface CommentListProps {
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const { isOpen, openModal, closeModal } = useModal(false);
-  const { data: comments, fetchData: getComment } = useFetch<Comment[]>(() =>
-    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET')
+  const { data: comments, fetchData: refetchComments } = useFetch(() =>
+    getComments(songId, partId)
   );
 
   useEffect(() => {
-    getComment();
+    refetchComments();
   }, [partId]);
 
   if (!comments) {
@@ -73,7 +66,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           ))}
         </Comments>
         <Spacing direction="vertical" size={8} />
-        <CommentForm getComment={getComment} songId={songId} partId={partId} />
+        <CommentForm getComments={refetchComments} songId={songId} partId={partId} />
       </BottomSheet>
     </>
   );
