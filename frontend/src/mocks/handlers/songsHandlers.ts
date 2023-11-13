@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import comments from '../fixtures/comments.json';
 import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
+import highLikedSongs from '../fixtures/highLikedSongs.json';
 import recentSongs from '../fixtures/recentSongs.json';
 import songEntries from '../fixtures/songEntries.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
@@ -34,10 +35,23 @@ const songsHandlers = [
     return res(ctx.status(201));
   }),
 
+  rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
+    const genre = req.url.searchParams.get('genre');
+
+    if (genre !== null) {
+      const targetGenreSongs = highLikedSongs.filter((song) => song.genre === genre);
+
+      return res(ctx.status(200), ctx.json(targetGenreSongs));
+    }
+
+    return res(ctx.status(200), ctx.json(highLikedSongs));
+  }),
+
   rest.get(`${BASE_URL}/songs/high-liked/:songId`, (req, res, ctx) => {
     // const genre = req.url.searchParams.get('genre')
     return res(ctx.status(200), ctx.json(songEntries));
   }),
+
   rest.get(`${BASE_URL}/songs/high-liked/:songId/prev`, (req, res, ctx) => {
     // const genre = req.url.searchParams.get('genre');
     const { songId } = req.params;

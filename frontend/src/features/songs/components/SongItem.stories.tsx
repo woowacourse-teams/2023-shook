@@ -1,4 +1,4 @@
-import popularSongs from '@/mocks/fixtures/popularSongs.json';
+import highLikedSongs from '@/mocks/fixtures/highLikedSongs.json';
 import SongItem from './SongItem';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -11,7 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof SongItem>;
 
-const { title, singer, albumCoverUrl, totalLikeCount } = popularSongs[0];
+const { title, singer, albumCoverUrl, totalLikeCount } = highLikedSongs[0];
 
 export const Default: Story = {
   args: {

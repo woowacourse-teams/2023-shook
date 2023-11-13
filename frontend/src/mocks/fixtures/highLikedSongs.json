@@ -4,279 +4,319 @@
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 258200
+    "totalLikeCount": 258200,
+    "genre": "DANCE"
   },
   {
     "id": 2,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 121312
+    "totalLikeCount": 1,
+    "genre": "DANCE"
   },
   {
     "id": 3,
     "title": "노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요.",
     "singer": "가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요.",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 9000
+    "totalLikeCount": 9000,
+    "genre": "DANCE"
   },
   {
     "id": 4,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 8000
+    "totalLikeCount": 8000,
+    "genre": "HIPHOP"
   },
   {
     "id": 5,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "HIPHOP"
   },
   {
     "id": 6,
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "정국",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/86/070/11286070_20230713181059_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "HIPHOP"
   },
   {
     "id": 7,
     "title": "노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요. 노래 길이가 좀 많이 길어요.",
     "singer": "가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요. 가수 이름이 좀 길어요.",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/86/070/11286070_20230713181059_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "HIPHOP"
   },
   {
     "id": 8,
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "정국",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/86/070/11286070_20230713181059_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "BALLAD"
   },
   {
     "id": 9,
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "정국",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/86/070/11286070_20230713181059_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "BALLAD"
   },
   {
     "id": 10,
     "title": "Seven (feat. Latto) - Clean Ver.",
     "singer": "정국",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/86/070/11286070_20230713181059_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "BALLAD"
   },
   {
     "id": 11,
     "title": "I AM",
     "singer": "IVE (아이브)",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "POP"
   },
   {
     "id": 12,
     "title": "I AM",
     "singer": "IVE (아이브)",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "POP"
   },
   {
     "id": 13,
     "title": "I AM",
     "singer": "IVE (아이브)",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "POP"
   },
   {
     "id": 14,
     "title": "I AM",
     "singer": "IVE (아이브)",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "INDIE"
   },
   {
     "id": 15,
     "title": "I AM",
     "singer": "IVE (아이브)",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "INDIE"
   },
   {
     "id": 16,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "INDIE"
   },
   {
     "id": 17,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "TROT"
   },
   {
     "id": 18,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "TROT"
   },
   {
     "id": 19,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "TROT"
   },
   {
     "id": 20,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "JAZZ"
   },
   {
     "id": 21,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "JAZZ"
   },
   {
     "id": 22,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "JAZZ"
   },
   {
     "id": 23,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "EDM"
   },
   {
     "id": 24,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "EDM"
   },
   {
     "id": 25,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "EDM"
   },
   {
     "id": 26,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ETC"
   },
   {
     "id": 27,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ETC"
   },
   {
     "id": 28,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ETC"
   },
   {
     "id": 29,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ETC"
   },
   {
     "id": 30,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ROCK_METAL"
   },
   {
     "id": 31,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ROCK_METAL"
   },
   {
     "id": 32,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "ROCK_METAL"
   },
   {
     "id": 33,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "CLASSIC"
   },
   {
     "id": 34,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "CLASSIC"
   },
   {
     "id": 35,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "CLASSIC"
   },
   {
     "id": 36,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "RHYTHM_AND_BLUES"
   },
   {
     "id": 37,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "RHYTHM_AND_BLUES"
   },
   {
     "id": 38,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "RHYTHM_AND_BLUES"
   },
   {
     "id": 39,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "FOLK_BLUES"
   },
   {
     "id": 40,
     "title": "Super Shy",
     "singer": "New Jeans",
     "albumCoverUrl": "https://cdnimg.melon.co.kr/cm2/album/images/112/81/456/11281456_20230706180841_500.jpg/melon/resize/260/quality/80/optimize",
-    "totalLikeCount": 1
+    "totalLikeCount": 1,
+    "genre": "FOLK_BLUES"
   }
 ]
