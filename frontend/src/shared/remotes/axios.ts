@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { postRefreshAccessToken } from './auth';
+import { postRefreshAccessToken } from '@/features/auth/remotes/auth';
 import type { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 const { BASE_URL } = process.env;
@@ -28,24 +28,24 @@ const setToken = (config: InternalAxiosRequestConfig) => {
 
 // 응답 인터셉터
 const refreshAccessTokenOnAuthError = async (error: AxiosError) => {
-  const config = error.config;
+  const originalRequest = error.config;
 
-  if (error.response?.status === 401 && config?.headers.Authorization) {
+  if (error.response?.status === 401 && originalRequest?.headers.Authorization) {
     try {
-      const staleAccessToken = localStorage.getItem('userToken') ?? '';
-      const { accessToken } = await postRefreshAccessToken(staleAccessToken);
+      const { accessToken } = await postRefreshAccessToken();
 
       localStorage.setItem('userToken', accessToken);
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
-      return client(config);
+      return client(originalRequest);
     } catch {
-      // window.alert('세션이 만료되었습니다. 다시 로그인 해주세요');
+      window.alert('세션이 만료되었습니다. 다시 로그인 해주세요');
     }
   }
 
   return Promise.reject(error);
 };
 
+clientBasic.interceptors.request.use(setToken);
 client.interceptors.request.use(setToken);
 client.interceptors.response.use((response) => response, refreshAccessTokenOnAuthError);

@@ -1,4 +1,5 @@
 import { client, clientBasic } from '@/shared/remotes/axios';
+
 interface AccessTokenRes {
   accessToken: string;
 }
