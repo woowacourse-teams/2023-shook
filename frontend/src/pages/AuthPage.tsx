@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import { getAccessToken } from '@/features/auth/remotes/login';
+import { getAccessToken } from '@/features/auth/remotes/auth';
 import path from '@/shared/constants/path';
 import useValidParams from '@/shared/hooks/useValidParams';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
