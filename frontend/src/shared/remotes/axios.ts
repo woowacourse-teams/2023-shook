@@ -49,5 +49,3 @@ const refreshAccessTokenOnAuthError = async (error: AxiosError) => {
 
 client.interceptors.request.use(setToken);
 client.interceptors.response.use((response) => response, refreshAccessTokenOnAuthError);
-
-export default client;

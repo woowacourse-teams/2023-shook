@@ -1,4 +1,4 @@
-import client from '@/shared/remotes/axios';
+import { client } from '@/shared/remotes/axios';
 import type { Comment } from '../types/comment.type';
 
 export const postComment = async (songId: number, partId: number, content: string) => {

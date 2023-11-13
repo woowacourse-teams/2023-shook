@@ -1,4 +1,4 @@
-import client from '@/shared/remotes/axios';
+import { client } from '@/shared/remotes/axios';
 import type { Genre } from '../types/Song.type';
 import type { SongDetail, SongDetailEntries } from '@/shared/types/song';
 

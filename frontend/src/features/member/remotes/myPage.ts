@@ -1,4 +1,4 @@
-import client from '@/shared/remotes/axios';
+import { client } from '@/shared/remotes/axios';
 import type { LikeKillingPart } from '../components/MyPartList';
 
 export const getLikeParts = async () => {

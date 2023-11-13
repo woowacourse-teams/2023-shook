@@ -1,4 +1,4 @@
-import client from '@/shared/remotes/axios';
+import { client } from '@/shared/remotes/axios';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 import type { SongInfo } from '@/shared/types/song';
 

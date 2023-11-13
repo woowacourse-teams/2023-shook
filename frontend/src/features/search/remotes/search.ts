@@ -1,4 +1,4 @@
-import client from '@/shared/remotes/axios';
+import { client } from '@/shared/remotes/axios';
 import type { SingerDetail } from '../../singer/types/singer.type';
 import type { SingerSearchPreview } from '../types/search.type';
 
