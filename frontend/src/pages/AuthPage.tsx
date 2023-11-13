@@ -1,21 +1,22 @@
 import { useEffect } from 'react';
-import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import { getAccessToken } from '@/features/auth/remotes/login';
 import path from '@/shared/constants/path';
+import useValidParams from '@/shared/hooks/useValidParams';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
-
-interface AccessTokenResponse {
-  accessToken: string;
-}
 
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
-  const { platform } = useParams();
+  const { platform } = useValidParams();
 
   const { login } = useAuthContext();
   const navigate = useNavigate();
 
-  const getAccessToken = async () => {
+  // TODO: 함수 네이밍을 변경해야 합니다.
+  // 제안: 'code' param 여부 + 분기는 함수 외부로 빼는게 어떤가요?
+  // 분리한다면 함수 네이밍도 쉬워질 것 같아요.
+  const getAccessToken1 = async () => {
     const code = searchParams.get('code');
 
     if (!code) {
@@ -25,13 +26,7 @@ const AuthPage = () => {
       return;
     }
 
-    const response = await fetch(`${process.env.BASE_URL}/login/${platform}?code=${code}`, {
-      method: 'get',
-      credentials: 'include',
-    });
-
-    const data = (await response.json()) as AccessTokenResponse;
-    const { accessToken } = data;
+    const { accessToken } = await getAccessToken(platform, code);
 
     if (accessToken) {
       login(accessToken);
@@ -39,7 +34,7 @@ const AuthPage = () => {
   };
 
   useEffect(() => {
-    getAccessToken();
+    getAccessToken1();
   }, []);
 
   return <Navigate to="/" replace />;
