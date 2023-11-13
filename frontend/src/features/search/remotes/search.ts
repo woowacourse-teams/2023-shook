@@ -3,19 +3,23 @@ import type { SingerDetail } from '../../singer/types/singer.type';
 import type { SingerSearchPreview } from '../types/search.type';
 
 export const getSingerSearchPreview = async (query: string) => {
-  const encodedQuery = encodeURIComponent(query);
-  const { data } = await client.get<SingerSearchPreview[]>(
-    `/search?keyword=${encodedQuery}&type=singer`
-  );
+  const { data } = await client.get<SingerSearchPreview[]>(`/search`, {
+    params: {
+      keyword: query,
+      type: 'singer',
+    },
+  });
 
   return data;
 };
 
 export const getSingerSearch = async (query: string) => {
-  const encodedQuery = encodeURIComponent(query);
-  const { data } = await client.get<SingerDetail[]>(
-    `/search?keyword=${encodedQuery}&type=singer&type=song`
-  );
+  const params = new URLSearchParams();
+  params.append('keyword', query);
+  params.append('type', 'singer');
+  params.append('type', 'song');
+
+  const { data } = await client.get<SingerDetail[]>(`/search`, { params });
 
   return data;
 };
