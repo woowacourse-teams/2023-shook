@@ -8,7 +8,7 @@ import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
 import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
-import { postKillingPart } from '../hooks/killingPart';
+import { postKillingPart } from '../remotes/killingPart';
 
 const RegisterPart = () => {
   const { isOpen, openModal, closeModal } = useModal();

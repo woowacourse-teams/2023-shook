@@ -1,4 +1,5 @@
 import client from '@/shared/remotes/axios';
+import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 import type { SongInfo } from '@/shared/types/song';
 
 // PartCollectingPage에 존재하던 remote 함수입니다.
@@ -10,4 +11,8 @@ export const getSong = async (songId: number) => {
   const { data } = await client.get<SongInfo>(`/songs/${songId}`);
 
   return data;
+};
+
+export const postKillingPart = async (songId: number, body: KillingPartPostRequest) => {
+  await client.post(`/songs/${songId}/member-parts`, body);
 };
