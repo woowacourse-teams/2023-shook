@@ -1,6 +1,6 @@
-import fetcher from '@/shared/remotes';
+import client from '@/shared/remotes/axios';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 
 export const postKillingPart = async (songId: number, body: KillingPartPostRequest) => {
-  return await fetcher(`/songs/${songId}/member-parts`, 'POST', body);
+  await client.post(`/songs/${songId}/member-parts`, body);
 };

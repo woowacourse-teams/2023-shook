@@ -1,5 +1,5 @@
-import fetcher from '@/shared/remotes';
+import client from '@/shared/remotes/axios';
 
 export const putKillingPartLikes = async (songId: number, partId: number, likeStatus: boolean) => {
-  return await fetcher(`/songs/${songId}/parts/${partId}/likes`, 'PUT', { likeStatus });
+  await client.put(`/songs/${songId}/parts/${partId}/likes`, { likeStatus });
 };

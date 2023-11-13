@@ -1,10 +1,12 @@
-import fetcher from '@/shared/remotes';
+import client from '@/shared/remotes/axios';
 import type { Comment } from '../types/comment.type';
 
 export const postComment = async (songId: number, partId: number, content: string) => {
-  await fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content });
+  await client.post(`/songs/${songId}/parts/${partId}/comments`, { content });
 };
 
-export const getComments = async (songId: number, partId: number): Promise<Comment[]> => {
-  return await fetcher(`/songs/${songId}/parts/${partId}/comments`, 'GET');
+export const getComments = async (songId: number, partId: number) => {
+  const { data } = await client.get<Comment[]>(`/songs/${songId}/parts/${partId}/comments`);
+
+  return data;
 };

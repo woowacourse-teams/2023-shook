@@ -1,5 +1,14 @@
-import fetcher from '@/shared/remotes';
+import client from '@/shared/remotes/axios';
+import type { LikeKillingPart } from '../components/MyPartList';
 
-export const getLikeParts = () => fetcher('/my-page/like-parts', 'GET');
+export const getLikeParts = async () => {
+  const { data } = await client.get<LikeKillingPart[]>('/my-page/like-parts');
 
-export const getMyParts = () => fetcher('/my-page/my-parts', 'GET');
+  return data;
+};
+
+export const getMyParts = async () => {
+  const { data } = await client.get<LikeKillingPart[]>('/my-page/my-parts');
+
+  return data;
+};

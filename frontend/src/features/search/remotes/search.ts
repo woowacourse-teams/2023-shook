@@ -1,13 +1,21 @@
-import fetcher from '@/shared/remotes';
+import client from '@/shared/remotes/axios';
 import type { SingerDetail } from '../../singer/types/singer.type';
 import type { SingerSearchPreview } from '../types/search.type';
 
-export const getSingerSearchPreview = async (query: string): Promise<SingerSearchPreview[]> => {
+export const getSingerSearchPreview = async (query: string) => {
   const encodedQuery = encodeURIComponent(query);
-  return await fetcher(`/search?keyword=${encodedQuery}&type=singer`, 'GET');
+  const { data } = await client.get<SingerSearchPreview[]>(
+    `/search?keyword=${encodedQuery}&type=singer`
+  );
+
+  return data;
 };
 
-export const getSingerSearch = async (query: string): Promise<SingerDetail[]> => {
+export const getSingerSearch = async (query: string) => {
   const encodedQuery = encodeURIComponent(query);
-  return await fetcher(`/search?keyword=${encodedQuery}&type=singer&type=song`, 'GET');
+  const { data } = await client.get<SingerDetail[]>(
+    `/search?keyword=${encodedQuery}&type=singer&type=song`
+  );
+
+  return data;
 };
