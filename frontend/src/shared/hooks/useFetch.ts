@@ -2,11 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import { useLoginPopup } from '@/features/auth/hooks/LoginPopUpContext';
 import AuthError from '@/shared/remotes/AuthError';
+import type { ErrorResponse } from '../types/errorResponse';
 
 const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<ErrorResponse | null>(null);
   const { popupLoginModal } = useLoginPopup();
   const { logout } = useAuthContext();
 
@@ -28,7 +29,7 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
         popupLoginModal(error.code);
         return;
       }
-      setError(error as Error);
+      setError(error as ErrorResponse);
     } finally {
       setIsLoading(false);
     }

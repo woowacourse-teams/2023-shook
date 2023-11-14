@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import type { ErrorResponse } from '@/shared/remotes';
+import type { ErrorResponse } from '../types/errorResponse';
 
 type FetchDirection = 'prev' | 'next';
 
@@ -39,6 +39,6 @@ const useExtraFetch = <T, P extends unknown[]>(
 export default useExtraFetch;
 
 // TODO: 현 fetch기준으로 코드 전반적인 에러처리 구조 생각해보기
-// useXXX는 fetcher에서 throw한 에러를 state에 넣어 return하고 이걸 컴포넌트에서 분기로 처리하는 구조.
+// useXXX는 에서 throw한 에fetcher러를 state에 넣어 return하고 이걸 컴포넌트에서 분기로 처리하는 구조.
 // 서버에서 내려주는 커스텀 에러코드, 메세지 객체 활용 고민
 // ex) Error class
