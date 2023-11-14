@@ -21,11 +21,17 @@ const ConfirmModal = ({
   onDeny,
   onConfirm,
 }: ConfirmModalProps) => {
+  const focusTitle: React.RefCallback<HTMLDivElement> = (dom) => {
+    dom && dom.focus();
+  };
+
   return createPortal(
     <>
       <Backdrop role="dialog" aria-modal="true" />
       <Container>
-        <Title>{title}</Title>
+        <Title ref={focusTitle} tabIndex={0}>
+          {title}
+        </Title>
         <Spacing direction="vertical" size={10} />
         <Content>{content}</Content>
         <Spacing direction="vertical" size={10} />

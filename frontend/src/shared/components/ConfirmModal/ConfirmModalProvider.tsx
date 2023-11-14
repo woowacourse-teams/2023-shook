@@ -64,14 +64,7 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
     closeModal();
   }, []);
 
-  const onKeyDown = useCallback((event: KeyboardEvent) => {
-    const { key } = event;
-    if (key === 'Enter') {
-      event.preventDefault();
-      resolveConfirmation(false);
-      closeModal();
-    }
-
+  const onKeyDown = useCallback(({ key }: KeyboardEvent) => {
     if (key === 'Escape') {
       resolveConfirmation(false);
       closeModal();
