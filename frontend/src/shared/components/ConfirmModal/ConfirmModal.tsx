@@ -30,9 +30,9 @@ const ConfirmModal = ({
         <Content>{content}</Content>
         <Spacing direction="vertical" size={10} />
         <ButtonFlex $gap={16}>
-          <CancelButton type="button" onClick={onDeny}>
+          <DenialButton type="button" onClick={onDeny}>
             {denial}
-          </CancelButton>
+          </DenialButton>
           <ConfirmButton type="button" onClick={onConfirm}>
             {confirmation}
           </ConfirmButton>
@@ -99,7 +99,7 @@ const buttonStyle = css`
   border-radius: 10px;
 `;
 
-const CancelButton = styled.button`
+const DenialButton = styled.button`
   background-color: ${({ theme: { color } }) => color.secondary};
   ${buttonStyle}
 `;
