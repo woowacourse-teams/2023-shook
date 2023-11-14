@@ -1,8 +1,5 @@
 import { client, clientBasic } from '@/shared/remotes/axios';
-
-interface AccessTokenRes {
-  accessToken: string;
-}
+import type { AccessTokenRes } from '../types/auth.type';
 
 export const getAccessToken = async (platform: string, code: string) => {
   const { data } = await client.get<AccessTokenRes>(`/login/${platform}`, {
