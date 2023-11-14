@@ -18,7 +18,7 @@ interface ModalContents {
 const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const resolverRef = useRef<{
-    resolve: (value: boolean | PromiseLike<boolean>) => void;
+    resolve: (value: boolean) => void;
   } | null>(null);
   const [modalContents, setModalContents] = useState<ModalContents>({
     title: '',
