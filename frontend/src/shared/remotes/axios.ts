@@ -1,5 +1,7 @@
+/* eslint-disable prefer-const */
 import axios from 'axios';
 import { postRefreshAccessToken } from '@/features/auth/remotes/auth';
+import type { AccessTokenRes } from '@/features/auth/types/auth.type';
 import type { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 const { BASE_URL } = process.env;
@@ -12,8 +14,10 @@ const defaultConfig: AxiosRequestConfig = {
   withCredentials: true,
 };
 
-export const clientBasic = axios.create(defaultConfig);
-export const client = axios.create(defaultConfig);
+const clientBasic = axios.create(defaultConfig);
+const client = axios.create(defaultConfig);
+
+let reissuePromise: Promise<AccessTokenRes> | null = null;
 
 // 요청 인터셉터
 const setToken = (config: InternalAxiosRequestConfig) => {
@@ -26,27 +30,47 @@ const setToken = (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-// 응답 인터셉터
-const refreshAccessTokenOnAuthError = async (error: AxiosError) => {
+// 응답 에러 인터셉터
+const reissueOnExpiredTokenError = async (error: AxiosError) => {
   const originalRequest = error.config;
+  const isAuthError = error.response?.status === 401;
+  const hasAuthorization = !!originalRequest?.headers.Authorization;
 
-  if (error.response?.status === 401 && originalRequest?.headers.Authorization) {
+  if (isAuthError && hasAuthorization) {
     try {
-      const { accessToken } = await postRefreshAccessToken();
+      const { accessToken } = await (reissuePromise ??= reissue());
 
-      localStorage.setItem('userToken', accessToken);
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
       return client(originalRequest);
-    } catch {
-      window.alert('세션이 만료되었습니다. 다시 로그인 해주세요');
-      window.location.href = '/login';
+    } catch (error) {
+      return Promise.reject(error);
     }
   }
 
   return Promise.reject(error);
 };
 
+const reissue = async () => {
+  try {
+    const response = await postRefreshAccessToken();
+    const { accessToken } = response;
+
+    localStorage.setItem('userToken', accessToken);
+    return response;
+  } catch (error) {
+    window.alert('세션이 만료되었습니다. 다시 로그인 해주세요');
+    localStorage.removeItem('userToken');
+    window.location.href = '/login';
+
+    throw error;
+  } finally {
+    reissuePromise = null;
+  }
+};
+
 clientBasic.interceptors.request.use(setToken);
 client.interceptors.request.use(setToken);
-client.interceptors.response.use((response) => response, refreshAccessTokenOnAuthError);
+client.interceptors.response.use((response) => response, reissueOnExpiredTokenError);
+
+export { clientBasic, client };
