@@ -30,8 +30,12 @@ const ConfirmModal = ({
         <Content>{content}</Content>
         <Spacing direction="vertical" size={10} />
         <ButtonFlex $gap={16}>
-          <CancelButton onClick={onDeny}>{denial}</CancelButton>
-          <ConfirmButton onClick={onConfirm}>{confirmation}</ConfirmButton>
+          <CancelButton type="button" onClick={onDeny}>
+            {denial}
+          </CancelButton>
+          <ConfirmButton type="button" onClick={onConfirm}>
+            {confirmation}
+          </ConfirmButton>
         </ButtonFlex>
       </Container>
     </>,
