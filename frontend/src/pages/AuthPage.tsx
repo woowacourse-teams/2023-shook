@@ -13,10 +13,7 @@ const AuthPage = () => {
   const { login } = useAuthContext();
   const navigate = useNavigate();
 
-  // TODO: 함수 네이밍을 변경해야 합니다.
-  // 제안: 'code' param 여부 + 분기는 함수 외부로 빼는게 어떤가요?
-  // 분리한다면 함수 네이밍도 쉬워질 것 같아요.
-  const getAccessToken1 = async () => {
+  const authLogin = async () => {
     const code = searchParams.get('code');
 
     if (!code) {
@@ -34,7 +31,7 @@ const AuthPage = () => {
   };
 
   useEffect(() => {
-    getAccessToken1();
+    authLogin();
   }, []);
 
   return <Navigate to="/" replace />;
