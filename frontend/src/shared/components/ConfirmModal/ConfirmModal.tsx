@@ -1,4 +1,3 @@
-import { createPortal } from 'react-dom';
 import { Flex } from 'shook-layout';
 import styled, { css } from 'styled-components';
 import Spacing from '../Spacing';
@@ -25,7 +24,7 @@ const ConfirmModal = ({
     dom && dom.focus();
   };
 
-  return createPortal(
+  return (
     <>
       <Backdrop role="dialog" aria-modal="true" />
       <Container>
@@ -44,8 +43,7 @@ const ConfirmModal = ({
           </ConfirmButton>
         </ButtonFlex>
       </Container>
-    </>,
-    document.body
+    </>
   );
 };
 
