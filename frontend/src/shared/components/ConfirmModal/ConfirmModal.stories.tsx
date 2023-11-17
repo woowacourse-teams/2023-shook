@@ -1,31 +1,31 @@
 import styled from 'styled-components';
-import ConfirmProvider from './ConfirmModalProvider';
-import { useConfirm } from './hooks/useConfirm';
+import ConfirmModalProvider from './ConfirmModalProvider';
+import { useConfirmContext } from './hooks/useConfirmContext';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof ConfirmProvider> = {
+const meta: Meta<typeof ConfirmModalProvider> = {
   title: 'shared/Confirm',
-  component: ConfirmProvider,
+  component: ConfirmModalProvider,
   decorators: [
     (Story) => (
-      <ConfirmProvider>
+      <ConfirmModalProvider>
         <Story />
-      </ConfirmProvider>
+      </ConfirmModalProvider>
     ),
   ],
 };
 
 export default meta;
 
-type Story = StoryObj<typeof ConfirmProvider>;
+type Story = StoryObj<typeof ConfirmModalProvider>;
 
 export const Example: Story = {
   render: () => {
     const Modal = () => {
-      const { confirm } = useConfirm();
+      const { confirmPopup } = useConfirmContext();
 
       const clickHiByeBtn = async () => {
-        const isConfirmed = await confirm({
+        const isConfirmed = await confirmPopup({
           title: '하이바이 모달',
           content: (
             <>
@@ -47,7 +47,7 @@ export const Example: Story = {
 
       // denial과 confirmation 기본값은 '닫기'와 '확인'입니다.
       const clickOpenCloseBtn = async () => {
-        const isConfirmed = await confirm({
+        const isConfirmed = await confirmPopup({
           title: '오쁜클로즈 모달',
           content: (
             <>

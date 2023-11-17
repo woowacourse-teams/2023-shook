@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ConfirmContext } from '../ConfirmModalProvider';
 
-export const useConfirm = () => {
+export const useConfirmContext = () => {
   const contextValue = useContext(ConfirmContext);
   if (!contextValue) {
     throw new Error('ConfirmContext Provider 내부에서 사용 가능합니다.');

@@ -5,7 +5,7 @@ import ConfirmModal from './ConfirmModal';
 import type { ReactNode } from 'react';
 
 export const ConfirmContext = createContext<null | {
-  confirm: (modalState: ModalContents) => Promise<boolean>;
+  confirmPopup: (modalState: ModalContents) => Promise<boolean>;
 }>(null);
 
 interface ModalContents {
@@ -15,7 +15,7 @@ interface ModalContents {
   confirmation?: string;
 }
 
-const ConfirmProvider = ({ children }: { children: ReactNode }) => {
+const ConfirmModalProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const resolverRef = useRef<{
     resolve: (value: boolean) => void;
@@ -29,7 +29,7 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   const { title, content, denial, confirmation } = modalContents;
 
   // ContextAPI를 통해 confirm 함수만 제공합니다.
-  const confirm = (contents: ModalContents) => {
+  const confirmPopup = (contents: ModalContents) => {
     openModal();
     setModalContents(contents);
 
@@ -84,7 +84,7 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   }, [isOpen]);
 
   return (
-    <ConfirmContext.Provider value={{ confirm }}>
+    <ConfirmContext.Provider value={{ confirmPopup }}>
       {children}
       {isOpen &&
         createPortal(
@@ -102,4 +102,4 @@ const ConfirmProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default ConfirmProvider;
+export default ConfirmModalProvider;
