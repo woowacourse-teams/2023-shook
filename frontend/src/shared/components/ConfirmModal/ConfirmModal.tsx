@@ -74,9 +74,9 @@ const Container = styled.section`
   margin: 0 auto;
   padding: 24px;
 
-  color: ${({ theme: color }) => color.white};
+  color: ${({ theme: { color } }) => color.white};
 
-  background-color: ${({ theme: color }) => color.black300};
+  background-color: ${({ theme: { color } }) => color.black300};
   border: none;
   border-radius: 16px;
 `;
