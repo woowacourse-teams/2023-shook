@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
+import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.repository.SongRepository;
 
 @RequiredArgsConstructor
@@ -42,5 +43,15 @@ public class InMemorySongsScheduler {
             .peek(entityManager::detach)
             .flatMap(killingPart -> killingPart.getKillingPartLikes().stream())
             .forEach(entityManager::detach);
+    }
+
+    @Transactional
+    @Scheduled(cron = "${schedules.in-memory-song.update-cron}")
+    public void updateCachedSong() {
+        log.info("InMemorySongsScheduler LikeCount update progressed");
+        final List<KillingPart> killingParts = inMemorySongs.getSongs().stream()
+            .flatMap(song -> song.getKillingParts().stream())
+            .toList();
+        killingParts.forEach(entityManager::merge);
     }
 }

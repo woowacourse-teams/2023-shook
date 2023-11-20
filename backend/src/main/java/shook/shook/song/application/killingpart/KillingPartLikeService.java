@@ -70,6 +70,7 @@ public class KillingPartLikeService {
         killingPart.findLikeByMember(member)
             .ifPresent(likeOnKillingPart -> {
                 inMemorySongs.unlike(killingPart, likeOnKillingPart);
+                likeRepository.cancelLike(likeOnKillingPart.getId());
             });
     }
 }

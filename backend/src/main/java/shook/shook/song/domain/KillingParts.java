@@ -64,7 +64,7 @@ public class KillingParts {
 
     public int getKillingPartsTotalLikeCount() {
         return killingParts.stream()
-            .mapToInt(killingPart -> killingPart.getAtomicLikeCount().get())
+            .mapToInt(KillingPart::getLikeCount)
             .reduce(0, Integer::sum);
     }
 }

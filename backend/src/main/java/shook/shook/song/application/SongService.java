@@ -14,7 +14,6 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member.exception.MemberException;
-import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.member_part.domain.MemberPart;
 import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.RecentSongCarouselResponse;

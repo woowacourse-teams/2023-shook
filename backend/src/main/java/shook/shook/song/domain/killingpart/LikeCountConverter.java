@@ -1,10 +1,10 @@
 package shook.shook.song.domain.killingpart;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.springframework.stereotype.Component;
 
-@Component
+@Converter
 public class LikeCountConverter implements AttributeConverter<AtomicInteger, Integer> {
 
     @Override
