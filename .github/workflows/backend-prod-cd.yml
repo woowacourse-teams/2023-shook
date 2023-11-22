@@ -1,4 +1,4 @@
-name: Backend Production Deploy (CD)
+name: 백엔드 운영서버 배포
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Backend Production Deploy
-    runs-on: shook-prod
+    runs-on: shook-production
 
     steps:
       - name: Checkout Source Code
