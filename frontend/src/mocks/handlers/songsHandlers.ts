@@ -2,7 +2,6 @@ import { rest } from 'msw';
 import comments from '../fixtures/comments.json';
 import extraNextSongDetails from '../fixtures/extraNextSongDetails.json';
 import extraPrevSongDetails from '../fixtures/extraPrevSongDetails.json';
-import popularSongs from '../fixtures/popularSongs.json';
 import recentSongs from '../fixtures/recentSongs.json';
 import songEntries from '../fixtures/songEntries.json';
 import type { KillingPartPostRequest } from '@/shared/types/killingPart';
@@ -10,11 +9,6 @@ import type { KillingPartPostRequest } from '@/shared/types/killingPart';
 const { BASE_URL } = process.env;
 
 const songsHandlers = [
-  rest.get(`${BASE_URL}/songs/high-liked`, (req, res, ctx) => {
-    // const genre = req.url.searchParams.get('genre')
-    return res(ctx.status(200), ctx.json(popularSongs));
-  }),
-
   rest.get(`${BASE_URL}/songs/:songId/parts/:partId/comments`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(comments));
   }),
@@ -45,13 +39,24 @@ const songsHandlers = [
     return res(ctx.status(200), ctx.json(songEntries));
   }),
   rest.get(`${BASE_URL}/songs/high-liked/:songId/prev`, (req, res, ctx) => {
-    // const genre = req.url.searchParams.get('genre')
-    return res(ctx.status(200), ctx.json(extraPrevSongDetails));
+    // const genre = req.url.searchParams.get('genre');
+    const { songId } = req.params;
+
+    const targetIdx = extraPrevSongDetails.findIndex((song) => song.id === Number(songId));
+    const sliced = extraPrevSongDetails.slice(0, targetIdx);
+
+    return res(ctx.status(200), ctx.json(sliced));
   }),
 
   rest.get(`${BASE_URL}/songs/high-liked/:songId/next`, (req, res, ctx) => {
     // const genre = req.url.searchParams.get('genre')
-    return res(ctx.status(200), ctx.json(extraNextSongDetails));
+
+    const { songId } = req.params;
+
+    const targetIdx = extraNextSongDetails.findIndex((song) => song.id === Number(songId));
+    const sliced = extraNextSongDetails.slice(targetIdx);
+
+    return res(ctx.status(200), ctx.json(sliced));
   }),
 
   rest.get(`${BASE_URL}/songs/recent`, (req, res, ctx) => {

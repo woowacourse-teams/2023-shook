@@ -1,4 +1,4 @@
-name: Blue-Green Backend Production Deploy (CD)
+name: 백엔드 무중단 배포
 
 on:
   workflow_dispatch:
