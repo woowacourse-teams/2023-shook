@@ -1,47 +1,66 @@
-import { useNavigate } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
-import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import NicknameChangingModal from '@/features/member/components/NicknameChangingModal';
 import WithdrawalModal from '@/features/member/components/WithdrawalModal';
-import { deleteMember } from '@/features/member/remotes/member';
+import useNickname from '@/features/member/hooks/useNickname';
+import useWithdrawal from '@/features/member/hooks/useWithdrawal';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
-import ROUTE_PATH from '@/shared/constants/path';
-import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
-  const { user, logout } = useAuthContext();
-  const { isOpen, openModal, closeModal } = useModal();
-  const { mutateData } = useMutation(deleteMember(user?.memberId));
-  const navigate = useNavigate();
+  const {
+    nicknameEntered,
+    nicknameErrorMessage,
+    hasError,
+    handleChangeNickname,
+    submitNicknameChanged,
+  } = useNickname();
 
-  if (!user) {
-    navigate(ROUTE_PATH.LOGIN);
-    return;
-  }
+  const { handleWithdrawal } = useWithdrawal();
 
-  const handleWithdrawal = async () => {
-    await mutateData();
-    logout();
-    navigate(ROUTE_PATH.ROOT);
-  };
+  const {
+    isOpen: isWithdrawalModalOpen,
+    openModal: openWithdrawalModal,
+    closeModal: closeWithdrawalModal,
+  } = useModal();
+
+  const {
+    isOpen: isNicknameModalOpen,
+    openModal: openNicknameModal,
+    closeModal: closeNicknameModal,
+  } = useModal();
 
   return (
     <Container>
       <Title>프로필 수정</Title>
-      <Spacing direction={'vertical'} size={16} />
+      <Spacing direction={'vertical'} size={100} />
       <Avatar src={shookshook} />
       <Label htmlFor="nickname">닉네임</Label>
       <Spacing direction={'vertical'} size={4} />
-      <Input id="nickname" value={user.nickname} disabled />
+      <NicknameInput
+        id="nickname"
+        value={nicknameEntered}
+        onChange={handleChangeNickname}
+        autoComplete="off"
+      />
+      <Spacing direction={'vertical'} size={8} />
+      {hasError && <BottomError>{nicknameErrorMessage}</BottomError>}
       <Spacing direction={'vertical'} size={16} />
-      <Label htmlFor="introduction">소개</Label>
-      <Spacing direction={'vertical'} size={4} />
-      <TextArea id="introduction" value={''} disabled maxLength={100} />
-      <Spacing direction={'vertical'} size={16} />
-      <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
-      <SubmitButton disabled>제출</SubmitButton>
-      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} onWithdraw={handleWithdrawal} />
+      <WithdrawalButton onClick={openWithdrawalModal}>회원 탈퇴</WithdrawalButton>
+      <SubmitButton onClick={openNicknameModal} disabled={hasError}>
+        변경 하기
+      </SubmitButton>
+      <WithdrawalModal
+        isOpen={isWithdrawalModalOpen}
+        closeModal={closeWithdrawalModal}
+        onWithdraw={handleWithdrawal}
+      />
+      <NicknameChangingModal
+        isOpen={isNicknameModalOpen}
+        closeModal={closeNicknameModal}
+        onSubmitNickname={submitNicknameChanged}
+        nickname={nicknameEntered}
+      />
     </Container>
   );
 };
@@ -55,7 +74,10 @@ const Container = styled.div`
   flex-direction: column;
 
   width: 100%;
+  min-width: 300px;
+  max-width: 400px;
   height: calc(100vh - ${({ theme: { headerHeight } }) => headerHeight.desktop});
+  margin: auto 0;
   padding-top: ${({ theme: { headerHeight } }) => headerHeight.desktop};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.xs}) {
@@ -83,25 +105,9 @@ const Avatar = styled.img`
 `;
 
 const Label = styled.label`
-  font-size: 16px;
+  margin-top: 16px;
+  font-size: 18px;
   font-weight: 700;
-`;
-
-const disabledStyle = css<{ disabled: boolean }>`
-  color: ${({ disabled, theme }) => (disabled ? theme.color.black400 : theme.color.black)};
-  background-color: ${({ disabled, theme }) =>
-    disabled ? theme.color.disabledBackground : theme.color.white};
-`;
-
-const Input = styled.input<{ disabled: boolean }>`
-  ${disabledStyle};
-  padding: 0 8px;
-  font-size: 16px;
-`;
-
-const TextArea = styled.textarea<{ disabled: boolean }>`
-  ${disabledStyle};
-  resize: none;
 `;
 
 const WithdrawalButton = styled.button`
@@ -109,20 +115,48 @@ const WithdrawalButton = styled.button`
   text-decoration: underline;
 `;
 
-const SubmitButton = styled.button<{ disabled: boolean }>`
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-
+const SubmitButton = styled.button`
   position: absolute;
   bottom: 0;
 
   align-self: flex-end;
 
   width: 100%;
-  height: 36px;
+  padding: 11px 20px;
 
+  font-size: 18px;
   font-weight: 700;
 
-  ${disabledStyle};
+  background-color: ${({ theme }) => theme.color.primary};
   border: none;
   border-radius: 10px;
+
+  &:disabled {
+    color: ${({ theme }) => theme.color.disabled};
+    background-color: ${({ theme }) => theme.color.disabledBackground};
+  }
+`;
+
+const NicknameInput = styled.input`
+  padding: 0 8px;
+
+  font-size: 18px;
+  line-height: 2.4;
+  color: ${({ theme }) => theme.color.black};
+
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: 0 0 0 1px inset ${({ theme }) => theme.color.black200};
+
+  transition: box-shadow 0.3s ease;
+
+  &:focus {
+    box-shadow: 0 0 0 2px inset ${({ theme }) => theme.color.primary};
+  }
+`;
+
+const BottomError = styled.p`
+  font-size: 14px;
+  color: ${({ theme }) => theme.color.error};
 `;
