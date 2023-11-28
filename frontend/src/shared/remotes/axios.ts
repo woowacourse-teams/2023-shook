@@ -17,8 +17,6 @@ const defaultConfig: AxiosRequestConfig = {
 const clientBasic = axios.create(defaultConfig);
 const client = axios.create(defaultConfig);
 
-let reissuePromise: Promise<AccessTokenRes> | null = null;
-
 // 요청 인터셉터
 const setToken = (config: InternalAxiosRequestConfig) => {
   const accessToken = localStorage.getItem('userToken');
@@ -31,6 +29,8 @@ const setToken = (config: InternalAxiosRequestConfig) => {
 };
 
 // 응답 에러 인터셉터
+let reissuePromise: Promise<AccessTokenRes> | null = null;
+
 const reissueOnExpiredTokenError = async (error: AxiosError) => {
   const originalRequest = error.config;
   const isAuthError = error.response?.status === 401;
