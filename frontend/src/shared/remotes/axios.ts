@@ -45,6 +45,8 @@ const reissueOnExpiredTokenError = async (error: AxiosError) => {
       return client(originalRequest);
     } catch (error) {
       return Promise.reject(error);
+    } finally {
+      reissuePromise = null;
     }
   }
 
@@ -64,8 +66,6 @@ const reissue = async () => {
     window.location.href = '/login';
 
     throw error;
-  } finally {
-    reissuePromise = null;
   }
 };
 
