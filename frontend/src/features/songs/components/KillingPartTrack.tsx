@@ -8,6 +8,7 @@ import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
 import { deleteMemberParts } from '@/features/member/remotes/memberParts';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
+import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
@@ -18,7 +19,6 @@ import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
 import useKillingPartLikes from '../hooks/useKillingPartLikes';
-import MyPartModal from './MyPartModal';
 import type { KillingPart } from '@/shared/types/song';
 import type React from 'react';
 
@@ -45,6 +45,7 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState, videoPlayer } = useVideoPlayerContext();
+  const { confirmPopup } = useConfirmContext();
   const { heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
     likeCount,
     likeStatus,
@@ -56,11 +57,6 @@ const KillingPartTrack = ({
     isOpen: isLoginModalOpen,
     closeModal: closeLoginModal,
     openModal: openLoginModal,
-  } = useModal();
-  const {
-    isOpen: isMyPartModal,
-    closeModal: closeMyPartModal,
-    openModal: openMyPartModal,
   } = useModal();
   const { user } = useAuthContext();
   const isLoggedIn = user !== null;
@@ -148,15 +144,22 @@ const KillingPartTrack = ({
 
   const { mutateData: deleteMemberPart } = useMutation(() => deleteMemberParts(partId));
 
-  const deleteMyPart = async () => {
-    if (!hideMyPart) return;
+  const handleClickDeletePart = async () => {
+    const isConfirmed = await confirmPopup({
+      title: '내 파트 삭제',
+      content: <h3>정말 삭제하시겠습니까?</h3>,
+      confirmation: '삭제',
+      denial: '취소',
+    });
 
-    await deleteMemberPart();
+    if (isConfirmed) {
+      if (!hideMyPart) return;
 
-    hideMyPart();
-    pause();
-    closeMyPartModal();
-    showToast('내 파트가 삭제되었습니다.');
+      await deleteMemberPart();
+      hideMyPart();
+      pause();
+      showToast('내 파트가 삭제되었습니다.');
+    }
   };
 
   return (
@@ -185,7 +188,7 @@ const KillingPartTrack = ({
           <>
             <DeleteButton
               type="button"
-              onClick={openMyPartModal}
+              onClick={handleClickDeletePart}
               aria-label="나의 킬링파트 삭제하기"
             >
               <ButtonIcon src={trashIcon} alt="" />
@@ -211,11 +214,10 @@ const KillingPartTrack = ({
           </>
         )}
       </ButtonContainer>
+
       {isNowPlayingTrack && (
         <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
       )}
-
-      <MyPartModal isOpen={isMyPartModal} closeModal={closeMyPartModal} onDelete={deleteMyPart} />
 
       <LoginModal
         isOpen={isLoginModalOpen}
