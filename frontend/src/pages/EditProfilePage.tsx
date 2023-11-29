@@ -2,16 +2,16 @@ import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import WithdrawalModal from '@/features/member/components/WithdrawalModal';
+import WITHDRAWAL_MESSAGE from '@/features/member/constants/withdrawalMessage';
 import { deleteMember } from '@/features/member/remotes/member';
-import useModal from '@/shared/components/Modal/hooks/useModal';
+import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
-  const { isOpen, openModal, closeModal } = useModal();
+  const { confirmPopup } = useConfirmContext();
   const { mutateData } = useMutation(deleteMember(user?.memberId));
   const navigate = useNavigate();
 
@@ -20,10 +20,19 @@ const EditProfilePage = () => {
     return;
   }
 
-  const handleWithdrawal = async () => {
-    await mutateData();
-    logout();
-    navigate(ROUTE_PATH.ROOT);
+  const handleClickWithdrawal = async () => {
+    const isConfirmed = await confirmPopup({
+      title: '회원 탈퇴',
+      content: <ModalContent>{WITHDRAWAL_MESSAGE}</ModalContent>,
+      confirmation: '탈퇴',
+      denial: '닫기',
+    });
+
+    if (isConfirmed) {
+      await mutateData();
+      logout();
+      navigate(ROUTE_PATH.ROOT);
+    }
   };
 
   return (
@@ -39,9 +48,8 @@ const EditProfilePage = () => {
       <Spacing direction={'vertical'} size={4} />
       <TextArea id="introduction" value={''} disabled maxLength={100} />
       <Spacing direction={'vertical'} size={16} />
-      <WithdrawalButton onClick={openModal}>회원 탈퇴</WithdrawalButton>
+      <WithdrawalButton onClick={handleClickWithdrawal}>회원 탈퇴</WithdrawalButton>
       <SubmitButton disabled>제출</SubmitButton>
-      <WithdrawalModal isOpen={isOpen} closeModal={closeModal} onWithdraw={handleWithdrawal} />
     </Container>
   );
 };
@@ -125,4 +133,13 @@ const SubmitButton = styled.button<{ disabled: boolean }>`
   ${disabledStyle};
   border: none;
   border-radius: 10px;
+`;
+
+const ModalContent = styled.div`
+  align-self: start;
+
+  font-size: 16px;
+  line-height: 200%;
+  color: ${({ theme }) => theme.color.subText};
+  white-space: pre-line;
 `;
