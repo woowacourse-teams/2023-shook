@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import ConfirmModalProvider from '@/shared/components/ConfirmModal/ConfirmModalProvider';
 import GlobalStyles from '@/shared/styles/GlobalStyles';
 import AuthProvider from './features/auth/components/AuthProvider';
 import { loadIFrameApi } from './features/youtube/remotes/loadIframeApi';
@@ -31,7 +32,9 @@ async function main() {
         <GlobalStyles />
         <ThemeProvider theme={theme}>
           <ToastProvider>
-            <RouterProvider router={router} />
+            <ConfirmModalProvider>
+              <RouterProvider router={router} />
+            </ConfirmModalProvider>
           </ToastProvider>
         </ThemeProvider>
       </AuthProvider>
