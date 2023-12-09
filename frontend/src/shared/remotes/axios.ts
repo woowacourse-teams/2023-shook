@@ -1,12 +1,11 @@
-/* eslint-disable prefer-const */
 import axios from 'axios';
 import { postRefreshAccessToken } from '@/features/auth/remotes/auth';
 import type { AccessTokenRes } from '@/features/auth/types/auth.type';
-import type { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios';
 
 const { BASE_URL } = process.env;
 
-const defaultConfig: AxiosRequestConfig = {
+const defaultConfig: CreateAxiosDefaults = {
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
