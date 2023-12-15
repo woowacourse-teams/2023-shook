@@ -53,5 +53,6 @@ public class InMemorySongsScheduler {
             .flatMap(song -> song.getKillingParts().stream())
             .toList();
         killingParts.forEach(entityManager::merge);
+        recreateCachedSong();
     }
 }

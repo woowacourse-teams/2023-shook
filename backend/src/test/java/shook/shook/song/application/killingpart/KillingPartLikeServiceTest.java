@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,6 +46,7 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
     private SongRepository songRepository;
 
     private KillingPartLikeService likeService;
+
     private InMemorySongs inMemorySongs;
 
     @BeforeEach
@@ -221,19 +221,15 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // then
             final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
                 findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
-            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
-                SAVED_KILLING_PART.getId());
+            final Song savedSong = inMemorySongs.getSongById(SAVED_SONG.getId());
 
             assertThat(savedLike).isPresent()
                 .get()
                 .hasFieldOrPropertyWithValue("isDeleted", true);
 
-            assertThat(updatedKillingPart).isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("likeCount", 0);
+            assertThat(savedSong.getTotalLikeCount()).isZero();
         }
 
-        @Disabled()
         @DisplayName("좋아요 데이터가 존재하는 경우, 상태가 변경된다.")
         @Test
         void create_noAction() {
@@ -251,16 +247,13 @@ class KillingPartLikeServiceTest extends UsingJpaTest {
             // then
             final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
                 findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
-            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
-                SAVED_KILLING_PART.getId());
+            final Song savedSong = inMemorySongs.getSongById(SAVED_SONG.getId());
 
             assertThat(savedLike).isPresent()
                 .get()
                 .hasFieldOrPropertyWithValue("isDeleted", true);
 
-            assertThat(updatedKillingPart).isPresent()
-                .get()
-                .hasFieldOrPropertyWithValue("likeCount", 0);
+            assertThat(savedSong.getTotalLikeCount()).isZero();
         }
 
         @DisplayName("존재하지 않는 킬링파트면 예외가 발생한다.")

@@ -25,7 +25,7 @@ public class InMemorySongs {
     private Map<Long, Song> songs = new HashMap<>();
     private List<Long> sortedSongIds = new ArrayList<>();
 
-    public void refreshSongs(final List<Song> songs) {
+    public synchronized void refreshSongs(final List<Song> songs) {
         this.songs = songs.stream()
             .collect(Collectors.toMap(Song::getId, song -> song, (prev, update) -> update, HashMap::new));
         this.sortedSongIds = new ArrayList<>(this.songs.keySet().stream()
@@ -116,7 +116,16 @@ public class InMemorySongs {
         }
     }
 
-    private static KillingPart findKillingPart(final KillingPart killingPart, final Song song) {
+    public void unlike(final KillingPart killingPart, final KillingPartLike unlikeOnKillingPart) {
+        final Song song = songs.get(killingPart.getSong().getId());
+        final KillingPart killingPartById = findKillingPart(killingPart, song);
+        final boolean updated = killingPartById.unlike(unlikeOnKillingPart);
+        if (updated) {
+            reorder(song);
+        }
+    }
+
+    private KillingPart findKillingPart(final KillingPart killingPart, final Song song) {
         return song.getKillingParts().stream()
             .filter(kp -> kp.equals(killingPart))
             .findAny()
@@ -126,14 +135,16 @@ public class InMemorySongs {
     }
 
     private void reorder(final Song updatedSong) {
-        int currentSongIndex = sortedSongIds.indexOf(updatedSong.getId());
+        synchronized (sortedSongIds) {
+            int currentSongIndex = sortedSongIds.indexOf(updatedSong.getId());
 
-        if (currentSongIndex == -1) {
-            return;
+            if (currentSongIndex == -1) {
+                return;
+            }
+
+            moveForward(updatedSong, currentSongIndex);
+            moveBackward(updatedSong, currentSongIndex);
         }
-
-        moveForward(updatedSong, currentSongIndex);
-        moveBackward(updatedSong, currentSongIndex);
     }
 
     private void moveForward(final Song changedSong, final int songIndex) {
@@ -185,14 +196,5 @@ public class InMemorySongs {
         final boolean hasSmallerTotalLikeCountThanNextSong = song.getTotalLikeCount() < nextSong.getTotalLikeCount();
 
         return hasSmallerTotalLikeCountThanNextSong || hasSameTotalLikeCountAndSmallerIdThanNextSong;
-    }
-
-    public void unlike(final KillingPart killingPart, final KillingPartLike unlikeOnKillingPart) {
-        final Song song = songs.get(killingPart.getSong().getId());
-        final KillingPart killingPartById = findKillingPart(killingPart, song);
-        final boolean updated = killingPartById.unlike(unlikeOnKillingPart);
-        if (updated) {
-            reorder(song);
-        }
     }
 }

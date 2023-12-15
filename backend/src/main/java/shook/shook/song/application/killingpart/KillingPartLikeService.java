@@ -57,6 +57,7 @@ public class KillingPartLikeService {
             .orElseGet(() -> createNewLike(killingPart, member));
         if (likeOnKillingPart.isDeleted()) {
             inMemorySongs.like(killingPart, likeOnKillingPart);
+            likeRepository.pressLike(likeOnKillingPart.getId());
         }
     }
 
