@@ -12,16 +12,16 @@ import { useMutation } from '@/shared/hooks/useMutation';
 const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
   const { isOpen, openModal, closeModal } = useModal();
-  const { mutateData } = useMutation(deleteMember(user?.memberId));
+  const { mutateData: withdrawal } = useMutation(deleteMember);
   const navigate = useNavigate();
 
   if (!user) {
     navigate(ROUTE_PATH.LOGIN);
-    return;
+    return null;
   }
 
   const handleWithdrawal = async () => {
-    await mutateData();
+    await withdrawal(user.memberId);
     logout();
     navigate(ROUTE_PATH.ROOT);
   };

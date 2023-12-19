@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import type { ErrorResponse } from '@/shared/remotes';
+import type { ErrorResponse } from '../types/errorResponse';
 
 type FetchDirection = 'prev' | 'next';
 

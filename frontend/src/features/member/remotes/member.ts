@@ -1,5 +1,5 @@
-import fetcher from '@/shared/remotes';
+import { client } from '@/shared/remotes/axios';
 
-export const deleteMember = (memberId: number | undefined) => () => {
-  return fetcher(`/members/${memberId}`, 'DELETE');
+export const deleteMember = async (memberId: number) => {
+  await client.delete(`/members/${memberId}`);
 };
