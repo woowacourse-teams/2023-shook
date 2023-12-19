@@ -1,4 +1,4 @@
-name: Frontend Production Deploy (CD)
+name: FE-프론트엔드 운영 배포
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Frontend Deploy
-    runs-on: shook-prod
+    runs-on: shook-production
 
     steps:
       - name: Checkout Source Code
