@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
-import useFetch from '@/shared/hooks/useFetch';
-import { getComments } from '../remotes/comments';
+import { useCommentsQuery } from '../queries';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 
@@ -17,13 +15,7 @@ interface CommentListProps {
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
   const { isOpen, openModal, closeModal } = useModal(false);
-  const { data: comments, fetchData: refetchComments } = useFetch(() =>
-    getComments(songId, partId)
-  );
-
-  useEffect(() => {
-    refetchComments();
-  }, [partId]);
+  const { comments } = useCommentsQuery(songId, partId);
 
   if (!comments) {
     return null;
@@ -66,7 +58,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
           ))}
         </Comments>
         <Spacing direction="vertical" size={8} />
-        <CommentForm getComments={refetchComments} songId={songId} partId={partId} />
+        <CommentForm songId={songId} partId={partId} />
       </BottomSheet>
     </>
   );
