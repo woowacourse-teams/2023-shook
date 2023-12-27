@@ -51,16 +51,15 @@ class HighLikedSongControllerTest {
     @Test
     void showHighLikedSongs() {
         //given
+        inMemorySongsScheduler.recreateCachedSong();
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
 
         // 정렬 순서 1L 2L 4L 3L
-        inMemorySongsScheduler.recreateCachedSong();
-
         //when
         final List<HighLikedSongResponse> responses = RestAssured.given().log().all()
             .when().log().all()
@@ -94,16 +93,15 @@ class HighLikedSongControllerTest {
     void showHighLikedSongsWithGenre() {
         // given
         final String genre = "DANCE";
+        inMemorySongsScheduler.recreateCachedSong();
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
-            new KillingPartLikeRequest(true));
+                                     new KillingPartLikeRequest(true));
 
         // 정렬 순서 1L 4L 3L
-        inMemorySongsScheduler.recreateCachedSong();
-
         // when
         final List<HighLikedSongResponse> responses = RestAssured.given().log().all()
             .queryParam("genre", genre)
@@ -118,11 +116,11 @@ class HighLikedSongControllerTest {
         assertAll(
             () -> assertThat(responses).hasSize(3),
             () -> assertThat(responses.stream()
-                .map(HighLikedSongResponse::getId)
-                .toList())
+                                 .map(HighLikedSongResponse::getId)
+                                 .toList())
                 .containsExactly(1L, 4L, 3L),
             () -> assertThat(responses.stream()
-                .map(HighLikedSongResponse::getTotalLikeCount))
+                                 .map(HighLikedSongResponse::getTotalLikeCount))
                 .containsExactly(2L, 0L, 0L)
         );
     }

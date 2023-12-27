@@ -18,8 +18,8 @@ import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.member_part.domain.MemberPart;
 import shook.shook.member_part.domain.repository.MemberPartRepository;
 import shook.shook.song.application.dto.KillingPartRegisterRequest;
-import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.application.dto.MemberPartResponse;
+import shook.shook.song.application.dto.RecentSongCarouselResponse;
 import shook.shook.song.application.dto.SongResponse;
 import shook.shook.song.application.dto.SongSwipeResponse;
 import shook.shook.song.application.dto.SongWithKillingPartsRegisterRequest;
@@ -56,12 +56,13 @@ class SongServiceTest extends UsingJpaTest {
     @Autowired
     private ArtistRepository artistRepository;
 
-    private final InMemorySongs inMemorySongs = new InMemorySongs();
+    private InMemorySongs inMemorySongs;
 
     private SongService songService;
 
     @BeforeEach
     public void setUp() {
+        inMemorySongs = new InMemorySongs();
         songService = new SongService(
             songRepository,
             killingPartRepository,
@@ -117,15 +118,15 @@ class SongServiceTest extends UsingJpaTest {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
         final Song song = registerNewSong("title");
+        inMemorySongs.refreshSongs(List.of(song));
         addLikeToEachKillingParts(song, member);
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
         addMemberPartToSong(10, 5, song, member);
 
         //when
         saveAndClearEntityManager();
         final SongSwipeResponse response =
             songService.findSongByIdForFirstSwipe(song.getId(),
-                new MemberInfo(member.getId(), Authority.MEMBER));
+                                                  new MemberInfo(member.getId(), Authority.MEMBER));
 
         //then
         assertAll(
@@ -133,19 +134,19 @@ class SongServiceTest extends UsingJpaTest {
             () -> assertThat(response.getNextSongs()).isEmpty(),
             () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(0).getId())
+                                             song.getLikeCountSortedKillingParts().get(0).getId())
                 .hasFieldOrPropertyWithValue("rank", 1)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
 
             () -> assertThat(response.getCurrentSong().getKillingParts().get(1))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(1).getId())
+                                             song.getLikeCountSortedKillingParts().get(1).getId())
                 .hasFieldOrPropertyWithValue("rank", 2)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
 
             () -> assertThat(response.getCurrentSong().getKillingParts().get(2))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(2).getId())
+                                             song.getLikeCountSortedKillingParts().get(2).getId())
                 .hasFieldOrPropertyWithValue("rank", 3)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
             () -> assertThat(response.getCurrentSong().getMemberPart().getId()).isNotNull()
@@ -162,13 +163,13 @@ class SongServiceTest extends UsingJpaTest {
     void findById_exist_not_login_member() {
         //given
         final Song song = registerNewSong("title");
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
+        inMemorySongs.refreshSongs(List.of(song));
 
         //when인
         saveAndClearEntityManager();
         final SongSwipeResponse response =
             songService.findSongByIdForFirstSwipe(song.getId(),
-                new MemberInfo(0L, Authority.ANONYMOUS));
+                                                  new MemberInfo(0L, Authority.ANONYMOUS));
 
         //then
         assertAll(
@@ -176,19 +177,19 @@ class SongServiceTest extends UsingJpaTest {
             () -> assertThat(response.getNextSongs()).isEmpty(),
             () -> assertThat(response.getCurrentSong().getKillingParts().get(0))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(0).getId())
+                                             song.getLikeCountSortedKillingParts().get(0).getId())
                 .hasFieldOrPropertyWithValue("rank", 1)
                 .hasFieldOrPropertyWithValue("likeStatus", false),
 
             () -> assertThat(response.getCurrentSong().getKillingParts().get(1))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(1).getId())
+                                             song.getLikeCountSortedKillingParts().get(1).getId())
                 .hasFieldOrPropertyWithValue("rank", 2)
                 .hasFieldOrPropertyWithValue("likeStatus", false),
 
             () -> assertThat(response.getCurrentSong().getKillingParts().get(2))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(2).getId())
+                                             song.getLikeCountSortedKillingParts().get(2).getId())
                 .hasFieldOrPropertyWithValue("rank", 3)
                 .hasFieldOrPropertyWithValue("likeStatus", false),
             () -> assertThat(response.getCurrentSong().getMemberPart()).isNull()
@@ -200,13 +201,14 @@ class SongServiceTest extends UsingJpaTest {
     void findById_notExist() {
         //given
         final Member member = createAndSaveMember("email@naver.com", "email");
+        inMemorySongs.refreshSongs(List.of());
 
         //when
         //then
         assertThatThrownBy(() -> songService.findSongByIdForFirstSwipe(
-                0L,
-                new MemberInfo(member.getId(), Authority.MEMBER)
-            )
+                               0L,
+                               new MemberInfo(member.getId(), Authority.MEMBER)
+                           )
         ).isInstanceOf(SongException.SongNotExistException.class);
     }
 
@@ -227,8 +229,8 @@ class SongServiceTest extends UsingJpaTest {
         addLikeToEachKillingParts(thirdSong, member2);
         addLikeToEachKillingParts(fourthSong, member1);
 
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
         saveAndClearEntityManager();
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
         // when
         final List<HighLikedSongResponse> result = songService.showHighLikedSongs();
@@ -304,7 +306,6 @@ class SongServiceTest extends UsingJpaTest {
             // 4, 3, 5, 2, 1
             addLikeToEachKillingParts(thirdSong, member);
             addLikeToEachKillingParts(fourthSong, member);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             // 1, 2, 3 노래에 memberPart 추가
             addMemberPartToSong(10, 5, firstSong, member);
@@ -313,11 +314,12 @@ class SongServiceTest extends UsingJpaTest {
             addMemberPartToSong(10, 5, fourthSong, member);
 
             saveAndClearEntityManager();
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final SongSwipeResponse result =
                 songService.findSongByIdForFirstSwipe(fifthSong.getId(),
-                    new MemberInfo(member.getId(), Authority.MEMBER));
+                                                      new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertAll(
@@ -325,20 +327,20 @@ class SongServiceTest extends UsingJpaTest {
                 () -> assertThat(result.getPrevSongs()).hasSize(2),
                 () -> assertThat(result.getNextSongs()).hasSize(2),
                 () -> assertThat(result.getPrevSongs().stream()
-                    .map(SongResponse::getId)
-                    .toList()).usingRecursiveComparison().isEqualTo(List.of(4L, 3L)),
+                                     .map(SongResponse::getId)
+                                     .toList()).usingRecursiveComparison().isEqualTo(List.of(4L, 3L)),
                 () -> assertThat(result.getNextSongs().stream()
-                    .map(SongResponse::getId)
-                    .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 1L)),
+                                     .map(SongResponse::getId)
+                                     .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 1L)),
                 () -> assertThat(result.getCurrentSong().getMemberPart()).isNull(),
                 () -> assertThat(result.getPrevSongs().stream()
-                    .map(songResponse -> songResponse.getMemberPart().getId())
-                    .toList())
+                                     .map(songResponse -> songResponse.getMemberPart().getId())
+                                     .toList())
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(4L, 3L)),
                 () -> assertThat(result.getNextSongs().stream()
-                    .map(songResponse -> songResponse.getMemberPart().getId())
-                    .toList())
+                                     .map(songResponse -> songResponse.getMemberPart().getId())
+                                     .toList())
                     .usingRecursiveComparison()
                     .isEqualTo(List.of(2L, 1L))
             );
@@ -351,19 +353,21 @@ class SongServiceTest extends UsingJpaTest {
             final Member member = createAndSaveMember("first@naver.com", "first");
             final Long notExistSongId = Long.MAX_VALUE;
 
+            saveAndClearEntityManager();
+
             // when
             // then
             assertThatThrownBy(
                 () -> songService.findSongByIdForFirstSwipe(notExistSongId,
-                    new MemberInfo(member.getId(), Authority.MEMBER)))
+                                                            new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
             assertThatThrownBy(
                 () -> songService.findSongByIdForBeforeSwipe(notExistSongId,
-                    new MemberInfo(member.getId(), Authority.MEMBER)))
+                                                             new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
             assertThatThrownBy(
                 () -> songService.findSongByIdForAfterSwipe(notExistSongId,
-                    new MemberInfo(member.getId(), Authority.MEMBER)))
+                                                            new MemberInfo(member.getId(), Authority.MEMBER)))
                 .isInstanceOf(SongException.SongNotExistException.class);
         }
 
@@ -385,8 +389,6 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(fourthSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
 
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
-
             addMemberPartToSong(10, 5, firstSong, member);
             addMemberPartToSong(10, 5, secondSong, member);
             addMemberPartToSong(10, 5, standardSong, member);
@@ -395,20 +397,21 @@ class SongServiceTest extends UsingJpaTest {
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
             saveAndClearEntityManager();
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> beforeResponses =
                 songService.findSongByIdForBeforeSwipe(standardSong.getId(),
-                    new MemberInfo(member.getId(), Authority.MEMBER));
+                                                       new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertThat(beforeResponses.stream()
-                .map(SongResponse::getId)
-                .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
+                           .map(SongResponse::getId)
+                           .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
             assertThat(beforeResponses.stream()
-                .map(SongResponse::getMemberPart)
-                .map(MemberPartResponse::getId)
-                .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
+                           .map(SongResponse::getMemberPart)
+                           .map(MemberPartResponse::getId)
+                           .toList()).usingRecursiveComparison().isEqualTo(List.of(2L, 4L, 1L, 5L));
         }
 
         @DisplayName("이후 노래를 1. 좋아요 순 내림차순, 2. id 내림차순으로 조회한다.")
@@ -428,7 +431,6 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(secondSong, member2);
             addLikeToEachKillingParts(standardSong, member2);
             addLikeToEachKillingParts(firstSong, member2);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             addMemberPartToSong(10, 5, firstSong, member);
             addMemberPartToSong(10, 5, secondSong, member);
@@ -437,22 +439,22 @@ class SongServiceTest extends UsingJpaTest {
             addMemberPartToSong(10, 5, fifthSong, member);
 
             // 정렬 순서: 2L, 4L, 1L, 5L, 3L
-
             saveAndClearEntityManager();
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
             // when
             final List<SongResponse> afterResponses =
                 songService.findSongByIdForAfterSwipe(standardSong.getId(),
-                    new MemberInfo(member.getId(), Authority.MEMBER));
+                                                      new MemberInfo(member.getId(), Authority.MEMBER));
 
             // then
             assertThat(afterResponses.stream()
-                .map(SongResponse::getId)
-                .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
+                           .map(SongResponse::getId)
+                           .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
             assertThat(afterResponses.stream()
-                .map(SongResponse::getMemberPart)
-                .map(MemberPartResponse::getId)
-                .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
+                           .map(SongResponse::getMemberPart)
+                           .map(MemberPartResponse::getId)
+                           .toList()).usingRecursiveComparison().isEqualTo(List.of(1L, 5L, 3L));
         }
     }
 
@@ -479,9 +481,9 @@ class SongServiceTest extends UsingJpaTest {
             addLikeToEachKillingParts(song1, member);
             addLikeToEachKillingParts(song1, secondMember);
             addLikeToEachKillingParts(song3, member);
-            inMemorySongs.recreate(songRepository.findAllWithKillingParts());
 
             // 정렬 순서: 2L, 1L, 3L, 5L, 4L
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
             saveAndClearEntityManager();
 
             // when
@@ -491,7 +493,7 @@ class SongServiceTest extends UsingJpaTest {
             assertAll(
                 () -> assertThat(response).hasSize(5),
                 () -> assertThat(response.stream()
-                    .map(HighLikedSongResponse::getId).toList())
+                                     .map(HighLikedSongResponse::getId).toList())
                     .containsExactly(2L, 1L, 3L, 5L, 4L)
             );
         }
@@ -504,13 +506,13 @@ class SongServiceTest extends UsingJpaTest {
         final Song song = registerNewSong("title");
         final Member member = createAndSaveMember("email@email.com", "nickname");
         addLikeToEachKillingParts(song, member);
-        inMemorySongs.recreate(songRepository.findAllWithKillingParts());
         addMemberPartToSong(10, 5, song, member);
         saveAndClearEntityManager();
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         final SongResponse response = songService.findSongById(song.getId(),
-            new MemberInfo(member.getId(), Authority.MEMBER));
+                                                               new MemberInfo(member.getId(), Authority.MEMBER));
 
         // then
         assertAll(
@@ -521,19 +523,19 @@ class SongServiceTest extends UsingJpaTest {
             () -> assertThat(response.getKillingParts()).hasSize(3),
             () -> assertThat(response.getKillingParts().get(0))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(0).getId())
+                                             song.getLikeCountSortedKillingParts().get(0).getId())
                 .hasFieldOrPropertyWithValue("rank", 1)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
 
             () -> assertThat(response.getKillingParts().get(1))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(1).getId())
+                                             song.getLikeCountSortedKillingParts().get(1).getId())
                 .hasFieldOrPropertyWithValue("rank", 2)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
 
             () -> assertThat(response.getKillingParts().get(2))
                 .hasFieldOrPropertyWithValue("id",
-                    song.getLikeCountSortedKillingParts().get(2).getId())
+                                             song.getLikeCountSortedKillingParts().get(2).getId())
                 .hasFieldOrPropertyWithValue("rank", 3)
                 .hasFieldOrPropertyWithValue("likeStatus", true),
             () -> assertThat(response.getMemberPart().getId()).isNotNull()
@@ -559,8 +561,8 @@ class SongServiceTest extends UsingJpaTest {
 
         // then
         assertThat(songs.stream()
-            .map(RecentSongCarouselResponse::getId)
-            .toList())
+                       .map(RecentSongCarouselResponse::getId)
+                       .toList())
             .containsExactly(7L, 6L, 5L, 4L, 3L);
     }
 }

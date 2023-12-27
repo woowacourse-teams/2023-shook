@@ -25,7 +25,6 @@ import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.HighLikedSongResponse;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
 
-@SuppressWarnings("NonAsciiCharacters")
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class SongSwipeControllerTest {
@@ -62,6 +61,7 @@ class SongSwipeControllerTest {
         final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, "nickname");
 
         final Long songId = 2L;
+        inMemorySongsScheduler.recreateCachedSong();
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                      new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
@@ -69,7 +69,6 @@ class SongSwipeControllerTest {
         likeService.updateLikeStatus(SECOND_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                      new KillingPartLikeRequest(true));
 
-        inMemorySongsScheduler.recreateCachedSong();
         // 정렬 순서: 1L, 2L, 4L, 3L
         //when
         final SongSwipeResponse response = RestAssured.given().log().all()
@@ -97,6 +96,8 @@ class SongSwipeControllerTest {
         // given
         final Long songId = 2L;
         final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, "nickname");
+
+        inMemorySongsScheduler.recreateCachedSong();
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                      new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
@@ -105,8 +106,6 @@ class SongSwipeControllerTest {
         memberPartService.register(1L, MEMBER_ID, new MemberPartRegisterRequest(5, 5));
 
         // 정렬 순서 1L, 4L, 3L, 2L
-        inMemorySongsScheduler.recreateCachedSong();
-
         //when
         final List<SongResponse> response = RestAssured.given().log().all()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -214,6 +213,7 @@ class SongSwipeControllerTest {
             final String genre = "DANCE";
             final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, "nickname");
 
+            inMemorySongsScheduler.recreateCachedSong();
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                          new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
@@ -224,8 +224,6 @@ class SongSwipeControllerTest {
             memberPartService.register(1L, MEMBER_ID, new MemberPartRegisterRequest(5, 5));
 
             // 정렬 순서 1L, 4L, 3L
-            inMemorySongsScheduler.recreateCachedSong();
-
             //when
             final SongSwipeResponse response = RestAssured.given().log().all()
                 .queryParam("genre", genre)
@@ -258,6 +256,7 @@ class SongSwipeControllerTest {
             final String genre = "DANCE";
             final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, "nickname");
 
+            inMemorySongsScheduler.recreateCachedSong();
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                          new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
@@ -266,8 +265,6 @@ class SongSwipeControllerTest {
             memberPartService.register(1L, MEMBER_ID, new MemberPartRegisterRequest(5, 5));
 
             // 정렬 순서 1L, 4L, 3L
-            inMemorySongsScheduler.recreateCachedSong();
-
             //when
             final List<SongResponse> response = RestAssured.given().log().all()
                 .queryParam("genre", genre)
@@ -295,6 +292,7 @@ class SongSwipeControllerTest {
             final String genre = "DANCE";
             final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, "nickname");
 
+            inMemorySongsScheduler.recreateCachedSong();
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                          new KillingPartLikeRequest(true));
             likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_2, MEMBER_ID,
@@ -305,8 +303,6 @@ class SongSwipeControllerTest {
             memberPartService.register(4L, MEMBER_ID, new MemberPartRegisterRequest(5, 5));
 
             // 정렬 순서 1L, 4L, 3L
-            inMemorySongsScheduler.recreateCachedSong();
-
             //when
             final List<SongResponse> response = RestAssured.given().log().all()
                 .queryParam("genre", genre)

@@ -22,8 +22,9 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     @Query("SELECT s AS song "
         + "FROM Song s "
         + "LEFT JOIN FETCH s.killingParts.killingParts kp "
-        + "GROUP BY s.id, kp.id")
-    List<Song> findAllWithKillingParts();
+        + "LEFT JOIN FETCH kp.killingPartLikes.likes kpl "
+        + "GROUP BY s.id, kp.id, kpl.id")
+    List<Song> findAllWithKillingPartsAndLikes();
 
     @Query("SELECT s FROM Song s "
         + "LEFT JOIN s.killingParts.killingParts kp "

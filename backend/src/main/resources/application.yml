@@ -70,3 +70,4 @@ schedules:
     cron: "0 0 0/1 * * *"
   in-memory-song:
     cron: "0 0 0/1 * * *" #1시간
+    update-cron: "0 0 0/1 * * *" #1시간

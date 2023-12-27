@@ -18,9 +18,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 import shook.shook.member.domain.Member;
 import shook.shook.member.domain.repository.MemberRepository;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.domain.InMemorySongs;
+import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.song.domain.repository.SongRepository;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")
 @SpringBootTest
@@ -28,6 +31,7 @@ class KillingPartLikeConcurrencyTest {
 
     private static KillingPart SAVED_KILLING_PART;
     private static Member SAVED_MEMBER;
+    private static Song SAVED_SONG;
 
     @Autowired
     private KillingPartRepository killingPartRepository;
@@ -41,14 +45,22 @@ class KillingPartLikeConcurrencyTest {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @Autowired
+    private InMemorySongs inMemorySongs;
+
+    @Autowired
+    private SongRepository songRepository;
+
     private KillingPartLikeService likeService;
     private TransactionTemplate transactionTemplate;
 
     @BeforeEach
     void setUp() {
+        SAVED_SONG = songRepository.findById(1L).get();
         SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
         SAVED_MEMBER = memberRepository.findById(1L).get();
-        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository);
+        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository,
+                                                 inMemorySongs);
         transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
@@ -59,6 +71,7 @@ class KillingPartLikeConcurrencyTest {
         // given
         final Member first = SAVED_MEMBER;
         final Member second = memberRepository.save(new Member("second@gmail.com", "second"));
+        inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
 
         // when
         ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -67,24 +80,28 @@ class KillingPartLikeConcurrencyTest {
         final KillingPartLikeRequest request = new KillingPartLikeRequest(true);
 
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), request);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(),
+                                                                     request);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), second.getId(), request);
-                latch.countDown();
-                return null;
-            }))
+                                    transactionTemplate.execute((status -> {
+                                        likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), second.getId(),
+                                                                     request);
+                                        latch.countDown();
+                                        return null;
+                                    }))
         );
         latch.await();
         Thread.sleep(1000);
 
         // then
-        final KillingPart killingPart = killingPartRepository.findById(SAVED_KILLING_PART.getId()).get();
+        final KillingPart killingPart = inMemorySongs.getSongById(SAVED_SONG.getId()).getKillingParts().stream()
+            .filter(kp -> kp.getId().equals(SAVED_KILLING_PART.getId()))
+            .findAny().get();
         assertThat(killingPart.getLikeCount()).isEqualTo(2);
     }
 
@@ -102,26 +119,23 @@ class KillingPartLikeConcurrencyTest {
         final KillingPartLikeRequest likeRequest = new KillingPartLikeRequest(true);
         final KillingPartLikeRequest unlikeRequest = new KillingPartLikeRequest(false);
 
-        executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
-                latch.countDown();
-                return null;
-            }))
+        executorService.execute(() -> transactionTemplate.execute((status -> {
+                                    likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
+                                    latch.countDown();
+                                    return null;
+                                }))
         );
-        executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), unlikeRequest);
-                latch.countDown();
-                return null;
-            }))
+        executorService.execute(() -> transactionTemplate.execute((status -> {
+                                    likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), unlikeRequest);
+                                    latch.countDown();
+                                    return null;
+                                }))
         );
-        executorService.execute(() ->
-            transactionTemplate.execute((status -> {
-                likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
-                latch.countDown();
-                return null;
-            }))
+        executorService.execute(() -> transactionTemplate.execute((status -> {
+                                    likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), first.getId(), likeRequest);
+                                    latch.countDown();
+                                    return null;
+                                }))
         );
 
         latch.await();
