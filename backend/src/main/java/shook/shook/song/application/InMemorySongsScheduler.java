@@ -40,8 +40,6 @@ public class InMemorySongsScheduler {
         songs.stream()
             .peek(entityManager::detach)
             .flatMap(song -> song.getKillingParts().stream())
-            .peek(entityManager::detach)
-            .flatMap(killingPart -> killingPart.getKillingPartLikes().stream())
             .forEach(entityManager::detach);
     }
 
@@ -53,6 +51,5 @@ public class InMemorySongsScheduler {
             .flatMap(song -> song.getKillingParts().stream())
             .toList();
         killingParts.forEach(entityManager::merge);
-        recreateCachedSong();
     }
 }
