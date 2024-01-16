@@ -7,25 +7,24 @@ import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
-import { useMutation } from '@/shared/hooks/useMutation';
-import fetcher from '@/shared/remotes';
+import { usePostCommentMutation } from '../queries';
 
 interface CommentFormProps {
-  getComment: () => Promise<void>;
   songId: number;
   partId: number;
 }
 
-const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
+const CommentForm = ({ songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
   const { isOpen, closeModal: closeLoginModal, openModal: openLoginModal } = useModal();
   const { user } = useAuthContext();
 
   const isLoggedIn = !!user;
 
-  const { mutateData } = useMutation(() =>
-    fetcher(`/songs/${songId}/parts/${partId}/comments`, 'POST', { content: newComment.trim() })
-  );
+  const {
+    postNewComment,
+    mutations: { isPending: isPendingPostComment },
+  } = usePostCommentMutation();
 
   const { showToast } = useToastContext();
 
@@ -35,14 +34,18 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
     currentTarget: { value },
   }) => setNewComment(value);
 
-  const submitNewComment: React.FormEventHandler<HTMLFormElement> = async (event) => {
+  const submitNewComment: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    await mutateData();
-
-    showToast('댓글이 등록되었습니다.');
-    resetNewComment();
-    getComment();
+    postNewComment(
+      { songId, partId, content: newComment.trim() },
+      {
+        onSuccess: () => {
+          showToast('댓글이 등록되었습니다.');
+          resetNewComment();
+        },
+      }
+    );
   };
 
   return (
@@ -53,6 +56,7 @@ const CommentForm = ({ getComment, songId, partId }: CommentFormProps) => {
             <Avatar src={shookshook} alt="슉슉이" />
             <Input
               type="text"
+              disabled={isPendingPostComment}
               value={newComment}
               onChange={changeNewComment}
               placeholder="댓글 추가..."
@@ -123,6 +127,10 @@ const Input = styled.input`
   outline: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+
+  &:disabled {
+    color: ${({ theme: { color } }) => color.disabledBackground};
+  }
 `;
 
 const FlexEnd = styled.div`

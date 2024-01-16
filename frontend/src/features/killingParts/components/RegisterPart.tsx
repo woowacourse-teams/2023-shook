@@ -2,19 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
-import { usePostKillingPart } from '@/features/killingParts/remotes/usePostKillingPart';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import useModal from '@/shared/components/Modal/hooks/useModal';
 import Modal from '@/shared/components/Modal/Modal';
 import Spacing from '@/shared/components/Spacing';
+import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
+import { postKillingPart } from '../remotes/killingPart';
 
 const RegisterPart = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { user } = useAuthContext();
   const { interval, partStartTime, songId } = useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const { createKillingPart } = usePostKillingPart();
+  const { mutateData: createKillingPart } = useMutation(postKillingPart);
   const navigate = useNavigate();
 
   // 현재 useMutation 훅이 response 객체를 리턴하지 않고 내부적으로 처리합니다.
