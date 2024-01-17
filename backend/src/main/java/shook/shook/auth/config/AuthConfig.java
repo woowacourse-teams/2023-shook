@@ -2,6 +2,7 @@ package shook.shook.auth.config;
 
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -12,6 +13,7 @@ import shook.shook.auth.ui.interceptor.PathMatcherInterceptor;
 import shook.shook.auth.ui.interceptor.PathMethod;
 import shook.shook.auth.ui.interceptor.TokenInterceptor;
 
+@Profile("!local")
 @Configuration
 public class AuthConfig implements WebMvcConfigurer {
 
