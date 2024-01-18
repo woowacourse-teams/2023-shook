@@ -1,0 +1,281 @@
+package shook.shook.legacy.song.application.killingpart;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+import shook.shook.legacy.member.domain.Member;
+import shook.shook.legacy.member.domain.repository.MemberRepository;
+import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.legacy.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.legacy.song.domain.InMemorySongs;
+import shook.shook.legacy.song.domain.Song;
+import shook.shook.legacy.song.domain.killingpart.KillingPart;
+import shook.shook.legacy.song.domain.killingpart.KillingPartLike;
+import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepository;
+import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
+import shook.shook.legacy.song.domain.repository.SongRepository;
+import shook.shook.legacy.song.exception.killingpart.KillingPartException;
+import shook.shook.legacy.support.UsingJpaTest;
+
+@Sql("classpath:/killingpart/initialize_killing_part_song.sql")
+class KillingPartLikeServiceTest extends UsingJpaTest {
+
+    private static final long UNSAVED_MEMBER_ID = Long.MAX_VALUE;
+    private static final long UNSAVED_KILLING_PART_ID = Long.MAX_VALUE;
+    private static KillingPart SAVED_KILLING_PART;
+    private static Member SAVED_MEMBER;
+    private static Song SAVED_SONG;
+
+    @Autowired
+    private KillingPartRepository killingPartRepository;
+
+    @Autowired
+    private KillingPartLikeRepository killingPartLikeRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private SongRepository songRepository;
+
+    private KillingPartLikeService likeService;
+
+    private InMemorySongs inMemorySongs;
+
+    @BeforeEach
+    void setUp() {
+        SAVED_SONG = songRepository.findById(1L).get();
+        SAVED_KILLING_PART = killingPartRepository.findById(1L).get();
+        SAVED_MEMBER = memberRepository.findById(1L).get();
+        inMemorySongs = new InMemorySongs();
+        likeService = new KillingPartLikeService(killingPartRepository, memberRepository, killingPartLikeRepository,
+                                                 inMemorySongs);
+    }
+
+    @DisplayName("킬링파트 좋아요를 누른다.")
+    @Nested
+    class Create {
+
+        @DisplayName("좋아요 데이터가 없는 경우, 새로운 좋아요가 생성된다.")
+        @Test
+        void create_newLike() {
+            // given
+            // when
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
+
+            assertThat(savedLike).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("isDeleted", false);
+
+            assertThat(updatedKillingPart).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("likeCount", 1);
+        }
+
+        @DisplayName("좋아요 데이터가 존재하지만 삭제된 경우, 상태가 변경된다.")
+        @Test
+        void create_updateLike_exist() {
+            // given
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(false));
+            saveAndClearEntityManager();
+
+            // when
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
+
+            assertThat(savedLike).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("isDeleted", false);
+
+            assertThat(updatedKillingPart).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("likeCount", 1);
+        }
+
+        @DisplayName("좋아요 데이터가 존재하는 경우, 좋아요가 업데이트되지 않는다.")
+        @Test
+        void create_noAction() {
+            // given
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            saveAndClearEntityManager();
+
+            // when
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Optional<KillingPart> updatedKillingPart = inMemorySongs.getSongById(SAVED_SONG.getId())
+                .getKillingParts().stream()
+                .filter(killingPart -> killingPart.getId().equals(SAVED_KILLING_PART.getId()))
+                .findAny();
+
+            assertThat(savedLike).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("isDeleted", false);
+
+            assertThat(updatedKillingPart).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("likeCount", 1);
+        }
+
+        @DisplayName("존재하지 않는 킬링파트면 예외가 발생한다.")
+        @Test
+        void create_KillingPartException() {
+            // given
+            // when, then
+            assertThatThrownBy(
+                () -> likeService.updateLikeStatus(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId(),
+                                                   new KillingPartLikeRequest(true)))
+                .isInstanceOf(KillingPartException.PartNotExistException.class);
+        }
+
+        @DisplayName("존재하지 않는 사용자면 예외가 발생한다.")
+        @Test
+        void create_memberNotExist() {
+            // given
+            // when, then
+            assertThatThrownBy(
+                () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
+                                                   new KillingPartLikeRequest(true)))
+                .isInstanceOf(MemberException.MemberNotExistException.class);
+        }
+    }
+
+    @DisplayName("킬링파트 좋아요를 취소한다.")
+    @Nested
+    class Delete {
+
+        @DisplayName("좋아요 데이터가 없는 경우, 취소가 업데이트되지 않는다.")
+        @Test
+        void delete_noAction() {
+            // given
+            // when
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(false));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Optional<KillingPart> updatedKillingPart = killingPartRepository.findById(
+                SAVED_KILLING_PART.getId());
+
+            assertThat(savedLike).isEmpty();
+            assertThat(updatedKillingPart).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("likeCount", 0);
+        }
+
+        @DisplayName("좋아요 데이터가 존재하지만 삭제된 경우, 취소가 업데이트되지 않는다.")
+        @Test
+        void delete_alreadyDeleted_noAction() {
+            // given
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(false));
+            saveAndClearEntityManager();
+
+            // when
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(false));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Song savedSong = inMemorySongs.getSongById(SAVED_SONG.getId());
+
+            assertThat(savedLike).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("isDeleted", true);
+
+            assertThat(savedSong.getTotalLikeCount()).isZero();
+        }
+
+        @DisplayName("좋아요 데이터가 존재하는 경우, 상태가 변경된다.")
+        @Test
+        void create_noAction() {
+            // given
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(true));
+            saveAndClearEntityManager();
+
+            // when
+            likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), SAVED_MEMBER.getId(),
+                                         new KillingPartLikeRequest(false));
+            saveAndClearEntityManager();
+
+            // then
+            final Optional<KillingPartLike> savedLike = killingPartLikeRepository.
+                findByKillingPartAndMember(SAVED_KILLING_PART, SAVED_MEMBER);
+            final Song savedSong = inMemorySongs.getSongById(SAVED_SONG.getId());
+
+            assertThat(savedLike).isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("isDeleted", true);
+
+            assertThat(savedSong.getTotalLikeCount()).isZero();
+        }
+
+        @DisplayName("존재하지 않는 킬링파트면 예외가 발생한다.")
+        @Test
+        void create_KillingPartException() {
+            // given
+            // when, then
+            assertThatThrownBy(
+                () -> likeService.updateLikeStatus(UNSAVED_KILLING_PART_ID, SAVED_MEMBER.getId(),
+                                                   new KillingPartLikeRequest(true)))
+                .isInstanceOf(KillingPartException.PartNotExistException.class);
+        }
+
+        @DisplayName("존재하지 않는 사용자면 예외가 발생한다.")
+        @Test
+        void create_memberNotExist() {
+            // given
+            // when, then
+            assertThatThrownBy(
+                () -> likeService.updateLikeStatus(SAVED_KILLING_PART.getId(), UNSAVED_MEMBER_ID,
+                                                   new KillingPartLikeRequest(false)))
+                .isInstanceOf(MemberException.MemberNotExistException.class);
+        }
+    }
+}
