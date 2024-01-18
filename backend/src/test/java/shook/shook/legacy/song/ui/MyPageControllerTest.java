@@ -16,7 +16,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.legacy.auth.application.TokenProvider;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.legacy.member_part.application.MemberPartService;
 import shook.shook.legacy.member_part.application.dto.MemberPartRegisterRequest;
 import shook.shook.legacy.member_part.domain.MemberPart;

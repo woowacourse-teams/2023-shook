@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import shook.shook.legacy.auth.ui.argumentresolver.Authenticated;
-import shook.shook.legacy.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.auth.ui.argumentresolver.Authenticated;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartCommentResponse;
 

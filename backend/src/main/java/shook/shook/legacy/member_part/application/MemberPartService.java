@@ -4,7 +4,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shook.shook.legacy.auth.exception.AuthorizationException;
+import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
 import shook.shook.legacy.member.exception.MemberException;

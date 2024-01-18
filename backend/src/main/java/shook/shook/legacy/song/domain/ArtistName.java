@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.legacy.song.exception.ArtistException;
-import shook.shook.legacy.util.StringChecker;
+import shook.shook.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

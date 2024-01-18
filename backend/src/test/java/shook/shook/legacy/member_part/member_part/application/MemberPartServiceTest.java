@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
-import shook.shook.legacy.auth.exception.AuthorizationException;
+import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
 import shook.shook.legacy.member.exception.MemberException;

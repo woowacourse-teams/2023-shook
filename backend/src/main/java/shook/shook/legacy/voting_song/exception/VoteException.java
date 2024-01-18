@@ -1,8 +1,8 @@
 package shook.shook.legacy.voting_song.exception;
 
 import java.util.Map;
-import shook.shook.legacy.globalexception.CustomException;
-import shook.shook.legacy.globalexception.ErrorCode;
+import shook.shook.globalexception.CustomException;
+import shook.shook.globalexception.ErrorCode;
 
 public class VoteException extends CustomException {
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import shook.shook.legacy.auth.application.TokenProvider;
+import shook.shook.auth.application.TokenProvider;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
 import shook.shook.legacy.support.AcceptanceTest;

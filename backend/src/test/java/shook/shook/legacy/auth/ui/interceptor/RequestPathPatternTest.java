@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.util.AntPathMatcher;
+import shook.shook.auth.ui.interceptor.PathMethod;
+import shook.shook.auth.ui.interceptor.RequestPathPattern;
 
 class RequestPathPatternTest {
 

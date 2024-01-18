@@ -5,7 +5,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shook.shook.legacy.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
 import shook.shook.legacy.member.exception.MemberException;

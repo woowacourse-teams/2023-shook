@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import shook.shook.legacy.auth.ui.argumentresolver.Authenticated;
-import shook.shook.legacy.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.auth.ui.argumentresolver.Authenticated;
+import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartLikeRequest;
 
 @Tag(name = "Killing Part Like", description = "킬링파트 좋아요 API")
