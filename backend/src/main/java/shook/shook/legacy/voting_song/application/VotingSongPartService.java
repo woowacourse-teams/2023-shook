@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
 import shook.shook.legacy.part.domain.PartLength;
 import shook.shook.legacy.voting_song.application.dto.VotingSongPartRegisterRequest;
 import shook.shook.legacy.voting_song.domain.Vote;
@@ -19,6 +18,7 @@ import shook.shook.legacy.voting_song.domain.repository.VotingSongPartRepository
 import shook.shook.legacy.voting_song.domain.repository.VotingSongRepository;
 import shook.shook.legacy.voting_song.exception.VotingSongException;
 import shook.shook.legacy.voting_song.exception.VotingSongPartException;
+import shook.shook.member.exception.MemberException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

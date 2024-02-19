@@ -1,23 +1,23 @@
-package shook.shook.legacy.song.exception.killingpart;
+package shook.shook.part_comment.exception;
 
 import java.util.Map;
 import shook.shook.globalexception.CustomException;
 import shook.shook.globalexception.ErrorCode;
 
-public class KillingPartCommentException extends CustomException {
+public class PartCommentException extends CustomException {
 
-    public KillingPartCommentException(final ErrorCode errorCode) {
+    public PartCommentException(final ErrorCode errorCode) {
         super(errorCode);
     }
 
-    public KillingPartCommentException(
+    public PartCommentException(
         final ErrorCode errorCode,
         final Map<String, String> inputValuesByProperty
     ) {
         super(errorCode, inputValuesByProperty);
     }
 
-    public static class NullOrEmptyPartCommentException extends KillingPartCommentException {
+    public static class NullOrEmptyPartCommentException extends PartCommentException {
 
         public NullOrEmptyPartCommentException() {
             super(ErrorCode.EMPTY_KILLING_PART_COMMENT);
@@ -28,7 +28,7 @@ public class KillingPartCommentException extends CustomException {
         }
     }
 
-    public static class TooLongPartCommentException extends KillingPartCommentException {
+    public static class TooLongPartCommentException extends PartCommentException {
 
         public TooLongPartCommentException() {
             super(ErrorCode.TOO_LONG_KILLING_PART_COMMENT);
@@ -39,7 +39,7 @@ public class KillingPartCommentException extends CustomException {
         }
     }
 
-    public static class CommentForOtherPartException extends KillingPartCommentException {
+    public static class CommentForOtherPartException extends PartCommentException {
 
         public CommentForOtherPartException() {
             super(ErrorCode.KILLING_PART_COMMENT_FOR_OTHER_PART);
@@ -50,7 +50,7 @@ public class KillingPartCommentException extends CustomException {
         }
     }
 
-    public static class DuplicateCommentExistException extends KillingPartCommentException {
+    public static class DuplicateCommentExistException extends PartCommentException {
 
         public DuplicateCommentExistException() {
             super(ErrorCode.DUPLICATE_COMMENT_EXIST);

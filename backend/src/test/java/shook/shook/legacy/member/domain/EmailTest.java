@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.TooLongIdentifierException;
 
 class EmailTest {
 
@@ -42,6 +43,6 @@ class EmailTest {
         //when
         //then
         assertThatThrownBy(() -> new Email(email))
-            .isInstanceOf(MemberException.TooLongEmailException.class);
+            .isInstanceOf(TooLongIdentifierException.class);
     }
 }

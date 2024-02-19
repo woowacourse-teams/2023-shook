@@ -7,9 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.legacy.song.exception.SongException;
+import shook.shook.song.exception.SongException;
 
-class SongLengthTest {
+class SongPartLengthTest {
 
     @DisplayName("노래의 길이를 뜻하는 객체를 생성한다.")
     @Test

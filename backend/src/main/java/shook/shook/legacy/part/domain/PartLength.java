@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.legacy.part.exception.PartException.InvalidLengthException;
+import shook.shook.part.exception.PartException.InvalidLengthException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -9,21 +9,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import shook.shook.artist.exception.ArtistException;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.exception.OAuthException;
 import shook.shook.auth.exception.TokenException;
-import shook.shook.legacy.member.exception.MemberException;
 import shook.shook.legacy.member_part.exception.MemberPartException;
-import shook.shook.legacy.part.exception.PartException;
-import shook.shook.legacy.song.exception.ArtistException;
-import shook.shook.legacy.song.exception.SongException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartLikeException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartsException;
 import shook.shook.legacy.voting_song.exception.VoteException;
 import shook.shook.legacy.voting_song.exception.VotingSongException;
 import shook.shook.legacy.voting_song.exception.VotingSongPartException;
+import shook.shook.member.exception.MemberException;
+import shook.shook.part.exception.PartException;
+import shook.shook.song.exception.SongException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartsException;
 
 // TODO 2024/01/18 : migration 완료 후 재작성
 @Slf4j
@@ -105,8 +107,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
         KillingPartException.class,
         KillingPartLikeException.EmptyLikeException.class,
-        KillingPartCommentException.CommentForOtherPartException.class,
-        KillingPartCommentException.DuplicateCommentExistException.class,
+        CommentForOtherPartException.class,
+        DuplicateCommentExistException.class,
         KillingPartsException.class,
         KillingPartLikeException.class,
         VotingSongPartException.PartForOtherSongException.class,

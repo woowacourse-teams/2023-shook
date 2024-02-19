@@ -24,8 +24,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.legacy.part.domain.PartLength;
-import shook.shook.legacy.part.exception.PartException;
 import shook.shook.legacy.voting_song.exception.VoteException;
+import shook.shook.part.exception.PartException;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter

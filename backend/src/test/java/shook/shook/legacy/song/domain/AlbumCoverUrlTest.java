@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.legacy.song.exception.SongException;
+import shook.shook.song.exception.SongException;
 
 class AlbumCoverUrlTest {
 

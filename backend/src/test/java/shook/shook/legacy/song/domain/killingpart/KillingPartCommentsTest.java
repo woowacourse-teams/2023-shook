@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.song.domain.Song;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
 
 class KillingPartCommentsTest {
 
@@ -44,7 +44,7 @@ class KillingPartCommentsTest {
         assertThatThrownBy(
             () -> partComments.addComment(
                 KillingPartComment.saved(1L, killingPart, "댓글 내용", MEMBER))
-        ).isInstanceOf(KillingPartCommentException.DuplicateCommentExistException.class);
+        ).isInstanceOf(DuplicateCommentExistException.class);
     }
 
     @DisplayName("최신 순으로 정렬된 댓글을 반환한다.")

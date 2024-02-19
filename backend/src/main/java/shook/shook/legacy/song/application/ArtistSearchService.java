@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shook.shook.artist.exception.ArtistException;
 import shook.shook.legacy.song.application.dto.ArtistResponse;
 import shook.shook.legacy.song.application.dto.ArtistWithSongSearchResponse;
 import shook.shook.legacy.song.domain.Artist;
@@ -16,7 +17,6 @@ import shook.shook.legacy.song.domain.Song;
 import shook.shook.legacy.song.domain.repository.ArtistRepository;
 import shook.shook.legacy.song.domain.repository.SongRepository;
 import shook.shook.legacy.song.domain.repository.dto.SongTotalLikeCountDto;
-import shook.shook.legacy.song.exception.ArtistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

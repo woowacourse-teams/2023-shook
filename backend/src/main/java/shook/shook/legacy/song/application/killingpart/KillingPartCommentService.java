@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartCommentRegisterRequest;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartCommentResponse;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartComment;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartCommentRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
+import shook.shook.member.exception.MemberException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

@@ -1,4 +1,4 @@
-package shook.shook.legacy.part.exception;
+package shook.shook.part.exception;
 
 import java.util.Map;
 import shook.shook.globalexception.CustomException;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.part.domain.PartLength;
-import shook.shook.legacy.part.exception.PartException;
+import shook.shook.part.exception.PartException;
 import shook.shook.legacy.song.domain.Artist;
 
 class VotingSongPartsTest {

@@ -1,4 +1,4 @@
-package shook.shook.legacy.song.exception.killingpart;
+package shook.shook.song.exception.legacy_killingpart;
 
 import java.util.Map;
 import shook.shook.globalexception.CustomException;

@@ -9,7 +9,7 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -26,7 +26,7 @@ public class KillingPartComments {
 
     private void validateComment(final KillingPartComment comment) {
         if (comments.contains(comment)) {
-            throw new KillingPartCommentException.DuplicateCommentExistException(
+            throw new DuplicateCommentExistException(
                 Map.of("KillingPartCommentId", String.valueOf(comment.getId()))
             );
         }

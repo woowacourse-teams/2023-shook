@@ -7,8 +7,8 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.legacy.member.exception.MemberException.NullOrEmptyNicknameException;
-import shook.shook.legacy.member.exception.MemberException.TooLongNicknameException;
+import shook.shook.member.exception.MemberException.NullOrEmptyNicknameException;
+import shook.shook.member.exception.MemberException.TooLongNicknameException;
 import shook.shook.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

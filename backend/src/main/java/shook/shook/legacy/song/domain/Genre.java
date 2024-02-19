@@ -2,7 +2,7 @@ package shook.shook.legacy.song.domain;
 
 import java.util.Arrays;
 import java.util.Map;
-import shook.shook.legacy.song.exception.SongException;
+import shook.shook.song.exception.SongException;
 
 public enum Genre {
 

@@ -11,7 +11,7 @@ create table if not exists song
     id              bigint auto_increment,
     title           varchar(100) not null,
     artist_id       bigint       not null,
-    length          integer      not null,
+    partLength          integer      not null,
     video_id        varchar(20)  not null,
     album_cover_url text         not null,
     genre           varchar(255) check (genre in
@@ -26,7 +26,7 @@ create table if not exists killing_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       integer      not null,
+    partLength       integer      not null,
     song_id      bigint       not null,
     like_count   integer      not null default 0,
     created_at   timestamp(6) not null,
@@ -67,7 +67,7 @@ create table if not exists member_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       integer      not null,
+    partLength       integer      not null,
     song_id      bigint       not null,
     member_id    bigint       not null,
     created_at   timestamp(6) not null,
@@ -87,38 +87,38 @@ INSERT INTO artist (name, profile_image_url, created_at) values ('NewJeans', 'ht
 INSERT INTO artist (name, profile_image_url, created_at) values ('가수', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
 INSERT INTO artist (name, profile_image_url, created_at) values ('정국', 'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now());
 
-INSERT INTO song (title, artist_id, length, video_id, album_cover_url, created_at, genre)
+INSERT INTO song (title, artist_id, partLength, video_id, album_cover_url, created_at, genre)
 VALUES ('Super Shy', 1, 200, 'ArmDp-zijuc',
         'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now(), 'DANCE');
-INSERT INTO song (title, artist_id, length, video_id, album_cover_url, created_at, genre)
+INSERT INTO song (title, artist_id, partLength, video_id, album_cover_url, created_at, genre)
 VALUES ('노래', 2, 263, 'sjeifksl',
         'http://i.maniadb.com/images/album/29382/028492.jpg', now(), 'HIPHOP');
-INSERT INTO song (title, artist_id, length, video_id, album_cover_url, created_at, genre)
+INSERT INTO song (title, artist_id, partLength, video_id, album_cover_url, created_at, genre)
 VALUES ('Not Shy', 1, 200, 'ArmDp-zijuc',
         'http://i.maniadb.com/images/album/999/999126_1_f.jpg', now(), 'DANCE');
-INSERT INTO song (title, artist_id, length, video_id, album_cover_url, created_at, genre)
+INSERT INTO song (title, artist_id, partLength, video_id, album_cover_url, created_at, genre)
 VALUES ('Seven (feat. Latto) - Clean Ver.', 3, 186, 'UUSbUBYqU_8',
         'http://i.maniadb.com/images/album/1000/000246_1_f.jpg', now(), 'DANCE');
 
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (10, 5, 1, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (15, 15, 1, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (20, 10, 1, 0, now());
 
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (10, 5, 2, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (15, 15, 2, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (20, 10, 2, 0, now());
 
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (10, 5, 3, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (15, 15, 3, 0, now());
-INSERT INTO killing_part (start_second, length, song_id, like_count, created_at)
+INSERT INTO killing_part (start_second, partLength, song_id, like_count, created_at)
 VALUES (20, 10, 3, 0, now());
 
 INSERT INTO member (email, nickname, created_at)

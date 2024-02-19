@@ -12,10 +12,10 @@ import shook.shook.legacy.song.domain.Artist;
 import shook.shook.legacy.song.domain.Genre;
 import shook.shook.legacy.song.domain.KillingParts;
 import shook.shook.legacy.song.domain.Song;
-import shook.shook.legacy.song.exception.SongException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartLikeException;
+import shook.shook.song.exception.SongException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
 
 class KillingPartTest {
 
@@ -115,7 +115,7 @@ class KillingPartTest {
             assertThatThrownBy(
                 () -> firstPart.addComment(
                     KillingPartComment.saved(2L, secondPart, "댓글 내용", MEMBER)))
-                .isInstanceOf(KillingPartCommentException.CommentForOtherPartException.class);
+                .isInstanceOf(CommentForOtherPartException.class);
         }
     }
 

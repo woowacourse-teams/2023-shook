@@ -6,8 +6,8 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException.NullOrEmptyPartCommentException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException.TooLongPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.NullOrEmptyPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.TooLongPartCommentException;
 import shook.shook.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

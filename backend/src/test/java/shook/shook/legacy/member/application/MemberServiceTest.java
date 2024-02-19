@@ -14,7 +14,7 @@ import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.Nickname;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartComment;
 import shook.shook.legacy.song.domain.killingpart.KillingPartLike;

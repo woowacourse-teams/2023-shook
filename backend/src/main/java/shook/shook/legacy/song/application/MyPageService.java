@@ -8,14 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
-import shook.shook.legacy.member.exception.MemberException.MemberNotExistException;
 import shook.shook.legacy.member_part.domain.repository.MemberPartRepository;
 import shook.shook.legacy.member_part.domain.repository.dto.SongMemberPartCreatedAtDto;
 import shook.shook.legacy.song.application.dto.LikedKillingPartResponse;
 import shook.shook.legacy.song.application.dto.MyPartsResponse;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.dto.SongKillingPartKillingPartLikeCreatedAtDto;
+import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

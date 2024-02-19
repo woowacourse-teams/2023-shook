@@ -13,7 +13,6 @@ import shook.shook.auth.ui.Authority;
 import shook.shook.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
 import shook.shook.legacy.member_part.domain.MemberPart;
 import shook.shook.legacy.member_part.domain.repository.MemberPartRepository;
 import shook.shook.legacy.song.application.dto.RecentSongCarouselResponse;
@@ -28,6 +27,7 @@ import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepo
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.legacy.song.domain.repository.ArtistRepository;
 import shook.shook.legacy.song.domain.repository.SongRepository;
+import shook.shook.member.exception.MemberException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

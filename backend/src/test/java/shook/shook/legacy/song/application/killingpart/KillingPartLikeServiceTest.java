@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.legacy.song.application.killingpart.dto.KillingPartLikeRequest;
 import shook.shook.legacy.song.domain.InMemorySongs;
 import shook.shook.legacy.song.domain.Song;
@@ -21,7 +21,7 @@ import shook.shook.legacy.song.domain.killingpart.KillingPartLike;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.legacy.song.domain.repository.SongRepository;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
 import shook.shook.legacy.support.UsingJpaTest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")

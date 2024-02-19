@@ -27,12 +27,12 @@ import lombok.NoArgsConstructor;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.part.domain.PartLength;
 import shook.shook.legacy.song.domain.Song;
-import shook.shook.legacy.song.exception.SongException.SongNotExistException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException.CommentForOtherPartException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException.SongMaxKillingPartExceededException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException.SongNotUpdatableException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartLikeException.EmptyLikeException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartLikeException.LikeForOtherKillingPartException;
+import shook.shook.song.exception.SongException.SongNotExistException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException.SongMaxKillingPartExceededException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException.SongNotUpdatableException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException.EmptyLikeException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException.LikeForOtherKillingPartException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -42,6 +42,7 @@ public class KillingPart {
 
     private static final int MINIMUM_START = 0;
     private static final String EMBED_LINK_PATH_PARAMETER_FORMAT = "?start=%d&end=%d";
+
     @Embedded
     private final KillingPartComments comments = new KillingPartComments();
     @Embedded

@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
-import shook.shook.legacy.song.exception.killingpart.KillingPartsException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartsException;
 
 class SongTest {
 

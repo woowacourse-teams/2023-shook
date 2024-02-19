@@ -1,4 +1,4 @@
-package shook.shook.legacy.member.exception;
+package shook.shook.member.exception;
 
 import java.util.Map;
 import shook.shook.globalexception.CustomException;
@@ -28,13 +28,13 @@ public class MemberException extends CustomException {
         }
     }
 
-    public static class TooLongEmailException extends MemberException {
+    public static class TooLongIdentifierException extends MemberException {
 
-        public TooLongEmailException() {
+        public TooLongIdentifierException() {
             super(ErrorCode.TOO_LONG_EMAIL);
         }
 
-        public TooLongEmailException(final Map<String, String> inputValuesByProperty) {
+        public TooLongIdentifierException(final Map<String, String> inputValuesByProperty) {
             super(ErrorCode.TOO_LONG_EMAIL, inputValuesByProperty);
         }
     }

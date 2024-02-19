@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.legacy.song.exception.ArtistException;
+import shook.shook.artist.exception.ArtistException;
 
 class ProfileImageUrlTest {
 

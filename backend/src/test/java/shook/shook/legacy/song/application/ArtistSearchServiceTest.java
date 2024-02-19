@@ -31,7 +31,7 @@ import shook.shook.legacy.song.domain.killingpart.repository.KillingPartReposito
 import shook.shook.legacy.song.domain.repository.ArtistRepository;
 import shook.shook.legacy.song.domain.repository.ArtistSynonymRepository;
 import shook.shook.legacy.song.domain.repository.SongRepository;
-import shook.shook.legacy.song.exception.ArtistException;
+import shook.shook.artist.exception.ArtistException;
 import shook.shook.legacy.support.UsingJpaTest;
 
 @SuppressWarnings("NonAsciiCharacters")

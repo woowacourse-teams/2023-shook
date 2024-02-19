@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.NullOrEmptyPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.TooLongPartCommentException;
 
 class KillingPartCommentContentTest {
 
@@ -30,7 +31,7 @@ class KillingPartCommentContentTest {
         //when
         //then
         assertThatThrownBy(() -> new KillingPartCommentContent(content))
-            .isInstanceOf(KillingPartCommentException.NullOrEmptyPartCommentException.class);
+            .isInstanceOf(NullOrEmptyPartCommentException.class);
     }
 
     @DisplayName("댓글의 내용의 길이가 200를 넘을 경우 예외를 던진다.")
@@ -42,6 +43,6 @@ class KillingPartCommentContentTest {
         //when
         //then
         assertThatThrownBy(() -> new KillingPartCommentContent(content))
-            .isInstanceOf(KillingPartCommentException.TooLongPartCommentException.class);
+            .isInstanceOf(TooLongPartCommentException.class);
     }
 }

@@ -32,7 +32,7 @@ import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepo
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
 import shook.shook.legacy.song.domain.repository.ArtistRepository;
 import shook.shook.legacy.song.domain.repository.SongRepository;
-import shook.shook.legacy.song.exception.SongException;
+import shook.shook.song.exception.SongException;
 import shook.shook.legacy.support.UsingJpaTest;
 
 @Sql("classpath:/schema-test.sql")

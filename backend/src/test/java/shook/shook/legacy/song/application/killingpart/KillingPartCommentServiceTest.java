@@ -17,7 +17,7 @@ import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartComment;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartCommentRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
 import shook.shook.legacy.support.UsingJpaTest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")

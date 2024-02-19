@@ -10,14 +10,14 @@ import org.springframework.test.context.jdbc.Sql;
 import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.member.exception.MemberException;
 import shook.shook.legacy.member_part.application.MemberPartService;
 import shook.shook.legacy.member_part.application.dto.MemberPartRegisterRequest;
 import shook.shook.legacy.member_part.domain.MemberPart;
 import shook.shook.legacy.member_part.domain.repository.MemberPartRepository;
 import shook.shook.legacy.song.domain.Song;
 import shook.shook.legacy.song.domain.repository.SongRepository;
-import shook.shook.legacy.song.exception.SongException;
+import shook.shook.song.exception.SongException;
 import shook.shook.legacy.support.UsingJpaTest;
 
 @Sql("classpath:/killingpart/initialize_killing_part_song.sql")

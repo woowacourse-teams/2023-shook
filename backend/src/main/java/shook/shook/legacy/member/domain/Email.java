@@ -7,7 +7,8 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.legacy.member.exception.MemberException;
+import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.TooLongIdentifierException;
 import shook.shook.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,7 +32,7 @@ public class Email {
             throw new MemberException.NullOrEmptyEmailException();
         }
         if (value.length() > EMAIL_MAXIMUM_LENGTH) {
-            throw new MemberException.TooLongEmailException(
+            throw new TooLongIdentifierException(
                 Map.of("Email", value)
             );
         }

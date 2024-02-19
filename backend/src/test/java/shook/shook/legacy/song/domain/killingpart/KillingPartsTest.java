@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.song.domain.KillingParts;
 import shook.shook.legacy.song.domain.Song;
-import shook.shook.legacy.song.exception.killingpart.KillingPartsException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartsException;
 
 class KillingPartsTest {
 

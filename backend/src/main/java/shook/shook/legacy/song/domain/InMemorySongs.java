@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartLike;
-import shook.shook.legacy.song.exception.SongException.SongNotExistException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException.PartNotExistException;
+import shook.shook.song.exception.SongException.SongNotExistException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException.PartNotExistException;
 
 @RequiredArgsConstructor
 @Repository

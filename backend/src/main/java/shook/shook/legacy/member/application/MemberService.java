@@ -12,11 +12,11 @@ import shook.shook.legacy.member.domain.Email;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.member.domain.Nickname;
 import shook.shook.legacy.member.domain.repository.MemberRepository;
-import shook.shook.legacy.member.exception.MemberException.ExistMemberException;
-import shook.shook.legacy.member.exception.MemberException.MemberNotExistException;
 import shook.shook.legacy.song.domain.killingpart.KillingPartLike;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartCommentRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepository;
+import shook.shook.member.exception.MemberException.ExistMemberException;
+import shook.shook.member.exception.MemberException.MemberNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

@@ -3,7 +3,7 @@ create table if not exists song
     id              bigint auto_increment,
     title           varchar(100) not null,
     singer          varchar(50)  not null,
-    length          integer      not null,
+    partLength          integer      not null,
     video_url       text         not null,
     album_cover_url text         not null,
     created_at      timestamp(6) not null,
@@ -14,7 +14,7 @@ create table if not exists killing_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       integer      not null,
+    partLength       integer      not null,
     song_id      bigint       not null,
     created_at   timestamp(6) not null,
     primary key (id)
@@ -45,7 +45,7 @@ create table if not exists voting_song
     id              bigint auto_increment,
     title           varchar(100) not null,
     singer          varchar(50)  not null,
-    length          integer      not null,
+    partLength          integer      not null,
     video_url       text         not null,
     album_cover_url text         not null,
     created_at      timestamp(6) not null,
@@ -55,7 +55,7 @@ create table if not exists voting_song_part
 (
     id             bigint auto_increment,
     start_second   integer      not null,
-    length         integer      not null,
+    partLength         integer      not null,
     voting_song_id bigint       not null,
     created_at     timestamp(6) not null,
     primary key (id)
@@ -80,7 +80,7 @@ create table if not exists member_part
 (
     id           bigint auto_increment,
     start_second integer      not null,
-    length       integer      not null,
+    partLength       integer      not null,
     song_id      bigint       not null,
     member_id    bigint       not null,
     created_at   timestamp(6) not null,

@@ -12,19 +12,23 @@ import shook.shook.auth.exception.AuthorizationException;
 import shook.shook.auth.exception.OAuthException;
 import shook.shook.auth.exception.TokenException;
 import shook.shook.globalexception.CustomException;
-import shook.shook.legacy.member.exception.MemberException;
-import shook.shook.legacy.part.exception.PartException;
+import shook.shook.member.exception.MemberException;
+import shook.shook.member.exception.MemberException.TooLongIdentifierException;
+import shook.shook.part.exception.PartException;
 import shook.shook.legacy.song.application.SongService;
-import shook.shook.legacy.song.exception.ArtistException;
-import shook.shook.legacy.song.exception.SongException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartCommentException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartLikeException;
-import shook.shook.legacy.song.exception.killingpart.KillingPartsException;
+import shook.shook.artist.exception.ArtistException;
+import shook.shook.song.exception.SongException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartsException;
 import shook.shook.legacy.support.AcceptanceTest;
 import shook.shook.legacy.voting_song.exception.VoteException;
 import shook.shook.legacy.voting_song.exception.VotingSongException;
 import shook.shook.legacy.voting_song.exception.VotingSongPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.NullOrEmptyPartCommentException;
+import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.TooLongPartCommentException;
 
 class ControllerAdviceTest extends AcceptanceTest {
 
@@ -59,13 +63,13 @@ class ControllerAdviceTest extends AcceptanceTest {
             new ExceptionTestData(new AuthorizationException.UnauthenticatedException(), 403),
             new ExceptionTestData(new MemberException.MemberNotExistException(), 401),
 
-            new ExceptionTestData(new KillingPartCommentException.NullOrEmptyPartCommentException(),
+            new ExceptionTestData(new NullOrEmptyPartCommentException(),
                                   400),
-            new ExceptionTestData(new KillingPartCommentException.TooLongPartCommentException(),
+            new ExceptionTestData(new TooLongPartCommentException(),
                                   400),
-            new ExceptionTestData(new KillingPartCommentException.DuplicateCommentExistException(),
+            new ExceptionTestData(new DuplicateCommentExistException(),
                                   500),
-            new ExceptionTestData(new KillingPartCommentException.CommentForOtherPartException(),
+            new ExceptionTestData(new CommentForOtherPartException(),
                                   500),
 
             new ExceptionTestData(new KillingPartException.PartNotExistException(), 400),
@@ -119,7 +123,7 @@ class ControllerAdviceTest extends AcceptanceTest {
                                   500),
 
             new ExceptionTestData(new MemberException.ExistMemberException(), 400),
-            new ExceptionTestData(new MemberException.TooLongEmailException(), 400),
+            new ExceptionTestData(new TooLongIdentifierException(), 400),
             new ExceptionTestData(new MemberException.InValidEmailFormException(), 400),
             new ExceptionTestData(new MemberException.NullOrEmptyEmailException(), 400),
             new ExceptionTestData(new MemberException.TooLongNicknameException(), 400),
