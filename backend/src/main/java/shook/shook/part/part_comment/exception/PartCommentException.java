@@ -1,4 +1,4 @@
-package shook.shook.part_comment.exception;
+package shook.shook.part.part_comment.exception;
 
 import java.util.Map;
 import shook.shook.globalexception.CustomException;

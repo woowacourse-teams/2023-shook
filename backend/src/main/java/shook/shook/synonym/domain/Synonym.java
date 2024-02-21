@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// TODO: 2/19/24 Synonym 상속 전략으로 구현하기
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "synonym")

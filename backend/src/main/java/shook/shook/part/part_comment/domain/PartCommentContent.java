@@ -1,4 +1,4 @@
-package shook.shook.part_comment.domain;
+package shook.shook.part.part_comment.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -6,7 +6,8 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.part_comment.exception.PartCommentException;
+import shook.shook.part.part_comment.exception.PartCommentException.NullOrEmptyPartCommentException;
+import shook.shook.part.part_comment.exception.PartCommentException.TooLongPartCommentException;
 import shook.shook.util.StringChecker;
 
 @Getter
@@ -26,10 +27,10 @@ public class PartCommentContent {
 
     private void validate(final String value) {
         if (StringChecker.isNullOrBlank(value)) {
-            throw new PartCommentException.NullOrEmptyPartCommentException();
+            throw new NullOrEmptyPartCommentException();
         }
         if (value.length() > MAXIMUM_LENGTH) {
-            throw new PartCommentException.TooLongPartCommentException(
+            throw new TooLongPartCommentException(
                 Map.of("PartCommentContent", value)
             );
         }

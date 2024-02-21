@@ -1,4 +1,4 @@
-package shook.shook.part_comment.domain;
+package shook.shook.part.part_comment.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -34,7 +34,7 @@ public class PartComment {
     @Column(name = "member_id", nullable = false, updatable = false)
     private Long memberId;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 
     private PartComment(final Long id, final String content, final Long partId, final Long memberId) {
