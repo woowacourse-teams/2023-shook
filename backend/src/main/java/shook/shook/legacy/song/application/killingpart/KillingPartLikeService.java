@@ -12,8 +12,8 @@ import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartLike;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartLikeRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
-import shook.shook.member.exception.MemberException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartException.PartNotExistException;
+import shook.shook.improved.member.exception.MemberException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartException.PartNotExistException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

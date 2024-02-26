@@ -13,17 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import shook.shook.auth.application.AuthService;
-import shook.shook.auth.application.GoogleInfoProvider;
-import shook.shook.auth.application.OAuthProviderFinder;
-import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.application.dto.ReissueAccessTokenResponse;
-import shook.shook.auth.application.dto.TokenPair;
-import shook.shook.auth.exception.TokenException;
-import shook.shook.auth.repository.InMemoryTokenPairRepository;
-import shook.shook.legacy.member.application.MemberService;
-import shook.shook.legacy.member.domain.Member;
-import shook.shook.legacy.member.domain.repository.MemberRepository;
+import shook.shook.improved.auth.application.AuthService;
+import shook.shook.improved.auth.application.GoogleInfoProvider;
+import shook.shook.improved.auth.application.OAuthProviderFinder;
+import shook.shook.improved.auth.application.TokenProvider;
+import shook.shook.improved.auth.application.dto.ReissueAccessTokenResponse;
+import shook.shook.improved.auth.application.dto.TokenPair;
+import shook.shook.improved.auth.exception.TokenException;
+import shook.shook.improved.auth.repository.InMemoryTokenPairRepository;
+import shook.shook.improved.member.application.MemberService;
+import shook.shook.improved.member.domain.Member;
+import shook.shook.improved.member.domain.repository.MemberRepository;
 
 @SpringBootTest
 class AuthServiceTest {

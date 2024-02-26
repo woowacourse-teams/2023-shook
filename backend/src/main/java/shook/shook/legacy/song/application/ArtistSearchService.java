@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shook.shook.artist.exception.ArtistException;
+import shook.shook.improved.artist.exception.ArtistException;
 import shook.shook.legacy.song.application.dto.ArtistResponse;
 import shook.shook.legacy.song.application.dto.ArtistWithSongSearchResponse;
 import shook.shook.legacy.song.domain.Artist;

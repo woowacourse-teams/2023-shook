@@ -7,8 +7,8 @@ import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.exception.TokenException;
+import shook.shook.improved.auth.application.TokenProvider;
+import shook.shook.improved.auth.exception.TokenException;
 
 class TokenProviderTest {
 

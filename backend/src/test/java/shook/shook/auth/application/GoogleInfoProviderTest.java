@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.test.web.client.MockRestServiceServer;
-import shook.shook.auth.application.GoogleInfoProvider;
-import shook.shook.auth.exception.OAuthException;
+import shook.shook.improved.auth.application.GoogleInfoProvider;
+import shook.shook.improved.auth.exception.OAuthException;
 
 @AutoConfigureWebClient(registerRestTemplate = true)
 @RestClientTest(value = {GoogleInfoProvider.class})

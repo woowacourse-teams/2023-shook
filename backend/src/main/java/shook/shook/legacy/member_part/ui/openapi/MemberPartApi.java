@@ -9,8 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import shook.shook.auth.ui.argumentresolver.Authenticated;
-import shook.shook.auth.ui.argumentresolver.MemberInfo;
+import shook.shook.improved.auth.ui.argumentresolver.Authenticated;
+import shook.shook.improved.auth.ui.argumentresolver.MemberInfo;
 import shook.shook.legacy.member_part.application.dto.MemberPartRegisterRequest;
 
 @Tag(name = "Member Part", description = "멤버 파트 API")

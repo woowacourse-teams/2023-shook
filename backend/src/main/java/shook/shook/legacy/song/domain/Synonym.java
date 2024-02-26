@@ -7,8 +7,8 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.artist.exception.ArtistException;
-import shook.shook.util.StringChecker;
+import shook.shook.improved.artist.exception.ArtistException;
+import shook.shook.improved.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -27,12 +27,12 @@ import lombok.NoArgsConstructor;
 import shook.shook.legacy.member.domain.Member;
 import shook.shook.legacy.part.domain.PartLength;
 import shook.shook.legacy.song.domain.Song;
-import shook.shook.song.exception.SongException.SongNotExistException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartException.SongMaxKillingPartExceededException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartException.SongNotUpdatableException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException.EmptyLikeException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartLikeException.LikeForOtherKillingPartException;
+import shook.shook.improved.song.exception.SongException.SongNotExistException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartCommentException.CommentForOtherPartException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartException.SongMaxKillingPartExceededException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartException.SongNotUpdatableException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartLikeException.EmptyLikeException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartLikeException.LikeForOtherKillingPartException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

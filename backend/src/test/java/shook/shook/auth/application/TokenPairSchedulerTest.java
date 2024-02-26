@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import shook.shook.auth.application.TokenPairScheduler;
-import shook.shook.auth.application.TokenProvider;
-import shook.shook.auth.repository.InMemoryTokenPairRepository;
+import shook.shook.improved.auth.application.TokenPairScheduler;
+import shook.shook.improved.auth.application.TokenProvider;
+import shook.shook.improved.auth.repository.InMemoryTokenPairRepository;
 
 @EnableScheduling
 @SpringBootTest

@@ -1,8 +1,8 @@
 package shook.shook.legacy.member_part.exception;
 
 import java.util.Map;
-import shook.shook.globalexception.CustomException;
-import shook.shook.globalexception.ErrorCode;
+import shook.shook.improved.globalexception.CustomException;
+import shook.shook.improved.globalexception.ErrorCode;
 
 public class MemberPartException extends CustomException {
 

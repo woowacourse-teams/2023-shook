@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.auth.exception.TokenException.RefreshTokenNotFoundException;
-import shook.shook.auth.exception.TokenException.TokenPairNotMatchingException;
-import shook.shook.auth.repository.InMemoryTokenPairRepository;
+import shook.shook.improved.auth.exception.TokenException.RefreshTokenNotFoundException;
+import shook.shook.improved.auth.exception.TokenException.TokenPairNotMatchingException;
+import shook.shook.improved.auth.repository.InMemoryTokenPairRepository;
 
 class InMemoryTokenPairRepositoryTest {
 

@@ -13,8 +13,8 @@ import shook.shook.legacy.song.domain.killingpart.KillingPart;
 import shook.shook.legacy.song.domain.killingpart.KillingPartComment;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartCommentRepository;
 import shook.shook.legacy.song.domain.killingpart.repository.KillingPartRepository;
-import shook.shook.member.exception.MemberException;
-import shook.shook.song.exception.legacy_killingpart.KillingPartException;
+import shook.shook.improved.member.exception.MemberException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

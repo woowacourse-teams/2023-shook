@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.auth.ui.interceptor.PathContainer;
-import shook.shook.auth.ui.interceptor.PathMethod;
+import shook.shook.improved.auth.ui.interceptor.PathContainer;
+import shook.shook.improved.auth.ui.interceptor.PathMethod;
 
 class PathContainerTest {
 

@@ -9,7 +9,7 @@ import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartCommentException.DuplicateCommentExistException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

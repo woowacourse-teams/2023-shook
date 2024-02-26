@@ -9,7 +9,7 @@ import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.part.exception.PartException;
+import shook.shook.improved.part.exception.PartException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -22,7 +22,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
-import shook.shook.song.exception.legacy_killingpart.KillingPartsException;
+import shook.shook.improved.song.exception.legacy_killingpart.KillingPartsException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -7,9 +7,9 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shook.shook.member.exception.MemberException;
-import shook.shook.member.exception.MemberException.TooLongIdentifierException;
-import shook.shook.util.StringChecker;
+import shook.shook.improved.member.exception.MemberException;
+import shook.shook.improved.member.exception.MemberException.TooLongIdentifierException;
+import shook.shook.improved.util.StringChecker;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

@@ -20,7 +20,7 @@ import shook.shook.legacy.song.domain.Genre;
 import shook.shook.legacy.song.domain.KillingParts;
 import shook.shook.legacy.song.domain.Song;
 import shook.shook.legacy.song.domain.killingpart.KillingPart;
-import shook.shook.song.exception.SongDataFileReadException;
+import shook.shook.improved.song.exception.SongDataFileReadException;
 
 @Component
 public class SongDataExcelReader {

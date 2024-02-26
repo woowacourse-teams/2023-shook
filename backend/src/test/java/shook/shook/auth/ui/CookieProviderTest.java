@@ -5,7 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import shook.shook.auth.ui.CookieProvider;
+import shook.shook.improved.auth.ui.CookieProvider;
 
 class CookieProviderTest {
 
