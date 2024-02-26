@@ -6,13 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "part")
 @Entity
 public class Part {
@@ -35,6 +38,9 @@ public class Part {
     @Column(name = "count", nullable = false)
     private int count = 0;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+
     private Part(final Long id, final int startSecond, final int length, final Long songId) {
         this.id = id;
         this.startSecond = new StartSecond(startSecond);
@@ -44,6 +50,11 @@ public class Part {
 
     public Part(final int startSecond, final int length, final Long songId) {
         this(null, startSecond, length, songId);
+    }
+
+    @PrePersist
+    private void prePersist() {
+        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
     }
 
     public int getStartSecond() {
