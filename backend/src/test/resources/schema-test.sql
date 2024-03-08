@@ -99,6 +99,6 @@ create table if not exists synonym
     target_id bigint       not null,
     type      varchar(255) check (type in
                                   ('ARTIST', 'SONG')),
-    value     varchar(255) not null,
+    `value`   varchar(255) not null,
     primary key (id)
 );
