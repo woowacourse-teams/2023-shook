@@ -10,12 +10,10 @@ import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import { postKillingPart } from '../remotes/killingPart';
 
 const RegisterPart = () => {
-  const navigate = useNavigate();
   const { user } = useAuthContext();
   const { interval, partStartTime, songId } = useCollectingPartContext();
   const video = useVideoPlayerContext();
   const { confirmPopup } = useConfirmContext();
-  const { createKillingPart } = usePostKillingPart();
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
   const { mutateData: createKillingPart } = useMutation(postKillingPart);
   const navigate = useNavigate();
@@ -23,7 +21,7 @@ const RegisterPart = () => {
   // 현재 useMutation 훅이 response 객체를 리턴하지 않고 내부적으로 처리합니다.
   // 때문에 컴포넌트 단에서 createKillingPart 성공 여부에 따라 등록 완료 만료를 처리를 할 수 없어요!
   // 현재 비로그인 시에 등록을 누르면 두 개의 모달이 뜹니다.
-  const handleClickRegisterPart = async () => {
+  const submitKillingPart = async () => {
     video.pause();
 
     const isConfirmed = await confirmPopup({
@@ -44,7 +42,7 @@ const RegisterPart = () => {
     }
   };
 
-  return <RegisterButton onClick={handleClickRegisterPart}>등록</RegisterButton>;
+  return <RegisterButton onClick={submitKillingPart}>등록</RegisterButton>;
 };
 
 export default RegisterPart;
