@@ -57,6 +57,7 @@ class SongControllerTest {
         final String accessToken = tokenProvider.createAccessToken(MEMBER_ID, MEMBER_NICKNAME);
 
         final Long songId = 1L;
+        inMemorySongsScheduler.recreateCachedSong();
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
                                      new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_1, MEMBER_ID,
@@ -65,7 +66,6 @@ class SongControllerTest {
                                      new KillingPartLikeRequest(true));
         likeService.updateLikeStatus(FIRST_SONG_KILLING_PART_ID_3, MEMBER_ID,
                                      new KillingPartLikeRequest(true));
-        inMemorySongsScheduler.recreateCachedSong();
 
         memberPartService.register(songId, MEMBER_ID, new MemberPartRegisterRequest(0, 10));
 

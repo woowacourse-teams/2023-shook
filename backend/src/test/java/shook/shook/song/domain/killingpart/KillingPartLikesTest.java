@@ -2,7 +2,7 @@ package shook.shook.song.domain.killingpart;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -135,7 +135,7 @@ class KillingPartLikesTest {
         KILLING_PART.unlike(newLike);
 
         // when
-        final List<KillingPartLike> likes = LIKES.getLikes();
+        final Set<KillingPartLike> likes = LIKES.getLikes();
 
         // then
         assertThat(LIKES.getSize()).isEqualTo(1);

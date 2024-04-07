@@ -25,6 +25,7 @@ import shook.shook.song.application.dto.LikedKillingPartResponse;
 import shook.shook.song.application.dto.MyPartsResponse;
 import shook.shook.song.application.killingpart.KillingPartLikeService;
 import shook.shook.song.application.killingpart.dto.KillingPartLikeRequest;
+import shook.shook.song.domain.InMemorySongs;
 import shook.shook.song.domain.Song;
 import shook.shook.song.domain.killingpart.KillingPart;
 import shook.shook.song.domain.killingpart.repository.KillingPartRepository;
@@ -45,6 +46,9 @@ class MyPageControllerTest {
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final long SAVED_MEMBER_ID = 1L;
     private static final String SAVED_MEMBER_NICKNAME = "nickname";
+
+    @Autowired
+    private InMemorySongs inMemorySongs;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -73,6 +77,8 @@ class MyPageControllerTest {
         @Test
         void likedKillingPartExistWithOneDeletedLikeExist() {
             //given
+            inMemorySongs.refreshSongs(songRepository.findAllWithKillingPartsAndLikes());
+
             final String accessToken = tokenProvider.createAccessToken(SAVED_MEMBER_ID,
                                                                        SAVED_MEMBER_NICKNAME);
 

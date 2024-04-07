@@ -19,8 +19,8 @@ export type LikeKillingPart = Pick<
 const MyPartList = () => {
   const [tab, setTab] = useState<MyPageTab>('Like');
 
-  const { data: likes } = useFetch<LikeKillingPart[]>(getLikeParts);
-  const { data: myParts } = useFetch<LikeKillingPart[]>(getMyParts);
+  const { data: likes } = useFetch(getLikeParts);
+  const { data: myParts } = useFetch(getMyParts);
 
   if (!likes || !myParts) {
     return null;

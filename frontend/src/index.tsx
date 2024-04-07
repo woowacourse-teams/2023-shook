@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
@@ -9,6 +11,8 @@ import { loadIFrameApi } from './features/youtube/remotes/loadIframeApi';
 import router from './router';
 import ToastProvider from './shared/components/Toast/ToastProvider';
 import theme from './shared/styles/theme';
+
+const queryClient = new QueryClient();
 
 async function main() {
   if (process.env.NODE_ENV === 'development') {
@@ -32,9 +36,12 @@ async function main() {
         <GlobalStyles />
         <ThemeProvider theme={theme}>
           <ToastProvider>
-            <ConfirmModalProvider>
-              <RouterProvider router={router} />
-            </ConfirmModalProvider>
+            <QueryClientProvider client={queryClient}>
+              <ConfirmModalProvider>
+                <RouterProvider router={router} />
+              </ConfirmModalProvider>
+              <ReactQueryDevtools />
+            </QueryClientProvider>
           </ToastProvider>
         </ThemeProvider>
       </AuthProvider>

@@ -2,11 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
-import { usePostKillingPart } from '@/features/killingParts/remotes/usePostKillingPart';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
 import Spacing from '@/shared/components/Spacing';
+import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
+import { postKillingPart } from '../remotes/killingPart';
 
 const RegisterPart = () => {
   const navigate = useNavigate();
@@ -15,8 +16,9 @@ const RegisterPart = () => {
   const video = useVideoPlayerContext();
   const { confirmPopup } = useConfirmContext();
   const { createKillingPart } = usePostKillingPart();
-
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
+  const { mutateData: createKillingPart } = useMutation(postKillingPart);
+  const navigate = useNavigate();
 
   // 현재 useMutation 훅이 response 객체를 리턴하지 않고 내부적으로 처리합니다.
   // 때문에 컴포넌트 단에서 createKillingPart 성공 여부에 따라 등록 완료 만료를 처리를 할 수 없어요!

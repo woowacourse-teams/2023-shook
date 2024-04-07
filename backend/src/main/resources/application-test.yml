@@ -50,4 +50,5 @@ schedules:
   in-memory-token:
     cron: "0/1 * * * * *"
   in-memory-song:
-    cron: "0 0/1 * * * *" # 1분
+    cron: "0 0/5 * * * *" # 1분
+    update-cron: "0 0/5 * * * *" # 1분

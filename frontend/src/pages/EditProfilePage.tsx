@@ -13,11 +13,12 @@ const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
   const { confirmPopup } = useConfirmContext();
   const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
+  const { mutateData: withdrawal } = useMutation(deleteMember);
   const navigate = useNavigate();
 
   if (!user) {
     navigate(ROUTE_PATH.LOGIN);
-    return;
+    return null;
   }
 
   const handleClickWithdrawal = async () => {

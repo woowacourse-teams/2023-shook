@@ -17,13 +17,20 @@ const SongDetailListPage = () => {
   const {
     extraPrevSongDetails,
     extraNextSongDetails,
+    isLoadingNextSongDetails,
+    isLoadingPrevSongDetails,
+    hasPreviousPage,
+    hasNextPage,
     getExtraPrevSongDetailsOnObserve,
     getExtraNextSongDetailsOnObserve,
   } = useExtraSongDetail();
 
-  if (!songDetailEntries) return null;
+  // Suspense 적용시 워터폴 문제 해결 후 Suspense 적용
+  // 적용 시 아래 분기문 사라짐.
+  if (!songDetailEntries || isLoadingNextSongDetails || isLoadingPrevSongDetails) return null;
 
-  const { prevSongs, currentSong, nextSongs } = songDetailEntries;
+  // 응답값의 prev, next 사용하지 않게 되었음.
+  const { currentSong } = songDetailEntries;
 
   const closeCoachMark = () => {
     setOnboarding(false);
@@ -51,25 +58,35 @@ const SongDetailListPage = () => {
       )}
 
       <ItemContainer>
-        <ObservingTrigger ref={getExtraPrevSongDetailsOnObserve} aria-hidden="true" />
+        {hasPreviousPage && (
+          <ObservingTrigger ref={getExtraPrevSongDetailsOnObserve} aria-hidden="true" />
+        )}
+        {extraPrevSongDetails?.pages.map((details) =>
+          details.map((extraPrevSongDetail) => (
+            <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
+          ))
+        )}
 
-        {extraPrevSongDetails?.map((extraPrevSongDetail) => (
-          <SongDetailItem key={extraPrevSongDetail.id} {...extraPrevSongDetail} />
-        ))}
-        {prevSongs.map((prevSongDetail) => (
+        {/* 응답값의 prev, next 사용하지 않게 되었음. */}
+        {/* {prevSongs.map((prevSongDetail) => (
           <SongDetailItem key={prevSongDetail.id} {...prevSongDetail} />
-        ))}
+        ))} */}
 
         <SongDetailItem ref={scrollIntoCurrentSong} key={currentSong.id} {...currentSong} />
 
-        {nextSongs.map((nextSongDetail) => (
+        {/* 응답값의 prev, next 사용하지 않게 되었음. */}
+        {/* {nextSongs.map((nextSongDetail) => (
           <SongDetailItem key={nextSongDetail.id} {...nextSongDetail} />
-        ))}
-        {extraNextSongDetails?.map((extraNextSongDetail) => (
-          <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
-        ))}
+        ))} */}
 
-        <ObservingTrigger ref={getExtraNextSongDetailsOnObserve} aria-hidden="true" />
+        {extraNextSongDetails?.pages.map((details) =>
+          details.map((extraNextSongDetail) => (
+            <SongDetailItem key={extraNextSongDetail.id} {...extraNextSongDetail} />
+          ))
+        )}
+        {hasNextPage && (
+          <ObservingTrigger ref={getExtraNextSongDetailsOnObserve} aria-hidden="true" />
+        )}
       </ItemContainer>
     </>
   );

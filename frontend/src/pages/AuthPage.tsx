@@ -1,21 +1,19 @@
 import { useEffect } from 'react';
-import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
+import { getAccessToken } from '@/features/auth/remotes/auth';
 import path from '@/shared/constants/path';
+import useValidParams from '@/shared/hooks/useValidParams';
 import accessTokenStorage from '@/shared/utils/accessTokenStorage';
-
-interface AccessTokenResponse {
-  accessToken: string;
-}
 
 const AuthPage = () => {
   const [searchParams] = useSearchParams();
-  const { platform } = useParams();
+  const { platform } = useValidParams();
 
   const { login } = useAuthContext();
   const navigate = useNavigate();
 
-  const getAccessToken = async () => {
+  const authLogin = async () => {
     const code = searchParams.get('code');
 
     if (!code) {
@@ -25,13 +23,7 @@ const AuthPage = () => {
       return;
     }
 
-    const response = await fetch(`${process.env.BASE_URL}/login/${platform}?code=${code}`, {
-      method: 'get',
-      credentials: 'include',
-    });
-
-    const data = (await response.json()) as AccessTokenResponse;
-    const { accessToken } = data;
+    const { accessToken } = await getAccessToken(platform, code);
 
     if (accessToken) {
       login(accessToken);
@@ -39,7 +31,7 @@ const AuthPage = () => {
   };
 
   useEffect(() => {
-    getAccessToken();
+    authLogin();
   }, []);
 
   return <Navigate to="/" replace />;

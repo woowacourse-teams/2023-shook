@@ -1,3 +1,5 @@
-import fetcher from '@/shared/remotes';
+import { client } from '@/shared/remotes/axios';
 
-export const deleteMemberParts = (partId: number) => fetcher(`/member-parts/${partId}`, 'DELETE');
+export const deleteMemberParts = async (partId: number) => {
+  await client.delete(`/member-parts/${partId}`);
+};

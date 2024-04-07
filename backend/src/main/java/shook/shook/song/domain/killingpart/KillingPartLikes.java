@@ -2,9 +2,9 @@ package shook.shook.song.domain.killingpart;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class KillingPartLikes {
 
     @OneToMany(mappedBy = "killingPart")
     @Where(clause = "is_deleted = false")
-    private List<KillingPartLike> likes = new ArrayList<>();
+    private Set<KillingPartLike> likes = new HashSet<>();
 
     public boolean addLike(final KillingPartLike like) {
         if (like.isDeleted()) {
