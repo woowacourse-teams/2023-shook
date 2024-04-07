@@ -12,7 +12,6 @@ import { useMutation } from '@/shared/hooks/useMutation';
 const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
   const { confirmPopup } = useConfirmContext();
-  const { mutateData: withdrawMember } = useMutation(deleteMember(user?.memberId));
   const { mutateData: withdrawal } = useMutation(deleteMember);
   const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ const EditProfilePage = () => {
     });
 
     if (isConfirmed) {
-      await withdrawMember();
+      await withdrawal(user.memberId);
       logout();
       navigate(ROUTE_PATH.ROOT, { replace: true });
     }
