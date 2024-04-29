@@ -42,7 +42,7 @@ S-HOOK 유저들이 어떤 노래를 자주 듣는지 궁금하다면? S-HOOK에
 <img width="823" alt="image" src="https://github.com/woowacourse-teams/2023-shook/assets/70303795/db1a86f5-c314-41e5-86d1-c0674e5b8fec">
 
 ## ✏️ERD
-![image](https://github.com/woowacourse-teams/2023-shook/assets/70303795/ccbca604-0315-4253-bb57-97fe055e5bd9)
+![s-hook erd](https://github.com/woowacourse-teams/2023-shook/assets/70303795/5f86d8b4-a4f2-4603-8b12-ef878f87074d)
 
 ## 🪝 팀원
 <table>
