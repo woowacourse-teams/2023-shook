@@ -12,14 +12,17 @@ import SongDetailListPage from './pages/SongDetailListPage';
 import AuthLayout from './shared/components/Layout/AuthLayout';
 import Layout from './shared/components/Layout/Layout';
 import ROUTE_PATH from './shared/constants/path';
+import { OverlayProvider } from './shared/hooks/useOverlay';
 
 const router = createBrowserRouter([
   {
     path: ROUTE_PATH.ROOT,
     element: (
-      <LoginPopupProvider>
-        <Layout />
-      </LoginPopupProvider>
+      <OverlayProvider>
+        <LoginPopupProvider>
+          <Layout />
+        </LoginPopupProvider>
+      </OverlayProvider>
     ),
     children: [
       {
