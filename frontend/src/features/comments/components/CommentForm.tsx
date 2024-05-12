@@ -5,8 +5,8 @@ import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
-import useModal from '@/shared/components/Modal/hooks/useModal';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
+import { useOverlay } from '@/shared/hooks/useOverlay';
 import { usePostCommentMutation } from '../queries';
 
 interface CommentFormProps {
@@ -16,7 +16,24 @@ interface CommentFormProps {
 
 const CommentForm = ({ songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
-  const { isOpen, closeModal: closeLoginModal, openModal: openLoginModal } = useModal();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const overlay = useOverlay();
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+
+    overlay.open(({ isOpen, close }) => (
+      <LoginModal
+        isOpen={isOpen}
+        closeModal={() => {
+          setIsLoginModalOpen(false);
+          close();
+        }}
+        message={'로그인하고 댓글을 작성해 보세요!'}
+      />
+    ));
+  };
+
   const { user } = useAuthContext();
 
   const isLoggedIn = !!user;
@@ -70,12 +87,7 @@ const CommentForm = ({ songId, partId }: CommentFormProps) => {
               type="text"
               onFocus={openLoginModal}
               placeholder="댓글 추가..."
-              disabled={isOpen}
-            />
-            <LoginModal
-              isOpen={isOpen}
-              message={'로그인하고 댓글을 작성해 보세요!'}
-              closeModal={closeLoginModal}
+              disabled={isLoginModalOpen}
             />
           </>
         )}
