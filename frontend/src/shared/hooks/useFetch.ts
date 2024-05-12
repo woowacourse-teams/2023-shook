@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
-import { useLoginPopup } from '@/features/auth/hooks/LoginPopUpContext';
+import { useLoginModalByError } from '@/features/auth/hooks/useLoginModalByError';
 import AuthError from '@/shared/remotes/AuthError';
 import type { ErrorResponse } from '../types/errorResponse';
 
@@ -8,7 +8,7 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
-  const { popupLoginModal } = useLoginPopup();
+  const { openLoginModalByError } = useLoginModalByError();
   const { logout } = useAuthContext();
 
   // TODO: Error Boudary 적용 시에 주석을 사용해주세요.
@@ -26,7 +26,7 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch: boolean = true) =>
     } catch (error) {
       if (error instanceof AuthError) {
         logout();
-        popupLoginModal(error.code);
+        openLoginModalByError(error.code);
         return;
       }
       setError(error as ErrorResponse);

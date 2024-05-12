@@ -9,12 +9,12 @@ import LoginModal from '@/features/auth/components/LoginModal';
 import { deleteMemberParts } from '@/features/member/remotes/memberParts';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
 import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
-import useModal from '@/shared/components/Modal/hooks/useModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
 import sendGAEvent from '@/shared/googleAnalytics/sendGAEvent';
 import { useMutation } from '@/shared/hooks/useMutation';
+import { useOverlay } from '@/shared/hooks/useOverlay';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
 import copyClipboard from '@/shared/utils/copyClipBoard';
 import formatOrdinals from '@/shared/utils/formatOrdinals';
@@ -53,17 +53,26 @@ const KillingPartTrack = ({
     partId,
   });
   const { countedTime: currentPlayTime } = useTimerContext();
-  const {
-    isOpen: isLoginModalOpen,
-    closeModal: closeLoginModal,
-    openModal: openLoginModal,
-  } = useModal();
+  const overlay = useOverlay();
+
   const { user } = useAuthContext();
   const isLoggedIn = user !== null;
 
   const ordinalRank = formatOrdinals(rank);
   const playingTime = toPlayingTimeText(start, end);
   const partLength = end - start;
+
+  const openLoginModal = () => {
+    overlay.open(({ isOpen, close }) => (
+      <LoginModal
+        isOpen={isOpen}
+        message={
+          '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!\n"좋아요!"한 노래는 마이페이지에 저장됩니다!'
+        }
+        closeModal={close}
+      />
+    ));
+  };
 
   const copyKillingPartUrl = async () => {
     sendGAEvent({
@@ -218,14 +227,6 @@ const KillingPartTrack = ({
       {isNowPlayingTrack && (
         <ProgressBar value={currentPlayTime} max={partLength} aria-hidden="true" />
       )}
-
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        message={
-          '로그인하여 킬링파트에 "좋아요!"를 눌러주세요!\n"좋아요!"한 노래는 마이페이지에 저장됩니다!'
-        }
-        closeModal={closeLoginModal}
-      />
     </Container>
   );
 };

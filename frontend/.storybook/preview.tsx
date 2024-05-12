@@ -1,12 +1,12 @@
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import type { Preview } from '@storybook/react';
-import GlobalStyles from '../src/shared/styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
-import theme from '../src/shared/styles/theme';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '@/features/auth/components/AuthProvider';
-import LoginPopupProvider from '@/features/auth/hooks/LoginPopUpContext';
 import handlers from '@/mocks/handlers';
+import { OverlayProvider } from '@/shared/hooks/useOverlay';
+import GlobalStyles from '@/shared/styles/GlobalStyles';
+import theme from '@/shared/styles/theme';
 
 const customViewport = {
   xxl: {
@@ -87,14 +87,14 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <AuthProvider>
-        <LoginPopupProvider>
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <OverlayProvider>
             <BrowserRouter>
               <GlobalStyles />
               <Story />
             </BrowserRouter>
-          </ThemeProvider>
-        </LoginPopupProvider>
+          </OverlayProvider>
+        </ThemeProvider>
       </AuthProvider>
     ),
   ],

@@ -1,12 +1,13 @@
 import { styled } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
-import useModal from '@/shared/components/Modal/hooks/useModal';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
+import { useOverlay } from '@/shared/hooks/useOverlay';
 import { useCommentsQuery } from '../queries';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import type { Comment as CommentType } from '../types/comment.type';
 
 interface CommentListProps {
   songId: number;
@@ -14,37 +15,15 @@ interface CommentListProps {
 }
 
 const CommentList = ({ songId, partId }: CommentListProps) => {
-  const { isOpen, openModal, closeModal } = useModal(false);
-  const { comments } = useCommentsQuery(songId, partId);
+  const overlay = useOverlay();
 
-  if (!comments) {
-    return null;
-  }
-
-  const isEmptyComment = comments.length === 0;
-
-  return (
-    <>
-      <Spacing direction="vertical" size={16} />
-      <SRHeading as="h3">댓글 목록</SRHeading>
-      <CommentTitle>댓글 {comments.length}개</CommentTitle>
-      <Spacing direction="vertical" size={12} />
-      <CommentWrapper onClick={openModal}>
-        {isEmptyComment ? (
-          <Comment.DefaultComment />
-        ) : (
-          <Comment
-            content={comments[0].content}
-            createdAt={comments[0].createdAt}
-            writerNickname={comments[0].writerNickname}
-          />
-        )}
-      </CommentWrapper>
-      <BottomSheet isOpen={isOpen} closeModal={closeModal}>
+  const openBottomSheet = ({ comments }: { comments: CommentType[] }) =>
+    overlay.open(({ isOpen, close }) => (
+      <BottomSheet isOpen={isOpen} closeModal={close}>
         <Spacing direction="vertical" size={16} />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <CommentsTitle>댓글 {comments.length}개</CommentsTitle>
-          <CloseImg src={cancelIcon} onClick={closeModal} />
+          <CloseImg src={cancelIcon} onClick={close} />
         </div>
         <Spacing direction="vertical" size={20} />
         <Comments>
@@ -60,6 +39,33 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
         <Spacing direction="vertical" size={8} />
         <CommentForm songId={songId} partId={partId} />
       </BottomSheet>
+    ));
+
+  const { comments } = useCommentsQuery(songId, partId);
+
+  if (!comments) {
+    return null;
+  }
+
+  const isEmptyComment = comments.length === 0;
+
+  return (
+    <>
+      <Spacing direction="vertical" size={16} />
+      <SRHeading as="h3">댓글 목록</SRHeading>
+      <CommentTitle>댓글 {comments.length}개</CommentTitle>
+      <Spacing direction="vertical" size={12} />
+      <CommentWrapper onClick={() => openBottomSheet({ comments })}>
+        {isEmptyComment ? (
+          <Comment.DefaultComment />
+        ) : (
+          <Comment
+            content={comments[0].content}
+            createdAt={comments[0].createdAt}
+            writerNickname={comments[0].writerNickname}
+          />
+        )}
+      </CommentWrapper>
     </>
   );
 };

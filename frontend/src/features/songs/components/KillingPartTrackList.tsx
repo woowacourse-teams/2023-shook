@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
-import useModal from '@/shared/components/Modal/hooks/useModal';
 import ROUTE_PATH from '@/shared/constants/path';
+import { useOverlay } from '@/shared/hooks/useOverlay';
 import KillingPartTrack from './KillingPartTrack';
 import type { KillingPart, SongDetail } from '@/shared/types/song';
 
@@ -26,14 +26,22 @@ const KillingPartTrackList = ({
   setCommentsPartId,
 }: KillingPartTrackListProps) => {
   const [myPartDetail, setMyPartDetail] = useState<SongDetail['memberPart'] | null>(memberPart);
-
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const overlay = useOverlay();
+
+  const openLoginModal = () => {
+    overlay.open(({ isOpen, close }) => (
+      <LoginModal
+        isOpen={isOpen}
+        closeModal={close}
+        message={'로그인하여 나의 킬링파트를 등록하세요!\n등록한 노래는 마이페이지에 저장됩니다!'}
+      />
+    ));
+  };
 
   const isLoggedIn = !!user;
   const goToPartCollectingPage = () => navigate(`/${ROUTE_PATH.COLLECT}/${songId}`);
-
-  const { isOpen, openModal, closeModal } = useModal();
 
   const hideMyPart = () => setMyPartDetail(null);
 
@@ -63,16 +71,13 @@ const KillingPartTrackList = ({
           hideMyPart={hideMyPart}
         />
       ) : (
-        <PartRegisterButton type="button" onClick={isLoggedIn ? goToPartCollectingPage : openModal}>
+        <PartRegisterButton
+          type="button"
+          onClick={isLoggedIn ? goToPartCollectingPage : openLoginModal}
+        >
           + My Part
         </PartRegisterButton>
       )}
-
-      <LoginModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        message={'로그인하여 나의 킬링파트를 등록하세요!\n등록한 노래는 마이페이지에 저장됩니다!'}
-      />
     </TrackList>
   );
 };
