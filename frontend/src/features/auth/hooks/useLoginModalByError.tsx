@@ -1,10 +1,10 @@
 import { useOverlay } from '@/shared/hooks/useOverlay';
 import LoginModal from '../components/LoginModal';
 
-export const useLoginModal = () => {
+export const useLoginModalByError = () => {
   const overlay = useOverlay();
 
-  const openLoginModal = (errorCode: number) => {
+  const openLoginModalByError = (errorCode: number) => {
     overlay.open(({ isOpen, close }) => (
       <LoginModal
         isOpen={isOpen}
@@ -20,5 +20,5 @@ export const useLoginModal = () => {
     ));
   };
 
-  return { openLoginModal };
+  return { openLoginModalByError };
 };
