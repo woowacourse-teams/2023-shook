@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 import theme from '../src/shared/styles/theme';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from '@/features/auth/components/AuthProvider';
-import LoginPopupProvider from '@/features/auth/hooks/LoginPopUpContext';
 import handlers from '@/mocks/handlers';
 
 const customViewport = {
@@ -87,14 +86,12 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <AuthProvider>
-        <LoginPopupProvider>
-          <ThemeProvider theme={theme}>
-            <BrowserRouter>
-              <GlobalStyles />
-              <Story />
-            </BrowserRouter>
-          </ThemeProvider>
-        </LoginPopupProvider>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <GlobalStyles />
+            <Story />
+          </BrowserRouter>
+        </ThemeProvider>
       </AuthProvider>
     ),
   ],

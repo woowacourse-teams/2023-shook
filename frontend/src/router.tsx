@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginPopupProvider from '@/features/auth/hooks/LoginPopUpContext';
 import EditProfilePage from '@/pages/EditProfilePage';
 import AuthPage from './pages/AuthPage';
 import LoginPage from './pages/LoginPage';
@@ -19,9 +18,7 @@ const router = createBrowserRouter([
     path: ROUTE_PATH.ROOT,
     element: (
       <OverlayProvider>
-        <LoginPopupProvider>
-          <Layout />
-        </LoginPopupProvider>
+        <Layout />
       </OverlayProvider>
     ),
     children: [
