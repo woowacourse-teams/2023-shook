@@ -4,14 +4,14 @@ import shookshook from '@/assets/icon/shookshook.svg';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import WITHDRAWAL_MESSAGE from '@/features/member/constants/withdrawalMessage';
 import { deleteMember } from '@/features/member/remotes/member';
-import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
+import { useConfirmModal } from '@/shared/components/ConfirmModal/hooks/useConfirmModal';
 import Spacing from '@/shared/components/Spacing';
 import ROUTE_PATH from '@/shared/constants/path';
 import { useMutation } from '@/shared/hooks/useMutation';
 
 const EditProfilePage = () => {
   const { user, logout } = useAuthContext();
-  const { confirmPopup } = useConfirmContext();
+  const { openConfirmModal } = useConfirmModal();
   const { mutateData: withdrawal } = useMutation(deleteMember);
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const EditProfilePage = () => {
   }
 
   const handleClickWithdrawal = async () => {
-    const isConfirmed = await confirmPopup({
+    const isConfirmed = await openConfirmModal({
       title: '회원 탈퇴',
       content: <ModalContent>{WITHDRAWAL_MESSAGE}</ModalContent>,
       confirmation: '탈퇴',

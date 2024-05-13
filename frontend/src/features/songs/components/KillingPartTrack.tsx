@@ -8,7 +8,7 @@ import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import LoginModal from '@/features/auth/components/LoginModal';
 import { deleteMemberParts } from '@/features/member/remotes/memberParts';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
+import { useConfirmModal } from '@/shared/components/ConfirmModal/hooks/useConfirmModal';
 import useTimerContext from '@/shared/components/Timer/hooks/useTimerContext';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { GA_ACTIONS, GA_CATEGORIES } from '@/shared/constants/GAEventName';
@@ -45,7 +45,7 @@ const KillingPartTrack = ({
 }: KillingPartTrackProps) => {
   const { showToast } = useToastContext();
   const { seekTo, pause, playerState, videoPlayer } = useVideoPlayerContext();
-  const { confirmPopup } = useConfirmContext();
+  const { openConfirmModal } = useConfirmModal();
   const { heartIcon, toggleKillingPartLikes } = useKillingPartLikes({
     likeCount,
     likeStatus,
@@ -154,7 +154,7 @@ const KillingPartTrack = ({
   const { mutateData: deleteMemberPart } = useMutation(() => deleteMemberParts(partId));
 
   const handleClickDeletePart = async () => {
-    const isConfirmed = await confirmPopup({
+    const isConfirmed = await openConfirmModal({
       title: '내 파트 삭제',
       content: <h3>정말 삭제하시겠습니까?</h3>,
       confirmation: '삭제',
