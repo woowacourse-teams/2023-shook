@@ -1,9 +1,12 @@
 import { Flex } from 'shook-layout';
 import styled, { css } from 'styled-components';
+import Modal from '../Modal/Modal';
 import Spacing from '../Spacing';
 import type { ReactNode } from 'react';
 
 interface ConfirmModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
   title: string;
   content: ReactNode;
   denial: string;
@@ -13,6 +16,8 @@ interface ConfirmModalProps {
 }
 
 const ConfirmModal = ({
+  isOpen,
+  closeModal,
   title,
   content,
   denial,
@@ -25,61 +30,26 @@ const ConfirmModal = ({
   };
 
   return (
-    <>
-      <Backdrop role="dialog" aria-modal="true" />
-      <Container>
-        <Title ref={focusTitle} tabIndex={0}>
-          {title}
-        </Title>
-        <Spacing direction="vertical" size={10} />
-        <Content>{content}</Content>
-        <Spacing direction="vertical" size={10} />
-        <ButtonFlex $gap={16}>
-          <DenialButton type="button" onClick={onDeny}>
-            {denial}
-          </DenialButton>
-          <ConfirmButton type="button" onClick={onConfirm}>
-            {confirmation}
-          </ConfirmButton>
-        </ButtonFlex>
-      </Container>
-    </>
+    <Modal isOpen={isOpen} closeModal={closeModal}>
+      <Title ref={focusTitle} tabIndex={0}>
+        {title}
+      </Title>
+      <Spacing direction="vertical" size={10} />
+      <Content>{content}</Content>
+      <Spacing direction="vertical" size={10} />
+      <ButtonFlex $gap={16}>
+        <DenialButton type="button" onClick={onDeny}>
+          {denial}
+        </DenialButton>
+        <ConfirmButton type="button" onClick={onConfirm}>
+          {confirmation}
+        </ConfirmButton>
+      </ButtonFlex>
+    </Modal>
   );
 };
 
 export default ConfirmModal;
-
-const Backdrop = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-
-  background-color: rgba(0, 0, 0, 0.7);
-`;
-
-const Container = styled.section`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  min-width: 320px;
-  margin: 0 auto;
-  padding: 24px;
-
-  color: ${({ theme: { color } }) => color.white};
-
-  background-color: ${({ theme: { color } }) => color.black300};
-  border: none;
-  border-radius: 16px;
-`;
 
 const ButtonFlex = styled(Flex)`
   width: 100%;

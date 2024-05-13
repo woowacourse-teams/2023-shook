@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAuthContext } from '@/features/auth/components/AuthProvider';
 import useCollectingPartContext from '@/features/killingParts/hooks/useCollectingPartContext';
 import useVideoPlayerContext from '@/features/youtube/hooks/useVideoPlayerContext';
-import { useConfirmContext } from '@/shared/components/ConfirmModal/hooks/useConfirmContext';
+import { useConfirmModal } from '@/shared/components/ConfirmModal/hooks/useConfirmModal';
 import Spacing from '@/shared/components/Spacing';
 import { useMutation } from '@/shared/hooks/useMutation';
 import { toPlayingTimeText } from '@/shared/utils/convertTime';
@@ -13,7 +13,7 @@ const RegisterPart = () => {
   const { user } = useAuthContext();
   const { interval, partStartTime, songId } = useCollectingPartContext();
   const video = useVideoPlayerContext();
-  const { confirmPopup } = useConfirmContext();
+  const { openConfirmModal } = useConfirmModal();
   const voteTimeText = toPlayingTimeText(partStartTime, partStartTime + interval);
   const { mutateData: createKillingPart } = useMutation(postKillingPart);
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const RegisterPart = () => {
   const submitKillingPart = async () => {
     video.pause();
 
-    const isConfirmed = await confirmPopup({
+    const isConfirmed = await openConfirmModal({
       title: `${user?.nickname}님의 파트 저장`,
       content: (
         <ContentContainer>
