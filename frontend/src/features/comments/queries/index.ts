@@ -1,14 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getComments, postComment } from '../remotes/comments';
 
-export const useCommentsQuery = (songId: number, partId: number) => {
-  const { data: comments, ...queries } = useQuery({
+export const commentsQueryOptions = (songId: number, partId: number) =>
+  queryOptions({
     queryKey: ['comments', songId, partId],
     queryFn: () => getComments(songId, partId),
   });
-
-  return { comments, queries };
-};
 
 export const usePostCommentMutation = () => {
   const client = useQueryClient();
