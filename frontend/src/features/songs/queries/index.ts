@@ -1,4 +1,4 @@
-import { queryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import {
   getExtraNextSongDetails,
   getExtraPrevSongDetails,
@@ -13,12 +13,8 @@ export const songDetailEntriesQueryOptions = (songId: number, genre: Genre) =>
     staleTime: Infinity,
   });
 
-export const useExtraPrevSongDetailsInfiniteQuery = (songId: number, genre: Genre) => {
-  const {
-    data: extraPrevSongDetails,
-    fetchPreviousPage: fetchExtraPrevSongDetails,
-    ...infiniteQueries
-  } = useInfiniteQuery({
+export const extraPrevSongDetailsInfiniteQueryOptions = (songId: number, genre: Genre) =>
+  infiniteQueryOptions({
     queryKey: ['extraPrevSongDetails'],
     queryFn: ({ pageParam }) => getExtraPrevSongDetails(pageParam, genre),
     getPreviousPageParam: (firstPage) => firstPage[0]?.id ?? null,
@@ -27,21 +23,11 @@ export const useExtraPrevSongDetailsInfiniteQuery = (songId: number, genre: Genr
     staleTime: Infinity,
   });
 
-  return { extraPrevSongDetails, fetchExtraPrevSongDetails, infiniteQueries };
-};
-
-export const useExtraNextSongDetailsInfiniteQuery = (songId: number, genre: Genre) => {
-  const {
-    data: extraNextSongDetails,
-    fetchNextPage: fetchExtraNextSongDetails,
-    ...infiniteQueries
-  } = useInfiniteQuery({
+export const extraNextSongDetailsInfiniteQueryOptions = (songId: number, genre: Genre) =>
+  infiniteQueryOptions({
     queryKey: ['extraNextSongDetails'],
     queryFn: ({ pageParam }) => getExtraNextSongDetails(pageParam, genre),
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id ?? null,
     initialPageParam: songId,
     staleTime: Infinity,
   });
-
-  return { extraNextSongDetails, fetchExtraNextSongDetails, infiniteQueries };
-};
