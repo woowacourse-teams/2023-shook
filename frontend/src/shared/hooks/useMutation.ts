@@ -4,6 +4,9 @@ import { useLoginModalByError } from '@/features/auth/hooks/useLoginModalByError
 import AuthError from '@/shared/remotes/AuthError';
 import type { ErrorResponse } from '../types/errorResponse';
 
+/**
+ * @deprecated react-query의 useMutation 훅을 사용해주세요.
+ */
 // eslint-disable-next-line
 export const useMutation = <T, P extends any[]>(mutateFn: (...params: P) => Promise<T>) => {
   const [data, setData] = useState<T | null>(null);
