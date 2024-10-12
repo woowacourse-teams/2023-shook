@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { queryOptions, useInfiniteQuery } from '@tanstack/react-query';
 import {
   getExtraNextSongDetails,
   getExtraPrevSongDetails,
@@ -6,15 +6,12 @@ import {
 } from '../remotes/songs';
 import type { Genre } from '../types/Song.type';
 
-export const useSongDetailEntriesQuery = (songId: number, genre: Genre) => {
-  const { data: songDetailEntries, ...queries } = useQuery({
-    queryKey: ['songDetailEntries'],
+export const songDetailEntriesQueryOptions = (songId: number, genre: Genre) =>
+  queryOptions({
+    queryKey: ['songDetailEntries', songId, genre],
     queryFn: () => getSongDetailEntries(songId, genre),
     staleTime: Infinity,
   });
-
-  return { songDetailEntries, queries };
-};
 
 export const useExtraPrevSongDetailsInfiniteQuery = (songId: number, genre: Genre) => {
   const {

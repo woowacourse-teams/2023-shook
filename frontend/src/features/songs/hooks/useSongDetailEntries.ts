@@ -1,15 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import useValidParams from '@/shared/hooks/useValidParams';
-import { useSongDetailEntriesQuery } from '../queries';
+import { songDetailEntriesQueryOptions } from '../queries';
 import type { Genre } from '../types/Song.type';
 
 const useSongDetailEntries = () => {
   const { id: songIdParams, genre: genreParams } = useValidParams();
 
-  const {
-    songDetailEntries,
-    queries: { isLoading: isLoadingSongDetailEntries },
-  } = useSongDetailEntriesQuery(Number(songIdParams), genreParams as Genre);
+  const { data: songDetailEntries, isLoading: isLoadingSongDetailEntries } = useQuery(
+    songDetailEntriesQueryOptions(Number(songIdParams), genreParams as Genre)
+  );
 
   const scrollIntoCurrentSong: React.RefCallback<HTMLDivElement> = useCallback((dom) => {
     if (dom !== null) dom.scrollIntoView({ behavior: 'instant', block: 'start' });
