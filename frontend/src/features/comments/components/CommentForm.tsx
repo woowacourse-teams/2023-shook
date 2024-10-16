@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { css, styled } from 'styled-components';
 import defaultAvatar from '@/assets/icon/avatar-default.svg';
@@ -7,7 +8,7 @@ import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { useOverlay } from '@/shared/hooks/useOverlay';
-import { usePostCommentMutation } from '../queries';
+import { postComment } from '../remotes/comments';
 
 interface CommentFormProps {
   songId: number;
@@ -18,6 +19,7 @@ const CommentForm = ({ songId, partId }: CommentFormProps) => {
   const [newComment, setNewComment] = useState('');
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const overlay = useOverlay();
+  const queryClient = useQueryClient();
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
@@ -38,10 +40,12 @@ const CommentForm = ({ songId, partId }: CommentFormProps) => {
 
   const isLoggedIn = !!user;
 
-  const {
-    postNewComment,
-    mutations: { isPending: isPendingPostComment },
-  } = usePostCommentMutation();
+  const { mutate: postNewComment, isPending: isPendingPostComment } = useMutation({
+    mutationFn: postComment,
+    onSuccess: (_, { songId, partId }) => {
+      queryClient.invalidateQueries({ queryKey: ['comments', songId, partId] });
+    },
+  });
 
   const { showToast } = useToastContext();
 

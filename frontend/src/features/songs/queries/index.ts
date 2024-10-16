@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import {
   getExtraNextSongDetails,
   getExtraPrevSongDetails,
@@ -6,22 +6,15 @@ import {
 } from '../remotes/songs';
 import type { Genre } from '../types/Song.type';
 
-export const useSongDetailEntriesQuery = (songId: number, genre: Genre) => {
-  const { data: songDetailEntries, ...queries } = useQuery({
-    queryKey: ['songDetailEntries'],
+export const songDetailEntriesQueryOptions = (songId: number, genre: Genre) =>
+  queryOptions({
+    queryKey: ['songDetailEntries', songId, genre],
     queryFn: () => getSongDetailEntries(songId, genre),
     staleTime: Infinity,
   });
 
-  return { songDetailEntries, queries };
-};
-
-export const useExtraPrevSongDetailsInfiniteQuery = (songId: number, genre: Genre) => {
-  const {
-    data: extraPrevSongDetails,
-    fetchPreviousPage: fetchExtraPrevSongDetails,
-    ...infiniteQueries
-  } = useInfiniteQuery({
+export const extraPrevSongDetailsInfiniteQueryOptions = (songId: number, genre: Genre) =>
+  infiniteQueryOptions({
     queryKey: ['extraPrevSongDetails'],
     queryFn: ({ pageParam }) => getExtraPrevSongDetails(pageParam, genre),
     getPreviousPageParam: (firstPage) => firstPage[0]?.id ?? null,
@@ -30,21 +23,11 @@ export const useExtraPrevSongDetailsInfiniteQuery = (songId: number, genre: Genr
     staleTime: Infinity,
   });
 
-  return { extraPrevSongDetails, fetchExtraPrevSongDetails, infiniteQueries };
-};
-
-export const useExtraNextSongDetailsInfiniteQuery = (songId: number, genre: Genre) => {
-  const {
-    data: extraNextSongDetails,
-    fetchNextPage: fetchExtraNextSongDetails,
-    ...infiniteQueries
-  } = useInfiniteQuery({
+export const extraNextSongDetailsInfiniteQueryOptions = (songId: number, genre: Genre) =>
+  infiniteQueryOptions({
     queryKey: ['extraNextSongDetails'],
     queryFn: ({ pageParam }) => getExtraNextSongDetails(pageParam, genre),
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id ?? null,
     initialPageParam: songId,
     staleTime: Infinity,
   });
-
-  return { extraNextSongDetails, fetchExtraNextSongDetails, infiniteQueries };
-};

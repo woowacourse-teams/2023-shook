@@ -1,10 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
 import { styled } from 'styled-components';
 import cancelIcon from '@/assets/icon/cancel.svg';
 import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { useOverlay } from '@/shared/hooks/useOverlay';
-import { useCommentsQuery } from '../queries';
+import { commentsQueryOptions } from '../queries';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import type { Comment as CommentType } from '../types/comment.type';
@@ -41,7 +42,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
       </BottomSheet>
     ));
 
-  const { comments } = useCommentsQuery(songId, partId);
+  const { data: comments } = useQuery(commentsQueryOptions(songId, partId));
 
   if (!comments) {
     return null;
