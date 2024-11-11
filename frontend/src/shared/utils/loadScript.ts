@@ -1,4 +1,4 @@
-export const loadScript = (source: string) => {
+export const loadScript = (source: string): Promise<void> => {
   const element = document.querySelector(`script[src="${source}"]`);
 
   if (element) {
@@ -11,7 +11,7 @@ export const loadScript = (source: string) => {
     script.async = true;
     script.defer = true;
     script.src = source;
-    script.onload = resolve;
+    script.onload = () => resolve();
 
     document.body.appendChild(script);
   });
