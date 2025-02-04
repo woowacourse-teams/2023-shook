@@ -8,6 +8,7 @@ import LoginModal from '@/features/auth/components/LoginModal';
 import Avatar from '@/shared/components/Avatar';
 import useToastContext from '@/shared/components/Toast/hooks/useToastContext';
 import { useOverlay } from '@/shared/hooks/useOverlay';
+import { commentsQueries } from '../queries';
 import { postComment } from '../remotes/comments';
 
 interface CommentFormProps {
@@ -43,7 +44,7 @@ const CommentForm = ({ songId, partId }: CommentFormProps) => {
   const { mutate: postNewComment, isPending: isPendingPostComment } = useMutation({
     mutationFn: postComment,
     onSuccess: (_, { songId, partId }) => {
-      queryClient.invalidateQueries({ queryKey: ['comments', songId, partId] });
+      queryClient.invalidateQueries(commentsQueries.list({ songId, partId }));
     },
   });
 
