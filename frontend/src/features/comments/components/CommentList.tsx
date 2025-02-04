@@ -5,7 +5,7 @@ import BottomSheet from '@/shared/components/BottomSheet/BottomSheet';
 import Spacing from '@/shared/components/Spacing';
 import SRHeading from '@/shared/components/SRHeading';
 import { useOverlay } from '@/shared/hooks/useOverlay';
-import { commentsQueryOptions } from '../queries';
+import { commentsQueries } from '../queries';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import type { Comment as CommentType } from '../types/comment.type';
@@ -42,7 +42,7 @@ const CommentList = ({ songId, partId }: CommentListProps) => {
       </BottomSheet>
     ));
 
-  const { data: comments } = useQuery(commentsQueryOptions(songId, partId));
+  const { data: comments } = useQuery(commentsQueries.list({ songId, partId }));
 
   if (!comments) {
     return null;
