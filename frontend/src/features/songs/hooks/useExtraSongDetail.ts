@@ -2,10 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import useValidParams from '@/shared/hooks/useValidParams';
 import createObserver from '@/shared/utils/createObserver';
-import {
-  extraPrevSongDetailsInfiniteQueryOptions,
-  extraNextSongDetailsInfiniteQueryOptions,
-} from '../queries';
+import { songDetailQueries } from '../queries';
 import type { Genre } from '../types/Song.type';
 
 const useExtraSongDetail = () => {
@@ -17,7 +14,7 @@ const useExtraSongDetail = () => {
     isLoading: isLoadingPrevSongDetails,
     hasPreviousPage,
   } = useInfiniteQuery(
-    extraPrevSongDetailsInfiniteQueryOptions(Number(songIdParams), genreParams as Genre)
+    songDetailQueries.prevEntries({ songId: Number(songIdParams), genre: genreParams as Genre })
   );
 
   const {
@@ -26,7 +23,7 @@ const useExtraSongDetail = () => {
     isLoading: isLoadingNextSongDetails,
     hasNextPage,
   } = useInfiniteQuery(
-    extraNextSongDetailsInfiniteQueryOptions(Number(songIdParams), genreParams as Genre)
+    songDetailQueries.nextEntries({ songId: Number(songIdParams), genre: genreParams as Genre })
   );
 
   const prevObserverRef = useRef<IntersectionObserver | null>(null);
