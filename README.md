@@ -70,7 +70,7 @@ S-HOOK 유저들이 어떤 노래를 자주 듣는지 궁금하다면? S-HOOK에
       <td align="center"><a href="https://github.com/ukkodeveloper"><img src="https://github.com/ukkodeveloper.png" width="150px;" alt=""/>
 <br /><sub><b>FE : 우코</b></sub></a><br />
     </td>
-      <td align="center"><a href="https://github.com/cruelladevil"><img src="https://github.com/cruelladevil.png" width="150px;" alt=""/>
+      <td align="center"><a href="https://github.com/jariita"><img src="https://github.com/cruelladevil.png" width="150px;" alt=""/>
 <br /><sub><b>FE : 코난</b></sub></a><br />
      </td>
     </tr> 
